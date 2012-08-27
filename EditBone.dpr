@@ -33,14 +33,13 @@ var
 begin
   with TBigIniFile.Create(Common.GetINIFilename) do
   try
-    { Style }
     StyleName := ReadString('Preferences', 'StyleName', 'Windows');
   finally
     Free;
   end;
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  if StyleName <> 'Windows' then
+  if StyleName <> STYLENAME_WINDOWS then
     TStyleManager.TrySetStyle(StyleName);
   Application.Title := 'EditBone';
   Application.CreateForm(TMainForm, MainForm);
