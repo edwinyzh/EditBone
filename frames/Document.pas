@@ -844,7 +844,7 @@ begin
     WantTabs := True;
     Options := [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo,
       eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces,
-      eoTrimTrailingSpaces, eoScrollPastEol{, eoScrollPastEol, eoAltSetsColumnMode}];
+      eoTrimTrailingSpaces, eoScrollPastEol, eoSpecialLineDefaultFg];
     OnChange := SynEditChange;
     OnSpecialLineColors := SynEditSpecialLineColors;
     OnEnter := SynEditEnter;
@@ -900,6 +900,8 @@ procedure TDocumentFrame.SynEditSpecialLineColors(Sender: TObject; Line: Integer
 var
   LStyles: TCustomStyleServices;
 begin
+  if not TBCSynEdit(Sender).SelAvail then
+
   if TBCSynEdit(Sender).CaretY = Line then
   begin
     Special := True;
@@ -910,16 +912,16 @@ begin
       FG := LStyles.GetSystemColor(clHighlightText);
     end;
   end;
-  if TBCSynEdit(Sender).SelAvail and (TBCSynEdit(Sender).CaretY = Line) then
+ { if TBCSynEdit(Sender).SelAvail and (TBCSynEdit(Sender).CaretY = Line) then
   begin
     Special := True;
     LStyles := StyleServices;
     if LStyles.Enabled then
     begin
-      BG := LStyles.GetStyleColor(scEdit);
-      FG := LStyles.GetStyleFontColor(sfEditBoxTextNormal); //LStyles.GetStyleFontColor(sfMenuItemTextSelected); //LStyles.GetSystemColor(clHighlightText);
+      BG := LStyles.GetSystemColor(TBCSynEdit(Sender).Color); //scEdit);
+      //FG := TBCSynEdit(Sender).SelectedColor.Background; //LStyles.GetSystemColor(TBCSynEdit(Sender).Font.Color); //sfEditBoxTextNormal); //LStyles.GetStyleFontColor(sfMenuItemTextSelected); //LStyles.GetSystemColor(clHighlightText);
     end;
-  end;
+  end;  }
 end;
 
 procedure TDocumentFrame.UpdateGutter(SynEdit: TBCSynEdit);
@@ -972,6 +974,7 @@ begin
     SynEdit.Gutter.Color := clBtnFace;
     SynEdit.Color := clWindow;
   end;
+  SynEdit.ActiveLineColor := SynEdit.Color;
 end;
 
 procedure TDocumentFrame.SynEditEnter(Sender: TObject);
