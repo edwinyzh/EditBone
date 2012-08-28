@@ -901,17 +901,16 @@ var
   LStyles: TCustomStyleServices;
 begin
   if not TBCSynEdit(Sender).SelAvail then
-
-  if TBCSynEdit(Sender).CaretY = Line then
-  begin
-    Special := True;
-    LStyles := StyleServices;
-    if LStyles.Enabled then
+    if TBCSynEdit(Sender).CaretY = Line then
     begin
-      BG := LStyles.GetSystemColor(clHighlight);
-      FG := LStyles.GetSystemColor(clHighlightText);
+      Special := True;
+      LStyles := StyleServices;
+      if LStyles.Enabled then
+      begin
+        BG := LStyles.GetSystemColor(clHighlight);
+        FG := LStyles.GetSystemColor(clHighlightText);
+      end;
     end;
-  end;
  { if TBCSynEdit(Sender).SelAvail and (TBCSynEdit(Sender).CaretY = Line) then
   begin
     Special := True;
