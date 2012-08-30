@@ -645,7 +645,8 @@ end;
 
 procedure TMainForm.FileOpenActionExecute(Sender: TObject);
 begin
-  FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
+  if Assigned(FDirectoryFrame) then
+    FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
   FDocumentFrame.Open;
 end;
 
@@ -666,18 +667,25 @@ end;
 
 procedure TMainForm.FileSaveActionExecute(Sender: TObject);
 begin
-  FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
+  if Assigned(FDirectoryFrame) then
+    FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
   FDocumentFrame.Save;
 end;
 
 procedure TMainForm.FileSaveAsActionExecute(Sender: TObject);
 var
+  RootDirectory: string;
   Filename: string;
 begin
-  FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
+  RootDirectory := '';
+  if Assigned(FDirectoryFrame) then
+  begin
+    RootDirectory := FDirectoryFrame.RootDirectory;
+    FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
+  end;
   Filename := FDocumentFrame.SaveAs;
   if Filename <> '' then
-    FDirectoryFrame.OpenPath(FDirectoryFrame.RootDirectory, ExtractFilePath(Filename), FDirectoryFrame.ExcludeOtherBranches);
+    FDirectoryFrame.OpenPath(RootDirectory, ExtractFilePath(Filename), FDirectoryFrame.ExcludeOtherBranches);
   Repaint;
 end;
 
@@ -692,7 +700,8 @@ end;
 
 procedure TMainForm.FileSaveAllActionExecute(Sender: TObject);
 begin
-  FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
+  if Assigned(FDirectoryFrame) then
+    FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
   FDocumentFrame.SaveAll;
 end;
 
@@ -1060,7 +1069,8 @@ begin
   with FindInFilesDialog do
   begin
     if FolderText = '' then
-      FolderText := FDirectoryFrame.SelectedPath;
+      if Assigned(FDirectoryFrame) then
+        FolderText := FDirectoryFrame.SelectedPath;
     Extensions := OptionsContainer.Extensions;
     SynEdit := FDocumentFrame.ActiveSynEdit;
     if Assigned(SynEdit) then
