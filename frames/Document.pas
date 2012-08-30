@@ -1072,8 +1072,12 @@ procedure TBCSynEdit.KeyDown(var Key: Word; Shift: TShiftState);
 begin
   inherited;
   if Shift = [ssAlt] then
+  begin
     if SelectionMode = smNormal then
-      SelectionMode := smColumn;
+      SelectionMode := smColumn
+    else
+      SelectionMode := smNormal;
+  end;
 end;
 
 function TDocumentFrame.FindOpenFile(FileName: string): TBCSynEdit;

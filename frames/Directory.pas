@@ -184,6 +184,7 @@ var
   i: Integer;
 begin
   Result := nil;
+  if Assigned(PageControl.ActivePage) then
   for i := 0 to PageControl.ActivePage.ComponentCount - 1 do
     if PageControl.ActivePage.Components[i] is TBCFileTreeView then
     begin
@@ -234,8 +235,13 @@ begin
 end;
 
 function TDirectoryFrame.GetSelectedPath: string;
+var
+  FileTreeView: TBCFileTreeView;
 begin
-  Result := ActiveFileTreeView.SelectedPath;
+  Result := '';
+  FileTreeView := ActiveFileTreeView;
+  if Assigned(FileTreeView) then
+    Result := FileTreeView.SelectedPath;
 end;
 
 procedure TDirectoryFrame.DirectoryCloseActionExecute(Sender: TObject);
