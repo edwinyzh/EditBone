@@ -1,18 +1,16 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 860
-  Height = 510
+  Width = 451
+  Height = 304
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
   TabOrder = 0
-  ExplicitWidth = 451
-  ExplicitHeight = 304
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 860
+    Width = 451
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -20,7 +18,6 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 0
     Visible = False
-    ExplicitWidth = 451
     object SearchForLabel: TLabel
       Left = 21
       Top = 3
@@ -324,8 +321,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 860
-    Height = 489
+    Width = 451
+    Height = 283
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -333,8 +330,6 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentColor = True
     TabOrder = 1
-    ExplicitWidth = 451
-    ExplicitHeight = 283
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
@@ -361,7 +356,7 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 342
     Bitmap = {
-      494C010106003800640410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106003800680410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1180,7 +1175,7 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 450
     Bitmap = {
-      494C01010A003800440410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A003800480410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

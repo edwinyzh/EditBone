@@ -1153,7 +1153,8 @@ begin
       CheckHTMLErrors;
       try
         SetMainHighlighterCombo(SynEdit);
-        PageControl.ActivePage.Repaint;
+        if Assigned(PageControl.ActivePage) then
+          PageControl.ActivePage.Repaint;
         PageControl.Repaint;
         SynEdit.SetFocus;
       except
