@@ -391,7 +391,7 @@ implementation
 uses
   PrintPreview, Replace, ConfirmReplace, Common, Lib, Preferences, StyleHooks,
   SynTokenMatch, SynHighlighterWebMisc, Compare, System.Types, Winapi.ShellAPI, System.WideStrings,
-  Main, BigIni;
+  Main, BigIni, Vcl.GraphUtil;
 
 const
   DEFAULT_FILENAME = 'Document';
@@ -907,8 +907,8 @@ begin
       LStyles := StyleServices;
       if LStyles.Enabled then
       begin
-        BG := LStyles.GetSystemColor(clHighlight);
-        FG := LStyles.GetSystemColor(clHighlightText);
+        BG := GetHighlightColor(ColorToRGB(StyleServices.GetSystemColor(clHighlight))); //LStyles.GetSystemColor(clHighlight);
+        FG := LStyles.GetSystemColor(TBCSynEdit(Sender).Font.Color); //LStyles.GetSystemColor(clHighlightText);
       end;
     end;
  { if TBCSynEdit(Sender).SelAvail and (TBCSynEdit(Sender).CaretY = Line) then
@@ -936,7 +936,7 @@ begin
     SynEdit.RightEdgeColor := LStyles.GetStyleColor(scPanel);
 
     SynEdit.SelectedColor.Background := LStyles.GetSystemColor(clHighlight);
-    SynEdit.SelectedColor.Foreground := LStyles.GetSystemColor(clHighlightText);
+    SynEdit.SelectedColor.Foreground := LStyles.GetSystemColor(SynEdit.Font.Color); //LStyles.GetSystemColor(clHighlightText);
 
     if Assigned(SynEdit.Highlighter) and ( (SynEdit.Highlighter.Tag = 3) or (SynEdit.Highlighter.Tag = 4) or (SynEdit.Highlighter.Tag = 5) or
        (SynEdit.Highlighter.Tag = 6) or (SynEdit.Highlighter.Tag = 7) or (SynEdit.Highlighter.Tag = 8) or
