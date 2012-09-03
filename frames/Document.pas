@@ -908,7 +908,7 @@ begin
       if LStyles.Enabled then
       begin
         BG := GetHighlightColor(ColorToRGB(StyleServices.GetSystemColor(clHighlight))); //LStyles.GetSystemColor(clHighlight);
-        FG := LStyles.GetSystemColor(TBCSynEdit(Sender).Font.Color); //LStyles.GetSystemColor(clHighlightText);
+        FG := LStyles.GetSystemColor(clHighlightText);
       end;
     end;
  { if TBCSynEdit(Sender).SelAvail and (TBCSynEdit(Sender).CaretY = Line) then
@@ -936,7 +936,7 @@ begin
     SynEdit.RightEdgeColor := LStyles.GetStyleColor(scPanel);
 
     SynEdit.SelectedColor.Background := LStyles.GetSystemColor(clHighlight);
-    SynEdit.SelectedColor.Foreground := LStyles.GetSystemColor(SynEdit.Font.Color); //LStyles.GetSystemColor(clHighlightText);
+    SynEdit.SelectedColor.Foreground := LStyles.GetSystemColor(clHighlightText);  //LStyles.GetSystemColor(SynEdit.Font.Color); //
 
     if Assigned(SynEdit.Highlighter) and ( (SynEdit.Highlighter.Tag = 3) or (SynEdit.Highlighter.Tag = 4) or (SynEdit.Highlighter.Tag = 5) or
        (SynEdit.Highlighter.Tag = 6) or (SynEdit.Highlighter.Tag = 7) or (SynEdit.Highlighter.Tag = 8) or
