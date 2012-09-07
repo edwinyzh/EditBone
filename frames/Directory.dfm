@@ -44,6 +44,7 @@ object DirectoryFrame: TDirectoryFrame
       Caption = '&Refresh'
       Hint = 'Refresh files'
       ImageIndex = 3
+      ShortCut = 116
       OnExecute = DirectoryRefreshActionExecute
     end
     object DirectoryRenameAction: TAction
@@ -56,6 +57,7 @@ object DirectoryFrame: TDirectoryFrame
       Caption = '&Delete'
       Hint = 'Delete a file'
       ImageIndex = 5
+      ShortCut = 46
       OnExecute = DirectoryDeleteActionExecute
     end
   end
@@ -94,7 +96,7 @@ object DirectoryFrame: TDirectoryFrame
     Left = 264
     Top = 96
     Bitmap = {
-      494C010106005400C40110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106005400C80110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

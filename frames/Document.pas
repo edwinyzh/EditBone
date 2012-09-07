@@ -899,6 +899,7 @@ procedure TDocumentFrame.SynEditSpecialLineColors(Sender: TObject; Line: Integer
   var Special: Boolean; var FG, BG: TColor);
 var
   LStyles: TCustomStyleServices;
+  //HighlightColor: TColor;
 begin
   if not TBCSynEdit(Sender).SelAvail then
     if TBCSynEdit(Sender).CaretY = Line then
@@ -907,7 +908,11 @@ begin
       LStyles := StyleServices;
       if LStyles.Enabled then
       begin
-        BG := GetHighlightColor(ColorToRGB(StyleServices.GetSystemColor(clHighlight))); //LStyles.GetSystemColor(clHighlight);
+        //HighlightColor := LStyles.GetSystemColor(clHighlight);
+        //HighlightColor := LightenColor(HighlightColor, HighlightColor, False);
+        //HighlightColor := LightenColor(TBCSynEdit(Sender).Color);
+
+        BG := LightenColor(TBCSynEdit(Sender).Color); //HighlightColor; //BG := GetHighlightColor(ColorToRGB(StyleServices.GetSystemColor(clHighlight))); //LStyles.GetSystemColor(clHighlight);
         FG := LStyles.GetSystemColor(clHighlightText);
       end;
     end;
