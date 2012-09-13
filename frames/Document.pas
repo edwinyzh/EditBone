@@ -874,6 +874,7 @@ begin
   UpdateGutter(SynEdit);
   Application.ProcessMessages;
   SynEdit.Visible := True;
+  SynEdit.SetFocus;
   Result := SynEdit;
 end;
 
@@ -913,7 +914,7 @@ begin
         //HighlightColor := LightenColor(TBCSynEdit(Sender).Color);
 
         BG := LightenColor(TBCSynEdit(Sender).Color); //HighlightColor; //BG := GetHighlightColor(ColorToRGB(StyleServices.GetSystemColor(clHighlight))); //LStyles.GetSystemColor(clHighlight);
-        FG := LStyles.GetSystemColor(clHighlightText);
+//        FG := LStyles.GetSystemColor(clMenuText);
       end;
     end;
  { if TBCSynEdit(Sender).SelAvail and (TBCSynEdit(Sender).CaretY = Line) then
