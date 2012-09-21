@@ -70,12 +70,7 @@ begin
   if FDirectoryTabDialog = nil then
     Application.CreateForm(TDirectoryTabDialog, FDirectoryTabDialog);
   Result := FDirectoryTabDialog;
-
-  Result.Width := 345;
-  Result.Height := 162;
-  if Assigned(TStyleManager.ActiveStyle) then
-    if TStyleManager.ActiveStyle.Name <> 'Windows' then
-      Result.Width := Result.Width + 6
+  Common.SetStyledFormSize(Result, 345, 162);
 end;
 
 procedure TDirectoryTabDialog.OKActionExecute(Sender: TObject);

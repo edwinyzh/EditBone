@@ -435,14 +435,7 @@ begin
   if FPreferencesDialog = nil then
     FPreferencesDialog := TPreferencesDialog.Create(Sender);
   Result := FPreferencesDialog;
-  Result.Width := 477;
-  Result.Height := 387;
-  if Assigned(TStyleManager.ActiveStyle) then
-    if TStyleManager.ActiveStyle.Name <> 'Windows' then
-    begin
-      Result.Width := Result.Width + 5;
-      Result.Height := Result.Height + 8
-    end;
+  Common.SetStyledFormSize(Result, 477, 387);
 end;
 
 procedure TPreferencesDialog.FormDestroy(Sender: TObject);
