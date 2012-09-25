@@ -82,10 +82,10 @@
 			<DCC_DebugInformation>false</DCC_DebugInformation>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-			<VerInfo_Release>3</VerInfo_Release>
+			<VerInfo_Release>5</VerInfo_Release>
 			<VerInfo_MinorVer>7</VerInfo_MinorVer>
 			<VerInfo_MajorVer>3</VerInfo_MajorVer>
-			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=3.7.3.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=3.7.5.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
 			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
 			<VerInfo_Locale>1033</VerInfo_Locale>
 		</PropertyGroup>

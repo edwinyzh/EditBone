@@ -149,7 +149,10 @@ begin
   Result := nil;
   for i := 0 to PageControl.ActivePage.ComponentCount - 1 do
     if PageControl.ActivePage.Components[i].Tag = 99 then
+    begin
       Result := TPanel(PageControl.ActivePage.Components[i]);
+      Exit;
+    end;
 end;
 
 function TDirectoryFrame.GetExcludeOtherBranches: Boolean;
