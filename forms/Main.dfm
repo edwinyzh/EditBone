@@ -545,6 +545,9 @@ object MainForm: TMainForm
                 Action = ViewDirectoryAction
               end
               item
+                Action = ViewSplitAction
+              end
+              item
                 Action = ViewOutputAction
                 Caption = 'O&utput'
               end
@@ -1240,6 +1243,12 @@ object MainForm: TMainForm
       Hint = 'Show or hide the directory'
       OnExecute = ViewDirectoryActionExecute
     end
+    object ViewSplitAction: TAction
+      Category = '&View'
+      Caption = 'Split'
+      Hint = 'Split the document'
+      OnExecute = ViewSplitActionExecute
+    end
     object ViewOutputAction: TAction
       Category = '&View'
       Caption = '&Output'
@@ -1711,7 +1720,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C01013E005C01DC0410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01013E005C01E40410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000000001000001002000000000000000
       0100000000000000000000000000000000000000000000000000BD4C00000000
       0000000000000000000084240500842405008424050084240500842405000000

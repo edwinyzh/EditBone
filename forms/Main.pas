@@ -155,6 +155,7 @@ type
     StyleMetroGreenAction: TAction;
     StyleTurquoiseGrayAction: TAction;
     ToolBarPanel: TPanel;
+    ViewSplitAction: TAction;
     procedure FileNewActionExecute(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
 //    procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
@@ -265,6 +266,7 @@ type
     procedure StyleMetroGreenActionExecute(Sender: TObject);
     procedure StyleTurquoiseGrayActionExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure ViewSplitActionExecute(Sender: TObject);
   private
     { Private declarations }
     FOnStartUp: Boolean;
@@ -549,6 +551,8 @@ begin
   end;
   ViewSelectionModeAction.Enabled := ActiveDocumentFound;
   ViewSelectionModeAction.Checked := FDocumentFrame.SelectionModeChecked;
+  ViewSplitAction.Enabled := ActiveDocumentFound;
+  ViewSplitAction.Checked := FDocumentFrame.SplitChecked;
   SearchAction.Enabled := ActiveDocumentFound;
   SearchReplaceAction.Enabled := ActiveDocumentFound;
   SearchFindNextAction.Enabled := ActiveDocumentFound;
@@ -1057,6 +1061,11 @@ end;
 procedure TMainForm.ViewSpecialCharsActionExecute(Sender: TObject);
 begin
   ViewSpecialCharsAction.Checked := FDocumentFrame.ToggleSpecialChars;
+end;
+
+procedure TMainForm.ViewSplitActionExecute(Sender: TObject);
+begin
+  FDocumentFrame.ToggleSplit;
 end;
 
 procedure TMainForm.SearchFindInFilesActionExecute(Sender: TObject);
