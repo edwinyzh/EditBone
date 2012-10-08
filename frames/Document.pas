@@ -1368,58 +1368,81 @@ end;
 procedure TDocumentFrame.Undo;
 var
   SynEdit: TBCSynEdit;
+
+  procedure Undo(SynEdit: TBCSynEdit);
+  begin
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+      begin
+        SynEdit.Undo;
+        if SynEdit.UndoList.ItemCount = 0 then
+        begin
+          SynEdit.Modified := False;
+          PageControl.ActivePage.Caption := GetActivePageCaption;
+        end;
+      end;
+  end;
+
 begin
   SynEdit := ActiveSynEdit;
-  if SynEdit.Focused then
-  begin
-    SynEdit.Undo;
-    if SynEdit.UndoList.ItemCount = 0 then
-    begin
-      SynEdit.Modified := False; //PageControl.ActivePage.ImageIndex := SAVED_IMAGEINDEX
-      PageControl.ActivePage.Caption := GetActivePageCaption;
-    end;
-  end;
+  Undo(SynEdit);
   SynEdit := ActiveSplitSynEdit;
-  if Assigned(SynEdit) then
-    if SynEdit.Focused then
-    begin
-      SynEdit.Undo;
-      if SynEdit.UndoList.ItemCount = 0 then
-      begin
-        SynEdit.Modified := False; //PageControl.ActivePage.ImageIndex := SAVED_IMAGEINDEX
-        PageControl.ActivePage.Caption := GetActivePageCaption;
-      end;
-    end;
+  Undo(SynEdit);
   PageControlRepaint;
 end;
 
 procedure TDocumentFrame.Redo;
 var
   SynEdit: TBCSynEdit;
+
+  procedure Redo(SynEdit: TBCSynEdit);
+  begin
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+        SynEdit.Redo;
+  end;
+
 begin
   SynEdit := ActiveSynEdit;
-  if Assigned(SynEdit) then
-    SynEdit.Redo;
+  Redo(SynEdit);
+  SynEdit := ActiveSplitSynEdit;
+  Redo(SynEdit);
   PageControlRepaint;
 end;
 
 procedure TDocumentFrame.Cut;
 var
   SynEdit: TBCSynEdit;
+
+  procedure Cut(SynEdit: TBCSynEdit);
+  begin
+    if Assigned(SynEdit) then
+      SynEdit.CutToClipboard;
+  end;
+
 begin
   SynEdit := ActiveSynEdit;
-  if Assigned(SynEdit) then
-    SynEdit.CutToClipboard;
+  Cut(SynEdit);
+  SynEdit := ActiveSplitSynEdit;
+  Cut(SynEdit);
   PageControlRepaint;
 end;
 
 procedure TDocumentFrame.Copy;
 var
   SynEdit: TBCSynEdit;
+
+  procedure Copy(SynEdit: TBCSynEdit);
+  begin
+    if Assigned(SynEdit) then
+      SynEdit.CopyToClipboard;
+  end;
+
 begin
   SynEdit := ActiveSynEdit;
-  if Assigned(SynEdit) then
-    SynEdit.CopyToClipboard;
+  Copy(SynEdit);
+  SynEdit := ActiveSplitSynEdit;
+  Copy(SynEdit);
   PageControlRepaint;
 end;
 
@@ -1451,11 +1474,15 @@ end;
 
 procedure TDocumentFrame.Paste;
 var
-  SynEdit: TBCSynEdit;
+  SynEdit, SplitSynedit: TBCSynEdit;
 begin
   SynEdit := ActiveSynEdit;
-  if SynEdit.Focused then
+  SplitSynedit := ActiveSplitSynEdit;
+  if Assigned(SynEdit) and SynEdit.Focused then
     SynEdit.PasteFromClipboard
+  else
+  if Assigned(SplitSynedit) and SplitSynedit.Focused then
+    SplitSynedit.PasteFromClipboard
   else
     SearchForEdit.PasteFromClipboard;
   PageControlRepaint;
@@ -2033,6 +2060,7 @@ var
   SynEdit, SplitSynEdit: TBCSynEdit;
 begin
   inherited;
+  Application.ProcessMessages;
   SynEdit := ActiveSynEdit;
   SynEdit.Modified := True;
   if Pos('~', PageControl.ActivePage.Caption) = 0 then
@@ -2045,9 +2073,11 @@ begin
   begin
     SplitSynEdit.BeginUpdate;
 
-    for i := 0 to SynEdit.Lines.Count - 1 do
+    for i := 0 to SplitSynEdit.Lines.Count - 1 do
       if SynEdit.Lines[i] <> SplitSynEdit.Lines[i] then
         SplitSynEdit.Lines[i] := SynEdit.Lines[i];
+    for i := SplitSynEdit.Lines.Count to SynEdit.Lines.Count - 1 do
+      SplitSynEdit.Lines.Add(SynEdit.Lines[i]);
     while SplitSynEdit.Lines.Count > SynEdit.Lines.Count do
       SplitSynEdit.Lines.Delete(SplitSynEdit.Lines.Count);
     SplitSynEdit.EndUpdate;
@@ -2080,22 +2110,26 @@ var
   SynEdit, SplitSynEdit: TBCSynEdit;
 begin
   inherited;
+  Application.ProcessMessages;
   LinesChanged := False;
   SynEdit := ActiveSynEdit;
   SynEdit.BeginUpdate;
   SplitSynEdit := ActiveSplitSynEdit;
   if Assigned(SplitSynEdit) then
   begin
-    for i := 0 to SplitSynEdit.Lines.Count - 1 do
+    for i := 0 to SynEdit.Lines.Count - 1 do
       if SynEdit.Lines[i] <> SplitSynEdit.Lines[i] then
       begin
         LinesChanged := True;
         SynEdit.Lines[i] := SplitSynEdit.Lines[i];
       end;
+    for i := SynEdit.Lines.Count to SplitSynEdit.Lines.Count - 1 do
+      SplitSynEdit.Lines.Add(SplitSynEdit.Lines[i]);
     while SynEdit.Lines.Count > SplitSynEdit.Lines.Count do
       SynEdit.Lines.Delete(SynEdit.Lines.Count);
   end;
   SynEdit.EndUpdate;
+  SynEdit.Repaint;
   if LinesChanged then
     SynEdit.OnChange(Sender);
 end;
