@@ -1062,7 +1062,12 @@ begin
 end;
 
 procedure TDocumentFrame.PageControlRepaint;
+var
+  SynEdit: TBCSynEdit;
 begin
+  SynEdit := ActiveSynEdit;
+  if Assigned(SynEdit) then
+    SynEdit.Repaint;
   if Assigned(PageControl.ActivePage) then
     PageControl.ActivePage.Repaint;
   PageControl.Repaint;
@@ -1366,8 +1371,6 @@ begin
 end;
 
 procedure TDocumentFrame.Undo;
-var
-  SynEdit: TBCSynEdit;
 
   procedure Undo(SynEdit: TBCSynEdit);
   begin
@@ -1384,16 +1387,12 @@ var
   end;
 
 begin
-  SynEdit := ActiveSynEdit;
-  Undo(SynEdit);
-  SynEdit := ActiveSplitSynEdit;
-  Undo(SynEdit);
+  Undo(ActiveSynEdit);
+  Undo(ActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
 procedure TDocumentFrame.Redo;
-var
-  SynEdit: TBCSynEdit;
 
   procedure Redo(SynEdit: TBCSynEdit);
   begin
@@ -1403,46 +1402,38 @@ var
   end;
 
 begin
-  SynEdit := ActiveSynEdit;
-  Redo(SynEdit);
-  SynEdit := ActiveSplitSynEdit;
-  Redo(SynEdit);
+  Redo(ActiveSynEdit);
+  Redo(ActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
 procedure TDocumentFrame.Cut;
-var
-  SynEdit: TBCSynEdit;
 
   procedure Cut(SynEdit: TBCSynEdit);
   begin
     if Assigned(SynEdit) then
-      SynEdit.CutToClipboard;
+      if SynEdit.Focused then
+        SynEdit.CutToClipboard;
   end;
 
 begin
-  SynEdit := ActiveSynEdit;
-  Cut(SynEdit);
-  SynEdit := ActiveSplitSynEdit;
-  Cut(SynEdit);
+  Cut(ActiveSynEdit);
+  Cut(ActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
 procedure TDocumentFrame.Copy;
-var
-  SynEdit: TBCSynEdit;
 
   procedure Copy(SynEdit: TBCSynEdit);
   begin
     if Assigned(SynEdit) then
-      SynEdit.CopyToClipboard;
+      if SynEdit.Focused then
+        SynEdit.CopyToClipboard;
   end;
 
 begin
-  SynEdit := ActiveSynEdit;
-  Copy(SynEdit);
-  SynEdit := ActiveSplitSynEdit;
-  Copy(SynEdit);
+  Copy(ActiveSynEdit);
+  Copy(ActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
@@ -1741,6 +1732,9 @@ begin
       SynEdit.WordWrap := not SynEdit.WordWrap;
       Result := SynEdit.WordWrap;
     end;
+    SynEdit := GetSplitSynEdit(PageControl.Pages[i]);
+    if Assigned(SynEdit) then
+      SynEdit.WordWrap := not SynEdit.WordWrap;
   end;
   PageControlRepaint;
 end;
@@ -1763,6 +1757,14 @@ begin
         SynEdit.Options := SynEdit.Options + [eoShowSpecialChars];
       Result := eoShowSpecialChars in SynEdit.Options;
     end;
+    SynEdit := GetSplitSynEdit(PageControl.Pages[i]);
+    if Assigned(SynEdit) then
+    begin
+      if eoShowSpecialChars in SynEdit.Options then
+        SynEdit.Options := SynEdit.Options - [eoShowSpecialChars]
+      else
+        SynEdit.Options := SynEdit.Options + [eoShowSpecialChars];
+    end;
   end;
   PageControlRepaint;
 end;
@@ -1780,38 +1782,24 @@ end;
 procedure TDocumentFrame.ToggleSelectionMode;
 var
   i: Integer;
-  SynEdit: TBCSynEdit;
+
+  procedure ToggleSelectionMode(SynEdit: TBCSynEdit);
+  begin
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+      begin
+        if SynEdit.SelectionMode = smColumn then
+          SynEdit.SelectionMode := smNormal
+        else
+          SynEdit.SelectionMode := smColumn;
+      end;
+  end;
+
 begin
-  //Result := False;
   for i := 0 to PageControl.PageCount - 1 do
   begin
-    SynEdit := GetSynEdit(PageControl.Pages[i]);
-    if Assigned(SynEdit) then
-    begin
-      {if SynEdit.FColumnMode then
-      begin
-        SynEdit.Options := SynEdit.Options - [eoScrollPastEol,
-          eoAltSetsColumnMode];
-        SynEdit.FColumnMode := False;
-      end
-      else
-      begin
-        SynEdit.Options := SynEdit.Options + [eoScrollPastEol,
-          eoAltSetsColumnMode];
-        SynEdit.FColumnMode := True;
-      end; }
-      if SynEdit.SelectionMode = smColumn then
-      //begin
-        //SynEdit.Options := SynEdit.Options - [eoScrollPastEol, eoAltSetsColumnMode];
-        SynEdit.SelectionMode := smNormal
-      //end
-      else
-      //begin
-        //SynEdit.Options := SynEdit.Options + [eoScrollPastEol, eoAltSetsColumnMode];
-        SynEdit.SelectionMode := smColumn;
-      //end;
-      //Result := SynEdit.SelectionMode = smColumn;
-    end;
+    ToggleSelectionMode(GetSynEdit(PageControl.Pages[i]));
+    ToggleSelectionMode(GetSplitSynEdit(PageControl.Pages[i]));
   end;
   PageControlRepaint;
 end;
@@ -1830,6 +1818,9 @@ begin
       SynEdit.Gutter.ShowLineNumbers := not SynEdit.Gutter.ShowLineNumbers;
       Result := SynEdit.Gutter.ShowLineNumbers;
     end;
+    SynEdit := GetSplitSynEdit(PageControl.Pages[i]);
+    if Assigned(SynEdit) then
+      SynEdit.Gutter.ShowLineNumbers := not SynEdit.Gutter.ShowLineNumbers;
   end;
   PageControlRepaint;
 end;
@@ -2217,6 +2208,7 @@ begin
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) then
     Result := SynEdit.SelAvail;
+
   SynEdit := ActiveSplitSynEdit;
   if Assigned(SynEdit) then
     Result := Result or SynEdit.SelAvail;
@@ -2230,6 +2222,7 @@ begin
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) then
     Result := SynEdit.UndoList.ItemCount > 0;
+
   SynEdit := ActiveSplitSynEdit;
   if Assigned(SynEdit) then
     Result := Result or (SynEdit.UndoList.ItemCount > 0);
@@ -2243,6 +2236,7 @@ begin
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) then
     Result := SynEdit.RedoList.ItemCount > 0;
+
   SynEdit := ActiveSplitSynEdit;
   if Assigned(SynEdit) then
     Result := Result or (SynEdit.RedoList.ItemCount > 0);
@@ -2717,110 +2711,158 @@ begin
 end;
 
 procedure TDocumentFrame.SelectAll;
-var
-  SynEdit: TBCSynEdit;
+
+  procedure SelectAll(SynEdit: TBCSynEdit);
+  begin
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+        SynEdit.SelectAll;
+  end;
+
 begin
-  SynEdit := ActiveSynEdit;
-  if Assigned(SynEdit) then
-    SynEdit.SelectAll;
+  SelectAll(ActiveSynEdit);
+  SelectAll(ActiveSplitSynEdit);
 end;
 
 procedure TDocumentFrame.ToggleCase;
-var
-  SynEdit: TBCSynEdit;
+
+  procedure ToggleCase(SynEdit: TBCSynEdit);
+  begin
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+        SynEdit.ExecuteCommand(ecToggleCaseBlock, 'C', nil);
+  end;
+
 begin
-  SynEdit := ActiveSynEdit;
-  if Assigned(SynEdit) then
-    SynEdit.ExecuteCommand(ecToggleCaseBlock, 'C', nil);
+  ToggleCase(ActiveSynEdit);
+  ToggleCase(ActiveSplitSynEdit);
 end;
 
 procedure TDocumentFrame.SortAsc;
-var
-  SynEdit: TBCSynEdit;
-  Strings: TWideStringList;
-begin
-  SynEdit := ActiveSynEdit;
-  if Assigned(SynEdit) then
+
+  procedure SortAsc(SynEdit: TBCSynedit);
+  var
+    Strings: TWideStringList;
   begin
-    Strings := TWideStringList.Create;
-    Strings.Text := SynEdit.SelText;
-    Strings.Sort;
-    SynEdit.SelText := Trim(Strings.Text);
-    Strings.Free;
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+      begin
+        Strings := TWideStringList.Create;
+        Strings.Text := SynEdit.SelText;
+        Strings.Sort;
+        SynEdit.SelText := Trim(Strings.Text);
+        Strings.Free;
+      end;
   end;
+
+begin
+  SortAsc(ActiveSynEdit);
+  SortAsc(ActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
 procedure TDocumentFrame.SortDesc;
-var
-  i: Integer;
-  SynEdit: TBCSynEdit;
-  s: WideString;
-  Strings: TWideStringList;
-begin
-  SynEdit := ActiveSynEdit;
-  if Assigned(SynEdit) then
+
+  procedure SortDesc(SynEdit: TBCSynEdit);
+  var
+    i: Integer;
+    s: WideString;
+    Strings: TWideStringList;
   begin
-    Strings := TWideStringList.Create;
-    Strings.Text := SynEdit.SelText;
-    Strings.Sort;
-    for i := Strings.Count - 1 downto 0 do
-      s := s + Strings.Strings[i] + Chr(13) + Chr(10);
-    SynEdit.SelText := Trim(s);
-    Strings.Free;
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+      begin
+        Strings := TWideStringList.Create;
+        Strings.Text := SynEdit.SelText;
+        Strings.Sort;
+        for i := Strings.Count - 1 downto 0 do
+          s := s + Strings.Strings[i] + Chr(13) + Chr(10);
+        SynEdit.SelText := Trim(s);
+        Strings.Free;
+      end;
   end;
+
+begin
+  SortDesc(ActiveSynEdit);
+  SortDesc(ActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
 procedure TDocumentFrame.ClearBookmarks;
-var
-  i: Integer;
-  SynEdit: TBCSynEdit;
+
+  procedure ClearBookmarks(SynEdit: TBCSynEdit);
+  var
+    i: Integer;
+  begin
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+      for i := 0 to 9 do
+        SynEdit.ClearBookMark(i);
+  end;
+
 begin
-  SynEdit := ActiveSynEdit;
-  if Assigned(SynEdit) then
-    for i := 0 to 9 do
-      SynEdit.ClearBookMark(i);
+  ClearBookmarks(ActiveSynEdit);
+  ClearBookmarks(ActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
 procedure TDocumentFrame.InsertLine;
-var
-  SynEdit: TBCSynEdit;
+
+  procedure InsertLine(SynEdit: TBCSynEdit);
+  begin
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+        SynEdit.ExecuteCommand(ecInsertLine, 'N', nil);
+  end;
+
 begin
-  SynEdit := ActiveSynEdit;
-  if Assigned(SynEdit) then
-    SynEdit.ExecuteCommand(ecInsertLine, 'N', nil);
+  InsertLine(ActiveSynEdit);
+  InsertLine(ActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
 procedure TDocumentFrame.DeleteWord;
-var
-  SynEdit: TBCSynEdit;
+
+  procedure DeleteWord(SynEdit: TBCSynEdit);
+  begin
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+        SynEdit.ExecuteCommand(ecDeleteWord, 'T', nil);
+  end;
+
 begin
-  SynEdit := ActiveSynEdit;
-  if Assigned(SynEdit) then
-    SynEdit.ExecuteCommand(ecDeleteWord, 'T', nil);
+  DeleteWord(ActiveSynEdit);
+  DeleteWord(ActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
 procedure TDocumentFrame.DeleteLine;
-var
-  SynEdit: TBCSynEdit;
+
+  procedure DeleteLine(SynEdit: TBCSynEdit);
+  begin
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+        SynEdit.ExecuteCommand(ecDeleteLine, 'Y', nil);
+  end;
+
 begin
-  SynEdit := ActiveSynEdit;
-  if Assigned(SynEdit) then
-    SynEdit.ExecuteCommand(ecDeleteLine, 'Y', nil);
+  DeleteLine(ActiveSynEdit);
+  DeleteLine(ActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
 procedure TDocumentFrame.DeleteEOL;
-var
-  SynEdit: TBCSynEdit;
+
+  procedure DeleteEOL(SynEdit: TBCSynEdit);
+  begin
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+        SynEdit.ExecuteCommand(ecDeleteEOL, 'Y', nil);
+  end;
+
 begin
-  SynEdit := ActiveSynEdit;
-  if Assigned(SynEdit) then
-    SynEdit.ExecuteCommand(ecDeleteEOL, 'Y', nil);
+  DeleteEOL(ActiveSynEdit);
+  DeleteEOL(ActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
