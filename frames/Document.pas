@@ -2115,7 +2115,7 @@ begin
         SynEdit.Lines[i] := SplitSynEdit.Lines[i];
       end;
     for i := SynEdit.Lines.Count to SplitSynEdit.Lines.Count - 1 do
-      SplitSynEdit.Lines.Add(SplitSynEdit.Lines[i]);
+      SynEdit.Lines.Add(SplitSynEdit.Lines[i]);
     while SynEdit.Lines.Count > SplitSynEdit.Lines.Count do
       SynEdit.Lines.Delete(SynEdit.Lines.Count);
   end;
