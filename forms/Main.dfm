@@ -69,7 +69,7 @@ object MainForm: TMainForm
       ColorMap.UnusedColor = clWhite
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = -12
+      Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentShowHint = False
@@ -77,9 +77,9 @@ object MainForm: TMainForm
       Spacing = 1
     end
     object HighlighterComboBox: TBCComboBox
-      Left = 903
+      Left = 902
       Top = 2
-      Width = 129
+      Width = 130
       Height = 21
       Align = alRight
       DropDownCount = 57
@@ -167,7 +167,7 @@ object MainForm: TMainForm
       Left = 2
       Top = 2
       Width = 1030
-      Height = 27
+      Height = 26
       ActionManager = ActionManager
       Color = clMenuBar
       ColorMap.DisabledFontColor = 7171437
@@ -176,7 +176,6 @@ object MainForm: TMainForm
       ColorMap.UnusedColor = clWhite
       EdgeBorders = [ebBottom]
       EdgeInner = esNone
-      EdgeOuter = esRaised
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -11
@@ -205,7 +204,7 @@ object MainForm: TMainForm
       Align = alBottom
       AutoSnap = False
       Visible = False
-      ExplicitTop = 337
+      ExplicitTop = 340
     end
     object VerticalSplitter: TSplitter
       Left = 257
@@ -214,7 +213,7 @@ object MainForm: TMainForm
       AutoSnap = False
       MinSize = 100
       ResizeStyle = rsUpdate
-      ExplicitHeight = 342
+      ExplicitHeight = 340
     end
     object OutputPanel: TPanel
       Left = 0
@@ -241,7 +240,6 @@ object MainForm: TMainForm
       DoubleBuffered = False
       Padding.Left = 4
       Padding.Top = 4
-      Padding.Bottom = 3
       ParentDoubleBuffered = False
       TabOrder = 1
     end
@@ -255,7 +253,6 @@ object MainForm: TMainForm
       DoubleBuffered = False
       Padding.Top = 2
       Padding.Right = 3
-      Padding.Bottom = 3
       ParentColor = True
       ParentDoubleBuffered = False
       TabOrder = 2
@@ -1720,7 +1717,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C01013E005C01E40410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01013E005C01EC0410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000000001000001002000000000000000
       0100000000000000000000000000000000000000000000000000BD4C00000000
       0000000000000000000084240500842405008424050084240500842405000000

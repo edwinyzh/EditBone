@@ -456,7 +456,6 @@ begin
   ToggleBookmarkMenuItem.Action := MainForm.ToggleBookmarkAction;
 
   PageControl.Images := TBCImageList.Create(Self);
-  //FSystemImageList := TImageList.Create(Self);
 
   SysImageList := SHGetFileInfo(PChar(PathInfo), 0, SHFileInfo, SizeOf(TSHFileInfo), SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
   if SysImageList <> 0 then
@@ -464,20 +463,20 @@ begin
     PageControl.Images.Handle := SysImageList;
     PageControl.Images.BkColor := ClNone;
     PageControl.Images.ShareImages := True;
-    //FSystemImageList.Handle := SysImageList;
-    //FSystemImageList.ShareImages := True;
   end;
-
 
   { compare and new image index }
   Icon := TIcon.Create;
   try
-    Icon.Height := 16;
-    Icon.Width := 16;
-    ImageList.GetIcon(0, Icon);
-    FCompareImageIndex := PageControl.Images.AddIcon(Icon);
-    ImageList.GetIcon(1, Icon);
-    FNewImageIndex := PageControl.Images.AddIcon(Icon);
+    try
+      ImageList.GetIcon(0, Icon);
+      FCompareImageIndex := PageControl.Images.AddIcon(Icon);
+      ImageList.GetIcon(1, Icon);
+      FNewImageIndex := PageControl.Images.AddIcon(Icon);
+    except
+      { todo: windows font size causing problems here!
+        Icon size will be smaller than PageControl.Images size }
+    end;
   finally
     Icon.Free;
   end;

@@ -1,16 +1,18 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 304
+  Width = 837
+  Height = 474
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
   TabOrder = 0
+  ExplicitWidth = 451
+  ExplicitHeight = 304
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 837
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -18,11 +20,12 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 0
     Visible = False
+    ExplicitWidth = 451
     object SearchForLabel: TLabel
       Left = 21
       Top = 3
-      Width = 50
-      Height = 13
+      Width = 60
+      Height = 16
       Caption = 'Search for'
     end
     object SpeedButton1: TSpeedButton
@@ -308,7 +311,7 @@ object DocumentFrame: TDocumentFrame
       Left = 77
       Top = 0
       Width = 200
-      Height = 21
+      Height = 24
       TabOrder = 2
       OnChange = SearchForEditChange
       OnlyNumbers = False
@@ -321,8 +324,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 451
-    Height = 283
+    Width = 837
+    Height = 453
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -330,11 +333,13 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentColor = True
     TabOrder = 1
+    ExplicitWidth = 451
+    ExplicitHeight = 283
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 451
-      Height = 281
+      Width = 837
+      Height = 451
       Align = alClient
       DoubleBuffered = False
       Font.Charset = DEFAULT_CHARSET
@@ -348,13 +353,15 @@ object DocumentFrame: TDocumentFrame
       OnChange = PageControlChange
       TabDragDrop = True
       HoldShiftToDragDrop = False
+      ExplicitWidth = 451
+      ExplicitHeight = 281
     end
   end
   object ImageList: TBCImageList
     Left = 36
     Top = 342
     Bitmap = {
-      494C0101060038007C0410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106003800840410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1173,7 +1180,7 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 450
     Bitmap = {
-      494C01010A0038005C0410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A003800640410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
