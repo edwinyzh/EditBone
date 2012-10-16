@@ -4,13 +4,13 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Mask, JvExMask, JvToolEdit, Vcl.StdCtrls, JvExStdCtrls,
+  Vcl.Controls, Vcl.Forms, Dlg, Vcl.Dialogs, Vcl.Mask, JvExMask, JvToolEdit, Vcl.StdCtrls, JvExStdCtrls,
   JvEdit, BCEdit, Vcl.ActnList, Vcl.ExtCtrls, Vcl.Themes, BCCheckBox, Vcl.Buttons;
 
 type
   TDirectoryTabDialogType = (dtOpen, dtEdit);
 
-  TDirectoryTabDialog = class(TForm)
+  TDirectoryTabDialog = class(TDialog)
     ActionList: TActionList;
     OKAction: TAction;
     ExcludeOtherBranchesAction: TAction;
@@ -70,7 +70,7 @@ begin
   if FDirectoryTabDialog = nil then
     Application.CreateForm(TDirectoryTabDialog, FDirectoryTabDialog);
   Result := FDirectoryTabDialog;
-  Common.SetStyledFormSize(Result, 345, 162);
+  Common.SetStyledFormSize(Result);
 end;
 
 procedure TDirectoryTabDialog.OKActionExecute(Sender: TObject);

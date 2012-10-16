@@ -356,6 +356,7 @@ begin
   TabSheet.Visible := False;
   TabSheet.PageControl := PageControl;
   TabSheet.ImageIndex := -1;
+  TabSheet.Padding.Bottom := 2;
 
  // if PageControl.PageCount > 0 then
   PageControl.ActivePage := TabSheet;
@@ -396,6 +397,7 @@ begin
     TabOrder := 0;
     TabStop := True;
     OnDblClick := TabsheetDblClick;
+    DefaultNodeHeight := Images.Height + 2;
 
     //OnKeyUp := VirtualDrawTreeKeyUp;
     {LStyles := StyleServices;
@@ -411,14 +413,16 @@ begin
   with DriveComboBoxPanel do
   begin
     Parent := TabSheet; //FileTreeViewPanel;
-    Height := 24;
+    //Height := 24;
     Align := alBottom;
+    AutoSize := True;
     BevelOuter := bvNone;
     //Padding.Top := 0;
     //Padding.Bottom := 0;
     Padding.Left := 1;
     //if TStyleManager.ActiveStyle.Name = 'Windows' then
-      Padding.Right := 3;
+    Padding.Right := 3;
+    //Padding.Bottom := 2;
     //else
     //  Padding.Right := 1;
     ParentBackground := True;
@@ -441,6 +445,7 @@ begin
     TabOrder := 1;
     OnChange := DriveComboChange;
   end;
+  //DriveComboBoxPanel.Height := BCDriveComboBox.Height + 4;
   DriveComboBoxPanel.Visible := ShowDrives;
 
   PageControl.Images := BCDriveComboBox.SystemIconsImageList; //TImageList.Create(Self);

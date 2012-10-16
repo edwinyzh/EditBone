@@ -5,25 +5,27 @@ interface
 uses
   System.SysUtils, Winapi.Windows, Winapi.Messages, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls,
-  Vcl.Imaging.pngimage;
+  Vcl.Imaging.pngimage, Dlg;
 
 type
-  TAboutDialog = class(TForm)
-    OKButton: TButton;
+  TAboutDialog = class(TDialog)
     Panel1: TPanel;
-    KayttovaltuusImage: TImage;
+    Panel2: TPanel;
     OhjelmanNimiLabel: TLabel;
     VersionLabel: TLabel;
     OSLabel: TLabel;
     MemoryAvailableLabel: TLabel;
+    Panel3: TPanel;
+    LinkLabel1: TLinkLabel;
+    LinkLabel3: TLinkLabel;
+    CodeGearLinkLabel: TLinkLabel;
+    ThanksToLabel: TLabel;
     CopyrightLabel: TLabel;
     BoneCodeLinkLabel: TLinkLabel;
-    ThanksToLabel: TLabel;
-    CodeGearLinkLabel: TLinkLabel;
-    LinkLabel3: TLinkLabel;
-    Panel2: TPanel;
-    LinkLabel1: TLinkLabel;
-    AndLabel: TLabel;
+    Panel4: TPanel;
+    OKButton: TButton;
+    Panel6: TPanel;
+    KayttovaltuusImage: TImage;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure LinkClick(Sender: TObject; const Link: string;
@@ -52,7 +54,7 @@ begin
   if FAboutDialog = nil then
     Application.CreateForm(TAboutDialog, FAboutDialog);
   Result := FAboutDialog;
-  Common.SetStyledFormSize(Result, 386, 288);
+  Common.SetStyledFormSize(Result);
 end;
 
 procedure TAboutDialog.Open;

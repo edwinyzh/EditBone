@@ -81,7 +81,7 @@ uses
   SynHighlighterUNIXShellScript, SynHighlighterVB, SynHighlighterAsm, SynEditHighlighter,
   SynHighlighterHtml, SynEditPrint, SynEditMiscClasses, SynEditSearch, SynEditTypes,
   SynHighlighterWeb, SynHighlighterWebData, SynEditPlugins, Vcl.StdCtrls, Vcl.ActnList, BCCheckBox,
-  JvExControls, JvSpeedButton, JvExExtCtrls, JvExtComponent, JvFooter, JvExStdCtrls, JvEdit, BCEdit,
+  JvExControls, JvExExtCtrls, JvExtComponent, JvFooter, JvExStdCtrls, JvEdit, BCEdit,
   BCImageList, SynHighlighterRC, SynHighlighterDOT, SynHighlighterLDraw, SynHighlighterHaskell,
   SynHighlighterCPM, SynHighlighterIDL, SynHighlighterMsg, SynHighlighterProgress,
   SynHighlighterGalaxy, SynHighlighterBaan, SynHighlighterInno, SynHighlighterIni,
@@ -142,16 +142,10 @@ type
     SynWebEngine: TSynWebEngine;
     SynPythonSyn: TSynPythonSyn;
     SearchPanel: TPanel;
-    SearchForLabel: TLabel;
-    CaseSensitiveCheckBox: TBCCheckBox;
-    WholeWordsCheckBox: TBCCheckBox;
-    SpeedButton1: TSpeedButton;
-    SpeedButton2: TSpeedButton;
     SearchActionList: TActionList;
     SearchCloseAction: TAction;
     SearchFindNextAction: TAction;
     SearchFindPreviousAction: TAction;
-    JvSpeedButton1: TJvSpeedButton;
     DocumentPanel: TPanel;
     PageControl: TBCPageControl;
     DefaultCSSyn: TSynCSSyn;
@@ -242,9 +236,24 @@ type
     TwilightCSSyn: TSynCSSyn;
     TwilightPasSyn: TSynPasSyn;
     TwilightCppSyn: TSynCppSyn;
-    SearchForEdit: TBCEdit;
-    SpeedButton3: TSpeedButton;
     ToggleBookmarkMenuItem: TMenuItem;
+    Panel1: TPanel;
+    JvSpeedButton1: TSpeedButton;
+    Panel2: TPanel;
+    SearchForLabel: TLabel;
+    Panel3: TPanel;
+    SearchForEdit: TBCEdit;
+    Panel4: TPanel;
+    JvSpeedButton2: TSpeedButton;
+    Panel5: TPanel;
+    SpeedButton1: TSpeedButton;
+    Panel6: TPanel;
+    SpeedButton2: TSpeedButton;
+    Panel7: TPanel;
+    CaseSensitiveCheckBox: TBCCheckBox;
+    Panel8: TPanel;
+    WholeWordsCheckBox: TBCCheckBox;
+    ImageList25: TBCImageList;
     procedure SynEditChange(Sender: TObject);
     procedure SynEditSplitChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
@@ -476,6 +485,14 @@ begin
     except
       { todo: windows font size causing problems here!
         Icon size will be smaller than PageControl.Images size }
+      try
+        ImageList25.GetIcon(0, Icon);
+        FCompareImageIndex := PageControl.Images.AddIcon(Icon);
+        ImageList25.GetIcon(1, Icon);
+        FNewImageIndex := PageControl.Images.AddIcon(Icon);
+      except
+
+      end;
     end;
   finally
     Icon.Free;
@@ -1541,6 +1558,7 @@ begin
   SearchPanel.Visible := not SearchPanel.Visible;
   if SearchPanel.Visible then
   begin
+    SearchPanel.Height := SearchForEdit.Height;
     if ActiveSynEdit.SelAvail then
       SearchForEdit.Text := ActiveSynEdit.SelText;
     SearchForEdit.SetFocus;
@@ -2261,18 +2279,21 @@ begin
     EditRect.TopLeft := ClientToScreen(EditRect.TopLeft);
     EditRect.BottomRight := ClientToScreen(EditRect.BottomRight);
 
-    ConfirmReplaceDialog.PrepareShow(EditRect, APos.X, APos.Y,
-      APos.Y + SynEdit.LineHeight, ASearch);
-
-    case ConfirmReplaceDialog.ShowModal of
-      mrYes:
-        Action := raReplace;
-      mrYesToAll:
-        Action := raReplaceAll;
-      mrNo:
-        Action := raSkip;
-    else
-      Action := raCancel;
+    ConfirmReplaceDialog.PrepareShow(EditRect, APos.X, APos.Y, APos.Y + SynEdit.LineHeight,
+      ASearch);
+    try
+      case ConfirmReplaceDialog.ShowModal of
+        mrYes:
+          Action := raReplace;
+        mrYesToAll:
+          Action := raReplaceAll;
+        mrNo:
+          Action := raSkip;
+      else
+        Action := raCancel;
+      end;
+    finally
+      ConfirmReplaceDialog.Release;
     end;
   end;
 end;

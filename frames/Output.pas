@@ -159,8 +159,8 @@ begin
     DragOperations := [];
     Header.Options := [];
     ParentCtl3D := False;
-    Indent := 16;
-    TreeOptions.AutoOptions := [toAutoDropExpand, toAutoScroll, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes];
+    Indent := 20; //16;
+    TreeOptions.AutoOptions := [toAutoDropExpand, toAutoScroll, toAutoChangeScale, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes];
     TreeOptions.MiscOptions := [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning];
     TreeOptions.PaintOptions := [toShowButtons, toShowRoot, toUseBlendedSelection, toThemeAware];
     if AutoExpand then

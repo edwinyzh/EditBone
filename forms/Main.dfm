@@ -70,7 +70,7 @@ object MainForm: TMainForm
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -11
-      Font.Name = 'Segoe UI'
+      Font.Name = 'Tahoma'
       Font.Style = []
       ParentShowHint = False
       ShowHint = True
@@ -155,8 +155,9 @@ object MainForm: TMainForm
     Left = 0
     Top = 24
     Width = 1034
-    Height = 27
+    Height = 28
     Align = alTop
+    AutoSize = True
     BevelOuter = bvNone
     Padding.Left = 2
     Padding.Top = 2
@@ -188,38 +189,38 @@ object MainForm: TMainForm
   end
   object ContentPanel: TPanel
     Left = 0
-    Top = 51
+    Top = 52
     Width = 1034
-    Height = 490
+    Height = 489
     Align = alClient
     BevelOuter = bvNone
     ParentColor = True
     TabOrder = 2
     object HorizontalSplitter: TSplitter
       Left = 0
-      Top = 336
+      Top = 334
       Width = 1034
       Height = 3
       Cursor = crVSplit
       Align = alBottom
       AutoSnap = False
       Visible = False
-      ExplicitTop = 340
+      ExplicitTop = 343
     end
     object VerticalSplitter: TSplitter
       Left = 257
       Top = 0
-      Height = 336
+      Height = 334
       AutoSnap = False
       MinSize = 100
       ResizeStyle = rsUpdate
-      ExplicitHeight = 340
+      ExplicitHeight = 343
     end
     object OutputPanel: TPanel
       Left = 0
-      Top = 339
+      Top = 337
       Width = 1034
-      Height = 151
+      Height = 152
       Align = alBottom
       BevelOuter = bvNone
       DoubleBuffered = False
@@ -234,12 +235,13 @@ object MainForm: TMainForm
       Left = 0
       Top = 0
       Width = 257
-      Height = 336
+      Height = 334
       Align = alLeft
       BevelOuter = bvNone
       DoubleBuffered = False
       Padding.Left = 4
       Padding.Top = 4
+      Padding.Bottom = 3
       ParentDoubleBuffered = False
       TabOrder = 1
     end
@@ -247,12 +249,13 @@ object MainForm: TMainForm
       Left = 260
       Top = 0
       Width = 774
-      Height = 336
+      Height = 334
       Align = alClient
       BevelOuter = bvNone
       DoubleBuffered = False
       Padding.Top = 2
       Padding.Right = 3
+      Padding.Bottom = 3
       ParentColor = True
       ParentDoubleBuffered = False
       TabOrder = 2
@@ -1717,7 +1720,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C01013E005C01EC0410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01013E005C01F00410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000000001000001002000000000000000
       0100000000000000000000000000000000000000000000000000BD4C00000000
       0000000000000000000084240500842405008424050084240500842405000000

@@ -28,7 +28,6 @@ type
     FilePrintPreviewAction: TAction;
     FileExitAction: TAction;
     StatusBar: TStatusBar;
-    ActionToolBar: TActionToolBar;
     ActionMainMenuBar: TActionMainMenuBar;
     EditUndoAction: TAction;
     EditRedoAction: TAction;
@@ -156,6 +155,7 @@ type
     StyleTurquoiseGrayAction: TAction;
     ToolBarPanel: TPanel;
     ViewSplitAction: TAction;
+    ActionToolBar: TActionToolBar;
     procedure FileNewActionExecute(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
 //    procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
@@ -740,9 +740,10 @@ end;
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   FOnStartUp := True;
+  { IDE is losing these for some reason... }
   ActionMainMenuBar.Font.Name := 'Tahoma';
   ActionMainMenuBar.Font.Size := 8;
-  StatusBar.Font.Name := 'Tahoma'; // IDE is losing this for some reason... :/
+  StatusBar.Font.Name := 'Tahoma';
   StatusBar.Font.Size := 8;
 
   FOutputFrame := TOutputFrame.Create(OutputPanel);

@@ -24,7 +24,8 @@ uses
   StyleHooks in '..\..\Common\units\StyleHooks.pas',
   DownloadURL in '..\..\Common\dialogs\DownloadURL.pas' {DownloadURLDialog},
   Compare in '..\..\Common\frames\Compare.pas' {CompareFrame: TFrame},
-  BigIni in '..\..\Common\units\BigIni.pas';
+  BigIni in '..\..\Common\units\BigIni.pas',
+  Dlg in '..\..\Common\dialogs\Dlg.pas' {Dialog};
 
 {$R *.res}
 

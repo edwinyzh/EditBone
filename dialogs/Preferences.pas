@@ -8,7 +8,7 @@ uses
   Vcl.Menus, SynEdit, SynEditHighlighter, SynEditMiscClasses, SynHighlighterWebData, SynEditKeyCmds,
   System.Classes, System.SysUtils, Vcl.ImgList, SynHighlighterWeb, Vcl.Grids, SynHighlighterSQL,
   BCCheckBox, Document, JvExStdCtrls, JvEdit, BCEdit, JvCombobox, BCComboBox, Vcl.ActnList,
-  Vcl.Themes;
+  Vcl.Themes, Dlg;
 
 type
   TCPASHighlighter = (hClassic, hDefault, hTwilight);
@@ -22,7 +22,7 @@ const
 type
   TOptionsContainer = class;
 
-  TPreferencesDialog = class(TForm)
+  TPreferencesDialog = class(TDialog)
     FontDialog: TFontDialog;
     ActionList: TActionList;
     SelectFontAction: TAction;
@@ -435,7 +435,7 @@ begin
   if FPreferencesDialog = nil then
     FPreferencesDialog := TPreferencesDialog.Create(Sender);
   Result := FPreferencesDialog;
-  Common.SetStyledFormSize(Result, 477, 387);
+  Common.SetStyledFormSize(Result);
 end;
 
 procedure TPreferencesDialog.FormDestroy(Sender: TObject);
