@@ -374,7 +374,7 @@ begin
       Padding.Right := 3;
     //else
     //  Padding.Right := 1;
-    Padding.Bottom := 2;
+    //Padding.Bottom := 2;
     ParentBackground := True;
     //DoubleBuffered := False;
     ParentColor := True;
@@ -417,7 +417,7 @@ begin
     Align := alBottom;
     AutoSize := True;
     BevelOuter := bvNone;
-    //Padding.Top := 0;
+    Padding.Top := 1;
     //Padding.Bottom := 0;
     Padding.Left := 1;
     //if TStyleManager.ActiveStyle.Name = 'Windows' then
