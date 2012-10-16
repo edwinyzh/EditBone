@@ -254,6 +254,7 @@ type
     Panel8: TPanel;
     WholeWordsCheckBox: TBCCheckBox;
     ImageList25: TBCImageList;
+    ImageList50: TBCImageList;
     procedure SynEditChange(Sender: TObject);
     procedure SynEditSplitChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
@@ -477,21 +478,31 @@ begin
   { compare and new image index }
   Icon := TIcon.Create;
   try
+    { windows font size causing problems here!
+        Icon size will be smaller than PageControl.Images size }
     try
+      { smaller }
       ImageList.GetIcon(0, Icon);
       FCompareImageIndex := PageControl.Images.AddIcon(Icon);
       ImageList.GetIcon(1, Icon);
       FNewImageIndex := PageControl.Images.AddIcon(Icon);
     except
-      { todo: windows font size causing problems here!
-        Icon size will be smaller than PageControl.Images size }
       try
+        { medium }
         ImageList25.GetIcon(0, Icon);
         FCompareImageIndex := PageControl.Images.AddIcon(Icon);
         ImageList25.GetIcon(1, Icon);
         FNewImageIndex := PageControl.Images.AddIcon(Icon);
       except
+        try
+          { larger }
+          ImageList50.GetIcon(0, Icon);
+          FCompareImageIndex := PageControl.Images.AddIcon(Icon);
+          ImageList50.GetIcon(1, Icon);
+          FNewImageIndex := PageControl.Images.AddIcon(Icon);
+        except
 
+        end;
       end;
     end;
   finally

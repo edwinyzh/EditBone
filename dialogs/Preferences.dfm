@@ -28,7 +28,7 @@ object PreferencesDialog: TPreferencesDialog
     Padding.Top = 6
     Padding.Right = 6
     TabOrder = 0
-    object PageControl1: TPageControl
+    object PageControl: TPageControl
       Left = 6
       Top = 6
       Width = 459

@@ -27,7 +27,7 @@ type
     ActionList: TActionList;
     SelectFontAction: TAction;
     Panel1: TPanel;
-    PageControl1: TPageControl;
+    PageControl: TPageControl;
     TabSheet1: TTabSheet;
     EditorFontGroupBox: TGroupBox;
     SpeedButton1: TSpeedButton;
@@ -436,6 +436,8 @@ begin
     FPreferencesDialog := TPreferencesDialog.Create(Sender);
   Result := FPreferencesDialog;
   Common.SetStyledFormSize(Result);
+  if Assigned(TStyleManager.ActiveStyle) then
+    Result.PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = 'Windows';
 end;
 
 procedure TPreferencesDialog.FormDestroy(Sender: TObject);
