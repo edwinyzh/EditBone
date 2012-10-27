@@ -237,21 +237,21 @@ type
     TwilightPasSyn: TSynPasSyn;
     TwilightCppSyn: TSynCppSyn;
     ToggleBookmarkMenuItem: TMenuItem;
-    Panel1: TPanel;
+    SearchPanel1: TPanel;
     JvSpeedButton1: TSpeedButton;
-    Panel2: TPanel;
+    SearchPanel2: TPanel;
     SearchForLabel: TLabel;
-    Panel3: TPanel;
+    SearchPanel3: TPanel;
     SearchForEdit: TBCEdit;
-    Panel4: TPanel;
+    SearchPanel4: TPanel;
     JvSpeedButton2: TSpeedButton;
-    Panel5: TPanel;
+    SearchPanel5: TPanel;
     SpeedButton1: TSpeedButton;
-    Panel6: TPanel;
+    SearchPanel6: TPanel;
     SpeedButton2: TSpeedButton;
-    Panel7: TPanel;
+    SearchPanel7: TPanel;
     CaseSensitiveCheckBox: TBCCheckBox;
-    Panel8: TPanel;
+    SearchPanel8: TPanel;
     WholeWordsCheckBox: TBCCheckBox;
     ImageList25: TBCImageList;
     ImageList50: TBCImageList;
@@ -479,7 +479,7 @@ begin
   Icon := TIcon.Create;
   try
     { windows font size causing problems here!
-        Icon size will be smaller than PageControl.Images size }
+      Icon size will be smaller than PageControl.Images size }
     try
       { smaller }
       ImageList.GetIcon(0, Icon);

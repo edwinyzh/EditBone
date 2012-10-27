@@ -415,7 +415,7 @@ begin
     Parent := TabSheet; //FileTreeViewPanel;
     //Height := 24;
     Align := alBottom;
-    AutoSize := True;
+
     BevelOuter := bvNone;
     Padding.Top := 1;
     //Padding.Bottom := 0;
@@ -447,7 +447,7 @@ begin
   end;
   //DriveComboBoxPanel.Height := BCDriveComboBox.Height + 4;
   DriveComboBoxPanel.Visible := ShowDrives;
-
+  DriveComboBoxPanel.AutoSize := True;
   PageControl.Images := BCDriveComboBox.SystemIconsImageList; //TImageList.Create(Self);
   //PageControl.Images.Handle := SHGetFileInfo('', 0, SHFileInfo, SizeOf(SHFileInfo), SHGFI_ICON or SHGFI_SYSICONINDEX or SHGFI_SMALLICON
   //  {or SHGFI_ADDOVERLAYS or SHGFI_OVERLAYINDEX});

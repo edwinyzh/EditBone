@@ -1,8 +1,8 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 779
-  Height = 506
+  Width = 871
+  Height = 417
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
@@ -12,7 +12,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 779
+    Width = 871
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -21,7 +21,7 @@ object DocumentFrame: TDocumentFrame
     TabOrder = 0
     Visible = False
     ExplicitWidth = 451
-    object Panel1: TPanel
+    object SearchPanel1: TPanel
       Left = 0
       Top = 0
       Width = 21
@@ -95,7 +95,7 @@ object DocumentFrame: TDocumentFrame
         ExplicitLeft = 24
       end
     end
-    object Panel2: TPanel
+    object SearchPanel2: TPanel
       Left = 21
       Top = 0
       Width = 60
@@ -117,14 +117,14 @@ object DocumentFrame: TDocumentFrame
         ExplicitHeight = 13
       end
     end
-    object Panel3: TPanel
+    object SearchPanel3: TPanel
       Left = 81
       Top = 0
       Width = 185
       Height = 21
       Align = alLeft
       BevelOuter = bvNone
-      Caption = 'Panel3'
+      Caption = 'SearchPanel3'
       Padding.Left = 4
       TabOrder = 2
       object SearchForEdit: TBCEdit
@@ -142,7 +142,7 @@ object DocumentFrame: TDocumentFrame
         NumbersAllowNegative = False
       end
     end
-    object Panel4: TPanel
+    object SearchPanel4: TPanel
       Left = 266
       Top = 0
       Width = 23
@@ -218,7 +218,7 @@ object DocumentFrame: TDocumentFrame
         ExplicitHeight = 19
       end
     end
-    object Panel5: TPanel
+    object SearchPanel5: TPanel
       Left = 289
       Top = 0
       Width = 29
@@ -307,7 +307,7 @@ object DocumentFrame: TDocumentFrame
         ExplicitLeft = 164
       end
     end
-    object Panel6: TPanel
+    object SearchPanel6: TPanel
       Left = 318
       Top = 0
       Width = 23
@@ -396,7 +396,7 @@ object DocumentFrame: TDocumentFrame
         ExplicitLeft = 164
       end
     end
-    object Panel7: TPanel
+    object SearchPanel7: TPanel
       Left = 341
       Top = 0
       Width = 130
@@ -418,7 +418,7 @@ object DocumentFrame: TDocumentFrame
         ReadOnly = False
       end
     end
-    object Panel8: TPanel
+    object SearchPanel8: TPanel
       Left = 471
       Top = 0
       Width = 150
@@ -443,8 +443,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 779
-    Height = 485
+    Width = 871
+    Height = 396
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -457,8 +457,8 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 779
-      Height = 483
+      Width = 871
+      Height = 394
       Align = alClient
       DoubleBuffered = False
       Font.Charset = DEFAULT_CHARSET
@@ -480,7 +480,7 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 342
     Bitmap = {
-      494C0101060038009C0410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106003800A40410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1299,7 +1299,7 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 450
     Bitmap = {
-      494C01010A0038007C0410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A003800840410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2000,7 +2000,7 @@ object DocumentFrame: TDocumentFrame
     Left = 644
     Top = 332
     Bitmap = {
-      494C010102009C04D00414001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010102009C04D80414001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000A4676900A4676900A467
@@ -2220,7 +2220,7 @@ object DocumentFrame: TDocumentFrame
     Left = 642
     Top = 388
     Bitmap = {
-      494C01010200BC04D40418001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010200BC04DC0418001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000A467
