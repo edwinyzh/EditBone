@@ -398,17 +398,7 @@ begin
     TabStop := True;
     OnDblClick := TabsheetDblClick;
     DefaultNodeHeight := Images.Height + 2;
-
-    //OnKeyUp := VirtualDrawTreeKeyUp;
-    {LStyles := StyleServices;
-    if not LStyles.GetElementColor(LStyles.GetElementDetails(ttItemNormal), ecTextColor, LColor) or (LColor = clNone) then
-      LColor := LStyles.GetSystemColor(clWindowText);
-    Font.Color := LColor;
-    Color := LStyles.GetStyleColor(scListView); }
-
   end;
-  TStyleManager.Engine.RegisterStyleHook(TBaseVirtualTree {TBCFileTreeView}, TVirtualTreeStyleHook);
-  //TStyleManager.Engine.RegisterStyleHook(TBCFileTreeView, TListBoxStyleHook);
   DriveComboBoxPanel := TPanel.Create(TabSheet);
   with DriveComboBoxPanel do
   begin

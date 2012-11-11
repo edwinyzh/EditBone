@@ -175,7 +175,6 @@ begin
     if LStyles.Enabled then
       Color := LStyles.GetStyleColor(scEdit);
   end;
-  TStyleManager.Engine.RegisterStyleHook(TVirtualDrawTree, TVirtualTreeStyleHook);
   TabSheet.TabVisible := True;
   Self.Clear;
 end;
