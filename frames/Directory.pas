@@ -407,7 +407,7 @@ begin
     Align := alBottom;
 
     BevelOuter := bvNone;
-    Padding.Top := 1;
+    Padding.Top := 3;
     //Padding.Bottom := 0;
     Padding.Left := 1;
     //if TStyleManager.ActiveStyle.Name = 'Windows' then
