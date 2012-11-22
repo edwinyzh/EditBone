@@ -903,6 +903,7 @@ begin
     SelectHighLighter(SynEdit, FileName);
   end;
   UpdateGutter(SynEdit);
+  UpdateSQLSynColors(SynSQLSyn);
   Application.ProcessMessages;
   SynEdit.Visible := True;
   SynEdit.SetFocus;
@@ -1358,6 +1359,7 @@ begin
     //TabSheet.ImageIndex := SAVED_IMAGEINDEX;
     SelectHighLighter(SynEdit, SynEdit.DocumentName);
     UpdateGutter(SynEdit);
+    UpdateSQLSynColors(SynSQLSyn);
   end;
   PageControlRepaint;
 end;
@@ -2007,6 +2009,7 @@ begin
         OptionsContainer.AssignTo(SynEdit);
         SelectHighLighter(SynEdit, SynEdit.DocumentName);
         UpdateGutter(SynEdit);
+        UpdateSQLSynColors(SynSQLSyn);
       end;
     end;
     PageControl.MultiLine := OptionsContainer.MultiLine;
@@ -3248,6 +3251,7 @@ begin
         SelectHighLighter(SynEdit, FileName);
       end;
       UpdateGutter(SynEdit);
+      UpdateSQLSynColors(SynSQLSyn);
       Application.ProcessMessages;
       SynEdit.Visible := True;
 

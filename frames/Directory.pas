@@ -462,27 +462,17 @@ procedure TDirectoryFrame.UpdateControls;
 var
   i, j: Integer;
 begin
-  //LStyles := StyleServices;
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = 'Windows';
-  {if LStyles.Enabled then }
-    for i := 0 to PageControl.PageCount - 1 do
-      for j := 0 to PageControl.Pages[i].ComponentCount - 1 do
-        if PageControl.Pages[i].Components[j] is TPanel then
-        begin
-          if TStyleManager.ActiveStyle.Name = 'Windows' then
-            TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 3
-          else
-            TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 1;
-          //TBCFileTreeView(PageControl.Pages[i].Components[j]).Colors.TreeLineColor := LStyles.GetStyleFontColor(sfEditBoxTextNormal);
-        end;
-
-        //Colors.UnfocusedSelectionColor := LStyles.GetSystemColor(clHighlight);
-      //Colors.SelectionTextColor := LStyles.GetSystemColor(clHighlightText);
+  Application.ProcessMessages; { Important! }
+  for i := 0 to PageControl.PageCount - 1 do
+    for j := 0 to PageControl.Pages[i].ComponentCount - 1 do
+      if PageControl.Pages[i].Components[j] is TPanel then
+      begin
+        if TStyleManager.ActiveStyle.Name = 'Windows' then
+          TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 3
+        else
+          TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 1;
+      end;
 end;
-
-//initialization
-
- // TStyleManager.Engine.RegisterStyleHook(TBCFileTreeView, TListBoxStyleHook);
-
 
 end.
