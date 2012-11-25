@@ -681,23 +681,31 @@ var
   RootDirectory: string;
   Filename: string;
 begin
-  RootDirectory := '';
-  if Assigned(FDirectoryFrame) then
-  begin
-    RootDirectory := FDirectoryFrame.RootDirectory;
-    FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
+  try
+    RootDirectory := '';
+    if Assigned(FDirectoryFrame) then
+    begin
+      RootDirectory := FDirectoryFrame.RootDirectory;
+      FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
+    end;
+    Filename := FDocumentFrame.SaveAs;
+    if Filename <> '' then
+      if Assigned(FDirectoryFrame) then
+        FDirectoryFrame.OpenPath(RootDirectory, ExtractFilePath(Filename), FDirectoryFrame.ExcludeOtherBranches);
+    Repaint;
+  except
+    on E: Exception do
+      Common.ShowErrorMessage(E.Message);
   end;
-  Filename := FDocumentFrame.SaveAs;
-  if Filename <> '' then
-    FDirectoryFrame.OpenPath(RootDirectory, ExtractFilePath(Filename), FDirectoryFrame.ExcludeOtherBranches);
-  Repaint;
 end;
 
 procedure TMainForm.FileTreeViewDblClickActionExecute(Sender: TObject);
 var
   Filename: string;
 begin
-  Filename := FDirectoryFrame.SelectedFile;
+  Filename := '';
+  if Assigned(FDirectoryFrame) then
+    Filename := FDirectoryFrame.SelectedFile;
   if Filename <> '' then
     FDocumentFrame.Open(Filename);
 end;
