@@ -548,9 +548,8 @@ object AboutDialog: TAboutDialog
       Caption = 
         '<a href="http://www.embarcadero.com/products/rad-studio/">Embarc' +
         'adero RAD Studio XE2</a>, <a href="http://www.delphi-jedi.org/">' +
-        'Jedi Project</a>, <a href="http://www.da-soft.com/download/syned' +
-        'it/unicode-synedit-d2009-d2010-/details.html">Unicode SynEdit</a' +
-        '>,'
+        'Jedi Project</a>, <a href="http://synedit.svn.sourceforge.net/vi' +
+        'ewvc/synedit/">Unicode SynEdit</a>,'
       TabOrder = 2
       OnLinkClick = LinkClick
     end

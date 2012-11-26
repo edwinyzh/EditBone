@@ -23,22 +23,6 @@
   ---------------  Fix 2  ---------------
   This must be commented: SynHighlighterPas, 1231: //ReadDelphiSetting(iVersionTag, tmpCommentAttri,'Comment') and
 
-  ---------------  Fix 3  ---------------
-  Following change must be done (SynEdit, line 2305):
-
-  if (eoAltSetsColumnMode in Options) and (fActiveSelectionMode <> smLine) then
-  begin
-  if ssAlt in Shift then
-  SelectionMode := smColumn
-  else
-  SelectionMode := smNormal;
-  end;
-  =>
-  if (eoAltSetsColumnMode in Options) then
-  SelectionMode := smColumn
-  else
-  SelectionMode := smNormal;
-
   ---------------  Fix 4  ---------------
   Added SynHighlighterWebData: Line 116: TSynWebHtmlVersion - shvUndefined (last)
   138: 'Undefined'
@@ -48,24 +32,6 @@
 
   SynEditHighlighter: function TSynCustomHighlighter.IsIdentChar(AChar: WideChar): Boolean;
    add -> , 'ä', 'Ä', 'ö', 'Ö', 'å', 'Å'
-
-  ---------------  Fix 6  ---------------
-  Comment following from SynEditKeyCmds.pas:
-
-  procedure TSynEditKeyStrokes.ResetDefaults;
-  begin
-    ...
-    //AddKey(ecNormalSelect, ord('N'), [ssCtrl,ssShift]);
-    //AddKey(ecColumnSelect, ord('C'), [ssCtrl,ssShift]);
-    //AddKey(ecLineSelect, ord('L'), [ssCtrl,ssShift]);
-  end;
-
-  ---------------  Fix 7  ---------------
-  procedure TCustomSynEdit.DoCopyToClipboard(const SText: UnicodeString);
-  begin
-    if SText = '' then Exit;
-    SetClipboardText(SText);
-  end;
 }
 unit Document;
 
@@ -91,7 +57,7 @@ uses
   SynHighlighterKix, SynHighlighterAWK, SynHighlighterVrml97, SynHighlighterVBScript,
   SynHighlighterCobol, SynHighlighterM3, SynHighlighterFortran, SynHighlighterEiffel,
   PlatformDefaultStyleActnCtrls, Vcl.ActnPopup, BCPopupMenu, SynMacroRecorder, SynEditKeyCmds,
-  Vcl.Themes;
+  Vcl.Themes, SynHighlighterDWS;
 
 type
   TBCSynEdit = class(TSynEdit)
@@ -101,19 +67,22 @@ type
     FFileDateTime: TDateTime;
     FHtmlVersion: TSynWebHtmlVersion;
     FSynMacroRecorder: TSynMacroRecorder;
+    FEncoding: TEncoding;
     //FModified: Boolean;
   protected
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure DoOnProcessCommand(var Command: TSynEditorCommand;
       var AChar: WideChar; Data: pointer); override;
   public
-    constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
    // procedure Paint; override;
+    procedure LoadFromFile(const FileName: String);
+    procedure SaveToFile(const FileName: String);
     property DocumentName: string read FDocumentName write FDocumentName;
     property FileDateTime: TDateTime read FFileDateTime write FFileDateTime;
     property HtmlVersion: TSynWebHtmlVersion read FHtmlVersion write FHtmlVersion;
     property SynMacroRecorder: TSynMacroRecorder read FSynMacroRecorder write FSynMacroRecorder;
+    property Encoding: TEncoding read FEncoding write FEncoding;
     //property Modified: Boolean read FModified write FModified;
   end;
 
@@ -255,6 +224,7 @@ type
     WholeWordsCheckBox: TBCCheckBox;
     ImageList25: TBCImageList;
     ImageList50: TBCImageList;
+    SynDWSSyn: TSynDWSSyn;
     procedure SynEditChange(Sender: TObject);
     procedure SynEditSplitChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
@@ -315,6 +285,7 @@ type
     function GetFileDateTime(FileName: string): TDateTime;
     function GetActiveDocumentModified: Boolean;
     procedure SetMainHighlighterCombo(SynEdit: TBCSynEdit);
+    procedure SetMainEncodingCombo(SynEdit: TBCSynEdit);
     // function GetTabIndex(Pager: TPageControl; X,Y: Integer): Integer;
     procedure UpdateGutter(SynEdit: TBCSynEdit);
     function GetSelectionModeChecked: Boolean;
@@ -385,6 +356,7 @@ type
     procedure SaveMacro;
     procedure UpdateGutterAndControls;
     procedure SetActiveHighlighter(Value: Integer);
+    procedure SetActiveEncoding(Value: Integer);
     function GetMacroRecordPauseImageIndex: Integer;
     function IsRecordingMacro: Boolean;
     function IsMacroStopped: Boolean;
@@ -416,17 +388,35 @@ const
 
 { TBCSynEdit }
 
-constructor TBCSynEdit.Create(AOwner: TComponent);
-begin
-  inherited;
-  //FColumnMode := False;
-end;
-
 destructor TBCSynEdit.Destroy;
 begin
   if Assigned(FSynMacroRecorder) then
     FSynMacroRecorder.Free;
   inherited;
+end;
+
+procedure TBCSynEdit.LoadFromFile(const FileName: String);
+var
+  LFileStream: TFileStream;
+  LBuffer: TBytes;
+begin
+  FEncoding := nil;
+  LFileStream := TFileStream.Create(FileName, fmOpenRead);
+  try
+    // Read file into buffer
+    SetLength(LBuffer, LFileStream.Size);
+    LFileStream.ReadBuffer(Pointer(LBuffer)^, Length(LBuffer));
+    // Identify encoding
+    TEncoding.GetBufferEncoding(LBuffer, FEncoding);
+  finally
+    LFileStream.Free;
+  end;
+  Lines.LoadFromFile(FileName, FEncoding);
+end;
+
+procedure TBCSynEdit.SaveToFile(const FileName: String);
+begin
+  Lines.SaveToFile(FileName, FEncoding);
 end;
 
 { TDocumentFrame }
@@ -528,13 +518,13 @@ end;
 function TDocumentFrame.FindHtmlVersion(FileName: string): TSynWebHtmlVersion;
 var
   Ln: Integer;
-  SynEdit: TSynEdit;
+  SynEdit: TBCSynEdit;
   S: string;
 begin
   Result := OptionsContainer.HtmlVersion; { Default }
 
   SynEdit := TBCSynEdit.Create(nil);
-  SynEdit.Lines.LoadFromFile(FileName);
+  SynEdit.LoadFromFile(FileName);
 
   try
     try
@@ -899,7 +889,7 @@ begin
 
   if Filename <> '' then
   begin
-    SynEdit.Lines.LoadFromFile(FileName);
+    SynEdit.LoadFromFile(FileName);
     SelectHighLighter(SynEdit, FileName);
   end;
   UpdateGutter(SynEdit);
@@ -907,6 +897,8 @@ begin
   Application.ProcessMessages;
   SynEdit.Visible := True;
   SynEdit.SetFocus;
+  SetMainHighlighterCombo(SynEdit);
+  SetMainEncodingCombo(SynEdit);
   Result := SynEdit;
 end;
 
@@ -1206,6 +1198,7 @@ begin
       CheckHTMLErrors;
       try
         SetMainHighlighterCombo(SynEdit);
+        SetMainEncodingCombo(SynEdit);
         PageControlRepaint;
         SynEdit.SetFocus;
       except
@@ -1223,7 +1216,7 @@ begin
   Rslt := mrNone;
 
   SynEdit := ActiveSynEdit;
-  if Assigned(SynEdit) and SynEdit.Modified then // PageControl.ActivePage.ImageIndex = CHANGED_IMAGEINDEX then
+  if Assigned(SynEdit) and SynEdit.Modified then
   begin
     Rslt := Common.SaveChanges;
     if Rslt = mrYes then
@@ -1243,6 +1236,7 @@ begin
       FNumberOfNewDocument := 0;
   end;
   SetMainHighlighterCombo(ActiveSynEdit);
+  SetMainEncodingCombo(ActiveSynEdit);
   CheckHTMLErrors;
   PageControlRepaint;
 end;
@@ -1350,7 +1344,7 @@ begin
       else
         Exit;
     end;
-    SynEdit.Lines.SaveToFile(SynEdit.DocumentName);
+    SynEdit.SaveToFile(SynEdit.DocumentName);
     SynEdit.UndoList.Clear;
     SynEdit.FileDateTime := GetFileDateTime(SynEdit.DocumentName);
     SynEdit.Modified := False;
@@ -1468,12 +1462,39 @@ end;
 
 procedure TDocumentFrame.SetMainHighlighterCombo(SynEdit: TBCSynEdit);
 begin
-  if Assigned(SynEdit)  then
+  if Assigned(SynEdit) then
   begin
     if Assigned(SynEdit.Highlighter) then
       MainForm.HighlighterComboIndex := SynEdit.Highlighter.Tag
     else
       MainForm.HighlighterComboIndex := 50; { text }
+  end;
+end;
+
+
+procedure TDocumentFrame.SetMainEncodingCombo(SynEdit: TBCSynEdit);
+begin
+  if Assigned(SynEdit) then
+  begin
+    if SynEdit.Encoding = TEncoding.ASCII then
+      MainForm.EncodingComboIndex := 0
+    else
+    if SynEdit.Encoding = TEncoding.ANSI then
+      MainForm.EncodingComboIndex := 1
+    else
+    if SynEdit.Encoding = TEncoding.BigEndianUnicode then
+      MainForm.EncodingComboIndex := 2
+    else
+    if SynEdit.Encoding = TEncoding.Unicode then
+      MainForm.EncodingComboIndex := 3
+    else
+    if SynEdit.Encoding = TEncoding.UTF7 then
+      MainForm.EncodingComboIndex := 4
+    else
+    if SynEdit.Encoding = TEncoding.UTF8 then
+      MainForm.EncodingComboIndex := 5
+    else
+      MainForm.EncodingComboIndex := 1; { ANSI }
   end;
 end;
 
@@ -1487,6 +1508,7 @@ begin
     SynWebEngine.Options.HtmlVersion := SynEdit.HtmlVersion;
     //CheckFileDateTimes; { compare can change file datetime }
     SetMainHighlighterCombo(SynEdit);
+    SetMainEncodingCombo(SynEdit);
     //SynEdit.Repaint;
   end;
   PageControlRepaint;
@@ -1926,6 +1948,7 @@ begin
     begin
       PageControl.ActivePageIndex := i;
       SetMainHighlighterCombo(ActiveSynEdit);
+      SetMainEncodingCombo(ActiveSynEdit);
     end;
     Result := FileNames.Count > 0;
   finally
@@ -2721,7 +2744,7 @@ begin
   SynEdit := GetSynEdit(PageControl.Pages[Page]);
   if Assigned(SynEdit) then
   begin
-    SynEdit.Lines.LoadFromFile(SynEdit.DocumentName);
+    SynEdit.LoadFromFile(SynEdit.DocumentName);
     SynEdit.FileDateTime := GetFileDateTime(SynEdit.DocumentName);
   end;
 end;
@@ -3049,6 +3072,25 @@ begin
     end;
 end;
 
+procedure TDocumentFrame.SetActiveEncoding(Value: Integer);
+var
+  SynEdit: TBCSynEdit;
+begin
+  SynEdit := ActiveSynEdit;
+  if Assigned(SynEdit) then
+  with SynEdit do
+  begin
+    case Value of
+      0: Encoding := TEncoding.ASCII;
+      1: Encoding := TEncoding.ANSI;
+      2: Encoding := TEncoding.BigEndianUnicode;
+      3: Encoding := TEncoding.Unicode;
+      4: Encoding := TEncoding.UTF7;
+      5: Encoding := TEncoding.UTF8;
+    end;
+  end;
+end;
+
 procedure TDocumentFrame.SetActiveHighlighter(Value: Integer);
 var
   SynEdit: TBCSynEdit;
@@ -3246,7 +3288,6 @@ begin
       OptionsContainer.AssignTo(SynEdit);
       if Filename <> '' then
       begin
-        //SynEdit.Lines.LoadFromFile(FileName);
         SynEdit.Text := ActiveSynEdit.Text;
         SelectHighLighter(SynEdit, FileName);
       end;

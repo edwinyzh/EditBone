@@ -156,8 +156,13 @@ begin
 end;
 
 function TDirectoryFrame.GetExcludeOtherBranches: Boolean;
+var
+  FileTreeView: TBCFileTreeView;
 begin
-  Result := ActiveFileTreeView.ExcludeOtherBranches;
+  Result := False;
+  FileTreeView := ActiveFileTreeView;
+  if Assigned(FileTreeView) then
+    Result := FileTreeView.ExcludeOtherBranches;
 end;
 
 procedure TDirectoryFrame.WriteIniFile;
@@ -298,8 +303,13 @@ begin
 end;
 
 function TDirectoryFrame.GetRootDirectory: string;
+var
+  FileTreeView: TBCFileTreeView;
 begin
-  Result := ActiveFileTreeView.RootDirectory;
+  Result := '';
+  FileTreeView := ActiveFileTreeView;
+  if Assigned(FileTreeView) then
+    Result := FileTreeView.RootDirectory;
 end;
 
 procedure TDirectoryFrame.DirectoryRefreshActionExecute(Sender: TObject);
@@ -313,9 +323,13 @@ begin
 end;
 
 procedure TDirectoryFrame.OpenPath(RootDirectory: string; LastPath: string; ExcludeOtherBranches: Boolean);
+var
+  FileTreeView: TBCFileTreeView;
 begin
   DriveComboBox.Drive := ExtractFileDir(RootDirectory)[1];
-  ActiveFileTreeView.OpenPath(RootDirectory, LastPath, ExcludeOtherBranches);
+  FileTreeView := ActiveFileTreeView;
+  if Assigned(FileTreeView) then
+    FileTreeView.OpenPath(RootDirectory, LastPath, ExcludeOtherBranches);
 end;
 
 procedure TDirectoryFrame.DriveComboChange(Sender: TObject);

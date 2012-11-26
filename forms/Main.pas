@@ -126,7 +126,6 @@ type
     SelectforCompareMenuItem: TMenuItem;
     HelpCheckForUpdatesMenuAction: TAction;
     MainMenuPanel: TPanel;
-    HighlighterComboBox: TBCComboBox;
     ViewHighlighterSelectionAction: TAction;
     StyleWindowsAction: TAction;
     StyleAmakritsAction: TAction;
@@ -156,6 +155,9 @@ type
     ToolBarPanel: TPanel;
     ViewSplitAction: TAction;
     ActionToolBar: TActionToolBar;
+    HighlighterComboBox: TBCComboBox;
+    EncodingComboBox: TBCComboBox;
+    ViewEncodingSelectionAction: TAction;
     procedure FileNewActionExecute(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
 //    procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
@@ -267,6 +269,8 @@ type
     procedure StyleTurquoiseGrayActionExecute(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure ViewSplitActionExecute(Sender: TObject);
+    procedure ViewEncodingSelectionActionExecute(Sender: TObject);
+    procedure EncodingComboBoxChange(Sender: TObject);
   private
     { Private declarations }
     FOnStartUp: Boolean;
@@ -280,11 +284,13 @@ type
     procedure ReadIniFile;
     procedure WriteIniFile;
     procedure SetHighlighterComboIndex(Value: Integer);
+    procedure SetEncodingComboIndex(Value: Integer);
     procedure WMAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
     procedure SetStyleName(Value: string);
   public
     { Public declarations }
     property HighlighterComboIndex: Integer write SetHighlighterComboIndex;
+    property EncodingComboIndex: Integer write SetEncodingComboIndex;
     property StyleName: string write SetStyleName;
   end;
 
@@ -408,6 +414,7 @@ begin
     ActionToolBar.Visible := ReadBool('Preferences', 'ShowToolBar', True);
     DirectoryPanel.Visible := ReadBool('Preferences', 'ShowDirectory', True);
     HighlighterComboBox.Visible := ReadBool('Preferences', 'ShowHighlighterSelection', True);
+    EncodingComboBox.Visible := ReadBool('Preferences', 'ShowEncodingSelection', False);
     VerticalSplitter.Visible := DirectoryPanel.Visible;
     ViewWordWrapAction.Checked := ReadBool('Preferences', 'EnableWordWrap', False);
     if ViewWordWrapAction.Checked then
@@ -451,6 +458,7 @@ begin
     WriteBool('Preferences', 'ShowToolBar', ActionToolBar.Visible);
     WriteBool('Preferences', 'ShowDirectory', DirectoryPanel.Visible);
     WriteBool('Preferences', 'ShowHighlighterSelection', HighlighterComboBox.Visible);
+    WriteBool('Preferences', 'ShowEncodingSelection', EncodingComboBox.Visible);
     WriteBool('Preferences', 'EnableWordWrap', ViewWordWrapAction.Checked);
     WriteBool('Preferences', 'EnableLineNumbers', ViewLineNumbersAction.Checked);
     WriteBool('Preferences', 'EnableSpecialChars', ViewSpecialCharsAction.Checked);
@@ -464,6 +472,11 @@ begin
   finally
     Free;
   end;
+end;
+
+procedure TMainForm.ViewEncodingSelectionActionExecute(Sender: TObject);
+begin
+  EncodingComboBox.Visible := not EncodingComboBox.Visible;
 end;
 
 procedure TMainForm.AppInstancesCmdLineReceived(Sender: TObject;
@@ -507,8 +520,10 @@ begin
   ViewDirectoryAction.Checked := DirectoryPanel.Visible;
   HorizontalSplitter.Visible := OutputPanel.Visible;
 
-  HighlighterComboBox.Visible := ActiveDocumentFound;
+  //HighlighterComboBox.Visible := ViewHighlighterSelectionAction.Visible and ActiveDocumentFound;
+  //EncodingComboBox.Visible := ViewEncodingSelectionAction.Visible and ActiveDocumentFound;
   ViewHighlighterSelectionAction.Checked := HighlighterComboBox.Visible;
+  ViewEncodingSelectionAction.Checked := EncodingComboBox.Visible;
 
   if FDocumentFrame.ActiveDocumentName <> '' then
     Caption := Format(MAIN_CAPTION + MAIN_CAPTION_DOCUMENT, [FDocumentFrame.ActiveDocumentName])
@@ -674,6 +689,7 @@ begin
   if Assigned(FDirectoryFrame) then
     FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
   FDocumentFrame.Save;
+  Repaint;
 end;
 
 procedure TMainForm.FileSaveAsActionExecute(Sender: TObject);
@@ -691,7 +707,8 @@ begin
     Filename := FDocumentFrame.SaveAs;
     if Filename <> '' then
       if Assigned(FDirectoryFrame) then
-        FDirectoryFrame.OpenPath(RootDirectory, ExtractFilePath(Filename), FDirectoryFrame.ExcludeOtherBranches);
+        if FDirectoryFrame.IsAnyDirectory then
+          FDirectoryFrame.OpenPath(RootDirectory, ExtractFilePath(Filename), FDirectoryFrame.ExcludeOtherBranches);
     Repaint;
   except
     on E: Exception do
@@ -1159,6 +1176,12 @@ begin
   FDocumentFrame.Undo;
 end;
 
+procedure TMainForm.EncodingComboBoxChange(Sender: TObject);
+begin
+  if EncodingComboBox.ItemIndex <> -1 then
+    FDocumentFrame.SetActiveEncoding(EncodingComboBox.ItemIndex);
+end;
+
 procedure TMainForm.EditCutActionExecute(Sender: TObject);
 begin
   FDocumentFrame.Cut;
@@ -1292,7 +1315,7 @@ var
   FName: string;
   Ln, Ch, ChPos: LongWord;
   Found: Boolean;
-  SynEdit: TSynEdit;
+  SynEdit: TBCSynEdit;
   Root: PVirtualNode;
 
   function IsDirectory(dWin32FD: TWin32FindData): Boolean;
@@ -1324,8 +1347,8 @@ begin
           if SupportedFileExt(UpperCase(ExtractFileExt(FName))) then
             if (FileTypeText = '*.*') or (Pos(UpperCase(ExtractFileExt(FName)), UpperCase(FileTypeText)) <> 0) then
             try
-              SynEdit := TSynEdit.Create(nil);
-              SynEdit.Lines.LoadFromFile(AddSlash(String(FolderText)) + FName);
+              SynEdit := TBCSynEdit.Create(nil);
+              SynEdit.LoadFromFile(AddSlash(String(FolderText)) + FName);
               try
                 Root := nil;
                 for Ln := 0 to SynEdit.Lines.Count - 1 do
@@ -1375,7 +1398,14 @@ begin
     HighlighterComboBox.SetFocus; { get the combo unselected }
   SynEdit := FDocumentFrame.ActiveSynEdit;
   if Assigned(SynEdit) then
-    SynEdit.SetFocus
+    if SynEdit.CanFocus then
+      SynEdit.SetFocus
+end;
+
+procedure TMainForm.SetEncodingComboIndex(Value: Integer);
+begin
+  EncodingComboBox.ItemIndex := Value;
+  EncodingComboBox.Repaint;
 end;
 
 procedure TMainForm.StyleAuricActionExecute(Sender: TObject);

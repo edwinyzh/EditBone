@@ -150,6 +150,29 @@ object MainForm: TMainForm
       DeniedKeyStrokes = True
       DropDownFixedWidth = 0
     end
+    object EncodingComboBox: TBCComboBox
+      Left = 772
+      Top = 2
+      Width = 130
+      Height = 21
+      Align = alRight
+      DropDownCount = 57
+      ItemHeight = 13
+      ReadOnly = True
+      TabOrder = 2
+      Text = '<encoding>'
+      OnChange = EncodingComboBoxChange
+      Items.Strings = (
+        'ASCII'
+        'ANSI'
+        'Big Endian Unicode'
+        'Unicode '
+        'UTF-7'
+        'UTF-8')
+      EditColor = clWindow
+      DeniedKeyStrokes = True
+      DropDownFixedWidth = 0
+    end
   end
   object ToolBarPanel: TPanel
     Left = 0
@@ -553,6 +576,9 @@ object MainForm: TMainForm
               end
               item
                 Action = ViewHighlighterSelectionAction
+              end
+              item
+                Action = ViewEncodingSelectionAction
               end
               item
                 Caption = '-'
@@ -1257,10 +1283,16 @@ object MainForm: TMainForm
     end
     object ViewHighlighterSelectionAction: TAction
       Category = '&View'
-      Caption = '&Highlighter Selection'
+      Caption = '&Highlighter'
       Checked = True
       Hint = 'Show or hide the highlighter selection'
       OnExecute = ViewHighlighterSelectionActionExecute
+    end
+    object ViewEncodingSelectionAction: TAction
+      Category = '&View'
+      Caption = 'Encoding'
+      Hint = 'Show or hide the encoding selection'
+      OnExecute = ViewEncodingSelectionActionExecute
     end
     object ViewWordWrapAction: TAction
       Category = '&View'
@@ -1720,7 +1752,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C01013E005C01F00410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01013E005C01000510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000000001000001002000000000000000
       0100000000000000000000000000000000000000000000000000BD4C00000000
       0000000000000000000084240500842405008424050084240500842405000000
