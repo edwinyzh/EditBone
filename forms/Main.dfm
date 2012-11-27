@@ -168,7 +168,8 @@ object MainForm: TMainForm
         'Big Endian Unicode'
         'Unicode '
         'UTF-7'
-        'UTF-8')
+        'UTF-8'
+        'UTF-8 Without BOM')
       EditColor = clWindow
       DeniedKeyStrokes = True
       DropDownFixedWidth = 0
@@ -579,6 +580,7 @@ object MainForm: TMainForm
               end
               item
                 Action = ViewEncodingSelectionAction
+                Caption = 'Encodin&g'
               end
               item
                 Caption = '-'
@@ -1752,7 +1754,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C01013E005C01000510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01013E005C01040510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000000001000001002000000000000000
       0100000000000000000000000000000000000000000000000000BD4C00000000
       0000000000000000000084240500842405008424050084240500842405000000

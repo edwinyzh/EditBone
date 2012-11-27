@@ -60,6 +60,11 @@ uses
   Vcl.Themes, SynHighlighterDWS;
 
 type
+  TUTF8EncodingWithoutBOM = class(TUTF8Encoding)
+  public
+    function GetPreamble: TBytes; override;
+  end;
+
   TBCSynEdit = class(TSynEdit)
   private
     //FColumnMode: Boolean;
@@ -381,10 +386,33 @@ implementation
 uses
   PrintPreview, Replace, ConfirmReplace, Common, Lib, Preferences, StyleHooks,
   SynTokenMatch, SynHighlighterWebMisc, Compare, System.Types, Winapi.ShellAPI, System.WideStrings,
-  Main, BigIni, Vcl.GraphUtil;
+  Main, BigIni, Vcl.GraphUtil, SynUnicode;
 
 const
   DEFAULT_FILENAME = 'Document';
+
+var
+  FUTF8EncodingWithoutBOM: TEncoding;
+
+{ TUTF8EncodingWithoutBOM }
+
+function TUTF8EncodingWithoutBOM.GetPreamble: TBytes;
+begin
+  SetLength(Result, 0);
+end;
+
+function GetUTF8WithoutBOM: TEncoding;
+var
+  LEncoding: TEncoding;
+begin
+  if FUTF8EncodingWithoutBOM = nil then
+  begin
+    LEncoding := TUTF8EncodingWithoutBOM.Create;
+    if InterlockedCompareExchangePointer(Pointer(FUTF8EncodingWithoutBOM), LEncoding, nil) <> nil then
+      LEncoding.Free;
+  end;
+  Result := FUTF8EncodingWithoutBOM;
+end;
 
 { TBCSynEdit }
 
@@ -399,15 +427,26 @@ procedure TBCSynEdit.LoadFromFile(const FileName: String);
 var
   LFileStream: TFileStream;
   LBuffer: TBytes;
+  WithBom: Boolean;
 begin
   FEncoding := nil;
   LFileStream := TFileStream.Create(FileName, fmOpenRead);
   try
-    // Read file into buffer
-    SetLength(LBuffer, LFileStream.Size);
-    LFileStream.ReadBuffer(Pointer(LBuffer)^, Length(LBuffer));
     // Identify encoding
-    TEncoding.GetBufferEncoding(LBuffer, FEncoding);
+    if IsUTF8(LFileStream, WithBom) then
+    begin
+      if WithBom then
+        FEncoding := TEncoding.UTF8
+      else
+        FEncoding := GetUTF8WithoutBOM;
+    end
+    else
+    begin
+      // Read file into buffer
+      SetLength(LBuffer, LFileStream.Size);
+      LFileStream.ReadBuffer(Pointer(LBuffer)^, Length(LBuffer));
+      TEncoding.GetBufferEncoding(LBuffer, FEncoding);
+    end;
   finally
     LFileStream.Free;
   end;
@@ -1493,6 +1532,9 @@ begin
     else
     if SynEdit.Encoding = TEncoding.UTF8 then
       MainForm.EncodingComboIndex := 5
+    else
+    if SynEdit.Encoding = GetUTF8WithoutBOM then
+      MainForm.EncodingComboIndex := 6
     else
       MainForm.EncodingComboIndex := 1; { ANSI }
   end;
@@ -3087,6 +3129,7 @@ begin
       3: Encoding := TEncoding.Unicode;
       4: Encoding := TEncoding.UTF7;
       5: Encoding := TEncoding.UTF8;
+      6: Encoding := GetUTF8WithoutBOM;
     end;
   end;
 end;
