@@ -78,7 +78,7 @@ type
   end;
 
   TFileTypes = (ftHC11, ftAWK, ftBaan, ftCS, ftCPP, ftCAC, ftCache, ftCss, ftCobol, ftIdl,
-    ftCPM, ftDOT, ftADSP21xx, ftEiffel, ftFortran, ftFoxpro, ftGalaxy, ftDml, ftGWScript, ftHaskell,
+    ftCPM, ftDOT, ftADSP21xx, ftDWScript, ftEiffel, ftFortran, ftFoxpro, ftGalaxy, ftDml, ftGWScript, ftHaskell,
     ftHP48, ftHTML, ftIni, ftInno, ftJava, ftJScript, ftKix, ftLDR, ftModelica, ftM3,
     ftMsg, ftBat, ftPas, ftPerl, ftPHP, ftProgress, ftPython, ftRC, ftRuby, ftSDD,
     ftSQL, ftSML, ftST, ftTclTk, ftTeX, ftText, ftUNIXShellScript, ftVB, ftVBScript, ftVrml97,
@@ -208,123 +208,126 @@ begin
   else
   if FileType = ftADSP21xx then
     Result := FFileTypes.Strings[12]
-  else
-  if FileType = ftEiffel then
+   else
+  if FileType = ftDWScript then
     Result := FFileTypes.Strings[13]
   else
-  if FileType = ftFortran then
+  if FileType = ftEiffel then
     Result := FFileTypes.Strings[14]
   else
-  if FileType = ftFoxpro then
+  if FileType = ftFortran then
     Result := FFileTypes.Strings[15]
   else
-  if FileType = ftGalaxy then
+  if FileType = ftFoxpro then
     Result := FFileTypes.Strings[16]
   else
-  if FileType = ftDml then
+  if FileType = ftGalaxy then
     Result := FFileTypes.Strings[17]
   else
-  if FileType = ftGWScript then
+  if FileType = ftDml then
     Result := FFileTypes.Strings[18]
   else
-  if FileType = ftHaskell then
+  if FileType = ftGWScript then
     Result := FFileTypes.Strings[19]
   else
-  if FileType = ftHP48 then
+  if FileType = ftHaskell then
     Result := FFileTypes.Strings[20]
   else
-  if FileType = ftHTML then
+  if FileType = ftHP48 then
     Result := FFileTypes.Strings[21]
   else
-  if FileType = ftIni then
+  if FileType = ftHTML then
     Result := FFileTypes.Strings[22]
   else
-  if FileType = ftInno then
+  if FileType = ftIni then
     Result := FFileTypes.Strings[23]
   else
-  if FileType = ftJava then
+  if FileType = ftInno then
     Result := FFileTypes.Strings[24]
   else
-  if FileType = ftJScript then
+  if FileType = ftJava then
     Result := FFileTypes.Strings[25]
   else
-  if FileType = ftKix then
+  if FileType = ftJScript then
     Result := FFileTypes.Strings[26]
   else
-  if FileType = ftLDR then
+  if FileType = ftKix then
     Result := FFileTypes.Strings[27]
   else
-  if FileType = ftModelica then
+  if FileType = ftLDR then
     Result := FFileTypes.Strings[28]
   else
-  if FileType = ftM3 then
+  if FileType = ftModelica then
     Result := FFileTypes.Strings[29]
   else
-  if FileType = ftMsg then
+  if FileType = ftM3 then
     Result := FFileTypes.Strings[30]
   else
-  if FileType = ftBat then
+  if FileType = ftMsg then
     Result := FFileTypes.Strings[31]
   else
-  if FileType = ftPas then
+  if FileType = ftBat then
     Result := FFileTypes.Strings[32]
   else
-  if FileType = ftPerl then
+  if FileType = ftPas then
     Result := FFileTypes.Strings[33]
   else
-  if FileType = ftPHP then
+  if FileType = ftPerl then
     Result := FFileTypes.Strings[34]
   else
-  if FileType = ftProgress then
+  if FileType = ftPHP then
     Result := FFileTypes.Strings[35]
   else
-  if FileType = ftPython then
+  if FileType = ftProgress then
     Result := FFileTypes.Strings[36]
   else
-  if FileType = ftRC then
+  if FileType = ftPython then
     Result := FFileTypes.Strings[37]
   else
-  if FileType = ftRuby then
+  if FileType = ftRC then
     Result := FFileTypes.Strings[38]
   else
-  if FileType = ftSDD then
+  if FileType = ftRuby then
     Result := FFileTypes.Strings[39]
   else
-  if FileType = ftSQL then
+  if FileType = ftSDD then
     Result := FFileTypes.Strings[40]
   else
-  if FileType = ftSML then
+  if FileType = ftSQL then
     Result := FFileTypes.Strings[41]
   else
-  if FileType = ftST then
+  if FileType = ftSML then
     Result := FFileTypes.Strings[42]
   else
-  if FileType = ftTclTk then
+  if FileType = ftST then
     Result := FFileTypes.Strings[43]
   else
-  if FileType = ftTeX then
+  if FileType = ftTclTk then
     Result := FFileTypes.Strings[44]
   else
-  if FileType = ftText then
+  if FileType = ftTeX then
     Result := FFileTypes.Strings[45]
   else
-  if FileType = ftUNIXShellScript then
+  if FileType = ftText then
     Result := FFileTypes.Strings[46]
   else
-  if FileType = ftVB then
+  if FileType = ftUNIXShellScript then
     Result := FFileTypes.Strings[47]
   else
-  if FileType = ftVBScript then
+  if FileType = ftVB then
     Result := FFileTypes.Strings[48]
   else
-  if FileType = ftVrml97 then
+  if FileType = ftVBScript then
     Result := FFileTypes.Strings[49]
   else
-  if FileType = ftAsm then
+  if FileType = ftVrml97 then
     Result := FFileTypes.Strings[50]
   else
+  if FileType = ftAsm then
+    Result := FFileTypes.Strings[51]
+  else
   if FileType = ftXML then
-    Result := FFileTypes.Strings[51];
+    Result := FFileTypes.Strings[52];
 
   Result := UpperCase(Common.StringBetween(Result, '(', ')'));
 end;
@@ -357,6 +360,7 @@ begin
   FFileTypes.Add('CPM Reports (*.rdf;*.rif;*.rmf;*.rxf)');
   FFileTypes.Add('DOT Graph Drawing Description (*.dot)');
   FFileTypes.Add('DSP Files (*.dsp;*.inc)');
+  FFileTypes.Add('DWScript Files (*.dws;*.pas;*.inc)');
   FFileTypes.Add('Eiffel (*.e;*.ace)');
   FFileTypes.Add('Fortran Files (*.for)');
   FFileTypes.Add('Foxpro Files (*.prg)');

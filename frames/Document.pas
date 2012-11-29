@@ -716,6 +716,8 @@ begin
       Highlighter := SynDOTSyn
     else if Pos(FileExt, OptionsContainer.FileType(ftADSP21xx)) <> 0 then
       Highlighter := SynADSP21xxSyn
+    else if Pos(FileExt, OptionsContainer.FileType(ftDWScript)) <> 0 then
+      Highlighter := SynDWSSyn
     else if Pos(FileExt, OptionsContainer.FileType(ftEiffel)) <> 0 then
       Highlighter := SynEiffelSyn
     else if Pos(FileExt, OptionsContainer.FileType(ftFortran)) <> 0 then
@@ -1009,11 +1011,11 @@ begin
 
     if Assigned(SynEdit.Highlighter) and ( (SynEdit.Highlighter.Tag = 3) or (SynEdit.Highlighter.Tag = 4) or (SynEdit.Highlighter.Tag = 5) or
        (SynEdit.Highlighter.Tag = 6) or (SynEdit.Highlighter.Tag = 7) or (SynEdit.Highlighter.Tag = 8) or
-       (SynEdit.Highlighter.Tag = 36) or (SynEdit.Highlighter.Tag = 37) or (SynEdit.Highlighter.Tag = 38) ) then
+       (SynEdit.Highlighter.Tag = 37) or (SynEdit.Highlighter.Tag = 38) or (SynEdit.Highlighter.Tag = 39) ) then
     begin
       case SynEdit.Highlighter.Tag of
-        3, 6, 36: SynEdit.Color := clNavy;
-        5, 8, 38: SynEdit.Color := clBlack;
+        3, 6, 37: SynEdit.Color := clNavy;
+        5, 8, 39: SynEdit.Color := clBlack;
       end;
       if SynEdit.Color = clBlack then
         if (TStyleManager.ActiveStyle.Name = STYLENAME_AMAKRITS) or
@@ -1506,7 +1508,7 @@ begin
     if Assigned(SynEdit.Highlighter) then
       MainForm.HighlighterComboIndex := SynEdit.Highlighter.Tag
     else
-      MainForm.HighlighterComboIndex := 50; { text }
+      MainForm.HighlighterComboIndex := 51; { text }
   end;
 end;
 
@@ -1953,6 +1955,9 @@ begin
     else
     begin
       ReadSectionValues('FileTypes', FileTypes);
+      { todo: temprary fix }
+      if Pos('DWScript', FileTypes.Strings[13]) = 0 then
+        FileTypes.Insert(13, '13=DWScript Files (*.dws;*.pas;*.inc)');
       for i := 0 to FileTypes.Count - 1 do
         OptionsContainer.FileTypes.Strings[i] := System.Copy
           (FileTypes.Strings[i], Pos('=', FileTypes.Strings[i]) + 1, Length
@@ -3187,15 +3192,16 @@ begin
       14: Highlighter := SynCPMSyn;
       15: Highlighter := SynDOTSyn;
       16: Highlighter := SynADSP21xxSyn;
-      17: Highlighter := SynEiffelSyn;
-      18: Highlighter := SynFortranSyn;
-      19: Highlighter := SynFoxproSyn;
-      20: Highlighter := SynGalaxySyn;
-      21: Highlighter := SynDmlSyn;
-      22: Highlighter := SynGWScriptSyn;
-      23: Highlighter := SynHaskellSyn;
-      24: Highlighter := SynHP48Syn;
-      25: begin
+      17: Highlighter := SynDWSSyn;
+      18: Highlighter := SynEiffelSyn;
+      19: Highlighter := SynFortranSyn;
+      20: Highlighter := SynFoxproSyn;
+      21: Highlighter := SynGalaxySyn;
+      22: Highlighter := SynDmlSyn;
+      23: Highlighter := SynGWScriptSyn;
+      24: Highlighter := SynHaskellSyn;
+      25: Highlighter := SynHP48Syn;
+      26: begin
             Highlighter := SynWebHtmlSyn;
             OnPaintTransient := SynEditHTMLPaintTransient;
             OnChange := SynEditHTMLOnChange;
@@ -3203,52 +3209,52 @@ begin
             HtmlVersion := OptionsContainer.HTMLVersion;
             SynWebEngine.Options.HtmlVersion := HtmlVersion;
           end;
-      26: Highlighter := SynIniSyn;
-      27: Highlighter := SynInnoSyn;
-      28: Highlighter := SynJavaSyn;
-      29: Highlighter := SynJScriptSyn;
-      30: Highlighter := SynKixSyn;
-      31: Highlighter := SynLDRSyn;
-      32: Highlighter := SynModelicaSyn;
-      33: Highlighter := SynM3Syn;
-      34: Highlighter := SynMsgSyn;
-      35: Highlighter := SynBatSyn;
-      36: begin
+      27: Highlighter := SynIniSyn;
+      28: Highlighter := SynInnoSyn;
+      29: Highlighter := SynJavaSyn;
+      30: Highlighter := SynJScriptSyn;
+      31: Highlighter := SynKixSyn;
+      32: Highlighter := SynLDRSyn;
+      33: Highlighter := SynModelicaSyn;
+      34: Highlighter := SynM3Syn;
+      35: Highlighter := SynMsgSyn;
+      36: Highlighter := SynBatSyn;
+      37: begin
             Highlighter := ClassicPasSyn;
             Color := clNavy;
             ActiveLineColor := clBlue;
             OnPaintTransient := SynEditPASPaintTransient;
           end;
-      37: begin
+      38: begin
             Highlighter := DefaultPasSyn;
             ActiveLineColor := $E6FFFA;
           end;
-      38: begin
+      39: begin
             Highlighter := TwilightPasSyn;
             Color := clBlack;
             ActiveLineColor := clGray;
             OnPaintTransient := SynEditPASPaintTransient;
           end;
-      39: Highlighter := SynPerlSyn;
-      40: Highlighter := SynProgressSyn;
-      41: Highlighter := SynPythonSyn;
-      42: Highlighter := SynRCSyn;
-      43: Highlighter := SynRubySyn;
-      44: Highlighter := SynSDDSyn;
-      45: begin
+      40: Highlighter := SynPerlSyn;
+      41: Highlighter := SynProgressSyn;
+      42: Highlighter := SynPythonSyn;
+      43: Highlighter := SynRCSyn;
+      44: Highlighter := SynRubySyn;
+      45: Highlighter := SynSDDSyn;
+      46: begin
             Highlighter := SynSQLSyn;
             SynSQLSyn.SQLDialect := OptionsContainer.SQLDialect;
           end;
-      46: Highlighter := SynSMLSyn;
-      47: Highlighter := SynSTSyn;
-      48: Highlighter := SynTclTkSyn;
-      49: Highlighter := SynTeXSyn;
-      50: Highlighter := SynUNIXShellScriptSyn;
-      51: Highlighter := SynVBSyn;
-      52: Highlighter := SynVBScriptSyn;
-      53: Highlighter := SynVrml97Syn;
-      54: Highlighter := SynAsmSyn;
-      55: Highlighter := SynWebXmlSyn;
+      47: Highlighter := SynSMLSyn;
+      48: Highlighter := SynSTSyn;
+      49: Highlighter := SynTclTkSyn;
+      50: Highlighter := SynTeXSyn;
+      52: Highlighter := SynUNIXShellScriptSyn;
+      53: Highlighter := SynVBSyn;
+      54: Highlighter := SynVBScriptSyn;
+      55: Highlighter := SynVrml97Syn;
+      56: Highlighter := SynAsmSyn;
+      57: Highlighter := SynWebXmlSyn;
     end;
   end;
 end;
