@@ -3,7 +3,7 @@
 			<ProjectGuid>{E3B818CC-5E75-4FBB-9706-6F94F69C4127}</ProjectGuid>
 			<ProjectVersion>13.4</ProjectVersion>
 			<MainSource>EditBone.dpr</MainSource>
-			<Config Condition="'$(Config)'==''">Debug</Config>
+			<Config Condition="'$(Config)'==''">Release</Config>
 			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
 			<Base>True</Base>
 			<AppType>Application</AppType>
@@ -82,9 +82,10 @@
 			<DCC_DebugInformation>false</DCC_DebugInformation>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+			<VerInfo_Release>1</VerInfo_Release>
 			<VerInfo_MinorVer>1</VerInfo_MinorVer>
 			<VerInfo_MajorVer>4</VerInfo_MajorVer>
-			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=4.1.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=4.1.1.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
 			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
 			<VerInfo_Locale>1033</VerInfo_Locale>
 		</PropertyGroup>
