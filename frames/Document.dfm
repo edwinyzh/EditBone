@@ -1,16 +1,18 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 842
-  Height = 636
+  Width = 792
+  Height = 579
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
   TabOrder = 0
+  ExplicitWidth = 451
+  ExplicitHeight = 304
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 842
+    Width = 792
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -18,6 +20,7 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 0
     Visible = False
+    ExplicitWidth = 451
     object SearchPanel1: TPanel
       Left = 0
       Top = 0
@@ -440,8 +443,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 842
-    Height = 615
+    Width = 792
+    Height = 558
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -449,11 +452,13 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentColor = True
     TabOrder = 1
+    ExplicitWidth = 451
+    ExplicitHeight = 283
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 842
-      Height = 613
+      Width = 792
+      Height = 556
       Align = alClient
       DoubleBuffered = False
       Font.Charset = DEFAULT_CHARSET
@@ -467,13 +472,15 @@ object DocumentFrame: TDocumentFrame
       OnChange = PageControlChange
       TabDragDrop = True
       HoldShiftToDragDrop = False
+      ExplicitWidth = 451
+      ExplicitHeight = 281
     end
   end
   object ImageList: TBCImageList
     Left = 36
     Top = 342
     Bitmap = {
-      494C010106003800C00410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106003800DC0410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -763,8 +770,8 @@ object DocumentFrame: TDocumentFrame
     KeyAttri.Style = []
     NumberAttri.Foreground = clRed
     StringAttri.Foreground = clPurple
-    Left = 614
-    Top = 136
+    Left = 606
+    Top = 358
   end
   object SynVBSyn: TSynVBSyn
     Tag = 53
@@ -773,19 +780,22 @@ object DocumentFrame: TDocumentFrame
     KeyAttri.Style = []
     NumberAttri.Foreground = clRed
     StringAttri.Foreground = clPurple
-    Left = 536
-    Top = 504
+    Left = 606
+    Top = 200
   end
   object SynUNIXShellScriptSyn: TSynUNIXShellScriptSyn
     Tag = 52
     KeyAttri.Style = []
-    Left = 536
-    Top = 450
+    Left = 606
+    Top = 146
   end
   object SynTeXSyn: TSynTeXSyn
     Tag = 50
-    Left = 536
-    Top = 346
+    TextAttri.Foreground = clNone
+    ControlSequenceAttri.Background = clNone
+    SpaceAttri.Background = clNone
+    Left = 606
+    Top = 34
   end
   object SynTclTkSyn: TSynTclTkSyn
     Tag = 49
@@ -802,8 +812,8 @@ object DocumentFrame: TDocumentFrame
     PathAttri.Foreground = clNone
     VariableAttri.Background = clNone
     VariableAttri.Foreground = clNone
-    Left = 536
-    Top = 296
+    Left = 514
+    Top = 518
   end
   object SynSQLSyn: TSynSQLSyn
     Tag = 46
@@ -826,21 +836,21 @@ object DocumentFrame: TDocumentFrame
     StringAttri.Foreground = clPurple
     TableNameAttri.Foreground = clOlive
     VariableAttri.Foreground = clNavy
-    Left = 536
-    Top = 138
+    Left = 514
+    Top = 358
   end
   object SynRubySyn: TSynRubySyn
     Tag = 44
-    Left = 536
-    Top = 36
+    Left = 514
+    Top = 256
   end
   object SynPerlSyn: TSynPerlSyn
     Tag = 40
     CommentAttri.Foreground = clGreen
     KeyAttri.Style = []
     NumberAttri.Foreground = clRed
-    Left = 434
-    Top = 342
+    Left = 514
+    Top = 34
   end
   object ClassicPasSyn: TSynPasSyn
     Tag = 37
@@ -860,8 +870,8 @@ object DocumentFrame: TDocumentFrame
     CharAttri.Foreground = clAqua
     SymbolAttri.Foreground = clLime
     PackageSource = False
-    Left = 434
-    Top = 238
+    Left = 432
+    Top = 410
   end
   object SynBatSyn: TSynBatSyn
     Tag = 36
@@ -869,8 +879,8 @@ object DocumentFrame: TDocumentFrame
     KeyAttri.Foreground = clBlue
     KeyAttri.Style = []
     NumberAttri.Foreground = clRed
-    Left = 434
-    Top = 186
+    Left = 432
+    Top = 358
   end
   object SynJScriptSyn: TSynJScriptSyn
     Tag = 30
@@ -879,8 +889,8 @@ object DocumentFrame: TDocumentFrame
     KeyAttri.Style = []
     NumberAttri.Foreground = clRed
     StringAttri.Foreground = clPurple
-    Left = 346
-    Top = 394
+    Left = 432
+    Top = 34
   end
   object SynJavaSyn: TSynJavaSyn
     Tag = 29
@@ -891,7 +901,7 @@ object DocumentFrame: TDocumentFrame
     NumberAttri.Foreground = clRed
     StringAttri.Foreground = clPurple
     Left = 346
-    Top = 342
+    Top = 518
   end
   object ClassicCppSyn: TSynCppSyn
     Tag = 6
@@ -909,7 +919,7 @@ object DocumentFrame: TDocumentFrame
     CharAttri.Foreground = clAqua
     SymbolAttri.Foreground = clLime
     Left = 186
-    Top = 290
+    Top = 358
   end
   object ClassicCSSyn: TSynCSSyn
     Tag = 3
@@ -923,7 +933,7 @@ object DocumentFrame: TDocumentFrame
     StringAttri.Foreground = clAqua
     SymbolAttri.Foreground = clLime
     Left = 186
-    Top = 186
+    Top = 200
   end
   object PrintDialog: TPrintDialog
     Options = [poPageNums]
@@ -980,7 +990,7 @@ object DocumentFrame: TDocumentFrame
     Options.CssEmbeded = False
     Options.UseEngineOptions = True
     Left = 346
-    Top = 186
+    Top = 358
   end
   object SynWebEngine: TSynWebEngine
     Options.HtmlVersion = shvHtml5
@@ -1008,8 +1018,9 @@ object DocumentFrame: TDocumentFrame
   end
   object SynPythonSyn: TSynPythonSyn
     Tag = 42
-    Left = 434
-    Top = 456
+    SpaceAttri.Background = clNone
+    Left = 514
+    Top = 146
   end
   object SearchActionList: TActionList
     Left = 110
@@ -1043,7 +1054,7 @@ object DocumentFrame: TDocumentFrame
     NumberAttri.Foreground = clBlue
     StringAttri.Foreground = clBlue
     Left = 186
-    Top = 238
+    Top = 256
   end
   object DefaultPasSyn: TSynPasSyn
     Tag = 38
@@ -1052,8 +1063,8 @@ object DocumentFrame: TDocumentFrame
     NumberAttri.Foreground = clBlue
     HexAttri.Foreground = clBlue
     StringAttri.Foreground = clBlue
-    Left = 434
-    Top = 290
+    Left = 432
+    Top = 462
   end
   object DefaultCppSyn: TSynCppSyn
     Tag = 7
@@ -1063,80 +1074,80 @@ object DocumentFrame: TDocumentFrame
     HexAttri.Foreground = clBlue
     StringAttri.Foreground = clBlue
     Left = 186
-    Top = 342
+    Top = 410
   end
   object SynEiffelSyn: TSynEiffelSyn
     Tag = 18
-    Left = 264
-    Top = 342
+    Left = 270
+    Top = 462
   end
   object SynFortranSyn: TSynFortranSyn
     Tag = 19
-    Left = 264
-    Top = 394
+    Left = 270
+    Top = 518
   end
   object SynM3Syn: TSynM3Syn
     Tag = 34
-    Left = 434
-    Top = 84
+    Left = 432
+    Top = 256
   end
   object SynCobolSyn: TSynCobolSyn
     Tag = 12
     AreaAStartPos = 7
     AreaBStartPos = 11
     CodeEndPos = 71
-    Left = 264
-    Top = 34
+    Left = 270
+    Top = 146
   end
   object SynVBScriptSyn: TSynVBScriptSyn
     Tag = 54
-    Left = 614
-    Top = 34
+    Left = 606
+    Top = 256
   end
   object SynVrml97Syn: TSynVrml97Syn
     Tag = 55
-    Left = 614
-    Top = 84
+    Left = 606
+    Top = 306
   end
   object SynAWKSyn: TSynAWKSyn
     Tag = 1
     Left = 186
-    Top = 84
+    Top = 88
   end
   object SynKixSyn: TSynKixSyn
     Tag = 31
-    Left = 346
-    Top = 450
+    Left = 432
+    Top = 88
   end
   object SynGWScriptSyn: TSynGWScriptSyn
     Tag = 23
     Left = 346
-    Top = 34
+    Top = 200
   end
   object SynCACSyn: TSynCACSyn
     Tag = 9
     Left = 186
-    Top = 394
+    Top = 518
   end
   object SynCacheSyn: TSynCacheSyn
     Tag = 10
-    Left = 186
-    Top = 450
+    Left = 270
+    Top = 34
   end
   object SynFoxproSyn: TSynFoxproSyn
     Tag = 20
-    Left = 264
-    Top = 446
+    Left = 346
+    Top = 34
   end
   object SynSDDSyn: TSynSDDSyn
     Tag = 45
-    Left = 536
-    Top = 88
+    Left = 514
+    Top = 306
   end
   object SynADSP21xxSyn: TSynADSP21xxSyn
     Tag = 16
-    Left = 264
-    Top = 238
+    Left = 270
+    Top = 358
   end
   object SynHC11Syn: TSynHC11Syn
     Left = 186
@@ -1146,42 +1157,44 @@ object DocumentFrame: TDocumentFrame
     Tag = 25
     BaseRange = rsRpl
     Left = 346
-    Top = 136
+    Top = 306
   end
   object SynSTSyn: TSynSTSyn
     Tag = 48
-    Left = 536
-    Top = 242
+    Left = 514
+    Top = 462
   end
   object SynDmlSyn: TSynDmlSyn
     Tag = 22
-    Left = 264
-    Top = 556
+    FunctionAttri.Foreground = clNone
+    VariableAttri.Foreground = clNone
+    Left = 346
+    Top = 146
   end
   object SynModelicaSyn: TSynModelicaSyn
     Tag = 33
-    Left = 434
-    Top = 34
+    Left = 432
+    Top = 200
   end
   object SynSMLSyn: TSynSMLSyn
     Tag = 47
-    Left = 536
-    Top = 190
+    Left = 514
+    Top = 410
   end
   object SynIniSyn: TSynIniSyn
     Tag = 27
     Left = 346
-    Top = 238
+    Top = 410
   end
   object SynInnoSyn: TSynInnoSyn
     Tag = 28
     Left = 346
-    Top = 290
+    Top = 462
   end
   object SynBaanSyn: TSynBaanSyn
     Tag = 2
     Left = 186
-    Top = 136
+    Top = 146
   end
   object SynGalaxySyn: TSynGalaxySyn
     Tag = 21
@@ -1244,55 +1257,58 @@ object DocumentFrame: TDocumentFrame
       'x'
       'y'
       'z')
-    Left = 264
-    Top = 502
+    Left = 346
+    Top = 88
   end
   object SynProgressSyn: TSynProgressSyn
     Tag = 41
-    Left = 434
-    Top = 394
+    Left = 514
+    Top = 88
   end
   object SynMsgSyn: TSynMsgSyn
     Tag = 35
-    Left = 434
-    Top = 136
+    Left = 432
+    Top = 306
   end
   object SynIdlSyn: TSynIdlSyn
     Tag = 13
-    Left = 264
-    Top = 84
+    Left = 270
+    Top = 200
   end
   object SynCPMSyn: TSynCPMSyn
     Tag = 14
-    Left = 268
-    Top = 140
+    Left = 270
+    Top = 256
   end
   object SynHaskellSyn: TSynHaskellSyn
     Tag = 24
     Left = 346
-    Top = 84
+    Top = 256
   end
   object SynLDRSyn: TSynLDRSyn
     Tag = 32
-    Left = 346
-    Top = 504
+    LineAttri.Foreground = clNone
+    OpLineAttri.Foreground = clNone
+    TriangleAttri.Foreground = clNone
+    Left = 432
+    Top = 146
   end
   object SynDOTSyn: TSynDOTSyn
     Tag = 15
-    Left = 264
-    Top = 186
+    Left = 270
+    Top = 306
   end
   object SynRCSyn: TSynRCSyn
     Tag = 43
-    Left = 432
-    Top = 506
+    Left = 514
+    Top = 200
   end
   object BookmarkImagesList: TBCImageList
     ShareImages = True
     Left = 36
     Top = 450
     Bitmap = {
-      494C01010A003800A00410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A003800BC0410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1927,8 +1943,8 @@ object DocumentFrame: TDocumentFrame
     Options.CssVersion = scvCss3
     Options.PhpShortOpenTag = False
     Options.UseEngineOptions = True
-    Left = 186
-    Top = 504
+    Left = 270
+    Top = 88
   end
   object SynWebXmlSyn: TSynWebXmlSyn
     Tag = 57
@@ -1938,8 +1954,8 @@ object DocumentFrame: TDocumentFrame
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
     Options.UseEngineOptions = True
-    Left = 614
-    Top = 188
+    Left = 606
+    Top = 410
   end
   object TwilightCSSyn: TSynCSSyn
     Tag = 5
@@ -1950,8 +1966,8 @@ object DocumentFrame: TDocumentFrame
     NumberAttri.Foreground = clFuchsia
     StringAttri.Foreground = clYellow
     SymbolAttri.Foreground = clSilver
-    Left = 150
-    Top = 244
+    Left = 186
+    Top = 306
   end
   object TwilightPasSyn: TSynPasSyn
     Tag = 39
@@ -1965,8 +1981,8 @@ object DocumentFrame: TDocumentFrame
     StringAttri.Foreground = clYellow
     CharAttri.Foreground = clYellow
     SymbolAttri.Foreground = clSilver
-    Left = 458
-    Top = 302
+    Left = 432
+    Top = 518
   end
   object TwilightCppSyn: TSynCppSyn
     Tag = 8
@@ -1984,16 +2000,16 @@ object DocumentFrame: TDocumentFrame
     StringAttri.Foreground = clYellow
     CharAttri.Foreground = clYellow
     SymbolAttri.Foreground = clSilver
-    Left = 148
-    Top = 342
+    Left = 186
+    Top = 462
   end
   object ImageList25: TBCImageList
     Height = 20
     Width = 20
-    Left = 644
-    Top = 332
+    Left = 606
+    Top = 462
     Bitmap = {
-      494C010102009C04F40414001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010102009C04100514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000A4676900A4676900A467
@@ -2210,10 +2226,10 @@ object DocumentFrame: TDocumentFrame
   object ImageList50: TBCImageList
     Height = 24
     Width = 24
-    Left = 642
-    Top = 388
+    Left = 606
+    Top = 518
     Bitmap = {
-      494C01010200BC04F80418001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010200BC04140518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000A467
@@ -2519,8 +2535,8 @@ object DocumentFrame: TDocumentFrame
   end
   object SynDWSSyn: TSynDWSSyn
     Tag = 17
-    DefaultFilter = 'DWScript Files (*.dws;*.pas;*.inc)|*.dws;*.pas;*.inc'
-    Left = 266
-    Top = 288
+    DefaultFilter = 'DWScript Files (*.dws)|*.dws'
+    Left = 270
+    Top = 410
   end
 end

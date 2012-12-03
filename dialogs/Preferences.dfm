@@ -328,7 +328,6 @@ object PreferencesDialog: TPreferencesDialog
             Margins.Top = 4
             Margins.Right = 4
             Margins.Bottom = 4
-            ItemHeight = 13
             ReadOnly = False
             TabOrder = 0
             EditColor = clInfoBk
@@ -373,7 +372,6 @@ object PreferencesDialog: TPreferencesDialog
             Margins.Right = 4
             Margins.Bottom = 4
             DropDownCount = 9
-            ItemHeight = 13
             ReadOnly = False
             TabOrder = 0
             EditColor = clInfoBk
@@ -402,7 +400,6 @@ object PreferencesDialog: TPreferencesDialog
             Margins.Right = 4
             Margins.Bottom = 4
             DropDownCount = 9
-            ItemHeight = 13
             ReadOnly = False
             TabOrder = 0
             EditColor = clInfoBk

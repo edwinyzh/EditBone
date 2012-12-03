@@ -296,6 +296,7 @@ type
     function GetSelectionModeChecked: Boolean;
     function GetSplitChecked: Boolean;
     procedure PageControlRepaint;
+    procedure UpdateHighlighterColors;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -934,13 +935,53 @@ begin
     SelectHighLighter(SynEdit, FileName);
   end;
   UpdateGutter(SynEdit);
-  UpdateSQLSynColors(SynSQLSyn);
   Application.ProcessMessages;
   SynEdit.Visible := True;
   SynEdit.SetFocus;
   SetMainHighlighterCombo(SynEdit);
   SetMainEncodingCombo(SynEdit);
   Result := SynEdit;
+end;
+
+procedure TDocumentFrame.UpdateHighlighterColors;
+var
+  LStyles: TCustomStyleServices;
+  WhiteBackground: Boolean;
+begin
+  LStyles := StyleServices;
+  if Assigned(LStyles) then
+  begin
+    WhiteBackground := LStyles.GetStyleColor(scEdit) = clWhite;
+
+    UpdateAWKSynColors(SynAWKSyn, WhiteBackground);
+    UpdateCobolSynColors(SynCobolSyn, WhiteBackground);
+    UpdateIdlSynColors(SynIdlSyn, WhiteBackground);
+    UpdateCPMSynColors(SynCPMSyn, WhiteBackground);
+    UpdateDOTSynColors(SynDOTSyn, WhiteBackground);
+    UpdateADSP21xxSynColors(SynADSP21xxSyn, WhiteBackground);
+    UpdateDWSSynColors(SynDWSSyn, WhiteBackground);
+    UpdateEiffelSynColors(SynEiffelSyn, WhiteBackground);
+    UpdateIniSynColors(SynIniSyn, WhiteBackground);
+    UpdateInnoSynColors(SynInnoSyn, WhiteBackground);
+    UpdateJavaSynColors(SynJavaSyn, WhiteBackground);
+    UpdateJScriptSynColors(SynJScriptSyn, WhiteBackground);
+    UpdateLDRSynColors(SynLDRSyn, WhiteBackground);
+    UpdateMsgSynColors(SynMsgSyn, WhiteBackground);
+    UpdateBatSynColors(SynBatSyn, WhiteBackground);
+    UpdatePerlSynColors(SynPerlSyn, WhiteBackground);
+    UpdateProgressSynColors(SynProgressSyn, WhiteBackground);
+    UpdatePythonSynColors(SynPythonSyn, WhiteBackground);
+    UpdateRubySynColors(SynRubySyn, WhiteBackground);
+    UpdateSDDSynColors(SynSDDSyn, WhiteBackground);
+    UpdateSQLSynColors(SynSQLSyn, WhiteBackground);
+    UpdateSMLSynColors(SynSMLSyn, WhiteBackground);
+    UpdateTclTkSynColors(SynTclTkSyn, WhiteBackground);
+    UpdateTexSynColors(SynTexSyn, WhiteBackground);
+    UpdateUNIXShellScriptSynColors(SynUNIXShellScriptSyn, WhiteBackground);
+    UpdateVBSynColors(SynVBSyn, WhiteBackground);
+    UpdateASMSynColors(SynASMSyn, WhiteBackground);
+    UpdateWebEngineColors(SynWebEngine, WhiteBackground);
+  end;
 end;
 
 procedure TDocumentFrame.UpdateGutterAndControls;
@@ -959,6 +1000,7 @@ begin
         else
           TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 1;
       end;
+  UpdateHighlighterColors;
 end;
 
 procedure TDocumentFrame.SynEditSpecialLineColors(Sender: TObject; Line: Integer;
@@ -1394,7 +1436,6 @@ begin
     //TabSheet.ImageIndex := SAVED_IMAGEINDEX;
     SelectHighLighter(SynEdit, SynEdit.DocumentName);
     UpdateGutter(SynEdit);
-    UpdateSQLSynColors(SynSQLSyn);
   end;
   PageControlRepaint;
 end;
@@ -1955,9 +1996,13 @@ begin
     else
     begin
       ReadSectionValues('FileTypes', FileTypes);
-      { todo: temprary fix }
+      { todo: temporary fix, remove these lines later }
+      // **********************************************
       if Pos('DWScript', FileTypes.Strings[13]) = 0 then
-        FileTypes.Insert(13, '13=DWScript Files (*.dws;*.pas;*.inc)');
+        FileTypes.Insert(13, '13=DWScript Files (*.dws)');
+      if FileTypes.Strings[13] = '13=DWScript Files (*.dws;*.pas;*.inc)|*.dws;*.pas;*.inc' then
+        FileTypes.Strings[13] := '13=DWScript Files (*.dws)|*.dws';
+      // **********************************************
       for i := 0 to FileTypes.Count - 1 do
         OptionsContainer.FileTypes.Strings[i] := System.Copy
           (FileTypes.Strings[i], Pos('=', FileTypes.Strings[i]) + 1, Length
@@ -2079,7 +2124,7 @@ begin
         OptionsContainer.AssignTo(SynEdit);
         SelectHighLighter(SynEdit, SynEdit.DocumentName);
         UpdateGutter(SynEdit);
-        UpdateSQLSynColors(SynSQLSyn);
+        UpdateHighlighterColors;
       end;
     end;
     PageControl.MultiLine := OptionsContainer.MultiLine;
@@ -2407,6 +2452,7 @@ var
   Pix: TPoint;
   Match: TSynTokenMatched;
   i: Integer;
+  LStyles: TCustomStyleServices;
 
   function CharToPixels(P: TBufferCoord): TPoint;
   begin
@@ -2422,6 +2468,7 @@ var
   end;
 
 begin
+  LStyles := StyleServices;
   // if FPaintUpdating then
   // Exit;
   Editor := TSynEdit(Sender);
@@ -2452,14 +2499,20 @@ begin
   if i <> -1 then
   begin
     Pix := CharToPixels(Match.OpenTokenPos);
-    Canvas.Font.Color := Editor.Font.Color;
+    if LStyles.GetStyleColor(scEdit) <> clWhite then
+      Canvas.Font.Color := clBlack
+    else
+      Canvas.Font.Color := Editor.Font.Color;
     Canvas.Font.Style := Match.TokenAttri.Style;
     Canvas.TextOut(Pix.X, Pix.Y, Match.OpenToken);
   end;
   if i <> 1 then
   begin
     Pix := CharToPixels(Match.CloseTokenPos);
-    Canvas.Font.Color := Editor.Font.Color;
+    if LStyles.GetStyleColor(scEdit) <> clWhite then
+      Canvas.Font.Color := clBlack
+    else
+      Canvas.Font.Color := Editor.Font.Color;
     Canvas.Font.Style := Match.TokenAttri.Style;
     Canvas.TextOut(Pix.X, Pix.Y, Match.CloseToken);
   end;
@@ -3341,7 +3394,6 @@ begin
         SelectHighLighter(SynEdit, FileName);
       end;
       UpdateGutter(SynEdit);
-      UpdateSQLSynColors(SynSQLSyn);
       Application.ProcessMessages;
       SynEdit.Visible := True;
 

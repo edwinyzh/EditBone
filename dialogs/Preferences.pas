@@ -360,7 +360,7 @@ begin
   FFileTypes.Add('CPM Reports (*.rdf;*.rif;*.rmf;*.rxf)');
   FFileTypes.Add('DOT Graph Drawing Description (*.dot)');
   FFileTypes.Add('DSP Files (*.dsp;*.inc)');
-  FFileTypes.Add('DWScript Files (*.dws;*.pas;*.inc)');
+  FFileTypes.Add('DWScript Files (*.dws)');
   FFileTypes.Add('Eiffel (*.e;*.ace)');
   FFileTypes.Add('Fortran Files (*.for)');
   FFileTypes.Add('Foxpro Files (*.prg)');
