@@ -287,6 +287,7 @@ type
     procedure SetEncodingComboIndex(Value: Integer);
     procedure WMAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
     procedure SetStyleName(Value: string);
+    procedure RecreateStatusBar;
   public
     { Public declarations }
     property HighlighterComboIndex: Integer write SetHighlighterComboIndex;
@@ -351,6 +352,36 @@ begin
     FDirectoryFrame.UpdateControls;
     FDocumentFrame.UpdateGutterAndControls;
     FOutputFrame.UpdateControls;
+    RecreateStatusBar; { style change will lose the handle }
+  end;
+end;
+
+procedure TMainForm.RecreateStatusBar;
+var
+  StatusPanel: TStatusPanel;
+begin
+  if Assigned(StatusBar) then
+  begin
+    StatusBar.Free;
+    StatusBar := nil;
+  end;
+  StatusBar := TStatusBar.Create(Self);
+  with StatusBar do
+  begin
+    Parent := Self;
+    { 1st panel }
+    StatusPanel := Panels.Add;
+    StatusPanel.Width := 86;
+    StatusPanel.Alignment := taCenter;
+    { 2nd panel }
+    StatusPanel := Panels.Add;
+    StatusPanel.Width := 86;
+    { 3rd panel }
+    StatusPanel := Panels.Add;
+    StatusPanel.Width := 86;
+    { 4th panel }
+    StatusPanel := Panels.Add;
+    StatusPanel.Width := 50;
   end;
 end;
 
