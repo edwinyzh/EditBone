@@ -2000,7 +2000,7 @@ begin
       // **********************************************
       if Pos('DWScript', FileTypes.Strings[13]) = 0 then
         FileTypes.Insert(13, '13=DWScript Files (*.dws)');
-      if FileTypes.Strings[13] = '13=DWScript Files (*.dws;*.pas;*.inc)|*.dws;*.pas;*.inc' then
+      if FileTypes.Strings[13] = '13=DWScript Files (*.dws;*.pas;*.inc)' then
         FileTypes.Strings[13] := '13=DWScript Files (*.dws)|*.dws';
       // **********************************************
       for i := 0 to FileTypes.Count - 1 do
