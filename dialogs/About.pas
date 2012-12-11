@@ -44,7 +44,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common;
+  StyleHooks, Common;
 
 var
   FAboutDialog: TAboutDialog;
@@ -54,7 +54,7 @@ begin
   if FAboutDialog = nil then
     Application.CreateForm(TAboutDialog, FAboutDialog);
   Result := FAboutDialog;
-  Common.SetStyledFormSize(Result);
+  StyleHooks.SetStyledFormSize(Result);
 end;
 
 procedure TAboutDialog.Open;

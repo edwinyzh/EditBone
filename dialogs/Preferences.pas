@@ -141,7 +141,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, Lib;
+  Common, Lib, StyleHooks;
 
 { TOptionsContainer }
 
@@ -447,7 +447,7 @@ begin
   if FPreferencesDialog = nil then
     FPreferencesDialog := TPreferencesDialog.Create(Sender);
   Result := FPreferencesDialog;
-  Common.SetStyledFormSize(Result);
+  StyleHooks.SetStyledFormSize(Result);
   if Assigned(TStyleManager.ActiveStyle) then
     Result.PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = 'Windows';
 end;

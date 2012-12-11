@@ -152,7 +152,6 @@ object PreferencesDialog: TPreferencesDialog
               Align = alRight
               Caption = ' Gutter '
               TabOrder = 1
-              ExplicitLeft = 228
               object LineNumbersCheckBox: TBCCheckBox
                 Left = 120
                 Top = 20
@@ -326,7 +325,6 @@ object PreferencesDialog: TPreferencesDialog
               Align = alRight
               Caption = ' Page Control Tabs '
               TabOrder = 1
-              ExplicitLeft = 228
               object MultilineCheckBox: TBCCheckBox
                 Left = 15
                 Top = 20
@@ -392,7 +390,6 @@ object PreferencesDialog: TPreferencesDialog
               Align = alRight
               Caption = ' SQL Dialect '
               TabOrder = 1
-              ExplicitLeft = 228
               object SQLDialectComboBox: TBCComboBox
                 Left = 17
                 Top = 20

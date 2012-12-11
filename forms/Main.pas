@@ -303,7 +303,7 @@ implementation
 {$R *.dfm}
 
 uses
-  About, FindInFiles, Vcl.ClipBrd, Common, VirtualTrees, DownloadURL, BigIni;
+  About, FindInFiles, Vcl.ClipBrd, Common, VirtualTrees, DownloadURL, BigIni, StyleHooks;
 
 const
   MAIN_CAPTION = 'EditBone';

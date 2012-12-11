@@ -57,7 +57,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common,
+  Common, StyleHooks,
 {$WARNINGS OFF}
   Vcl.FileCtrl; { warning: FileCtrl is specific to a platform }
 {$WARNINGS ON}
@@ -70,7 +70,7 @@ begin
   if FDirectoryTabDialog = nil then
     Application.CreateForm(TDirectoryTabDialog, FDirectoryTabDialog);
   Result := FDirectoryTabDialog;
-  Common.SetStyledFormSize(Result);
+  StyleHooks.SetStyledFormSize(Result);
 end;
 
 procedure TDirectoryTabDialog.OKActionExecute(Sender: TObject);
