@@ -951,7 +951,7 @@ begin
   LStyles := StyleServices;
   if Assigned(LStyles) then
   begin
-    WhiteBackground := LStyles.GetStyleColor(scEdit) = clWhite;
+    WhiteBackground := (TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS) or (LStyles.GetStyleColor(scEdit) = clWhite);
 
     UpdateAWKSynColors(SynAWKSyn, WhiteBackground);
     UpdateCobolSynColors(SynCobolSyn, WhiteBackground);
