@@ -179,8 +179,9 @@ begin
     for i := 0 to PageControl.PageCount - 1 do
     begin
       PageControl.ActivePageIndex := i;
-      WriteString('LastPaths', IntToStr(i), PageControl.ActivePage.Caption + ';' + ActiveFileTreeView.RootDirectory + ';' +
-        SelectedPath + ';' + BoolToStr(ActiveDrivesPanel.Visible) + ';' + BoolToStr(GetExcludeOtherBranches));
+      WriteString('LastPaths', IntToStr(i), Format('%s;%s;%s;%s;%s', [PageControl.ActivePage.Caption,
+        ActiveFileTreeView.RootDirectory, SelectedPath, BoolToStr(ActiveDrivesPanel.Visible),
+        BoolToStr(GetExcludeOtherBranches)]));
     end;
   finally
     Free;
@@ -342,7 +343,7 @@ begin
     PageControl.ActivePage.ImageIndex := BCDriveComboBox.IconIndex;
     if (Length(PageControl.ActivePage.Caption) = 3) and
       (Pos(':\', PageControl.ActivePage.Caption) = 2) then
-      PageControl.ActivePage.Caption := BCDriveComboBox.Drive + ':\';
+      PageControl.ActivePage.Caption := Format('%s:\', [BCDriveComboBox.Drive]);
   end;
 end;
 
@@ -449,20 +450,15 @@ begin
     TabOrder := 1;
     OnChange := DriveComboChange;
   end;
-  //DriveComboBoxPanel.Height := BCDriveComboBox.Height + 4;
   DriveComboBoxPanel.Visible := ShowDrives;
   DriveComboBoxPanel.AutoSize := True;
-  PageControl.Images := BCDriveComboBox.SystemIconsImageList; //TImageList.Create(Self);
-  //PageControl.Images.Handle := SHGetFileInfo('', 0, SHFileInfo, SizeOf(SHFileInfo), SHGFI_ICON or SHGFI_SYSICONINDEX or SHGFI_SMALLICON
-  //  {or SHGFI_ADDOVERLAYS or SHGFI_OVERLAYINDEX});
+  PageControl.Images := BCDriveComboBox.SystemIconsImageList;
   TabSheet.ImageIndex := BCDriveComboBox.IconIndex;
-  //PageControl.ActivePage.ImageIndex := BCDriveComboBox.IconIndex;
-  PageControl.ActivePage.Caption := TabName; // BCDriveComboBox.Drive + ':\';
+  PageControl.ActivePage.Caption := TabName;
 
   OpenPath(RootDirectory, LastPath, ExcludeOtherBranches);
   FileTreeViewPanel.Visible := True;
   TabSheet.Visible := True;
-//  PageControl.ActivePage := TabSheet;
 end;
 
 function TDirectoryFrame.GetIsAnyDirectory: Boolean;
@@ -476,13 +472,13 @@ procedure TDirectoryFrame.UpdateControls;
 var
   i, j: Integer;
 begin
-  PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = 'Windows';
+  PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
   Application.ProcessMessages; { Important! }
   for i := 0 to PageControl.PageCount - 1 do
     for j := 0 to PageControl.Pages[i].ComponentCount - 1 do
       if PageControl.Pages[i].Components[j] is TPanel then
       begin
-        if TStyleManager.ActiveStyle.Name = 'Windows' then
+        if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
           TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 3
         else
           TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 1;

@@ -80,7 +80,7 @@ object MainForm: TMainForm
       Left = 902
       Top = 2
       Width = 130
-      Height = 22
+      Height = 21
       Align = alRight
       DropDownCount = 57
       ReadOnly = True
@@ -585,95 +585,6 @@ object MainForm: TMainForm
                 Caption = '-'
               end
               item
-                Items = <
-                  item
-                    Action = StyleAmakritsAction
-                    Caption = '&Amakrits'
-                  end
-                  item
-                    Action = StyleAmethystKamriAction
-                    Caption = 'A&methyst Kamri'
-                  end
-                  item
-                    Action = StyleAquaGraphiteAction
-                    Caption = 'A&qua Graphite'
-                  end
-                  item
-                    Action = StyleAquaLightSlateAction
-                    Caption = 'Aq&ua Light Slate'
-                  end
-                  item
-                    Action = StyleAuricAction
-                  end
-                  item
-                    Action = StyleCarbonAction
-                    Caption = '&Carbon'
-                  end
-                  item
-                    Action = StyleCharcoalDarkSlateAction
-                    Caption = 'C&harcoal Dark Slate'
-                  end
-                  item
-                    Action = StyleCobaltXEMediaAction
-                    Caption = 'C&obalt XEMedia'
-                  end
-                  item
-                    Action = StyleCyanDuskAction
-                    Caption = 'C&yan Dusk'
-                  end
-                  item
-                    Action = StyleCyanNightAction
-                    Caption = 'Cya&n Night'
-                  end
-                  item
-                    Action = StyleEmeraldLightSlateAction
-                    Caption = '&Emerald Light Slate'
-                  end
-                  item
-                    Action = StyleGoldenGraphiteAction
-                    Caption = '&Golden Graphite'
-                  end
-                  item
-                    Action = StyleIcebergClassicoAction
-                    Caption = '&Iceberg Classico'
-                  end
-                  item
-                    Action = StyleLavenderClassicoAction
-                    Caption = '&Lavender Classico'
-                  end
-                  item
-                    Action = StyleMetroGreenAction
-                  end
-                  item
-                    Action = StyleMetroBlueAction
-                  end
-                  item
-                    Action = StyleMetroBlackAction
-                    Caption = 'Metro &Black'
-                  end
-                  item
-                    Action = StyleRubyGraphiteAction
-                    Caption = '&Ruby Graphite'
-                  end
-                  item
-                    Action = StyleSaphireKamriAction
-                    Caption = '&Sapphire Kamri'
-                  end
-                  item
-                    Action = StyleSlateClassicoAction
-                    Caption = 'Sla&te Classico'
-                  end
-                  item
-                    Action = StyleSmokeyQuartzKamriAction
-                    Caption = 'Smo&key Quartz Kamri'
-                  end
-                  item
-                    Action = StyleTurquoiseGrayAction
-                  end
-                  item
-                    Action = StyleWindowsAction
-                    Caption = '&Windows'
-                  end>
                 Caption = '&Style'
                 UsageCount = 1
               end
@@ -1603,157 +1514,21 @@ object MainForm: TMainForm
       ImageIndex = 61
       OnExecute = HelpCheckForUpdatesMenuActionExecute
     end
-    object StyleAuricAction: TAction
-      Category = '&Style'
-      Caption = 'Auric'
-      GroupIndex = 1
-      OnExecute = StyleAuricActionExecute
-    end
-    object StyleAmakritsAction: TAction
-      Category = '&Style'
-      Caption = 'Amakrits'
-      GroupIndex = 1
-      OnExecute = StyleAmakritsActionExecute
-    end
-    object StyleAmethystKamriAction: TAction
-      Category = '&Style'
-      Caption = 'Amethyst Kamri'
-      GroupIndex = 1
-      OnExecute = StyleAmethystKamriActionExecute
-    end
-    object StyleAquaGraphiteAction: TAction
-      Category = '&Style'
-      Caption = 'Aqua Graphite'
-      GroupIndex = 1
-      OnExecute = StyleAquaGraphiteActionExecute
-    end
-    object StyleAquaLightSlateAction: TAction
-      Category = '&Style'
-      Caption = 'Aqua Light Slate'
-      GroupIndex = 1
-      OnExecute = StyleAquaLightSlateActionExecute
-    end
-    object StyleCarbonAction: TAction
-      Category = '&Style'
-      Caption = 'Carbon'
-      GroupIndex = 1
-      OnExecute = StyleCarbonActionExecute
-    end
-    object StyleCharcoalDarkSlateAction: TAction
-      Category = '&Style'
-      Caption = 'Charcoal Dark Slate'
-      GroupIndex = 1
-      OnExecute = StyleCharcoalDarkSlateActionExecute
-    end
-    object StyleCobaltXEMediaAction: TAction
-      Category = '&Style'
-      Caption = 'Cobalt XEMedia'
-      GroupIndex = 1
-      OnExecute = StyleCobaltXEMediaActionExecute
-    end
-    object StyleCyanDuskAction: TAction
-      Category = '&Style'
-      Caption = 'Cyan Dusk'
-      GroupIndex = 1
-      OnExecute = StyleCyanDuskActionExecute
-    end
-    object StyleCyanNightAction: TAction
-      Category = '&Style'
-      Caption = 'Cyan Night'
-      GroupIndex = 1
-      OnExecute = StyleCyanNightActionExecute
-    end
-    object StyleEmeraldLightSlateAction: TAction
-      Category = '&Style'
-      Caption = 'Emerald Light Slate'
-      GroupIndex = 1
-      OnExecute = StyleEmeraldLightSlateActionExecute
-    end
-    object StyleGoldenGraphiteAction: TAction
-      Category = '&Style'
-      Caption = 'Golden Graphite'
-      GroupIndex = 1
-      OnExecute = StyleGoldenGraphiteActionExecute
-    end
-    object StyleIcebergClassicoAction: TAction
-      Category = '&Style'
-      Caption = 'Iceberg Classico'
-      GroupIndex = 1
-      OnExecute = StyleIcebergClassicoActionExecute
-    end
-    object StyleLavenderClassicoAction: TAction
-      Category = '&Style'
-      Caption = 'Lavender Classico'
-      GroupIndex = 1
-      OnExecute = StyleLavenderClassicoActionExecute
-    end
-    object StyleMetroBlackAction: TAction
-      Category = '&Style'
-      Caption = 'Metro Black'
-      GroupIndex = 1
-      OnExecute = StyleMetroBlackActionExecute
-    end
-    object StyleMetroBlueAction: TAction
-      Category = '&Style'
-      Caption = 'Metro Blue'
-      GroupIndex = 1
-      OnExecute = StyleMetroBlueActionExecute
-    end
-    object StyleMetroGreenAction: TAction
-      Category = '&Style'
-      Caption = 'Metro Green'
-      GroupIndex = 1
-      OnExecute = StyleMetroGreenActionExecute
-    end
-    object StyleRubyGraphiteAction: TAction
-      Category = '&Style'
-      Caption = 'Ruby Graphite'
-      GroupIndex = 1
-      OnExecute = StyleRubyGraphiteActionExecute
-    end
-    object StyleSaphireKamriAction: TAction
-      Category = '&Style'
-      Caption = 'Sapphire Kamri'
-      GroupIndex = 1
-      OnExecute = StyleSaphireKamriActionExecute
-    end
-    object StyleSlateClassicoAction: TAction
-      Category = '&Style'
-      Caption = 'Slate Classico'
-      Checked = True
-      GroupIndex = 1
-      OnExecute = StyleSlateClassicoActionExecute
-    end
-    object StyleSmokeyQuartzKamriAction: TAction
-      Category = '&Style'
-      Caption = 'Smokey Quartz Kamri'
-      GroupIndex = 1
-      OnExecute = StyleSmokeyQuartzKamriActionExecute
-    end
-    object StyleTurquoiseGrayAction: TAction
-      Category = '&Style'
-      Caption = 'Turquoise Gray'
-      GroupIndex = 1
-      OnExecute = StyleTurquoiseGrayActionExecute
-    end
-    object StyleWindowsAction: TAction
-      Category = '&Style'
-      Caption = 'Windows'
-      GroupIndex = 1
-      OnExecute = StyleWindowsActionExecute
-    end
     object PopupMenuDocumentAction: TAction
       Category = 'ToolbarPopup'
       Caption = 'Document'
       Checked = True
       OnExecute = PopupMenuDocumentActionExecute
     end
+    object SelectStyleAction: TAction
+      OnExecute = SelectStyleActionExecute
+    end
   end
   object ImageList: TBCImageList
     Left = 408
     Top = 224
     Bitmap = {
-      494C01013E005C01200510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01013E005C01280510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000000001000001002000000000000000
       0100000000000000000000000000000000000000000000000000BD4C00000000
       0000000000000000000084240500842405008424050084240500842405000000

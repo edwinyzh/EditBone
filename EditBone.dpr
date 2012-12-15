@@ -30,18 +30,18 @@ uses
 {$R *.res}
 
 var
-  StyleName: string;
+  StyleFilename: string;
 begin
   with TBigIniFile.Create(Common.GetINIFilename) do
   try
-    StyleName := ReadString('Preferences', 'StyleName', 'Windows');
+    StyleFilename := ReadString('Preferences', 'StyleFilename', STYLENAME_WINDOWS);
   finally
     Free;
   end;
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  if StyleName <> STYLENAME_WINDOWS then
-    TStyleManager.TrySetStyle(StyleName);
+  if StyleFilename <> STYLENAME_WINDOWS then
+    TStyleManager.SetStyle(TStyleManager.LoadFromFile(Format('%sStyles\%s', [ExtractFilePath(ParamStr(0)), StyleFilename])));
   Application.Title := 'EditBone';
   Application.CreateForm(TMainForm, MainForm);
   Application.Run;

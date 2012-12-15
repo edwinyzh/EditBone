@@ -424,10 +424,10 @@ begin
   i := 0;
   while i < FFileTypes.Count do
   begin
-    Result := Result + FFileTypes.Strings[i] + '|' + Common.StringBetween(FFileTypes.Strings[i], '(', ')');
+    Result := Format('%s%s|%s', [Result, FFileTypes.Strings[i], Common.StringBetween(FFileTypes.Strings[i], '(', ')')]);
     Inc(i);
     if i < FFileTypes.Count then
-      Result := Result + '|';
+      Result := Format('%s|', [Result]);
   end;
 end;
 
@@ -437,7 +437,7 @@ var
 begin
   Result := '*.*|';
   for i := 0 to FFileTypes.Count - 1 do
-    Result := Result + Common.StringBetween(FFileTypes.Strings[i], '(', ')') + '|';
+    Result := Format('%s%s|', [Result, Common.StringBetween(FFileTypes.Strings[i], '(', ')')]);
 end;
 
 { TPreferencesDialog }
@@ -449,7 +449,7 @@ begin
   Result := FPreferencesDialog;
   StyleHooks.SetStyledFormSize(Result);
   if Assigned(TStyleManager.ActiveStyle) then
-    Result.PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = 'Windows';
+    Result.PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
 end;
 
 procedure TPreferencesDialog.FormDestroy(Sender: TObject);
@@ -492,7 +492,7 @@ begin
   //Font
   FontLabel.Font.Name := FOptionsContainer.FontName;
   FontLabel.Font.Size := FOptionsContainer.FontSize;
-  FontLabel.Caption := FontLabel.Font.Name + ' ' + IntToStr(FontLabel.Font.Size) + 'pt';
+  FontLabel.Caption := Format('%s %dpt', [FontLabel.Font.Name, FontLabel.Font.Size]);
   HTMLVersionComboBox.ItemIndex := Ord(FOptionsContainer.HTMLVersion);
   HTMLVersionComboBox.Enabled := HTMLErrorCheckingCheckBox.Checked;
   FileTypesListBox.Clear;
@@ -551,7 +551,7 @@ begin
   if FontDialog.Execute then
   begin
     FontLabel.Font.Assign(FontDialog.Font);
-    FontLabel.Caption := FontLabel.Font.Name + ' ' + IntToStr(FontLabel.Font.Size) + 'pt';
+    FontLabel.Caption := Format('%s %dpt', [FontLabel.Font.Name, FontLabel.Font.Size]);
   end;
 end;
 
@@ -570,7 +570,7 @@ begin
     Exit;
   Extensions := FileTypesListBox.Items.Strings[FileTypesListBox.ItemIndex];
   Extensions := Copy(Extensions, 1, Pos('(', Extensions));
-  FileTypesListBox.Items.Strings[FileTypesListBox.ItemIndex] := Extensions + ExtensionsEdit.Text + ')';
+  FileTypesListBox.Items.Strings[FileTypesListBox.ItemIndex] := Format('%s%s)', [Extensions, ExtensionsEdit.Text]);
 end;
 
 procedure TPreferencesDialog.FormCreate(Sender: TObject);

@@ -140,7 +140,7 @@ begin
     BevelOuter := bvNone;
     Padding.Top := 1;
     Padding.Left := 1;
-    if TStyleManager.ActiveStyle.Name = 'Windows' then
+    if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
       Padding.Right := 3
     else
       Padding.Right := 1;
@@ -409,7 +409,7 @@ begin
     else
       NodeData.TextCh := Ch;
     if System.Length(s) > 255 then
-      s := System.Copy(s, 0, 251) + '...';
+      s := Format('%s...', [System.Copy(s, 0, 251)]);
   end;
 
   if toAutoExpand in OutputTreeView.TreeOptions.AutoOptions then
@@ -549,13 +549,13 @@ procedure TOutputFrame.UpdateControls;
 var
   i, j: Integer;
 begin
-  PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = 'Windows';
+  PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
 
   for i := 0 to PageControl.PageCount - 1 do
     for j := 0 to PageControl.Pages[i].ComponentCount - 1 do
       if PageControl.Pages[i].Components[j] is TPanel then
       begin
-        if TStyleManager.ActiveStyle.Name = 'Windows' then
+        if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
           TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 3
         else
           TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 1;

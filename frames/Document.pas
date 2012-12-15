@@ -937,7 +937,8 @@ begin
   UpdateGutter(SynEdit);
   Application.ProcessMessages;
   SynEdit.Visible := True;
-  SynEdit.SetFocus;
+  if SynEdit.CanFocus then
+    SynEdit.SetFocus;
   SetMainHighlighterCombo(SynEdit);
   SetMainEncodingCombo(SynEdit);
   Result := SynEdit;
@@ -1060,7 +1061,7 @@ begin
         5, 8, 39: SynEdit.Color := clBlack;
       end;
       if SynEdit.Color = clBlack then
-        if (TStyleManager.ActiveStyle.Name = STYLENAME_AMAKRITS) or
+       { if (TStyleManager.ActiveStyle.Name = STYLENAME_AMAKRITS) or
           (TStyleManager.ActiveStyle.Name = STYLENAME_CARBON) or
           (TStyleManager.ActiveStyle.Name = STYLENAME_AQUA_GRAPHITE) or
           (TStyleManager.ActiveStyle.Name = STYLENAME_AURIC) or
@@ -1068,7 +1069,7 @@ begin
           (TStyleManager.ActiveStyle.Name = STYLENAME_COBALT_XEMEDIA) or
           (TStyleManager.ActiveStyle.Name = STYLENAME_GOLDEN_GRAPHITE) or
           (TStyleManager.ActiveStyle.Name = STYLENAME_METRO_BLACK) or
-          (TStyleManager.ActiveStyle.Name = STYLENAME_RUBY_GRAPHITE) then
+          (TStyleManager.ActiveStyle.Name = STYLENAME_RUBY_GRAPHITE) then  }
           SynEdit.Color := LStyles.GetStyleColor(scEdit);
     end
     else
@@ -1283,7 +1284,8 @@ begin
         SetMainHighlighterCombo(SynEdit);
         SetMainEncodingCombo(SynEdit);
         PageControlRepaint;
-        SynEdit.SetFocus;
+        if SynEdit.CanFocus then
+          SynEdit.SetFocus;
       except
         { It is not always possible to focus... }
       end;
@@ -2026,6 +2028,7 @@ begin
   Bookmarks := TStringList.Create;
   with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
   try
+    PageControl.Visible := False;
     { Open Files }
     ReadSectionValues('OpenFiles', FileNames);
     for i := 0 to FileNames.Count - 1 do
@@ -2035,6 +2038,7 @@ begin
       if FileExists(FName) then
         Open(FName, Bookmarks);
     end;
+
     i := ReadInteger('Preferences', 'ActivePageIndex', 0);
     if i < PageControl.PageCount then
     begin
@@ -2042,11 +2046,13 @@ begin
       SetMainHighlighterCombo(ActiveSynEdit);
       SetMainEncodingCombo(ActiveSynEdit);
     end;
+
     Result := FileNames.Count > 0;
   finally
     FileNames.Free;
     Bookmarks.Free;
     Free;
+    PageControl.Visible := True;
   end;
 end;
 
@@ -2084,10 +2090,9 @@ begin
         if Trim(SynEdit.DocumentName) <> '' then
           WriteString('OpenFiles', IntToStr(i), SynEdit.DocumentName);
         for j := 0 to SynEdit.Marks.Count - 1 do
-          WriteString('Bookmarks', SynEdit.DocumentName + ':' + IntToStr(j),
-            IntToStr(SynEdit.Marks.Items[j].BookmarkNumber) + ';' + IntToStr
-              (SynEdit.Marks.Items[j].Line) + ';' + IntToStr
-              (SynEdit.Marks.Items[j].Char));
+          WriteString('Bookmarks', Format('%s:%s', [SynEdit.DocumentName, IntToStr(j)]),
+            Format('%s;%s;%s', [IntToStr(SynEdit.Marks.Items[j].BookmarkNumber),
+            IntToStr(SynEdit.Marks.Items[j].Line), IntToStr(SynEdit.Marks.Items[j].Char)]));
       end;
     end;
     { Active document }
@@ -2202,7 +2207,7 @@ begin
   SynEdit.Modified := True;
   if Pos('~', PageControl.ActivePage.Caption) = 0 then
   begin
-    PageControl.ActivePage.Caption := PageControl.ActivePage.Caption + '~';
+    PageControl.ActivePage.Caption := Format('%s~', [PageControl.ActivePage.Caption]);
     PageControlRepaint;
   end;
   SplitSynEdit := ActiveSplitSynEdit;
@@ -2305,7 +2310,7 @@ begin
       begin
         Result := SynEdit.DocumentName;
         if SynEdit.Modified then // PageControl.ActivePage.ImageIndex = CHANGED_IMAGEINDEX then
-          Result := Result + '~';
+          Result := Format('%s~', [Result]);
       end
   end;
 end;
@@ -2709,7 +2714,7 @@ begin
   ActiveSynEdit.Modified := True;
   if Pos('~', PageControl.ActivePage.Caption) = 0 then
   begin
-    PageControl.ActivePage.Caption := PageControl.ActivePage.Caption + '~';
+    PageControl.ActivePage.Caption := Format('%s~', [PageControl.ActivePage.Caption]);
     PageControlRepaint;
   end;
   // PageControl.ActivePage.ImageIndex := CHANGED_IMAGEINDEX;
@@ -2820,7 +2825,7 @@ begin
             SynEdit.Modified := True; //  PageControl.Pages[i].ImageIndex := CHANGED_IMAGEINDEX
             if Pos('~', PageControl.Pages[i].Caption) = 0 then
             begin
-              PageControl.Pages[i].Caption := PageControl.Pages[i].Caption + '~';
+              PageControl.Pages[i].Caption := Format('%s~', [PageControl.Pages[i].Caption]);
               PageControlRepaint;
             end;
           end;
