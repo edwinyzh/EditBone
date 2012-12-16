@@ -2053,6 +2053,7 @@ begin
     Bookmarks.Free;
     Free;
     PageControl.Visible := True;
+    PageControlRepaint
   end;
 end;
 
