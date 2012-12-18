@@ -12,6 +12,8 @@ uses
 
 const
   WM_AFTER_SHOW = WM_USER + 300; // custom message
+  VIEW_MENU_ITEMINDEX = 3;
+  STYLE_MENU_ITEMINDEX = 11;
 
 type
   TMainForm = class(TForm)
@@ -321,8 +323,8 @@ begin
     end;
   end;
 
-  ActionClientItem := ActionMainMenuBar.ActionClient.Items[3];
-  ActionClientItem := ActionClientItem.Items[11];
+  ActionClientItem := ActionMainMenuBar.ActionClient.Items[VIEW_MENU_ITEMINDEX];
+  ActionClientItem := ActionClientItem.Items[STYLE_MENU_ITEMINDEX];
   for i := 0 to ActionClientItem.Items.Count - 1 do
     TAction(ActionClientItem.Items[i].Action).Checked := False;
   Action.Checked := True;
@@ -346,8 +348,8 @@ begin
     begin
       // TODO: Think better solution to find the Style menuitem.
       // This is poor solution. If the menu changes, then you should also remember to fix the item numbers.
-      ActionClientItem := ActionMainMenuBar.ActionClient.Items[3];
-      ActionClientItem := ActionClientItem.Items[11];
+      ActionClientItem := ActionMainMenuBar.ActionClient.Items[VIEW_MENU_ITEMINDEX];
+      ActionClientItem := ActionClientItem.Items[STYLE_MENU_ITEMINDEX];
       // ---
       ActionClientItem := ActionClientItem.Items.Add;
 
@@ -363,8 +365,8 @@ begin
     end;
   end;
   { Windows }
-  ActionClientItem := ActionMainMenuBar.ActionClient.Items[3];
-  ActionClientItem := ActionClientItem.Items[11];
+  ActionClientItem := ActionMainMenuBar.ActionClient.Items[VIEW_MENU_ITEMINDEX];
+  ActionClientItem := ActionClientItem.Items[STYLE_MENU_ITEMINDEX];
   ActionClientItem := ActionClientItem.Items.Add;
   Action := TAction.Create(ActionManager);
   Action.Name := 'WindowsStyleSelectAction';

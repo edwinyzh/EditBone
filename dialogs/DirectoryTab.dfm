@@ -35,9 +35,6 @@ object DirectoryTabDialog: TDirectoryTabDialog
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 0
-      DesignSize = (
-        315
-        26)
       object TabNameLabel: TLabel
         Left = 0
         Top = 9
@@ -51,7 +48,6 @@ object DirectoryTabDialog: TDirectoryTabDialog
         Width = 228
         Height = 21
         Hint = 'Tab name'
-        Anchors = [akTop, akRight]
         TabOrder = 0
         Text = 'C:\'
         OnlyNumbers = False
@@ -69,9 +65,6 @@ object DirectoryTabDialog: TDirectoryTabDialog
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 1
-      DesignSize = (
-        315
-        26)
       object RootDirectoryLabel: TLabel
         Left = 0
         Top = 8
@@ -85,7 +78,6 @@ object DirectoryTabDialog: TDirectoryTabDialog
         Width = 205
         Height = 21
         Hint = 'Root directory'
-        Anchors = [akTop, akRight]
         TabOrder = 0
         Text = 'C:\'
         OnlyNumbers = False
@@ -100,7 +92,6 @@ object DirectoryTabDialog: TDirectoryTabDialog
         Width = 21
         Height = 21
         Action = RootDirectoryClickAction
-        Anchors = [akTop, akRight]
         Glyph.Data = {
           36030000424D3603000000000000360000002800000010000000100000000100
           18000000000000030000120B0000120B00000000000000000000FF00FFFF00FF
@@ -213,8 +204,8 @@ object DirectoryTabDialog: TDirectoryTabDialog
     end
   end
   object ActionList: TActionList
-    Left = 94
-    Top = 98
+    Left = 8
+    Top = 88
     object OKAction: TAction
       Caption = '&OK'
       OnExecute = OKActionExecute
