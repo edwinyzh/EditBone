@@ -947,6 +947,10 @@ procedure TMainForm.DragDropDrop(Sender: TObject; Pos: TPoint;
 var
   i: Integer;
 begin
+  if FDocumentFrame.IsCompareFilesActivePage then
+    for i := 0 to Value.Count - 1 do
+      FDocumentFrame.CompareFiles(Value.Strings[i])
+  else
   for i := 0 to Value.Count - 1 do
     FDocumentFrame.Open(Value.Strings[i]);
 end;
@@ -1262,6 +1266,7 @@ end;
 procedure TMainForm.ToolsSelectForCompareActionExecute(Sender: TObject);
 begin
   FDocumentFrame.SelectForCompare;
+  Repaint;
 end;
 
 procedure TMainForm.ToolsWordCountActionExecute(Sender: TObject);

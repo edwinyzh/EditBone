@@ -270,7 +270,6 @@ type
     procedure SelectHighLighter(SynEdit: TBCSynEdit; FileName: string);
     function GetOpenTabSheets: Boolean;
     function GetOpenTabSheetCount: Integer;
-    // function GetModifiedDocuments(CheckActive: Boolean = True): Boolean;
     function GetSelectionFound: Boolean;
     function GetCanUndo: Boolean;
     function GetCanRedo: Boolean;
@@ -291,7 +290,6 @@ type
     function GetActiveDocumentModified: Boolean;
     procedure SetMainHighlighterCombo(SynEdit: TBCSynEdit);
     procedure SetMainEncodingCombo(SynEdit: TBCSynEdit);
-    // function GetTabIndex(Pager: TPageControl; X,Y: Integer): Integer;
     procedure UpdateGutter(SynEdit: TBCSynEdit);
     function GetSelectionModeChecked: Boolean;
     function GetSplitChecked: Boolean;
@@ -366,6 +364,7 @@ type
     function GetMacroRecordPauseImageIndex: Integer;
     function IsRecordingMacro: Boolean;
     function IsMacroStopped: Boolean;
+    function IsCompareFilesActivePage: Boolean;
     property ActiveTabSheetCaption: string read GetActiveTabSheetCaption;
     property ActiveDocumentName: string read GetActiveDocumentName;
     property ActiveDocumentFound: Boolean read GetActiveDocumentFound;
@@ -1118,7 +1117,7 @@ begin
     for i := 0 to PageControl.PageCount - 1 do
       if PageControl.Pages[i].ImageIndex = FCompareImageIndex then
       begin
-        Frame := TCompareFrame(PageControl.Pages[i].Components[0]);
+        Frame := TCompareFrame(PageControl.Pages[i].Components[0].Components[0]);
         { if there already are two files to compare then continue }
         if Frame.ComparedFilesSet then
           Continue
@@ -3414,6 +3413,11 @@ begin
       end;
     end;
   end;
+end;
+
+function TDocumentFrame.IsCompareFilesActivePage: Boolean;
+begin
+  Result := Assigned(PageControl.ActivePage) and (PageControl.ActivePage.ImageIndex = FCompareImageIndex);
 end;
 
 end.
