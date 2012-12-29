@@ -12,243 +12,250 @@ uses
 
 const
   WM_AFTER_SHOW = WM_USER + 300; // custom message
+  { Main menu item indexes }
   VIEW_MENU_ITEMINDEX = 3;
-  STYLE_MENU_ITEMINDEX = 11;
+  VIEW_LANGUAGE_MENU_ITEMINDEX = 11;
+  VIEW_STYLE_MENU_ITEMINDEX = 12;
 
 type
   TMainForm = class(TForm)
-    ActionManager: TActionManager;
-    FileNewAction: TAction;
-    FileOpenAction: TAction;
-    ImageList: TBCImageList;
-    FileCloseAction: TAction;
-    FileCloseAllAction: TAction;
-    FileSaveAction: TAction;
-    FileSaveAsAction: TAction;
-    FileSaveAllAction: TAction;
-    FilePrintAction: TAction;
-    FilePrintPreviewAction: TAction;
-    FileExitAction: TAction;
-    StatusBar: TStatusBar;
     ActionMainMenuBar: TActionMainMenuBar;
-    EditUndoAction: TAction;
-    EditRedoAction: TAction;
-    EditCutAction: TAction;
-    EditCopyAction: TAction;
-    EditPasteAction: TAction;
-    ApplicationEvents: TApplicationEvents;
-    SearchAction: TAction;
-    SearchReplaceAction: TAction;
-    SearchFindNextAction: TAction;
-    SearchFindPreviousAction: TAction;
-    SearchFindInFilesAction: TAction;
-    ViewToolbarAction: TAction;
-    ViewDirectoryAction: TAction;
-    ViewOutputAction: TAction;
-    ViewWordWrapAction: TAction;
-    ViewLineNumbersAction: TAction;
-    ToolsPreferencesAction: TAction;
-    HelpAboutAction: TAction;
-    HelpHomeAction: TAction;
-    DocumentPopupMenu: TBCPopupMenu;
-    FileCloseMenuItem: TMenuItem;
-    FileCloseAllMenuItem: TMenuItem;
-    Separator1MenuItem: TMenuItem;
-    SaveMenuItem: TMenuItem;
-    SaveAsMenuItem: TMenuItem;
-    Separator2MenuItem: TMenuItem;
-    PrintMenuItem: TMenuItem;
-    PrintPreviewMenuItem: TMenuItem;
-    ViewSpecialCharsAction: TAction;
-    OutputDblClickAction: TAction;
-    FileTreeViewDblClickAction: TAction;
-    ViewInBrowserAction: TAction;
-    ViewSelectionModeAction: TAction;
+    ActionManager: TActionManager;
+    ActionToolBar: TActionToolBar;
     AppInstances: TJvAppInstances;
-    DragDrop: TJvDragDrop;
-    HTMLErrorTimer: TTimer;
-    ToggleBookmarkAction: TAction;
-    ViewNextPageAction: TAction;
-    CompareFilesAction: TAction;
-    N1: TMenuItem;
-    FileCloseAllOtherPagesAction: TAction;
+    ApplicationEvents: TApplicationEvents;
+    Case1: TMenuItem;
+    ClearBookmarksAction: TAction;
     CloseAllOtherPages1: TMenuItem;
+    CompareFilesAction: TAction;
     ContentPanel: TPanel;
-    OutputPanel: TPanel;
-    HorizontalSplitter: TSplitter;
+    Directory1: TMenuItem;
     DirectoryPanel: TPanel;
-    VerticalSplitter: TSplitter;
-    ViewOpenDirectoryAction: TAction;
-    ViewCloseDirectoryAction: TAction;
-    ViewPreviousPageAction: TAction;
-    EditIncreaseIndentAction: TAction;
+    Document1: TMenuItem;
+    DocumentPanel: TPanel;
+    DocumentPopupMenu: TBCPopupMenu;
+    DragDrop: TJvDragDrop;
+    EditCopyAction: TAction;
+    EditCutAction: TAction;
     EditDecreaseIndentAction: TAction;
+    EditDeleteEOLAction: TAction;
+    EditDeleteLineAction: TAction;
+    EditDeleteWordAction: TAction;
+    EditIncreaseIndentAction: TAction;
+    EditInsertLineAction: TAction;
+    EditPasteAction: TAction;
+    EditRedoAction: TAction;
+    EditSelectAllAction: TAction;
     EditSortAscAction: TAction;
     EditSortDescAction: TAction;
     EditToggleCaseAction: TAction;
-    EditSelectAllAction: TAction;
-    ClearBookmarksAction: TAction;
-    EditInsertLineAction: TAction;
-    EditDeleteWordAction: TAction;
-    EditDeleteLineAction: TAction;
-    EditDeleteEOLAction: TAction;
-    ToolsWordCountAction: TAction;
-    MacroRecordPauseAction: TAction;
-    MacroStopAction: TAction;
-    MacroPlaybackAction: TAction;
-    MacroSaveAsAction: TAction;
-    MacroOpenAction: TAction;
-    DocumentPanel: TPanel;
-    ViewEditDirectoryAction: TAction;
-    ToolbarPopupMenu: TBCPopupMenu;
-    NewOpen1: TMenuItem;
-    Print1: TMenuItem;
-    Directory1: TMenuItem;
+    EditUndoAction: TAction;
+    EncodingComboBox: TBCComboBox;
+    FileCloseAction: TAction;
+    FileCloseAllAction: TAction;
+    FileCloseAllMenuItem: TMenuItem;
+    FileCloseAllOtherPagesAction: TAction;
+    FileCloseMenuItem: TMenuItem;
+    FileExitAction: TAction;
+    FileNewAction: TAction;
+    FileOpenAction: TAction;
+    FilePrintAction: TAction;
+    FilePrintPreviewAction: TAction;
+    FileSaveAction: TAction;
+    FileSaveAllAction: TAction;
+    FileSaveAsAction: TAction;
+    FileTreeViewDblClickAction: TAction;
+    HelpAboutAction: TAction;
+    HelpCheckForUpdatesMenuAction: TAction;
+    HelpHomeAction: TAction;
+    HighlighterComboBox: TBCComboBox;
+    HorizontalSplitter: TSplitter;
+    HTMLErrorTimer: TTimer;
+    ImageList: TBCImageList;
     Indent1: TMenuItem;
-    Sort1: TMenuItem;
-    Case1: TMenuItem;
-    UndoandRedo1: TMenuItem;
-    Search1: TMenuItem;
-    Mode1: TMenuItem;
-    ools1: TMenuItem;
     Macro1: TMenuItem;
-    PopupMenuStandardAction: TAction;
-    PopupMenuPrintAction: TAction;
-    PopupMenuDirectoryAction: TAction;
-    PopupMenuIndentAction: TAction;
-    PopupMenuSortAction: TAction;
+    MacroOpenAction: TAction;
+    MacroPlaybackAction: TAction;
+    MacroRecordPauseAction: TAction;
+    MacroSaveAsAction: TAction;
+    MacroStopAction: TAction;
+    MainMenuPanel: TPanel;
+    Mode1: TMenuItem;
+    N1: TMenuItem;
+    N2: TMenuItem;
+    NewOpen1: TMenuItem;
+    ools1: TMenuItem;
+    OutputDblClickAction: TAction;
+    OutputPanel: TPanel;
     PopupMenuCaseAction: TAction;
     PopupMenuCommandAction: TAction;
-    PopupMenuSearchAction: TAction;
-    PopupMenuModeAction: TAction;
-    PopupMenuToolsAction: TAction;
-    PopupMenuMacroAction: TAction;
-    N2: TMenuItem;
-    ToolsSelectForCompareAction: TAction;
-    SelectforCompareMenuItem: TMenuItem;
-    HelpCheckForUpdatesMenuAction: TAction;
-    MainMenuPanel: TPanel;
-    ViewHighlighterSelectionAction: TAction;
+    PopupMenuDirectoryAction: TAction;
     PopupMenuDocumentAction: TAction;
-    Document1: TMenuItem;
-    ToolBarPanel: TPanel;
-    ViewSplitAction: TAction;
-    ActionToolBar: TActionToolBar;
-    HighlighterComboBox: TBCComboBox;
-    EncodingComboBox: TBCComboBox;
-    ViewEncodingSelectionAction: TAction;
+    PopupMenuIndentAction: TAction;
+    PopupMenuMacroAction: TAction;
+    PopupMenuModeAction: TAction;
+    PopupMenuPrintAction: TAction;
+    PopupMenuSearchAction: TAction;
+    PopupMenuSortAction: TAction;
+    PopupMenuStandardAction: TAction;
+    PopupMenuToolsAction: TAction;
+    Print1: TMenuItem;
+    PrintMenuItem: TMenuItem;
+    PrintPreviewMenuItem: TMenuItem;
+    SaveAsMenuItem: TMenuItem;
+    SaveMenuItem: TMenuItem;
+    Search1: TMenuItem;
+    SearchAction: TAction;
+    SearchFindInFilesAction: TAction;
+    SearchFindNextAction: TAction;
+    SearchFindPreviousAction: TAction;
+    SearchReplaceAction: TAction;
+    SelectforCompareMenuItem: TMenuItem;
     SelectStyleAction: TAction;
-    procedure FileNewActionExecute(Sender: TObject);
-    procedure ApplicationEventsHint(Sender: TObject);
-//    procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
-    procedure ViewOutputActionExecute(Sender: TObject);
-    procedure ViewDirectoryActionExecute(Sender: TObject);
-    procedure ViewToolbarActionExecute(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-    procedure FileOpenActionExecute(Sender: TObject);
-    procedure FileCloseActionExecute(Sender: TObject);
-    procedure FileCloseAllActionExecute(Sender: TObject);
-    procedure FileSaveActionExecute(Sender: TObject);
-    procedure FileSaveAllActionExecute(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure FileSaveAsActionExecute(Sender: TObject);
-    procedure FileExitActionExecute(Sender: TObject);
-    procedure EditUndoActionExecute(Sender: TObject);
-    procedure EditRedoActionExecute(Sender: TObject);
-    procedure EditCutActionExecute(Sender: TObject);
-    procedure EditCopyActionExecute(Sender: TObject);
-    procedure EditPasteActionExecute(Sender: TObject);
-    procedure ToolsPreferencesActionExecute(Sender: TObject);
-    procedure FilePrintActionExecute(Sender: TObject);
-    procedure FilePrintPreviewActionExecute(Sender: TObject);
-    procedure ViewWordWrapActionExecute(Sender: TObject);
-    procedure ViewLineNumbersActionExecute(Sender: TObject);
-    procedure SearchActionExecute(Sender: TObject);
-    procedure SearchReplaceActionExecute(Sender: TObject);
-    procedure SearchFindNextActionExecute(Sender: TObject);
-    procedure SearchFindPreviousActionExecute(Sender: TObject);
-    procedure SearchFindInFilesActionExecute(Sender: TObject);
-    procedure HelpHomeActionExecute(Sender: TObject);
-    procedure HelpAboutActionExecute(Sender: TObject);
-    procedure ViewSpecialCharsActionExecute(Sender: TObject);
-    procedure OutputDblClickActionExecute(Sender: TObject);
-    procedure FileTreeViewDblClickActionExecute(Sender: TObject);
-    procedure ViewInBrowserActionExecute(Sender: TObject);
-    procedure ViewSelectionModeActionExecute(Sender: TObject);
+    Separator1MenuItem: TMenuItem;
+    Separator2MenuItem: TMenuItem;
+    Sort1: TMenuItem;
+    StatusBar: TStatusBar;
+    ToggleBookmarkAction: TAction;
+    ToolBarPanel: TPanel;
+    ToolbarPopupMenu: TBCPopupMenu;
+    ToolsPreferencesAction: TAction;
+    ToolsSelectForCompareAction: TAction;
+    ToolsWordCountAction: TAction;
+    UndoandRedo1: TMenuItem;
+    VerticalSplitter: TSplitter;
+    ViewCloseDirectoryAction: TAction;
+    ViewDirectoryAction: TAction;
+    ViewEditDirectoryAction: TAction;
+    ViewEncodingSelectionAction: TAction;
+    ViewHighlighterSelectionAction: TAction;
+    ViewInBrowserAction: TAction;
+    ViewLineNumbersAction: TAction;
+    ViewNextPageAction: TAction;
+    ViewOpenDirectoryAction: TAction;
+    ViewOutputAction: TAction;
+    ViewPreviousPageAction: TAction;
+    ViewSelectionModeAction: TAction;
+    ViewSpecialCharsAction: TAction;
+    ViewSplitAction: TAction;
+    ViewToolbarAction: TAction;
+    ViewWordWrapAction: TAction;
+    ToolsLanguageEditorAction: TAction;
+    SelectLanguageAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
-    procedure DragDropDrop(Sender: TObject; Pos: TPoint; Value: TStrings);
-    procedure HTMLErrorTimerTimer(Sender: TObject);
-    procedure ToggleBookmarkActionExecute(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure ViewNextPageActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
-    procedure CompareFilesActionExecute(Sender: TObject);
-    procedure FileCloseAllOtherPagesActionExecute(Sender: TObject);
-    procedure ViewOpenDirectoryActionExecute(Sender: TObject);
+    procedure ApplicationEventsHint(Sender: TObject);
     procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
-    procedure ViewCloseDirectoryActionExecute(Sender: TObject);
-    procedure ViewPreviousPageActionExecute(Sender: TObject);
-    procedure EditIncreaseIndentActionExecute(Sender: TObject);
+    procedure ClearBookmarksActionExecute(Sender: TObject);
+    procedure CompareFilesActionExecute(Sender: TObject);
+    procedure DragDropDrop(Sender: TObject; Pos: TPoint; Value: TStrings);
+    procedure EditCopyActionExecute(Sender: TObject);
+    procedure EditCutActionExecute(Sender: TObject);
     procedure EditDecreaseIndentActionExecute(Sender: TObject);
+    procedure EditDeleteEOLActionExecute(Sender: TObject);
+    procedure EditDeleteLineActionExecute(Sender: TObject);
+    procedure EditDeleteWordActionExecute(Sender: TObject);
+    procedure EditIncreaseIndentActionExecute(Sender: TObject);
+    procedure EditInsertLineActionExecute(Sender: TObject);
+    procedure EditPasteActionExecute(Sender: TObject);
+    procedure EditRedoActionExecute(Sender: TObject);
+    procedure EditSelectAllActionExecute(Sender: TObject);
     procedure EditSortAscActionExecute(Sender: TObject);
     procedure EditSortDescActionExecute(Sender: TObject);
     procedure EditToggleCaseActionExecute(Sender: TObject);
-    procedure EditSelectAllActionExecute(Sender: TObject);
-    procedure ClearBookmarksActionExecute(Sender: TObject);
-    procedure EditInsertLineActionExecute(Sender: TObject);
-    procedure EditDeleteWordActionExecute(Sender: TObject);
-    procedure EditDeleteLineActionExecute(Sender: TObject);
-    procedure EditDeleteEOLActionExecute(Sender: TObject);
-    procedure ToolsWordCountActionExecute(Sender: TObject);
-    procedure MacroRecordPauseActionExecute(Sender: TObject);
-    procedure MacroStopActionExecute(Sender: TObject);
-    procedure MacroPlaybackActionExecute(Sender: TObject);
+    procedure EditUndoActionExecute(Sender: TObject);
+    procedure EncodingComboBoxChange(Sender: TObject);
+    procedure FileCloseActionExecute(Sender: TObject);
+    procedure FileCloseAllActionExecute(Sender: TObject);
+    procedure FileCloseAllOtherPagesActionExecute(Sender: TObject);
+    procedure FileExitActionExecute(Sender: TObject);
+    procedure FileNewActionExecute(Sender: TObject);
+    procedure FileOpenActionExecute(Sender: TObject);
+    procedure FilePrintActionExecute(Sender: TObject);
+    procedure FilePrintPreviewActionExecute(Sender: TObject);
+    procedure FileSaveActionExecute(Sender: TObject);
+    procedure FileSaveAllActionExecute(Sender: TObject);
+    procedure FileSaveAsActionExecute(Sender: TObject);
+    procedure FileTreeViewDblClickActionExecute(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormResize(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure HelpAboutActionExecute(Sender: TObject);
+    procedure HelpCheckForUpdatesMenuActionExecute(Sender: TObject);
+    procedure HelpHomeActionExecute(Sender: TObject);
+    procedure HighlighterComboBoxChange(Sender: TObject);
+    procedure HTMLErrorTimerTimer(Sender: TObject);
     procedure MacroOpenActionExecute(Sender: TObject);
+    procedure MacroPlaybackActionExecute(Sender: TObject);
+    procedure MacroRecordPauseActionExecute(Sender: TObject);
     procedure MacroSaveAsActionExecute(Sender: TObject);
-    procedure ViewEditDirectoryActionExecute(Sender: TObject);
-    procedure PopupMenuStandardActionExecute(Sender: TObject);
-    procedure PopupMenuPrintActionExecute(Sender: TObject);
-    procedure PopupMenuDirectoryActionExecute(Sender: TObject);
-    procedure PopupMenuIndentActionExecute(Sender: TObject);
-    procedure PopupMenuSortActionExecute(Sender: TObject);
+    procedure MacroStopActionExecute(Sender: TObject);
+    procedure OutputDblClickActionExecute(Sender: TObject);
     procedure PopupMenuCaseActionExecute(Sender: TObject);
     procedure PopupMenuCommandActionExecute(Sender: TObject);
-    procedure PopupMenuSearchActionExecute(Sender: TObject);
-    procedure PopupMenuModeActionExecute(Sender: TObject);
-    procedure PopupMenuToolsActionExecute(Sender: TObject);
-    procedure PopupMenuMacroActionExecute(Sender: TObject);
-    procedure ToolsSelectForCompareActionExecute(Sender: TObject);
-    procedure HelpCheckForUpdatesMenuActionExecute(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure ViewHighlighterSelectionActionExecute(Sender: TObject);
-    procedure HighlighterComboBoxChange(Sender: TObject);
-    procedure FormResize(Sender: TObject);
+    procedure PopupMenuDirectoryActionExecute(Sender: TObject);
     procedure PopupMenuDocumentActionExecute(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
-    procedure ViewSplitActionExecute(Sender: TObject);
-    procedure ViewEncodingSelectionActionExecute(Sender: TObject);
-    procedure EncodingComboBoxChange(Sender: TObject);
+    procedure PopupMenuIndentActionExecute(Sender: TObject);
+    procedure PopupMenuMacroActionExecute(Sender: TObject);
+    procedure PopupMenuModeActionExecute(Sender: TObject);
+    procedure PopupMenuPrintActionExecute(Sender: TObject);
+    procedure PopupMenuSearchActionExecute(Sender: TObject);
+    procedure PopupMenuSortActionExecute(Sender: TObject);
+    procedure PopupMenuStandardActionExecute(Sender: TObject);
+    procedure PopupMenuToolsActionExecute(Sender: TObject);
+    procedure SearchActionExecute(Sender: TObject);
+    procedure SearchFindInFilesActionExecute(Sender: TObject);
+    procedure SearchFindNextActionExecute(Sender: TObject);
+    procedure SearchFindPreviousActionExecute(Sender: TObject);
+    procedure SearchReplaceActionExecute(Sender: TObject);
     procedure SelectStyleActionExecute(Sender: TObject);
+    procedure ToggleBookmarkActionExecute(Sender: TObject);
+    procedure ToolsPreferencesActionExecute(Sender: TObject);
+    procedure ToolsSelectForCompareActionExecute(Sender: TObject);
+    procedure ToolsWordCountActionExecute(Sender: TObject);
+    procedure ViewCloseDirectoryActionExecute(Sender: TObject);
+    procedure ViewDirectoryActionExecute(Sender: TObject);
+    procedure ViewEditDirectoryActionExecute(Sender: TObject);
+    procedure ViewEncodingSelectionActionExecute(Sender: TObject);
+    procedure ViewHighlighterSelectionActionExecute(Sender: TObject);
+    procedure ViewInBrowserActionExecute(Sender: TObject);
+    procedure ViewLineNumbersActionExecute(Sender: TObject);
+    procedure ViewNextPageActionExecute(Sender: TObject);
+    procedure ViewOpenDirectoryActionExecute(Sender: TObject);
+    procedure ViewOutputActionExecute(Sender: TObject);
+    procedure ViewPreviousPageActionExecute(Sender: TObject);
+    procedure ViewSelectionModeActionExecute(Sender: TObject);
+    procedure ViewSpecialCharsActionExecute(Sender: TObject);
+    procedure ViewSplitActionExecute(Sender: TObject);
+    procedure ViewToolbarActionExecute(Sender: TObject);
+    procedure ViewWordWrapActionExecute(Sender: TObject);
+    procedure SelectLanguageActionExecute(Sender: TObject);
   private
     { Private declarations }
-    FOnStartUp: Boolean;
     FDirectoryFrame: TDirectoryFrame;
     FDocumentFrame: TDocumentFrame;
+    FOnStartUp: Boolean;
     FOutputFrame: TOutputFrame;
-    procedure SetFields;
     function SupportedFileExt(FileExt: string): Boolean;
+    procedure CreateFrames;
+    procedure CreateLanguageMenu;
+    procedure CreateStyleMenu;
     procedure FindInFiles(FindWhatText, FileTypeText, FolderText: string; SearchCaseSensitive, LookInSubfolders: Boolean);
     procedure ReadIniFile;
-    procedure WriteIniFile;
-    procedure SetHighlighterComboIndex(Value: Integer);
-    procedure SetEncodingComboIndex(Value: Integer);
-    procedure WMAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
+    procedure ReadLanguageFile;
     procedure RecreateStatusBar;
-    procedure CreateStyleMenu;
+    procedure SetEncodingComboIndex(Value: Integer);
+    procedure SetFields;
+    procedure SetHighlighterComboIndex(Value: Integer);
+    procedure WMAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
+    procedure WriteIniFile;
   public
     { Public declarations }
-    property HighlighterComboIndex: Integer write SetHighlighterComboIndex;
     property EncodingComboIndex: Integer write SetEncodingComboIndex;
+    property HighlighterComboIndex: Integer write SetHighlighterComboIndex;
   end;
 
 var
@@ -295,28 +302,56 @@ begin
   end;
 end;
 
+procedure TMainForm.SelectLanguageActionExecute(Sender: TObject);
+var
+  i: Integer;
+  ActionCaption: string;
+  Action: TAction;
+  ActionClientItem: TActionClientItem;
+begin
+  Action := Sender as TAction;
+  ActionCaption := StringReplace(Action.Caption, '&', '', [rfReplaceAll]);
+
+  with TBigIniFile.Create(Common.GetINIFilename) do
+  try
+    WriteString('Preferences', 'Language', ActionCaption);
+  finally
+    Free;
+  end;
+
+  ActionClientItem := ActionMainMenuBar.ActionClient.Items[VIEW_MENU_ITEMINDEX];
+  ActionClientItem := ActionClientItem.Items[VIEW_LANGUAGE_MENU_ITEMINDEX];
+  for i := 0 to ActionClientItem.Items.Count - 1 do
+    TAction(ActionClientItem.Items[i].Action).Checked := False;
+  Action.Checked := True;
+
+  ReadLanguageFile;
+end;
+
 procedure TMainForm.SelectStyleActionExecute(Sender: TObject);
 var
   i: Integer;
+  ActionCaption: string;
   Action: TAction;
   ActionClientItem: TActionClientItem;
   StyleInfo: TStyleInfo;
 begin
   Action := Sender as TAction;
+  ActionCaption := StringReplace(Action.Caption, '&', '', [rfReplaceAll]);
 
   if Action.Caption = STYLENAME_WINDOWS then
-    TStyleManager.TrySetStyle(Action.Caption)
+    TStyleManager.TrySetStyle(ActionCaption)
   else
-  if TStyleManager.IsValidStyle(Action.Caption, StyleInfo) then
+  if TStyleManager.IsValidStyle(ActionCaption, StyleInfo) then
   begin
     if Assigned(TStyleManager.Style[StyleInfo.Name]) then
       TStyleManager.TrySetStyle(StyleInfo.Name)
     else
     begin
-      TStyleManager.SetStyle(TStyleManager.LoadFromFile(Action.Caption));
+      TStyleManager.SetStyle(TStyleManager.LoadFromFile(ActionCaption));
       with TBigIniFile.Create(Common.GetINIFilename) do
       try
-        WriteString('Preferences', 'StyleFilename', ExtractFilename(Action.Caption));
+        WriteString('Preferences', 'StyleFilename', ExtractFilename(ActionCaption));
       finally
         Free;
       end;
@@ -324,7 +359,7 @@ begin
   end;
 
   ActionClientItem := ActionMainMenuBar.ActionClient.Items[VIEW_MENU_ITEMINDEX];
-  ActionClientItem := ActionClientItem.Items[STYLE_MENU_ITEMINDEX];
+  ActionClientItem := ActionClientItem.Items[VIEW_STYLE_MENU_ITEMINDEX];
   for i := 0 to ActionClientItem.Items.Count - 1 do
     TAction(ActionClientItem.Items[i].Action).Checked := False;
   Action.Checked := True;
@@ -334,47 +369,82 @@ begin
   RecreateStatusBar;
 end;
 
+procedure TMainForm.CreateLanguageMenu;
+var
+  FilePath, FileName, ExtractedFileName, LanguageName: string;
+  ActionClientItem: TActionClientItem;
+  Action: TAction;
+begin
+  FilePath := IncludeTrailingPathDelimiter(Format('%s%s', [ExtractFilePath(ParamStr(0)), 'Languages']));
+  if not DirectoryExists(FilePath) then
+    Exit;
+
+  with TBigIniFile.Create(Common.GetINIFilename) do
+  try
+    LanguageName := ReadString('Preferences', 'Language', 'English');
+  finally
+    Free;
+  end;
+
+  for FileName in TDirectory.GetFiles(FilePath, '*.lng') do
+  begin
+    // TODO: Think better solution to find the Style menuitem.
+    // This is poor solution. If the menu changes, then you should also remember to fix the item numbers.
+    ActionClientItem := ActionMainMenuBar.ActionClient.Items[VIEW_MENU_ITEMINDEX];
+    ActionClientItem := ActionClientItem.Items[VIEW_LANGUAGE_MENU_ITEMINDEX];
+    // ---
+    ActionClientItem := ActionClientItem.Items.Add;
+
+    Action := TAction.Create(ActionManager);
+    ExtractedFileName := ExtractFilename(ChangeFileExt(FileName, ''));
+    Action.Name := ExtractedFileName + 'LanguageSelectAction';
+    Action.Caption := ExtractedFileName;
+    Action.OnExecute := SelectLanguageActionExecute;
+    Action.Checked := LanguageName = ExtractedFileName;
+    ActionClientItem.Action := Action;
+  end;
+end;
+
 procedure TMainForm.CreateStyleMenu;
 var
-  FileName: string;
+  FilePath, FileName: string;
   StyleInfo: TStyleInfo;
   ActionClientItem: TActionClientItem;
   Action: TAction;
 begin
-  for FileName in TDirectory.GetFiles(IncludeTrailingPathDelimiter(Format('%s%s',
-    [ExtractFilePath(ParamStr(0)), 'Styles'])), '*.vsf') do
+  FilePath := IncludeTrailingPathDelimiter(Format('%s%s', [ExtractFilePath(ParamStr(0)), 'Styles']));
+  if not DirectoryExists(FilePath) then
+    Exit;
+
+  for FileName in TDirectory.GetFiles(FilePath, '*.vsf') do
   begin
     if TStyleManager.IsValidStyle(FileName, StyleInfo) then
     begin
       // TODO: Think better solution to find the Style menuitem.
       // This is poor solution. If the menu changes, then you should also remember to fix the item numbers.
       ActionClientItem := ActionMainMenuBar.ActionClient.Items[VIEW_MENU_ITEMINDEX];
-      ActionClientItem := ActionClientItem.Items[STYLE_MENU_ITEMINDEX];
+      ActionClientItem := ActionClientItem.Items[VIEW_STYLE_MENU_ITEMINDEX];
       // ---
       ActionClientItem := ActionClientItem.Items.Add;
 
       Action := TAction.Create(ActionManager);
       Action.Name := StringReplace(StyleInfo.Name, ' ', '', [rfReplaceAll]) + 'StyleSelectAction';
-      //Action.GroupIndex := 1;
       Action.Caption := FileName;
       Action.OnExecute := SelectStyleActionExecute;
       Action.Checked :=  TStyleManager.ActiveStyle.Name = StyleInfo.Name;
-      //Action.GroupIndex := 1;
       ActionClientItem.Action := Action;
       ActionClientItem.Caption := StyleInfo.Name;
     end;
   end;
   { Windows }
   ActionClientItem := ActionMainMenuBar.ActionClient.Items[VIEW_MENU_ITEMINDEX];
-  ActionClientItem := ActionClientItem.Items[STYLE_MENU_ITEMINDEX];
+  ActionClientItem := ActionClientItem.Items[VIEW_STYLE_MENU_ITEMINDEX];
   ActionClientItem := ActionClientItem.Items.Add;
   Action := TAction.Create(ActionManager);
   Action.Name := 'WindowsStyleSelectAction';
-  //Action.GroupIndex := 1;
   Action.Caption := STYLENAME_WINDOWS;
   Action.OnExecute := SelectStyleActionExecute;
   Action.Checked :=  TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
-  //Action.GroupIndex := 1;
   ActionClientItem.Action := Action;
 end;
 
@@ -395,6 +465,7 @@ begin
       for i := 1 to ParamCount do
         FDocumentFrame.Open(ParamStr(i));
 
+    CreateLanguageMenu;
     CreateStyleMenu;
 
     FDirectoryFrame.UpdateControls;
@@ -542,8 +613,6 @@ begin
   ViewDirectoryAction.Checked := DirectoryPanel.Visible;
   HorizontalSplitter.Visible := OutputPanel.Visible;
 
-  //HighlighterComboBox.Visible := ViewHighlighterSelectionAction.Visible and ActiveDocumentFound;
-  //EncodingComboBox.Visible := ViewEncodingSelectionAction.Visible and ActiveDocumentFound;
   ViewHighlighterSelectionAction.Checked := HighlighterComboBox.Visible;
   ViewEncodingSelectionAction.Checked := EncodingComboBox.Visible;
 
@@ -557,8 +626,7 @@ begin
   FileCloseAction.Enabled := FDocumentFrame.OpenTabSheets;
   FileCloseAllAction.Enabled := FileCloseAction.Enabled;
   FileCloseAllOtherPagesAction.Enabled := FileCloseAction.Enabled;
-  //ViewNextPageAction.Enabled := FileCloseAction.Enabled;
-  ViewNextPageAction.Enabled := FDocumentFrame.OpenTabSheetCount > 1; //FileCloseAction.Enabled or DatabaseEndConnectionMenuAction.Enabled;
+  ViewNextPageAction.Enabled := FDocumentFrame.OpenTabSheetCount > 1;
   ViewPreviousPageAction.Enabled := ViewNextPageAction.Enabled;
   ToolsPreferencesAction.Enabled := FileCloseAction.Enabled;
   FileSaveAsAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
@@ -580,9 +648,8 @@ begin
   EditDeleteWordAction.Enabled := ActiveDocumentFound;
   EditDeleteLineAction.Enabled := ActiveDocumentFound;
   EditDeleteEOLAction.Enabled := ActiveDocumentFound;
-  //if Clipboard.HasFormat(CF_TEXT) then
   try
-    EditPasteAction.Enabled := Clipboard.HasFormat(CF_TEXT) and ActiveDocumentFound; //ClipBoard.AsText <> '';
+    EditPasteAction.Enabled := Clipboard.HasFormat(CF_TEXT) and ActiveDocumentFound;
   except
     // silent
   end;
@@ -784,15 +851,8 @@ begin
   WriteIniFile;
 end;
 
-procedure TMainForm.FormCreate(Sender: TObject);
+procedure TMainForm.CreateFrames;
 begin
-  FOnStartUp := True;
-  { IDE is losing these for some reason... }
-  ActionMainMenuBar.Font.Name := 'Tahoma';
-  ActionMainMenuBar.Font.Size := 8;
-  StatusBar.Font.Name := 'Tahoma';
-  StatusBar.Font.Size := 8;
-
   FOutputFrame := TOutputFrame.Create(OutputPanel);
   FOutputFrame.Parent := OutputPanel;
   FOutputFrame.OnTabsheetDblClick := OutputDblClickActionExecute;
@@ -805,7 +865,78 @@ begin
   FDocumentFrame.Parent := DocumentPanel;
   FDocumentFrame.PopupMenu := DocumentPopupMenu;
   FDocumentFrame.ReadIniFile;
+end;
 
+procedure TMainForm.ReadLanguageFile;
+var
+  i, j, k: Integer;
+  Language: string;
+  BigIniFile: TBigIniFile;
+  Action: TContainedAction;
+
+  procedure ReadMenuItem(Key: string);
+  var
+    MenuItem, ShortCut, Hint: string;
+  begin
+    if not Assigned(Action) then
+      Exit;
+    MenuItem := BigIniFile.ReadString('MainMenu', Key, '');
+    if MenuItem <> '' then
+      TAction(Action).Caption := MenuItem;
+    ShortCut := BigIniFile.ReadString('MainMenu', Format('%ss', [Key]), '');
+    if ShortCut <> '' then
+      TAction(Action).ShortCut := TextToShortCut(ShortCut);
+    Hint := BigIniFile.ReadString('MainMenu', Format('%sh', [Key]), '');
+    if Hint <> '' then
+      TAction(Action).Hint := Hint;
+  end;
+begin
+  { get selected language }
+  with TBigIniFile.Create(Common.GetINIFilename) do
+  try
+    Language := ReadString('Preferences', 'Language', '');
+  finally
+    Free;
+  end;
+
+  if Language = '' then
+    Exit;
+
+  BigIniFile := TBigIniFile.Create(Format('%sLanguages\%s.%s', [ExtractFilePath(ParamStr(0)), Language, 'lng']));
+  try
+    { main menu  }
+    for i := 0 to ActionMainMenuBar.ActionClient.Items.Count - 1 do
+    begin
+      ActionMainMenuBar.ActionClient.Items[i].Caption := BigIniFile.ReadString('MainMenu', IntToStr(i), '');
+      for j := 0 to ActionMainMenuBar.ActionClient.Items[i].Items.Count - 1 do
+      begin
+        Action := ActionMainMenuBar.ActionClient.Items[i].Items[j].Action;
+        ReadMenuItem(Format('%d:%d', [i, j]));
+        for k := 0 to ActionMainMenuBar.ActionClient.Items[i].Items[j].Items.Count - 1 do
+        begin
+          Action := ActionMainMenuBar.ActionClient.Items[i].Items[j].Items[k].Action;
+          ReadMenuItem(Format('%d:%d:%d', [i, j, k]));
+        end;
+      end;
+    end;
+    { constants }
+
+  finally
+    BigIniFile.Free;
+  end;
+end;
+
+procedure TMainForm.FormCreate(Sender: TObject);
+begin
+  FOnStartUp := True;
+  { IDE is losing these for some reason... }
+  ActionMainMenuBar.Font.Name := 'Tahoma';
+  ActionMainMenuBar.Font.Size := 8;
+  StatusBar.Font.Name := 'Tahoma';
+  StatusBar.Font.Size := 8;
+
+  ReadLanguageFile;
+  CreateFrames;
   ReadIniFile;
 end;
 
