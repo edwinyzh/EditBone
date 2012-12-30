@@ -269,7 +269,6 @@ uses
   System.IOUtils;
 
 const
-  APPLICATION_NAME = 'EditBone';
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
 
 procedure TMainForm.RecreateStatusBar;
@@ -540,7 +539,7 @@ begin
   if WindowState = wsNormal then
   with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
   try
-    WriteString(APPLICATION_NAME, 'Version', AboutDialog.Version);
+    WriteString(Application.Title, 'Version', AboutDialog.Version);
     { Position }
     WriteInteger('Position', 'Left', Left);
     WriteInteger('Position', 'Top', Top);
@@ -616,12 +615,12 @@ begin
   ViewEncodingSelectionAction.Checked := EncodingComboBox.Visible;
 
   if FDocumentFrame.ActiveDocumentName <> '' then
-    Caption := Format(APPLICATION_NAME + MAIN_CAPTION_DOCUMENT, [FDocumentFrame.ActiveDocumentName])
+    Caption := Format(Application.Title + MAIN_CAPTION_DOCUMENT, [FDocumentFrame.ActiveDocumentName])
   else
   if FDocumentFrame.ActiveTabSheetCaption <> '' then
-    Caption := Format(APPLICATION_NAME + MAIN_CAPTION_DOCUMENT, [FDocumentFrame.ActiveTabSheetCaption])
+    Caption := Format(Application.Title + MAIN_CAPTION_DOCUMENT, [FDocumentFrame.ActiveTabSheetCaption])
   else
-    Caption := APPLICATION_NAME;
+    Caption := Application.Title;
   FileCloseAction.Enabled := FDocumentFrame.OpenTabSheets;
   FileCloseAllAction.Enabled := FileCloseAction.Enabled;
   FileCloseAllOtherPagesAction.Enabled := FileCloseAction.Enabled;
@@ -916,7 +915,7 @@ end;
 
 procedure TMainForm.HelpCheckForUpdatesMenuActionExecute(Sender: TObject);
 begin
-  Common.CheckForUpdates(APPLICATION_NAME);
+  Common.CheckForUpdates(Application.Title);
 end;
 
 procedure TMainForm.HelpHomeActionExecute(Sender: TObject);

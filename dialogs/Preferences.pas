@@ -341,6 +341,8 @@ begin
 end;
 
 constructor TOptionsContainer.Create(AOwner: TComponent);
+var
+  i: Integer;
 begin
   inherited;
   FGutterVisible := True;
@@ -355,59 +357,8 @@ begin
   FHTMLVersion := shvHtml5;
   FFileTypes := TStringList.Create;
 
-  FFileTypes.Add('68HC11 Assembler Files (*.hc11;*.asc)');
-  FFileTypes.Add('AWK Scripts (*.awk)');
-  FFileTypes.Add('Baan 4GL Files (*.cln)');
-  FFileTypes.Add('C# Files (*.cs)');
-  FFileTypes.Add('C/C++ Files (*.c;*.cpp;*.h;*.hpp)');
-  FFileTypes.Add('CA-Clipper Files (*.prg;*.ch;*.inc)');
-  FFileTypes.Add('Cache Files (*.mac;*.inc;*.int)');
-  FFileTypes.Add('Cascading Stylesheets (*.css)');
-  FFileTypes.Add('COBOL Files (*.cbl;*.cob)');
-  FFileTypes.Add('CORBA IDL Files (*.idl)');
-  FFileTypes.Add('CPM Reports (*.rdf;*.rif;*.rmf;*.rxf)');
-  FFileTypes.Add('DOT Graph Drawing Description (*.dot)');
-  FFileTypes.Add('DSP Files (*.dsp;*.inc)');
-  FFileTypes.Add('DWScript Files (*.dws)');
-  FFileTypes.Add('Eiffel (*.e;*.ace)');
-  FFileTypes.Add('Fortran Files (*.for)');
-  FFileTypes.Add('Foxpro Files (*.prg)');
-  FFileTypes.Add('Galaxy Files (*.gtv;*.galrep)');
-  FFileTypes.Add('GEMBASE Files (*.dml;*.gem)');
-  FFileTypes.Add('GW-TEL Scripts (*.gws)');
-  FFileTypes.Add('Haskell Files (*.hs;*.lhs)');
-  FFileTypes.Add('HP48 Files (*.s;*.sou;*.a;*.hp)');
-  FFileTypes.Add('HTML Files (*.html;*.htm)');
-  FFileTypes.Add('INI Files (*.ini)');
-  FFileTypes.Add('Inno Setup Scripts (*.iss)');
-  FFileTypes.Add('Java Files (*.java)');
-  FFileTypes.Add('Javascript Files (*.js)');
-  FFileTypes.Add('KiXtart Scripts (*.kix)');
-  FFileTypes.Add('LEGO LDraw Files (*.ldr)');
-  FFileTypes.Add('Modelica Files (*.mo)');
-  FFileTypes.Add('Modula-3 Files (*.m3)');
-  FFileTypes.Add('Msg Files (*.msg)');
-  FFileTypes.Add('MS-DOS Batch Files (*.bat;*.cmd)');
-  FFileTypes.Add('Pascal Files (*.pas;*.dfm;*.dpr;*.dproj)');
-  FFileTypes.Add('Perl Files (*.pl;*.pm;*.cgi)');
-  FFileTypes.Add('PHP Files (*.php;*.class;*.inc)');
-  FFileTypes.Add('Progress Files (*.w;*.p;*.i)');
-  FFileTypes.Add('Python Files (*.py)');
-  FFileTypes.Add('Resource Files (*.rc)');
-  FFileTypes.Add('Ruby Files (*.rb;*.rbw)');
-  FFileTypes.Add('Semanta DD Files (*.sdd)');
-  FFileTypes.Add('SQL Files (*.sql)');
-  FFileTypes.Add('Standard ML Files (*.sml)');
-  FFileTypes.Add('Structured Text Files (*.st)');
-  FFileTypes.Add('Tcl/Tk Files (*.tcl)');
-  FFileTypes.Add('TeX Files (*.tex)');
-  FFileTypes.Add('Text Files (*.txt)');
-  FFileTypes.Add('UNIX Shell Scripts (*.sh)');
-  FFileTypes.Add('Visual Basic Files (*.vb;*.bas)');
-  FFileTypes.Add('VBScript Files (*.vbs)');
-  FFileTypes.Add('Vrml97/X3D World (*.wrl;*.wrml;*.vrl;*.vrml;*.x3d)');
-  FFileTypes.Add('x86 Assembly Files (*.asm)');
-  FFileTypes.Add('XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)');
+  for i := 0 to CommonDataModule.FileTypesMultiStringHolder.MultipleStrings.Count - 1 do
+    FFileTypes.Add(CommonDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text);
 end;
 
 destructor TOptionsContainer.Destroy;
@@ -420,7 +371,7 @@ function TOptionsContainer.GetFilters: string;
 var
   i: Integer;
 begin
-  Result := 'Any file (*.*)|*.*|';
+  Result := Format('%s (*.*)|*.*|', [CommonDataModule.ConstantMultiStringHolder.StringsByName['AnyFile'].Text]);
   i := 0;
   while i < FFileTypes.Count do
   begin

@@ -23,8 +23,6 @@ type
     OutputCloseAllAction: TAction;
     CloseAllOtherPagesAction: TAction;
     procedure OutputCloseActionExecute(Sender: TObject);
-   // procedure OutputTreeViewCustomDrawItem(Sender: TCustomTreeView; Node: TTreeNode;
-   //   State: TCustomDrawState; var DefaultDraw: Boolean);
     procedure TabsheetDblClick(Sender: TObject);
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
@@ -39,8 +37,6 @@ type
     function GetIsEmpty: Boolean;
     function GetCount: Integer;
     function GetIsAnyOutput: Boolean;
-//    procedure DrawImage(Sender: TCustomTreeView; NodeRect: TRect; ImageIndex: Integer);
-    //function TreeView: TJvTreeView;
     function VirtualDrawTree: TVirtualDrawTree;
     procedure SetProcessingTabSheet(Value: Boolean);
     function TabFound(TabCaption: string): Boolean;
@@ -129,7 +125,7 @@ begin
     TabSheet.ImageIndex := 1 { errors }
   else
     TabSheet.ImageIndex := 0; { find in files }
-  TabSheet.Caption := TabCaption; //Format('Search: ''%s''', [TabCaption]);
+  TabSheet.Caption := TabCaption;
   PageControl.ActivePage := TabSheet;
 
   TreeViewPanel := TPanel.Create(PageControl);
@@ -146,9 +142,7 @@ begin
       Padding.Right := 1;
     Padding.Bottom := 2;
     ParentBackground := True;
-    //DoubleBuffered := False;
     ParentColor := True;
-    //ParentDoubleBuffered := False;
   end;
 
   OutputTreeView := TVirtualDrawTree.Create(TabSheet);
@@ -165,7 +159,6 @@ begin
     TreeOptions.PaintOptions := [toShowButtons, toShowRoot, toUseBlendedSelection, toThemeAware];
     if AutoExpand then
       TreeOptions.AutoOptions := TreeOptions.AutoOptions + [toAutoExpand];
-    //TreeOptions.SelectionOptions := [toFullRowSelect];
     OnDrawNode := VirtualDrawTreeDrawNode;
     OnFreeNode := VirtualDrawTreeFreeNode;
     OnGetNodeWidth := VirtualDrawTreeGetNodeWidth;
@@ -179,7 +172,6 @@ begin
   Self.Clear;
 end;
 
-//function TOutputFrame.TreeView: TJvTreeView;
 function TOutputFrame.VirtualDrawTree: TVirtualDrawTree;
 var
   i: Integer;
@@ -207,7 +199,6 @@ var
   S: UnicodeString;
   R: TRect;
   Format: Cardinal;
-  //StartPos: LongWord;
   LStyles: TCustomStyleServices;
   LDetails: TThemedElementDetails;
   LColor: TColor;
@@ -254,14 +245,6 @@ begin
       Canvas.Font.Style := Canvas.Font.Style + [fsBold]
     else
       Canvas.Font.Style := Canvas.Font.Style - [fsBold];
-
-    {Canvas.Font.Color := clWindowText;
-
-    if (Column = FocusedColumn) and (not Sender.Focused) then
-    begin
-      Canvas.Brush.Color := clBtnFace;
-      Canvas.Font.Color := clBlack;
-    end; }
 
     SetBKMode(Canvas.Handle, TRANSPARENT);
 
@@ -354,7 +337,6 @@ begin
     Data^.Text := '';
     Data^.SearchString := '';
   end;
-  //Finalize(Data^);
 end;
 
 procedure TOutputFrame.AddTreeViewLine(var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongWord; Text: WideString; SearchString: ShortString);
@@ -446,14 +428,6 @@ begin
 
   Node := OutputTreeView.GetFirstSelected;
   NodeData := OutputTreeView.GetNodeData(Node);
-  {NodeData := nil;
-  while Assigned(Node) do
-  begin
-    NodeData := OutputTreeView.GetNodeData(Node);
-    if OutputTreeView.Selected[Node] then
-      Break;
-    Node := OutputTreeView.GetNext(Node);
-  end;}
 
   Result := Assigned(NodeData) and (NodeData.Text <> '');
   if Result then

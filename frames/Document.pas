@@ -1007,7 +1007,6 @@ procedure TDocumentFrame.SynEditSpecialLineColors(Sender: TObject; Line: Integer
   var Special: Boolean; var FG, BG: TColor);
 var
   LStyles: TCustomStyleServices;
-  //HighlightColor: TColor;
 begin
   if not TBCSynEdit(Sender).SelAvail then
     if TBCSynEdit(Sender).CaretY = Line then
@@ -1015,25 +1014,8 @@ begin
       Special := True;
       LStyles := StyleServices;
       if LStyles.Enabled then
-      begin
-        //HighlightColor := LStyles.GetSystemColor(clHighlight);
-        //HighlightColor := LightenColor(HighlightColor, HighlightColor, False);
-        //HighlightColor := LightenColor(TBCSynEdit(Sender).Color);
-
-        BG := LightenColor(TBCSynEdit(Sender).Color); //HighlightColor; //BG := GetHighlightColor(ColorToRGB(StyleServices.GetSystemColor(clHighlight))); //LStyles.GetSystemColor(clHighlight);
-//        FG := LStyles.GetSystemColor(clMenuText);
-      end;
+        BG := LightenColor(TBCSynEdit(Sender).Color);
     end;
- { if TBCSynEdit(Sender).SelAvail and (TBCSynEdit(Sender).CaretY = Line) then
-  begin
-    Special := True;
-    LStyles := StyleServices;
-    if LStyles.Enabled then
-    begin
-      BG := LStyles.GetSystemColor(TBCSynEdit(Sender).Color); //scEdit);
-      //FG := TBCSynEdit(Sender).SelectedColor.Background; //LStyles.GetSystemColor(TBCSynEdit(Sender).Font.Color); //sfEditBoxTextNormal); //LStyles.GetStyleFontColor(sfMenuItemTextSelected); //LStyles.GetSystemColor(clHighlightText);
-    end;
-  end;  }
 end;
 
 procedure TDocumentFrame.UpdateGutter(SynEdit: TBCSynEdit);
@@ -1043,13 +1025,13 @@ begin
   LStyles := StyleServices;
   if LStyles.Enabled then
   begin
-    SynEdit.Gutter.Font.Color := LStyles.GetStyleFontColor(sfHeaderSectionTextNormal); //sfEditBoxTextNormal);
-    SynEdit.Gutter.BorderColor := LStyles.GetStyleColor(scEdit); //SynEdit.Color;
-    SynEdit.Gutter.Color := LStyles.GetStyleColor(scPanel); // LStyles.GetStyleColor(scGenericGradientEnd);
+    SynEdit.Gutter.Font.Color := LStyles.GetStyleFontColor(sfHeaderSectionTextNormal);
+    SynEdit.Gutter.BorderColor := LStyles.GetStyleColor(scEdit);
+    SynEdit.Gutter.Color := LStyles.GetStyleColor(scPanel);
     SynEdit.RightEdgeColor := LStyles.GetStyleColor(scPanel);
 
     SynEdit.SelectedColor.Background := LStyles.GetSystemColor(clHighlight);
-    SynEdit.SelectedColor.Foreground := LStyles.GetSystemColor(clHighlightText);  //LStyles.GetSystemColor(SynEdit.Font.Color); //
+    SynEdit.SelectedColor.Foreground := LStyles.GetSystemColor(clHighlightText);
 
     if Assigned(SynEdit.Highlighter) and ( (SynEdit.Highlighter.Tag = 3) or (SynEdit.Highlighter.Tag = 4) or (SynEdit.Highlighter.Tag = 5) or
        (SynEdit.Highlighter.Tag = 6) or (SynEdit.Highlighter.Tag = 7) or (SynEdit.Highlighter.Tag = 8) or
@@ -1060,20 +1042,11 @@ begin
         5, 8, 39: SynEdit.Color := clBlack;
       end;
       if SynEdit.Color = clBlack then
-       { if (TStyleManager.ActiveStyle.Name = STYLENAME_AMAKRITS) or
-          (TStyleManager.ActiveStyle.Name = STYLENAME_CARBON) or
-          (TStyleManager.ActiveStyle.Name = STYLENAME_AQUA_GRAPHITE) or
-          (TStyleManager.ActiveStyle.Name = STYLENAME_AURIC) or
-          (TStyleManager.ActiveStyle.Name = STYLENAME_CHARCOAL_DARK_SLATE) or
-          (TStyleManager.ActiveStyle.Name = STYLENAME_COBALT_XEMEDIA) or
-          (TStyleManager.ActiveStyle.Name = STYLENAME_GOLDEN_GRAPHITE) or
-          (TStyleManager.ActiveStyle.Name = STYLENAME_METRO_BLACK) or
-          (TStyleManager.ActiveStyle.Name = STYLENAME_RUBY_GRAPHITE) then  }
-          SynEdit.Color := LStyles.GetStyleColor(scEdit);
+        SynEdit.Color := LStyles.GetStyleColor(scEdit);
     end
     else
     begin
-      SynEdit.Font.Color := LStyles.GetStyleFontColor(sfEditBoxTextNormal); //LStyles.GetSystemColor(SynEdit.Font.Color);
+      SynEdit.Font.Color := LStyles.GetStyleFontColor(sfEditBoxTextNormal);
       SynEdit.Color := LStyles.GetStyleColor(scEdit);
     end;
   end
@@ -1133,9 +1106,8 @@ begin
   { create a TabSheet }
   TabSheet := TTabSheet.Create(PageControl);
   TabSheet.PageControl := PageControl;
-  TabSheet.ImageIndex := FCompareImageIndex; // COMPARE_IMAGEINDEX;
+  TabSheet.ImageIndex := FCompareImageIndex;
   TabSheet.Caption := 'Compare Files';
-  // TabSheet.DoubleBuffered := True;
   PageControl.ActivePage := TabSheet;
   Panel := TPanel.Create(TabSheet);
   with Panel do
@@ -1434,7 +1406,6 @@ begin
     SynEdit.Modified := False;
     if Pos('~', TabSheet.Caption) = Length(TabSheet.Caption) then
       TabSheet.Caption := System.Copy(TabSheet.Caption, 0, Length(TabSheet.Caption) - 1);
-    //TabSheet.ImageIndex := SAVED_IMAGEINDEX;
     SelectHighLighter(SynEdit, SynEdit.DocumentName);
     UpdateGutter(SynEdit);
   end;
@@ -1462,7 +1433,7 @@ begin
   begin
     PageControl.ActivePage := PageControl.Pages[i];
     SynEdit := ActiveSynEdit;
-    if Assigned(SynEdit) and SynEdit.Modified then // PageControl.Pages[i].ImageIndex = CHANGED_IMAGEINDEX then
+    if Assigned(SynEdit) and SynEdit.Modified then
       Save(PageControl.Pages[i]);
   end;
   if Assigned(PageControl.Pages[Temp]) then
@@ -1592,10 +1563,8 @@ begin
   if Assigned(SynEdit) then
   begin
     SynWebEngine.Options.HtmlVersion := SynEdit.HtmlVersion;
-    //CheckFileDateTimes; { compare can change file datetime }
     SetMainHighlighterCombo(SynEdit);
     SetMainEncodingCombo(SynEdit);
-    //SynEdit.Repaint;
   end;
   PageControlRepaint;
 end;
@@ -1625,12 +1594,12 @@ begin
   begin
     Clear;
     Add(SynEdit.DocumentName, nil, taLeftJustify, 1);
-    Add('Page: $PAGENUM$ of $PAGECOUNT$', nil, taRightJustify, 1);
+    Add(CommonDataModule.ConstantMultiStringHolder.StringsByName['PreviewDocumentPage'].Text, nil, taRightJustify, 1);
   end;
   with SynEditPrint.Footer do
   begin
     Clear;
-    Add('Printed by EditBone', nil, taLeftJustify, 1);
+    Add(Format(CommonDataModule.ConstantMultiStringHolder.StringsByName['PreviewDocumentPage'].Text, [Application.Title]), nil, taLeftJustify, 1);
     Add('$DATE$ $TIME$', nil, taRightJustify, 1);
   end;
   SynEditPrint.SynEdit := SynEdit;
@@ -1656,11 +1625,8 @@ begin
   end;
 end;
 
-function TDocumentFrame.SearchOptions(IncludeBackwards: Boolean)
-  : TSynSearchOptions;
+function TDocumentFrame.SearchOptions(IncludeBackwards: Boolean): TSynSearchOptions;
 begin
-  // with SearchDialog(Self) do
-  // begin
   Result := [];
   if IncludeBackwards then
     Include(Result, ssoBackwards);
@@ -1668,14 +1634,10 @@ begin
     Include(Result, ssoMatchCase);
   if WholeWordsCheckBox.Checked then
     Include(Result, ssoWholeWord);
-  // end;
 end;
 
 procedure TDocumentFrame.Search;
 begin
-  // with SearchDialog(Self) do
-  // if ShowModal = mrOK then
-  // begin
   SearchPanel.Visible := not SearchPanel.Visible;
   if SearchPanel.Visible then
   begin
@@ -1699,14 +1661,9 @@ begin
   SynEdit := ActiveSynEdit;
   SynSearchOptions := SearchOptions(False);
 
-  // SynEdit.SearchEngine.FindAll(SearchForEdit.Text);
-
   if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
   begin
     MessageBeep(MB_ICONASTERISK);
-    // if ssoBackwards in SynSearchOptions then
-    // SynEdit.BlockEnd := SynEdit.BlockBegin
-    // else
     SynEdit.BlockBegin := SynEdit.BlockEnd;
     SynEdit.CaretXY := SynEdit.BlockBegin;
   end;
@@ -1739,8 +1696,6 @@ var
 begin
   if Trim(SearchForEdit.Text) = '' then
     Exit;
-  // with SearchDialog(Self) do
-  // begin
   SynSearchOptions := SearchOptions(False);
   SynEdit := ActiveSynEdit;
 
@@ -1760,8 +1715,6 @@ var
 begin
   if Trim(SearchForEdit.Text) = '' then
     Exit;
-  // with SearchDialog(Self) do
-  // begin
   SynSearchOptions := SearchOptions(True);
   SynEdit := ActiveSynEdit;
   if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
@@ -1770,7 +1723,6 @@ begin
     SynEdit.BlockEnd := SynEdit.BlockBegin;
     SynEdit.CaretXY := SynEdit.BlockBegin;
   end;
-  // end;
 end;
 
 procedure TDocumentFrame.Replace;
@@ -1804,7 +1756,6 @@ begin
         begin
           PageControl.ActivePageIndex := i;
           SynEdit := ActiveSynEdit;
-         // SynEdit := GetSynEdit(PageControl.Pages[i]);
           if Assigned(SynEdit) then
           begin
             SynEdit.CaretXY := BufferCoord(0, 0);
@@ -1991,7 +1942,7 @@ begin
     OptionsContainer.HTMLErrorChecking := ReadBool('Preferences', 'HTMLErrorChecking', True);
     OptionsContainer.HtmlVersion := TSynWebHtmlVersion(StrToInt(ReadString('Preferences', 'HTMLVersion', '4'))); { default: HTML5 }
     { FileTypes }
-    Version := ReadString('EditBone', 'Version', '');
+    Version := ReadString(Application.Title, 'Version', '');
     if Version = '' then  { Version 1.4 has it }
       EraseSection('FileTypes')
     else
@@ -2001,8 +1952,9 @@ begin
       // **********************************************
       if Pos('DWScript', FileTypes.Strings[13]) = 0 then
         FileTypes.Insert(13, '13=DWScript Files (*.dws)');
-      if FileTypes.Strings[13] = '13=DWScript Files (*.dws;*.pas;*.inc)' then
-        FileTypes.Strings[13] := '13=DWScript Files (*.dws)|*.dws';
+      if (FileTypes.Strings[13] = '13=DWScript Files (*.dws;*.pas;*.inc)') or
+        (FileTypes.Strings[13] = '13=DWScript Files (*.dws)|*.dws') then
+        FileTypes.Strings[13] := '13=DWScript Files (*.dws)';
       // **********************************************
       for i := 0 to FileTypes.Count - 1 do
         OptionsContainer.FileTypes.Strings[i] := System.Copy
