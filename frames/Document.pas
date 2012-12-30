@@ -2814,7 +2814,7 @@ begin
         begin
           if FileExists(SynEdit.DocumentName) then
           begin
-            if Common.AskYesOrNo(Format('Document %s''s time/date changed. Reload?', [SynEdit.DocumentName])) then
+            if Common.AskYesOrNo(Format(CommonDataModule.YesOrNoMultiStringHolder.StringsByName['DocumentTimeChanged'].Text, [SynEdit.DocumentName])) then
             begin
               Refresh(i);
               PageControlRepaint;
@@ -3044,8 +3044,7 @@ var
 begin
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) then
-    Common.ShowMessage(Format('Line count: %d' + CHR_ENTER + 'Word count: %d' + CHR_ENTER +
-      'Character count: %d', [SynEdit.Lines.Count, Common.WordCount(SynEdit.Text), LengthWithoutWhiteSpaces(SynEdit.Text)]));
+    Common.ShowMessage(Format(CommonDataModule.MessageMultiStringHolder.StringsByName['DocumentStatistics'].Text, [SynEdit.Lines.Count, CHR_ENTER, Common.WordCount(SynEdit.Text), CHR_ENTER, LengthWithoutWhiteSpaces(SynEdit.Text)]));
 end;
 
 function TDocumentFrame.GetMacroRecordPauseImageIndex: Integer;
@@ -3097,7 +3096,7 @@ begin
     else
     if SynEdit.SynMacroRecorder.State = msStopped then
     begin
-      if Common.AskYesOrNo('Record a new macro, are you sure?') then
+      if Common.AskYesOrNo(CommonDataModule.YesOrNoMultiStringHolder.StringsByName['RecordMacro'].Text) then
       begin
         SynEdit.SynMacroRecorder.Clear;
         SynEdit.SynMacroRecorder.RecordMacro(SynEdit);

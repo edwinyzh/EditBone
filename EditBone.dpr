@@ -4,6 +4,7 @@ uses
   Forms,
   Windows,
   System.SysUtils,
+  Common in '..\..\Common\units\Common.pas' {CommonDataModule: TDataModule},
   Directory in 'frames\Directory.pas' {DirectoryFrame: TFrame},
   Output in 'frames\Output.pas' {OutputFrame: TFrame},
   Document in 'frames\Document.pas' {DocumentFrame: TFrame},
@@ -24,8 +25,7 @@ uses
   DownloadURL in '..\..\Common\dialogs\DownloadURL.pas' {DownloadURLDialog},
   Compare in '..\..\Common\frames\Compare.pas' {CompareFrame: TFrame},
   BigIni in '..\..\Common\units\BigIni.pas',
-  Dlg in '..\..\Common\dialogs\Dlg.pas' {Dialog},
-  Common in '..\..\Common\units\Common.pas' {CommonDataModule: TDataModule};
+  Dlg in '..\..\Common\dialogs\Dlg.pas' {Dialog};
 
 {$R *.res}
 
@@ -44,6 +44,5 @@ begin
     TStyleManager.SetStyle(TStyleManager.LoadFromFile(Format('%sStyles\%s', [ExtractFilePath(ParamStr(0)), StyleFilename])));
   Application.Title := 'EditBone';
   Application.CreateForm(TMainForm, MainForm);
-  Application.CreateForm(TCommonDataModule, CommonDataModule);
   Application.Run;
 end.

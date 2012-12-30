@@ -224,7 +224,7 @@ end;
 
 procedure TDirectoryFrame.CloseDirectory;
 begin
-  if not Common.AskYesOrNo(Format('Close directory %s, are you sure?', [PageControl.ActivePage.Caption])) then
+  if not Common.AskYesOrNo(Format(CommonDataModule.YesOrNoMultiStringHolder.StringsByName['CloseDirectory'].Text, [PageControl.ActivePage.Caption])) then
     Exit;
   if PageControl.PageCount > 0 then
   begin

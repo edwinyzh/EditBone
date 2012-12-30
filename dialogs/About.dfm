@@ -4,7 +4,7 @@ object AboutDialog: TAboutDialog
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = 'About EditBone'
-  ClientHeight = 249
+  ClientHeight = 256
   ClientWidth = 376
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -496,7 +496,7 @@ object AboutDialog: TAboutDialog
     Left = 0
     Top = 138
     Width = 376
-    Height = 74
+    Height = 77
     Margins.Left = 2
     Margins.Top = 2
     Margins.Right = 2
@@ -504,6 +504,7 @@ object AboutDialog: TAboutDialog
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
+    ExplicitHeight = 74
     object ThanksToLabel: TLabel
       Left = 11
       Top = 24
@@ -513,74 +514,58 @@ object AboutDialog: TAboutDialog
     end
     object CopyrightLabel: TLabel
       Left = 11
-      Top = 5
-      Width = 115
+      Top = 3
+      Width = 303
       Height = 13
-      Caption = 'Copyright '#169' 2010-2012'
+      Caption = 'Copyright '#169' 2010-2012 Lasse Rautiainen. All Rights Reserved.'
     end
-    object LinkLabel1: TLinkLabel
-      Left = 64
+    object LinkLabel3: TLinkLabel
+      Left = 11
       Top = 57
-      Width = 62
+      Width = 306
       Height = 17
-      Caption = '<a href="http://www.soft-gems.net">Mike Lischke</a>'
+      Caption = 
+        '<a href="http://www.customicondesign.com/">Custom Icon Design</a' +
+        '>, <a href="http://www.glyfx.com/">glyFX Icons</a>, <a href="htt' +
+        'p://angusj.com/delphi/">Angus Johnson</a>, <a href="http://www.s' +
+        'oft-gems.net">Mike Lischke</a>'
       TabOrder = 0
       OnLinkClick = LinkClick
     end
-    object LinkLabel3: TLinkLabel
-      Left = 64
-      Top = 41
-      Width = 292
-      Height = 17
-      Caption = 
-        '<a href="http://flatdev.ovh.org/">SynWeb</a>, <a href="http://ww' +
-        'w.customicondesign.com/">Custom Icon Design</a>, <a href="http:/' +
-        '/www.glyfx.com/">glyFX Icons</a>, <a href="http://angusj.com/del' +
-        'phi/">Angus Johnson</a>,'
-      TabOrder = 1
-      OnLinkClick = LinkClick
-    end
     object CodeGearLinkLabel: TLinkLabel
-      Left = 64
-      Top = 24
-      Width = 296
+      Left = 11
+      Top = 40
+      Width = 343
       Height = 17
       Caption = 
         '<a href="http://www.embarcadero.com/products/rad-studio/">Embarc' +
         'adero RAD Studio XE2</a>, <a href="http://www.delphi-jedi.org/">' +
         'Jedi Project</a>, <a href="http://synedit.svn.sourceforge.net/vi' +
-        'ewvc/synedit/">Unicode SynEdit</a>,'
-      TabOrder = 2
-      OnLinkClick = LinkClick
-    end
-    object BoneCodeLinkLabel: TLinkLabel
-      Left = 133
-      Top = 5
-      Width = 85
-      Height = 17
-      Caption = '<a href="http://www.bonecode.com">Lasse Rautiainen</a>'
-      TabOrder = 3
+        'ewvc/synedit/">Unicode SynEdit</a>, <a href="http://flatdev.ovh.' +
+        'org/">SynWeb</a>,'
+      TabOrder = 1
       OnLinkClick = LinkClick
     end
   end
   object Panel4: TPanel
     Left = 0
-    Top = 212
+    Top = 215
     Width = 376
-    Height = 37
+    Height = 41
     Margins.Left = 2
     Margins.Top = 2
     Margins.Right = 2
     Margins.Bottom = 2
     Align = alBottom
     BevelOuter = bvNone
-    Padding.Top = 6
-    Padding.Right = 6
-    Padding.Bottom = 6
+    Padding.Top = 8
+    Padding.Right = 8
+    Padding.Bottom = 8
     TabOrder = 3
+    ExplicitTop = 225
     object OKButton: TButton
-      Left = 295
-      Top = 6
+      Left = 293
+      Top = 8
       Width = 75
       Height = 25
       Align = alRight
@@ -589,6 +574,8 @@ object AboutDialog: TAboutDialog
       Default = True
       ModalResult = 1
       TabOrder = 0
+      ExplicitLeft = 291
+      ExplicitTop = 0
     end
   end
 end

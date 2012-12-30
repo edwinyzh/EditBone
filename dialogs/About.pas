@@ -16,16 +16,14 @@ type
     OSLabel: TLabel;
     MemoryAvailableLabel: TLabel;
     Panel3: TPanel;
-    LinkLabel1: TLinkLabel;
     LinkLabel3: TLinkLabel;
     CodeGearLinkLabel: TLinkLabel;
     ThanksToLabel: TLabel;
-    CopyrightLabel: TLabel;
-    BoneCodeLinkLabel: TLinkLabel;
     Panel4: TPanel;
     OKButton: TButton;
     Panel6: TPanel;
     KayttovaltuusImage: TImage;
+    CopyrightLabel: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure LinkClick(Sender: TObject; const Link: string;

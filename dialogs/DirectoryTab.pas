@@ -97,9 +97,8 @@ procedure TDirectoryTabDialog.RootDirectoryClickActionExecute(Sender: TObject);
 var
   Dir: string;
 begin
-  //TStyleManager.Engine.RegisterStyleHook(TSelectDirDlg, TFormStyleHook);
   Dir := RootDirectoryEdit.Text;
-  if Vcl.FileCtrl.SelectDirectory('Select root directory', '', Dir, [sdNewFolder, sdShowShares,
+  if Vcl.FileCtrl.SelectDirectory('Select Root Directory', '', Dir, [sdNewFolder, sdShowShares,
     sdNewUI, sdValidateDir], Self) then
     RootDirectoryEdit.Text := Dir;
 end;
@@ -156,13 +155,13 @@ begin
   Result := False;
   if Trim(TabNameEdit.Text) = '' then
   begin
-    Common.ShowErrorMessage('Enter Tab Name.');
+    Common.ShowErrorMessage(CommonDataModule.ErrorMessageMultiStringHolder.StringsByName['EnterTabName'].Text);
     TabNameEdit.SetFocus;
     Exit;
   end;
   if not System.SysUtils.DirectoryExists(RootDirectoryEdit.Text) then
   begin
-    Common.ShowErrorMessage('Root Directory does not exist.');
+    Common.ShowErrorMessage(CommonDataModule.ErrorMessageMultiStringHolder.StringsByName['RootDirectoryNotExist'].Text);
     RootDirectoryEdit.SetFocus;
     Exit;
   end;
