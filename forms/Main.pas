@@ -245,7 +245,6 @@ type
     procedure CreateStyleMenu;
     procedure FindInFiles(FindWhatText, FileTypeText, FolderText: string; SearchCaseSensitive, LookInSubfolders: Boolean);
     procedure ReadIniFile;
-    procedure ReadLanguageFile;
     procedure RecreateStatusBar;
     procedure SetEncodingComboIndex(Value: Integer);
     procedure SetFields;
@@ -266,11 +265,11 @@ implementation
 {$R *.dfm}
 
 uses
-  About, FindInFiles, Vcl.ClipBrd, Common, VirtualTrees, DownloadURL, BigIni, StyleHooks,
+  About, FindInFiles, Vcl.ClipBrd, Common, VirtualTrees, BigIni, StyleHooks,
   System.IOUtils;
 
 const
-  MAIN_CAPTION = 'EditBone';
+  APPLICATION_NAME = 'EditBone';
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
 
 procedure TMainForm.RecreateStatusBar;
@@ -325,7 +324,7 @@ begin
     TAction(ActionClientItem.Items[i].Action).Checked := False;
   Action.Checked := True;
 
-  ReadLanguageFile;
+  ReadLanguageFile(ActionMainMenuBar);
 end;
 
 procedure TMainForm.SelectStyleActionExecute(Sender: TObject);
@@ -541,7 +540,7 @@ begin
   if WindowState = wsNormal then
   with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
   try
-    WriteString('EditBone', 'Version', AboutDialog.Version);
+    WriteString(APPLICATION_NAME, 'Version', AboutDialog.Version);
     { Position }
     WriteInteger('Position', 'Left', Left);
     WriteInteger('Position', 'Top', Top);
@@ -617,12 +616,12 @@ begin
   ViewEncodingSelectionAction.Checked := EncodingComboBox.Visible;
 
   if FDocumentFrame.ActiveDocumentName <> '' then
-    Caption := Format(MAIN_CAPTION + MAIN_CAPTION_DOCUMENT, [FDocumentFrame.ActiveDocumentName])
+    Caption := Format(APPLICATION_NAME + MAIN_CAPTION_DOCUMENT, [FDocumentFrame.ActiveDocumentName])
   else
   if FDocumentFrame.ActiveTabSheetCaption <> '' then
-    Caption := Format(MAIN_CAPTION + MAIN_CAPTION_DOCUMENT, [FDocumentFrame.ActiveTabSheetCaption])
+    Caption := Format(APPLICATION_NAME + MAIN_CAPTION_DOCUMENT, [FDocumentFrame.ActiveTabSheetCaption])
   else
-    Caption := MAIN_CAPTION;
+    Caption := APPLICATION_NAME;
   FileCloseAction.Enabled := FDocumentFrame.OpenTabSheets;
   FileCloseAllAction.Enabled := FileCloseAction.Enabled;
   FileCloseAllOtherPagesAction.Enabled := FileCloseAction.Enabled;
@@ -867,65 +866,6 @@ begin
   FDocumentFrame.ReadIniFile;
 end;
 
-procedure TMainForm.ReadLanguageFile;
-var
-  i, j, k: Integer;
-  Language: string;
-  BigIniFile: TBigIniFile;
-  Action: TContainedAction;
-
-  procedure ReadMenuItem(Key: string);
-  var
-    MenuItem, ShortCut, Hint: string;
-  begin
-    if not Assigned(Action) then
-      Exit;
-    MenuItem := BigIniFile.ReadString('MainMenu', Key, '');
-    if MenuItem <> '' then
-      TAction(Action).Caption := MenuItem;
-    ShortCut := BigIniFile.ReadString('MainMenu', Format('%ss', [Key]), '');
-    if ShortCut <> '' then
-      TAction(Action).ShortCut := TextToShortCut(ShortCut);
-    Hint := BigIniFile.ReadString('MainMenu', Format('%sh', [Key]), '');
-    if Hint <> '' then
-      TAction(Action).Hint := Hint;
-  end;
-begin
-  { get selected language }
-  with TBigIniFile.Create(Common.GetINIFilename) do
-  try
-    Language := ReadString('Preferences', 'Language', '');
-  finally
-    Free;
-  end;
-
-  if Language = '' then
-    Exit;
-
-  BigIniFile := TBigIniFile.Create(Format('%sLanguages\%s.%s', [ExtractFilePath(ParamStr(0)), Language, 'lng']));
-  try
-    { main menu  }
-    for i := 0 to ActionMainMenuBar.ActionClient.Items.Count - 1 do
-    begin
-      ActionMainMenuBar.ActionClient.Items[i].Caption := BigIniFile.ReadString('MainMenu', IntToStr(i), '');
-      for j := 0 to ActionMainMenuBar.ActionClient.Items[i].Items.Count - 1 do
-      begin
-        Action := ActionMainMenuBar.ActionClient.Items[i].Items[j].Action;
-        ReadMenuItem(Format('%d:%d', [i, j]));
-        for k := 0 to ActionMainMenuBar.ActionClient.Items[i].Items[j].Items.Count - 1 do
-        begin
-          Action := ActionMainMenuBar.ActionClient.Items[i].Items[j].Items[k].Action;
-          ReadMenuItem(Format('%d:%d:%d', [i, j, k]));
-        end;
-      end;
-    end;
-    { constants }
-
-  finally
-    BigIniFile.Free;
-  end;
-end;
-
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   FOnStartUp := True;
@@ -935,7 +875,7 @@ begin
   StatusBar.Font.Name := 'Tahoma';
   StatusBar.Font.Size := 8;
 
-  ReadLanguageFile;
+  ReadLanguageFile(ActionMainMenuBar);
   CreateFrames;
   ReadIniFile;
 end;
@@ -950,6 +890,7 @@ end;
 procedure TMainForm.FormResize(Sender: TObject);
 begin
   ActionMainMenuBar.Width := Width;
+  Repaint;
 end;
 
 procedure TMainForm.FormShow(Sender: TObject);
@@ -974,35 +915,13 @@ begin
 end;
 
 procedure TMainForm.HelpCheckForUpdatesMenuActionExecute(Sender: TObject);
-var
-  Check: string;
 begin
-  try
-    try
-      Screen.Cursor := crHourGlass;
-      Check := GetAppVersion(Format('http://www.bonecode.com/check.php?a=editbone&v=%s', [AboutDialog.Version]));
-    finally
-      Screen.Cursor := crDefault;
-    end;
-    if Trim(Check) <> '' then
-    begin
-      if System.Pos('A new version', Check) <> 0 then
-      begin
-        if Common.AskYesOrNo(Check + CHR_ENTER + CHR_ENTER + 'Would you like to download it from the Internet?') then
-          DownloadURLDialog.Open('EditBone.zip', 'http://www.bonecode.com/downloads/EditBone.zip');
-      end
-      else
-        Common.ShowMessage(Check);
-    end;
-  except
-    on E: Exception do
-      Common.ShowErrorMessage(E.Message);
-  end;
+  Common.CheckForUpdates(APPLICATION_NAME);
 end;
 
 procedure TMainForm.HelpHomeActionExecute(Sender: TObject);
 begin
-  Common.BrowseURL('http://www.bonecode.com');
+  Common.BrowseURL(BONECODE_URL);
 end;
 
 procedure TMainForm.HighlighterComboBoxChange(Sender: TObject);

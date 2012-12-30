@@ -200,13 +200,13 @@ object MainForm: TMainForm
       ColorMap.HighlightColor = clWhite
       ColorMap.BtnSelectedFont = clBlack
       ColorMap.UnusedColor = clWhite
-      EdgeBorders = [ebBottom]
       EdgeInner = esNone
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = []
+      HorzSeparator = False
       ParentFont = False
       PopupMenu = ToolbarPopupMenu
       Spacing = 0
@@ -354,19 +354,16 @@ object MainForm: TMainForm
               end
               item
                 Action = FileSaveAction
-                Caption = '&Save'
                 ImageIndex = 4
                 ShortCut = 16467
               end
               item
                 Action = FileSaveAsAction
-                Caption = 'S&ave As...'
                 ImageIndex = 5
                 ShortCut = 49235
               end
               item
                 Action = FileSaveAllAction
-                Caption = 'Sa&ve All'
                 ImageIndex = 6
                 ShortCut = 24659
               end
@@ -377,7 +374,6 @@ object MainForm: TMainForm
               end
               item
                 Action = FileCloseAllAction
-                Caption = 'C&lose All'
                 ImageIndex = 3
               end
               item
@@ -390,7 +386,6 @@ object MainForm: TMainForm
               end
               item
                 Action = FilePrintPreviewAction
-                Caption = 'P&rint Preview...'
                 ImageIndex = 8
               end
               item
@@ -407,12 +402,12 @@ object MainForm: TMainForm
             Items = <
               item
                 Action = EditUndoAction
-                ImageIndex = 10
+                ImageIndex = 11
                 ShortCut = 16474
               end
               item
                 Action = EditRedoAction
-                ImageIndex = 11
+                ImageIndex = 10
                 ShortCut = 24666
               end
               item
@@ -443,18 +438,15 @@ object MainForm: TMainForm
               end
               item
                 Action = EditInsertLineAction
-                Caption = 'I&nsert Line'
                 ImageIndex = 51
                 ShortCut = 16462
               end
               item
                 Action = EditDeleteWordAction
-                Caption = 'D&elete Word'
                 ShortCut = 16468
               end
               item
                 Action = EditDeleteLineAction
-                Caption = 'De&lete Line'
                 ImageIndex = 52
                 ShortCut = 16473
               end
@@ -467,6 +459,7 @@ object MainForm: TMainForm
               end
               item
                 Action = EditIncreaseIndentAction
+                Caption = 'Increase Indent'
                 ImageIndex = 35
                 ShortCut = 24649
               end
@@ -485,7 +478,6 @@ object MainForm: TMainForm
               end
               item
                 Action = EditSortDescAction
-                Caption = 'Sor&t Descending'
                 ImageIndex = 38
                 ShortCut = 24644
               end
@@ -494,7 +486,6 @@ object MainForm: TMainForm
               end
               item
                 Action = EditToggleCaseAction
-                Caption = 'To&ggle Case'
                 ImageIndex = 36
                 ShortCut = 24643
               end>
@@ -538,7 +529,6 @@ object MainForm: TMainForm
               end
               item
                 Action = ToggleBookmarkAction
-                Caption = '&Toggle Bookmark'
                 ImageIndex = 32
                 ShortCut = 16497
               end>
@@ -575,14 +565,12 @@ object MainForm: TMainForm
               end
               item
                 Action = ViewOutputAction
-                Caption = 'O&utput'
               end
               item
                 Action = ViewHighlighterSelectionAction
               end
               item
                 Action = ViewEncodingSelectionAction
-                Caption = 'Encodin&g'
               end
               item
                 Caption = '-'
@@ -591,7 +579,7 @@ object MainForm: TMainForm
                 Caption = '&Language'
               end
               item
-                Caption = '&Style'
+                Caption = 'St&yle'
               end
               item
                 Caption = '-'
@@ -601,15 +589,13 @@ object MainForm: TMainForm
               end
               item
                 Action = ViewLineNumbersAction
-                Caption = 'Line Num&bers'
               end
               item
                 Action = ViewSpecialCharsAction
-                Caption = 'Spec&ial Chars'
               end
               item
                 Action = ViewSelectionModeAction
-                Caption = 'Colu&mn Mode'
+                Caption = 'Selection &Mode'
               end
               item
                 Caption = '-'
@@ -661,7 +647,6 @@ object MainForm: TMainForm
                   end
                   item
                     Action = MacroSaveAsAction
-                    Caption = 'S&ave as...'
                     ImageIndex = 59
                   end>
                 Caption = '&Macro'
@@ -672,7 +657,6 @@ object MainForm: TMainForm
               end
               item
                 Action = ViewInBrowserAction
-                Caption = '&View in Browser'
                 ImageIndex = 33
                 ShortCut = 32834
               end>
@@ -689,7 +673,6 @@ object MainForm: TMainForm
               end
               item
                 Action = ToolsLanguageEditorAction
-                Caption = '&Language Editor...'
                 ImageIndex = 62
               end
               item
@@ -705,7 +688,6 @@ object MainForm: TMainForm
             Items = <
               item
                 Action = HelpCheckForUpdatesMenuAction
-                Caption = '&Check for Updates...'
                 ImageIndex = 61
               end
               item
@@ -713,7 +695,6 @@ object MainForm: TMainForm
               end
               item
                 Action = HelpHomeAction
-                Caption = '&Visit Homepage...'
                 ImageIndex = 22
               end
               item
@@ -746,21 +727,18 @@ object MainForm: TMainForm
           end
           item
             Action = FileSaveAction
-            Caption = '&Save'
             ImageIndex = 4
             ShowCaption = False
             ShortCut = 16467
           end
           item
             Action = FileSaveAsAction
-            Caption = 'Sa&ve As...'
             ImageIndex = 5
             ShowCaption = False
             ShortCut = 49235
           end
           item
             Action = FileSaveAllAction
-            Caption = 'S&ave All'
             ImageIndex = 6
             ShowCaption = False
             ShortCut = 24659
@@ -788,7 +766,6 @@ object MainForm: TMainForm
           end
           item
             Action = FilePrintPreviewAction
-            Caption = 'P&rint Preview...'
             ImageIndex = 8
             ShowCaption = False
           end
@@ -820,6 +797,7 @@ object MainForm: TMainForm
           end
           item
             Action = EditIncreaseIndentAction
+            Caption = '&Increase Indent'
             ImageIndex = 35
             ShowCaption = False
             ShortCut = 24649
@@ -986,6 +964,7 @@ object MainForm: TMainForm
           end
           item
             Action = ViewInBrowserAction
+            Caption = 'View in Browser'
             ImageIndex = 33
             ShowCaption = False
             ShortCut = 32834
@@ -1014,7 +993,7 @@ object MainForm: TMainForm
     end
     object FileSaveAction: TAction
       Category = '&File'
-      Caption = 'Save'
+      Caption = '&Save'
       Hint = 'Save the active document'
       ImageIndex = 4
       ShortCut = 16467
@@ -1022,7 +1001,7 @@ object MainForm: TMainForm
     end
     object FileSaveAsAction: TAction
       Category = '&File'
-      Caption = 'Save As...'
+      Caption = 'S&ave As...'
       Hint = 'Save the active document with a new name'
       ImageIndex = 5
       ShortCut = 49235
@@ -1030,7 +1009,7 @@ object MainForm: TMainForm
     end
     object FileSaveAllAction: TAction
       Category = '&File'
-      Caption = 'Save All'
+      Caption = 'Sa&ve All'
       Hint = 'Save all documents'
       ImageIndex = 6
       ShortCut = 24659
@@ -1046,7 +1025,7 @@ object MainForm: TMainForm
     end
     object FileCloseAllAction: TAction
       Category = '&File'
-      Caption = 'Close &All'
+      Caption = 'C&lose All'
       Hint = 'Close all open files'
       ImageIndex = 3
       OnExecute = FileCloseAllActionExecute
@@ -1067,7 +1046,7 @@ object MainForm: TMainForm
     end
     object FilePrintPreviewAction: TAction
       Category = '&File'
-      Caption = 'Print Preview...'
+      Caption = 'P&rint Preview...'
       Hint = 'Preview the active document'
       ImageIndex = 8
       OnExecute = FilePrintPreviewActionExecute
@@ -1179,6 +1158,7 @@ object MainForm: TMainForm
     object ViewEditDirectoryAction: TAction
       Category = '&View'
       Caption = '&Edit Directory'
+      Hint = 'Edit the active directory'
       ImageIndex = 60
       ShortCut = 24645
       OnExecute = ViewEditDirectoryActionExecute
@@ -1199,13 +1179,13 @@ object MainForm: TMainForm
     end
     object ViewSplitAction: TAction
       Category = '&View'
-      Caption = 'Split'
+      Caption = '&Split'
       Hint = 'Split the document'
       OnExecute = ViewSplitActionExecute
     end
     object ViewOutputAction: TAction
       Category = '&View'
-      Caption = '&Output'
+      Caption = 'O&utput'
       Hint = 'Show or hide the output'
       OnExecute = ViewOutputActionExecute
     end
@@ -1218,7 +1198,7 @@ object MainForm: TMainForm
     end
     object ViewEncodingSelectionAction: TAction
       Category = '&View'
-      Caption = 'Encoding'
+      Caption = 'Encodin&g'
       Hint = 'Show or hide the encoding selection'
       OnExecute = ViewEncodingSelectionActionExecute
     end
@@ -1231,7 +1211,7 @@ object MainForm: TMainForm
     end
     object ViewLineNumbersAction: TAction
       Category = '&View'
-      Caption = '&Line Numbers'
+      Caption = 'Line Num&bers'
       Checked = True
       Hint = 'Toggle line numbers'
       ImageIndex = 23
@@ -1246,7 +1226,7 @@ object MainForm: TMainForm
     end
     object HelpHomeAction: TAction
       Category = '&Help'
-      Caption = 'Visit Homepage...'
+      Caption = '&Visit Homepage...'
       Hint = 'Visit EditBone homepage - http://www.bonecode.com/'
       ImageIndex = 22
       OnExecute = HelpHomeActionExecute
@@ -1254,13 +1234,13 @@ object MainForm: TMainForm
     object HelpAboutAction: TAction
       Category = '&Help'
       Caption = '&About EditBone...'
-      Hint = 'Display EditBone information'
+      Hint = 'Display information about EditBone'
       ImageIndex = 21
       OnExecute = HelpAboutActionExecute
     end
     object ViewSpecialCharsAction: TAction
       Category = '&View'
-      Caption = '&Special Chars'
+      Caption = 'Spec&ial Chars'
       GroupIndex = 1
       Hint = 'Toggle special characters'
       ImageIndex = 25
@@ -1290,7 +1270,7 @@ object MainForm: TMainForm
     end
     object ViewInBrowserAction: TAction
       Category = '&Document'
-      Caption = 'View in Browser'
+      Caption = '&View in Browser'
       Hint = 'View current document in default browser'
       ImageIndex = 33
       ShortCut = 32834
@@ -1307,7 +1287,7 @@ object MainForm: TMainForm
     end
     object ToggleBookmarkAction: TAction
       Category = '&Search'
-      Caption = 'Toggle Bookmark'
+      Caption = '&Toggle Bookmark'
       Hint = 
         'Set or clear bookmark at current line. Bookmarks can be also set' +
         ' by using Ctrl+Shift+0..9. Go to bookmark by using Ctrl+0..9.'
@@ -1334,13 +1314,14 @@ object MainForm: TMainForm
     object EditSelectAllAction: TAction
       Category = '&Edit'
       Caption = '&Select All'
+      Hint = 'Select all'
       ImageIndex = 39
       ShortCut = 16449
       OnExecute = EditSelectAllActionExecute
     end
     object EditInsertLineAction: TAction
       Category = '&Edit'
-      Caption = 'Insert Line'
+      Caption = '&Insert Line'
       Hint = 'Insert line'
       ImageIndex = 51
       ShortCut = 16462
@@ -1348,14 +1329,14 @@ object MainForm: TMainForm
     end
     object EditDeleteWordAction: TAction
       Category = '&Edit'
-      Caption = 'Delete Word'
+      Caption = 'D&elete Word'
       Hint = 'Delete word'
       ShortCut = 16468
       OnExecute = EditDeleteWordActionExecute
     end
     object EditDeleteLineAction: TAction
       Category = '&Edit'
-      Caption = 'Delete Line'
+      Caption = 'De&lete Line'
       Hint = 'Delete line'
       ImageIndex = 52
       ShortCut = 16473
@@ -1363,14 +1344,14 @@ object MainForm: TMainForm
     end
     object EditDeleteEOLAction: TAction
       Category = '&Edit'
-      Caption = 'Delete EOL'
+      Caption = 'Delete E&nd of Line'
       Hint = 'Delete end of line'
       ShortCut = 24665
       OnExecute = EditDeleteEOLActionExecute
     end
     object EditIncreaseIndentAction: TAction
       Category = '&Edit'
-      Caption = '&Increase Indent'
+      Caption = 'I&ncrease Indent'
       Hint = 'Increase indent'
       ImageIndex = 35
       ShortCut = 24649
@@ -1394,7 +1375,7 @@ object MainForm: TMainForm
     end
     object EditSortDescAction: TAction
       Category = '&Edit'
-      Caption = 'Sort &Descending'
+      Caption = 'Sor&t Descending'
       Hint = 'Sort descending'
       ImageIndex = 38
       ShortCut = 24644
@@ -1402,7 +1383,7 @@ object MainForm: TMainForm
     end
     object EditToggleCaseAction: TAction
       Category = '&Edit'
-      Caption = '&Toggle Case'
+      Caption = 'To&ggle Case'
       Hint = 'Toggle case'
       ImageIndex = 36
       ShortCut = 24643
@@ -1446,7 +1427,7 @@ object MainForm: TMainForm
     end
     object MacroSaveAsAction: TAction
       Category = '&Macro'
-      Caption = '&Save as...'
+      Caption = 'S&ave as...'
       Hint = 'Save the macro with a new name'
       ImageIndex = 59
       OnExecute = MacroSaveAsActionExecute
@@ -1526,7 +1507,8 @@ object MainForm: TMainForm
     end
     object HelpCheckForUpdatesMenuAction: TAction
       Category = '&Help'
-      Caption = 'Check for Updates...'
+      Caption = '&Check for Updates...'
+      Hint = 'Check for updates'
       ImageIndex = 61
       OnExecute = HelpCheckForUpdatesMenuActionExecute
     end
@@ -1541,8 +1523,8 @@ object MainForm: TMainForm
     end
     object ToolsLanguageEditorAction: TAction
       Category = '&Tools'
-      Caption = 'Language Editor...'
-      Hint = 'Upcoming feature'
+      Caption = '&Language Editor...'
+      Hint = 'Language editor'
       ImageIndex = 62
     end
     object SelectLanguageAction: TAction
@@ -1553,7 +1535,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C01013F005C01480510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01013F005C01580510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000000001000001002000000000000000
       0100000000000000000000000000000000000000000000000000BD4C00000000
       0000000000000000000084240500842405008424050084240500842405000000

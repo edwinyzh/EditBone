@@ -16,7 +16,6 @@ uses
   Replace in '..\..\Common\dialogs\Replace.pas' {ReplaceDialog},
   Diff in '..\..\Common\units\Diff.pas',
   Hash in '..\..\Common\units\Hash.pas',
-  Common in '..\..\Common\units\Common.pas',
   DirectoryTab in 'dialogs\DirectoryTab.pas' {DirectoryTabDialog},
   Vcl.Themes,
   Vcl.Styles,
@@ -25,7 +24,8 @@ uses
   DownloadURL in '..\..\Common\dialogs\DownloadURL.pas' {DownloadURLDialog},
   Compare in '..\..\Common\frames\Compare.pas' {CompareFrame: TFrame},
   BigIni in '..\..\Common\units\BigIni.pas',
-  Dlg in '..\..\Common\dialogs\Dlg.pas' {Dialog};
+  Dlg in '..\..\Common\dialogs\Dlg.pas' {Dialog},
+  Common in '..\..\Common\units\Common.pas' {CommonDataModule: TDataModule};
 
 {$R *.res}
 
@@ -44,5 +44,6 @@ begin
     TStyleManager.SetStyle(TStyleManager.LoadFromFile(Format('%sStyles\%s', [ExtractFilePath(ParamStr(0)), StyleFilename])));
   Application.Title := 'EditBone';
   Application.CreateForm(TMainForm, MainForm);
+  Application.CreateForm(TCommonDataModule, CommonDataModule);
   Application.Run;
 end.
