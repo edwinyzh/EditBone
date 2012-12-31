@@ -171,7 +171,7 @@ type
     Separator6MenuItem: TMenuItem;
     ToggleCaseMenuItem: TMenuItem;
     Separator2MenuItem: TMenuItem;
-    oggleBookmarksMenuItem: TMenuItem;
+    ToggleBookmarksMenuItem: TMenuItem;
     GotoBookmarksMenuItem: TMenuItem;
     ClearBookmarksMenuItem: TMenuItem;
     ToggleBookmark1MenuItem: TMenuItem;

@@ -504,24 +504,28 @@ object AboutDialog: TAboutDialog
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitHeight = 74
     object ThanksToLabel: TLabel
       Left = 11
-      Top = 24
+      Top = 6
       Width = 47
       Height = 13
       Caption = 'Thanks to'
     end
     object CopyrightLabel: TLabel
-      Left = 11
-      Top = 3
-      Width = 303
+      Left = 0
+      Top = 64
+      Width = 376
       Height = 13
+      Align = alBottom
+      Alignment = taCenter
       Caption = 'Copyright '#169' 2010-2012 Lasse Rautiainen. All Rights Reserved.'
+      ExplicitLeft = 34
+      ExplicitTop = 59
+      ExplicitWidth = 303
     end
     object LinkLabel3: TLinkLabel
       Left = 11
-      Top = 57
+      Top = 40
       Width = 306
       Height = 17
       Caption = 
@@ -534,7 +538,7 @@ object AboutDialog: TAboutDialog
     end
     object CodeGearLinkLabel: TLinkLabel
       Left = 11
-      Top = 40
+      Top = 25
       Width = 343
       Height = 17
       Caption = 
@@ -562,7 +566,6 @@ object AboutDialog: TAboutDialog
     Padding.Right = 8
     Padding.Bottom = 8
     TabOrder = 3
-    ExplicitTop = 225
     object OKButton: TButton
       Left = 293
       Top = 8
@@ -574,8 +577,6 @@ object AboutDialog: TAboutDialog
       Default = True
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 291
-      ExplicitTop = 0
     end
   end
 end

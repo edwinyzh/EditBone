@@ -251,6 +251,7 @@ type
     procedure SetHighlighterComboIndex(Value: Integer);
     procedure WMAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
     procedure WriteIniFile;
+    procedure ReadLanguageFile(SelectedLanguage: string);
   public
     { Public declarations }
     property EncodingComboIndex: Integer write SetEncodingComboIndex;
@@ -266,7 +267,7 @@ implementation
 
 uses
   About, FindInFiles, Vcl.ClipBrd, Common, VirtualTrees, BigIni, StyleHooks,
-  System.IOUtils, Language;
+  System.IOUtils, Language, ConfirmReplace;
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
@@ -323,7 +324,17 @@ begin
     TAction(ActionClientItem.Items[i].Action).Checked := False;
   Action.Checked := True;
 
-  Language.ReadLanguageFile(ActionCaption, ActionMainMenuBar);
+  ReadLanguageFile(ActionCaption);
+end;
+
+procedure TMainForm.ReadLanguageFile(SelectedLanguage: string);
+begin
+  { update main menu and language constants }
+  Language.ReadLanguageFile(SelectedLanguage, ActionMainMenuBar);
+  { update ui captions }
+  {FDirectoryFrame.UpdateLanguage(SelectedLanguage);
+  FDocumentFrame.UpdateLanguage(SelectedLanguage);
+  FOutputFrame.UpdateLanguage(SelectedLanguage);}
 end;
 
 procedure TMainForm.SelectStyleActionExecute(Sender: TObject);
@@ -369,22 +380,17 @@ end;
 
 procedure TMainForm.CreateLanguageMenu;
 var
-  FilePath, FileName, ExtractedFileName, LanguageName: string;
+  LanguagePath, FileName, ExtractedFileName, LanguageName: string;
   ActionClientItem: TActionClientItem;
   Action: TAction;
 begin
-  FilePath := IncludeTrailingPathDelimiter(Format('%s%s', [ExtractFilePath(ParamStr(0)), 'Languages']));
-  if not DirectoryExists(FilePath) then
+  LanguagePath := IncludeTrailingPathDelimiter(Format('%s%s', [ExtractFilePath(ParamStr(0)), 'Languages']));
+  if not DirectoryExists(LanguagePath) then
     Exit;
 
-  with TBigIniFile.Create(Common.GetINIFilename) do
-  try
-    LanguageName := ReadString('Preferences', 'Language', 'English');
-  finally
-    Free;
-  end;
+  LanguageName := Common.GetSelectedLanguage('English');
 
-  for FileName in TDirectory.GetFiles(FilePath, '*.lng') do
+  for FileName in TDirectory.GetFiles(LanguagePath, '*.lng') do
   begin
     // TODO: Think better solution to find the Style menuitem.
     // This is poor solution. If the menu changes, then you should also remember to fix the item numbers.
@@ -876,14 +882,9 @@ begin
   StatusBar.Font.Name := 'Tahoma';
   StatusBar.Font.Size := 8;
 
-  with TBigIniFile.Create(Common.GetINIFilename) do
-  try
-    SelectedLanguage := ReadString('Preferences', 'Language', '');
-  finally
-    Free;
-  end;
+  SelectedLanguage := Common.GetSelectedLanguage;
 
-  Language.ReadLanguageFile(SelectedLanguage, ActionMainMenuBar);
+  ReadLanguageFile(SelectedLanguage);
   CreateFrames;
   ReadIniFile;
 end;

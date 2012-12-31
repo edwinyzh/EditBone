@@ -155,9 +155,10 @@ object MainForm: TMainForm
       Left = 772
       Top = 2
       Width = 130
-      Height = 22
+      Height = 21
       Align = alRight
       DropDownCount = 57
+      ItemHeight = 13
       ReadOnly = True
       TabOrder = 2
       Text = '<encoding>'
@@ -530,6 +531,10 @@ object MainForm: TMainForm
                 Action = ToggleBookmarkAction
                 ImageIndex = 32
                 ShortCut = 16497
+              end
+              item
+                Action = ClearBookmarksAction
+                ImageIndex = 50
               end>
             Caption = '&Search'
           end
@@ -1389,6 +1394,7 @@ object MainForm: TMainForm
       OnExecute = EditToggleCaseActionExecute
     end
     object ClearBookmarksAction: TAction
+      Category = '&Search'
       Caption = 'Clear &Bookmarks'
       ImageIndex = 50
       OnExecute = ClearBookmarksActionExecute
@@ -1534,7 +1540,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C01013F005C01580510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01013F005C015C0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000000001000001002000000000000000
       0100000000000000000000000000000000000000000000000000BD4C00000000
       0000000000000000000084240500842405008424050084240500842405000000

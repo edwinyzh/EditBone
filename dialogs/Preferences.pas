@@ -374,7 +374,7 @@ begin
   i := 0;
   while i < FFileTypes.Count do
   begin
-    Result := Format('%s%s|%s', [Result, FFileTypes.Strings[i], Common.StringBetween(FFileTypes.Strings[i], '(', ')')]);
+    Result := Format('%s%s|%s', [Result, LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text {FFileTypes.Strings[i]}, Common.StringBetween(FFileTypes.Strings[i], '(', ')')]);
     Inc(i);
     if i < FFileTypes.Count then
       Result := Format('%s|', [Result]);
