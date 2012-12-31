@@ -62,7 +62,7 @@ implementation
 uses
   Common, StyleHooks,
 {$WARNINGS OFF}
-  Vcl.FileCtrl; { warning: FileCtrl is specific to a platform }
+  Vcl.FileCtrl, Language; { warning: FileCtrl is specific to a platform }
 {$WARNINGS ON}
 
 var
@@ -86,9 +86,9 @@ end;
 function TDirectoryTabDialog.Open(DialogType: TDirectoryTabDialogType): Boolean;
 begin
   if DialogType = dtOpen then
-    Caption := CommonDataModule.ConstantMultiStringHolder.StringsByName['OpenDirectory'].Text
+    Caption := LanguageDataModule.ConstantMultiStringHolder.StringsByName['OpenDirectory'].Text
   else
-    Caption := CommonDataModule.ConstantMultiStringHolder.StringsByName['EditDirectory'].Text;
+    Caption := LanguageDataModule.ConstantMultiStringHolder.StringsByName['EditDirectory'].Text;
 
   Result := ShowModal = mrOk;
 end;
@@ -98,7 +98,7 @@ var
   Dir: string;
 begin
   Dir := RootDirectoryEdit.Text;
-  if Vcl.FileCtrl.SelectDirectory(CommonDataModule.ConstantMultiStringHolder.StringsByName['SelectRootDirectory'].Text, '', Dir, [sdNewFolder, sdShowShares,
+  if Vcl.FileCtrl.SelectDirectory(LanguageDataModule.ConstantMultiStringHolder.StringsByName['SelectRootDirectory'].Text, '', Dir, [sdNewFolder, sdShowShares,
     sdNewUI, sdValidateDir], Self) then
     RootDirectoryEdit.Text := Dir;
 end;
@@ -155,13 +155,13 @@ begin
   Result := False;
   if Trim(TabNameEdit.Text) = '' then
   begin
-    Common.ShowErrorMessage(CommonDataModule.ErrorMessageMultiStringHolder.StringsByName['EnterTabName'].Text);
+    Common.ShowErrorMessage(LanguageDataModule.ErrorMessageMultiStringHolder.StringsByName['EnterTabName'].Text);
     TabNameEdit.SetFocus;
     Exit;
   end;
   if not System.SysUtils.DirectoryExists(RootDirectoryEdit.Text) then
   begin
-    Common.ShowErrorMessage(CommonDataModule.ErrorMessageMultiStringHolder.StringsByName['RootDirectoryNotExist'].Text);
+    Common.ShowErrorMessage(LanguageDataModule.ErrorMessageMultiStringHolder.StringsByName['RootDirectoryNotExist'].Text);
     RootDirectoryEdit.SetFocus;
     Exit;
   end;

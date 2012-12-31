@@ -266,7 +266,7 @@ implementation
 
 uses
   About, FindInFiles, Vcl.ClipBrd, Common, VirtualTrees, BigIni, StyleHooks,
-  System.IOUtils;
+  System.IOUtils, Language;
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
@@ -323,7 +323,7 @@ begin
     TAction(ActionClientItem.Items[i].Action).Checked := False;
   Action.Checked := True;
 
-  Common.ReadLanguageFile(ActionMainMenuBar);
+  Language.ReadLanguageFile(ActionCaption, ActionMainMenuBar);
 end;
 
 procedure TMainForm.SelectStyleActionExecute(Sender: TObject);
@@ -866,6 +866,8 @@ begin
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
+var
+  SelectedLanguage: string;
 begin
   FOnStartUp := True;
   { IDE is losing these for some reason... }
@@ -874,7 +876,14 @@ begin
   StatusBar.Font.Name := 'Tahoma';
   StatusBar.Font.Size := 8;
 
-  Common.ReadLanguageFile(ActionMainMenuBar);
+  with TBigIniFile.Create(Common.GetINIFilename) do
+  try
+    SelectedLanguage := ReadString('Preferences', 'Language', '');
+  finally
+    Free;
+  end;
+
+  Language.ReadLanguageFile(SelectedLanguage, ActionMainMenuBar);
   CreateFrames;
   ReadIniFile;
 end;
@@ -1191,7 +1200,7 @@ begin
       Screen.Cursor := crHourGlass;
       try
         OutputPanel.Visible := True;
-        FOutputFrame.AddTreeView(Format(CommonDataModule.ConstantMultiStringHolder.StringsByName['SearchFor'].Text, [FindWhatText]));
+        FOutputFrame.AddTreeView(Format(LanguageDataModule.ConstantMultiStringHolder.StringsByName['SearchFor'].Text, [FindWhatText]));
         FOutputFrame.ProcessingTabSheet := True;
         Application.ProcessMessages;
         FindInFiles(FindWhatText, FileTypeText, FolderText, SearchCaseSensitive, LookInSubfolders);
@@ -1202,14 +1211,14 @@ begin
           Min := StrToInt(FormatDateTime('n', T2 - T1));
           Secs := Min * 60 + StrToInt(FormatDateTime('s', T2 - T1));
           if Secs < 60 then
-            TimeDifference := FormatDateTime(Format('s.zzz "%s"', [CommonDataModule.ConstantMultiStringHolder.StringsByName['Second'].Text]), T2 - T1)
+            TimeDifference := FormatDateTime(Format('s.zzz "%s"', [LanguageDataModule.ConstantMultiStringHolder.StringsByName['Second'].Text]), T2 - T1)
           else
-            TimeDifference := FormatDateTime(Format('n "%s" s.zzz "%s"', [CommonDataModule.ConstantMultiStringHolder.StringsByName['Minute'].Text, CommonDataModule.ConstantMultiStringHolder.StringsByName['Second'].Text]), T2 - T1);
-          StatusBar.Panels[3].Text := Format(CommonDataModule.ConstantMultiStringHolder.StringsByName['OccurencesFound'].Text, [FOutputFrame.Count, TimeDifference])
+            TimeDifference := FormatDateTime(Format('n "%s" s.zzz "%s"', [LanguageDataModule.ConstantMultiStringHolder.StringsByName['Minute'].Text, LanguageDataModule.ConstantMultiStringHolder.StringsByName['Second'].Text]), T2 - T1);
+          StatusBar.Panels[3].Text := Format(LanguageDataModule.ConstantMultiStringHolder.StringsByName['OccurencesFound'].Text, [FOutputFrame.Count, TimeDifference])
         end
         else
         begin
-          Common.ShowMessage(Format(CommonDataModule.MessageMultiStringHolder.StringsByName['CannotFindString'].Text, [FindWhatText]));
+          Common.ShowMessage(Format(LanguageDataModule.MessageMultiStringHolder.StringsByName['CannotFindString'].Text, [FindWhatText]));
           FOutputFrame.CloseTabSheet;
           StatusBar.Panels[3].Text := '';
         end;
@@ -1409,7 +1418,7 @@ begin
   if shFindFile <> INVALID_HANDLE_VALUE then
   try
     repeat
-      StatusBar.Panels[3].Text := CommonDataModule.ConstantMultiStringHolder.StringsByName['SearchInProgress'].Text;
+      StatusBar.Panels[3].Text := LanguageDataModule.ConstantMultiStringHolder.StringsByName['SearchInProgress'].Text;
       Application.ProcessMessages;
       FName := StrPas(sWin32FD.cFileName);
       if (FName <> '.') and (FName <> '..') then
@@ -1454,7 +1463,7 @@ begin
                 SynEdit.Free;
               end;
             except
-              Common.ShowWarningMessage(Format(CommonDataModule.WarningMessageMultiStringHolder.StringsByName['FileAccessError'].Text, [AddSlash(FolderText) + FName]));
+              Common.ShowWarningMessage(Format(LanguageDataModule.WarningMessageMultiStringHolder.StringsByName['FileAccessError'].Text, [AddSlash(FolderText) + FName]));
             end;
         end;
       end;

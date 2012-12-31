@@ -4,7 +4,7 @@ uses
   Forms,
   Windows,
   System.SysUtils,
-  Common in '..\..\Common\units\Common.pas' {CommonDataModule: TDataModule},
+  Language in '..\..\Common\units\Language.pas' {LanguageDataModule: TDataModule},
   Directory in 'frames\Directory.pas' {DirectoryFrame: TFrame},
   Output in 'frames\Output.pas' {OutputFrame: TFrame},
   Document in 'frames\Document.pas' {DocumentFrame: TFrame},
@@ -25,7 +25,8 @@ uses
   DownloadURL in '..\..\Common\dialogs\DownloadURL.pas' {DownloadURLDialog},
   Compare in '..\..\Common\frames\Compare.pas' {CompareFrame: TFrame},
   BigIni in '..\..\Common\units\BigIni.pas',
-  Dlg in '..\..\Common\dialogs\Dlg.pas' {Dialog};
+  Dlg in '..\..\Common\dialogs\Dlg.pas' {Dialog},
+  Common in '..\..\Common\units\Common.pas';
 
 {$R *.res}
 

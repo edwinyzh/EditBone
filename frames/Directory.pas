@@ -76,7 +76,7 @@ implementation
 {$R *.dfm}
 
 uses
-  System.Types, DirectoryTab, Winapi.ShellAPI, StyleHooks, Common, BigIni;
+  System.Types, DirectoryTab, Winapi.ShellAPI, StyleHooks, Common, BigIni, Language;
 
 constructor TDirectoryFrame.Create(AOwner: TComponent);
 begin
@@ -224,7 +224,7 @@ end;
 
 procedure TDirectoryFrame.CloseDirectory;
 begin
-  if not Common.AskYesOrNo(Format(CommonDataModule.YesOrNoMultiStringHolder.StringsByName['CloseDirectory'].Text, [PageControl.ActivePage.Caption])) then
+  if not Common.AskYesOrNo(Format(LanguageDataModule.YesOrNoMultiStringHolder.StringsByName['CloseDirectory'].Text, [PageControl.ActivePage.Caption])) then
     Exit;
   if PageControl.PageCount > 0 then
   begin

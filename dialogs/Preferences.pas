@@ -112,7 +112,6 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    //procedure Assign(Source: TPersistent); override;
     procedure AssignTo(Dest: TPersistent); override;
     function FileType(FileType: TFileTypes): string;
   published
@@ -141,7 +140,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, Lib, StyleHooks;
+  Common, Lib, StyleHooks, Language;
 
 { TOptionsContainer }
 
@@ -357,8 +356,8 @@ begin
   FHTMLVersion := shvHtml5;
   FFileTypes := TStringList.Create;
 
-  for i := 0 to CommonDataModule.FileTypesMultiStringHolder.MultipleStrings.Count - 1 do
-    FFileTypes.Add(CommonDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text);
+  for i := 0 to 52 do
+    FFileTypes.Add(LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text);
 end;
 
 destructor TOptionsContainer.Destroy;
@@ -371,7 +370,7 @@ function TOptionsContainer.GetFilters: string;
 var
   i: Integer;
 begin
-  Result := Format('%s (*.*)|*.*|', [CommonDataModule.ConstantMultiStringHolder.StringsByName['AnyFile'].Text]);
+  Result := Format('%s (*.*)|*.*|', [LanguageDataModule.ConstantMultiStringHolder.StringsByName['AnyFile'].Text]);
   i := 0;
   while i < FFileTypes.Count do
   begin
@@ -415,13 +414,9 @@ begin
     Result:= False;
     Exit;
   end;
-  //Assign the Containers
   FOptionsContainer := EditOptions;
-  //Get Data
   GetData;
-  //Show the form
   Result:= Showmodal = mrOk;
-  //PutData
   if Result then
     PutData;
 end;
@@ -429,6 +424,7 @@ end;
 procedure TPreferencesDialog.GetData;
 var
   i: Integer;
+  FileType: string;
 begin
   MultiLineCheckBox.Checked := FOptionsContainer.MultiLine;
   HTMLErrorCheckingCheckBox.Checked := FOptionsContainer.HTMLErrorChecking;
@@ -448,7 +444,12 @@ begin
   HTMLVersionComboBox.Enabled := HTMLErrorCheckingCheckBox.Checked;
   FileTypesListBox.Clear;
   for i := 0 to FOptionsContainer.FileTypes.Count - 1 do
-    FileTypesListBox.Items.Add(FOptionsContainer.FileTypes.Strings[i]);
+  begin
+    FileType := Trim(Copy(LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text, 0,
+      Pos('(', LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text) - 1));
+    FileTypesListBox.Items.Add(Format('%s (%s)', [
+      FileType, Common.StringBetween(FOptionsContainer.FileTypes.Strings[i], '(', ')')]));
+  end;
   FileTypesListBox.ItemIndex := 0;
   FileTypesListBoxClick(nil);
   SQLDialectComboBox.ItemIndex := Ord(FOptionsContainer.SQLDialect);
@@ -463,6 +464,7 @@ end;
 procedure TPreferencesDialog.PutData;
 var
   i: Integer;
+  FileType: string;
   vOptions: TSynEditorOptions;
 
   procedure SetFlag(aOption: TSynEditorOption; aValue: Boolean);
@@ -490,7 +492,12 @@ begin
   FOptionsContainer.FHTMLVersion := TSynWebHtmlVersion(HTMLVersionComboBox.ItemIndex);
   FOptionsContainer.FileTypes.Clear;
   for i := 0 to FileTypesListBox.Items.Count - 1 do
-    FOptionsContainer.FileTypes.Add(FileTypesListBox.Items.Strings[i]);
+  begin
+    FileType := Trim(Copy(LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text, 0,
+      Pos('(', LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text) - 1));
+    FOptionsContainer.FileTypes.Add(Format('%s (%s)', [
+      FileType, Common.StringBetween(FileTypesListBox.Items.Strings[i], '(', ')')]));
+  end;
   FOptionsContainer.FSQLDialect := TSQLDialect(SQLDialectComboBox.ItemIndex);
   FOptionsContainer.FCPASHighlighter := TCPASHighlighter(CPASHighlighterComboBox.ItemIndex);
 end;

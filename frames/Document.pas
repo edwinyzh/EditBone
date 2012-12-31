@@ -67,20 +67,17 @@ type
 
   TBCSynEdit = class(TSynEdit)
   private
-    //FColumnMode: Boolean;
     FDocumentName: string;
     FFileDateTime: TDateTime;
     FHtmlVersion: TSynWebHtmlVersion;
     FSynMacroRecorder: TSynMacroRecorder;
     FEncoding: TEncoding;
-    //FModified: Boolean;
   protected
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure DoOnProcessCommand(var Command: TSynEditorCommand;
       var AChar: WideChar; Data: pointer); override;
   public
     destructor Destroy; override;
-   // procedure Paint; override;
     procedure LoadFromFile(const FileName: String);
     procedure SaveToFile(const FileName: String);
     property DocumentName: string read FDocumentName write FDocumentName;
@@ -88,7 +85,6 @@ type
     property HtmlVersion: TSynWebHtmlVersion read FHtmlVersion write FHtmlVersion;
     property SynMacroRecorder: TSynMacroRecorder read FSynMacroRecorder write FSynMacroRecorder;
     property Encoding: TEncoding read FEncoding write FEncoding;
-    //property Modified: Boolean read FModified write FModified;
   end;
 
   TDocumentFrame = class(TFrame)
@@ -386,7 +382,7 @@ implementation
 uses
   PrintPreview, Replace, ConfirmReplace, Common, Lib, Preferences, StyleHooks,
   SynTokenMatch, SynHighlighterWebMisc, Compare, System.Types, Winapi.ShellAPI, System.WideStrings,
-  Main, BigIni, Vcl.GraphUtil, SynUnicode;
+  Main, BigIni, Vcl.GraphUtil, SynUnicode, Language;
 
 const
   DEFAULT_FILENAME = 'Document';
@@ -1594,12 +1590,12 @@ begin
   begin
     Clear;
     Add(SynEdit.DocumentName, nil, taLeftJustify, 1);
-    Add(CommonDataModule.ConstantMultiStringHolder.StringsByName['PreviewDocumentPage'].Text, nil, taRightJustify, 1);
+    Add(LanguageDataModule.ConstantMultiStringHolder.StringsByName['PreviewDocumentPage'].Text, nil, taRightJustify, 1);
   end;
   with SynEditPrint.Footer do
   begin
     Clear;
-    Add(Format(CommonDataModule.ConstantMultiStringHolder.StringsByName['PreviewDocumentPage'].Text, [Application.Title]), nil, taLeftJustify, 1);
+    Add(Format(LanguageDataModule.ConstantMultiStringHolder.StringsByName['PreviewDocumentPage'].Text, [Application.Title]), nil, taLeftJustify, 1);
     Add('$DATE$ $TIME$', nil, taRightJustify, 1);
   end;
   SynEditPrint.SynEdit := SynEdit;
@@ -2261,7 +2257,7 @@ begin
       if SynEdit.DocumentName <> '' then
       begin
         Result := SynEdit.DocumentName;
-        if SynEdit.Modified then // PageControl.ActivePage.ImageIndex = CHANGED_IMAGEINDEX then
+        if SynEdit.Modified then
           Result := Format('%s~', [Result]);
       end
   end;
@@ -2293,14 +2289,6 @@ begin
         Result := True;
         Exit;
       end;
-
-{  for i := 0 to PageControl.PageCount - 1 do
-    if ((i <> Temp) and not CheckActive) or CheckActive then
-    begin
-      PageControl.ActivePage := PageControl.Pages[i];
-      if ActiveSynEdit.Modified then // PageControl.Pages[i].ImageIndex = CHANGED_IMAGEINDEX then
-        Exit;
-    end; }
 end;
 
 function TDocumentFrame.GetSelectionFound: Boolean;
@@ -2689,7 +2677,7 @@ begin
   Result := '';
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) and SynEdit.Modified then
-    Result := 'Modified';
+    Result := LanguageDataModule.ConstantMultiStringHolder.StringsByName['Modified'].Text;
 end;
 
 function TDocumentFrame.GetActiveDocumentModified: Boolean;
@@ -2766,7 +2754,7 @@ begin
         begin
           if FileExists(SynEdit.DocumentName) then
           begin
-            if Common.AskYesOrNo(Format(CommonDataModule.YesOrNoMultiStringHolder.StringsByName['DocumentTimeChanged'].Text, [SynEdit.DocumentName])) then
+            if Common.AskYesOrNo(Format(LanguageDataModule.YesOrNoMultiStringHolder.StringsByName['DocumentTimeChanged'].Text, [SynEdit.DocumentName])) then
             begin
               Refresh(i);
               PageControlRepaint;
@@ -2774,7 +2762,7 @@ begin
           end
           else
           begin
-            SynEdit.Modified := True; //  PageControl.Pages[i].ImageIndex := CHANGED_IMAGEINDEX
+            SynEdit.Modified := True;
             if Pos('~', PageControl.Pages[i].Caption) = 0 then
             begin
               PageControl.Pages[i].Caption := Format('%s~', [PageControl.Pages[i].Caption]);
@@ -2996,7 +2984,7 @@ var
 begin
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) then
-    Common.ShowMessage(Format(CommonDataModule.MessageMultiStringHolder.StringsByName['DocumentStatistics'].Text, [SynEdit.Lines.Count, CHR_ENTER, Common.WordCount(SynEdit.Text), CHR_ENTER, LengthWithoutWhiteSpaces(SynEdit.Text)]));
+    Common.ShowMessage(Format(LanguageDataModule.MessageMultiStringHolder.StringsByName['DocumentStatistics'].Text, [SynEdit.Lines.Count, CHR_ENTER, Common.WordCount(SynEdit.Text), CHR_ENTER, LengthWithoutWhiteSpaces(SynEdit.Text)]));
 end;
 
 function TDocumentFrame.GetMacroRecordPauseImageIndex: Integer;
@@ -3048,7 +3036,7 @@ begin
     else
     if SynEdit.SynMacroRecorder.State = msStopped then
     begin
-      if Common.AskYesOrNo(CommonDataModule.YesOrNoMultiStringHolder.StringsByName['RecordMacro'].Text) then
+      if Common.AskYesOrNo(LanguageDataModule.YesOrNoMultiStringHolder.StringsByName['RecordMacro'].Text) then
       begin
         SynEdit.SynMacroRecorder.Clear;
         SynEdit.SynMacroRecorder.RecordMacro(SynEdit);
@@ -3096,8 +3084,8 @@ begin
     if Assigned(SynEdit.SynMacroRecorder) then
     with TSaveDialog.Create(nil) do
     try
-      Title := 'Save As';
-      Filter := 'Macro files (*.mcr)|*.mcr';
+      Title := LanguageDataModule.ConstantMultiStringHolder.StringsByName['SaveAs'].Text;
+      Filter := LanguageDataModule.FileTypesMultiStringHolder.StringsByName['Macro'].Text;
       DefaultExt := '.mcr';
       if Execute then
         SynEdit.SynMacroRecorder.SaveToFile(FileName);
@@ -3114,8 +3102,8 @@ begin
   if Assigned(SynEdit) then
     with TOpenDialog.Create(nil) do
     try
-      Title := 'Open';
-      Filter := 'Macro files (*.mcr)|*.mcr';
+      Title := LanguageDataModule.ConstantMultiStringHolder.StringsByName['Open'].Text;
+      Filter := LanguageDataModule.FileTypesMultiStringHolder.StringsByName['Macro'].Text;
       DefaultExt := '.mcr';
       if Execute then
       begin
@@ -3291,12 +3279,12 @@ end;
 procedure TDocumentFrame.ToggleSplit;
 var
   FileName: string;
-  SynEdit: TBCSynEdit;
+  ASynEdit, SynEdit: TBCSynEdit;
   Panel: TPanel;
   Splitter: TSplitter;
 begin
-  SynEdit := ActiveSynEdit;
-  FileName := SynEdit.DocumentName;
+  ASynEdit := ActiveSynEdit;
+  FileName := ASynEdit.DocumentName;
   Panel := GetPanel;
   if Assigned(Panel) then
   begin
@@ -3316,18 +3304,18 @@ begin
         FileDateTime := GetFileDateTime(FileName);
         Align := alBottom;
         Font.Charset := DEFAULT_CHARSET;
-        Font.Color := clWindowText;
-        Font.Height := -13;
-        Font.Name := 'Courier New';
+        Font.Color := ASynEdit.Font.Color;
+        Font.Height := ASynEdit.Font.Height;
+        Font.Name := ASynEdit.Font.Name;
         Font.Style := [];
         Gutter.AutoSize := True;
         Gutter.Font.Charset := DEFAULT_CHARSET;
-        Gutter.Font.Color := clWindowText;
-        Gutter.Font.Height := -11;
-        Gutter.Font.Name := 'Courier New';
+        Gutter.Font.Color := ASynEdit.Gutter.Font.Color;
+        Gutter.Font.Height := ASynEdit.Gutter.Font.Height;
+        Gutter.Font.Name := ASynEdit.Gutter.Font.Name;
         Gutter.Font.Style := [];
-        Gutter.ShowLineNumbers := True;
-        Gutter.Gradient := False; //True;
+        Gutter.ShowLineNumbers := ASynEdit.Gutter.ShowLineNumbers;
+        Gutter.Gradient := False;
         WantTabs := True;
         Options := [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo,
           eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces,
@@ -3346,7 +3334,7 @@ begin
       OptionsContainer.AssignTo(SynEdit);
       if Filename <> '' then
       begin
-        SynEdit.Text := ActiveSynEdit.Text;
+        SynEdit.Text := ASynEdit.Text;
         SelectHighLighter(SynEdit, FileName);
       end;
       UpdateGutter(SynEdit);

@@ -155,10 +155,9 @@ object MainForm: TMainForm
       Left = 772
       Top = 2
       Width = 130
-      Height = 21
+      Height = 22
       Align = alRight
       DropDownCount = 57
-      ItemHeight = 13
       ReadOnly = True
       TabOrder = 2
       Text = '<encoding>'
