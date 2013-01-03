@@ -3,7 +3,7 @@ object OptionsDialog: TOptionsDialog
   Top = 154
   BorderStyle = bsDialog
   Caption = 'Options'
-  ClientHeight = 349
+  ClientHeight = 348
   ClientWidth = 471
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -21,18 +21,19 @@ object OptionsDialog: TOptionsDialog
     Left = 0
     Top = 0
     Width = 471
-    Height = 308
+    Height = 307
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 6
     Padding.Top = 6
     Padding.Right = 6
     TabOrder = 0
+    ExplicitHeight = 308
     object PageControl: TPageControl
       Left = 6
       Top = 6
       Width = 459
-      Height = 302
+      Height = 301
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
@@ -40,23 +41,26 @@ object OptionsDialog: TOptionsDialog
       ActivePage = EditorTabSheet
       Align = alClient
       TabOrder = 0
+      ExplicitHeight = 302
       object EditorTabSheet: TTabSheet
         Margins.Left = 4
         Margins.Top = 4
         Margins.Right = 4
         Margins.Bottom = 4
         Caption = 'Editor'
+        ExplicitHeight = 274
         object Panel3: TPanel
           Left = 0
           Top = 0
           Width = 451
-          Height = 274
+          Height = 273
           Align = alClient
           BevelOuter = bvNone
           Padding.Left = 4
           Padding.Right = 4
           Padding.Bottom = 4
           TabOrder = 0
+          ExplicitHeight = 274
           object Panel5: TPanel
             Left = 4
             Top = 0
@@ -161,7 +165,7 @@ object OptionsDialog: TOptionsDialog
                 Margins.Top = 4
                 Margins.Right = 4
                 Margins.Bottom = 4
-                Caption = ' Line numbers'
+                Caption = ' Line Numbers'
                 Checked = True
                 State = cbChecked
                 TabOrder = 0
@@ -204,7 +208,7 @@ object OptionsDialog: TOptionsDialog
               Align = alClient
               Caption = ' Line spacing / Tab spacing '
               TabOrder = 0
-              object Label8: TLabel
+              object ExtraLinesLabel: TLabel
                 Left = 15
                 Top = 23
                 Width = 53
@@ -215,7 +219,7 @@ object OptionsDialog: TOptionsDialog
                 Margins.Bottom = 4
                 Caption = 'Extra Lines'
               end
-              object Label9: TLabel
+              object TabWidthLabel: TLabel
                 Left = 238
                 Top = 23
                 Width = 49
@@ -282,7 +286,7 @@ object OptionsDialog: TOptionsDialog
               Align = alLeft
               Caption = ' Right Edge '
               TabOrder = 0
-              object Label10: TLabel
+              object EdgeColumnLabel: TLabel
                 Left = 15
                 Top = 23
                 Width = 62
@@ -413,33 +417,26 @@ object OptionsDialog: TOptionsDialog
             Left = 4
             Top = 216
             Width = 443
-            Height = 54
+            Height = 53
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 4
+            ExplicitHeight = 54
             object HTMLVersionGroupBox: TGroupBox
               Left = 0
               Top = 0
               Width = 443
-              Height = 54
+              Height = 53
               Margins.Left = 4
               Margins.Top = 4
               Margins.Right = 4
               Margins.Bottom = 4
               Align = alClient
-              Caption = '                                          '
+              Caption = ' HTML Error Checking / Version When DOCTYPE Does Not Exist'
               TabOrder = 0
-              object HTMLVersionLabel: TLabel
-                Left = 15
-                Top = 23
-                Width = 184
-                Height = 13
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Caption = 'Version when DOCTYPE does not exist'
-              end
+              ExplicitLeft = 11
+              ExplicitTop = 9
+              ExplicitHeight = 54
               object HTMLVersionComboBox: TBCComboBox
                 Left = 243
                 Top = 20
@@ -457,15 +454,15 @@ object OptionsDialog: TOptionsDialog
                 DropDownFixedWidth = 0
               end
               object HTMLErrorCheckingCheckBox: TBCCheckBox
-                Left = 14
-                Top = -2
+                Left = 15
+                Top = 20
                 Width = 124
                 Height = 21
                 Margins.Left = 4
                 Margins.Top = 4
                 Margins.Right = 4
                 Margins.Bottom = 4
-                Caption = ' HTML Error Checking'
+                Caption = ' Enabled'
                 Checked = True
                 State = cbChecked
                 TabOrder = 1
@@ -483,18 +480,20 @@ object OptionsDialog: TOptionsDialog
         Margins.Bottom = 4
         Caption = 'File Types'
         ImageIndex = 1
+        ExplicitHeight = 274
         object Panel11: TPanel
           Left = 0
-          Top = 244
+          Top = 243
           Width = 451
           Height = 30
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 0
+          ExplicitTop = 244
           DesignSize = (
             451
             30)
-          object Label1: TLabel
+          object ExtensionsLabel: TLabel
             Left = 8
             Top = 8
             Width = 52
@@ -529,18 +528,19 @@ object OptionsDialog: TOptionsDialog
           Left = 0
           Top = 0
           Width = 451
-          Height = 244
+          Height = 243
           Align = alClient
           BevelOuter = bvNone
           Padding.Left = 4
           Padding.Top = 4
           Padding.Right = 4
           TabOrder = 1
+          ExplicitHeight = 244
           object FileTypesListBox: TListBox
             Left = 4
             Top = 4
             Width = 443
-            Height = 240
+            Height = 239
             Margins.Left = 4
             Margins.Top = 4
             Margins.Right = 4
@@ -549,6 +549,7 @@ object OptionsDialog: TOptionsDialog
             ItemHeight = 13
             TabOrder = 0
             OnClick = FileTypesListBoxClick
+            ExplicitHeight = 240
           end
         end
       end
@@ -556,7 +557,7 @@ object OptionsDialog: TOptionsDialog
   end
   object Panel2: TPanel
     Left = 0
-    Top = 308
+    Top = 307
     Width = 471
     Height = 41
     Align = alBottom
@@ -565,7 +566,8 @@ object OptionsDialog: TOptionsDialog
     Padding.Right = 6
     Padding.Bottom = 8
     TabOrder = 1
-    object btnOk: TButton
+    ExplicitTop = 308
+    object OKButton: TButton
       Left = 307
       Top = 8
       Width = 75
@@ -580,7 +582,7 @@ object OptionsDialog: TOptionsDialog
       ModalResult = 1
       TabOrder = 0
     end
-    object btnCancel: TButton
+    object CancelButton: TButton
       Left = 390
       Top = 8
       Width = 75
@@ -618,6 +620,7 @@ object OptionsDialog: TOptionsDialog
     Left = 130
     Top = 78
     object SelectFontAction: TAction
+      Hint = 'Select a font'
       OnExecute = SelectFontActionExecute
     end
   end
