@@ -1,8 +1,8 @@
-object PreferencesDialog: TPreferencesDialog
+object OptionsDialog: TOptionsDialog
   Left = 580
   Top = 154
   BorderStyle = bsDialog
-  Caption = 'Preferences'
+  Caption = 'Options'
   ClientHeight = 349
   ClientWidth = 471
   Color = clBtnFace
@@ -37,10 +37,10 @@ object PreferencesDialog: TPreferencesDialog
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      ActivePage = TabSheet1
+      ActivePage = EditorTabSheet
       Align = alClient
       TabOrder = 0
-      object TabSheet1: TTabSheet
+      object EditorTabSheet: TTabSheet
         Margins.Left = 4
         Margins.Top = 4
         Margins.Right = 4

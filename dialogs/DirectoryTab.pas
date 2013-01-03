@@ -20,19 +20,21 @@ type
     CancelButton: TButton;
     RootDirectoryClickAction: TAction;
     Panel1: TPanel;
-    Panel2: TPanel;
+    TabNamePanel: TPanel;
     TabNameLabel: TLabel;
     TabNameEdit: TBCEdit;
-    Panel3: TPanel;
+    RootDirectoryPanel: TPanel;
     RootDirectoryLabel: TLabel;
     RootDirectoryEdit: TBCEdit;
     RootDrectoryBitBtn: TBitBtn;
-    Panel4: TPanel;
+    CheckBoxPanel: TPanel;
     ShowDrivesCheckBox: TBCCheckBox;
     ExcludeOtherBranchesCheckBox: TBCCheckBox;
+    ShowDrivesLabel: TLabel;
     procedure OKActionExecute(Sender: TObject);
     procedure ExcludeOtherBranchesActionExecute(Sender: TObject);
     procedure RootDirectoryClickActionExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     function GetTabName: string;
@@ -118,6 +120,15 @@ begin
   if ExcludeOtherBranchesCheckBox.Checked then
     ShowDrivesCheckBox.Checked := False;
   ShowDrivesCheckBox.ReadOnly := ExcludeOtherBranchesCheckBox.Checked;
+end;
+
+procedure TDirectoryTabDialog.FormShow(Sender: TObject);
+begin
+  inherited;
+  TabNameEdit.Left := ExcludeOtherBranchesCheckBox.Left;
+  TabNameEdit.Width := TabNamePanel.Width - TabNameEdit.Left;
+  RootDirectoryEdit.Left := ExcludeOtherBranchesCheckBox.Left;
+  RootDirectoryEdit.Width := TabNamePanel.Width - RootDirectoryEdit.Left - RootDrectoryBitBtn.Width - 4;
 end;
 
 function TDirectoryTabDialog.GetRootDirectory: string;

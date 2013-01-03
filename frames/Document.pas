@@ -315,7 +315,7 @@ type
     procedure FindNext;
     procedure FindPrevious;
     procedure Replace;
-    function Preferences: Boolean;
+    function Options: Boolean;
     procedure ToggleBookMark;
     function GetHTMLErrors: TList;
     procedure ReadIniFile;
@@ -380,7 +380,7 @@ implementation
 {$R *.dfm}
 
 uses
-  PrintPreview, Replace, ConfirmReplace, Common, Lib, Preferences, StyleHooks,
+  PrintPreview, Replace, ConfirmReplace, Common, Lib, Options, StyleHooks,
   SynTokenMatch, SynHighlighterWebMisc, Compare, System.Types, Winapi.ShellAPI, System.WideStrings,
   Main, BigIni, Vcl.GraphUtil, SynUnicode, Language;
 
@@ -1919,24 +1919,17 @@ begin
   FileTypes := TStringList.Create;
   with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
   try
-    { Preferences }
-    OptionsContainer.FontName := ReadString('Preferences', 'FontName',
-      'Courier New');
-    OptionsContainer.FontSize := StrToInt
-      (ReadString('Preferences', 'FontSize', '10'));
-    OptionsContainer.RightEdge := StrToInt
-      (ReadString('Preferences', 'RightEdge', '80'));
-    OptionsContainer.ExtraLineSpacing := StrToInt
-      (ReadString('Preferences', 'ExtraLineSpacing', '0'));
-    OptionsContainer.TabWidth := StrToInt
-      (ReadString('Preferences', 'TabWidth', '8'));
-    OptionsContainer.GutterVisible := ReadBool
-      ('Preferences', 'GutterVisible', True);
-    OptionsContainer.GutterLineNumbers := ReadBool('Preferences',
-      'GutterLineNumbers', True);
-    OptionsContainer.MultiLine := ReadBool('Preferences', 'MultiLine', False);
-    OptionsContainer.HTMLErrorChecking := ReadBool('Preferences', 'HTMLErrorChecking', True);
-    OptionsContainer.HtmlVersion := TSynWebHtmlVersion(StrToInt(ReadString('Preferences', 'HTMLVersion', '4'))); { default: HTML5 }
+    { Options }
+    OptionsContainer.FontName := ReadString('Options', 'FontName', 'Courier New');
+    OptionsContainer.FontSize := StrToInt(ReadString('Options', 'FontSize', '10'));
+    OptionsContainer.RightEdge := StrToInt(ReadString('Options', 'RightEdge', '80'));
+    OptionsContainer.ExtraLineSpacing := StrToInt(ReadString('Options', 'ExtraLineSpacing', '0'));
+    OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '8'));
+    OptionsContainer.GutterVisible := ReadBool('Options', 'GutterVisible', True);
+    OptionsContainer.GutterLineNumbers := ReadBool('Options', 'GutterLineNumbers', True);
+    OptionsContainer.MultiLine := ReadBool('Options', 'MultiLine', False);
+    OptionsContainer.HTMLErrorChecking := ReadBool('Options', 'HTMLErrorChecking', True);
+    OptionsContainer.HtmlVersion := TSynWebHtmlVersion(StrToInt(ReadString('Options', 'HTMLVersion', '4'))); { default: HTML5 }
     { FileTypes }
     Version := ReadString(Application.Title, 'Version', '');
     if Version = '' then  { Version 1.4 has it }
@@ -1957,8 +1950,8 @@ begin
           (FileTypes.Strings[i], Pos('=', FileTypes.Strings[i]) + 1, Length
             (FileTypes.Strings[i]));
     end;
-    OptionsContainer.SQLDialect := TSQLDialect(StrToInt(ReadString('Preferences', 'SQLDialect', '0')));
-    OptionsContainer.CPASHighlighter := TCPASHighlighter(StrToInt(ReadString('Preferences', 'CPASHighlighter', '0')));
+    OptionsContainer.SQLDialect := TSQLDialect(StrToInt(ReadString('Options', 'SQLDialect', '0')));
+    OptionsContainer.CPASHighlighter := TCPASHighlighter(StrToInt(ReadString('Options', 'CPASHighlighter', '0')));
   finally
     FileTypes.Free;
     Free;
@@ -1986,7 +1979,7 @@ begin
         Open(FName, Bookmarks);
     end;
 
-    i := ReadInteger('Preferences', 'ActivePageIndex', 0);
+    i := ReadInteger('Options', 'ActivePageIndex', 0);
     if i < PageControl.PageCount then
     begin
       PageControl.ActivePageIndex := i;
@@ -2011,22 +2004,22 @@ var
 begin
   with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
   try
-    { Preferences }
-    WriteString('Preferences', 'FontName', OptionsContainer.FontName);
-    WriteString('Preferences', 'FontSize', IntToStr(OptionsContainer.FontSize)
+    { Options }
+    WriteString('Options', 'FontName', OptionsContainer.FontName);
+    WriteString('Options', 'FontSize', IntToStr(OptionsContainer.FontSize)
       );
-    WriteString('Preferences', 'RightEdge', IntToStr
+    WriteString('Options', 'RightEdge', IntToStr
         (OptionsContainer.RightEdge));
-    WriteString('Preferences', 'ExtraLineSpacing', IntToStr
+    WriteString('Options', 'ExtraLineSpacing', IntToStr
         (OptionsContainer.ExtraLineSpacing));
-    WriteString('Preferences', 'TabWidth', IntToStr(OptionsContainer.TabWidth)
+    WriteString('Options', 'TabWidth', IntToStr(OptionsContainer.TabWidth)
       );
-    WriteBool('Preferences', 'GutterVisible', OptionsContainer.GutterVisible);
-    WriteBool('Preferences', 'GutterLineNumbers',
+    WriteBool('Options', 'GutterVisible', OptionsContainer.GutterVisible);
+    WriteBool('Options', 'GutterLineNumbers',
       OptionsContainer.GutterLineNumbers);
-    WriteBool('Preferences', 'MultiLine', OptionsContainer.MultiLine);
-    WriteBool('Preferences', 'HTMLErrorChecking', OptionsContainer.HTMLErrorChecking);
-    WriteString('Preferences', 'HTMLVersion', IntToStr(Ord(OptionsContainer.HtmlVersion)));
+    WriteBool('Options', 'MultiLine', OptionsContainer.MultiLine);
+    WriteBool('Options', 'HTMLErrorChecking', OptionsContainer.HTMLErrorChecking);
+    WriteString('Options', 'HTMLVersion', IntToStr(Ord(OptionsContainer.HtmlVersion)));
     EraseSection('OpenFiles');
     EraseSection('Bookmarks');
     { Open documents }
@@ -2044,29 +2037,27 @@ begin
       end;
     end;
     { Active document }
-    WriteInteger('Preferences', 'ActivePageIndex', PageControl.ActivePageIndex);
+    WriteInteger('Options', 'ActivePageIndex', PageControl.ActivePageIndex);
     EraseSection('FileTypes');
     { FileTypes }
     for i := 0 to OptionsContainer.FileTypes.Count - 1 do
       WriteString('FileTypes', IntToStr(i),
         OptionsContainer.FileTypes.Strings[i]);
-    WriteString('Preferences', 'SQLDialect', IntToStr(Ord(OptionsContainer.SQLDialect)));
-    WriteString('Preferences', 'CPASHighlighter', IntToStr(Ord(OptionsContainer.CPASHighlighter)));
+    WriteString('Options', 'SQLDialect', IntToStr(Ord(OptionsContainer.SQLDialect)));
+    WriteString('Options', 'CPASHighlighter', IntToStr(Ord(OptionsContainer.CPASHighlighter)));
   finally
     Free;
   end;
 end;
 
-function TDocumentFrame.Preferences: Boolean;
+function TDocumentFrame.Options: Boolean;
 var
   i: Integer;
   SynEdit: TBCSynEdit;
 begin
   Result := False;
-  { assign container }
-  // OptionsContainer.Assign(ActiveSynEdit);
-  { open preferences }
-  if PreferencesDialog(Self).Execute(OptionsContainer) then
+
+  if OptionsDialog(Self).Execute(OptionsContainer) then
   begin
     { assign to every synedit }
     for i := 0 to PageControl.PageCount - 1 do

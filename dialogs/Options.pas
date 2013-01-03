@@ -1,4 +1,4 @@
-unit Preferences;
+unit Options;
 
 interface
 
@@ -22,13 +22,13 @@ const
 type
   TOptionsContainer = class;
 
-  TPreferencesDialog = class(TDialog)
+  TOptionsDialog = class(TDialog)
     FontDialog: TFontDialog;
     ActionList: TActionList;
     SelectFontAction: TAction;
     Panel1: TPanel;
     PageControl: TPageControl;
-    TabSheet1: TTabSheet;
+    EditorTabSheet: TTabSheet;
     FileTypesTabSheet: TTabSheet;
     Panel2: TPanel;
     btnOk: TButton;
@@ -132,7 +132,7 @@ type
     property CPASHighlighter: TCPASHighlighter read FCPASHighlighter write FCPASHighlighter;
   end;
 
-function PreferencesDialog(Sender: TComponent): TPreferencesDialog;
+function OptionsDialog(Sender: TComponent): TOptionsDialog;
 function OptionsContainer: TOptionsContainer;
 
 implementation
@@ -146,7 +146,7 @@ uses
 
 var
   FOptionsContainer: TOptionsContainer;
-  FPreferencesDialog: TPreferencesDialog;
+  FOptionsDialog: TOptionsDialog;
 
 function OptionsContainer: TOptionsContainer;
 begin
@@ -390,24 +390,24 @@ begin
     Result := Format('%s%s|', [Result, Common.StringBetween(FFileTypes.Strings[i], '(', ')')]);
 end;
 
-{ TPreferencesDialog }
+{ TOptionsDialog }
 
-function PreferencesDialog(Sender: TComponent): TPreferencesDialog;
+function OptionsDialog(Sender: TComponent): TOptionsDialog;
 begin
-  if FPreferencesDialog = nil then
-    FPreferencesDialog := TPreferencesDialog.Create(Sender);
-  Result := FPreferencesDialog;
+  if FOptionsDialog = nil then
+    FOptionsDialog := TOptionsDialog.Create(Sender);
+  Result := FOptionsDialog;
   StyleHooks.SetStyledFormSize(Result);
   if Assigned(TStyleManager.ActiveStyle) then
     Result.PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
 end;
 
-procedure TPreferencesDialog.FormDestroy(Sender: TObject);
+procedure TOptionsDialog.FormDestroy(Sender: TObject);
 begin
-  FPreferencesDialog := nil;
+  FOptionsDialog := nil;
 end;
 
-function TPreferencesDialog.Execute(EditOptions: TOptionsContainer): Boolean;
+function TOptionsDialog.Execute(EditOptions: TOptionsContainer): Boolean;
 begin
   if (EditOptions = nil) then
   begin
@@ -421,7 +421,7 @@ begin
     PutData;
 end;
 
-procedure TPreferencesDialog.GetData;
+procedure TOptionsDialog.GetData;
 var
   i: Integer;
   FileType: string;
@@ -456,12 +456,12 @@ begin
   CPASHighlighterComboBox.ItemIndex := Ord(FOptionsContainer.CPASHighlighter);
 end;
 
-procedure TPreferencesDialog.HTMLErrorCheckingCheckBoxClick(Sender: TObject);
+procedure TOptionsDialog.HTMLErrorCheckingCheckBoxClick(Sender: TObject);
 begin
   HTMLVersionComboBox.Enabled := HTMLErrorCheckingCheckBox.Checked;
 end;
 
-procedure TPreferencesDialog.PutData;
+procedure TOptionsDialog.PutData;
 var
   i: Integer;
   FileType: string;
@@ -502,7 +502,7 @@ begin
   FOptionsContainer.FCPASHighlighter := TCPASHighlighter(CPASHighlighterComboBox.ItemIndex);
 end;
 
-procedure TPreferencesDialog.SelectFontActionExecute(Sender: TObject);
+procedure TOptionsDialog.SelectFontActionExecute(Sender: TObject);
 begin
   FontDialog.Font.Name := FontLabel.Font.Name;
   FontDialog.Font.Size := FontLabel.Font.Size;
@@ -513,14 +513,14 @@ begin
   end;
 end;
 
-procedure TPreferencesDialog.FileTypesListBoxClick(Sender: TObject);
+procedure TOptionsDialog.FileTypesListBoxClick(Sender: TObject);
 begin
   if FileTypesListBox.ItemIndex = -1 then
     Exit;
   ExtensionsEdit.Text := StringBetween(FileTypesListBox.Items.Strings[FileTypesListBox.ItemIndex], '(', ')');
 end;
 
-procedure TPreferencesDialog.ExtensionsEditChange(Sender: TObject);
+procedure TOptionsDialog.ExtensionsEditChange(Sender: TObject);
 var
   Extensions: string;
 begin
@@ -531,7 +531,7 @@ begin
   FileTypesListBox.Items.Strings[FileTypesListBox.ItemIndex] := Format('%s%s)', [Extensions, ExtensionsEdit.Text]);
 end;
 
-procedure TPreferencesDialog.FormCreate(Sender: TObject);
+procedure TOptionsDialog.FormCreate(Sender: TObject);
 var
   i: TSynWebHtmlVersion;
   j: TSQLDialect;

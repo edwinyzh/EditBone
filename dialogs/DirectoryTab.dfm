@@ -4,7 +4,7 @@ object DirectoryTabDialog: TDirectoryTabDialog
   BorderStyle = bsDialog
   Caption = 'DirectoryTabDialog'
   ClientHeight = 125
-  ClientWidth = 339
+  ClientWidth = 378
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,12 +13,13 @@ object DirectoryTabDialog: TDirectoryTabDialog
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object TopPanel: TPanel
     Left = 0
     Top = 0
-    Width = 339
+    Width = 378
     Height = 93
     Align = alClient
     BevelOuter = bvNone
@@ -27,10 +28,10 @@ object DirectoryTabDialog: TDirectoryTabDialog
     Padding.Right = 12
     Padding.Bottom = 8
     TabOrder = 0
-    object Panel2: TPanel
+    object TabNamePanel: TPanel
       Left = 12
       Top = 12
-      Width = 315
+      Width = 354
       Height = 26
       Align = alTop
       BevelOuter = bvNone
@@ -45,7 +46,7 @@ object DirectoryTabDialog: TDirectoryTabDialog
       object TabNameEdit: TBCEdit
         Left = 87
         Top = 5
-        Width = 228
+        Width = 267
         Height = 21
         Hint = 'Tab name'
         TabOrder = 0
@@ -57,10 +58,10 @@ object DirectoryTabDialog: TDirectoryTabDialog
         NumbersAllowNegative = False
       end
     end
-    object Panel3: TPanel
+    object RootDirectoryPanel: TPanel
       Left = 12
       Top = 38
-      Width = 315
+      Width = 354
       Height = 26
       Align = alTop
       BevelOuter = bvNone
@@ -75,7 +76,7 @@ object DirectoryTabDialog: TDirectoryTabDialog
       object RootDirectoryEdit: TBCEdit
         Left = 87
         Top = 4
-        Width = 205
+        Width = 244
         Height = 21
         Hint = 'Root directory'
         TabOrder = 0
@@ -87,7 +88,7 @@ object DirectoryTabDialog: TDirectoryTabDialog
         NumbersAllowNegative = False
       end
       object RootDrectoryBitBtn: TBitBtn
-        Left = 293
+        Left = 332
         Top = 4
         Width = 21
         Height = 21
@@ -122,32 +123,41 @@ object DirectoryTabDialog: TDirectoryTabDialog
         TabOrder = 1
       end
     end
-    object Panel4: TPanel
+    object CheckBoxPanel: TPanel
       Left = 12
       Top = 64
-      Width = 315
+      Width = 354
       Height = 26
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 2
+      object ShowDrivesLabel: TLabel
+        Left = 21
+        Top = 0
+        Width = 59
+        Height = 26
+        Align = alLeft
+        Caption = '&Show Drives'
+        Layout = tlCenter
+        ExplicitHeight = 13
+      end
       object ShowDrivesCheckBox: TBCCheckBox
         Left = 0
         Top = 0
-        Width = 103
+        Width = 21
         Height = 26
         Margins.Left = 0
         Margins.Top = 0
         Margins.Right = 0
         Margins.Bottom = 0
         Align = alLeft
-        Caption = ' Show Drives'
         Checked = True
         State = cbChecked
         TabOrder = 0
         ReadOnly = False
       end
       object ExcludeOtherBranchesCheckBox: TBCCheckBox
-        Left = 87
+        Left = 88
         Top = 0
         Width = 212
         Height = 26
@@ -156,16 +166,26 @@ object DirectoryTabDialog: TDirectoryTabDialog
         Margins.Right = 0
         Margins.Bottom = 0
         Action = ExcludeOtherBranchesAction
+        Align = alLeft
         Caption = ' Exclude Other Directory Branches'
         TabOrder = 1
         ReadOnly = False
+      end
+      object TPanel
+        Left = 80
+        Top = 0
+        Width = 8
+        Height = 26
+        Align = alLeft
+        BevelOuter = bvNone
+        TabOrder = 2
       end
     end
   end
   object ButtonPanel: TPanel
     Left = 0
     Top = 93
-    Width = 339
+    Width = 378
     Height = 32
     Align = alBottom
     BevelOuter = bvNone
@@ -174,7 +194,7 @@ object DirectoryTabDialog: TDirectoryTabDialog
     Padding.Bottom = 8
     TabOrder = 1
     object OKButton: TButton
-      Left = 173
+      Left = 212
       Top = 0
       Width = 75
       Height = 24
@@ -184,7 +204,7 @@ object DirectoryTabDialog: TDirectoryTabDialog
       TabOrder = 0
     end
     object CancelButton: TButton
-      Left = 256
+      Left = 295
       Top = 0
       Width = 75
       Height = 24
@@ -194,7 +214,7 @@ object DirectoryTabDialog: TDirectoryTabDialog
       TabOrder = 1
     end
     object Panel1: TPanel
-      Left = 248
+      Left = 287
       Top = 0
       Width = 8
       Height = 24

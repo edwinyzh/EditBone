@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ActnCtrls, Vcl.ActnList, Vcl.ActnMan, Vcl.ActnMenus,
   Vcl.ToolWin, Vcl.ComCtrls, Vcl.ImgList, Vcl.ExtCtrls, SynEdit, Directory, BCFileControl,
-  Vcl.StdCtrls, Vcl.Menus, Vcl.AppEvnts, Document, Output, Preferences, Lib, JvAppInst,
+  Vcl.StdCtrls, Vcl.Menus, Vcl.AppEvnts, Document, Output, Options, Lib, JvAppInst,
   JvDragDrop, BCPopupMenu, Vcl.PlatformDefaultStyleActnCtrls, JvComponentBase, Vcl.ActnPopup,
   BCImageList, JvExStdCtrls, JvCombobox, BCComboBox, Vcl.Themes;
 
@@ -119,7 +119,7 @@ type
     ToggleBookmarkAction: TAction;
     ToolBarPanel: TPanel;
     ToolbarPopupMenu: TBCPopupMenu;
-    ToolsPreferencesAction: TAction;
+    ToolsOptionsAction: TAction;
     ToolsSelectForCompareAction: TAction;
     ToolsWordCountAction: TAction;
     UndoandRedo1: TMenuItem;
@@ -142,6 +142,9 @@ type
     ViewWordWrapAction: TAction;
     ToolsLanguageEditorAction: TAction;
     SelectLanguageAction: TAction;
+    ViewLanguageAction: TAction;
+    ViewStyleAction: TAction;
+    MacroAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -213,7 +216,7 @@ type
     procedure SearchReplaceActionExecute(Sender: TObject);
     procedure SelectStyleActionExecute(Sender: TObject);
     procedure ToggleBookmarkActionExecute(Sender: TObject);
-    procedure ToolsPreferencesActionExecute(Sender: TObject);
+    procedure ToolsOptionsActionExecute(Sender: TObject);
     procedure ToolsSelectForCompareActionExecute(Sender: TObject);
     procedure ToolsWordCountActionExecute(Sender: TObject);
     procedure ViewCloseDirectoryActionExecute(Sender: TObject);
@@ -233,6 +236,9 @@ type
     procedure ViewToolbarActionExecute(Sender: TObject);
     procedure ViewWordWrapActionExecute(Sender: TObject);
     procedure SelectLanguageActionExecute(Sender: TObject);
+    procedure ViewLanguageActionExecute(Sender: TObject);
+    procedure ViewStyleActionExecute(Sender: TObject);
+    procedure MacroActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -313,7 +319,7 @@ begin
 
   with TBigIniFile.Create(Common.GetINIFilename) do
   try
-    WriteString('Preferences', 'Language', ActionCaption);
+    WriteString('Options', 'Language', ActionCaption);
   finally
     Free;
   end;
@@ -332,9 +338,10 @@ begin
   { update main menu and language constants }
   Language.ReadLanguageFile(SelectedLanguage, ActionMainMenuBar);
   { update ui captions }
-  {FDirectoryFrame.UpdateLanguage(SelectedLanguage);
-  FDocumentFrame.UpdateLanguage(SelectedLanguage);
-  FOutputFrame.UpdateLanguage(SelectedLanguage);}
+  {
+  FDirectoryFrame.UpdateLanguage(SelectedLanguage);
+  FDocumentFrame.UpdateLanguage(SelectedLanguage); muista myös compare framet
+  FOutputFrame.UpdateLanguage(SelectedLanguage); }
 end;
 
 procedure TMainForm.SelectStyleActionExecute(Sender: TObject);
@@ -360,7 +367,7 @@ begin
       TStyleManager.SetStyle(TStyleManager.LoadFromFile(ActionCaption));
       with TBigIniFile.Create(Common.GetINIFilename) do
       try
-        WriteString('Preferences', 'StyleFilename', ExtractFilename(ActionCaption));
+        WriteString('Options', 'StyleFilename', ExtractFilename(ActionCaption));
       finally
         Free;
       end;
@@ -508,22 +515,22 @@ begin
     Left := ReadInteger('Position', 'Left', (Screen.Width - Width) div 2);
     Top := ReadInteger('Position', 'Top', (Screen.Height - Height) div 2);
     Application.ProcessMessages;
-    { Preferences }
-    ActionToolBar.Visible := ReadBool('Preferences', 'ShowToolBar', True);
-    DirectoryPanel.Visible := ReadBool('Preferences', 'ShowDirectory', True);
-    HighlighterComboBox.Visible := ReadBool('Preferences', 'ShowHighlighterSelection', True);
-    EncodingComboBox.Visible := ReadBool('Preferences', 'ShowEncodingSelection', False);
+    { Options }
+    ActionToolBar.Visible := ReadBool('Options', 'ShowToolBar', True);
+    DirectoryPanel.Visible := ReadBool('Options', 'ShowDirectory', True);
+    HighlighterComboBox.Visible := ReadBool('Options', 'ShowHighlighterSelection', True);
+    EncodingComboBox.Visible := ReadBool('Options', 'ShowEncodingSelection', False);
     VerticalSplitter.Visible := DirectoryPanel.Visible;
-    ViewWordWrapAction.Checked := ReadBool('Preferences', 'EnableWordWrap', False);
+    ViewWordWrapAction.Checked := ReadBool('Options', 'EnableWordWrap', False);
     if ViewWordWrapAction.Checked then
       ViewWordWrapAction.Execute;
-    ViewLineNumbersAction.Checked := ReadBool('Preferences', 'EnableLineNumbers', True);
+    ViewLineNumbersAction.Checked := ReadBool('Options', 'EnableLineNumbers', True);
     if not ViewLineNumbersAction.Checked then
       ViewLineNumbersAction.Execute;
-    ViewSpecialCharsAction.Checked := ReadBool('Preferences', 'EnableSpecialChars', False);
+    ViewSpecialCharsAction.Checked := ReadBool('Options', 'EnableSpecialChars', False);
     if ViewSpecialCharsAction.Checked then
       ViewSpecialCharsAction.Execute;
-    ViewSelectionModeAction.Checked := ReadBool('Preferences', 'EnableSelectionMode', False);
+    ViewSelectionModeAction.Checked := ReadBool('Options', 'EnableSelectionMode', False);
     if ViewSelectionModeAction.Checked then
       ViewSelectionModeAction.Execute;
     { Toolbar action visibility }
@@ -552,16 +559,16 @@ begin
     { Size }
     WriteInteger('Size', 'Width', Width);
     WriteInteger('Size', 'Height', Height);
-    { Preferences }
-    WriteBool('Preferences', 'ShowToolBar', ActionToolBar.Visible);
-    WriteBool('Preferences', 'ShowDirectory', DirectoryPanel.Visible);
-    WriteBool('Preferences', 'ShowHighlighterSelection', HighlighterComboBox.Visible);
-    WriteBool('Preferences', 'ShowEncodingSelection', EncodingComboBox.Visible);
-    WriteBool('Preferences', 'EnableWordWrap', ViewWordWrapAction.Checked);
-    WriteBool('Preferences', 'EnableLineNumbers', ViewLineNumbersAction.Checked);
-    WriteBool('Preferences', 'EnableSpecialChars', ViewSpecialCharsAction.Checked);
-    WriteBool('Preferences', 'EnableSelectionMode', ViewSelectionModeAction.Checked);
-    DeleteKey('Preferences', 'StyleName'); { depricated }
+    { Options }
+    WriteBool('Options', 'ShowToolBar', ActionToolBar.Visible);
+    WriteBool('Options', 'ShowDirectory', DirectoryPanel.Visible);
+    WriteBool('Options', 'ShowHighlighterSelection', HighlighterComboBox.Visible);
+    WriteBool('Options', 'ShowEncodingSelection', EncodingComboBox.Visible);
+    WriteBool('Options', 'EnableWordWrap', ViewWordWrapAction.Checked);
+    WriteBool('Options', 'EnableLineNumbers', ViewLineNumbersAction.Checked);
+    WriteBool('Options', 'EnableSpecialChars', ViewSpecialCharsAction.Checked);
+    WriteBool('Options', 'EnableSelectionMode', ViewSelectionModeAction.Checked);
+    DeleteKey('Options', 'StyleName'); { depricated }
     { Toolbar action visibility }
     EraseSection('ActionToolBar');
     for i := 0 to ToolbarPopupMenu.Items.Count - 1 do
@@ -632,7 +639,7 @@ begin
   FileCloseAllOtherPagesAction.Enabled := FileCloseAction.Enabled;
   ViewNextPageAction.Enabled := FDocumentFrame.OpenTabSheetCount > 1;
   ViewPreviousPageAction.Enabled := ViewNextPageAction.Enabled;
-  ToolsPreferencesAction.Enabled := FileCloseAction.Enabled;
+  ToolsOptionsAction.Enabled := FileCloseAction.Enabled;
   FileSaveAsAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
   FileSaveAction.Enabled := FDocumentFrame.ModifiedDocuments and ActiveDocumentFound;
   FileSaveAllAction.Enabled := FileSaveAction.Enabled and ActiveDocumentFound;
@@ -976,6 +983,11 @@ begin
   end;
 end;
 
+procedure TMainForm.MacroActionExecute(Sender: TObject);
+begin
+  { dummy action for language algorithm }
+end;
+
 procedure TMainForm.MacroOpenActionExecute(Sender: TObject);
 begin
   FDocumentFrame.LoadMacro;
@@ -1178,6 +1190,11 @@ begin
   FDocumentFrame.ToggleSplit;
 end;
 
+procedure TMainForm.ViewStyleActionExecute(Sender: TObject);
+begin
+  { dummy action for language algorithm }
+end;
+
 procedure TMainForm.SearchFindInFilesActionExecute(Sender: TObject);
 var
   T1, T2: TTime;
@@ -1311,9 +1328,9 @@ begin
   FDocumentFrame.Paste;
 end;
 
-procedure TMainForm.ToolsPreferencesActionExecute(Sender: TObject);
+procedure TMainForm.ToolsOptionsActionExecute(Sender: TObject);
 begin
-  if FDocumentFrame.Preferences then
+  if FDocumentFrame.Options then
   begin
     if Assigned(FOutputFrame) then
       FOutputFrame.PageControl.MultiLine := OptionsContainer.MultiLine;
@@ -1358,6 +1375,11 @@ end;
 procedure TMainForm.ViewInBrowserActionExecute(Sender: TObject);
 begin
   BrowseURL(FDocumentFrame.ActiveDocumentName);
+end;
+
+procedure TMainForm.ViewLanguageActionExecute(Sender: TObject);
+begin
+  { dummy action for language algorithm }
 end;
 
 procedure TMainForm.ViewLineNumbersActionExecute(Sender: TObject);

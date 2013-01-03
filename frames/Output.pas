@@ -64,7 +64,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, Lib, Preferences, StyleHooks;
+  Common, Lib, Options, StyleHooks;
 
 constructor TOutputFrame.Create(AOwner: TComponent);
 begin

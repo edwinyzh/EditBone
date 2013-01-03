@@ -28,6 +28,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure LinkClick(Sender: TObject; const Link: string;
       LinkType: TSysLinkType);
+    procedure FormShow(Sender: TObject);
   private
     function GetVersion: string;
   public
@@ -56,19 +57,7 @@ begin
 end;
 
 procedure TAboutDialog.Open;
-var
-  MemoryStatus: TMemoryStatusEx;
 begin
-  VersionLabel.Caption := Format(VersionLabel.Caption, [Common.GetFileVersion(Application.ExeName)]);
-  { initialize the structure }
-  FillChar(MemoryStatus, SizeOf(MemoryStatus), 0);
-  MemoryStatus.dwLength := SizeOf(MemoryStatus);
-  { check return code for errors }
-  {$WARNINGS OFF}
-  Win32Check(GlobalMemoryStatusEx(MemoryStatus));
-  {$WARNINGS ON}
-  OSLabel.Caption := GetOSInfo;
-  MemoryAvailableLabel.Caption := Format(MemoryAvailableLabel.Caption, [FormatFloat('#,###" KB"', MemoryStatus.ullAvailPhys  div 1024)]);
   ShowModal;
 end;
 
@@ -86,6 +75,25 @@ end;
 procedure TAboutDialog.FormDestroy(Sender: TObject);
 begin
   FAboutDialog := nil
+end;
+
+procedure TAboutDialog.FormShow(Sender: TObject);
+var
+  MemoryStatus: TMemoryStatusEx;
+begin
+  inherited;
+  VersionLabel.Caption := Format(VersionLabel.Caption, [Common.GetFileVersion(Application.ExeName)]);
+  CopyrightLabel.Caption := Format(CopyrightLabel.Caption, ['© 2010-2012 Lasse Rautiainen']);
+  { initialize the structure }
+  FillChar(MemoryStatus, SizeOf(MemoryStatus), 0);
+  MemoryStatus.dwLength := SizeOf(MemoryStatus);
+  { check return code for errors }
+  {$WARNINGS OFF}
+  Win32Check(GlobalMemoryStatusEx(MemoryStatus));
+  {$WARNINGS ON}
+  OSLabel.Caption := GetOSInfo;
+  MemoryAvailableLabel.Caption := Format(MemoryAvailableLabel.Caption, [FormatFloat('#,###" KB"', MemoryStatus.ullAvailPhys  div 1024)]);
+
 end;
 
 function TAboutDialog.GetVersion: string;

@@ -17,6 +17,7 @@ object AboutDialog: TAboutDialog
   Position = poMainFormCenter
   OnClose = FormClose
   OnDestroy = FormDestroy
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -518,10 +519,8 @@ object AboutDialog: TAboutDialog
       Height = 13
       Align = alBottom
       Alignment = taCenter
-      Caption = 'Copyright '#169' 2010-2012 Lasse Rautiainen. All Rights Reserved.'
-      ExplicitLeft = 34
-      ExplicitTop = 59
-      ExplicitWidth = 303
+      Caption = 'Copyright %s. All Rights Reserved.'
+      ExplicitWidth = 170
     end
     object LinkLabel3: TLinkLabel
       Left = 11

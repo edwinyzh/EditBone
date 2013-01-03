@@ -97,7 +97,7 @@ begin
   LastPaths := TStringList.Create;
   with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
   try
-    { Preferences }
+    { Options }
     ReadSectionValues('LastPaths', LastPaths);
     for i := 0 to LastPaths.Count - 1 do
     begin
@@ -126,7 +126,7 @@ begin
       if DirectoryExists(LastPath) then
         OpenDirectory(TabName, Root, LastPath, ShowDrives, ExcludeOtherBranches);
     end;
-    i := ReadInteger('Preferences', 'ActiveDirectoryIndex', 0);
+    i := ReadInteger('Options', 'ActiveDirectoryIndex', 0);
     if i < PageControl.PageCount then
       PageControl.ActivePageIndex := i;
     Result := LastPaths.Count > 0;
@@ -171,8 +171,8 @@ var
 begin
   with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
   try
-    WriteInteger('Preferences', 'ActiveDirectoryIndex', PageControl.ActivePageIndex);
-    { Preferences }
+    WriteInteger('Options', 'ActiveDirectoryIndex', PageControl.ActivePageIndex);
+    { Options }
     EraseSection('LastPaths');
     EraseSection('Directory'); // old stuff, remove if exists
     { Open directories }
