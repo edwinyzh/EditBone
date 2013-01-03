@@ -37,25 +37,25 @@ var
   StringList: TStringList;
 
 begin
+  { move preferences to options - version 4.4.0
+    TODO: remove this at some point }
+  ////////////////////////////////////////////
+  with TStringList.Create do
+  try
+    LoadFromFile(Common.GetINIFilename);
+    i := IndexOf('[Preferences]');
+    if i <> -1 then
+    begin
+      Strings[i] := '[Options]';
+      SaveToFile(Common.GetINIFilename);
+    end;
+  finally
+    Free;
+  end;
+  ///////////////////////////////////////////
+
   with TBigIniFile.Create(Common.GetINIFilename) do
   try
-    { move preferences to options - version 4.4.0 }
-    if SectionExists('Preferences') then
-    begin
-      StringList := TStringList.Create;
-      try
-        ReadSection('Preferences', StringList);
-        for i := 0 to StringList.Count - 1 do
-        begin
-          IniValue := ReadString('Preferences', StringList[i], '');
-          WriteString('Options', StringList[i], IniValue);
-          DeleteKey('Preferences', StringList[i]);
-        end;
-        EraseSection('Preferences');
-      finally
-        StringList.Free;
-      end;
-    end;
     StyleFilename := ReadString('Options', 'StyleFilename', STYLENAME_WINDOWS);
   finally
     Free;
