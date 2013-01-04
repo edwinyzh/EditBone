@@ -37,7 +37,7 @@ type
     Panel3: TPanel;
     Panel5: TPanel;
     EditorFontGroupBox: TGroupBox;
-    SpeedButton1: TSpeedButton;
+    SelectFontSpeedButton: TSpeedButton;
     Panel6: TPanel;
     FontLabel: TLabel;
     GutterGroupBox: TGroupBox;

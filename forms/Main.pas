@@ -144,8 +144,14 @@ type
     SelectLanguageAction: TAction;
     ViewLanguageAction: TAction;
     ViewStyleAction: TAction;
-    MacroAction: TAction;
-    FileAction: TAction;
+    MacroMenuAction: TAction;
+    FileMenuAction: TAction;
+    EditMenuAction: TAction;
+    SearchMenuAction: TAction;
+    ViewMenuAction: TAction;
+    DocumentMenuAction: TAction;
+    ToolsMenuAction: TAction;
+    HelpMenuAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);

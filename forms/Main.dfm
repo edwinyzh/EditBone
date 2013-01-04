@@ -397,7 +397,7 @@ object MainForm: TMainForm
                 ImageIndex = 9
                 ShortCut = 32883
               end>
-            Action = FileAction
+            Action = FileMenuAction
           end
           item
             Items = <
@@ -460,7 +460,6 @@ object MainForm: TMainForm
               end
               item
                 Action = EditIncreaseIndentAction
-                Caption = 'Increase Indent'
                 ImageIndex = 35
                 ShortCut = 24649
               end
@@ -490,7 +489,7 @@ object MainForm: TMainForm
                 ImageIndex = 36
                 ShortCut = 24643
               end>
-            Caption = '&Edit'
+            Action = EditMenuAction
           end
           item
             Items = <
@@ -537,7 +536,7 @@ object MainForm: TMainForm
                 Action = ClearBookmarksAction
                 ImageIndex = 50
               end>
-            Caption = '&Search'
+            Action = SearchMenuAction
           end
           item
             Items = <
@@ -614,7 +613,7 @@ object MainForm: TMainForm
                 ImageIndex = 30
                 ShortCut = 24585
               end>
-            Caption = '&View'
+            Action = ViewMenuAction
           end
           item
             Items = <
@@ -653,7 +652,7 @@ object MainForm: TMainForm
                     Action = MacroSaveAsAction
                     ImageIndex = 59
                   end>
-                Action = MacroAction
+                Action = MacroMenuAction
                 UsageCount = 1
               end
               item
@@ -664,7 +663,7 @@ object MainForm: TMainForm
                 ImageIndex = 33
                 ShortCut = 32834
               end>
-            Caption = '&Document'
+            Action = DocumentMenuAction
           end
           item
             Items = <
@@ -686,7 +685,7 @@ object MainForm: TMainForm
                 Action = ToolsOptionsAction
                 ImageIndex = 20
               end>
-            Caption = '&Tools'
+            Action = ToolsMenuAction
           end
           item
             Items = <
@@ -708,7 +707,7 @@ object MainForm: TMainForm
                 Action = HelpAboutAction
                 ImageIndex = 21
               end>
-            Caption = 'He&lp'
+            Action = HelpMenuAction
           end>
         ActionBar = ActionMainMenuBar
       end
@@ -979,6 +978,11 @@ object MainForm: TMainForm
     Left = 296
     Top = 192
     StyleName = 'Platform Default'
+    object FileMenuAction: TAction
+      Category = '&File'
+      Caption = '&File'
+      OnExecute = DummyActionExecute
+    end
     object FileNewAction: TAction
       Category = '&File'
       Caption = '&New'
@@ -1037,6 +1041,7 @@ object MainForm: TMainForm
     object FileCloseAllOtherPagesAction: TAction
       Category = '&File'
       Caption = 'Close All Other Pages'
+      Hint = 'Close all other pages'
       ShortCut = 24691
       OnExecute = FileCloseAllOtherPagesActionExecute
     end
@@ -1062,6 +1067,11 @@ object MainForm: TMainForm
       ImageIndex = 9
       ShortCut = 32883
       OnExecute = FileExitActionExecute
+    end
+    object EditMenuAction: TAction
+      Category = '&Edit'
+      Caption = '&Edit'
+      OnExecute = DummyActionExecute
     end
     object EditUndoAction: TAction
       Category = '&Edit'
@@ -1143,6 +1153,11 @@ object MainForm: TMainForm
       ShortCut = 24646
       OnExecute = SearchFindInFilesActionExecute
     end
+    object ViewMenuAction: TAction
+      Category = '&View'
+      Caption = '&View'
+      OnExecute = DummyActionExecute
+    end
     object ViewOpenDirectoryAction: TAction
       Category = '&View'
       Caption = '&Open Directory'
@@ -1206,6 +1221,16 @@ object MainForm: TMainForm
       Hint = 'Show or hide the encoding selection'
       OnExecute = ViewEncodingSelectionActionExecute
     end
+    object ViewLanguageAction: TAction
+      Category = '&View'
+      Caption = '&Language'
+      OnExecute = DummyActionExecute
+    end
+    object ViewStyleAction: TAction
+      Category = '&View'
+      Caption = 'St&yle'
+      OnExecute = DummyActionExecute
+    end
     object ViewWordWrapAction: TAction
       Category = '&View'
       Caption = '&Word Wrap'
@@ -1221,12 +1246,22 @@ object MainForm: TMainForm
       ImageIndex = 23
       OnExecute = ViewLineNumbersActionExecute
     end
-    object ToolsOptionsAction: TAction
+    object ToolsMenuAction: TAction
       Category = '&Tools'
-      Caption = '&Options...'
-      Hint = 'Set options'
-      ImageIndex = 20
-      OnExecute = ToolsOptionsActionExecute
+      Caption = '&Tools'
+      OnExecute = DummyActionExecute
+    end
+    object HelpMenuAction: TAction
+      Category = '&Help'
+      Caption = '&Help'
+      OnExecute = DummyActionExecute
+    end
+    object HelpCheckForUpdatesMenuAction: TAction
+      Category = '&Help'
+      Caption = '&Check for Updates...'
+      Hint = 'Check for updates'
+      ImageIndex = 61
+      OnExecute = HelpCheckForUpdatesMenuActionExecute
     end
     object HelpHomeAction: TAction
       Category = '&Help'
@@ -1265,6 +1300,11 @@ object MainForm: TMainForm
       ImageIndex = 27
       OnExecute = CompareFilesActionExecute
     end
+    object DocumentMenuAction: TAction
+      Category = '&Document'
+      Caption = '&Document'
+      OnExecute = DummyActionExecute
+    end
     object ToolsWordCountAction: TAction
       Category = '&Document'
       Caption = '&Line, Word and Character Count...'
@@ -1299,14 +1339,6 @@ object MainForm: TMainForm
       ShortCut = 16497
       OnExecute = ToggleBookmarkActionExecute
     end
-    object ViewPreviousPageAction: TAction
-      Category = '&View'
-      Caption = '&Previous Page'
-      Hint = 'Go to previous page'
-      ImageIndex = 30
-      ShortCut = 24585
-      OnExecute = ViewPreviousPageActionExecute
-    end
     object ViewNextPageAction: TAction
       Category = '&View'
       Caption = '&Next Page'
@@ -1314,6 +1346,14 @@ object MainForm: TMainForm
       ImageIndex = 31
       ShortCut = 16393
       OnExecute = ViewNextPageActionExecute
+    end
+    object ViewPreviousPageAction: TAction
+      Category = '&View'
+      Caption = '&Previous Page'
+      Hint = 'Go to previous page'
+      ImageIndex = 30
+      ShortCut = 24585
+      OnExecute = ViewPreviousPageActionExecute
     end
     object EditSelectAllAction: TAction
       Category = '&Edit'
@@ -1355,7 +1395,7 @@ object MainForm: TMainForm
     end
     object EditIncreaseIndentAction: TAction
       Category = '&Edit'
-      Caption = 'I&ncrease Indent'
+      Caption = 'Increase Indent'
       Hint = 'Increase indent'
       ImageIndex = 35
       ShortCut = 24649
@@ -1399,6 +1439,11 @@ object MainForm: TMainForm
       Hint = 'Clear all bookmarks.'
       ImageIndex = 50
       OnExecute = ClearBookmarksActionExecute
+    end
+    object MacroMenuAction: TAction
+      Category = '&Macro'
+      Caption = '&Macro'
+      OnExecute = DummyActionExecute
     end
     object MacroRecordPauseAction: TAction
       Category = '&Macro'
@@ -1511,13 +1556,6 @@ object MainForm: TMainForm
       ImageIndex = 27
       OnExecute = ToolsSelectForCompareActionExecute
     end
-    object HelpCheckForUpdatesMenuAction: TAction
-      Category = '&Help'
-      Caption = '&Check for Updates...'
-      Hint = 'Check for updates'
-      ImageIndex = 61
-      OnExecute = HelpCheckForUpdatesMenuActionExecute
-    end
     object PopupMenuDocumentAction: TAction
       Category = 'ToolbarPopup'
       Caption = 'Document'
@@ -1533,27 +1571,19 @@ object MainForm: TMainForm
       Hint = 'Language editor'
       ImageIndex = 62
     end
+    object ToolsOptionsAction: TAction
+      Category = '&Tools'
+      Caption = '&Options...'
+      Hint = 'Set options'
+      ImageIndex = 20
+      OnExecute = ToolsOptionsActionExecute
+    end
     object SelectLanguageAction: TAction
       OnExecute = SelectLanguageActionExecute
     end
-    object ViewLanguageAction: TAction
-      Category = '&View'
-      Caption = '&Language'
-      OnExecute = DummyActionExecute
-    end
-    object ViewStyleAction: TAction
-      Category = '&View'
-      Caption = 'St&yle'
-      OnExecute = DummyActionExecute
-    end
-    object MacroAction: TAction
-      Category = '&Macro'
-      Caption = '&Macro'
-      OnExecute = DummyActionExecute
-    end
-    object FileAction: TAction
-      Category = '&File'
-      Caption = '&File'
+    object SearchMenuAction: TAction
+      Category = '&Search'
+      Caption = '&Search'
       OnExecute = DummyActionExecute
     end
   end

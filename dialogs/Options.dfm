@@ -28,7 +28,6 @@ object OptionsDialog: TOptionsDialog
     Padding.Top = 6
     Padding.Right = 6
     TabOrder = 0
-    ExplicitHeight = 308
     object PageControl: TPageControl
       Left = 6
       Top = 6
@@ -41,14 +40,12 @@ object OptionsDialog: TOptionsDialog
       ActivePage = EditorTabSheet
       Align = alClient
       TabOrder = 0
-      ExplicitHeight = 302
       object EditorTabSheet: TTabSheet
         Margins.Left = 4
         Margins.Top = 4
         Margins.Right = 4
         Margins.Bottom = 4
         Caption = 'Editor'
-        ExplicitHeight = 274
         object Panel3: TPanel
           Left = 0
           Top = 0
@@ -60,7 +57,6 @@ object OptionsDialog: TOptionsDialog
           Padding.Right = 4
           Padding.Bottom = 4
           TabOrder = 0
-          ExplicitHeight = 274
           object Panel5: TPanel
             Left = 4
             Top = 0
@@ -81,7 +77,7 @@ object OptionsDialog: TOptionsDialog
               Align = alLeft
               Caption = ' Editor Font '
               TabOrder = 0
-              object SpeedButton1: TSpeedButton
+              object SelectFontSpeedButton: TSpeedButton
                 Left = 178
                 Top = 20
                 Width = 21
@@ -421,7 +417,6 @@ object OptionsDialog: TOptionsDialog
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 4
-            ExplicitHeight = 54
             object HTMLVersionGroupBox: TGroupBox
               Left = 0
               Top = 0
@@ -434,9 +429,6 @@ object OptionsDialog: TOptionsDialog
               Align = alClient
               Caption = ' HTML Error Checking / Version When DOCTYPE Does Not Exist'
               TabOrder = 0
-              ExplicitLeft = 11
-              ExplicitTop = 9
-              ExplicitHeight = 54
               object HTMLVersionComboBox: TBCComboBox
                 Left = 243
                 Top = 20
@@ -480,7 +472,6 @@ object OptionsDialog: TOptionsDialog
         Margins.Bottom = 4
         Caption = 'File Types'
         ImageIndex = 1
-        ExplicitHeight = 274
         object Panel11: TPanel
           Left = 0
           Top = 243
@@ -489,7 +480,6 @@ object OptionsDialog: TOptionsDialog
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 0
-          ExplicitTop = 244
           DesignSize = (
             451
             30)
@@ -535,7 +525,6 @@ object OptionsDialog: TOptionsDialog
           Padding.Top = 4
           Padding.Right = 4
           TabOrder = 1
-          ExplicitHeight = 244
           object FileTypesListBox: TListBox
             Left = 4
             Top = 4
@@ -549,7 +538,6 @@ object OptionsDialog: TOptionsDialog
             ItemHeight = 13
             TabOrder = 0
             OnClick = FileTypesListBoxClick
-            ExplicitHeight = 240
           end
         end
       end
@@ -566,7 +554,6 @@ object OptionsDialog: TOptionsDialog
     Padding.Right = 6
     Padding.Bottom = 8
     TabOrder = 1
-    ExplicitTop = 308
     object OKButton: TButton
       Left = 307
       Top = 8
