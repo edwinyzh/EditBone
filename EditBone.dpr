@@ -33,13 +33,10 @@ uses
 
 var
   i: Integer;
-  StyleFilename, IniValue: string;
-  StringList: TStringList;
-
+  StyleFilename: string;
 begin
-  { move preferences to options - version 4.4.0
-    TODO: remove this at some point }
-  ////////////////////////////////////////////
+  { move preferences to options - version 4.4.0 }
+  // --- TODO: remove this later
   with TStringList.Create do
   try
     LoadFromFile(Common.GetINIFilename);
@@ -52,7 +49,7 @@ begin
   finally
     Free;
   end;
-  ///////////////////////////////////////////
+  // ---
 
   with TBigIniFile.Create(Common.GetINIFilename) do
   try

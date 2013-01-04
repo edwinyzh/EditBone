@@ -245,19 +245,20 @@ type
     FDocumentFrame: TDocumentFrame;
     FOnStartUp: Boolean;
     FOutputFrame: TOutputFrame;
+    function GetViewActionClientItem(ItemIndex: Integer): TActionClientItem;
     function SupportedFileExt(FileExt: string): Boolean;
     procedure CreateFrames;
     procedure CreateLanguageMenu;
     procedure CreateStyleMenu;
     procedure FindInFiles(FindWhatText, FileTypeText, FolderText: string; SearchCaseSensitive, LookInSubfolders: Boolean);
     procedure ReadIniFile;
+    procedure ReadLanguageFile(SelectedLanguage: string);
     procedure RecreateStatusBar;
     procedure SetEncodingComboIndex(Value: Integer);
     procedure SetFields;
     procedure SetHighlighterComboIndex(Value: Integer);
     procedure WMAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
     procedure WriteIniFile;
-    procedure ReadLanguageFile(SelectedLanguage: string);
   public
     { Public declarations }
     property EncodingComboIndex: Integer write SetEncodingComboIndex;
@@ -307,6 +308,12 @@ begin
   end;
 end;
 
+function TMainForm.GetViewActionClientItem(ItemIndex: Integer): TActionClientItem;
+begin
+  Result := ActionMainMenuBar.ActionClient.Items[VIEW_MENU_ITEMINDEX];
+  Result := Result.Items[ItemIndex];
+end;
+
 procedure TMainForm.SelectLanguageActionExecute(Sender: TObject);
 var
   i: Integer;
@@ -324,8 +331,7 @@ begin
     Free;
   end;
 
-  ActionClientItem := ActionMainMenuBar.ActionClient.Items[VIEW_MENU_ITEMINDEX];
-  ActionClientItem := ActionClientItem.Items[VIEW_LANGUAGE_MENU_ITEMINDEX];
+  ActionClientItem := GetViewActionClientItem(VIEW_LANGUAGE_MENU_ITEMINDEX);
   for i := 0 to ActionClientItem.Items.Count - 1 do
     TAction(ActionClientItem.Items[i].Action).Checked := False;
   Action.Checked := True;
@@ -374,8 +380,7 @@ begin
     end;
   end;
 
-  ActionClientItem := ActionMainMenuBar.ActionClient.Items[VIEW_MENU_ITEMINDEX];
-  ActionClientItem := ActionClientItem.Items[VIEW_STYLE_MENU_ITEMINDEX];
+  ActionClientItem := GetViewActionClientItem(VIEW_STYLE_MENU_ITEMINDEX);
   for i := 0 to ActionClientItem.Items.Count - 1 do
     TAction(ActionClientItem.Items[i].Action).Checked := False;
   Action.Checked := True;
@@ -399,11 +404,7 @@ begin
 
   for FileName in TDirectory.GetFiles(LanguagePath, '*.lng') do
   begin
-    // TODO: Think better solution to find the Style menuitem.
-    // This is poor solution. If the menu changes, then you should also remember to fix the item numbers.
-    ActionClientItem := ActionMainMenuBar.ActionClient.Items[VIEW_MENU_ITEMINDEX];
-    ActionClientItem := ActionClientItem.Items[VIEW_LANGUAGE_MENU_ITEMINDEX];
-    // ---
+    ActionClientItem := GetViewActionClientItem(VIEW_LANGUAGE_MENU_ITEMINDEX);
     ActionClientItem := ActionClientItem.Items.Add;
 
     Action := TAction.Create(ActionManager);
@@ -431,11 +432,7 @@ begin
   begin
     if TStyleManager.IsValidStyle(FileName, StyleInfo) then
     begin
-      // TODO: Think better solution to find the Style menuitem.
-      // This is poor solution. If the menu changes, then you should also remember to fix the item numbers.
-      ActionClientItem := ActionMainMenuBar.ActionClient.Items[VIEW_MENU_ITEMINDEX];
-      ActionClientItem := ActionClientItem.Items[VIEW_STYLE_MENU_ITEMINDEX];
-      // ---
+      ActionClientItem := GetViewActionClientItem(VIEW_STYLE_MENU_ITEMINDEX);
       ActionClientItem := ActionClientItem.Items.Add;
 
       Action := TAction.Create(ActionManager);
@@ -448,8 +445,7 @@ begin
     end;
   end;
   { Windows }
-  ActionClientItem := ActionMainMenuBar.ActionClient.Items[VIEW_MENU_ITEMINDEX];
-  ActionClientItem := ActionClientItem.Items[VIEW_STYLE_MENU_ITEMINDEX];
+  ActionClientItem := GetViewActionClientItem(VIEW_STYLE_MENU_ITEMINDEX);
   ActionClientItem := ActionClientItem.Items.Add;
   Action := TAction.Create(ActionManager);
   Action.Name := 'WindowsStyleSelectAction';
