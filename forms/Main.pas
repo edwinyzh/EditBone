@@ -145,6 +145,7 @@ type
     ViewLanguageAction: TAction;
     ViewStyleAction: TAction;
     MacroAction: TAction;
+    FileAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -236,9 +237,7 @@ type
     procedure ViewToolbarActionExecute(Sender: TObject);
     procedure ViewWordWrapActionExecute(Sender: TObject);
     procedure SelectLanguageActionExecute(Sender: TObject);
-    procedure ViewLanguageActionExecute(Sender: TObject);
-    procedure ViewStyleActionExecute(Sender: TObject);
-    procedure MacroActionExecute(Sender: TObject);
+    procedure DummyActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -341,13 +340,16 @@ end;
 
 procedure TMainForm.ReadLanguageFile(SelectedLanguage: string);
 begin
-  { update main menu and language constants }
-  Language.ReadLanguageFile(SelectedLanguage, ActionMainMenuBar);
-  { update ui captions }
-  {
+  if SelectedLanguage = '' then
+    Exit;
+  { update language constants }
+  Language.ReadLanguageFile(SelectedLanguage);
+  { update mainform }
+  Common.UpdateLanguage(Self, SelectedLanguage);
+  { update frames }
   FDirectoryFrame.UpdateLanguage(SelectedLanguage);
-  FDocumentFrame.UpdateLanguage(SelectedLanguage); muista myös compare framet
-  FOutputFrame.UpdateLanguage(SelectedLanguage); }
+ // FDocumentFrame.UpdateLanguage(SelectedLanguage); //muista myös compare framet
+ // FOutputFrame.UpdateLanguage(SelectedLanguage);
 end;
 
 procedure TMainForm.SelectStyleActionExecute(Sender: TObject);
@@ -875,8 +877,6 @@ begin
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
-var
-  SelectedLanguage: string;
 begin
   FOnStartUp := True;
   { IDE is losing these for some reason... }
@@ -885,10 +885,9 @@ begin
   StatusBar.Font.Name := 'Tahoma';
   StatusBar.Font.Size := 8;
 
-  SelectedLanguage := Common.GetSelectedLanguage;
-
-  ReadLanguageFile(SelectedLanguage);
   CreateFrames;
+
+  ReadLanguageFile(Common.GetSelectedLanguage);
   ReadIniFile;
 end;
 
@@ -979,7 +978,7 @@ begin
   end;
 end;
 
-procedure TMainForm.MacroActionExecute(Sender: TObject);
+procedure TMainForm.DummyActionExecute(Sender: TObject);
 begin
   { dummy action for language algorithm }
 end;
@@ -1186,11 +1185,6 @@ begin
   FDocumentFrame.ToggleSplit;
 end;
 
-procedure TMainForm.ViewStyleActionExecute(Sender: TObject);
-begin
-  { dummy action for language algorithm }
-end;
-
 procedure TMainForm.SearchFindInFilesActionExecute(Sender: TObject);
 var
   T1, T2: TTime;
@@ -1371,11 +1365,6 @@ end;
 procedure TMainForm.ViewInBrowserActionExecute(Sender: TObject);
 begin
   BrowseURL(FDocumentFrame.ActiveDocumentName);
-end;
-
-procedure TMainForm.ViewLanguageActionExecute(Sender: TObject);
-begin
-  { dummy action for language algorithm }
 end;
 
 procedure TMainForm.ViewLineNumbersActionExecute(Sender: TObject);

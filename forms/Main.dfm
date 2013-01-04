@@ -69,8 +69,8 @@ object MainForm: TMainForm
       ColorMap.UnusedColor = clWhite
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = -11
-      Font.Name = 'Tahoma'
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
       Font.Style = []
       ParentShowHint = False
       ShowHint = True
@@ -397,7 +397,7 @@ object MainForm: TMainForm
                 ImageIndex = 9
                 ShortCut = 32883
               end>
-            Caption = '&File'
+            Action = FileAction
           end
           item
             Items = <
@@ -1539,17 +1539,22 @@ object MainForm: TMainForm
     object ViewLanguageAction: TAction
       Category = '&View'
       Caption = '&Language'
-      OnExecute = ViewLanguageActionExecute
+      OnExecute = DummyActionExecute
     end
     object ViewStyleAction: TAction
       Category = '&View'
       Caption = 'St&yle'
-      OnExecute = ViewStyleActionExecute
+      OnExecute = DummyActionExecute
     end
     object MacroAction: TAction
       Category = '&Macro'
       Caption = '&Macro'
-      OnExecute = MacroActionExecute
+      OnExecute = DummyActionExecute
+    end
+    object FileAction: TAction
+      Category = '&File'
+      Caption = '&File'
+      OnExecute = DummyActionExecute
     end
   end
   object ImageList: TBCImageList

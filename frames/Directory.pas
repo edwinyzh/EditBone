@@ -62,6 +62,7 @@ type
     procedure OpenDirectory; overload;
     procedure OpenDirectory(TabName: string; RootDirectory: string; LastPath: string; ShowDrives: Boolean;
       ExcludeOtherBranches: Boolean); overload;
+    procedure UpdateLanguage(SelectedLanguage: string);
     procedure CloseDirectory;
     procedure EditDirectory;
     property OnTabsheetDblClick: TNotifyEvent read FTabsheetDblClick write FTabsheetDblClick;
@@ -483,6 +484,11 @@ begin
         else
           TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 1;
       end;
+end;
+
+procedure TDirectoryFrame.UpdateLanguage(SelectedLanguage: string);
+begin
+  Common.UpdateLanguage(Self, SelectedLanguage);
 end;
 
 end.
