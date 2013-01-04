@@ -18,20 +18,23 @@
 
   if SpaceCount2 > 0 then
   Lines[CaretY] := Copy(Lines[BackCounter], 1, SpaceCount2);
-  InternalCaretXY := BufferCoord(SpaceCount2 +1, CaretY +1);
+  InternalCaretXY := BufferCoord(SpaceCount2 + 1, CaretY + 1);
 
   ---------------  Fix 2  ---------------
   This must be commented: SynHighlighterPas, 1231: //ReadDelphiSetting(iVersionTag, tmpCommentAttri,'Comment') and
 
-  ---------------  Fix 4  ---------------
+  ---------------  Fix 3  ---------------
   Added SynHighlighterWebData: Line 116: TSynWebHtmlVersion - shvUndefined (last)
   138: 'Undefined'
 
-  ---------------  Fix 5  ---------------
+  ---------------  Fix 4  ---------------
   Note!!! Scands are not working with highlighting unless following change:
 
   SynEditHighlighter: function TSynCustomHighlighter.IsIdentChar(AChar: WideChar): Boolean;
    add -> , 'ä', 'Ä', 'ö', 'Ö', 'å', 'Å'
+  ---------------------------------------
+
+  Note! Input method editor keyboard shortcut (CTRL+SHIFT+0) switches the input language: http://support.microsoft.com/kb/967893
 }
 unit Document;
 
@@ -226,6 +229,8 @@ type
     ImageList25: TBCImageList;
     ImageList50: TBCImageList;
     SynDWSSyn: TSynDWSSyn;
+    CaseSensitiveLabel: TLabel;
+    Panel1: TPanel;
     procedure SynEditChange(Sender: TObject);
     procedure SynEditSplitChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
@@ -236,8 +241,8 @@ type
     procedure SearchCloseActionExecute(Sender: TObject);
     procedure SearchFindNextActionExecute(Sender: TObject);
     procedure SearchFindPreviousActionExecute(Sender: TObject);
-    procedure ToggleBookmark0MenuItemClick(Sender: TObject);
-    procedure GotoBookmark0MenuItemClick(Sender: TObject);
+    //procedure ToggleBookmark0MenuItemClick(Sender: TObject);
+    //procedure GotoBookmark0MenuItemClick(Sender: TObject);
     procedure SearchClearActionExecute(Sender: TObject);
     procedure SynEditSpecialLineColors(Sender: TObject; Line: Integer; var Special: Boolean;
       var FG, BG: TColor);
@@ -357,6 +362,9 @@ type
     procedure UpdateGutterAndControls;
     procedure SetActiveHighlighter(Value: Integer);
     procedure SetActiveEncoding(Value: Integer);
+    procedure UpdateLanguage(SelectedLanguage: string);
+    procedure GotoBookmarks(ItemIndex: Integer);
+    procedure ToggleBookmarks(ItemIndex: Integer);
     function GetMacroRecordPauseImageIndex: Integer;
     function IsRecordingMacro: Boolean;
     function IsMacroStopped: Boolean;
@@ -489,6 +497,28 @@ begin
   ToggleCaseMenuItem.Action := MainForm.EditToggleCaseAction;
   ClearBookmarksMenuItem.Action := MainForm.ClearBookmarksAction;
   ToggleBookmarkMenuItem.Action := MainForm.ToggleBookmarkAction;
+  ToggleBookmarksMenuItem.Action := MainForm.ToggleBookmarksAction;
+  ToggleBookmark0MenuItem.Action := MainForm.ToggleBookmarks0Action;
+  ToggleBookmark1MenuItem.Action := MainForm.ToggleBookmarks1Action;
+  ToggleBookmark2MenuItem.Action := MainForm.ToggleBookmarks2Action;
+  ToggleBookmark3MenuItem.Action := MainForm.ToggleBookmarks3Action;
+  ToggleBookmark4MenuItem.Action := MainForm.ToggleBookmarks4Action;
+  ToggleBookmark5MenuItem.Action := MainForm.ToggleBookmarks5Action;
+  ToggleBookmark6MenuItem.Action := MainForm.ToggleBookmarks6Action;
+  ToggleBookmark7MenuItem.Action := MainForm.ToggleBookmarks7Action;
+  ToggleBookmark8MenuItem.Action := MainForm.ToggleBookmarks8Action;
+  ToggleBookmark9MenuItem.Action := MainForm.ToggleBookmarks9Action;
+  GotoBookmarksMenuItem.Action := MainForm.GotoBookmarksAction;
+  GotoBookmark0MenuItem.Action := MainForm.GotoBookmarks0Action;
+  GotoBookmark1MenuItem.Action := MainForm.GotoBookmarks1Action;
+  GotoBookmark2MenuItem.Action := MainForm.GotoBookmarks2Action;
+  GotoBookmark3MenuItem.Action := MainForm.GotoBookmarks3Action;
+  GotoBookmark4MenuItem.Action := MainForm.GotoBookmarks4Action;
+  GotoBookmark5MenuItem.Action := MainForm.GotoBookmarks5Action;
+  GotoBookmark6MenuItem.Action := MainForm.GotoBookmarks6Action;
+  GotoBookmark7MenuItem.Action := MainForm.GotoBookmarks7Action;
+  GotoBookmark8MenuItem.Action := MainForm.GotoBookmarks8Action;
+  GotoBookmark9MenuItem.Action := MainForm.GotoBookmarks9Action;
 
   PageControl.Images := TBCImageList.Create(Self);
 
@@ -1129,6 +1159,7 @@ begin
     OpenDocumentsList := TempList;
     SetCompareFile(Filename);
   end;
+  Common.UpdateLanguage(Frame);
   PageControlRepaint;
 end;
 
@@ -1765,15 +1796,13 @@ begin
   PageControlRepaint;
 end;
 
-procedure TDocumentFrame.ToggleBookmark0MenuItemClick(Sender: TObject);
+procedure TDocumentFrame.ToggleBookmarks(ItemIndex: Integer);
 var
   SynEdit: TBCSynEdit;
-  Item: TMenuItem;
   SynEditorCommand: TSynEditorCommand;
 begin
-  Item := Sender as TMenuItem;
   SynEditorCommand := ecNone;
-  case Item.Tag of
+  case ItemIndex of
     0: SynEditorCommand := ecSetMarker0;
     1: SynEditorCommand := ecSetMarker1;
     2: SynEditorCommand := ecSetMarker2;
@@ -1787,7 +1816,7 @@ begin
   end;
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) then
-    SynEdit.ExecuteCommand(SynEditorCommand, Char(Item.Tag), nil);
+    SynEdit.ExecuteCommand(SynEditorCommand, Char(ItemIndex), nil);
 end;
 
 procedure TDocumentFrame.SearchForEditChange(Sender: TObject);
@@ -2094,15 +2123,13 @@ begin
   end;
 end;
 
-procedure TDocumentFrame.GotoBookmark0MenuItemClick(Sender: TObject);
+procedure TDocumentFrame.GotoBookmarks(ItemIndex: Integer);
 var
   SynEdit: TBCSynEdit;
-  Item: TMenuItem;
   SynEditorCommand: TSynEditorCommand;
 begin
-  Item := Sender as TMenuItem;
   SynEditorCommand := ecNone;
-  case Item.Tag of
+  case ItemIndex of
     0: SynEditorCommand := ecGotoMarker0;
     1: SynEditorCommand := ecGotoMarker1;
     2: SynEditorCommand := ecGotoMarker2;
@@ -2116,7 +2143,7 @@ begin
   end;
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) then
-    SynEdit.ExecuteCommand(SynEditorCommand, Char(Item.Tag), nil);
+    SynEdit.ExecuteCommand(SynEditorCommand, Char(ItemIndex), nil);
 end;
 
 function TDocumentFrame.ActiveSplitSynEdit: TBCSynEdit;
@@ -3349,5 +3376,18 @@ function TDocumentFrame.IsCompareFilesActivePage: Boolean;
 begin
   Result := Assigned(PageControl.ActivePage) and (PageControl.ActivePage.ImageIndex = FCompareImageIndex);
 end;
+
+procedure TDocumentFrame.UpdateLanguage(SelectedLanguage: string);
+var
+  i: Integer;
+begin
+  Common.UpdateLanguage(Self, SelectedLanguage);
+  { toggle ja goto bookmarks }
+  { compare frames }
+  for i := 0 to PageControl.PageCount - 1 do
+    if PageControl.Pages[i].ImageIndex = FCompareImageIndex then
+      Common.UpdateLanguage(TCompareFrame(PageControl.Pages[i].Components[0].Components[0]), SelectedLanguage);
+end;
+
 
 end.

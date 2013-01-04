@@ -152,6 +152,28 @@ type
     DocumentMenuAction: TAction;
     ToolsMenuAction: TAction;
     HelpMenuAction: TAction;
+    ToggleBookmarksAction: TAction;
+    GotoBookmarksAction: TAction;
+    ToggleBookmarks0Action: TAction;
+    GotoBookmarks0Action: TAction;
+    ToggleBookmarks1Action: TAction;
+    GotoBookmarks1Action: TAction;
+    ToggleBookmarks2Action: TAction;
+    ToggleBookmarks3Action: TAction;
+    ToggleBookmarks4Action: TAction;
+    ToggleBookmarks5Action: TAction;
+    ToggleBookmarks6Action: TAction;
+    ToggleBookmarks7Action: TAction;
+    ToggleBookmarks8Action: TAction;
+    ToggleBookmarks9Action: TAction;
+    GotoBookmarks2Action: TAction;
+    GotoBookmarks3Action: TAction;
+    GotoBookmarks4Action: TAction;
+    GotoBookmarks5Action: TAction;
+    GotoBookmarks6Action: TAction;
+    GotoBookmarks7Action: TAction;
+    GotoBookmarks8Action: TAction;
+    GotoBookmarks9Action: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -244,13 +266,15 @@ type
     procedure ViewWordWrapActionExecute(Sender: TObject);
     procedure SelectLanguageActionExecute(Sender: TObject);
     procedure DummyActionExecute(Sender: TObject);
+    procedure ToggleBookmarks0ActionExecute(Sender: TObject);
+    procedure GotoBookmarks0ActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
     FDocumentFrame: TDocumentFrame;
     FOnStartUp: Boolean;
     FOutputFrame: TOutputFrame;
-    function GetViewActionClientItem(ItemIndex: Integer): TActionClientItem;
+    function GetActionClientItem(MenuItemIndex, SubMenuItemIndex: Integer): TActionClientItem;
     function SupportedFileExt(FileExt: string): Boolean;
     procedure CreateFrames;
     procedure CreateLanguageMenu;
@@ -313,11 +337,12 @@ begin
   end;
 end;
 
-function TMainForm.GetViewActionClientItem(ItemIndex: Integer): TActionClientItem;
+function TMainForm.GetActionClientItem(MenuItemIndex, SubMenuItemIndex: Integer): TActionClientItem;
 begin
-  Result := ActionMainMenuBar.ActionClient.Items[VIEW_MENU_ITEMINDEX];
-  Result := Result.Items[ItemIndex];
+  Result := ActionMainMenuBar.ActionClient.Items[MenuItemIndex];
+  Result := Result.Items[SubMenuItemIndex];
 end;
+
 
 procedure TMainForm.SelectLanguageActionExecute(Sender: TObject);
 var
@@ -336,7 +361,7 @@ begin
     Free;
   end;
 
-  ActionClientItem := GetViewActionClientItem(VIEW_LANGUAGE_MENU_ITEMINDEX);
+  ActionClientItem := GetActionClientItem(VIEW_MENU_ITEMINDEX, VIEW_LANGUAGE_MENU_ITEMINDEX);
   for i := 0 to ActionClientItem.Items.Count - 1 do
     TAction(ActionClientItem.Items[i].Action).Checked := False;
   Action.Checked := True;
@@ -353,9 +378,9 @@ begin
   { update mainform }
   Common.UpdateLanguage(Self, SelectedLanguage);
   { update frames }
-  FDirectoryFrame.UpdateLanguage(SelectedLanguage);
- // FDocumentFrame.UpdateLanguage(SelectedLanguage); //muista myös compare framet
- // FOutputFrame.UpdateLanguage(SelectedLanguage);
+  Common.UpdateLanguage(FDirectoryFrame, SelectedLanguage);
+  FDocumentFrame.UpdateLanguage(SelectedLanguage);
+  Common.UpdateLanguage(FOutputFrame, SelectedLanguage);
 end;
 
 procedure TMainForm.SelectStyleActionExecute(Sender: TObject);
@@ -388,7 +413,7 @@ begin
     end;
   end;
 
-  ActionClientItem := GetViewActionClientItem(VIEW_STYLE_MENU_ITEMINDEX);
+  ActionClientItem := GetActionClientItem(VIEW_MENU_ITEMINDEX, VIEW_STYLE_MENU_ITEMINDEX);
   for i := 0 to ActionClientItem.Items.Count - 1 do
     TAction(ActionClientItem.Items[i].Action).Checked := False;
   Action.Checked := True;
@@ -396,6 +421,22 @@ begin
   FDocumentFrame.UpdateGutterAndControls;
   FOutputFrame.UpdateControls;
   RecreateStatusBar;
+end;
+
+procedure TMainForm.ToggleBookmarks0ActionExecute(Sender: TObject);
+var
+  Action: TAction;
+begin
+  Action := Sender as TAction;
+  FDocumentFrame.ToggleBookMarks(Action.Tag);
+end;
+
+procedure TMainForm.GotoBookmarks0ActionExecute(Sender: TObject);
+var
+  Action: TAction;
+begin
+  Action := Sender as TAction;
+  FDocumentFrame.GotoBookMarks(Action.Tag);
 end;
 
 procedure TMainForm.CreateLanguageMenu;
@@ -412,7 +453,7 @@ begin
 
   for FileName in TDirectory.GetFiles(LanguagePath, '*.lng') do
   begin
-    ActionClientItem := GetViewActionClientItem(VIEW_LANGUAGE_MENU_ITEMINDEX);
+    ActionClientItem := GetActionClientItem(VIEW_MENU_ITEMINDEX, VIEW_LANGUAGE_MENU_ITEMINDEX);
     ActionClientItem := ActionClientItem.Items.Add;
 
     Action := TAction.Create(ActionManager);
@@ -440,7 +481,7 @@ begin
   begin
     if TStyleManager.IsValidStyle(FileName, StyleInfo) then
     begin
-      ActionClientItem := GetViewActionClientItem(VIEW_STYLE_MENU_ITEMINDEX);
+      ActionClientItem := GetActionClientItem(VIEW_MENU_ITEMINDEX, VIEW_STYLE_MENU_ITEMINDEX);
       ActionClientItem := ActionClientItem.Items.Add;
 
       Action := TAction.Create(ActionManager);
@@ -453,7 +494,7 @@ begin
     end;
   end;
   { Windows }
-  ActionClientItem := GetViewActionClientItem(VIEW_STYLE_MENU_ITEMINDEX);
+  ActionClientItem := GetActionClientItem(VIEW_MENU_ITEMINDEX, VIEW_STYLE_MENU_ITEMINDEX);
   ActionClientItem := ActionClientItem.Items.Add;
   Action := TAction.Create(ActionManager);
   Action.Name := 'WindowsStyleSelectAction';
@@ -496,6 +537,7 @@ procedure TMainForm.ToggleBookmarkActionExecute(Sender: TObject);
 begin
   FDocumentFrame.ToggleBookMark;
 end;
+
 
 procedure TMainForm.ViewOpenDirectoryActionExecute(Sender: TObject);
 begin

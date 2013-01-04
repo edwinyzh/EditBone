@@ -533,6 +533,116 @@ object MainForm: TMainForm
                 ShortCut = 16497
               end
               item
+                Items = <
+                  item
+                    Action = GotoBookmarks0Action
+                    ImageIndex = 40
+                    ShortCut = 16432
+                  end
+                  item
+                    Action = GotoBookmarks1Action
+                    ImageIndex = 41
+                    ShortCut = 16433
+                  end
+                  item
+                    Action = GotoBookmarks2Action
+                    ImageIndex = 42
+                    ShortCut = 16434
+                  end
+                  item
+                    Action = GotoBookmarks3Action
+                    ImageIndex = 43
+                    ShortCut = 16435
+                  end
+                  item
+                    Action = GotoBookmarks4Action
+                    ImageIndex = 44
+                    ShortCut = 16436
+                  end
+                  item
+                    Action = GotoBookmarks5Action
+                    ImageIndex = 45
+                    ShortCut = 16437
+                  end
+                  item
+                    Action = GotoBookmarks6Action
+                    ImageIndex = 46
+                    ShortCut = 16438
+                  end
+                  item
+                    Action = GotoBookmarks7Action
+                    ImageIndex = 47
+                    ShortCut = 16439
+                  end
+                  item
+                    Action = GotoBookmarks8Action
+                    ImageIndex = 48
+                    ShortCut = 16440
+                  end
+                  item
+                    Action = GotoBookmarks9Action
+                    ImageIndex = 49
+                    ShortCut = 16441
+                  end>
+                Action = GotoBookmarksAction
+                UsageCount = 1
+              end
+              item
+                Items = <
+                  item
+                    Action = ToggleBookmarks0Action
+                    ImageIndex = 40
+                    ShortCut = 24624
+                  end
+                  item
+                    Action = ToggleBookmarks1Action
+                    ImageIndex = 41
+                    ShortCut = 24625
+                  end
+                  item
+                    Action = ToggleBookmarks2Action
+                    ImageIndex = 42
+                    ShortCut = 24626
+                  end
+                  item
+                    Action = ToggleBookmarks3Action
+                    ImageIndex = 43
+                    ShortCut = 24627
+                  end
+                  item
+                    Action = ToggleBookmarks4Action
+                    ImageIndex = 44
+                    ShortCut = 24628
+                  end
+                  item
+                    Action = ToggleBookmarks5Action
+                    ImageIndex = 45
+                    ShortCut = 24629
+                  end
+                  item
+                    Action = ToggleBookmarks6Action
+                    ImageIndex = 46
+                    ShortCut = 24630
+                  end
+                  item
+                    Action = ToggleBookmarks7Action
+                    ImageIndex = 47
+                    ShortCut = 24631
+                  end
+                  item
+                    Action = ToggleBookmarks8Action
+                    ImageIndex = 48
+                    ShortCut = 24632
+                  end
+                  item
+                    Action = ToggleBookmarks9Action
+                    ImageIndex = 49
+                    ShortCut = 24633
+                  end>
+                Action = ToggleBookmarksAction
+                UsageCount = 1
+              end
+              item
                 Action = ClearBookmarksAction
                 ImageIndex = 50
               end>
@@ -1113,6 +1223,11 @@ object MainForm: TMainForm
       ShortCut = 16470
       OnExecute = EditPasteActionExecute
     end
+    object SearchMenuAction: TAction
+      Category = '&Search'
+      Caption = '&Search'
+      OnExecute = DummyActionExecute
+    end
     object SearchAction: TAction
       Category = '&Search'
       Caption = '&Search...'
@@ -1433,6 +1548,16 @@ object MainForm: TMainForm
       ShortCut = 24643
       OnExecute = EditToggleCaseActionExecute
     end
+    object ToggleBookmarksAction: TAction
+      Category = '&Search'
+      Caption = 'T&oggle Bookmarks'
+      OnExecute = DummyActionExecute
+    end
+    object GotoBookmarksAction: TAction
+      Category = '&Search'
+      Caption = 'Goto Bookmarks'
+      OnExecute = DummyActionExecute
+    end
     object ClearBookmarksAction: TAction
       Category = '&Search'
       Caption = 'Clear &Bookmarks'
@@ -1581,10 +1706,163 @@ object MainForm: TMainForm
     object SelectLanguageAction: TAction
       OnExecute = SelectLanguageActionExecute
     end
-    object SearchMenuAction: TAction
-      Category = '&Search'
-      Caption = '&Search'
-      OnExecute = DummyActionExecute
+    object ToggleBookmarks0Action: TAction
+      Category = 'T&oggle Bookmarks'
+      Caption = 'Bookmark &0'
+      ImageIndex = 40
+      ShortCut = 24624
+      OnExecute = ToggleBookmarks0ActionExecute
+    end
+    object GotoBookmarks0Action: TAction
+      Category = 'Goto Bookmarks'
+      Caption = 'Bookmark &0'
+      ImageIndex = 40
+      ShortCut = 16432
+      OnExecute = GotoBookmarks0ActionExecute
+    end
+    object ToggleBookmarks1Action: TAction
+      Tag = 1
+      Category = 'T&oggle Bookmarks'
+      Caption = 'Bookmark &1'
+      ImageIndex = 41
+      ShortCut = 24625
+      OnExecute = ToggleBookmarks0ActionExecute
+    end
+    object GotoBookmarks1Action: TAction
+      Tag = 1
+      Category = 'Goto Bookmarks'
+      Caption = 'Bookmark &1'
+      ImageIndex = 41
+      ShortCut = 16433
+      OnExecute = GotoBookmarks0ActionExecute
+    end
+    object ToggleBookmarks2Action: TAction
+      Tag = 2
+      Category = 'T&oggle Bookmarks'
+      Caption = 'Bookmark &2'
+      ImageIndex = 42
+      ShortCut = 24626
+      OnExecute = ToggleBookmarks0ActionExecute
+    end
+    object ToggleBookmarks3Action: TAction
+      Tag = 3
+      Category = 'T&oggle Bookmarks'
+      Caption = 'Bookmark &3'
+      ImageIndex = 43
+      ShortCut = 24627
+      OnExecute = ToggleBookmarks0ActionExecute
+    end
+    object ToggleBookmarks4Action: TAction
+      Tag = 4
+      Category = 'T&oggle Bookmarks'
+      Caption = 'Bookmark &4'
+      ImageIndex = 44
+      ShortCut = 24628
+      OnExecute = ToggleBookmarks0ActionExecute
+    end
+    object ToggleBookmarks5Action: TAction
+      Tag = 5
+      Category = 'T&oggle Bookmarks'
+      Caption = 'Bookmark &5'
+      ImageIndex = 45
+      ShortCut = 24629
+      OnExecute = ToggleBookmarks0ActionExecute
+    end
+    object ToggleBookmarks6Action: TAction
+      Tag = 6
+      Category = 'T&oggle Bookmarks'
+      Caption = 'Bookmark &6'
+      ImageIndex = 46
+      ShortCut = 24630
+      OnExecute = ToggleBookmarks0ActionExecute
+    end
+    object ToggleBookmarks7Action: TAction
+      Tag = 7
+      Category = 'T&oggle Bookmarks'
+      Caption = 'Bookmark &7'
+      ImageIndex = 47
+      ShortCut = 24631
+      OnExecute = ToggleBookmarks0ActionExecute
+    end
+    object ToggleBookmarks8Action: TAction
+      Tag = 8
+      Category = 'T&oggle Bookmarks'
+      Caption = 'Bookmark &8'
+      ImageIndex = 48
+      ShortCut = 24632
+      OnExecute = ToggleBookmarks0ActionExecute
+    end
+    object ToggleBookmarks9Action: TAction
+      Tag = 9
+      Category = 'T&oggle Bookmarks'
+      Caption = 'Bookmark &9'
+      ImageIndex = 49
+      ShortCut = 24633
+      OnExecute = ToggleBookmarks0ActionExecute
+    end
+    object GotoBookmarks2Action: TAction
+      Tag = 2
+      Category = 'Goto Bookmarks'
+      Caption = 'Bookmark &2'
+      ImageIndex = 42
+      ShortCut = 16434
+      OnExecute = GotoBookmarks0ActionExecute
+    end
+    object GotoBookmarks3Action: TAction
+      Tag = 3
+      Category = 'Goto Bookmarks'
+      Caption = 'Bookmark &3'
+      ImageIndex = 43
+      ShortCut = 16435
+      OnExecute = GotoBookmarks0ActionExecute
+    end
+    object GotoBookmarks4Action: TAction
+      Tag = 4
+      Category = 'Goto Bookmarks'
+      Caption = 'Bookmark &4'
+      ImageIndex = 44
+      ShortCut = 16436
+      OnExecute = GotoBookmarks0ActionExecute
+    end
+    object GotoBookmarks5Action: TAction
+      Tag = 5
+      Category = 'Goto Bookmarks'
+      Caption = 'Bookmark &5'
+      ImageIndex = 45
+      ShortCut = 16437
+      OnExecute = GotoBookmarks0ActionExecute
+    end
+    object GotoBookmarks6Action: TAction
+      Tag = 6
+      Category = 'Goto Bookmarks'
+      Caption = 'Bookmark &6'
+      ImageIndex = 46
+      ShortCut = 16438
+      OnExecute = GotoBookmarks0ActionExecute
+    end
+    object GotoBookmarks7Action: TAction
+      Tag = 7
+      Category = 'Goto Bookmarks'
+      Caption = 'Bookmark &7'
+      ImageIndex = 47
+      ShortCut = 16439
+      OnExecute = GotoBookmarks0ActionExecute
+    end
+    object GotoBookmarks8Action: TAction
+      Tag = 8
+      Category = 'Goto Bookmarks'
+      Caption = 'Bookmark &8'
+      ImageIndex = 48
+      ShortCut = 16440
+      OnExecute = GotoBookmarks0ActionExecute
+    end
+    object GotoBookmarks9Action: TAction
+      Tag = 9
+      Category = 'Goto Bookmarks'
+      Caption = 'Bookmark &9'
+      ImageIndex = 49
+      ShortCut = 16441
+      OnExecute = GotoBookmarks0ActionExecute
     end
   end
   object ImageList: TBCImageList

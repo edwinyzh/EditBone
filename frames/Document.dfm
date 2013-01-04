@@ -1,8 +1,8 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 304
+  Width = 898
+  Height = 643
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
@@ -10,7 +10,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 898
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -108,9 +108,11 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 50
-        Height = 13
+        Height = 18
         Align = alLeft
         Caption = 'Search for'
+        Layout = tlCenter
+        ExplicitHeight = 13
       end
     end
     object SearchPanel3: TPanel
@@ -158,58 +160,30 @@ object DocumentFrame: TDocumentFrame
         Align = alLeft
         Flat = True
         Glyph.Data = {
-          36060000424D3606000000000000360000002800000020000000100000000100
-          18000000000000060000120B0000120B00000000000000000000FF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FF717171717171FF00FFFF00FFFF00FF717171717171FF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF717171717171FF00FFFF
-          00FFFF00FF717171717171FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FF717171DBDBDBDBDBDB717171FF00FF717171DBDBDBDBDBDB717171FF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF717171FFFFFFFFFFFF717171FF
-          00FF717171FFFFFFFFFFFF717171FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FF717171DBDBDBDBDBDBDBDBDB717171DBDBDBDBDBDBDBDBDB717171FF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF717171FFFFFFFFFFFFFFFFFF71
-          7171FFFFFFFFFFFFFFFFFF717171FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FF717171DBDBDBDBDBDBDBDBDBDBDBDBDBDBDB787878FF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF717171FFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFF787878FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FF717171DBDBDBDBDBDBDBDBDB717171FF00FFFF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF717171FFFFFFFF
-          FFFFFFFFFF717171FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FF717171DBDBDBDBDBDBDBDBDBDBDBDBDBDBDB717171FF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF717171FFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFF717171FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FF717171DBDBDBDBDBDBDBDBDB717171DBDBDBDBDBDBDBDBDB717171FF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF717171FFFFFFFFFFFFFFFFFF71
-          7171FFFFFFFFFFFFFFFFFF717171FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FF717171DBDBDBDBDBDB717171FF00FF717171DBDBDBDBDBDB717171FF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF717171FFFFFFFFFFFF717171FF
-          00FF717171FFFFFFFFFFFF717171FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FF717171717171FF00FFFF00FFFF00FF717171717171FF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF717171717171FF00FFFF
-          00FFFF00FF717171717171FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
+          C6020000424DC602000000000000C60100002800000010000000100000000100
+          08000000000000010000120B0000120B0000640000006400000000000000FFFF
+          FF00FF00FF000086000000830000007B0000005E0000005C0000005800000054
+          00000182020000650100005D010004880700068C0900048A0B00035A06000796
+          0D0006630900046D0A00068E0F000CA015000C9D150008690E000B891300096D
+          110011AA1D000D8217000E78180001500A001CB62F0013872300179928001890
+          290021C239001C9A31001C982F0036E554002AD149002BCE49002CD44D000E91
+          2D0035E05D0025AC460047F779001DA657000B63440012805B002D919700185F
+          69003EABEE0045B4F70048B7FA00196DA3003DAAF400258BD80039A4F4003BA7
+          F80040ACFE0041ADFA00025291000354950004579A00065B9F00197ACC001F81
+          D4002581CE00319CF700359EF2003CA6FF000458A000065BAA00075CA9000962
+          B4001676CA001E80D500268BE5002687DD002889E3002C8FEB002D95EF0038A1
+          FF0038A3FF000C67C4000B64BB000F69BF002184E300278CEB000F6AC900126E
+          D300116CCF001B6DC4002380E100136FDC001160C0001573E7001574E0001776
+          E6001877EA00166AD40002020202020202626002020202020202020202020202
+          615F5D5958020202020202020202024A4C57565A535449480202020202020237
+          32334D364B5547463E3D020202021D43385B344D3B3941403F3C0202022E311D
+          63425E4E3A44454550020202122B1E1E1E1D1D355C4F525102020219232C251E
+          292F1E1E1D1D020202020224212A22150304142D300202020202020210201A0A
+          050F0C0C02020202020202021F260D070C130202020202020202021C280E0902
+          02020202020202020202172711080202020202020202020202021B1606020202
+          02020202020202020202180B0202020202020202020202020202020202020202
+          02020202020202020202}
         Margin = 2
-        NumGlyphs = 2
         ExplicitTop = 2
         ExplicitHeight = 19
       end
@@ -395,7 +369,7 @@ object DocumentFrame: TDocumentFrame
     object SearchPanel7: TPanel
       Left = 341
       Top = 0
-      Width = 130
+      Width = 27
       Height = 21
       Align = alLeft
       AutoSize = True
@@ -406,26 +380,36 @@ object DocumentFrame: TDocumentFrame
       object CaseSensitiveCheckBox: TBCCheckBox
         Left = 8
         Top = 2
-        Width = 122
+        Width = 19
         Height = 19
         Align = alLeft
-        Caption = ' Case sensitive'
         TabOrder = 0
         ReadOnly = False
       end
     end
     object SearchPanel8: TPanel
-      Left = 471
+      Left = 368
       Top = 0
-      Width = 150
+      Width = 228
       Height = 21
       Align = alLeft
       AutoSize = True
       BevelOuter = bvNone
       Padding.Top = 2
       TabOrder = 7
-      object WholeWordsCheckBox: TBCCheckBox
+      object CaseSensitiveLabel: TLabel
         Left = 0
+        Top = 2
+        Width = 70
+        Height = 19
+        Align = alLeft
+        Caption = 'Case Sensitive'
+        Layout = tlCenter
+        ExplicitLeft = -24
+        ExplicitTop = 3
+      end
+      object WholeWordsCheckBox: TBCCheckBox
+        Left = 78
         Top = 2
         Width = 150
         Height = 19
@@ -433,14 +417,25 @@ object DocumentFrame: TDocumentFrame
         Caption = ' Whole words only'
         TabOrder = 0
         ReadOnly = False
+        ExplicitLeft = 0
+      end
+      object Panel1: TPanel
+        Left = 70
+        Top = 2
+        Width = 8
+        Height = 19
+        Align = alLeft
+        BevelOuter = bvNone
+        TabOrder = 1
+        ExplicitTop = 3
       end
     end
   end
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 451
-    Height = 283
+    Width = 898
+    Height = 622
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -451,8 +446,8 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 790
-      Height = 460
+      Width = 898
+      Height = 620
       Align = alClient
       DoubleBuffered = False
       Font.Charset = DEFAULT_CHARSET
@@ -466,8 +461,6 @@ object DocumentFrame: TDocumentFrame
       OnChange = PageControlChange
       TabDragDrop = True
       HoldShiftToDragDrop = False
-      ExplicitWidth = 451
-      ExplicitHeight = 281
     end
   end
   object ImageList: TBCImageList
@@ -1037,7 +1030,6 @@ object DocumentFrame: TDocumentFrame
     end
     object SearchClearAction: TAction
       Hint = 'Clear'
-      ImageIndex = 2
       OnExecute = SearchClearActionExecute
     end
   end
@@ -1733,150 +1725,91 @@ object DocumentFrame: TDocumentFrame
       Caption = '-'
     end
     object ToggleBookmarkMenuItem: TMenuItem
+      Action = MainForm.ToggleBookmarkAction
     end
     object ToggleBookmarksMenuItem: TMenuItem
-      Caption = 'Toggle Boo&kmarks'
+      Action = MainForm.ToggleBookmarksAction
       object ToggleBookmark0MenuItem: TMenuItem
-        Caption = 'Bookmark &0'
-        ImageIndex = 40
-        ShortCut = 24624
-        OnClick = ToggleBookmark0MenuItemClick
+        Action = MainForm.ToggleBookmarks0Action
       end
       object ToggleBookmark1MenuItem: TMenuItem
         Tag = 1
-        Caption = 'Bookmark &1'
-        ImageIndex = 41
-        ShortCut = 24625
-        OnClick = ToggleBookmark0MenuItemClick
+        Action = MainForm.ToggleBookmarks1Action
       end
       object ToggleBookmark2MenuItem: TMenuItem
         Tag = 2
-        Caption = 'Bookmark &2'
-        ImageIndex = 42
-        ShortCut = 24626
-        OnClick = ToggleBookmark0MenuItemClick
+        Action = MainForm.ToggleBookmarks2Action
       end
       object ToggleBookmark3MenuItem: TMenuItem
         Tag = 3
-        Caption = 'Bookmark &3'
-        ImageIndex = 43
-        ShortCut = 24627
-        OnClick = ToggleBookmark0MenuItemClick
+        Action = MainForm.ToggleBookmarks3Action
       end
       object ToggleBookmark4MenuItem: TMenuItem
         Tag = 4
-        Caption = 'Bookmark &4'
-        ImageIndex = 44
-        ShortCut = 24628
-        OnClick = ToggleBookmark0MenuItemClick
+        Action = MainForm.ToggleBookmarks4Action
       end
       object ToggleBookmark5MenuItem: TMenuItem
         Tag = 5
-        Caption = 'Bookmark &5'
-        ImageIndex = 45
-        ShortCut = 24629
-        OnClick = ToggleBookmark0MenuItemClick
+        Action = MainForm.ToggleBookmarks5Action
       end
       object ToggleBookmark6MenuItem: TMenuItem
         Tag = 6
-        Caption = 'Bookmark &6'
-        ImageIndex = 46
-        ShortCut = 24630
-        OnClick = ToggleBookmark0MenuItemClick
+        Action = MainForm.ToggleBookmarks6Action
       end
       object ToggleBookmark7MenuItem: TMenuItem
         Tag = 7
-        Caption = 'Bookmark &7'
-        ImageIndex = 47
-        ShortCut = 24631
-        OnClick = ToggleBookmark0MenuItemClick
+        Action = MainForm.ToggleBookmarks7Action
       end
       object ToggleBookmark8MenuItem: TMenuItem
         Tag = 8
-        Caption = 'Bookmark &8'
-        ImageIndex = 48
-        ShortCut = 24632
-        OnClick = ToggleBookmark0MenuItemClick
+        Action = MainForm.ToggleBookmarks8Action
       end
       object ToggleBookmark9MenuItem: TMenuItem
         Tag = 9
-        Caption = 'Bookmark &9'
-        ImageIndex = 49
-        ShortCut = 24633
-        OnClick = ToggleBookmark0MenuItemClick
+        Action = MainForm.ToggleBookmarks9Action
       end
     end
     object GotoBookmarksMenuItem: TMenuItem
-      Caption = '&Goto Bookmarks'
+      Action = MainForm.GotoBookmarksAction
       SubMenuImages = BookmarkImagesList
       object GotoBookmark0MenuItem: TMenuItem
-        Caption = 'Bookmark &0'
-        ImageIndex = 40
-        ShortCut = 16432
-        OnClick = GotoBookmark0MenuItemClick
+        Action = MainForm.GotoBookmarks0Action
       end
       object GotoBookmark1MenuItem: TMenuItem
         Tag = 1
-        Caption = 'Bookmark &1'
-        ImageIndex = 41
-        ShortCut = 16433
-        OnClick = GotoBookmark0MenuItemClick
+        Action = MainForm.GotoBookmarks1Action
       end
       object GotoBookmark2MenuItem: TMenuItem
         Tag = 2
-        Caption = 'Bookmark &2'
-        ImageIndex = 42
-        ShortCut = 16434
-        OnClick = GotoBookmark0MenuItemClick
+        Action = MainForm.GotoBookmarks2Action
       end
       object GotoBookmark3MenuItem: TMenuItem
         Tag = 3
-        Caption = 'Bookmark &3'
-        ImageIndex = 43
-        ShortCut = 16435
-        OnClick = GotoBookmark0MenuItemClick
+        Action = MainForm.GotoBookmarks3Action
       end
       object GotoBookmark4MenuItem: TMenuItem
         Tag = 4
-        Caption = 'Bookmark &4'
-        ImageIndex = 44
-        ShortCut = 16436
-        OnClick = GotoBookmark0MenuItemClick
+        Action = MainForm.GotoBookmarks4Action
       end
       object GotoBookmark5MenuItem: TMenuItem
         Tag = 5
-        Caption = 'Bookmark &5'
-        ImageIndex = 45
-        ShortCut = 16437
-        OnClick = GotoBookmark0MenuItemClick
+        Action = MainForm.GotoBookmarks5Action
       end
       object GotoBookmark6MenuItem: TMenuItem
         Tag = 6
-        Caption = 'Bookmark &6'
-        ImageIndex = 46
-        ShortCut = 16438
-        OnClick = GotoBookmark0MenuItemClick
+        Action = MainForm.GotoBookmarks6Action
       end
       object GotoBookmark7MenuItem: TMenuItem
         Tag = 7
-        Caption = 'Bookmark &7'
-        ImageIndex = 47
-        ShortCut = 16439
-        OnClick = GotoBookmark0MenuItemClick
+        Action = MainForm.GotoBookmarks7Action
       end
       object GotoBookmark8MenuItem: TMenuItem
         Tag = 8
-        Caption = 'Bookmark &8'
-        ImageIndex = 48
-        ShortCut = 16440
-        OnClick = GotoBookmark0MenuItemClick
+        Action = MainForm.GotoBookmarks8Action
       end
       object GotoBookmark9MenuItem: TMenuItem
         Tag = 9
-        Caption = 'Bookmark &9'
-        ImageIndex = 49
-        ShortCut = 16441
-        OnClick = GotoBookmark0MenuItemClick
+        Action = MainForm.GotoBookmarks9Action
       end
     end
     object ClearBookmarksMenuItem: TMenuItem
