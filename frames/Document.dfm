@@ -111,7 +111,6 @@ object DocumentFrame: TDocumentFrame
         Height = 18
         Align = alLeft
         Caption = 'Search for'
-        Layout = tlCenter
         ExplicitHeight = 13
       end
     end
@@ -417,7 +416,6 @@ object DocumentFrame: TDocumentFrame
         Caption = ' Whole words only'
         TabOrder = 0
         ReadOnly = False
-        ExplicitLeft = 0
       end
       object Panel1: TPanel
         Left = 70
@@ -427,7 +425,6 @@ object DocumentFrame: TDocumentFrame
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitTop = 3
       end
     end
   end

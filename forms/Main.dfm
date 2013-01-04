@@ -53,6 +53,8 @@ object MainForm: TMainForm
     Padding.Top = 2
     Padding.Right = 2
     ParentColor = True
+    ParentShowHint = False
+    ShowHint = False
     TabOrder = 3
     object ActionMainMenuBar: TActionMainMenuBar
       Left = 0
@@ -69,8 +71,8 @@ object MainForm: TMainForm
       ColorMap.UnusedColor = clWhite
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = -12
-      Font.Name = 'Segoe UI'
+      Font.Height = -11
+      Font.Name = 'Tahoma'
       Font.Style = []
       ParentShowHint = False
       ShowHint = True
@@ -397,7 +399,7 @@ object MainForm: TMainForm
                 ImageIndex = 9
                 ShortCut = 32883
               end>
-            Action = FileMenuAction
+            Caption = '&File'
           end
           item
             Items = <
@@ -489,7 +491,7 @@ object MainForm: TMainForm
                 ImageIndex = 36
                 ShortCut = 24643
               end>
-            Action = EditMenuAction
+            Caption = '&Edit'
           end
           item
             Items = <
@@ -585,6 +587,7 @@ object MainForm: TMainForm
                     ShortCut = 16441
                   end>
                 Action = GotoBookmarksAction
+                Caption = '&Goto Bookmarks'
                 UsageCount = 1
               end
               item
@@ -646,7 +649,7 @@ object MainForm: TMainForm
                 Action = ClearBookmarksAction
                 ImageIndex = 50
               end>
-            Action = SearchMenuAction
+            Caption = '&Search'
           end
           item
             Items = <
@@ -723,7 +726,7 @@ object MainForm: TMainForm
                 ImageIndex = 30
                 ShortCut = 24585
               end>
-            Action = ViewMenuAction
+            Caption = '&View'
           end
           item
             Items = <
@@ -773,7 +776,7 @@ object MainForm: TMainForm
                 ImageIndex = 33
                 ShortCut = 32834
               end>
-            Action = DocumentMenuAction
+            Caption = '&Document'
           end
           item
             Items = <
@@ -795,7 +798,7 @@ object MainForm: TMainForm
                 Action = ToolsOptionsAction
                 ImageIndex = 20
               end>
-            Action = ToolsMenuAction
+            Caption = '&Tools'
           end
           item
             Items = <
@@ -817,7 +820,7 @@ object MainForm: TMainForm
                 Action = HelpAboutAction
                 ImageIndex = 21
               end>
-            Action = HelpMenuAction
+            Caption = '&Help'
           end>
         ActionBar = ActionMainMenuBar
       end
@@ -1071,7 +1074,7 @@ object MainForm: TMainForm
           end
           item
             Action = ToolsWordCountAction
-            Caption = 'Words Count...'
+            Caption = 'Line, Word and Character Count...'
             ImageIndex = 53
             ShowCaption = False
           end
@@ -1869,7 +1872,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C01013F005C01780510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01013F005C017C0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000000001000001002000000000000000
       0100000000000000000000000000000000000000000000000000BD4C00000000
       0000000000000000000084240500842405008424050084240500842405000000

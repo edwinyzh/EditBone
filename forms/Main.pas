@@ -280,6 +280,7 @@ type
     procedure CreateLanguageMenu;
     procedure CreateStyleMenu;
     procedure FindInFiles(FindWhatText, FileTypeText, FolderText: string; SearchCaseSensitive, LookInSubfolders: Boolean);
+    procedure MainMenuTitleBarActions(Enabled: Boolean);
     procedure ReadIniFile;
     procedure ReadLanguageFile(SelectedLanguage: string);
     procedure RecreateStatusBar;
@@ -369,6 +370,32 @@ begin
   ReadLanguageFile(ActionCaption);
 end;
 
+procedure TMainForm.MainMenuTitleBarActions(Enabled: Boolean);
+begin
+  { If the top level of action main menu bar has an action, the hint is shown always after menu item hint.
+    So, the menu item hints are then not shown. We need the action here only to update the language. }
+  if Enabled then
+  begin
+    ActionMainMenuBar.ActionClient.Items[0].Action := FileMenuAction;
+    ActionMainMenuBar.ActionClient.Items[1].Action := EditMenuAction;
+    ActionMainMenuBar.ActionClient.Items[2].Action := SearchMenuAction;
+    ActionMainMenuBar.ActionClient.Items[3].Action := ViewMenuAction;
+    ActionMainMenuBar.ActionClient.Items[4].Action := DocumentMenuAction;
+    ActionMainMenuBar.ActionClient.Items[5].Action := ToolsMenuAction;
+    ActionMainMenuBar.ActionClient.Items[6].Action := HelpMenuAction;
+  end
+  else
+  begin
+    ActionMainMenuBar.ActionClient.Items[0].Action := nil;
+    ActionMainMenuBar.ActionClient.Items[1].Action := nil;
+    ActionMainMenuBar.ActionClient.Items[2].Action := nil;
+    ActionMainMenuBar.ActionClient.Items[3].Action := nil;
+    ActionMainMenuBar.ActionClient.Items[4].Action := nil;
+    ActionMainMenuBar.ActionClient.Items[5].Action := nil;
+    ActionMainMenuBar.ActionClient.Items[6].Action := nil;
+  end
+end;
+
 procedure TMainForm.ReadLanguageFile(SelectedLanguage: string);
 begin
   if SelectedLanguage = '' then
@@ -376,7 +403,9 @@ begin
   { update language constants }
   Language.ReadLanguageFile(SelectedLanguage);
   { update mainform }
+  MainMenuTitleBarActions(True);
   Common.UpdateLanguage(Self, SelectedLanguage);
+  MainMenuTitleBarActions(False);
   { update frames }
   Common.UpdateLanguage(FDirectoryFrame, SelectedLanguage);
   FDocumentFrame.UpdateLanguage(SelectedLanguage);
