@@ -1,8 +1,8 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 898
-  Height = 643
+  Width = 451
+  Height = 304
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
@@ -10,7 +10,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 898
+    Width = 451
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -404,8 +404,7 @@ object DocumentFrame: TDocumentFrame
         Align = alLeft
         Caption = 'Case Sensitive'
         Layout = tlCenter
-        ExplicitLeft = -24
-        ExplicitTop = 3
+        ExplicitHeight = 13
       end
       object WholeWordsCheckBox: TBCCheckBox
         Left = 78
@@ -431,8 +430,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 898
-    Height = 622
+    Width = 451
+    Height = 283
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -443,8 +442,8 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 898
-      Height = 620
+      Width = 451
+      Height = 281
       Align = alClient
       DoubleBuffered = False
       Font.Charset = DEFAULT_CHARSET
@@ -459,12 +458,22 @@ object DocumentFrame: TDocumentFrame
       TabDragDrop = True
       HoldShiftToDragDrop = False
     end
+    object Memo1: TMemo
+      Left = 81
+      Top = 24
+      Width = 402
+      Height = 367
+      Lines.Strings = (
+        'Memo1')
+      TabOrder = 1
+      Visible = False
+    end
   end
   object ImageList: TBCImageList
     Left = 36
     Top = 342
     Bitmap = {
-      494C010106003800080510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101060038001C0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -734,18 +743,6 @@ object DocumentFrame: TDocumentFrame
       0003C003E00FE00F003FC003E10FE10F007FC007F39FF39F007FC00FFFFFFFFF
       00FFC01FFFFFFFFF01FFC03FFFFFFFFF00000000000000000000000000000000
       000000000000}
-  end
-  object OpenDialog: TOpenDialog
-    Options = [ofAllowMultiSelect, ofPathMustExist, ofFileMustExist, ofEnableSizing]
-    Title = 'Open'
-    Left = 36
-    Top = 34
-  end
-  object SaveDialog: TSaveDialog
-    Options = [ofOverwritePrompt, ofCreatePrompt, ofEnableSizing]
-    Title = 'Save'
-    Left = 36
-    Top = 84
   end
   object SynAsmSyn: TSynAsmSyn
     Tag = 56
@@ -1291,7 +1288,7 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 450
     Bitmap = {
-      494C01010A003800E80410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A003800FC0410001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1933,7 +1930,7 @@ object DocumentFrame: TDocumentFrame
     Left = 606
     Top = 462
     Bitmap = {
-      494C010102009C043C0514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010102009C04500514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000A4676900A4676900A467
@@ -2153,7 +2150,7 @@ object DocumentFrame: TDocumentFrame
     Left = 606
     Top = 518
     Bitmap = {
-      494C01010200BC04400518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010200BC04540518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000A467

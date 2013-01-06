@@ -369,15 +369,16 @@ function TOptionsContainer.GetFilters: string;
 var
   i: Integer;
 begin
-  Result := Format('%s (*.*)|*.*|', [LanguageDataModule.ConstantMultiStringHolder.StringsByName['AnyFile'].Text]);
+  Result := Format('%s'#0'*.*'#0, [LanguageDataModule.ConstantMultiStringHolder.StringsByName['AllFiles'].Text]);
   i := 0;
   while i < FFileTypes.Count do
   begin
-    Result := Format('%s%s|%s', [Result, LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text {FFileTypes.Strings[i]}, Common.StringBetween(FFileTypes.Strings[i], '(', ')')]);
+    Result := Format('%s%s'#0'%s', [Result, LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text {FFileTypes.Strings[i]}, Common.StringBetween(FFileTypes.Strings[i], '(', ')')]);
     Inc(i);
     if i < FFileTypes.Count then
-      Result := Format('%s|', [Result]);
+      Result := Format('%s'#0, [Result]);
   end;
+  Result := Format('%s'#0#0, [Result]);
 end;
 
 function TOptionsContainer.GetExtensions: string;

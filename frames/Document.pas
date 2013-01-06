@@ -42,7 +42,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, SynEdit, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.ImgList,
+  Vcl.Controls, Vcl.Forms, SynEdit, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.ImgList,
   JvExComCtrls, JvComCtrls, Vcl.Menus, BCPageControl, BCButtonedEdit, Directory, Vcl.Buttons,
   SynHighlighterCS, SynHighlighterCpp, SynHighlighterCSS, SynHighlighterJava, SynHighlighterJScript,
   SynHighlighterBat, SynHighlighterPas, SynHighlighterPerl, SynHighlighterPHP, SynHighlighterPython,
@@ -60,7 +60,7 @@ uses
   SynHighlighterKix, SynHighlighterAWK, SynHighlighterVrml97, SynHighlighterVBScript,
   SynHighlighterCobol, SynHighlighterM3, SynHighlighterFortran, SynHighlighterEiffel,
   PlatformDefaultStyleActnCtrls, Vcl.ActnPopup, BCPopupMenu, SynMacroRecorder, SynEditKeyCmds,
-  Vcl.Themes, SynHighlighterDWS;
+  Vcl.Themes, SynHighlighterDWS, Vcl.Dialogs;
 
 type
   TUTF8EncodingWithoutBOM = class(TUTF8Encoding)
@@ -92,8 +92,6 @@ type
 
   TDocumentFrame = class(TFrame)
     ImageList: TBCImageList;
-    OpenDialog: TOpenDialog;
-    SaveDialog: TSaveDialog;
     SynAsmSyn: TSynAsmSyn;
     SynVBSyn: TSynVBSyn;
     SynUNIXShellScriptSyn: TSynUNIXShellScriptSyn;
@@ -231,6 +229,7 @@ type
     SynDWSSyn: TSynDWSSyn;
     CaseSensitiveLabel: TLabel;
     Panel1: TPanel;
+    Memo1: TMemo;
     procedure SynEditChange(Sender: TObject);
     procedure SynEditSplitChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
@@ -247,6 +246,7 @@ type
     procedure SynEditSpecialLineColors(Sender: TObject; Line: Integer; var Special: Boolean;
       var FG, BG: TColor);
     procedure SearchForEditChange(Sender: TObject);
+    procedure OpenDialogxShow(Sender: TObject);
   private
     { Private declarations }
     FCompareImageIndex, FNewImageIndex: Integer;
@@ -390,7 +390,7 @@ implementation
 uses
   PrintPreview, Replace, ConfirmReplace, Common, Lib, Options, StyleHooks,
   SynTokenMatch, SynHighlighterWebMisc, Compare, System.Types, Winapi.ShellAPI, System.WideStrings,
-  Main, BigIni, Vcl.GraphUtil, SynUnicode, Language;
+  Main, BigIni, Vcl.GraphUtil, SynUnicode, Language, OpenSaveDialog;
 
 const
   DEFAULT_FILENAME = 'Document';
@@ -1262,11 +1262,9 @@ var
 begin
   if FileName = '' then
   begin
-    OpenDialog.InitialDir := DefaultPath;
-    OpenDialog.Filter := OptionsContainer.Filters;
-    if OpenDialog.Execute then
-      for i := 0 to OpenDialog.Files.Count - 1 do
-        Open(OpenDialog.Files[i])
+    if OpenSaveDialog.OpenFiles(DefaultPath, OptionsContainer.Filters, 'Open') then
+      for i := 0 to OpenSaveDialog.Files.Count - 1 do
+        Open(OpenSaveDialog.Files[i])
   end
   else
   begin
@@ -1289,6 +1287,47 @@ begin
       end;
     end;
   end;
+end;
+
+Function enumchildproc( ctrl: HWND; list: TStrings ): Bool; stdcall;
+Var
+  buf: Array [0..80] of Char;
+  id : Integer;
+  caption: array [0..80] of Char;
+Begin
+  result := True;
+  getClassname( ctrl, buf, 80 );
+  id := getdlgCtrlid( ctrl );
+  getwindowtext( ctrl, caption, 80 );
+  list.add( format('Class: <%s>, id: <%d>, caption: <%s>',
+                   [buf, id, caption] ));
+End;
+
+procedure TDocumentFrame.OpenDialogxShow(Sender: TObject);
+var
+s:string;
+begin
+//  SetDlgItemText(GetParent(OpenDialog.Handle), IDOK, PChar('New &Open'));
+ // SetDlgItemText(GetParent(OpenDialog.Handle), IDCANCEL, PChar('Peruuta'));
+ // SetDlgItemText(GetParent(OpenDialog.Handle), 1091, PChar('Hae'));
+ { memo1.lines.clear;
+  memo1.wordwrap := false;
+  EnumChildWindows( Winapi.Windows.GetParent( Opendialog.handle ),
+                    @enumchildproc,
+                    longint(memo1.lines ));
+  activesynedit.Text := memo1.Text }
+   (*
+  Class: <Static>, id: <1091>, caption: <Look &in:>
+Class: <Static>, id: <1090>, caption: <File &name:>
+Class: <Static>, id: <1089>, caption: <Files of &type:>
+Class: <Button>, id: <1040>, caption: <Open as &read-only>
+Class: <Button>, id: <1>, caption: <&Open>
+Class: <Button>, id: <2>, caption: <New &Cancel>
+Class: <Button>, id: <1038>, caption: <&Help>     *)
+//s := 'aaa.txt';
+//  if OpenSaveFileDialog(Application.Handle, 'txt', 'Text Files|*.txt', 'c:\', 'Select text file', s, True) then
+//    ShowMessage(s + ' file was selected for open')
+
 end;
 
 procedure TDocumentFrame.Close;
@@ -1412,17 +1451,18 @@ begin
   begin
     if (SynEdit.DocumentName = '') or ShowDialog then
     begin
-      SaveDialog.InitialDir := DefaultPath;
+      //SaveDialog.InitialDir := DefaultPath;
       AFileName := TabSheet.Caption;
       if Pos('~', TabSheet.Caption) = Length(TabSheet.Caption) then
         AFileName := System.Copy(TabSheet.Caption, 0, Length(TabSheet.Caption) - 1);
-      SaveDialog.FileName := AFileName;
-      SaveDialog.Filter := OptionsContainer.Filters;
-      if SaveDialog.Execute then
+      //SaveDialog.FileName := AFileName;
+      //SaveDialog.Filter := OptionsContainer.Filters;
+      //if SaveDialog.Execute then
+      if OpenSaveDialog.SaveFile(DefaultPath, OptionsContainer.Filters, 'Save', AFileName) then
       begin
-        PageControl.ActivePage.Caption := ExtractFileName(SaveDialog.FileName);
-        SynEdit.DocumentName := SaveDialog.FileName;
-        Result := SaveDialog.FileName;
+        PageControl.ActivePage.Caption := ExtractFileName(OpenSaveDialog.Files[0]);
+        SynEdit.DocumentName := OpenSaveDialog.Files[0];
+        Result := OpenSaveDialog.Files[0];
       end
       else
         Exit;

@@ -371,29 +371,26 @@ begin
 end;
 
 procedure TMainForm.MainMenuTitleBarActions(Enabled: Boolean);
+var
+  i: Integer;
 begin
-  { If the top level of action main menu bar has an action, the hint is shown always after menu item hint.
-    So, the menu item hints are then not shown. We need the action here only to update the language. }
+  { Bug? If the title bar action client has an action, its hint is shown always after menu item hint.
+    So, the menu item hints are then never shown. We need the dummy actions here only to update the language. }
   if Enabled then
+  with ActionMainMenuBar.ActionClient do
   begin
-    ActionMainMenuBar.ActionClient.Items[0].Action := FileMenuAction;
-    ActionMainMenuBar.ActionClient.Items[1].Action := EditMenuAction;
-    ActionMainMenuBar.ActionClient.Items[2].Action := SearchMenuAction;
-    ActionMainMenuBar.ActionClient.Items[3].Action := ViewMenuAction;
-    ActionMainMenuBar.ActionClient.Items[4].Action := DocumentMenuAction;
-    ActionMainMenuBar.ActionClient.Items[5].Action := ToolsMenuAction;
-    ActionMainMenuBar.ActionClient.Items[6].Action := HelpMenuAction;
+    Items[0].Action := FileMenuAction;
+    Items[1].Action := EditMenuAction;
+    Items[2].Action := SearchMenuAction;
+    Items[3].Action := ViewMenuAction;
+    Items[4].Action := DocumentMenuAction;
+    Items[5].Action := ToolsMenuAction;
+    Items[6].Action := HelpMenuAction;
   end
   else
-  begin
-    ActionMainMenuBar.ActionClient.Items[0].Action := nil;
-    ActionMainMenuBar.ActionClient.Items[1].Action := nil;
-    ActionMainMenuBar.ActionClient.Items[2].Action := nil;
-    ActionMainMenuBar.ActionClient.Items[3].Action := nil;
-    ActionMainMenuBar.ActionClient.Items[4].Action := nil;
-    ActionMainMenuBar.ActionClient.Items[5].Action := nil;
-    ActionMainMenuBar.ActionClient.Items[6].Action := nil;
-  end
+  with ActionMainMenuBar.ActionClient do
+    for i := 0 to 6 do
+      Items[i].Action := nil;
 end;
 
 procedure TMainForm.ReadLanguageFile(SelectedLanguage: string);

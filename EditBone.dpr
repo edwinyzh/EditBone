@@ -27,7 +27,8 @@ uses
   Compare in '..\..\Common\frames\Compare.pas' {CompareFrame: TFrame},
   BigIni in '..\..\Common\units\BigIni.pas',
   Dlg in '..\..\Common\dialogs\Dlg.pas' {Dialog},
-  Common in '..\..\Common\units\Common.pas';
+  Common in '..\..\Common\units\Common.pas',
+  OpenSaveDialog in '..\..\Common\units\OpenSaveDialog.pas';
 
 {$R *.res}
 
