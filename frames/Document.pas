@@ -246,7 +246,6 @@ type
     procedure SynEditSpecialLineColors(Sender: TObject; Line: Integer; var Special: Boolean;
       var FG, BG: TColor);
     procedure SearchForEditChange(Sender: TObject);
-    procedure OpenDialogxShow(Sender: TObject);
   private
     { Private declarations }
     FCompareImageIndex, FNewImageIndex: Integer;
@@ -1133,7 +1132,7 @@ begin
   TabSheet := TTabSheet.Create(PageControl);
   TabSheet.PageControl := PageControl;
   TabSheet.ImageIndex := FCompareImageIndex;
-  TabSheet.Caption := 'Compare Files';
+  TabSheet.Caption := LanguageDataModule.ConstantMultiStringHolder.StringsByName['CompareFiles'].Text;
   PageControl.ActivePage := TabSheet;
   Panel := TPanel.Create(TabSheet);
   with Panel do
@@ -1301,33 +1300,6 @@ Begin
   getwindowtext( ctrl, caption, 80 );
   list.add( format('Class: <%s>, id: <%d>, caption: <%s>',
                    [buf, id, caption] ));
-End;
-
-procedure TDocumentFrame.OpenDialogxShow(Sender: TObject);
-var
-s:string;
-begin
-//  SetDlgItemText(GetParent(OpenDialog.Handle), IDOK, PChar('New &Open'));
- // SetDlgItemText(GetParent(OpenDialog.Handle), IDCANCEL, PChar('Peruuta'));
- // SetDlgItemText(GetParent(OpenDialog.Handle), 1091, PChar('Hae'));
- { memo1.lines.clear;
-  memo1.wordwrap := false;
-  EnumChildWindows( Winapi.Windows.GetParent( Opendialog.handle ),
-                    @enumchildproc,
-                    longint(memo1.lines ));
-  activesynedit.Text := memo1.Text }
-   (*
-  Class: <Static>, id: <1091>, caption: <Look &in:>
-Class: <Static>, id: <1090>, caption: <File &name:>
-Class: <Static>, id: <1089>, caption: <Files of &type:>
-Class: <Button>, id: <1040>, caption: <Open as &read-only>
-Class: <Button>, id: <1>, caption: <&Open>
-Class: <Button>, id: <2>, caption: <New &Cancel>
-Class: <Button>, id: <1038>, caption: <&Help>     *)
-//s := 'aaa.txt';
-//  if OpenSaveFileDialog(Application.Handle, 'txt', 'Text Files|*.txt', 'c:\', 'Select text file', s, True) then
-//    ShowMessage(s + ' file was selected for open')
-
 end;
 
 procedure TDocumentFrame.Close;
@@ -3140,16 +3112,10 @@ begin
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) then
     if Assigned(SynEdit.SynMacroRecorder) then
-    with TSaveDialog.Create(nil) do
-    try
-      Title := LanguageDataModule.ConstantMultiStringHolder.StringsByName['SaveAs'].Text;
-      Filter := LanguageDataModule.FileTypesMultiStringHolder.StringsByName['Macro'].Text;
-      DefaultExt := '.mcr';
-      if Execute then
-        SynEdit.SynMacroRecorder.SaveToFile(FileName);
-    finally
-      Free;
-    end;
+      if OpenSaveDialog.SaveFile(DefaultPath, Trim(StringReplace(LanguageDataModule.FileTypesMultiStringHolder.StringsByName['Macro'].Text
+        , '|', #0, [rfReplaceAll])) + #0#0,
+        LanguageDataModule.ConstantMultiStringHolder.StringsByName['SaveAs'].Text, '', 'mcr') then
+        SynEdit.SynMacroRecorder.SaveToFile(OpenSaveDialog.Files[0]);
 end;
 
 procedure TDocumentFrame.LoadMacro;
@@ -3158,20 +3124,16 @@ var
 begin
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) then
-    with TOpenDialog.Create(nil) do
-    try
-      Title := LanguageDataModule.ConstantMultiStringHolder.StringsByName['Open'].Text;
-      Filter := LanguageDataModule.FileTypesMultiStringHolder.StringsByName['Macro'].Text;
-      DefaultExt := '.mcr';
-      if Execute then
-      begin
-        if not Assigned(SynEdit.SynMacroRecorder) then
-          SynEdit.SynMacroRecorder := TSynMacroRecorder.Create(SynEdit);
-        SynEdit.SynMacroRecorder.LoadFromFile(FileName);
-      end;
-    finally
-      Free;
+  begin
+    if OpenSaveDialog.OpenFile(DefaultPath, Trim(StringReplace(LanguageDataModule.FileTypesMultiStringHolder.StringsByName['Macro'].Text
+      , '|', #0, [rfReplaceAll])) + #0#0,
+      LanguageDataModule.ConstantMultiStringHolder.StringsByName['Open'].Text, 'mcr') then
+    begin
+      if not Assigned(SynEdit.SynMacroRecorder) then
+        SynEdit.SynMacroRecorder := TSynMacroRecorder.Create(SynEdit);
+      SynEdit.SynMacroRecorder.LoadFromFile(OpenSaveDialog.Files[0]);
     end;
+  end;
 end;
 
 procedure TDocumentFrame.SetActiveEncoding(Value: Integer);
