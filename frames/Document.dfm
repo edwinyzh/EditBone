@@ -906,11 +906,6 @@ object DocumentFrame: TDocumentFrame
     Left = 186
     Top = 200
   end
-  object PrintDialog: TPrintDialog
-    Options = [poPageNums]
-    Left = 36
-    Top = 136
-  end
   object SynEditPrint: TSynEditPrint
     Copies = 1
     Header.ShadedColor = clNone

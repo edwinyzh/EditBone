@@ -60,7 +60,7 @@ uses
   SynHighlighterKix, SynHighlighterAWK, SynHighlighterVrml97, SynHighlighterVBScript,
   SynHighlighterCobol, SynHighlighterM3, SynHighlighterFortran, SynHighlighterEiffel,
   PlatformDefaultStyleActnCtrls, Vcl.ActnPopup, BCPopupMenu, SynMacroRecorder, SynEditKeyCmds,
-  Vcl.Themes, SynHighlighterDWS, Vcl.Dialogs;
+  Vcl.Themes, SynHighlighterDWS;
 
 type
   TUTF8EncodingWithoutBOM = class(TUTF8Encoding)
@@ -106,7 +106,6 @@ type
     SynJavaSyn: TSynJavaSyn;
     ClassicCppSyn: TSynCppSyn;
     ClassicCSSyn: TSynCSSyn;
-    PrintDialog: TPrintDialog;
     SynEditPrint: TSynEditPrint;
     SynEditSearch: TSynEditSearch;
     SynWebHtmlSyn: TSynWebHtmlSyn;
@@ -1634,7 +1633,7 @@ begin
   with SynEditPrint.Footer do
   begin
     Clear;
-    Add(Format(LanguageDataModule.ConstantMultiStringHolder.StringsByName['PreviewDocumentPage'].Text, [Application.Title]), nil, taLeftJustify, 1);
+    Add(Format(LanguageDataModule.ConstantMultiStringHolder.StringsByName['PrintedBy'].Text, [Application.Title]), nil, taLeftJustify, 1);
     Add('$DATE$ $TIME$', nil, taRightJustify, 1);
   end;
   SynEditPrint.SynEdit := SynEdit;
@@ -1643,7 +1642,8 @@ end;
 
 procedure TDocumentFrame.Print;
 begin
-  if PrintDialog.Execute then
+  //if PrintDialog.Execute then
+  if CommonDialogs.Print(Application.Handle) then
   begin
     InitializeSynEditPrint;
     SynEditPrint.Print;
