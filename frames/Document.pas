@@ -229,7 +229,6 @@ type
     SynDWSSyn: TSynDWSSyn;
     CaseSensitiveLabel: TLabel;
     Panel1: TPanel;
-    Memo1: TMemo;
     procedure SynEditChange(Sender: TObject);
     procedure SynEditSplitChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
