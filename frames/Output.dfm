@@ -22,15 +22,19 @@ object OutputFrame: TOutputFrame
     Left = 72
     Top = 52
     object OutputCloseAction: TAction
+      Caption = '&Close'
+      Hint = 'Close current page'
       ImageIndex = 2
       OnExecute = OutputCloseActionExecute
     end
     object OutputCloseAllAction: TAction
       Caption = 'Close &All'
+      Hint = 'Close all pages'
       OnExecute = OutputCloseAllActionExecute
     end
     object CloseAllOtherPagesAction: TAction
       Caption = 'Close A&ll Other Pages'
+      Hint = 'Close all other pages'
       OnExecute = CloseAllOtherPagesActionExecute
     end
   end
@@ -38,7 +42,7 @@ object OutputFrame: TOutputFrame
     Left = 192
     Top = 48
     Bitmap = {
-      494C010103000800C00110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000800C80110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -183,8 +187,6 @@ object OutputFrame: TOutputFrame
     Top = 124
     object CloseMenuItem: TMenuItem
       Action = OutputCloseAction
-      Caption = '&Close'
-      Hint = 'Close current tab'
     end
     object CloseAllMenuItem: TMenuItem
       Action = OutputCloseAllAction

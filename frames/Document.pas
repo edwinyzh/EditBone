@@ -391,9 +391,6 @@ uses
   SynTokenMatch, SynHighlighterWebMisc, Compare, System.Types, Winapi.ShellAPI, System.WideStrings,
   Main, BigIni, Vcl.GraphUtil, SynUnicode, Language, OpenSaveDialog;
 
-const
-  DEFAULT_FILENAME = 'Document';
-
 var
   FUTF8EncodingWithoutBOM: TEncoding;
 
@@ -886,7 +883,7 @@ begin
   // TabSheet.DoubleBuffered := True;
   { set the Caption property }
   if FileName = '' then
-    TabSheet.Caption := DEFAULT_FILENAME + IntToStr(FNumberOfNewDocument)
+    TabSheet.Caption := LanguageDataModule.ConstantMultiStringHolder.StringsByName['Document'].Text + IntToStr(FNumberOfNewDocument)
   else
     TabSheet.Caption := ExtractFileName(FileName);
   PageControl.ActivePage := TabSheet;
@@ -2646,26 +2643,26 @@ begin
           begin
             case hl.GetTokenID of
               stkMLTagNameUndef:
-                AddError('Invalid HTML tag "%s"');
+                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidHTMLTag'].Text);
               stkMLTagKeyUndef:
-                AddError('Invalid HTML attribute "%s"');
+                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidHTMLAttribute'].Text);
               stkMLError:
-                AddError('Invalid HTML token "%s"');
+                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidHTMLToken'].Text);
 
               stkCssSelectorUndef:
-                AddError('Invalid CSS selector "%s"');
+                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidCSSSelector'].Text);
               stkCssPropUndef:
-                AddError('Invalid CSS property "%s"');
+                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidCSSProperty'].Text);
               stkCssValUndef:
-                AddError('Invalid CSS value "%s"');
+                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidCSSValue'].Text);
               stkCssError:
-                AddError('Invalid CSS token "%s"');
+                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidCSSToken'].Text);
 
               stkEsError:
-                AddError('Invalid JS token "%s"');
+                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidJSToken'].Text);
 
               stkPhpError:
-                AddError('Invalid PHP token "%s"');
+                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidPHPToken'].Text);
             end;
             hl.Next;
           end;
@@ -3388,7 +3385,7 @@ begin
   { compare frames }
   for i := 0 to PageControl.PageCount - 1 do
     if PageControl.Pages[i].ImageIndex = FCompareImageIndex then
-      Common.UpdateLanguage(TCompareFrame(PageControl.Pages[i].Components[0].Components[0]), SelectedLanguage);
+      TCompareFrame(PageControl.Pages[i].Components[0].Components[0]).UpdateLanguage(SelectedLanguage);
 end;
 
 
