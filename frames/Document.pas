@@ -389,7 +389,7 @@ implementation
 uses
   PrintPreview, Replace, ConfirmReplace, Common, Lib, Options, StyleHooks,
   SynTokenMatch, SynHighlighterWebMisc, Compare, System.Types, Winapi.ShellAPI, System.WideStrings,
-  Main, BigIni, Vcl.GraphUtil, SynUnicode, Language, OpenSaveDialog;
+  Main, BigIni, Vcl.GraphUtil, SynUnicode, Language, CommonDialogs;
 
 var
   FUTF8EncodingWithoutBOM: TEncoding;
@@ -1258,9 +1258,9 @@ var
 begin
   if FileName = '' then
   begin
-    if OpenSaveDialog.OpenFiles(DefaultPath, OptionsContainer.Filters, 'Open') then
-      for i := 0 to OpenSaveDialog.Files.Count - 1 do
-        Open(OpenSaveDialog.Files[i])
+    if CommonDialogs.OpenFiles(DefaultPath, OptionsContainer.Filters, LanguageDataModule.ConstantMultiStringHolder.StringsByName['Open'].Text) then
+      for i := 0 to CommonDialogs.Files.Count - 1 do
+        Open(CommonDialogs.Files[i])
   end
   else
   begin
@@ -1427,11 +1427,11 @@ begin
       //SaveDialog.FileName := AFileName;
       //SaveDialog.Filter := OptionsContainer.Filters;
       //if SaveDialog.Execute then
-      if OpenSaveDialog.SaveFile(DefaultPath, OptionsContainer.Filters, 'Save', AFileName) then
+      if CommonDialogs.SaveFile(DefaultPath, OptionsContainer.Filters, LanguageDataModule.ConstantMultiStringHolder.StringsByName['SaveAs'].Text, AFileName) then
       begin
-        PageControl.ActivePage.Caption := ExtractFileName(OpenSaveDialog.Files[0]);
-        SynEdit.DocumentName := OpenSaveDialog.Files[0];
-        Result := OpenSaveDialog.Files[0];
+        PageControl.ActivePage.Caption := ExtractFileName(CommonDialogs.Files[0]);
+        SynEdit.DocumentName := CommonDialogs.Files[0];
+        Result := CommonDialogs.Files[0];
       end
       else
         Exit;
@@ -3109,10 +3109,10 @@ begin
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) then
     if Assigned(SynEdit.SynMacroRecorder) then
-      if OpenSaveDialog.SaveFile(DefaultPath, Trim(StringReplace(LanguageDataModule.FileTypesMultiStringHolder.StringsByName['Macro'].Text
+      if CommonDialogs.SaveFile(DefaultPath, Trim(StringReplace(LanguageDataModule.FileTypesMultiStringHolder.StringsByName['Macro'].Text
         , '|', #0, [rfReplaceAll])) + #0#0,
         LanguageDataModule.ConstantMultiStringHolder.StringsByName['SaveAs'].Text, '', 'mcr') then
-        SynEdit.SynMacroRecorder.SaveToFile(OpenSaveDialog.Files[0]);
+        SynEdit.SynMacroRecorder.SaveToFile(CommonDialogs.Files[0]);
 end;
 
 procedure TDocumentFrame.LoadMacro;
@@ -3122,13 +3122,13 @@ begin
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) then
   begin
-    if OpenSaveDialog.OpenFile(DefaultPath, Trim(StringReplace(LanguageDataModule.FileTypesMultiStringHolder.StringsByName['Macro'].Text
+    if CommonDialogs.OpenFile(DefaultPath, Trim(StringReplace(LanguageDataModule.FileTypesMultiStringHolder.StringsByName['Macro'].Text
       , '|', #0, [rfReplaceAll])) + #0#0,
       LanguageDataModule.ConstantMultiStringHolder.StringsByName['Open'].Text, 'mcr') then
     begin
       if not Assigned(SynEdit.SynMacroRecorder) then
         SynEdit.SynMacroRecorder := TSynMacroRecorder.Create(SynEdit);
-      SynEdit.SynMacroRecorder.LoadFromFile(OpenSaveDialog.Files[0]);
+      SynEdit.SynMacroRecorder.LoadFromFile(CommonDialogs.Files[0]);
     end;
   end;
 end;

@@ -28,7 +28,7 @@ uses
   BigIni in '..\..\Common\units\BigIni.pas',
   Dlg in '..\..\Common\dialogs\Dlg.pas' {Dialog},
   Common in '..\..\Common\units\Common.pas',
-  OpenSaveDialog in '..\..\Common\units\OpenSaveDialog.pas';
+  CommonDialogs in '..\..\Common\units\CommonDialogs.pas';
 
 {$R *.res}
 
