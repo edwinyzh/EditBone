@@ -795,11 +795,11 @@ begin
   end;
   GetKeyboardState(KeyState);
   if KeyState[VK_INSERT] = 0 then
-    if StatusBar.Panels[1].Text <> 'Insert' then
-      StatusBar.Panels[1].Text := 'Insert';
+    if StatusBar.Panels[1].Text <> LanguageDataModule.GetConstant('Insert') then
+      StatusBar.Panels[1].Text := LanguageDataModule.GetConstant('Insert');
   if KeyState[VK_INSERT] = 1 then
-    if StatusBar.Panels[1].Text <> 'Overwrite' then
-      StatusBar.Panels[1].Text := 'Overwrite';
+    if StatusBar.Panels[1].Text <> LanguageDataModule.GetConstant('Overwrite') then
+      StatusBar.Panels[1].Text := LanguageDataModule.GetConstant('Overwrite');
   { Macro }
   MacroRecordPauseAction.Enabled := ActiveDocumentFound;
   MacroRecordPauseAction.ImageIndex := FDocumentFrame.GetMacroRecordPauseImageIndex;
@@ -1300,7 +1300,7 @@ begin
         end
         else
         begin
-          Common.ShowMessage(Format(LanguageDataModule.MessageMultiStringHolder.StringsByName['CannotFindString'].Text, [FindWhatText]));
+          Common.ShowMessage(Format(LanguageDataModule.GetMessage('CannotFindString'), [FindWhatText]));
           FOutputFrame.CloseTabSheet;
           StatusBar.Panels[3].Text := '';
         end;
@@ -1545,7 +1545,7 @@ begin
                 SynEdit.Free;
               end;
             except
-              Common.ShowWarningMessage(Format(LanguageDataModule.WarningMessageMultiStringHolder.StringsByName['FileAccessError'].Text, [AddSlash(FolderText) + FName]));
+              Common.ShowWarningMessage(Format(LanguageDataModule.GetWarningMessage('FileAccessError'), [AddSlash(FolderText) + FName]));
             end;
         end;
       end;

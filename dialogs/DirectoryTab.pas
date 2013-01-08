@@ -166,13 +166,13 @@ begin
   Result := False;
   if Trim(TabNameEdit.Text) = '' then
   begin
-    Common.ShowErrorMessage(LanguageDataModule.ErrorMessageMultiStringHolder.StringsByName['EnterTabName'].Text);
+    Common.ShowErrorMessage(LanguageDataModule.GetErrorMessage('EnterTabName'));
     TabNameEdit.SetFocus;
     Exit;
   end;
   if not System.SysUtils.DirectoryExists(RootDirectoryEdit.Text) then
   begin
-    Common.ShowErrorMessage(LanguageDataModule.ErrorMessageMultiStringHolder.StringsByName['RootDirectoryNotExist'].Text);
+    Common.ShowErrorMessage(LanguageDataModule.GetErrorMessage('RootDirectoryNotExist'));
     RootDirectoryEdit.SetFocus;
     Exit;
   end;
