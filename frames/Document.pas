@@ -41,7 +41,7 @@ unit Document;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.CommDlg, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, SynEdit, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.ImgList,
   JvExComCtrls, JvComCtrls, Vcl.Menus, BCPageControl, BCButtonedEdit, Directory, Vcl.Buttons,
   SynHighlighterCS, SynHighlighterCpp, SynHighlighterCSS, SynHighlighterJava, SynHighlighterJScript,
@@ -1624,6 +1624,7 @@ var
   SynEdit: TBCSynEdit;
 begin
   SynEdit := ActiveSynEdit;
+
   with SynEditPrint.Header do
   begin
     Clear;
@@ -1641,10 +1642,15 @@ begin
 end;
 
 procedure TDocumentFrame.Print;
+var
+  PrintDlgRec: TPrintDlg;
 begin
-  //if PrintDialog.Execute then
-  if CommonDialogs.Print(Application.Handle) then
+  if CommonDialogs.Print(Handle, PrintDlgRec) then
   begin
+    SynEditPrint.Copies := PrintDlgRec.nCopies;
+    SynEditPrint.SelectedOnly := PrintDlgRec.Flags and PD_SELECTION <> 0;
+    if PrintDlgRec.Flags and PD_PAGENUMS <> 0 then
+      SynEditPrint.PrintRange(PrintDlgRec.nFromPage, PrintDlgRec.nToPage);
     InitializeSynEditPrint;
     SynEditPrint.Print;
   end;

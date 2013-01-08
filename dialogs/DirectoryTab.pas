@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Dlg, Vcl.Dialogs, Vcl.Mask, JvExMask, JvToolEdit, Vcl.StdCtrls, JvExStdCtrls,
+  Vcl.Controls, Vcl.Forms, Dlg, Vcl.Mask, JvExMask, JvToolEdit, Vcl.StdCtrls, JvExStdCtrls,
   JvEdit, BCEdit, Vcl.ActnList, Vcl.ExtCtrls, Vcl.Themes, BCCheckBox, Vcl.Buttons;
 
 type

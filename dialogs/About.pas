@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, Winapi.Windows, Winapi.Messages, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls,
+  Vcl.Controls, Vcl.Forms, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls,
   Vcl.Imaging.pngimage, Dlg;
 
 type

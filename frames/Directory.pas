@@ -6,7 +6,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, BCFileControl, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Controls, Vcl.Forms, Vcl.ComCtrls, BCFileControl, Vcl.StdCtrls, Vcl.ExtCtrls,
   Vcl.ImgList, Vcl.ToolWin, Vcl.ActnList, Vcl.Buttons, JvExControls, JvLabel, Vcl.Menus,
   JvSpeedButton, JvExComCtrls, JvComCtrls, BCPopupMenu, BCPageControl, Vcl.ActnPopup, Vcl.Themes,
   Vcl.PlatformDefaultStyleActnCtrls, BCImageList, VirtualTrees;

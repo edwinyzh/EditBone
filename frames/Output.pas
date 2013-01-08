@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, JvExControls,
+  Vcl.Controls, Vcl.Forms, Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, JvExControls,
   JvLabel, Vcl.ActnList, Vcl.ImgList, Vcl.ToolWin, Vcl.StdCtrls, JvSpeedButton, JvExComCtrls,
   JvComCtrls, Vcl.Menus, BCPopupMenu, VirtualTrees, Vcl.PlatformDefaultStyleActnCtrls,
   Vcl.ActnPopup, BCImageList, Vcl.Themes;
