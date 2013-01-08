@@ -1282,7 +1282,7 @@ begin
       Screen.Cursor := crHourGlass;
       try
         OutputPanel.Visible := True;
-        FOutputFrame.AddTreeView(Format(LanguageDataModule.ConstantMultiStringHolder.StringsByName['SearchFor'].Text, [FindWhatText]));
+        FOutputFrame.AddTreeView(Format(LanguageDataModule.GetConstant('SearchFor'), [FindWhatText]));
         FOutputFrame.ProcessingTabSheet := True;
         Application.ProcessMessages;
         FindInFiles(FindWhatText, FileTypeText, FolderText, SearchCaseSensitive, LookInSubfolders);
@@ -1293,10 +1293,10 @@ begin
           Min := StrToInt(FormatDateTime('n', T2 - T1));
           Secs := Min * 60 + StrToInt(FormatDateTime('s', T2 - T1));
           if Secs < 60 then
-            TimeDifference := FormatDateTime(Format('s.zzz "%s"', [LanguageDataModule.ConstantMultiStringHolder.StringsByName['Second'].Text]), T2 - T1)
+            TimeDifference := FormatDateTime(Format('s.zzz "%s"', [LanguageDataModule.GetConstant('Second')]), T2 - T1)
           else
-            TimeDifference := FormatDateTime(Format('n "%s" s.zzz "%s"', [LanguageDataModule.ConstantMultiStringHolder.StringsByName['Minute'].Text, LanguageDataModule.ConstantMultiStringHolder.StringsByName['Second'].Text]), T2 - T1);
-          StatusBar.Panels[3].Text := Format(LanguageDataModule.ConstantMultiStringHolder.StringsByName['OccurencesFound'].Text, [FOutputFrame.Count, TimeDifference])
+            TimeDifference := FormatDateTime(Format('n "%s" s.zzz "%s"', [LanguageDataModule.GetConstant('Minute'), LanguageDataModule.GetConstant('Second')]), T2 - T1);
+          StatusBar.Panels[3].Text := Format(LanguageDataModule.GetConstant('OccurencesFound'), [FOutputFrame.Count, TimeDifference])
         end
         else
         begin
@@ -1500,7 +1500,7 @@ begin
   if shFindFile <> INVALID_HANDLE_VALUE then
   try
     repeat
-      StatusBar.Panels[3].Text := LanguageDataModule.ConstantMultiStringHolder.StringsByName['SearchInProgress'].Text;
+      StatusBar.Panels[3].Text := LanguageDataModule.GetConstant('SearchInProgress');
       Application.ProcessMessages;
       FName := StrPas(sWin32FD.cFileName);
       if (FName <> '.') and (FName <> '..') then

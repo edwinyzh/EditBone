@@ -369,7 +369,7 @@ function TOptionsContainer.GetFilters: string;
 var
   i: Integer;
 begin
-  Result := Format('%s'#0'*.*'#0, [LanguageDataModule.ConstantMultiStringHolder.StringsByName['AllFiles'].Text]);
+  Result := Format('%s'#0'*.*'#0, [LanguageDataModule.GetConstant('AllFiles')]);
   i := 0;
   while i < FFileTypes.Count do
   begin

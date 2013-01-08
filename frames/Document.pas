@@ -881,7 +881,7 @@ begin
   // TabSheet.DoubleBuffered := True;
   { set the Caption property }
   if FileName = '' then
-    TabSheet.Caption := LanguageDataModule.ConstantMultiStringHolder.StringsByName['Document'].Text + IntToStr(FNumberOfNewDocument)
+    TabSheet.Caption := LanguageDataModule.GetConstant('Document') + IntToStr(FNumberOfNewDocument)
   else
     TabSheet.Caption := ExtractFileName(FileName);
   PageControl.ActivePage := TabSheet;
@@ -1127,7 +1127,7 @@ begin
   TabSheet := TTabSheet.Create(PageControl);
   TabSheet.PageControl := PageControl;
   TabSheet.ImageIndex := FCompareImageIndex;
-  TabSheet.Caption := LanguageDataModule.ConstantMultiStringHolder.StringsByName['CompareFiles'].Text;
+  TabSheet.Caption := LanguageDataModule.GetConstant('CompareFiles');
   PageControl.ActivePage := TabSheet;
   Panel := TPanel.Create(TabSheet);
   with Panel do
@@ -1256,7 +1256,7 @@ var
 begin
   if FileName = '' then
   begin
-    if CommonDialogs.OpenFiles(DefaultPath, OptionsContainer.Filters, LanguageDataModule.ConstantMultiStringHolder.StringsByName['Open'].Text) then
+    if CommonDialogs.OpenFiles(DefaultPath, OptionsContainer.Filters, LanguageDataModule.GetConstant('Open')) then
       for i := 0 to CommonDialogs.Files.Count - 1 do
         Open(CommonDialogs.Files[i])
   end
@@ -1425,7 +1425,7 @@ begin
       //SaveDialog.FileName := AFileName;
       //SaveDialog.Filter := OptionsContainer.Filters;
       //if SaveDialog.Execute then
-      if CommonDialogs.SaveFile(DefaultPath, OptionsContainer.Filters, LanguageDataModule.ConstantMultiStringHolder.StringsByName['SaveAs'].Text, AFileName) then
+      if CommonDialogs.SaveFile(DefaultPath, OptionsContainer.Filters, LanguageDataModule.GetConstant('SaveAs'), AFileName) then
       begin
         PageControl.ActivePage.Caption := ExtractFileName(CommonDialogs.Files[0]);
         SynEdit.DocumentName := CommonDialogs.Files[0];
@@ -1629,12 +1629,12 @@ begin
   begin
     Clear;
     Add(SynEdit.DocumentName, nil, taLeftJustify, 1);
-    Add(LanguageDataModule.ConstantMultiStringHolder.StringsByName['PreviewDocumentPage'].Text, nil, taRightJustify, 1);
+    Add(LanguageDataModule.GetConstant('PreviewDocumentPage'), nil, taRightJustify, 1);
   end;
   with SynEditPrint.Footer do
   begin
     Clear;
-    Add(Format(LanguageDataModule.ConstantMultiStringHolder.StringsByName['PrintedBy'].Text, [Application.Title]), nil, taLeftJustify, 1);
+    Add(Format(LanguageDataModule.GetConstant('PrintedBy'), [Application.Title]), nil, taLeftJustify, 1);
     Add('$DATE$ $TIME$', nil, taRightJustify, 1);
   end;
   SynEditPrint.SynEdit := SynEdit;
@@ -2648,26 +2648,26 @@ begin
           begin
             case hl.GetTokenID of
               stkMLTagNameUndef:
-                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidHTMLTag'].Text);
+                AddError(LanguageDataModule.GetConstant('InvalidHTMLTag'));
               stkMLTagKeyUndef:
-                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidHTMLAttribute'].Text);
+                AddError(LanguageDataModule.GetConstant('InvalidHTMLAttribute'));
               stkMLError:
-                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidHTMLToken'].Text);
+                AddError(LanguageDataModule.GetConstant('InvalidHTMLToken'));
 
               stkCssSelectorUndef:
-                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidCSSSelector'].Text);
+                AddError(LanguageDataModule.GetConstant('InvalidCSSSelector'));
               stkCssPropUndef:
-                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidCSSProperty'].Text);
+                AddError(LanguageDataModule.GetConstant('InvalidCSSProperty'));
               stkCssValUndef:
-                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidCSSValue'].Text);
+                AddError(LanguageDataModule.GetConstant('InvalidCSSValue'));
               stkCssError:
-                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidCSSToken'].Text);
+                AddError(LanguageDataModule.GetConstant('InvalidCSSToken'));
 
               stkEsError:
-                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidJSToken'].Text);
+                AddError(LanguageDataModule.GetConstant('InvalidJSToken'));
 
               stkPhpError:
-                AddError(LanguageDataModule.ConstantMultiStringHolder.StringsByName['InvalidPHPToken'].Text);
+                AddError(LanguageDataModule.GetConstant('InvalidPHPToken'));
             end;
             hl.Next;
           end;
@@ -2709,7 +2709,7 @@ begin
   Result := '';
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) and SynEdit.Modified then
-    Result := LanguageDataModule.ConstantMultiStringHolder.StringsByName['Modified'].Text;
+    Result := LanguageDataModule.GetConstant('Modified');
 end;
 
 function TDocumentFrame.GetActiveDocumentModified: Boolean;
@@ -2786,7 +2786,7 @@ begin
         begin
           if FileExists(SynEdit.DocumentName) then
           begin
-            if Common.AskYesOrNo(Format(LanguageDataModule.YesOrNoMultiStringHolder.StringsByName['DocumentTimeChanged'].Text, [SynEdit.DocumentName])) then
+            if Common.AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('DocumentTimeChanged'), [SynEdit.DocumentName])) then
             begin
               Refresh(i);
               PageControlRepaint;
@@ -3016,7 +3016,7 @@ var
 begin
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) then
-    Common.ShowMessage(Format(LanguageDataModule.MessageMultiStringHolder.StringsByName['DocumentStatistics'].Text, [SynEdit.Lines.Count, CHR_ENTER, Common.WordCount(SynEdit.Text), CHR_ENTER, LengthWithoutWhiteSpaces(SynEdit.Text)]));
+    Common.ShowMessage(Format(LanguageDataModule.GetMessage('DocumentStatistics'), [SynEdit.Lines.Count, CHR_ENTER, Common.WordCount(SynEdit.Text), CHR_ENTER, LengthWithoutWhiteSpaces(SynEdit.Text)]));
 end;
 
 function TDocumentFrame.GetMacroRecordPauseImageIndex: Integer;
@@ -3068,7 +3068,7 @@ begin
     else
     if SynEdit.SynMacroRecorder.State = msStopped then
     begin
-      if Common.AskYesOrNo(LanguageDataModule.YesOrNoMultiStringHolder.StringsByName['RecordMacro'].Text) then
+      if Common.AskYesOrNo(LanguageDataModule.GetYesOrNo('RecordMacro')) then
       begin
         SynEdit.SynMacroRecorder.Clear;
         SynEdit.SynMacroRecorder.RecordMacro(SynEdit);
@@ -3114,9 +3114,9 @@ begin
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) then
     if Assigned(SynEdit.SynMacroRecorder) then
-      if CommonDialogs.SaveFile(DefaultPath, Trim(StringReplace(LanguageDataModule.FileTypesMultiStringHolder.StringsByName['Macro'].Text
+      if CommonDialogs.SaveFile(DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
         , '|', #0, [rfReplaceAll])) + #0#0,
-        LanguageDataModule.ConstantMultiStringHolder.StringsByName['SaveAs'].Text, '', 'mcr') then
+        LanguageDataModule.GetConstant('SaveAs'), '', 'mcr') then
         SynEdit.SynMacroRecorder.SaveToFile(CommonDialogs.Files[0]);
 end;
 
@@ -3127,9 +3127,9 @@ begin
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) then
   begin
-    if CommonDialogs.OpenFile(DefaultPath, Trim(StringReplace(LanguageDataModule.FileTypesMultiStringHolder.StringsByName['Macro'].Text
+    if CommonDialogs.OpenFile(DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
       , '|', #0, [rfReplaceAll])) + #0#0,
-      LanguageDataModule.ConstantMultiStringHolder.StringsByName['Open'].Text, 'mcr') then
+      LanguageDataModule.GetConstant('Open'), 'mcr') then
     begin
       if not Assigned(SynEdit.SynMacroRecorder) then
         SynEdit.SynMacroRecorder := TSynMacroRecorder.Create(SynEdit);

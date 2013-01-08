@@ -88,9 +88,9 @@ end;
 function TDirectoryTabDialog.Open(DialogType: TDirectoryTabDialogType): Boolean;
 begin
   if DialogType = dtOpen then
-    Caption := LanguageDataModule.ConstantMultiStringHolder.StringsByName['OpenDirectory'].Text
+    Caption := LanguageDataModule.GetConstant('OpenDirectory')
   else
-    Caption := LanguageDataModule.ConstantMultiStringHolder.StringsByName['EditDirectory'].Text;
+    Caption := LanguageDataModule.GetConstant('EditDirectory');
 
   Result := ShowModal = mrOk;
 end;
@@ -100,7 +100,7 @@ var
   Dir: string;
 begin
   Dir := RootDirectoryEdit.Text;
-  if Vcl.FileCtrl.SelectDirectory(LanguageDataModule.ConstantMultiStringHolder.StringsByName['SelectRootDirectory'].Text, '', Dir, [sdNewFolder, sdShowShares,
+  if Vcl.FileCtrl.SelectDirectory(LanguageDataModule.GetConstant('SelectRootDirectory'), '', Dir, [sdNewFolder, sdShowShares,
     sdNewUI, sdValidateDir], Self) then
     RootDirectoryEdit.Text := Dir;
 end;
