@@ -60,7 +60,7 @@ uses
   SynHighlighterKix, SynHighlighterAWK, SynHighlighterVrml97, SynHighlighterVBScript,
   SynHighlighterCobol, SynHighlighterM3, SynHighlighterFortran, SynHighlighterEiffel,
   PlatformDefaultStyleActnCtrls, Vcl.ActnPopup, BCPopupMenu, SynMacroRecorder, SynEditKeyCmds,
-  Vcl.Themes, SynHighlighterDWS;
+  Vcl.Themes, SynHighlighterDWS, SynEditRegexSearch;
 
 type
   TUTF8EncodingWithoutBOM = class(TUTF8Encoding)
@@ -228,6 +228,11 @@ type
     SynDWSSyn: TSynDWSSyn;
     CaseSensitiveLabel: TLabel;
     Panel1: TPanel;
+    SynEditRegexSearch: TSynEditRegexSearch;
+    WholeWordsOnlyLabel: TLabel;
+    Panel2: TPanel;
+    RegularExpressionCheckBox: TBCCheckBox;
+    RegularExpressionLabel: TLabel;
     procedure SynEditChange(Sender: TObject);
     procedure SynEditSplitChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
@@ -1418,13 +1423,10 @@ begin
   begin
     if (SynEdit.DocumentName = '') or ShowDialog then
     begin
-      //SaveDialog.InitialDir := DefaultPath;
       AFileName := TabSheet.Caption;
       if Pos('~', TabSheet.Caption) = Length(TabSheet.Caption) then
         AFileName := System.Copy(TabSheet.Caption, 0, Length(TabSheet.Caption) - 1);
-      //SaveDialog.FileName := AFileName;
-      //SaveDialog.Filter := OptionsContainer.Filters;
-      //if SaveDialog.Execute then
+
       if CommonDialogs.SaveFile(DefaultPath, OptionsContainer.Filters, LanguageDataModule.GetConstant('SaveAs'), AFileName) then
       begin
         PageControl.ActivePage.Caption := ExtractFileName(CommonDialogs.Files[0]);
@@ -1432,7 +1434,11 @@ begin
         Result := CommonDialogs.Files[0];
       end
       else
+      begin
+        if SynEdit.CanFocus then
+          SynEdit.SetFocus;
         Exit;
+      end;
     end;
     SynEdit.SaveToFile(SynEdit.DocumentName);
     SynEdit.UndoList.Clear;
@@ -1700,13 +1706,20 @@ begin
     Exit;
 
   SynEdit := ActiveSynEdit;
+  if RegularExpressionCheckBox.Checked then
+    SynEdit.SearchEngine := SynEditRegexSearch
+  else
+    SynEdit.SearchEngine := SynEditSearch;
   SynSearchOptions := SearchOptions(False);
-
-  if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
-  begin
-    MessageBeep(MB_ICONASTERISK);
-    SynEdit.BlockBegin := SynEdit.BlockEnd;
-    SynEdit.CaretXY := SynEdit.BlockBegin;
+  try
+    if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
+    begin
+      MessageBeep(MB_ICONASTERISK);
+      SynEdit.BlockBegin := SynEdit.BlockEnd;
+      SynEdit.CaretXY := SynEdit.BlockBegin;
+    end;
+  except
+    { silent }
   end;
 end;
 

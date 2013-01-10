@@ -1,7 +1,7 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 451
+  Width = 729
   Height = 304
   Align = alClient
   DoubleBuffered = False
@@ -10,7 +10,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 729
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -18,6 +18,26 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 0
     Visible = False
+    object WholeWordsOnlyLabel: TLabel
+      Left = 465
+      Top = 0
+      Width = 89
+      Height = 21
+      Align = alLeft
+      Caption = 'Whole Words Only'
+      Layout = tlCenter
+      ExplicitHeight = 13
+    end
+    object RegularExpressionLabel: TLabel
+      Left = 581
+      Top = 0
+      Width = 92
+      Height = 21
+      Align = alLeft
+      Caption = 'Regular Expression'
+      Layout = tlCenter
+      ExplicitHeight = 13
+    end
     object SearchPanel1: TPanel
       Left = 0
       Top = 0
@@ -389,7 +409,7 @@ object DocumentFrame: TDocumentFrame
     object SearchPanel8: TPanel
       Left = 368
       Top = 0
-      Width = 228
+      Width = 97
       Height = 21
       Align = alLeft
       AutoSize = True
@@ -409,10 +429,9 @@ object DocumentFrame: TDocumentFrame
       object WholeWordsCheckBox: TBCCheckBox
         Left = 78
         Top = 2
-        Width = 150
+        Width = 19
         Height = 19
         Align = alLeft
-        Caption = ' Whole words only'
         TabOrder = 0
         ReadOnly = False
       end
@@ -426,11 +445,29 @@ object DocumentFrame: TDocumentFrame
         TabOrder = 1
       end
     end
+    object Panel2: TPanel
+      Left = 554
+      Top = 0
+      Width = 8
+      Height = 21
+      Align = alLeft
+      BevelOuter = bvNone
+      TabOrder = 8
+    end
+    object RegularExpressionCheckBox: TBCCheckBox
+      Left = 562
+      Top = 0
+      Width = 19
+      Height = 21
+      Align = alLeft
+      TabOrder = 9
+      ReadOnly = False
+    end
   end
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 451
+    Width = 729
     Height = 283
     Align = alClient
     AutoSize = True
@@ -442,7 +479,7 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 451
+      Width = 729
       Height = 281
       Align = alClient
       DoubleBuffered = False
@@ -463,7 +500,7 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 342
     Bitmap = {
-      494C010106003800280510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106003800300510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1273,7 +1310,7 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 450
     Bitmap = {
-      494C01010A003800080510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A003800100510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1915,7 +1952,7 @@ object DocumentFrame: TDocumentFrame
     Left = 606
     Top = 462
     Bitmap = {
-      494C010102009C045C0514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010102009C04640514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000A4676900A4676900A467
@@ -2135,7 +2172,7 @@ object DocumentFrame: TDocumentFrame
     Left = 606
     Top = 518
     Bitmap = {
-      494C01010200BC04600518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010200BC04680518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000A467
@@ -2444,5 +2481,9 @@ object DocumentFrame: TDocumentFrame
     DefaultFilter = 'DWScript Files (*.dws)|*.dws'
     Left = 270
     Top = 410
+  end
+  object SynEditRegexSearch: TSynEditRegexSearch
+    Left = 60
+    Top = 100
   end
 end
