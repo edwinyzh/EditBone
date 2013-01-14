@@ -268,6 +268,7 @@ type
     procedure DummyActionExecute(Sender: TObject);
     procedure ToggleBookmarks0ActionExecute(Sender: TObject);
     procedure GotoBookmarks0ActionExecute(Sender: TObject);
+    procedure ToolsLanguageEditorActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -305,7 +306,7 @@ implementation
 
 uses
   About, FindInFiles, Vcl.ClipBrd, Common, VirtualTrees, BigIni, StyleHooks,
-  System.IOUtils, Language, ConfirmReplace;
+  System.IOUtils, Language, ConfirmReplace, LanguageEditor;
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
@@ -1417,6 +1418,11 @@ end;
 procedure TMainForm.EditPasteActionExecute(Sender: TObject);
 begin
   FDocumentFrame.Paste;
+end;
+
+procedure TMainForm.ToolsLanguageEditorActionExecute(Sender: TObject);
+begin
+  LanguageEditorForm.Open;
 end;
 
 procedure TMainForm.ToolsOptionsActionExecute(Sender: TObject);
