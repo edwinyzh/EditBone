@@ -283,6 +283,7 @@ type
     procedure MainMenuTitleBarActions(Enabled: Boolean);
     procedure ReadIniFile;
     procedure ReadLanguageFile(SelectedLanguage: string);
+    procedure ReadWindowState;
     procedure RecreateStatusBar;
     procedure SetEncodingComboIndex(Value: Integer);
     procedure SetFields;
@@ -428,15 +429,14 @@ begin
     if Assigned(TStyleManager.Style[StyleInfo.Name]) then
       TStyleManager.TrySetStyle(StyleInfo.Name)
     else
-    begin
       TStyleManager.SetStyle(TStyleManager.LoadFromFile(ActionCaption));
-      with TBigIniFile.Create(Common.GetINIFilename) do
-      try
-        WriteString('Options', 'StyleFilename', ExtractFilename(ActionCaption));
-      finally
-        Free;
-      end;
-    end;
+  end;
+
+  with TBigIniFile.Create(Common.GetINIFilename) do
+  try
+    WriteString('Options', 'StyleFilename', ExtractFilename(ActionCaption));
+  finally
+    Free;
   end;
 
   ActionClientItem := GetActionClientItem(VIEW_MENU_ITEMINDEX, VIEW_STYLE_MENU_ITEMINDEX);
@@ -555,6 +555,7 @@ begin
     FOutputFrame.UpdateControls;
 
     FOnStartUp := False;
+    ReadWindowState; { because of styles this cannot be done before... }
     Repaint;
   end;
 end;
@@ -570,6 +571,23 @@ begin
   FDirectoryFrame.OpenDirectory;
   if not DirectoryPanel.Visible then
     DirectoryPanel.Visible := True;
+end;
+
+procedure TMainForm.ReadWindowState;
+var
+  State: Integer;
+begin
+  with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
+  try
+    State := ReadInteger('Size', 'State', 0);
+    case State of
+      0: WindowState := wsNormal;
+      1: WindowState := wsMinimized;
+      2: WindowState := wsMaximized;
+    end;
+  finally
+    Free;
+  end;
 end;
 
 procedure TMainForm.ReadIniFile;
@@ -619,18 +637,27 @@ end;
 
 procedure TMainForm.WriteIniFile;
 var
-  i: Integer;
+  i, State: Integer;
 begin
-  if WindowState = wsNormal then
   with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
   try
     WriteString(Application.Title, 'Version', AboutDialog.Version);
-    { Position }
-    WriteInteger('Position', 'Left', Left);
-    WriteInteger('Position', 'Top', Top);
-    { Size }
-    WriteInteger('Size', 'Width', Width);
-    WriteInteger('Size', 'Height', Height);
+    if WindowState = wsNormal then
+    begin
+      { Position }
+      WriteInteger('Position', 'Left', Left);
+      WriteInteger('Position', 'Top', Top);
+      { Size }
+      WriteInteger('Size', 'Width', Width);
+      WriteInteger('Size', 'Height', Height);
+    end;
+    State := 0; { just for warning... }
+    case WindowState of
+      wsNormal: State := 0;
+      wsMinimized: State := 1;
+      wsMaximized: State := 2;
+    end;
+    WriteInteger('Size', 'State', State);
     { Options }
     WriteBool('Options', 'ShowToolBar', ActionToolBar.Visible);
     WriteBool('Options', 'ShowDirectory', DirectoryPanel.Visible);

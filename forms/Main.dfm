@@ -71,8 +71,8 @@ object MainForm: TMainForm
       ColorMap.UnusedColor = clWhite
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = -11
-      Font.Name = 'Tahoma'
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
       Font.Style = []
       ParentShowHint = False
       ShowHint = True
@@ -82,9 +82,10 @@ object MainForm: TMainForm
       Left = 909
       Top = 2
       Width = 130
-      Height = 22
+      Height = 21
       Align = alRight
       DropDownCount = 57
+      ItemHeight = 13
       ReadOnly = True
       TabOrder = 1
       Text = '<highlighter>'
@@ -156,9 +157,10 @@ object MainForm: TMainForm
       Left = 779
       Top = 2
       Width = 130
-      Height = 22
+      Height = 21
       Align = alRight
       DropDownCount = 57
+      ItemHeight = 13
       ReadOnly = True
       TabOrder = 2
       Text = '<encoding>'
@@ -1870,7 +1872,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C01013F005C019C0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01013F005C01A00510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000000001000001002000000000000000
       0100000000000000000000000000000000000000000000000000BD4C00000000
       0000000000000000000084240500842405008424050084240500842405000000

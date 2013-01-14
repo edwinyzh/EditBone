@@ -28,7 +28,8 @@ uses
   BigIni in '..\..\Common\units\BigIni.pas',
   Dlg in '..\..\Common\dialogs\Dlg.pas' {Dialog},
   Common in '..\..\Common\units\Common.pas',
-  CommonDialogs in '..\..\Common\units\CommonDialogs.pas';
+  CommonDialogs in '..\..\Common\units\CommonDialogs.pas',
+  LanguageEditor in 'forms\LanguageEditor.pas' {LanguageEditorForm};
 
 {$R *.res}
 
@@ -38,6 +39,7 @@ var
 begin
   { move preferences to options - version 4.4.0 }
   // --- TODO: remove this later
+  if FileExists(Common.GetINIFilename) then
   with TStringList.Create do
   try
     LoadFromFile(Common.GetINIFilename);
