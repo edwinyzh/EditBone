@@ -1270,8 +1270,11 @@ begin
   if FileName = '' then
   begin
     if CommonDialogs.OpenFiles(DefaultPath, OptionsContainer.Filters, LanguageDataModule.GetConstant('Open')) then
+    begin
+      Application.ProcessMessages;
       for i := 0 to CommonDialogs.Files.Count - 1 do
         Open(CommonDialogs.Files[i])
+    end;
   end
   else
   begin

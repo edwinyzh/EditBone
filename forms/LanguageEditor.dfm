@@ -172,54 +172,6 @@ object LanguageEditorForm: TLanguageEditorForm
         Action = FileSaveAsAction
       end
     end
-    object BCToolBar1: TBCToolBar
-      Left = 111
-      Top = 2
-      Width = 48
-      Height = 23
-      Align = alLeft
-      ButtonHeight = 23
-      ButtonWidth = 24
-      Caption = 'ZoomToolBar'
-      Images = ImageList
-      TabOrder = 2
-    end
-    object BCToolBar2: TBCToolBar
-      Left = 159
-      Top = 2
-      Width = 24
-      Height = 23
-      Align = alLeft
-      ButtonHeight = 23
-      ButtonWidth = 24
-      Caption = 'ZoomToolBar'
-      Images = ImageList
-      TabOrder = 3
-    end
-    object BCToolBar3: TBCToolBar
-      Left = 183
-      Top = 2
-      Width = 48
-      Height = 23
-      Align = alLeft
-      ButtonHeight = 23
-      ButtonWidth = 24
-      Caption = 'ZoomToolBar'
-      Images = ImageList
-      TabOrder = 4
-    end
-    object BCToolBar4: TBCToolBar
-      Left = 231
-      Top = 2
-      Width = 96
-      Height = 23
-      Align = alLeft
-      ButtonHeight = 23
-      ButtonWidth = 24
-      Caption = 'ZoomToolBar'
-      Images = ImageList
-      TabOrder = 5
-    end
   end
   object ImageList: TBCImageList
     Left = 84
@@ -641,6 +593,7 @@ object LanguageEditorForm: TLanguageEditorForm
       Caption = 'Open...'
       Hint = 'Open an existing language file'
       ImageIndex = 1
+      OnExecute = FileOpenActionExecute
     end
     object FileSaveAction: TAction
       Caption = 'FileSaveAction'

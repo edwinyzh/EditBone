@@ -33,10 +33,6 @@ type
     PrintToolBar: TBCToolBar;
     ToolButton1: TToolButton;
     ToolButton3: TToolButton;
-    BCToolBar1: TBCToolBar;
-    BCToolBar2: TBCToolBar;
-    BCToolBar3: TBCToolBar;
-    BCToolBar4: TBCToolBar;
     ApplicationEvents: TApplicationEvents;
     procedure FormDestroy(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -61,6 +57,7 @@ type
       Column: TColumnIndex; out EditLink: IVTEditLink);
     procedure VirtualDrawTreeEditing(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; var Allowed: Boolean);
+    procedure FileOpenActionExecute(Sender: TObject);
   private
     { Private declarations }
     FModified: Boolean;
@@ -143,6 +140,19 @@ begin
   if KeyState[VK_INSERT] = 1 then
     if StatusBar.Panels[0].Text <> LanguageDataModule.GetConstant('Overwrite') then
       StatusBar.Panels[0].Text := ' ' + LanguageDataModule.GetConstant('Overwrite');
+end;
+
+procedure TLanguageEditorForm.FileOpenActionExecute(Sender: TObject);
+var
+  DefaultPath: string;
+begin
+  DefaultPath := IncludeTrailingPathDelimiter(Format('%s%s', [ExtractFilePath(ParamStr(0)), 'Languages']));
+  if CommonDialogs.OpenFiles(DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Language')
+    , '|', #0, [rfReplaceAll])) + #0#0, LanguageDataModule.GetConstant('Open')) then
+  begin
+    Application.ProcessMessages;
+    LoadLanguageFile(CommonDialogs.Files[0]);
+  end;
 end;
 
 procedure TLanguageEditorForm.FileSaveActionExecute(Sender: TObject);
