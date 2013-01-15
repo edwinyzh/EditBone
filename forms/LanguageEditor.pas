@@ -60,7 +60,6 @@ type
     procedure FileOpenActionExecute(Sender: TObject);
   private
     { Private declarations }
-    FModified: Boolean;
     FLanguageFileName: string;
     procedure ReadIniFile;
     procedure WriteIniFile;
@@ -127,7 +126,7 @@ var
   InfoText: string;
   KeyState: TKeyboardState;
 begin
-  FileSaveAction.Enabled := FModified;
+  FileSaveAction.Enabled := VirtualDrawTree.Tag = 1;
 
   InfoText := GetModifiedInfo;
   if StatusBar.Panels[1].Text <> InfoText then
@@ -167,8 +166,15 @@ begin
 end;
 
 procedure TLanguageEditorForm.FormClose(Sender: TObject; var Action: TCloseAction);
+var
+  Rslt: Integer;
 begin
   WriteIniFile;
+
+  Rslt := Common.SaveChanges(False);
+  if Rslt = mrYes then
+    Save(False);
+
   Action := caFree;
 end;
 
@@ -237,7 +243,7 @@ begin
       Exit;
   end;
   SaveToFile(AFileName);
-  FModified := False;
+  VirtualDrawTree.Tag := 0;
   FLanguageFileName := AFileName;
   Caption := GetCaption;
 end;
@@ -530,7 +536,7 @@ end;
 function TLanguageEditorForm.GetModifiedInfo: string;
 begin
   Result := '';
-  if FModified then
+  if VirtualDrawTree.Tag = 1 then
     Result := 'Modified';
 end;
 
@@ -606,6 +612,7 @@ begin
     if S <> Data.Value[FColumn] then
     begin
       Data.Value[FColumn] := S;
+      FTree.Tag := 1;
       FTree.InvalidateNode(FNode);
     end;
   finally
@@ -634,6 +641,10 @@ begin
   FEdit := nil;
   Data := FTree.GetNodeData(Node);
 
+  Result := Data.Level = 1;
+  if not Result then
+    Exit;
+
   FEdit := TBCEdit.Create(nil);
   with FEdit do
   begin
@@ -651,12 +662,10 @@ begin
 end;
 
 procedure TEditLink.SetBounds(R: TRect);
-var
-  Dummy: Integer;
 begin
   // Since we don't want to activate grid extensions in the tree (this would influence how the selection is drawn)
   // we have to set the edit's width explicitly to the width of the column.
-  FTree.Header.Columns.GetColumnBounds(FColumn, Dummy, R.Right);
+  FTree.Header.Columns.GetColumnBounds(FColumn, R.Left, R.Right);
   FEdit.BoundsRect := R;
 end;
 

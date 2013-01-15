@@ -3155,6 +3155,7 @@ begin
       , '|', #0, [rfReplaceAll])) + #0#0,
       LanguageDataModule.GetConstant('Open'), 'mcr') then
     begin
+      Application.ProcessMessages;
       if not Assigned(SynEdit.SynMacroRecorder) then
         SynEdit.SynMacroRecorder := TSynMacroRecorder.Create(SynEdit);
       SynEdit.SynMacroRecorder.LoadFromFile(CommonDialogs.Files[0]);
