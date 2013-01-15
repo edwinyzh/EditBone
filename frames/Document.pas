@@ -80,6 +80,7 @@ type
     procedure DoOnProcessCommand(var Command: TSynEditorCommand;
       var AChar: WideChar; Data: pointer); override;
   public
+    constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure LoadFromFile(const FileName: String);
     procedure SaveToFile(const FileName: String);
@@ -418,6 +419,13 @@ begin
 end;
 
 { TBCSynEdit }
+
+constructor TBCSynEdit.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Width := 0;
+  Height := 0;
+end;
 
 destructor TBCSynEdit.Destroy;
 begin
@@ -915,10 +923,10 @@ begin
   with SynEdit do
   begin
     Visible := False;
+    Align := alClient;
     Parent := Panel;
     DocumentName := FileName;
     FileDateTime := GetFileDateTime(FileName);
-    Align := alClient;
     Font.Charset := DEFAULT_CHARSET;
     Font.Color := clWindowText;
     Font.Height := -13;

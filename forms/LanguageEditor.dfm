@@ -52,6 +52,7 @@ object LanguageEditorForm: TLanguageEditorForm
       BorderWidth = 1
       Ctl3D = True
       DragOperations = []
+      EditDelay = 0
       Header.AutoSizeIndex = 0
       Header.DefaultHeight = 20
       Header.Font.Charset = DEFAULT_CHARSET
@@ -65,12 +66,15 @@ object LanguageEditorForm: TLanguageEditorForm
       Images = ImageList
       ParentCtl3D = False
       TabOrder = 0
-      TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScroll, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
-      TreeOptions.MiscOptions = [toEditable, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
-      TreeOptions.PaintOptions = [toHideFocusRect, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection, toFixedIndent]
-      TreeOptions.SelectionOptions = [toFullRowSelect]
+      TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand]
+      TreeOptions.MiscOptions = [toEditable, toGridExtensions, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
+      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowRoot, toShowVertGridLines, toThemeAware, toUseBlendedSelection]
+      TreeOptions.SelectionOptions = [toDisableDrawSelection, toExtendedFocus, toMiddleClickSelect, toMultiSelect, toRightClickSelect, toCenterScrollIntoView]
+      WantTabs = True
       OnCompareNodes = VirtualDrawTreeCompareNodes
+      OnCreateEditor = VirtualDrawTreeCreateEditor
       OnDrawNode = VirtualDrawTreeDrawNode
+      OnEditing = VirtualDrawTreeEditing
       OnFreeNode = VirtualDrawTreeFreeNode
       OnGetImageIndex = VirtualDrawTreeGetImageIndex
       OnGetNodeWidth = VirtualDrawTreeGetNodeWidth
@@ -85,7 +89,7 @@ object LanguageEditorForm: TLanguageEditorForm
         item
           Position = 1
           Width = 220
-          WideText = 'Text'
+          WideText = 'Caption'
         end
         item
           Position = 2

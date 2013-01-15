@@ -5,16 +5,13 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin, BCToolBar,
-  Vcl.ExtCtrls, Vcl.ImgList, BCImageList, VirtualTrees, Vcl.AppEvnts;
+  Vcl.ExtCtrls, Vcl.ImgList, BCImageList, VirtualTrees, Vcl.AppEvnts, BCEdit;
 
 type
   PObjectNodeRec = ^TObjectNodeRec;
   TObjectNodeRec = record
     Level: Byte;
-    NodeKey: string;
-    NodeValue: string;
-    Hint: string;
-    ShortCut: string;
+    Value: array[0..3] of string;
     ImageIndex: Byte;
   end;
 
@@ -60,6 +57,10 @@ type
       var ChildCount: Cardinal);
     procedure VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
       var InitialStates: TVirtualNodeInitStates);
+    procedure VirtualDrawTreeCreateEditor(Sender: TBaseVirtualTree; Node: PVirtualNode;
+      Column: TColumnIndex; out EditLink: IVTEditLink);
+    procedure VirtualDrawTreeEditing(Sender: TBaseVirtualTree; Node: PVirtualNode;
+      Column: TColumnIndex; var Allowed: Boolean);
   private
     { Private declarations }
     FModified: Boolean;
@@ -75,6 +76,26 @@ type
   public
     { Public declarations }
     procedure Open;
+  end;
+
+  TEditLink = class(TInterfacedObject, IVTEditLink)
+  private
+    FEdit: TBCEdit;
+    FTree: TVirtualDrawTree; // A back reference to the tree calling.
+    FNode: PVirtualNode;       // The node being edited.
+    FColumn: Integer;          // The column of the node being edited.
+  protected
+    procedure EditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  public
+    destructor Destroy; override;
+
+    function BeginEdit: Boolean; stdcall;
+    function CancelEdit: Boolean; stdcall;
+    function EndEdit: Boolean; stdcall;
+    function GetBounds: TRect; stdcall;
+    function PrepareEdit(Tree: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex): Boolean; stdcall;
+    procedure ProcessMessage(var Message: TMessage); stdcall;
+    procedure SetBounds(R: TRect); stdcall;
   end;
 
 function LanguageEditorForm: TLanguageEditorForm;
@@ -226,8 +247,14 @@ begin
     if not Assigned(Data1) or not Assigned(Data2) then
       Exit;
 
-    Result := AnsiCompareText(string(Data1.NodeKey), string(Data2.NodeKey));
+    Result := AnsiCompareText(string(Data1.Value[0]), string(Data2.Value[0]));
   end;
+end;
+
+procedure TLanguageEditorForm.VirtualDrawTreeCreateEditor(Sender: TBaseVirtualTree;
+  Node: PVirtualNode; Column: TColumnIndex; out EditLink: IVTEditLink);
+begin
+  EditLink := TEditLink.Create;
 end;
 
 procedure TLanguageEditorForm.VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree;
@@ -247,9 +274,6 @@ begin
 
     if not Assigned(Data) then
       Exit;
-
-    if LStyles.Enabled then
-      VirtualDrawTree.Color := LStyles.GetStyleColor(scEdit);
 
     if not LStyles.GetElementColor(LStyles.GetElementDetails(tgCellNormal), ecTextColor, LColor) or  (LColor = clNone) then
       LColor := LStyles.GetSystemColor(clWindowText);
@@ -279,13 +303,7 @@ begin
     InflateRect(R, -TextMargin, 0);
     Dec(R.Right);
     Dec(R.Bottom);
-    S := '';
-    case Column of
-      0: S := Data.NodeKey;
-      1: S := Data.NodeValue;
-      2: S := Data.Hint;
-      3: S := Data.ShortCut;
-    end;
+    S := Data.Value[Column];
 
     if Length(S) > 0 then
     begin
@@ -303,8 +321,15 @@ begin
   end;
 end;
 
+procedure TLanguageEditorForm.VirtualDrawTreeEditing(Sender: TBaseVirtualTree; Node: PVirtualNode;
+  Column: TColumnIndex; var Allowed: Boolean);
+begin
+  Allowed := Column > 0
+end;
+
 procedure TLanguageEditorForm.VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
 var
+  i: Integer;
   Data: PObjectNodeRec;
 begin
   inherited;
@@ -312,10 +337,8 @@ begin
   if Assigned(Data) then
   begin
     Data^.Level := 0;
-    Data^.NodeKey := '';
-    Data^.NodeValue := '';
-    Data^.Hint := '';
-    Data^.ShortCut := '';
+    for i := 0 to 3 do
+      Data^.Value[i] := '';
     Data^.ImageIndex := 0;
   end;
 end;
@@ -344,12 +367,8 @@ begin
   begin
     AMargin := TextMargin;
     Data := Sender.GetNodeData(Node);
-    case Column of
-      0: NodeWidth := Canvas.TextWidth(Data.NodeKey) + 2 * AMargin;
-      1: NodeWidth := Canvas.TextWidth(Data.NodeValue) + 2 * AMargin;
-      2: NodeWidth := Canvas.TextWidth(Data.Hint) + 2 * AMargin;
-      3: NodeWidth := Canvas.TextWidth(Data.ShortCut) + 2 * AMargin;
-    end;
+    if Assigned(Data) then
+      NodeWidth := Canvas.TextWidth(Data.Value[Column]) + 2 * AMargin;
   end;
 end;
 
@@ -372,7 +391,7 @@ var
 begin
   RootNode := VirtualDrawTree.AddChild(nil);
   Data := VirtualDrawTree.GetNodeData(RootNode);
-  Data.NodeKey := Trim(NodeText);
+  Data.Value[0] := Trim(NodeText);
   if Pos('Dialog', NodeText) <> 0 then
     Data.ImageIndex := 5
   else
@@ -439,7 +458,7 @@ var
     { check if node already exists }
     ChildNode := Node.FirstChild;
     Data := VirtualDrawTree.GetNodeData(ChildNode);
-    while Assigned(ChildNode) and (AnsiCompareText(NodeKey, Data.NodeKey) <> 0) do
+    while Assigned(ChildNode) and (AnsiCompareText(NodeKey, Data.Value[0]) <> 0) do
     begin
       ChildNode := ChildNode.NextSibling;
       Data := VirtualDrawTree.GetNodeData(ChildNode);
@@ -448,17 +467,17 @@ var
       ChildNode := VirtualDrawTree.AddChild(Node);
     ChildData := VirtualDrawTree.GetNodeData(ChildNode);
     ChildData.Level := 1;
-    ChildData.NodeKey := NodeKey;
+    ChildData.Value[0] := NodeKey;
     NodeKey := Copy(NodeText, 1, Pos('=', NodeText) - 1);
     NodeValue := Copy(NodeText, Pos('=', NodeText) + 1, Length(NodeText));
     if (Pos(':h', NodeKey) = 0) and (Pos(':s', NodeKey) = 0) then
-      ChildData.NodeValue := NodeValue
+      ChildData.Value[1] := NodeValue
     else
     if Pos(':h', NodeKey) <> 0 then
-      ChildData.Hint := NodeValue
+      ChildData.Value[2] := NodeValue
     else
     if Pos(':s', NodeKey) <> 0 then
-      ChildData.ShortCut := NodeValue;
+      ChildData.Value[3] := NodeValue;
   end;
 
 begin
@@ -469,7 +488,7 @@ begin
     StringList := TStringList.Create;
     with TBigIniFile.Create(FLanguageFileName) do
     try
-      ReadSectionValues(String(Data.NodeKey), StringList);
+      ReadSectionValues(String(Data.Value[0]), StringList);
       for i := 0 to StringList.Count - 1 do
         AddChildNode(StringList.Strings[i]);
     finally
@@ -508,6 +527,127 @@ end;
 function TLanguageEditorForm.GetCaption: string;
 begin
   Result := Format(FORM_CAPTION, [FLanguageFileName]);
+end;
+
+{ TEditLink }
+
+destructor TEditLink.Destroy;
+begin
+  //FEdit.Free;
+  inherited;
+end;
+
+procedure TEditLink.EditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  case Key of
+    VK_ESCAPE:
+      begin
+        FTree.CancelEditNode;
+        Key := 0;
+      end;
+    VK_RETURN:
+      begin
+        FTree.EndEditNode;
+        Key := 0;
+      end;
+  end;
+  //inherited;
+end;
+
+function TEditLink.BeginEdit: Boolean;
+begin
+  Result := True;
+  FEdit.Show;
+  FEdit.SetFocus;
+end;
+
+function TEditLink.CancelEdit: Boolean;
+begin
+  Result := True;
+  FEdit.Hide;
+end;
+
+function StrContains(Str1, Str2: string): Boolean;
+var
+  i: Integer;
+begin
+  for i := 1 to Length(Str1) do
+    if Pos(Str1[i], Str2) <> 0 then
+    begin
+      Result := True;
+      Exit;
+    end;
+  Result := False;
+end;
+
+function TEditLink.EndEdit: Boolean;
+var
+  Data: PObjectNodeRec;
+  Buffer: array[0..1024] of Char;
+  S: UnicodeString;
+begin
+  Result := True;
+
+  Data := FTree.GetNodeData(FNode);
+  try
+    GetWindowText(FEdit.Handle, Buffer, 1024);
+    S := Buffer;
+
+    if S <> Data.Value[FColumn] then
+    begin
+      Data.Value[FColumn] := S;
+      FTree.InvalidateNode(FNode);
+    end;
+  finally
+    FEdit.Hide;
+    FTree.SetFocus;
+  end;
+end;
+
+function TEditLink.GetBounds: TRect;
+begin
+  Result := FEdit.BoundsRect;
+end;
+
+function TEditLink.PrepareEdit(Tree: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex): Boolean;
+var
+  Data: PObjectNodeRec;
+begin
+  Result := Column <> 0;
+  if not Result then
+    Exit;
+  FTree := Tree as TVirtualDrawTree;
+  FNode := Node;
+  FColumn := Column;
+
+  FEdit.Free;
+  FEdit := nil;
+  Data := FTree.GetNodeData(Node);
+
+  FEdit := TBCEdit.Create(nil);
+  with FEdit do
+  begin
+    Visible := False;
+    Parent := Tree;
+    Flat := True;
+    Text := Data.Value[FColumn];
+    OnKeyDown := EditKeyDown;
+  end;
+end;
+
+procedure TEditLink.ProcessMessage(var Message: TMessage);
+begin
+  FEdit.WindowProc(Message);
+end;
+
+procedure TEditLink.SetBounds(R: TRect);
+var
+  Dummy: Integer;
+begin
+  // Since we don't want to activate grid extensions in the tree (this would influence how the selection is drawn)
+  // we have to set the edit's width explicitly to the width of the column.
+  FTree.Header.Columns.GetColumnBounds(FColumn, Dummy, R.Right);
+  FEdit.BoundsRect := R;
 end;
 
 end.
