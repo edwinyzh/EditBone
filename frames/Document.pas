@@ -1271,7 +1271,7 @@ begin
   begin
     if CommonDialogs.OpenFiles(DefaultPath, OptionsContainer.Filters, LanguageDataModule.GetConstant('Open')) then
     begin
-      Application.ProcessMessages;
+      Application.ProcessMessages; { style fix }
       for i := 0 to CommonDialogs.Files.Count - 1 do
         Open(CommonDialogs.Files[i])
     end;
@@ -1440,6 +1440,7 @@ begin
 
       if CommonDialogs.SaveFile(DefaultPath, OptionsContainer.Filters, LanguageDataModule.GetConstant('SaveAs'), AFileName) then
       begin
+        Application.ProcessMessages; { style fix }
         PageControl.ActivePage.Caption := ExtractFileName(CommonDialogs.Files[0]);
         SynEdit.DocumentName := CommonDialogs.Files[0];
         Result := CommonDialogs.Files[0];
@@ -1664,6 +1665,7 @@ var
 begin
   if CommonDialogs.Print(Handle, PrintDlgRec) then
   begin
+    Application.ProcessMessages; { style fix }
     SynEditPrint.Copies := PrintDlgRec.nCopies;
     SynEditPrint.SelectedOnly := PrintDlgRec.Flags and PD_SELECTION <> 0;
     if PrintDlgRec.Flags and PD_PAGENUMS <> 0 then
@@ -3141,7 +3143,10 @@ begin
       if CommonDialogs.SaveFile(DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
         , '|', #0, [rfReplaceAll])) + #0#0,
         LanguageDataModule.GetConstant('SaveAs'), '', 'mcr') then
+      begin
+        Application.ProcessMessages; { style fix }
         SynEdit.SynMacroRecorder.SaveToFile(CommonDialogs.Files[0]);
+      end;
 end;
 
 procedure TDocumentFrame.LoadMacro;
@@ -3155,7 +3160,7 @@ begin
       , '|', #0, [rfReplaceAll])) + #0#0,
       LanguageDataModule.GetConstant('Open'), 'mcr') then
     begin
-      Application.ProcessMessages;
+      Application.ProcessMessages; { style fix }
       if not Assigned(SynEdit.SynMacroRecorder) then
         SynEdit.SynMacroRecorder := TSynMacroRecorder.Create(SynEdit);
       SynEdit.SynMacroRecorder.LoadFromFile(CommonDialogs.Files[0]);

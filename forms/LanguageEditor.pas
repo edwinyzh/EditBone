@@ -4,13 +4,16 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin, BCToolBar,
+  Vcl.Controls, Vcl.Forms, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin, BCToolBar,
   Vcl.ExtCtrls, Vcl.ImgList, BCImageList, VirtualTrees, Vcl.AppEvnts, BCEdit;
 
 type
+  TValueType = (vtString, vtPickString);
+
   PObjectNodeRec = ^TObjectNodeRec;
   TObjectNodeRec = record
     Level: Byte;
+    ValueType: array[0..3] of TValueType;
     Value: array[0..3] of string;
     ImageIndex: Byte;
   end;
@@ -58,6 +61,9 @@ type
     procedure VirtualDrawTreeEditing(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; var Allowed: Boolean);
     procedure FileOpenActionExecute(Sender: TObject);
+    procedure VirtualDrawTreeEdited(Sender: TBaseVirtualTree; Node: PVirtualNode;
+      Column: TColumnIndex);
+    procedure FileNewActionExecute(Sender: TObject);
   private
     { Private declarations }
     FLanguageFileName: string;
@@ -76,12 +82,13 @@ type
 
   TEditLink = class(TInterfacedObject, IVTEditLink)
   private
-    FEdit: TBCEdit;
+    FEdit: TWinControl;
     FTree: TVirtualDrawTree; // A back reference to the tree calling.
     FNode: PVirtualNode;       // The node being edited.
     FColumn: Integer;          // The column of the node being edited.
   protected
     procedure EditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure EditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   public
     destructor Destroy; override;
 
@@ -101,10 +108,120 @@ implementation
 {$R *.dfm}
 
 uses
-  BigINI, Common, Language, CommonDialogs, Vcl.Themes;
+  BigINI, Common, Language, CommonDialogs, Vcl.Themes, Vcl.StdCtrls, Vcl.Menus;
 
 const
   FORM_CAPTION = 'Language Editor - [%s]';
+  ShortCuts: array[0..108] of TShortCut = (
+    scNone,
+    Byte('A') or scCtrl,
+    Byte('B') or scCtrl,
+    Byte('C') or scCtrl,
+    Byte('D') or scCtrl,
+    Byte('E') or scCtrl,
+    Byte('F') or scCtrl,
+    Byte('G') or scCtrl,
+    Byte('H') or scCtrl,
+    Byte('I') or scCtrl,
+    Byte('J') or scCtrl,
+    Byte('K') or scCtrl,
+    Byte('L') or scCtrl,
+    Byte('M') or scCtrl,
+    Byte('N') or scCtrl,
+    Byte('O') or scCtrl,
+    Byte('P') or scCtrl,
+    Byte('Q') or scCtrl,
+    Byte('R') or scCtrl,
+    Byte('S') or scCtrl,
+    Byte('T') or scCtrl,
+    Byte('U') or scCtrl,
+    Byte('V') or scCtrl,
+    Byte('W') or scCtrl,
+    Byte('X') or scCtrl,
+    Byte('Y') or scCtrl,
+    Byte('Z') or scCtrl,
+    Byte('A') or scCtrl or scAlt,
+    Byte('B') or scCtrl or scAlt,
+    Byte('C') or scCtrl or scAlt,
+    Byte('D') or scCtrl or scAlt,
+    Byte('E') or scCtrl or scAlt,
+    Byte('F') or scCtrl or scAlt,
+    Byte('G') or scCtrl or scAlt,
+    Byte('H') or scCtrl or scAlt,
+    Byte('I') or scCtrl or scAlt,
+    Byte('J') or scCtrl or scAlt,
+    Byte('K') or scCtrl or scAlt,
+    Byte('L') or scCtrl or scAlt,
+    Byte('M') or scCtrl or scAlt,
+    Byte('N') or scCtrl or scAlt,
+    Byte('O') or scCtrl or scAlt,
+    Byte('P') or scCtrl or scAlt,
+    Byte('Q') or scCtrl or scAlt,
+    Byte('R') or scCtrl or scAlt,
+    Byte('S') or scCtrl or scAlt,
+    Byte('T') or scCtrl or scAlt,
+    Byte('U') or scCtrl or scAlt,
+    Byte('V') or scCtrl or scAlt,
+    Byte('W') or scCtrl or scAlt,
+    Byte('X') or scCtrl or scAlt,
+    Byte('Y') or scCtrl or scAlt,
+    Byte('Z') or scCtrl or scAlt,
+    VK_F1,
+    VK_F2,
+    VK_F3,
+    VK_F4,
+    VK_F5,
+    VK_F6,
+    VK_F7,
+    VK_F8,
+    VK_F9,
+    VK_F10,
+    VK_F11,
+    VK_F12,
+    VK_F1 or scCtrl,
+    VK_F2 or scCtrl,
+    VK_F3 or scCtrl,
+    VK_F4 or scCtrl,
+    VK_F5 or scCtrl,
+    VK_F6 or scCtrl,
+    VK_F7 or scCtrl,
+    VK_F8 or scCtrl,
+    VK_F9 or scCtrl,
+    VK_F10 or scCtrl,
+    VK_F11 or scCtrl,
+    VK_F12 or scCtrl,
+    VK_F1 or scShift,
+    VK_F2 or scShift,
+    VK_F3 or scShift,
+    VK_F4 or scShift,
+    VK_F5 or scShift,
+    VK_F6 or scShift,
+    VK_F7 or scShift,
+    VK_F8 or scShift,
+    VK_F9 or scShift,
+    VK_F10 or scShift,
+    VK_F11 or scShift,
+    VK_F12 or scShift,
+    VK_F1 or scShift or scCtrl,
+    VK_F2 or scShift or scCtrl,
+    VK_F3 or scShift or scCtrl,
+    VK_F4 or scShift or scCtrl,
+    VK_F5 or scShift or scCtrl,
+    VK_F6 or scShift or scCtrl,
+    VK_F7 or scShift or scCtrl,
+    VK_F8 or scShift or scCtrl,
+    VK_F9 or scShift or scCtrl,
+    VK_F10 or scShift or scCtrl,
+    VK_F11 or scShift or scCtrl,
+    VK_F12 or scShift or scCtrl,
+    VK_INSERT,
+    VK_INSERT or scShift,
+    VK_INSERT or scCtrl,
+    VK_DELETE,
+    VK_DELETE or scShift,
+    VK_DELETE or scCtrl,
+    VK_BACK or scAlt,
+    VK_BACK or scShift or scAlt);
 
 var
   FLanguageEditorForm: TLanguageEditorForm;
@@ -141,6 +258,17 @@ begin
       StatusBar.Panels[0].Text := ' ' + LanguageDataModule.GetConstant('Overwrite');
 end;
 
+procedure TLanguageEditorForm.FileNewActionExecute(Sender: TObject);
+begin
+ { TODO:
+   open save as dialog
+   ask 'Use current language as a default language?'
+     open current
+   else
+     open english
+   save }
+end;
+
 procedure TLanguageEditorForm.FileOpenActionExecute(Sender: TObject);
 var
   DefaultPath: string;
@@ -149,7 +277,7 @@ begin
   if CommonDialogs.OpenFiles(DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Language')
     , '|', #0, [rfReplaceAll])) + #0#0, LanguageDataModule.GetConstant('Open')) then
   begin
-    Application.ProcessMessages;
+    Application.ProcessMessages; { style fix }
     LoadLanguageFile(CommonDialogs.Files[0]);
   end;
 end;
@@ -223,7 +351,15 @@ end;
 
 procedure TLanguageEditorForm.SaveToFile(FileName: string);
 begin
-  //
+  // TODO
+end;
+
+function SaveAs(FileName: string): Boolean;
+begin
+  Result := CommonDialogs.SaveFile(ExtractFilePath(FileName),
+    Trim(StringReplace(LanguageDataModule.GetFileTypes('Language'),
+    '|', #0, [rfReplaceAll])) + #0#0, LanguageDataModule.GetConstant('SaveAs'),
+    ExtractFileName(FileName))
 end;
 
 procedure TLanguageEditorForm.Save(ShowDialog: Boolean);
@@ -235,10 +371,11 @@ begin
     AFileName := System.Copy(AFileName, 0, Length(AFileName) - 1);
   if ShowDialog then
   begin
-   if CommonDialogs.SaveFile(ExtractFilePath(AFileName),
-       Trim(StringReplace(LanguageDataModule.GetFileTypes('Language')
-        , '|', #0, [rfReplaceAll])) + #0#0, LanguageDataModule.GetConstant('SaveAs'), ExtractFileName(AFileName)) then
+    if SaveAs(AFileName) then
+    begin
+      Application.ProcessMessages; { style fix }
       AFileName := CommonDialogs.Files[0]
+    end
     else
       Exit;
   end;
@@ -337,6 +474,16 @@ begin
   end;
 end;
 
+procedure TLanguageEditorForm.VirtualDrawTreeEdited(Sender: TBaseVirtualTree; Node: PVirtualNode;
+  Column: TColumnIndex);
+begin
+  if Pos('~', FLanguageFileName) = 0 then
+  begin
+    FLanguageFileName := FLanguageFileName + '~';
+    Caption := GetCaption;
+  end;
+end;
+
 procedure TLanguageEditorForm.VirtualDrawTreeEditing(Sender: TBaseVirtualTree; Node: PVirtualNode;
   Column: TColumnIndex; var Allowed: Boolean);
 begin
@@ -408,6 +555,7 @@ begin
   RootNode := VirtualDrawTree.AddChild(nil);
   Data := VirtualDrawTree.GetNodeData(RootNode);
   Data.Value[0] := Trim(NodeText);
+  Data.ValueType[0] := vtString;
   if Pos('Dialog', NodeText) <> 0 then
     Data.ImageIndex := 5
   else
@@ -452,6 +600,7 @@ var
   i: Integer;
   Data: PObjectNodeRec;
   StringList: TStringList;
+  FileName: string;
 
   procedure AddChildNode(NodeText: string);
   var
@@ -484,6 +633,7 @@ var
     ChildData := VirtualDrawTree.GetNodeData(ChildNode);
     ChildData.Level := 1;
     ChildData.Value[0] := NodeKey;
+    ChildData.ValueType[0] := vtString;
     NodeKey := Copy(NodeText, 1, Pos('=', NodeText) - 1);
     NodeValue := Copy(NodeText, Pos('=', NodeText) + 1, Length(NodeText));
     if (Pos(':h', NodeKey) = 0) and (Pos(':s', NodeKey) = 0) then
@@ -494,6 +644,9 @@ var
     else
     if Pos(':s', NodeKey) <> 0 then
       ChildData.Value[3] := NodeValue;
+    ChildData.ValueType[1] := vtString;
+    ChildData.ValueType[2] := vtString;
+    ChildData.ValueType[3] := vtPickString;
   end;
 
 begin
@@ -501,8 +654,12 @@ begin
   begin
     Data := VirtualDrawTree.GetNodeData(Node);
 
+    FileName := FLanguageFileName;
+    if Pos('~', FileName) = Length(FileName) then
+      FileName := System.Copy(FileName, 0, Length(FileName) - 1);
+
     StringList := TStringList.Create;
-    with TBigIniFile.Create(FLanguageFileName) do
+    with TBigIniFile.Create(FileName) do
     try
       ReadSectionValues(String(Data.Value[0]), StringList);
       for i := 0 to StringList.Count - 1 do
@@ -556,11 +713,7 @@ end;
 procedure TEditLink.EditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   case Key of
-    VK_ESCAPE:
-      begin
-        FTree.CancelEditNode;
-        Key := 0;
-      end;
+    VK_ESCAPE: Key := 0;
     VK_RETURN:
       begin
         FTree.EndEditNode;
@@ -568,6 +721,17 @@ begin
       end;
   end;
   //inherited;
+end;
+
+procedure TEditLink.EditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  case Key of
+    VK_ESCAPE:
+      begin
+        FTree.CancelEditNode;
+        Key := 0;
+      end;
+  end;
 end;
 
 function TEditLink.BeginEdit: Boolean;
@@ -628,6 +792,7 @@ end;
 
 function TEditLink.PrepareEdit(Tree: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex): Boolean;
 var
+  i: Integer;
   Data: PObjectNodeRec;
 begin
   Result := Column <> 0;
@@ -645,14 +810,35 @@ begin
   if not Result then
     Exit;
 
-  FEdit := TBCEdit.Create(nil);
-  with FEdit do
-  begin
-    Visible := False;
-    Parent := Tree;
-    Flat := True;
-    Text := Data.Value[FColumn];
-    OnKeyDown := EditKeyDown;
+  case Data.ValueType[FColumn] of
+    vtString:
+      begin
+        FEdit := TBCEdit.Create(nil);
+        with FEdit as TBCEdit do
+        begin
+          Visible := False;
+          Parent := Tree;
+          Flat := True;
+          Text := Data.Value[FColumn];
+          OnKeyDown := EditKeyDown;
+          OnKeyUp := EditKeyUp;
+        end;
+      end;
+    vtPickString:
+      begin
+        FEdit := TComboBox.Create(nil);
+        with FEdit as TComboBox do
+        begin
+          Visible := False;
+          Parent := Tree;
+          Text := Data.Value[FColumn];
+          Items.Add(Text);
+          for i := 1 to High(ShortCuts) do
+            Items.Add(ShortCutToText(ShortCuts[i]));
+          OnKeyDown := EditKeyDown;
+          OnKeyUp := EditKeyUp;
+        end;
+      end;
   end;
 end;
 

@@ -74,6 +74,7 @@ object LanguageEditorForm: TLanguageEditorForm
       OnCompareNodes = VirtualDrawTreeCompareNodes
       OnCreateEditor = VirtualDrawTreeCreateEditor
       OnDrawNode = VirtualDrawTreeDrawNode
+      OnEdited = VirtualDrawTreeEdited
       OnEditing = VirtualDrawTreeEditing
       OnFreeNode = VirtualDrawTreeFreeNode
       OnGetImageIndex = VirtualDrawTreeGetImageIndex
@@ -99,7 +100,7 @@ object LanguageEditorForm: TLanguageEditorForm
         item
           Position = 3
           Width = 120
-          WideText = 'Short Cut'
+          WideText = 'Shortcut'
         end>
     end
   end
@@ -177,7 +178,7 @@ object LanguageEditorForm: TLanguageEditorForm
     Left = 84
     Top = 54
     Bitmap = {
-      494C010108005802680510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101080058026C0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -588,6 +589,7 @@ object LanguageEditorForm: TLanguageEditorForm
       Caption = 'NewAction'
       Hint = 'Create a new language file'
       ImageIndex = 0
+      OnExecute = FileNewActionExecute
     end
     object FileOpenAction: TAction
       Caption = 'Open...'
