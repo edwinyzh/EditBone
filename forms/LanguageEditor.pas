@@ -111,7 +111,6 @@ uses
   BigINI, Common, Language, CommonDialogs, Vcl.Themes, Vcl.StdCtrls, Vcl.Menus;
 
 const
-  FORM_CAPTION = 'Language Editor - [%s]';
   ShortCuts: array[0..108] of TShortCut = (
     scNone,
     Byte('A') or scCtrl,
@@ -299,9 +298,12 @@ var
 begin
   WriteIniFile;
 
-  Rslt := Common.SaveChanges(False);
-  if Rslt = mrYes then
-    Save(False);
+  if VirtualDrawTree.Tag = 1 then
+  begin
+    Rslt := Common.SaveChanges(False);
+    if Rslt = mrYes then
+      Save(False);
+  end;
 
   Action := caFree;
 end;
@@ -477,7 +479,7 @@ end;
 procedure TLanguageEditorForm.VirtualDrawTreeEdited(Sender: TBaseVirtualTree; Node: PVirtualNode;
   Column: TColumnIndex);
 begin
-  if Pos('~', FLanguageFileName) = 0 then
+  if (VirtualDrawTree.Tag = 1) and (Pos('~', FLanguageFileName) = 0) then
   begin
     FLanguageFileName := FLanguageFileName + '~';
     Caption := GetCaption;
@@ -699,7 +701,7 @@ end;
 
 function TLanguageEditorForm.GetCaption: string;
 begin
-  Result := Format(FORM_CAPTION, [FLanguageFileName]);
+  Result := Format(LanguageDataModule.GetConstant('LanguageEditor'), [FLanguageFileName]);
 end;
 
 { TEditLink }
