@@ -73,6 +73,7 @@ type
     procedure AddTreeNode(NodeText: string);
     procedure LoadLanguageFile(FileName: string);
     function GetModifiedInfo: string;
+    function SaveAs(FileName: string): Boolean;
     procedure SaveToFile(FileName: string);
     function GetCaption: string;
   public
@@ -258,14 +259,23 @@ begin
 end;
 
 procedure TLanguageEditorForm.FileNewActionExecute(Sender: TObject);
+var
+  SelectedLanguage, LanguagePath: string;
 begin
- { TODO:
-   open save as dialog
-   ask 'Use current language as a default language?'
-     open current
-   else
-     open english
-   save }
+  SelectedLanguage := Common.GetSelectedLanguage('English');
+  LanguagePath := IncludeTrailingPathDelimiter(Format('%s%s', [ExtractFilePath(ParamStr(0)), 'Languages']));
+  if not DirectoryExists(LanguagePath) then
+    Exit;
+  if SaveAs(LanguagePath) then
+  begin
+    if Common.AskYesOrNo('Use selected language as a template language?') then
+      FLanguageFileName := Format('%s%s.%s', [LanguagePath, SelectedLanguage, 'lng'])
+    else
+      FLanguageFileName := Format('%s%s', [LanguagePath, 'English.lng']);
+    Application.ProcessMessages; { style fix }
+    Winapi.Windows.CopyFile(PWideChar(FLanguageFileName), PWideChar(CommonDialogs.Files[0]), False);
+    LoadLanguageFile(CommonDialogs.Files[0]);
+  end;
 end;
 
 procedure TLanguageEditorForm.FileOpenActionExecute(Sender: TObject);
@@ -273,7 +283,7 @@ var
   DefaultPath: string;
 begin
   DefaultPath := IncludeTrailingPathDelimiter(Format('%s%s', [ExtractFilePath(ParamStr(0)), 'Languages']));
-  if CommonDialogs.OpenFiles(DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Language')
+  if CommonDialogs.OpenFiles(Handle, DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Language')
     , '|', #0, [rfReplaceAll])) + #0#0, LanguageDataModule.GetConstant('Open')) then
   begin
     Application.ProcessMessages; { style fix }
@@ -356,12 +366,12 @@ begin
   // TODO
 end;
 
-function SaveAs(FileName: string): Boolean;
+function TLanguageEditorForm.SaveAs(FileName: string): Boolean;
 begin
-  Result := CommonDialogs.SaveFile(ExtractFilePath(FileName),
+  Result := CommonDialogs.SaveFile(Handle, ExtractFilePath(FileName),
     Trim(StringReplace(LanguageDataModule.GetFileTypes('Language'),
     '|', #0, [rfReplaceAll])) + #0#0, LanguageDataModule.GetConstant('SaveAs'),
-    ExtractFileName(FileName))
+    ExtractFileName(FileName), 'lng')
 end;
 
 procedure TLanguageEditorForm.Save(ShowDialog: Boolean);

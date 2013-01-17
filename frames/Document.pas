@@ -1269,7 +1269,7 @@ var
 begin
   if FileName = '' then
   begin
-    if CommonDialogs.OpenFiles(DefaultPath, OptionsContainer.Filters, LanguageDataModule.GetConstant('Open')) then
+    if CommonDialogs.OpenFiles(Handle, DefaultPath, OptionsContainer.Filters, LanguageDataModule.GetConstant('Open')) then
     begin
       Application.ProcessMessages; { style fix }
       for i := 0 to CommonDialogs.Files.Count - 1 do
@@ -1438,7 +1438,7 @@ begin
       if Pos('~', TabSheet.Caption) = Length(TabSheet.Caption) then
         AFileName := System.Copy(TabSheet.Caption, 0, Length(TabSheet.Caption) - 1);
 
-      if CommonDialogs.SaveFile(DefaultPath, OptionsContainer.Filters, LanguageDataModule.GetConstant('SaveAs'), AFileName) then
+      if CommonDialogs.SaveFile(Handle, DefaultPath, OptionsContainer.Filters, LanguageDataModule.GetConstant('SaveAs'), AFileName) then
       begin
         Application.ProcessMessages; { style fix }
         PageControl.ActivePage.Caption := ExtractFileName(CommonDialogs.Files[0]);
@@ -3140,7 +3140,7 @@ begin
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) then
     if Assigned(SynEdit.SynMacroRecorder) then
-      if CommonDialogs.SaveFile(DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
+      if CommonDialogs.SaveFile(Handle, DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
         , '|', #0, [rfReplaceAll])) + #0#0,
         LanguageDataModule.GetConstant('SaveAs'), '', 'mcr') then
       begin
@@ -3156,7 +3156,7 @@ begin
   SynEdit := ActiveSynEdit;
   if Assigned(SynEdit) then
   begin
-    if CommonDialogs.OpenFile(DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
+    if CommonDialogs.OpenFile(Handle, DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
       , '|', #0, [rfReplaceAll])) + #0#0,
       LanguageDataModule.GetConstant('Open'), 'mcr') then
     begin

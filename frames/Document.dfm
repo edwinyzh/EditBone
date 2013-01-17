@@ -1,7 +1,7 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 729
+  Width = 451
   Height = 304
   Align = alClient
   DoubleBuffered = False
@@ -10,7 +10,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 729
+    Width = 451
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -128,10 +128,9 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 50
-        Height = 18
+        Height = 13
         Align = alLeft
         Caption = 'Search for'
-        ExplicitHeight = 13
       end
     end
     object SearchPanel3: TPanel
@@ -420,11 +419,10 @@ object DocumentFrame: TDocumentFrame
         Left = 0
         Top = 2
         Width = 70
-        Height = 19
+        Height = 13
         Align = alLeft
         Caption = 'Case Sensitive'
         Layout = tlCenter
-        ExplicitHeight = 13
       end
       object WholeWordsCheckBox: TBCCheckBox
         Left = 78
@@ -467,7 +465,7 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 729
+    Width = 451
     Height = 283
     Align = alClient
     AutoSize = True
@@ -479,7 +477,7 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 729
+      Width = 451
       Height = 281
       Align = alClient
       DoubleBuffered = False
@@ -500,7 +498,7 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 342
     Bitmap = {
-      494C010106003800300510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106003800380510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1310,7 +1308,7 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 450
     Bitmap = {
-      494C01010A003800100510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A003800180510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1952,7 +1950,7 @@ object DocumentFrame: TDocumentFrame
     Left = 606
     Top = 462
     Bitmap = {
-      494C010102009C04640514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010102009C046C0514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000A4676900A4676900A467
@@ -2172,7 +2170,7 @@ object DocumentFrame: TDocumentFrame
     Left = 606
     Top = 518
     Bitmap = {
-      494C01010200BC04680518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010200BC04700518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000A467
