@@ -693,6 +693,7 @@ begin
   ReadIniFile;
 
   SelectedLanguage := Common.GetSelectedLanguage('English');
+  Common.UpdateLanguage(Self, SelectedLanguage);
   LanguagePath := IncludeTrailingPathDelimiter(Format('%s%s', [ExtractFilePath(ParamStr(0)), 'Languages']));
   if not DirectoryExists(LanguagePath) then
     Exit;
