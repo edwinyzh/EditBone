@@ -23,7 +23,6 @@ type
     ActionList: TActionList;
     FileOpenAction: TAction;
     FileSaveAction: TAction;
-    FileSaveAsAction: TAction;
     StatusBar: TStatusBar;
     VirtualTreePanel: TPanel;
     VirtualDrawTree: TVirtualDrawTree;
@@ -35,13 +34,10 @@ type
     ToolButton2: TToolButton;
     PrintToolBar: TBCToolBar;
     ToolButton1: TToolButton;
-    ToolButton3: TToolButton;
     ApplicationEvents: TApplicationEvents;
     procedure FormDestroy(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
     procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
-    procedure FileSaveActionExecute(Sender: TObject);
-    procedure FileSaveAsActionExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure VirtualDrawTreeCompareNodes(Sender: TBaseVirtualTree; Node1, Node2: PVirtualNode;
@@ -64,12 +60,13 @@ type
     procedure VirtualDrawTreeEdited(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex);
     procedure FileNewActionExecute(Sender: TObject);
+    procedure FileSaveActionExecute(Sender: TObject);
   private
     { Private declarations }
     FLanguageFileName: string;
     procedure ReadIniFile;
     procedure WriteIniFile;
-    procedure Save(ShowDialog: Boolean);
+    procedure Save;
     procedure AddTreeNode(NodeText: string);
     procedure LoadLanguageFile(FileName: string);
     function GetModifiedInfo: string;
@@ -88,8 +85,9 @@ type
     FNode: PVirtualNode;       // The node being edited.
     FColumn: Integer;          // The column of the node being edited.
   protected
-    procedure EditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure EditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    //procedure EditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    //procedure EditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure EditKeyPress(Sender: TObject; var Key: Char);
   public
     destructor Destroy; override;
 
@@ -268,11 +266,8 @@ begin
     Exit;
   if SaveAs(LanguagePath) then
   begin
-    if Common.AskYesOrNo('Use selected language as a template language?') then
-      FLanguageFileName := Format('%s%s.%s', [LanguagePath, SelectedLanguage, 'lng'])
-    else
-      FLanguageFileName := Format('%s%s', [LanguagePath, 'English.lng']);
     Application.ProcessMessages; { style fix }
+    FLanguageFileName := Format('%s%s.%s', [LanguagePath, SelectedLanguage, 'lng']);
     Winapi.Windows.CopyFile(PWideChar(FLanguageFileName), PWideChar(CommonDialogs.Files[0]), False);
     LoadLanguageFile(CommonDialogs.Files[0]);
   end;
@@ -293,27 +288,17 @@ end;
 
 procedure TLanguageEditorForm.FileSaveActionExecute(Sender: TObject);
 begin
-  Save(False);
-end;
-
-procedure TLanguageEditorForm.FileSaveAsActionExecute(Sender: TObject);
-begin
-  Save(True);
+  Save;
   Repaint;
 end;
 
 procedure TLanguageEditorForm.FormClose(Sender: TObject; var Action: TCloseAction);
-var
-  Rslt: Integer;
 begin
   WriteIniFile;
 
   if VirtualDrawTree.Tag = 1 then
-  begin
-    Rslt := Common.SaveChanges(False);
-    if Rslt = mrYes then
-      Save(False);
-  end;
+    if Common.SaveChanges(False) = mrYes then
+      Save;
 
   Action := caFree;
 end;
@@ -362,8 +347,35 @@ begin
 end;
 
 procedure TLanguageEditorForm.SaveToFile(FileName: string);
+var
+  Node, ChildNode: PVirtualNode;
+  Data, ChildData: PObjectNodeRec;
 begin
-  // TODO
+  with TBigIniFile.Create(FileName) do
+  try
+     Node := VirtualDrawTree.GetFirst;
+     while Assigned(Node) do
+     begin
+       Data := VirtualDrawTree.GetNodeData(Node);
+
+       ChildNode := Node.FirstChild;
+       while Assigned(ChildNode) do
+       begin
+         ChildData := VirtualDrawTree.GetNodeData(ChildNode);
+
+         WriteString(Data.Value[0], ChildData.Value[0], ChildData.Value[1]);
+         if Trim(ChildData.Value[2]) <> '' then
+           WriteString(Data.Value[0], Format('%s:h', [ChildData.Value[0]]), ChildData.Value[2]);
+         if Trim(ChildData.Value[3]) <> '' then
+           WriteString(Data.Value[0], Format('%s:s', [ChildData.Value[0]]), ChildData.Value[3]);
+
+         ChildNode := ChildNode.NextSibling;
+       end;
+       Node := Node.NextSibling;
+     end;
+  finally
+    Free;
+  end;
 end;
 
 function TLanguageEditorForm.SaveAs(FileName: string): Boolean;
@@ -374,23 +386,13 @@ begin
     ExtractFileName(FileName), 'lng')
 end;
 
-procedure TLanguageEditorForm.Save(ShowDialog: Boolean);
+procedure TLanguageEditorForm.Save;
 var
   AFileName: string;
 begin
   AFileName := FLanguageFileName;
   if Pos('~', FLanguageFileName) = Length(FLanguageFileName) then
     AFileName := System.Copy(AFileName, 0, Length(AFileName) - 1);
-  if ShowDialog then
-  begin
-    if SaveAs(AFileName) then
-    begin
-      Application.ProcessMessages; { style fix }
-      AFileName := CommonDialogs.Files[0]
-    end
-    else
-      Exit;
-  end;
   SaveToFile(AFileName);
   VirtualDrawTree.Tag := 0;
   FLanguageFileName := AFileName;
@@ -569,15 +571,15 @@ begin
   Data.Value[0] := Trim(NodeText);
   Data.ValueType[0] := vtString;
   if Pos('Dialog', NodeText) <> 0 then
-    Data.ImageIndex := 5
+    Data.ImageIndex := 4
   else
   if Pos('Frame', NodeText) <> 0 then
-    Data.ImageIndex := 6
+    Data.ImageIndex := 5
   else
   if Pos('Form', NodeText) <> 0 then
-    Data.ImageIndex := 7
+    Data.ImageIndex := 6
   else
-    Data.ImageIndex := 4;
+    Data.ImageIndex := 3;
   Data.Level := 0;
 end;
 
@@ -722,26 +724,18 @@ begin
   inherited;
 end;
 
-procedure TEditLink.EditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TEditLink.EditKeyPress(Sender: TObject; var Key: Char);
 begin
   case Key of
-    VK_ESCAPE: Key := 0;
-    VK_RETURN:
-      begin
-        FTree.EndEditNode;
-        Key := 0;
-      end;
-  end;
-  //inherited;
-end;
-
-procedure TEditLink.EditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  case Key of
-    VK_ESCAPE:
+    #27:
       begin
         FTree.CancelEditNode;
-        Key := 0;
+        Key := #0;
+      end;
+    #13:
+      begin
+        FTree.EndEditNode;
+        Key := #0;
       end;
   end;
 end;
@@ -832,8 +826,7 @@ begin
           Parent := Tree;
           Flat := True;
           Text := Data.Value[FColumn];
-          OnKeyDown := EditKeyDown;
-          OnKeyUp := EditKeyUp;
+          OnKeyPress := EditKeyPress;
         end;
       end;
     vtPickString:
@@ -847,8 +840,7 @@ begin
           Items.Add(Text);
           for i := 1 to High(ShortCuts) do
             Items.Add(ShortCutToText(ShortCuts[i]));
-          OnKeyDown := EditKeyDown;
-          OnKeyUp := EditKeyUp;
+          OnKeyPress := EditKeyPress;
         end;
       end;
   end;
