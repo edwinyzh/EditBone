@@ -109,6 +109,7 @@ implementation
 uses
   BigINI, Common, Language, CommonDialogs, Vcl.Themes, Vcl.StdCtrls, Vcl.Menus;
 
+
 const
   ShortCuts: array[0..108] of TShortCut = (
     scNone,
@@ -702,7 +703,7 @@ begin
     Exit;
 
   LoadLanguageFile(FLanguageFileName);
-  Show;
+  ShowModal;
 end;
 
 function TLanguageEditorForm.GetModifiedInfo: string;
@@ -727,6 +728,7 @@ end;
 
 procedure TEditLink.EditKeyPress(Sender: TObject; var Key: Char);
 begin
+  inherited;
   case Key of
     #27:
       begin

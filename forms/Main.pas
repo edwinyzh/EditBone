@@ -1423,6 +1423,7 @@ end;
 procedure TMainForm.ToolsLanguageEditorActionExecute(Sender: TObject);
 begin
   LanguageEditorForm.Open;
+  ReadLanguageFile(Common.GetSelectedLanguage('English'));
 end;
 
 procedure TMainForm.ToolsOptionsActionExecute(Sender: TObject);

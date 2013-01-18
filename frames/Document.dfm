@@ -1,16 +1,18 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 304
+  Width = 930
+  Height = 404
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
   TabOrder = 0
+  ExplicitWidth = 451
+  ExplicitHeight = 304
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 930
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -18,6 +20,7 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 0
     Visible = False
+    ExplicitWidth = 451
     object WholeWordsOnlyLabel: TLabel
       Left = 465
       Top = 0
@@ -128,9 +131,10 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 50
-        Height = 13
+        Height = 18
         Align = alLeft
         Caption = 'Search for'
+        ExplicitHeight = 13
       end
     end
     object SearchPanel3: TPanel
@@ -419,10 +423,11 @@ object DocumentFrame: TDocumentFrame
         Left = 0
         Top = 2
         Width = 70
-        Height = 13
+        Height = 19
         Align = alLeft
         Caption = 'Case Sensitive'
         Layout = tlCenter
+        ExplicitHeight = 13
       end
       object WholeWordsCheckBox: TBCCheckBox
         Left = 78
@@ -465,8 +470,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 451
-    Height = 283
+    Width = 930
+    Height = 383
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -474,11 +479,13 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentColor = True
     TabOrder = 1
+    ExplicitWidth = 451
+    ExplicitHeight = 283
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 451
-      Height = 281
+      Width = 930
+      Height = 381
       Align = alClient
       DoubleBuffered = False
       Font.Charset = DEFAULT_CHARSET
@@ -492,13 +499,15 @@ object DocumentFrame: TDocumentFrame
       OnChange = PageControlChange
       TabDragDrop = True
       HoldShiftToDragDrop = False
+      ExplicitWidth = 451
+      ExplicitHeight = 281
     end
   end
   object ImageList: TBCImageList
     Left = 36
     Top = 342
     Bitmap = {
-      494C010106003800380510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101060038003C0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1308,7 +1317,7 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 450
     Bitmap = {
-      494C01010A003800180510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A0038001C0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1739,91 +1748,68 @@ object DocumentFrame: TDocumentFrame
       Caption = '-'
     end
     object ToggleBookmarkMenuItem: TMenuItem
-      Action = MainForm.ToggleBookmarkAction
     end
     object ToggleBookmarksMenuItem: TMenuItem
-      Action = MainForm.ToggleBookmarksAction
       object ToggleBookmark0MenuItem: TMenuItem
-        Action = MainForm.ToggleBookmarks0Action
       end
       object ToggleBookmark1MenuItem: TMenuItem
         Tag = 1
-        Action = MainForm.ToggleBookmarks1Action
       end
       object ToggleBookmark2MenuItem: TMenuItem
         Tag = 2
-        Action = MainForm.ToggleBookmarks2Action
       end
       object ToggleBookmark3MenuItem: TMenuItem
         Tag = 3
-        Action = MainForm.ToggleBookmarks3Action
       end
       object ToggleBookmark4MenuItem: TMenuItem
         Tag = 4
-        Action = MainForm.ToggleBookmarks4Action
       end
       object ToggleBookmark5MenuItem: TMenuItem
         Tag = 5
-        Action = MainForm.ToggleBookmarks5Action
       end
       object ToggleBookmark6MenuItem: TMenuItem
         Tag = 6
-        Action = MainForm.ToggleBookmarks6Action
       end
       object ToggleBookmark7MenuItem: TMenuItem
         Tag = 7
-        Action = MainForm.ToggleBookmarks7Action
       end
       object ToggleBookmark8MenuItem: TMenuItem
         Tag = 8
-        Action = MainForm.ToggleBookmarks8Action
       end
       object ToggleBookmark9MenuItem: TMenuItem
         Tag = 9
-        Action = MainForm.ToggleBookmarks9Action
       end
     end
     object GotoBookmarksMenuItem: TMenuItem
-      Action = MainForm.GotoBookmarksAction
       SubMenuImages = BookmarkImagesList
       object GotoBookmark0MenuItem: TMenuItem
-        Action = MainForm.GotoBookmarks0Action
       end
       object GotoBookmark1MenuItem: TMenuItem
         Tag = 1
-        Action = MainForm.GotoBookmarks1Action
       end
       object GotoBookmark2MenuItem: TMenuItem
         Tag = 2
-        Action = MainForm.GotoBookmarks2Action
       end
       object GotoBookmark3MenuItem: TMenuItem
         Tag = 3
-        Action = MainForm.GotoBookmarks3Action
       end
       object GotoBookmark4MenuItem: TMenuItem
         Tag = 4
-        Action = MainForm.GotoBookmarks4Action
       end
       object GotoBookmark5MenuItem: TMenuItem
         Tag = 5
-        Action = MainForm.GotoBookmarks5Action
       end
       object GotoBookmark6MenuItem: TMenuItem
         Tag = 6
-        Action = MainForm.GotoBookmarks6Action
       end
       object GotoBookmark7MenuItem: TMenuItem
         Tag = 7
-        Action = MainForm.GotoBookmarks7Action
       end
       object GotoBookmark8MenuItem: TMenuItem
         Tag = 8
-        Action = MainForm.GotoBookmarks8Action
       end
       object GotoBookmark9MenuItem: TMenuItem
         Tag = 9
-        Action = MainForm.GotoBookmarks9Action
       end
     end
     object ClearBookmarksMenuItem: TMenuItem
@@ -1950,7 +1936,7 @@ object DocumentFrame: TDocumentFrame
     Left = 606
     Top = 462
     Bitmap = {
-      494C010102009C046C0514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010102009C04700514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000A4676900A4676900A467
@@ -2170,7 +2156,7 @@ object DocumentFrame: TDocumentFrame
     Left = 606
     Top = 518
     Bitmap = {
-      494C01010200BC04700518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010200BC04740518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000A467

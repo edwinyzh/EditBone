@@ -67,7 +67,7 @@ object LanguageEditorForm: TLanguageEditorForm
       ParentCtl3D = False
       TabOrder = 0
       TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand]
-      TreeOptions.MiscOptions = [toEditable, toGridExtensions, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
+      TreeOptions.MiscOptions = [toEditable, toFullRepaintOnResize, toGridExtensions, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
       TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowRoot, toShowVertGridLines, toThemeAware, toUseBlendedSelection]
       TreeOptions.SelectionOptions = [toDisableDrawSelection, toExtendedFocus, toMiddleClickSelect, toRightClickSelect]
       WantTabs = True
@@ -173,7 +173,7 @@ object LanguageEditorForm: TLanguageEditorForm
     Left = 84
     Top = 54
     Bitmap = {
-      494C010107005802800510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010107005802840510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
