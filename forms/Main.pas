@@ -346,7 +346,6 @@ begin
   Result := Result.Items[SubMenuItemIndex];
 end;
 
-
 procedure TMainForm.SelectLanguageActionExecute(Sender: TObject);
 var
   i: Integer;
@@ -1029,7 +1028,7 @@ end;
 
 procedure TMainForm.HelpCheckForUpdatesMenuActionExecute(Sender: TObject);
 begin
-  Common.CheckForUpdates(Application.Title);
+  Common.CheckForUpdates(Application.Title, AboutDialog.Version);
 end;
 
 procedure TMainForm.HelpHomeActionExecute(Sender: TObject);
