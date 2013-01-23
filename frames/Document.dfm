@@ -1,18 +1,16 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 930
-  Height = 404
+  Width = 451
+  Height = 304
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
   TabOrder = 0
-  ExplicitWidth = 451
-  ExplicitHeight = 304
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 930
+    Width = 451
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -20,7 +18,6 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 0
     Visible = False
-    ExplicitWidth = 451
     object WholeWordsOnlyLabel: TLabel
       Left = 465
       Top = 0
@@ -131,10 +128,9 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 50
-        Height = 18
+        Height = 13
         Align = alLeft
         Caption = 'Search for'
-        ExplicitHeight = 13
       end
     end
     object SearchPanel3: TPanel
@@ -423,11 +419,10 @@ object DocumentFrame: TDocumentFrame
         Left = 0
         Top = 2
         Width = 70
-        Height = 19
+        Height = 13
         Align = alLeft
         Caption = 'Case Sensitive'
         Layout = tlCenter
-        ExplicitHeight = 13
       end
       object WholeWordsCheckBox: TBCCheckBox
         Left = 78
@@ -470,8 +465,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 930
-    Height = 383
+    Width = 451
+    Height = 283
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -479,13 +474,11 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentColor = True
     TabOrder = 1
-    ExplicitWidth = 451
-    ExplicitHeight = 283
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 930
-      Height = 381
+      Width = 451
+      Height = 281
       Align = alClient
       DoubleBuffered = False
       Font.Charset = DEFAULT_CHARSET
@@ -499,15 +492,13 @@ object DocumentFrame: TDocumentFrame
       OnChange = PageControlChange
       TabDragDrop = True
       HoldShiftToDragDrop = False
-      ExplicitWidth = 451
-      ExplicitHeight = 281
     end
   end
   object ImageList: TBCImageList
     Left = 36
     Top = 342
     Bitmap = {
-      494C0101060038003C0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106003800440510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1317,7 +1308,7 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 450
     Bitmap = {
-      494C01010A0038001C0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A003800240510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1936,7 +1927,7 @@ object DocumentFrame: TDocumentFrame
     Left = 606
     Top = 462
     Bitmap = {
-      494C010102009C04700514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010102009C04780514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000A4676900A4676900A467
@@ -2156,7 +2147,7 @@ object DocumentFrame: TDocumentFrame
     Left = 606
     Top = 518
     Bitmap = {
-      494C01010200BC04740518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010200BC047C0518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000A467

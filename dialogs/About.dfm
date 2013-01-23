@@ -515,11 +515,12 @@ object AboutDialog: TAboutDialog
     object CopyrightLabel: TLabel
       Left = 0
       Top = 64
-      Width = 170
+      Width = 376
       Height = 13
       Align = alBottom
       Alignment = taCenter
       Caption = 'Copyright %s. All Rights Reserved.'
+      ExplicitWidth = 170
     end
     object LinkLabel3: TLinkLabel
       Left = 11

@@ -37,23 +37,6 @@ var
   i: Integer;
   StyleFilename: string;
 begin
-  { move preferences to options - version 4.4.0 }
-  // --- TODO: remove this later
-  if FileExists(Common.GetINIFilename) then
-  with TStringList.Create do
-  try
-    LoadFromFile(Common.GetINIFilename);
-    i := IndexOf('[Preferences]');
-    if i <> -1 then
-    begin
-      Strings[i] := '[Options]';
-      SaveToFile(Common.GetINIFilename);
-    end;
-  finally
-    Free;
-  end;
-  // ---
-
   with TBigIniFile.Create(Common.GetINIFilename) do
   try
     StyleFilename := ReadString('Options', 'StyleFilename', STYLENAME_WINDOWS);

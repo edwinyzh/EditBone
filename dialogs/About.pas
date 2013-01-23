@@ -83,7 +83,7 @@ var
 begin
   inherited;
   VersionLabel.Caption := Format(VersionLabel.Caption, [Common.GetFileVersion(Application.ExeName)]);
-  CopyrightLabel.Caption := Format(CopyrightLabel.Caption, ['© 2010-2012 Lasse Rautiainen']);
+  CopyrightLabel.Caption := Format(CopyrightLabel.Caption, ['© 2010-2013 Lasse Rautiainen']);
   { initialize the structure }
   FillChar(MemoryStatus, SizeOf(MemoryStatus), 0);
   MemoryStatus.dwLength := SizeOf(MemoryStatus);

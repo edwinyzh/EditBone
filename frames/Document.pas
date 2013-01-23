@@ -444,7 +444,7 @@ begin
   LFileStream := TFileStream.Create(FileName, fmOpenRead);
   try
     // Identify encoding
-    if IsUTF8(LFileStream, WithBom) then
+    if SynUnicode.IsUTF8(LFileStream, WithBom) then
     begin
       if WithBom then
         FEncoding := TEncoding.UTF8
@@ -2006,14 +2006,6 @@ begin
     else
     begin
       ReadSectionValues('FileTypes', FileTypes);
-      { todo: temporary fix, remove these lines later }
-      // **********************************************
-      if Pos('DWScript', FileTypes.Strings[13]) = 0 then
-        FileTypes.Insert(13, '13=DWScript Files (*.dws)');
-      if (FileTypes.Strings[13] = '13=DWScript Files (*.dws;*.pas;*.inc)') or
-        (FileTypes.Strings[13] = '13=DWScript Files (*.dws)|*.dws') then
-        FileTypes.Strings[13] := '13=DWScript Files (*.dws)';
-      // **********************************************
       for i := 0 to FileTypes.Count - 1 do
         OptionsContainer.FileTypes.Strings[i] := System.Copy
           (FileTypes.Strings[i], Pos('=', FileTypes.Strings[i]) + 1, Length
