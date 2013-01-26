@@ -490,6 +490,9 @@ object MainForm: TMainForm
                 Action = EditToggleCaseAction
                 ImageIndex = 36
                 ShortCut = 24643
+              end
+              item
+                Action = EditRemoveWhiteSpaceAction
               end>
             Caption = '&Edit'
           end
@@ -1868,12 +1871,18 @@ object MainForm: TMainForm
       ShortCut = 16441
       OnExecute = GotoBookmarks0ActionExecute
     end
+    object EditRemoveWhiteSpaceAction: TAction
+      Category = '&Edit'
+      Caption = 'Re&move Whitespace'
+      Hint = 'Remove all whitespace from selected text'
+      OnExecute = EditRemoveWhiteSpaceActionExecute
+    end
   end
   object ImageList: TBCImageList
     Left = 408
     Top = 224
     Bitmap = {
-      494C01013F005C01B80510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01013F005C01BC0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000000001000001002000000000000000
       0100000000000000000000000000000000000000000000000000BD4C00000000
       0000000000000000000084240500842405008424050084240500842405000000

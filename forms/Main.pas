@@ -174,6 +174,7 @@ type
     GotoBookmarks7Action: TAction;
     GotoBookmarks8Action: TAction;
     GotoBookmarks9Action: TAction;
+    EditRemoveWhiteSpaceAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -269,6 +270,7 @@ type
     procedure ToggleBookmarks0ActionExecute(Sender: TObject);
     procedure GotoBookmarks0ActionExecute(Sender: TObject);
     procedure ToolsLanguageEditorActionExecute(Sender: TObject);
+    procedure EditRemoveWhiteSpaceActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -754,6 +756,7 @@ begin
   EditSortAscAction.Enabled := SelectionFound;
   EditSortDescAction.Enabled := SelectionFound;
   EditToggleCaseAction.Enabled := SelectionFound;
+  EditRemoveWhiteSpaceAction.Enabled := SelectionFound;
   EditInsertLineAction.Enabled := ActiveDocumentFound;
   EditDeleteWordAction.Enabled := ActiveDocumentFound;
   EditDeleteLineAction.Enabled := ActiveDocumentFound;
@@ -1341,6 +1344,11 @@ end;
 procedure TMainForm.EditRedoActionExecute(Sender: TObject);
 begin
   FDocumentFrame.Redo;
+end;
+
+procedure TMainForm.EditRemoveWhiteSpaceActionExecute(Sender: TObject);
+begin
+  FDocumentFrame.RemoveWhiteSpace;
 end;
 
 procedure TMainForm.EditSelectAllActionExecute(Sender: TObject);

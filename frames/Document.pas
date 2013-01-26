@@ -234,6 +234,7 @@ type
     Panel2: TPanel;
     RegularExpressionCheckBox: TBCCheckBox;
     RegularExpressionLabel: TLabel;
+    RemoveWhiteSpaceMenuItem: TMenuItem;
     procedure SynEditChange(Sender: TObject);
     procedure SynEditSplitChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
@@ -359,6 +360,7 @@ type
     procedure ShowWordCount;
     procedure RecordMacro;
     procedure PlaybackMacro;
+    procedure RemoveWhiteSpace;
     procedure StopMacro;
     procedure LoadMacro;
     procedure SaveMacro;
@@ -502,6 +504,7 @@ begin
   SortAscendingMenuItem.Action := MainForm.EditSortAscAction;
   SortDescendingMenuItem.Action := MainForm.EditSortDescAction;
   ToggleCaseMenuItem.Action := MainForm.EditToggleCaseAction;
+  RemoveWhiteSpaceMenuItem.Action := MainForm.EditRemoveWhiteSpaceAction;
   ClearBookmarksMenuItem.Action := MainForm.ClearBookmarksAction;
   ToggleBookmarkMenuItem.Action := MainForm.ToggleBookmarkAction;
   ToggleBookmarksMenuItem.Action := MainForm.ToggleBookmarksAction;
@@ -1715,7 +1718,7 @@ var
   SynSearchOptions: TSynSearchOptions;
   SynEdit: TBCSynEdit;
 begin
-  if Trim(SearchForEdit.Text) = '' then
+  if SearchForEdit.Text = '' then
     Exit;
 
   SynEdit := ActiveSynEdit;
@@ -1761,7 +1764,7 @@ var
   SynSearchOptions: TSynSearchOptions;
   SynEdit: TBCSynEdit;
 begin
-  if Trim(SearchForEdit.Text) = '' then
+  if SearchForEdit.Text = '' then
     Exit;
   SynSearchOptions := SearchOptions(False);
   SynEdit := ActiveSynEdit;
@@ -2888,6 +2891,27 @@ procedure TDocumentFrame.ToggleCase;
 begin
   ToggleCase(ActiveSynEdit);
   ToggleCase(ActiveSplitSynEdit);
+end;
+
+procedure TDocumentFrame.RemoveWhiteSpace;
+
+  procedure RemoveWhiteSpace(SynEdit: TBCSynEdit);
+  var
+    Strings: TWideStringList;
+  begin
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+      begin
+        Strings := TWideStringList.Create;
+        Strings.Text := SynEdit.SelText;
+        SynEdit.SelText := Common.RemoveWhiteSpace(Strings.Text);
+        Strings.Free;
+      end;
+  end;
+
+begin
+  RemoveWhiteSpace(ActiveSynEdit);
+  RemoveWhiteSpace(ActiveSplitSynEdit);
 end;
 
 procedure TDocumentFrame.SortAsc;

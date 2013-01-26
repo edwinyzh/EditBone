@@ -34,7 +34,6 @@ uses
 {$R *.res}
 
 var
-  i: Integer;
   StyleFilename: string;
 begin
   with TBigIniFile.Create(Common.GetINIFilename) do
