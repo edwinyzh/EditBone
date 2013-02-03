@@ -910,7 +910,7 @@ begin
     if Filename <> '' then
       if Assigned(FDirectoryFrame) then
         if FDirectoryFrame.IsAnyDirectory then
-          FDirectoryFrame.OpenPath(RootDirectory, ExtractFilePath(Filename), FDirectoryFrame.ExcludeOtherBranches);
+          FDirectoryFrame.OpenPath(Format('%s\', [ExtractFileDrive(Filename)]), ExtractFilePath(Filename), FDirectoryFrame.ExcludeOtherBranches);
     Repaint;
   except
     on E: Exception do
@@ -1495,6 +1495,7 @@ end;
 procedure TMainForm.ViewOutputActionExecute(Sender: TObject);
 begin
   OutputPanel.Visible := not OutputPanel.Visible;
+  Repaint;
 end;
 
 procedure TMainForm.ViewToolbarActionExecute(Sender: TObject);
@@ -1506,6 +1507,7 @@ end;
 procedure TMainForm.ViewWordWrapActionExecute(Sender: TObject);
 begin
   ViewWordWrapAction.Checked := FDocumentFrame.ToggleWordWrap;
+  Repaint;
 end;
 
 function TMainForm.SupportedFileExt(FileExt: string): Boolean;
