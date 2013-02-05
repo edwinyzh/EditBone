@@ -175,6 +175,9 @@ type
     GotoBookmarks8Action: TAction;
     GotoBookmarks9Action: TAction;
     EditRemoveWhiteSpaceAction: TAction;
+    FilePropertiesAction: TAction;
+    N3: TMenuItem;
+    Properties1: TMenuItem;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -271,6 +274,7 @@ type
     procedure GotoBookmarks0ActionExecute(Sender: TObject);
     procedure ToolsLanguageEditorActionExecute(Sender: TObject);
     procedure EditRemoveWhiteSpaceActionExecute(Sender: TObject);
+    procedure FilePropertiesActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -944,6 +948,11 @@ end;
 procedure TMainForm.FilePrintPreviewActionExecute(Sender: TObject);
 begin
   FDocumentFrame.PrintPreview;
+end;
+
+procedure TMainForm.FilePropertiesActionExecute(Sender: TObject);
+begin
+  FDocumentFrame.FileProperties;
 end;
 
 procedure TMainForm.FileExitActionExecute(Sender: TObject);

@@ -370,6 +370,7 @@ type
     procedure UpdateLanguage(SelectedLanguage: string);
     procedure GotoBookmarks(ItemIndex: Integer);
     procedure ToggleBookmarks(ItemIndex: Integer);
+    procedure FileProperties;
     function GetMacroRecordPauseImageIndex: Integer;
     function IsRecordingMacro: Boolean;
     function IsMacroStopped: Boolean;
@@ -1459,6 +1460,7 @@ begin
     SynEdit.UndoList.Clear;
     SynEdit.FileDateTime := GetFileDateTime(SynEdit.DocumentName);
     SynEdit.Modified := False;
+    TabSheet.ImageIndex := GetImageIndex(SynEdit.DocumentName);
     if Pos('~', TabSheet.Caption) = Length(TabSheet.Caption) then
       TabSheet.Caption := System.Copy(TabSheet.Caption, 0, Length(TabSheet.Caption) - 1);
     SelectHighLighter(SynEdit, SynEdit.DocumentName);
@@ -2632,7 +2634,7 @@ var
 
    // OutputObject := TOutputObject.Create;
     System.New(OutputObject);
-    OutputObject.FileName := e.FDocumentName;
+    OutputObject.FileName := e.DocumentName;
     OutputObject.Ln := i + 1;
     OutputObject.Ch := hl.GetTokenPos + 1;
     OutputObject.Text := ShortString(S);
@@ -3182,6 +3184,15 @@ begin
       SynEdit.SynMacroRecorder.LoadFromFile(CommonDialogs.Files[0]);
     end;
   end;
+end;
+
+procedure TDocumentFrame.FileProperties;
+var
+  SynEdit: TBCSynEdit;
+begin
+  SynEdit := ActiveSynEdit;
+  if Assigned(SynEdit) then
+    Common.PropertiesDialog(SynEdit.DocumentName);
 end;
 
 procedure TDocumentFrame.SetActiveEncoding(Value: Integer);

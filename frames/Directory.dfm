@@ -59,6 +59,10 @@ object DirectoryFrame: TDirectoryFrame
       ImageIndex = 5
       OnExecute = DirectoryDeleteActionExecute
     end
+    object DirectoryPropertiesAction: TAction
+      Caption = '&Properties'
+      OnExecute = DirectoryPropertiesActionExecute
+    end
   end
   object PopupMenu: TBCPopupMenu
     Images = ImagesList
@@ -90,12 +94,18 @@ object DirectoryFrame: TDirectoryFrame
     object Delete1: TMenuItem
       Action = DirectoryDeleteAction
     end
+    object N3: TMenuItem
+      Caption = '-'
+    end
+    object Properties1: TMenuItem
+      Action = DirectoryPropertiesAction
+    end
   end
   object ImagesList: TBCImageList
     Left = 264
     Top = 96
     Bitmap = {
-      494C0101060054001C0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106005400240210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

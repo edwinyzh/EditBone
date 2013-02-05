@@ -61,7 +61,6 @@ object MainForm: TMainForm
       Top = 0
       Width = 833
       Height = 30
-      UseSystemFont = False
       ActionManager = ActionManager
       Align = alNone
       Color = clMenuBar
@@ -70,7 +69,7 @@ object MainForm: TMainForm
       ColorMap.BtnSelectedFont = clBlack
       ColorMap.UnusedColor = clWhite
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clMenuText
       Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = []
@@ -258,6 +257,8 @@ object MainForm: TMainForm
       ParentDoubleBuffered = False
       TabOrder = 0
       Visible = False
+      ExplicitLeft = 10
+      ExplicitTop = 389
     end
     object DirectoryPanel: TPanel
       Left = 0
@@ -1877,12 +1878,18 @@ object MainForm: TMainForm
       Hint = 'Remove all whitespace from selected text'
       OnExecute = EditRemoveWhiteSpaceActionExecute
     end
+    object FilePropertiesAction: TAction
+      Category = '&File'
+      Caption = 'Pr&operties'
+      Hint = 'See the file/directory properties'
+      OnExecute = FilePropertiesActionExecute
+    end
   end
   object ImageList: TBCImageList
     Left = 408
     Top = 224
     Bitmap = {
-      494C01013F005C01BC0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01013F005C01C80510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000000001000001002000000000000000
       0100000000000000000000000000000000000000000000000000BD4C00000000
       0000000000000000000084240500842405008424050084240500842405000000
@@ -4047,6 +4054,12 @@ object MainForm: TMainForm
     end
     object SelectforCompareMenuItem: TMenuItem
       Action = ToolsSelectForCompareAction
+    end
+    object N3: TMenuItem
+      Caption = '-'
+    end
+    object Properties1: TMenuItem
+      Action = FilePropertiesAction
     end
   end
   object AppInstances: TJvAppInstances

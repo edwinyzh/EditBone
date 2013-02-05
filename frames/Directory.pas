@@ -31,6 +31,9 @@ type
     Refresh1: TMenuItem;
     DirectoryEditAction: TAction;
     EditDirectory1: TMenuItem;
+    N3: TMenuItem;
+    DirectoryPropertiesAction: TAction;
+    Properties1: TMenuItem;
     procedure DirectoryRenameActionExecute(Sender: TObject);
     procedure DirectoryDeleteActionExecute(Sender: TObject);
     procedure DriveComboChange(Sender: TObject);
@@ -39,6 +42,7 @@ type
     procedure DirectoryOpenActionExecute(Sender: TObject);
     procedure DirectoryRefreshActionExecute(Sender: TObject);
     procedure DirectoryEditActionExecute(Sender: TObject);
+    procedure DirectoryPropertiesActionExecute(Sender: TObject);
     //procedure VirtualDrawTreeKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
@@ -301,6 +305,12 @@ end;
 procedure TDirectoryFrame.DirectoryOpenActionExecute(Sender: TObject);
 begin
   OpenDirectory;
+end;
+
+procedure TDirectoryFrame.DirectoryPropertiesActionExecute(Sender: TObject);
+begin
+  if ActiveFileTreeView.SelectedCount > 0 then
+    Common.PropertiesDialog(ActiveFileTreeView.SelectedFile);
 end;
 
 function TDirectoryFrame.GetRootDirectory: string;
