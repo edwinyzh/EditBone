@@ -3,7 +3,7 @@
 			<ProjectGuid>{E3B818CC-5E75-4FBB-9706-6F94F69C4127}</ProjectGuid>
 			<ProjectVersion>13.4</ProjectVersion>
 			<MainSource>EditBone.dpr</MainSource>
-			<Config Condition="'$(Config)'==''">Release</Config>
+			<Config Condition="'$(Config)'==''">Debug</Config>
 			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
 			<Base>True</Base>
 			<AppType>Application</AppType>

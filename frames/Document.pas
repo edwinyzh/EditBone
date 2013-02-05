@@ -76,7 +76,6 @@ type
     FSynMacroRecorder: TSynMacroRecorder;
     FEncoding: TEncoding;
   protected
-    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure DoOnProcessCommand(var Command: TSynEditorCommand;
       var AChar: WideChar; Data: pointer); override;
   public
@@ -470,6 +469,15 @@ end;
 procedure TBCSynEdit.SaveToFile(const FileName: String);
 begin
   Lines.SaveToFile(FileName, FEncoding);
+end;
+
+procedure TBCSynEdit.DoOnProcessCommand(var Command: TSynEditorCommand; var AChar: WideChar;
+  Data: pointer);
+begin
+  inherited;
+  if Assigned(FSynMacroRecorder) then
+    if FSynMacroRecorder.State = msRecording then
+      FSynMacroRecorder.AddEvent(Command, AChar, Data);
 end;
 
 { TDocumentFrame }
@@ -947,7 +955,7 @@ begin
     WantTabs := True;
     Options := [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo,
       eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces,
-      eoTrimTrailingSpaces, eoScrollPastEol, eoSpecialLineDefaultFg];
+      eoTrimTrailingSpaces, eoScrollPastEol, eoSpecialLineDefaultFg, eoAltSetsColumnMode];
     OnChange := SynEditChange;
     OnSpecialLineColors := SynEditSpecialLineColors;
     OnEnter := SynEditEnter;
@@ -1189,29 +1197,6 @@ end;
 procedure TDocumentFrame.SelectForCompare;
 begin
   CompareFiles(ActiveSynEdit.DocumentName);
-end;
-
-{ TBCSynEdit }
-
-procedure TBCSynEdit.DoOnProcessCommand(var Command: TSynEditorCommand; var AChar: WideChar;
-  Data: pointer);
-begin
-  inherited;
-  if Assigned(FSynMacroRecorder) then
-    if FSynMacroRecorder.State = msRecording then
-      FSynMacroRecorder.AddEvent(Command, AChar, Data);
-end;
-
-procedure TBCSynEdit.KeyDown(var Key: Word; Shift: TShiftState);
-begin
-  inherited;
-  if Shift = [ssAlt] then
-  begin
-    if SelectionMode = smNormal then
-      SelectionMode := smColumn
-    else
-      SelectionMode := smNormal;
-  end;
 end;
 
 function TDocumentFrame.FindOpenFile(FileName: string): TBCSynEdit;
