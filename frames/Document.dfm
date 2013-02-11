@@ -1,16 +1,17 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 304
+  Width = 854
+  Height = 564
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
   TabOrder = 0
+  ExplicitHeight = 510
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 854
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -467,8 +468,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 451
-    Height = 283
+    Width = 854
+    Height = 543
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -476,11 +477,12 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentColor = True
     TabOrder = 1
+    ExplicitHeight = 489
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 451
-      Height = 281
+      Width = 854
+      Height = 541
       Align = alClient
       DoubleBuffered = False
       Font.Charset = DEFAULT_CHARSET
@@ -494,13 +496,14 @@ object DocumentFrame: TDocumentFrame
       OnChange = PageControlChange
       TabDragDrop = True
       HoldShiftToDragDrop = False
+      ExplicitHeight = 487
     end
   end
   object ImageList: TBCImageList
     Left = 36
     Top = 342
     Bitmap = {
-      494C010106003800500510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106003800540510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1310,7 +1313,7 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 450
     Bitmap = {
-      494C01010A003800300510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A003800340510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1850,6 +1853,9 @@ object DocumentFrame: TDocumentFrame
     object RemoveWhiteSpaceMenuItem: TMenuItem
       Action = MainForm.EditRemoveWhiteSpaceAction
     end
+    object FormatXMLMenuItem: TMenuItem
+      Action = MainForm.FormatXMLAction
+    end
   end
   object SynMacroRecorder: TSynMacroRecorder
     RecordShortCut = 24658
@@ -1932,7 +1938,7 @@ object DocumentFrame: TDocumentFrame
     Left = 606
     Top = 462
     Bitmap = {
-      494C010102009C04840514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010102009C04880514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000A4676900A4676900A467
@@ -2152,7 +2158,7 @@ object DocumentFrame: TDocumentFrame
     Left = 606
     Top = 518
     Bitmap = {
-      494C01010200BC04880518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010200BC048C0518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000A467

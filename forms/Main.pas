@@ -178,6 +178,7 @@ type
     FilePropertiesAction: TAction;
     N3: TMenuItem;
     Properties1: TMenuItem;
+    FormatXMLAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -275,6 +276,7 @@ type
     procedure ToolsLanguageEditorActionExecute(Sender: TObject);
     procedure EditRemoveWhiteSpaceActionExecute(Sender: TObject);
     procedure FilePropertiesActionExecute(Sender: TObject);
+    procedure FormatXMLActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -784,6 +786,7 @@ begin
   ViewSpecialCharsAction.Enabled := ActiveDocumentFound;
   ToolsWordCountAction.Enabled := ActiveDocumentFound;
   ToolsSelectForCompareAction.Enabled := not FDocumentFrame.ActiveDocumentModified;
+  FormatXMLAction.Visible := ActiveDocumentFound and (HighlighterComboBox.ItemIndex = 57); { 57 = SynWebXmlSyn, fastest way to check this and here it's important }
 
   if OutputPanel.Visible then
   begin
@@ -963,6 +966,11 @@ end;
 procedure TMainForm.FormActivate(Sender: TObject);
 begin
   Repaint;
+end;
+
+procedure TMainForm.FormatXMLActionExecute(Sender: TObject);
+begin
+  FDocumentFrame.FormatXML;
 end;
 
 procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);

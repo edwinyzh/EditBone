@@ -234,6 +234,7 @@ type
     RegularExpressionCheckBox: TBCCheckBox;
     RegularExpressionLabel: TLabel;
     RemoveWhiteSpaceMenuItem: TMenuItem;
+    FormatXMLMenuItem: TMenuItem;
     procedure SynEditChange(Sender: TObject);
     procedure SynEditSplitChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
@@ -370,6 +371,7 @@ type
     procedure GotoBookmarks(ItemIndex: Integer);
     procedure ToggleBookmarks(ItemIndex: Integer);
     procedure FileProperties;
+    procedure FormatXML;
     function GetMacroRecordPauseImageIndex: Integer;
     function IsRecordingMacro: Boolean;
     function IsMacroStopped: Boolean;
@@ -395,7 +397,7 @@ implementation
 uses
   PrintPreview, Replace, ConfirmReplace, Common, Lib, Options, StyleHooks,
   SynTokenMatch, SynHighlighterWebMisc, Compare, System.Types, Winapi.ShellAPI, System.WideStrings,
-  Main, BigIni, Vcl.GraphUtil, SynUnicode, Language, CommonDialogs;
+  Main, BigIni, Vcl.GraphUtil, SynUnicode, Language, CommonDialogs, SynEditTextBuffer;
 
 var
   FUTF8EncodingWithoutBOM: TEncoding;
@@ -538,6 +540,7 @@ begin
   GotoBookmark7MenuItem.Action := MainForm.GotoBookmarks7Action;
   GotoBookmark8MenuItem.Action := MainForm.GotoBookmarks8Action;
   GotoBookmark9MenuItem.Action := MainForm.GotoBookmarks9Action;
+  FormatXMLMenuItem.Action := MainForm.FormatXMLAction;
 
   PageControl.Images := TBCImageList.Create(Self);
 
@@ -3435,5 +3438,22 @@ begin
       TCompareFrame(PageControl.Pages[i].Components[0].Components[0]).UpdateLanguage(SelectedLanguage);
 end;
 
+procedure TDocumentFrame.FormatXML;
+var
+  SynEdit: TBCSynEdit;
+begin
+  SynEdit := ActiveSynEdit;
+  if Assigned(SynEdit) then
+  begin
+    SynEdit.BeginUndoBlock;
+    try
+      SynEdit.SelectAll;
+      SynEdit.SelText := Common.FormatXML(SynEdit.Text);
+    finally
+      SynEdit.EndUndoBlock;
+      SynEdit.SetFocus;
+    end;
+  end;
+end;
 
 end.
