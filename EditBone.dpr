@@ -29,7 +29,9 @@ uses
   Dlg in '..\..\Common\dialogs\Dlg.pas' {Dialog},
   Common in '..\..\Common\units\Common.pas',
   CommonDialogs in '..\..\Common\units\CommonDialogs.pas',
-  LanguageEditor in 'forms\LanguageEditor.pas' {LanguageEditorForm};
+  LanguageEditor in 'forms\LanguageEditor.pas' {LanguageEditorForm},
+  DocumentTabSheet in 'frames\DocumentTabSheet.pas' {TabSheetFrame: TFrame},
+  Encoding in '..\..\Common\units\Encoding.pas';
 
 {$R *.res}
 

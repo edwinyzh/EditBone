@@ -60,36 +60,9 @@ uses
   SynHighlighterKix, SynHighlighterAWK, SynHighlighterVrml97, SynHighlighterVBScript,
   SynHighlighterCobol, SynHighlighterM3, SynHighlighterFortran, SynHighlighterEiffel,
   PlatformDefaultStyleActnCtrls, Vcl.ActnPopup, BCPopupMenu, SynMacroRecorder, SynEditKeyCmds,
-  Vcl.Themes, SynHighlighterDWS, SynEditRegexSearch;
+  Vcl.Themes, SynHighlighterDWS, SynEditRegexSearch, BCSynEdit;
 
 type
-  TUTF8EncodingWithoutBOM = class(TUTF8Encoding)
-  public
-    function GetPreamble: TBytes; override;
-  end;
-
-  TBCSynEdit = class(TSynEdit)
-  private
-    FDocumentName: string;
-    FFileDateTime: TDateTime;
-    FHtmlVersion: TSynWebHtmlVersion;
-    FSynMacroRecorder: TSynMacroRecorder;
-    FEncoding: TEncoding;
-  protected
-    procedure DoOnProcessCommand(var Command: TSynEditorCommand;
-      var AChar: WideChar; Data: pointer); override;
-  public
-    constructor Create(AOwner: TComponent); override;
-    destructor Destroy; override;
-    procedure LoadFromFile(const FileName: String);
-    procedure SaveToFile(const FileName: String);
-    property DocumentName: string read FDocumentName write FDocumentName;
-    property FileDateTime: TDateTime read FFileDateTime write FFileDateTime;
-    property HtmlVersion: TSynWebHtmlVersion read FHtmlVersion write FHtmlVersion;
-    property SynMacroRecorder: TSynMacroRecorder read FSynMacroRecorder write FSynMacroRecorder;
-    property Encoding: TEncoding read FEncoding write FEncoding;
-  end;
-
   TDocumentFrame = class(TFrame)
     ImageList: TBCImageList;
     SynAsmSyn: TSynAsmSyn;
@@ -245,8 +218,6 @@ type
     procedure SearchCloseActionExecute(Sender: TObject);
     procedure SearchFindNextActionExecute(Sender: TObject);
     procedure SearchFindPreviousActionExecute(Sender: TObject);
-    //procedure ToggleBookmark0MenuItemClick(Sender: TObject);
-    //procedure GotoBookmark0MenuItemClick(Sender: TObject);
     procedure SearchClearActionExecute(Sender: TObject);
     procedure SynEditSpecialLineColors(Sender: TObject; Line: Integer; var Special: Boolean;
       var FG, BG: TColor);
@@ -259,7 +230,6 @@ type
     FHTMLErrorList: TList;
     FHTMLDocumentChanged: Boolean;
     FSynEditsList: TList;
-    //FSystemImageList: TImageList;
     function CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
     function GetActiveTabSheetCaption: string;
     function GetActiveDocumentName: string;
@@ -268,7 +238,6 @@ type
     function GetSplitSynEdit(TabSheet: TTabSheet): TBCSynEdit;
     function GetActivePageCaption: string;
     function GetPanel: TPanel;
-//    function ActiveSynEdit: TBCSynEdit;
     function Save(TabSheet: TTabSheet; ShowDialog: Boolean = False): string;
       overload;
     procedure InitializeSynEditPrint;
@@ -395,92 +364,10 @@ implementation
 {$R *.dfm}
 
 uses
-  PrintPreview, Replace, ConfirmReplace, Common, Lib, Options, StyleHooks,
+  PrintPreview, Replace, ConfirmReplace, Common, Lib, Options, StyleHooks, VirtualTrees,
   SynTokenMatch, SynHighlighterWebMisc, Compare, System.Types, Winapi.ShellAPI, System.WideStrings,
-  Main, BigIni, Vcl.GraphUtil, SynUnicode, Language, CommonDialogs, SynEditTextBuffer;
-
-var
-  FUTF8EncodingWithoutBOM: TEncoding;
-
-{ TUTF8EncodingWithoutBOM }
-
-function TUTF8EncodingWithoutBOM.GetPreamble: TBytes;
-begin
-  SetLength(Result, 0);
-end;
-
-function GetUTF8WithoutBOM: TEncoding;
-var
-  LEncoding: TEncoding;
-begin
-  if FUTF8EncodingWithoutBOM = nil then
-  begin
-    LEncoding := TUTF8EncodingWithoutBOM.Create;
-    if InterlockedCompareExchangePointer(Pointer(FUTF8EncodingWithoutBOM), LEncoding, nil) <> nil then
-      LEncoding.Free;
-  end;
-  Result := FUTF8EncodingWithoutBOM;
-end;
-
-{ TBCSynEdit }
-
-constructor TBCSynEdit.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  Width := 0;
-  Height := 0;
-end;
-
-destructor TBCSynEdit.Destroy;
-begin
-  if Assigned(FSynMacroRecorder) then
-    FSynMacroRecorder.Free;
-  inherited;
-end;
-
-procedure TBCSynEdit.LoadFromFile(const FileName: String);
-var
-  LFileStream: TFileStream;
-  LBuffer: TBytes;
-  WithBom: Boolean;
-begin
-  FEncoding := nil;
-  LFileStream := TFileStream.Create(FileName, fmOpenRead);
-  try
-    // Identify encoding
-    if SynUnicode.IsUTF8(LFileStream, WithBom) then
-    begin
-      if WithBom then
-        FEncoding := TEncoding.UTF8
-      else
-        FEncoding := GetUTF8WithoutBOM;
-    end
-    else
-    begin
-      // Read file into buffer
-      SetLength(LBuffer, LFileStream.Size);
-      LFileStream.ReadBuffer(Pointer(LBuffer)^, Length(LBuffer));
-      TEncoding.GetBufferEncoding(LBuffer, FEncoding);
-    end;
-  finally
-    LFileStream.Free;
-  end;
-  Lines.LoadFromFile(FileName, FEncoding);
-end;
-
-procedure TBCSynEdit.SaveToFile(const FileName: String);
-begin
-  Lines.SaveToFile(FileName, FEncoding);
-end;
-
-procedure TBCSynEdit.DoOnProcessCommand(var Command: TSynEditorCommand; var AChar: WideChar;
-  Data: pointer);
-begin
-  inherited;
-  if Assigned(FSynMacroRecorder) then
-    if FSynMacroRecorder.State = msRecording then
-      FSynMacroRecorder.AddEvent(Command, AChar, Data);
-end;
+  Main, BigIni, Vcl.GraphUtil, SynUnicode, Language, CommonDialogs, SynEditTextBuffer, Encoding,
+  DocumentTabSheet;
 
 { TDocumentFrame }
 
@@ -895,8 +782,7 @@ end;
 function TDocumentFrame.CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
 var
   TabSheet: TTabSheet;
-  Panel: TPanel;
-  SynEdit: TBCSynEdit;
+  TabSheetFrame: TTabSheetFrame;
 begin
   { create a TabSheet }
   TabSheet := TTabSheet.Create(PageControl);
@@ -906,89 +792,59 @@ begin
     TabSheet.ImageIndex := GetImageIndex(FileName) // SAVED_IMAGEINDEX;
   else
     TabSheet.ImageIndex := FNewImageIndex;
-  // TabSheet.DoubleBuffered := True;
+
   { set the Caption property }
   if FileName = '' then
     TabSheet.Caption := LanguageDataModule.GetConstant('Document') + IntToStr(FNumberOfNewDocument)
   else
     TabSheet.Caption := ExtractFileName(FileName);
   PageControl.ActivePage := TabSheet;
-  { create a Panel }
-  Panel := TPanel.Create(TabSheet);
-  with Panel do
+
+  TabSheetFrame := TTabSheetFrame.Create(TabSheet);
+  with TabSheetFrame do
   begin
+    SynEdit.Visible := False;
     Parent := TabSheet;
     Align := alClient;
-    BevelOuter := bvNone;
-    Caption := '';
-    DoubleBuffered := False;
-    Padding.Left := 1;
-    Padding.Top := 1;
     if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
-      Padding.Right := 3
+      Panel.Padding.Right := 3
     else
-      Padding.Right := 1;
-    Padding.Bottom := 2;
-    ParentColor := True;
-    ParentDoubleBuffered := False;
+      Panel.Padding.Right := 1;
+
+    with SynEdit do
+    begin
+     // Align := alClient;
+      DocumentName := FileName;
+      FileDateTime := GetFileDateTime(FileName);
+      OnChange := SynEditChange;
+      OnSpecialLineColors := SynEditSpecialLineColors;
+      OnEnter := SynEditEnter;
+      OnReplaceText := SynEditorReplaceText;
+      SearchEngine := SynEditSearch;
+      PopupMenu := EditorPopupMenu;
+      BookMarkOptions.BookmarkImages := BookmarkImagesList;
+    end;
+    FSynEditsList.Add(SynEdit);
+
+    OptionsContainer.AssignTo(SynEdit);
+    SynWebEngine.Options.HtmlVersion := shvUndefined;
+    if Filename <> '' then
+    begin
+      SynEdit.LoadFromFile(FileName);
+      SelectHighLighter(SynEdit, FileName);
+    end;
+    UpdateGutter(SynEdit);
+    { reduce flickering by setting width & height }
+    SynEdit.Width := 0;
+    SynEdit.Height := 0;
+    SynEdit.Visible := True;
+
+    if SynEdit.CanFocus then
+      SynEdit.SetFocus;
+    SetMainHighlighterCombo(SynEdit);
+    SetMainEncodingCombo(SynEdit);
+    Result := SynEdit;
   end;
-
-  { create a SynEdit }
-  SynEdit := TBCSynEdit.Create(Panel);
-  with SynEdit do
-  begin
-    Visible := False;
-    Align := alClient;
-    Parent := Panel;
-    DocumentName := FileName;
-    FileDateTime := GetFileDateTime(FileName);
-    Font.Charset := DEFAULT_CHARSET;
-    Font.Color := clWindowText;
-    Font.Height := -13;
-    Font.Name := 'Courier New';
-    Font.Style := [];
-    Gutter.AutoSize := True;
-    Gutter.Font.Charset := DEFAULT_CHARSET;
-    Gutter.Font.Color := clWindowText;
-    Gutter.Font.Height := -11;
-    Gutter.Font.Name := 'Courier New';
-    Gutter.Font.Style := [];
-    Gutter.ShowLineNumbers := True;
-    Gutter.Gradient := False; //True;
-    WantTabs := True;
-    Options := [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo,
-      eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces,
-      eoTrimTrailingSpaces, eoScrollPastEol, eoSpecialLineDefaultFg, eoAltSetsColumnMode];
-    OnChange := SynEditChange;
-    OnSpecialLineColors := SynEditSpecialLineColors;
-    OnEnter := SynEditEnter;
-    OnReplaceText := SynEditorReplaceText;
-    SearchEngine := SynEditSearch;
-    ActiveLineColor := clSkyBlue;
-    PopupMenu := EditorPopupMenu;
-    BookMarkOptions.BookmarkImages := BookmarkImagesList;
-    Padding.Left := 8;
-  end;
-
-  TStyleManager.Engine.RegisterStyleHook(TCustomSynEdit, TSynEditStyleHook); //TMemoStyleHook);
-  FSynEditsList.Add(SynEdit);
-
-  OptionsContainer.AssignTo(SynEdit);
-  SynWebEngine.Options.HtmlVersion := shvUndefined;
-
-  if Filename <> '' then
-  begin
-    SynEdit.LoadFromFile(FileName);
-    SelectHighLighter(SynEdit, FileName);
-  end;
-  UpdateGutter(SynEdit);
-  Application.ProcessMessages;
-  SynEdit.Visible := True;
-  if SynEdit.CanFocus then
-    SynEdit.SetFocus;
-  SetMainHighlighterCombo(SynEdit);
-  SetMainEncodingCombo(SynEdit);
-  Result := SynEdit;
 end;
 
 procedure TDocumentFrame.UpdateHighlighterColors;
@@ -1570,7 +1426,6 @@ begin
   end;
 end;
 
-
 procedure TDocumentFrame.SetMainEncodingCombo(SynEdit: TBCSynEdit);
 begin
   if Assigned(SynEdit) then
@@ -2132,20 +1987,11 @@ begin
 end;
 
 function TDocumentFrame.GetSynEdit(TabSheet: TTabSheet): TBCSynEdit;
-var
-  Panel: TPanel;
 begin
   Result := nil;
   if TabSheet.ComponentCount <> 0 then
-  begin
-    if TabSheet.Components[0] is TPanel then
-    begin
-      Panel := TPanel(TabSheet.Components[0]);
-      if Panel.ComponentCount <> 0 then
-        if Panel.Components[0] is TBCSynEdit then
-          Result := TBCSynEdit(Panel.Components[0]);
-    end;
-  end;
+    if TabSheet.Components[0] is TTabSheetFrame then
+      Result := TTabSheetFrame(TabSheet.Components[0]).SynEdit;
 end;
 
 procedure TDocumentFrame.GotoBookmarks(ItemIndex: Integer);
@@ -2586,24 +2432,12 @@ begin
 end;
 
 function TDocumentFrame.GetHTMLErrors: TList;
-{var
-  i: Integer;
-  OutputObject: TOutputObject; }
 begin
   Result := nil;
   if FHTMLDocumentChanged then
   begin
     FHTMLDocumentChanged := False;
     Result := FHTMLErrorList;
-    {ErrorFrame.ErrortListBox.Items.BeginUpdate;
-    ErrorFrame.Clear;
-    for i := 0 to FHTMLErrorList.Count - 1 do
-    begin
-      OutputObject := FHTMLErrorList.Items[i];
-      ErrorFrame.Add(OutputObject.FileName, OutputObject.Ln, OutputObject.Ch,
-        OutputObject.Text);
-    end;
-    ErrorFrame.ErrortListBox.Items.EndUpdate; }
   end;
 end;
 
@@ -2612,7 +2446,6 @@ var
   i: Integer;
   hl: TSynWebBase;
   e: TBCSynEdit;
- // TempVersion: TSynWebHtmlVersion;
 
   procedure AddError(S: WideString);
   var
@@ -2620,7 +2453,6 @@ var
   begin
     S := Format(S, [hl.GetToken]);
 
-   // OutputObject := TOutputObject.Create;
     System.New(OutputObject);
     OutputObject.FileName := e.DocumentName;
     OutputObject.Ln := i + 1;
@@ -2637,58 +2469,47 @@ begin
   if not Assigned(e) then
     Exit;
 
-//  TempVersion := shvUndefined;
   DestroyHTMLErrorListItems;
-  //if Assigned(PageControl.ActivePage) then
- //   TempVersion := ActiveSynEdit.HtmlVersion;
-  //for j := 0 to PageControl.PageCount - 1 do
-  //begin
-  //  e := GetSynEdit(PageControl.Pages[j]);
-  //  if Assigned(e) then
-  //  begin
-      SynWebEngine.Options.HtmlVersion := e.HtmlVersion;
-      if e.Highlighter is TSynWebBase then
+
+  SynWebEngine.Options.HtmlVersion := e.HtmlVersion;
+  if e.Highlighter is TSynWebBase then
+  begin
+    hl := TSynWebBase(e.Highlighter);
+    hl.ResetRange;
+    i := 0;
+    while i < e.Lines.Count do
+    begin
+      hl.SetLine(e.Lines[i], i + 1);
+      while not hl.GetEol do
       begin
-        hl := TSynWebBase(e.Highlighter);
-        hl.ResetRange;
-        i := 0;
-        while i < e.Lines.Count do
-        begin
-          hl.SetLine(e.Lines[i], i + 1);
-          while not hl.GetEol do
-          begin
-            case hl.GetTokenID of
-              stkMLTagNameUndef:
-                AddError(LanguageDataModule.GetConstant('InvalidHTMLTag'));
-              stkMLTagKeyUndef:
-                AddError(LanguageDataModule.GetConstant('InvalidHTMLAttribute'));
-              stkMLError:
-                AddError(LanguageDataModule.GetConstant('InvalidHTMLToken'));
+        case hl.GetTokenID of
+          stkMLTagNameUndef:
+            AddError(LanguageDataModule.GetConstant('InvalidHTMLTag'));
+          stkMLTagKeyUndef:
+            AddError(LanguageDataModule.GetConstant('InvalidHTMLAttribute'));
+          stkMLError:
+            AddError(LanguageDataModule.GetConstant('InvalidHTMLToken'));
 
-              stkCssSelectorUndef:
-                AddError(LanguageDataModule.GetConstant('InvalidCSSSelector'));
-              stkCssPropUndef:
-                AddError(LanguageDataModule.GetConstant('InvalidCSSProperty'));
-              stkCssValUndef:
-                AddError(LanguageDataModule.GetConstant('InvalidCSSValue'));
-              stkCssError:
-                AddError(LanguageDataModule.GetConstant('InvalidCSSToken'));
+          stkCssSelectorUndef:
+            AddError(LanguageDataModule.GetConstant('InvalidCSSSelector'));
+          stkCssPropUndef:
+            AddError(LanguageDataModule.GetConstant('InvalidCSSProperty'));
+          stkCssValUndef:
+            AddError(LanguageDataModule.GetConstant('InvalidCSSValue'));
+          stkCssError:
+            AddError(LanguageDataModule.GetConstant('InvalidCSSToken'));
 
-              stkEsError:
-                AddError(LanguageDataModule.GetConstant('InvalidJSToken'));
+          stkEsError:
+            AddError(LanguageDataModule.GetConstant('InvalidJSToken'));
 
-              stkPhpError:
-                AddError(LanguageDataModule.GetConstant('InvalidPHPToken'));
-            end;
-            hl.Next;
-          end;
-          Inc(i);
+          stkPhpError:
+            AddError(LanguageDataModule.GetConstant('InvalidPHPToken'));
         end;
+        hl.Next;
       end;
-  //  end;
-  //end;
-//  if Assigned(PageControl.ActivePage) then
-//    SynWebEngine.Options.HtmlVersion := TempVersion;
+      Inc(i);
+    end;
+  end;
 end;
 
 procedure TDocumentFrame.SynEditHTMLOnChange(Sender: TObject);
@@ -2700,7 +2521,6 @@ begin
     PageControl.ActivePage.Caption := Format('%s~', [PageControl.ActivePage.Caption]);
     PageControlRepaint;
   end;
-  // PageControl.ActivePage.ImageIndex := CHANGED_IMAGEINDEX;
   FHTMLDocumentChanged := True;
   CheckHTMLErrors;
 end;
@@ -3339,8 +3159,8 @@ begin
   TabSheet := PageControl.ActivePage;
   if Assigned(TabSheet) then
     if TabSheet.ComponentCount <> 0 then
-      if TabSheet.Components[0] is TPanel then
-        Result := TPanel(TabSheet.Components[0]);
+      if TabSheet.Components[0] is TTabSheetFrame then
+        Result := TTabSheetFrame(TabSheet.Components[0]).Panel;
 end;
 
 procedure TDocumentFrame.ToggleSplit;
@@ -3414,7 +3234,7 @@ begin
         Parent := Panel;
         Align := alBottom;
         Height := 3;
-        Cursor := crVSplit;
+        Cursor := crHSplit;
         AutoSnap := False;
       end;
     end;
@@ -3431,7 +3251,6 @@ var
   i: Integer;
 begin
   Common.UpdateLanguage(Self, SelectedLanguage);
-  { toggle ja goto bookmarks }
   { compare frames }
   for i := 0 to PageControl.PageCount - 1 do
     if PageControl.Pages[i].ImageIndex = FCompareImageIndex then

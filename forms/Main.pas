@@ -314,7 +314,7 @@ implementation
 
 uses
   About, FindInFiles, Vcl.ClipBrd, Common, VirtualTrees, BigIni, StyleHooks,
-  System.IOUtils, Language, ConfirmReplace, LanguageEditor;
+  System.IOUtils, Language, ConfirmReplace, LanguageEditor, BCSynEdit;
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
