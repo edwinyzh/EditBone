@@ -60,7 +60,7 @@ uses
   SynHighlighterKix, SynHighlighterAWK, SynHighlighterVrml97, SynHighlighterVBScript,
   SynHighlighterCobol, SynHighlighterM3, SynHighlighterFortran, SynHighlighterEiffel,
   PlatformDefaultStyleActnCtrls, Vcl.ActnPopup, BCPopupMenu, SynMacroRecorder, SynEditKeyCmds,
-  Vcl.Themes, SynHighlighterDWS, SynEditRegexSearch, BCSynEdit;
+  Vcl.Themes, SynHighlighterDWS, SynEditRegexSearch, BCSynEdit, DocumentTabSheet;
 
 type
   TDocumentFrame = class(TFrame)
@@ -234,10 +234,10 @@ type
     function GetActiveTabSheetCaption: string;
     function GetActiveDocumentName: string;
     function GetActiveDocumentFound: Boolean;
+    function GetTabSheetFrame(TabSheet: TTabSheet): TTabSheetFrame;
     function GetSynEdit(TabSheet: TTabSheet): TBCSynEdit;
     function GetSplitSynEdit(TabSheet: TTabSheet): TBCSynEdit;
     function GetActivePageCaption: string;
-    function GetPanel: TPanel;
     function Save(TabSheet: TTabSheet; ShowDialog: Boolean = False): string;
       overload;
     procedure InitializeSynEditPrint;
@@ -366,8 +366,7 @@ implementation
 uses
   PrintPreview, Replace, ConfirmReplace, Common, Lib, Options, StyleHooks, VirtualTrees,
   SynTokenMatch, SynHighlighterWebMisc, Compare, System.Types, Winapi.ShellAPI, System.WideStrings,
-  Main, BigIni, Vcl.GraphUtil, SynUnicode, Language, CommonDialogs, SynEditTextBuffer, Encoding,
-  DocumentTabSheet;
+  Main, BigIni, Vcl.GraphUtil, SynUnicode, Language, CommonDialogs, SynEditTextBuffer, Encoding;
 
 { TDocumentFrame }
 
@@ -1986,12 +1985,33 @@ begin
   end;
 end;
 
-function TDocumentFrame.GetSynEdit(TabSheet: TTabSheet): TBCSynEdit;
+function TDocumentFrame.GetTabSheetFrame(TabSheet: TTabSheet): TTabSheetFrame;
 begin
   Result := nil;
-  if TabSheet.ComponentCount <> 0 then
-    if TabSheet.Components[0] is TTabSheetFrame then
-      Result := TTabSheetFrame(TabSheet.Components[0]).SynEdit;
+  if Assigned(TabSheet) then
+    if TabSheet.ComponentCount <> 0 then
+      if TabSheet.Components[0] is TTabSheetFrame then
+        Result := TTabSheetFrame(TabSheet.Components[0]);
+end;
+
+function TDocumentFrame.GetSplitSynEdit(TabSheet: TTabSheet): TBCSynEdit;
+var
+  TabSheetFrame: TTabSheetFrame;
+begin
+  Result := nil;
+  TabSheetFrame := GetTabSheetFrame(TabSheet);
+  if Assigned(TabSheetFrame) then
+    Result := TabSheetFrame.SplitSynEdit;
+end;
+
+function TDocumentFrame.GetSynEdit(TabSheet: TTabSheet): TBCSynEdit;
+var
+  TabSheetFrame: TTabSheetFrame;
+begin
+  Result := nil;
+  TabSheetFrame := GetTabSheetFrame(TabSheet);
+  if Assigned(TabSheetFrame) then
+    Result := TabSheetFrame.SynEdit;
 end;
 
 procedure TDocumentFrame.GotoBookmarks(ItemIndex: Integer);
@@ -2062,24 +2082,6 @@ begin
     SplitSynEdit.EndUpdate;
     SplitSynEdit.Repaint;
   end;
-end;
-
-function TDocumentFrame.GetSplitSynEdit(TabSheet: TTabSheet): TBCSynEdit;
-var
-  Panel: TPanel;
-begin
-  Result := nil;
-  if Assigned(TabSheet) then
-    if TabSheet.ComponentCount <> 0 then
-    begin
-      if TabSheet.Components[0] is TPanel then
-      begin
-        Panel := TPanel(TabSheet.Components[0]);
-        if Panel.ComponentCount > 1 then
-          if Panel.Components[1] is TBCSynEdit then
-            Result := TBCSynEdit(Panel.Components[1]);
-      end;
-    end;
 end;
 
 procedure TDocumentFrame.SynEditSplitChange(Sender: TObject);
@@ -3145,99 +3147,61 @@ end;
 
 function TDocumentFrame.GetSplitChecked: Boolean;
 var
-  Panel: TPanel;
+  TabSheetFrame: TTabSheetFrame;
 begin
-  Panel := GetPanel;
-  Result := Assigned(Panel) and (Panel.ComponentCount > 1);
-end;
-
-function TDocumentFrame.GetPanel: TPanel;
-var
-  TabSheet: TTabSheet;
-begin
-  Result := nil;
-  TabSheet := PageControl.ActivePage;
-  if Assigned(TabSheet) then
-    if TabSheet.ComponentCount <> 0 then
-      if TabSheet.Components[0] is TTabSheetFrame then
-        Result := TTabSheetFrame(TabSheet.Components[0]).Panel;
+  Result := False;
+  TabSheetFrame := GetTabSheetFrame(PageControl.ActivePage);
+  if Assigned(TabSheetFrame) then
+    Result := TabSheetFrame.SplitSynEdit.Visible;
 end;
 
 procedure TDocumentFrame.ToggleSplit;
 var
   FileName: string;
-  ASynEdit, SynEdit: TBCSynEdit;
-  Panel: TPanel;
-  Splitter: TSplitter;
+  ASynEdit: TBCSynEdit;
+  TabSheetFrame: TTabSheetFrame;
+  SplitVisible: Boolean;
 begin
   ASynEdit := ActiveSynEdit;
   FileName := ASynEdit.DocumentName;
-  Panel := GetPanel;
-  if Assigned(Panel) then
+  TabSheetFrame := GetTabSheetFrame(PageControl.ActivePage);
+  if Assigned(TabSheetFrame) then
   begin
-    if Panel.ComponentCount > 1 then
+    SplitVisible := not TabSheetFrame.SplitVisible;
+
+    if SplitVisible then
     begin
-      Panel.Components[1].Free; { splitter and synedit }
-      Panel.Components[1].Free
-    end
-    else
-    begin
-      SynEdit := TBCSynEdit.Create(Panel);
-      with SynEdit do
+      with TabSheetFrame.SplitSynEdit do
       begin
-        Visible := False;
-        Parent := Panel;
         DocumentName := FileName;
         FileDateTime := GetFileDateTime(FileName);
-        Align := alBottom;
-        Font.Charset := DEFAULT_CHARSET;
         Font.Color := ASynEdit.Font.Color;
         Font.Height := ASynEdit.Font.Height;
         Font.Name := ASynEdit.Font.Name;
-        Font.Style := [];
-        Gutter.AutoSize := True;
-        Gutter.Font.Charset := DEFAULT_CHARSET;
         Gutter.Font.Color := ASynEdit.Gutter.Font.Color;
         Gutter.Font.Height := ASynEdit.Gutter.Font.Height;
         Gutter.Font.Name := ASynEdit.Gutter.Font.Name;
-        Gutter.Font.Style := [];
         Gutter.ShowLineNumbers := ASynEdit.Gutter.ShowLineNumbers;
-        Gutter.Gradient := False;
-        WantTabs := True;
-        Options := [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo,
-          eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces,
-          eoTrimTrailingSpaces, eoScrollPastEol, eoSpecialLineDefaultFg];
         OnChange := SynEditSplitChange;
         OnSpecialLineColors := SynEditSpecialLineColors;
         OnEnter := SynEditEnter;
         OnReplaceText := SynEditorReplaceText;
         SearchEngine := SynEditSearch;
-        ActiveLineColor := clSkyBlue;
         PopupMenu := EditorPopupMenu;
         BookMarkOptions.BookmarkImages := BookmarkImagesList;
-        Padding.Left := 8;
-        Height := Panel.Height div 2;
+        Height := TabSheetFrame.DocumentPanel.Height div 2;
+        Width := 0; // reduce flickering
       end;
-      OptionsContainer.AssignTo(SynEdit);
+      OptionsContainer.AssignTo(TabSheetFrame.SplitSynEdit);
       if Filename <> '' then
       begin
-        SynEdit.Text := ASynEdit.Text;
-        SelectHighLighter(SynEdit, FileName);
+        TabSheetFrame.SplitSynEdit.Text := ASynEdit.Text;
+        SelectHighLighter(TabSheetFrame.SplitSynEdit, FileName);
       end;
-      UpdateGutter(SynEdit);
+      UpdateGutter(TabSheetFrame.SplitSynEdit);
       Application.ProcessMessages;
-      SynEdit.Visible := True;
-
-      Splitter := TSplitter.Create(Panel);
-      with Splitter do
-      begin
-        Parent := Panel;
-        Align := alBottom;
-        Height := 3;
-        Cursor := crHSplit;
-        AutoSnap := False;
-      end;
     end;
+    TabSheetFrame.SplitVisible := SplitVisible;
   end;
 end;
 

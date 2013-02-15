@@ -51,10 +51,6 @@ object TabSheetFrame: TTabSheetFrame
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitLeft = 332
-      ExplicitTop = 128
-      ExplicitWidth = 185
-      ExplicitHeight = 41
       object HorizontalSplitter: TSplitter
         Left = 0
         Top = 229
@@ -88,10 +84,6 @@ object TabSheetFrame: TTabSheetFrame
         Gutter.ShowLineNumbers = True
         Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
         WantTabs = True
-        ExplicitLeft = 18
-        ExplicitTop = 7
-        ExplicitWidth = 370
-        ExplicitHeight = 272
       end
       object SplitSynEdit: TBCSynEdit
         Left = 0

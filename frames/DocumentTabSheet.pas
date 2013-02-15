@@ -44,7 +44,7 @@ end;
 
 function TTabSheetFrame.GetSplitVisible: Boolean;
 begin
-  Result := VirtualDrawTree.Visible;
+  Result := SplitSynEdit.Visible;
 end;
 
 procedure TTabSheetFrame.SetSplitVisible(Value: Boolean);
