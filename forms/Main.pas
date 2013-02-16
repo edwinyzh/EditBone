@@ -179,6 +179,7 @@ type
     N3: TMenuItem;
     Properties1: TMenuItem;
     FormatXMLAction: TAction;
+    ViewXMLTreeAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -277,6 +278,7 @@ type
     procedure EditRemoveWhiteSpaceActionExecute(Sender: TObject);
     procedure FilePropertiesActionExecute(Sender: TObject);
     procedure FormatXMLActionExecute(Sender: TObject);
+    procedure ViewXMLTreeActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -291,6 +293,7 @@ type
     procedure FindInFiles(FindWhatText, FileTypeText, FolderText: string; SearchCaseSensitive, LookInSubfolders: Boolean);
     procedure MainMenuTitleBarActions(Enabled: Boolean);
     procedure ReadIniFile;
+    procedure ReadIniOptions;
     procedure ReadLanguageFile(SelectedLanguage: string);
     procedure ReadWindowState;
     procedure RecreateStatusBar;
@@ -546,6 +549,7 @@ begin
   if FOnStartUp then
   begin
     Repaint;
+    FDocumentFrame.Visible := False;
     Application.ProcessMessages;
     { paint problem with styles if this is done before OnShow... }
 
@@ -558,10 +562,12 @@ begin
     CreateLanguageMenu;
     CreateStyleMenu;
 
+    ReadIniOptions;
+
     FDirectoryFrame.UpdateControls;
     FDocumentFrame.UpdateGutterAndControls;
     FOutputFrame.UpdateControls;
-
+    FDocumentFrame.Visible := True;
     FOnStartUp := False;
     ReadWindowState; { because of styles this cannot be done before... }
     Repaint;
@@ -599,11 +605,7 @@ begin
 end;
 
 procedure TMainForm.ReadIniFile;
-var
-  i: Integer;
-  ActionToolBarStrings: TStrings;
 begin
-  ActionToolBarStrings := TStringList.Create;
   with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
   try
     { Size }
@@ -613,30 +615,47 @@ begin
     Left := ReadInteger('Position', 'Left', (Screen.Width - Width) div 2);
     Top := ReadInteger('Position', 'Top', (Screen.Height - Height) div 2);
     Application.ProcessMessages;
+finally
+    Free;
+  end;
+end;
+
+procedure TMainForm.ReadIniOptions;
+var
+  i: Integer;
+  ActionToolBarStrings: TStrings;
+begin
+  ActionToolBarStrings := TStringList.Create;
+  with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
+  try
     { Options }
     ActionToolBar.Visible := ReadBool('Options', 'ShowToolBar', True);
     DirectoryPanel.Visible := ReadBool('Options', 'ShowDirectory', True);
     HighlighterComboBox.Visible := ReadBool('Options', 'ShowHighlighterSelection', True);
     EncodingComboBox.Visible := ReadBool('Options', 'ShowEncodingSelection', False);
     VerticalSplitter.Visible := DirectoryPanel.Visible;
+    ViewXMLTreeAction.Checked := ReadBool('Options', 'ShowXMLTree', True);
+    if not ViewXMLTreeAction.Checked then
+      ViewXMLTreeActionExecute(nil);
     ViewWordWrapAction.Checked := ReadBool('Options', 'EnableWordWrap', False);
     if ViewWordWrapAction.Checked then
-      ViewWordWrapAction.Execute;
+      ViewWordWrapActionExecute(nil);
     ViewLineNumbersAction.Checked := ReadBool('Options', 'EnableLineNumbers', True);
     if not ViewLineNumbersAction.Checked then
-      ViewLineNumbersAction.Execute;
+      ViewLineNumbersActionExecute(nil); //ViewLineNumbersAction.Execute;
     ViewSpecialCharsAction.Checked := ReadBool('Options', 'EnableSpecialChars', False);
     if ViewSpecialCharsAction.Checked then
-      ViewSpecialCharsAction.Execute;
+      ViewSpecialCharsActionExecute(nil);
     ViewSelectionModeAction.Checked := ReadBool('Options', 'EnableSelectionMode', False);
     if ViewSelectionModeAction.Checked then
-      ViewSelectionModeAction.Execute;
+      ViewSelectionModeActionExecute(nil);
     { Toolbar action visibility }
     ReadSectionValues('ActionToolBar', ActionToolBarStrings);
     for i := 0 to ActionToolBarStrings.Count - 1 do
       if not StrToBool(System.Copy(ActionToolBarStrings.Strings[i],
         Pos('=', ActionToolBarStrings.Strings[i]) + 1, Length(ActionToolBarStrings.Strings[i]))) then
            ToolbarPopupMenu.Items[i].Action.Execute;
+    ActionToolBar.Repaint;
   finally
     ActionToolBarStrings.Free;
     Free;
@@ -671,6 +690,7 @@ begin
     WriteBool('Options', 'ShowDirectory', DirectoryPanel.Visible);
     WriteBool('Options', 'ShowHighlighterSelection', HighlighterComboBox.Visible);
     WriteBool('Options', 'ShowEncodingSelection', EncodingComboBox.Visible);
+    WriteBool('Options', 'ShowXMLTree', ViewXMLTreeAction.Checked);
     WriteBool('Options', 'EnableWordWrap', ViewWordWrapAction.Checked);
     WriteBool('Options', 'EnableLineNumbers', ViewLineNumbersAction.Checked);
     WriteBool('Options', 'EnableSpecialChars', ViewSpecialCharsAction.Checked);
@@ -723,9 +743,11 @@ var
   InfoText: string;
   KeyState: TKeyboardState;
   SelectionFound: Boolean;
+  IsXMLDocument: Boolean;
 begin
   ActiveDocumentFound := FDocumentFrame.ActiveDocumentFound;
   SelectionFound := FDocumentFrame.SelectionFound;
+  IsXMLDocument := FDocumentFrame.IsXMLDocument;
   ViewToolbarAction.Checked := ActionToolBar.Visible;
   ViewOutputAction.Checked := OutputPanel.Visible;
   ViewDirectoryAction.Checked := DirectoryPanel.Visible;
@@ -733,6 +755,9 @@ begin
 
   ViewHighlighterSelectionAction.Checked := HighlighterComboBox.Visible;
   ViewEncodingSelectionAction.Checked := EncodingComboBox.Visible;
+
+  ViewXMLTreeAction.Visible := ActiveDocumentFound and IsXMLDocument;
+  ViewXMLTreeAction.Checked := ViewXMLTreeAction.Visible and FDocumentFrame.XMLTreeVisible;
 
   if FDocumentFrame.ActiveDocumentName <> '' then
     Caption := Format(Application.Title + MAIN_CAPTION_DOCUMENT, [FDocumentFrame.ActiveDocumentName])
@@ -786,7 +811,7 @@ begin
   ViewSpecialCharsAction.Enabled := ActiveDocumentFound;
   ToolsWordCountAction.Enabled := ActiveDocumentFound;
   ToolsSelectForCompareAction.Enabled := not FDocumentFrame.ActiveDocumentModified;
-  FormatXMLAction.Visible := ActiveDocumentFound and (HighlighterComboBox.ItemIndex = 57); { 57 = SynWebXmlSyn, fastest way to check this and here it's important }
+  FormatXMLAction.Visible := ActiveDocumentFound and IsXMLDocument;
 
   if OutputPanel.Visible then
   begin
@@ -1524,6 +1549,12 @@ end;
 procedure TMainForm.ViewWordWrapActionExecute(Sender: TObject);
 begin
   ViewWordWrapAction.Checked := FDocumentFrame.ToggleWordWrap;
+  Repaint;
+end;
+
+procedure TMainForm.ViewXMLTreeActionExecute(Sender: TObject);
+begin
+  ViewXMLTreeAction.Checked := FDocumentFrame.ToggleXMLTree;
   Repaint;
 end;
 

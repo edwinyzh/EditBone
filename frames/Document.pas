@@ -269,6 +269,7 @@ type
     function GetSplitChecked: Boolean;
     procedure PageControlRepaint;
     procedure UpdateHighlighterColors;
+    function GetXMLTreeVisible: Boolean;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -306,6 +307,7 @@ type
     function ToggleWordWrap: Boolean;
     function ToggleLineNumbers: Boolean;
     function ToggleSpecialChars: Boolean;
+    function ToggleXMLTree: Boolean;
     procedure ToggleSelectionMode;
     procedure ToggleSplit;
     procedure CompareFiles(FileName: string = '');
@@ -345,6 +347,7 @@ type
     function IsRecordingMacro: Boolean;
     function IsMacroStopped: Boolean;
     function IsCompareFilesActivePage: Boolean;
+    function IsXMLDocument: Boolean;
     property ActiveTabSheetCaption: string read GetActiveTabSheetCaption;
     property ActiveDocumentName: string read GetActiveDocumentName;
     property ActiveDocumentFound: Boolean read GetActiveDocumentFound;
@@ -357,6 +360,7 @@ type
     property DefaultPath: string read FDefaultPath write FDefaultPath;
     property SelectionModeChecked: Boolean read GetSelectionModeChecked;
     property SplitChecked: Boolean read GetSplitChecked;
+    property XMLTreeVisible: Boolean read GetXMLTreeVisible;
   end;
 
 implementation
@@ -778,6 +782,45 @@ begin
   Result := GetIconIndex(Path, SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
 end;
 
+function TDocumentFrame.IsXMLDocument: Boolean;
+var
+  SynEdit: TBCSynEdit;
+begin
+  Result := False;
+  SynEdit := ActiveSynEdit;
+  if Assigned(SynEdit) then
+    Result := SynEdit.Highlighter = SynWebXmlSyn;
+end;
+
+ function TDocumentFrame.ToggleXMLTree: Boolean;
+ var
+  i: Integer;
+  TabSheetFrame: TTabSheetFrame;
+begin
+  Result := False;
+  for i := 0 to PageControl.PageCount - 1 do
+  begin
+    TabSheetFrame := GetTabSheetFrame(PageControl.Pages[i]);
+    if Assigned(TabSheetFrame) then
+      if TabSheetFrame.SynEdit.Highlighter = SynWebXmlSyn then
+      begin
+        TabSheetFrame.XMLTreeVisible := not TabSheetFrame.XMLTreeVisible;
+        Result := TabSheetFrame.XMLTreeVisible;
+      end;
+  end;
+  PageControlRepaint;
+end;
+
+function TDocumentFrame.GetXMLTreeVisible: Boolean;
+var
+  TabSheetFrame: TTabSheetFrame;
+begin
+  Result := False;
+  TabSheetFrame := GetTabSheetFrame(PageControl.ActivePage);
+  if Assigned(TabSheetFrame) then
+    Result := TabSheetFrame.VirtualDrawTree.Visible;
+end;
+
 function TDocumentFrame.CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
 var
   TabSheet: TTabSheet;
@@ -810,6 +853,7 @@ begin
     else
       Panel.Padding.Right := 1;
 
+    { SynEdit }
     with SynEdit do
     begin
      // Align := alClient;
@@ -832,6 +876,13 @@ begin
       SynEdit.LoadFromFile(FileName);
       SelectHighLighter(SynEdit, FileName);
     end;
+
+    { XML Tree }
+    if IsXMLDocument then //if UpperCase(ExtractFileExt(FileName)) = '.XML' then
+    begin
+      TabSheetFrame.XMLTreeVisible := True;
+    end;
+
     UpdateGutter(SynEdit);
     { reduce flickering by setting width & height }
     SynEdit.Width := 0;

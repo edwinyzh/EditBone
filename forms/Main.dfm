@@ -693,6 +693,9 @@ object MainForm: TMainForm
                 Action = ViewEncodingSelectionAction
               end
               item
+                Action = ViewXMLTreeAction
+              end
+              item
                 Caption = '-'
               end
               item
@@ -1347,6 +1350,12 @@ object MainForm: TMainForm
       Hint = 'Show or hide the encoding selection'
       OnExecute = ViewEncodingSelectionActionExecute
     end
+    object ViewXMLTreeAction: TAction
+      Category = '&View'
+      Caption = '&XML Tree'
+      Hint = 'Show or hide the XML tree'
+      OnExecute = ViewXMLTreeActionExecute
+    end
     object ViewLanguageAction: TAction
       Category = '&View'
       Caption = '&Language'
@@ -1900,7 +1909,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C010140005C01EC0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010140005C01F00510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001001000001002000000000000010
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -1,16 +1,18 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 304
+  Width = 795
+  Height = 478
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
   TabOrder = 0
+  ExplicitWidth = 451
+  ExplicitHeight = 304
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 795
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -18,6 +20,7 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 0
     Visible = False
+    ExplicitWidth = 451
     object WholeWordsOnlyLabel: TLabel
       Left = 465
       Top = 0
@@ -467,8 +470,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 451
-    Height = 283
+    Width = 795
+    Height = 457
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -476,11 +479,13 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentColor = True
     TabOrder = 1
+    ExplicitWidth = 451
+    ExplicitHeight = 283
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 451
-      Height = 281
+      Width = 795
+      Height = 455
       Align = alClient
       DoubleBuffered = False
       Font.Charset = DEFAULT_CHARSET
@@ -494,13 +499,15 @@ object DocumentFrame: TDocumentFrame
       OnChange = PageControlChange
       TabDragDrop = True
       HoldShiftToDragDrop = False
+      ExplicitWidth = 451
+      ExplicitHeight = 281
     end
   end
   object ImageList: TBCImageList
     Left = 36
     Top = 342
     Bitmap = {
-      494C010106003800680510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101060038006C0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1310,7 +1317,7 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 450
     Bitmap = {
-      494C01010A003800480510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A0038004C0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1935,7 +1942,7 @@ object DocumentFrame: TDocumentFrame
     Left = 606
     Top = 462
     Bitmap = {
-      494C010102009C049C0514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010102009C04A00514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000A4676900A4676900A467
@@ -2155,7 +2162,7 @@ object DocumentFrame: TDocumentFrame
     Left = 606
     Top = 518
     Bitmap = {
-      494C01010200BC04A00518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010200BC04A40518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000A467
