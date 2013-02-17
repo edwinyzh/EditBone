@@ -39,6 +39,7 @@ type
     procedure SetXMLTreeVisible(Value: Boolean);
     function GetSplitVisible: Boolean;
     procedure SetSplitVisible(Value: Boolean);
+    procedure ProcessNode(Node: IXMLNode; TreeNode: PVirtualNode);
   public
     { Public declarations }
     procedure LoadFromXML(XML: string);
@@ -110,7 +111,10 @@ begin
     InflateRect(R, -TextMargin, 0);
     Dec(R.Right);
     Dec(R.Bottom);
-    S := IntToStr(Ord(TreeNode.Data.NodeType)) + ': ' + TreeNode.Data.NodeName;
+    if Ord(TreeNode.Data.NodeType) <> 3 then
+      S := IntToStr(Ord(TreeNode.Data.NodeType)) + ': ' + TreeNode.Data.NodeName
+    else
+      S := IntToStr(Ord(TreeNode.Data.NodeType)) + ': ' + TreeNode.Data.NodeValue;
 
     if Length(S) > 0 then
     begin
@@ -158,33 +162,50 @@ begin
   begin
     AMargin := TextMargin;
     TreeNode := Sender.GetNodeData(Node);
-    NodeWidth := Canvas.TextWidth(TreeNode.Data.NodeName) + 2 * AMargin;
+    if Ord(TreeNode.Data.NodeType) <> 3 then
+      NodeWidth := Canvas.TextWidth(TreeNode.Data.NodeName) + 2 * AMargin
+    else
+      NodeWidth := Canvas.TextWidth(TreeNode.Data.NodeValue) + 2 * AMargin
   end;
+end;
+
+procedure TTabSheetFrame.ProcessNode(Node: IXMLNode; TreeNode: PVirtualNode);
+var
+  VirtualNode: PVirtualNode;
+  NodeData: PXMLTreeRec;
+begin
+  if not Assigned(Node) then
+    Exit;
+  Application.ProcessMessages;
+
+  VirtualNode := VirtualDrawTree.AddChild(TreeNode);
+  NodeData := VirtualDrawTree.GetNodeData(VirtualNode);
+  NodeData.Data := Node;
 end;
 
 procedure TTabSheetFrame.VirtualDrawTreeInitChildren(Sender: TBaseVirtualTree; Node: PVirtualNode;
   var ChildCount: Cardinal);
 var
-  Data, ChildData: PXMLTreeRec;
-  ChildNode: PVirtualNode;
+  TreeNode: PXMLTreeRec;
+  XMLNode: IXMLNode;
 begin
- { Data := VirtualDrawTree.GetNodeData(Node);
-  if PrivilegesQuery.Locate('GRANTEE', Data.GrantedRole, []) then
+  TreeNode := VirtualDrawTree.GetNodeData(Node);
+  XMLNode := TreeNode.Data;
+  { attributes }
+  XMLNode := XMLNode.AttributeNodes.First;
+  while Assigned(XMLNode) do
   begin
-    while not PrivilegesQuery.Eof and (PrivilegesQuery.FieldByName('GRANTEE').AsString = Data.GrantedRole) do
-    begin
-      ChildNode := VirtualDrawTree.AddChild(Node);
-      ChildData := VirtualDrawTree.GetNodeData(ChildNode);
-      ChildData.Grantee := PrivilegesQuery.FieldByName('GRANTEE').AsString;
-      ChildData.GrantedRole := PrivilegesQuery.FieldByName('PRIVILEGE').AsString;
-      ChildData.Grantor := PrivilegesQuery.FieldByName('GRANTOR').AsString;
-      ChildData.Owner := PrivilegesQuery.FieldByName('OWNER').AsString;
-      ChildData.ObjectName := PrivilegesQuery.FieldByName('TABLE_NAME').AsString;
-      ChildData.ImageIndex := 1;
-      PrivilegesQuery.Next;
-    end;
-    ChildCount := VirtualDrawTree.ChildCount[Node];
-  end;  }
+    ProcessNode(XMLNode, Node);
+    XMLNode := XMLNode.NextSibling;
+  end;
+  { childnodes }
+  XMLNode := TreeNode.Data.ChildNodes.First;
+  while Assigned(XMLNode) do
+  begin
+    ProcessNode(XMLNode, Node);
+    XMLNode := XMLNode.NextSibling;
+  end;
+  ChildCount := VirtualDrawTree.ChildCount[Node];
 end;
 
 procedure TTabSheetFrame.VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
@@ -212,21 +233,6 @@ end;
 procedure TTabSheetFrame.LoadFromXML(XML: string);
 var
   XMLNode: IXMLNode;
-
-  procedure ProcessNode(Node: IXMLNode);
-  var
-    VirtualNode: PVirtualNode;
-    NodeData: PXMLTreeRec;
-  begin
-    if not Assigned(Node) then
-      Exit;
-    Application.ProcessMessages;
-
-    VirtualNode := VirtualDrawTree.AddChild(nil);
-    NodeData := VirtualDrawTree.GetNodeData(VirtualNode);
-    NodeData.Data := Node;
-  end;
-
 begin
   try
     XMLDocument.LoadFromXML(XML);
@@ -238,7 +244,7 @@ begin
     XMLNode := XMLDocument.ChildNodes.First;
     while Assigned(XMLNode) do
     begin
-      ProcessNode(XMLNode);
+      ProcessNode(XMLNode, nil);
       XMLNode := XMLNode.NextSibling;
     end;
   finally
