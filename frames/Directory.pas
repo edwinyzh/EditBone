@@ -99,7 +99,7 @@ var
   ShowDrives, ExcludeOtherBranches: Boolean;
 begin
   LastPaths := TStringList.Create;
-  with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
+  with TBigIniFile.Create(Common.GetINIFilename) do
   try
     { Options }
     ReadSectionValues('LastPaths', LastPaths);
@@ -173,7 +173,7 @@ procedure TDirectoryFrame.WriteIniFile;
 var
   i: Integer;
 begin
-  with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
+  with TBigIniFile.Create(Common.GetINIFilename) do
   try
     WriteInteger('Options', 'ActiveDirectoryIndex', PageControl.ActivePageIndex);
     { Options }

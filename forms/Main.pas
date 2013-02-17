@@ -14,8 +14,8 @@ const
   WM_AFTER_SHOW = WM_USER + 300; // custom message
   { Main menu item indexes }
   VIEW_MENU_ITEMINDEX = 3;
-  VIEW_LANGUAGE_MENU_ITEMINDEX = 11;
-  VIEW_STYLE_MENU_ITEMINDEX = 12;
+  VIEW_LANGUAGE_MENU_ITEMINDEX = 12;
+  VIEW_STYLE_MENU_ITEMINDEX = 13;
 
 type
   TMainForm = class(TForm)
@@ -591,7 +591,7 @@ procedure TMainForm.ReadWindowState;
 var
   State: Integer;
 begin
-  with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
+  with TBigIniFile.Create(Common.GetINIFilename) do
   try
     State := ReadInteger('Size', 'State', 0);
     case State of
@@ -606,7 +606,7 @@ end;
 
 procedure TMainForm.ReadIniFile;
 begin
-  with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
+  with TBigIniFile.Create(Common.GetINIFilename) do
   try
     { Size }
     Width := ReadInteger('Size', 'Width', Round(Screen.Width * 0.8));
@@ -626,7 +626,7 @@ var
   ActionToolBarStrings: TStrings;
 begin
   ActionToolBarStrings := TStringList.Create;
-  with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
+  with TBigIniFile.Create(Common.GetINIFilename) do
   try
     { Options }
     ActionToolBar.Visible := ReadBool('Options', 'ShowToolBar', True);
@@ -635,7 +635,7 @@ begin
     EncodingComboBox.Visible := ReadBool('Options', 'ShowEncodingSelection', False);
     VerticalSplitter.Visible := DirectoryPanel.Visible;
     ViewXMLTreeAction.Checked := ReadBool('Options', 'ShowXMLTree', True);
-    if not ViewXMLTreeAction.Checked then
+    if ViewXMLTreeAction.Checked then
       ViewXMLTreeActionExecute(nil);
     ViewWordWrapAction.Checked := ReadBool('Options', 'EnableWordWrap', False);
     if ViewWordWrapAction.Checked then
@@ -666,7 +666,7 @@ procedure TMainForm.WriteIniFile;
 var
   i, State: Integer;
 begin
-  with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
+  with TBigIniFile.Create(Common.GetINIFilename) do
   try
     WriteString(Application.Title, 'Version', AboutDialog.Version);
     if WindowState = wsNormal then
@@ -757,7 +757,8 @@ begin
   ViewEncodingSelectionAction.Checked := EncodingComboBox.Visible;
 
   ViewXMLTreeAction.Visible := ActiveDocumentFound and IsXMLDocument;
-  ViewXMLTreeAction.Checked := ViewXMLTreeAction.Visible and FDocumentFrame.XMLTreeVisible;
+  if ViewXMLTreeAction.Visible then
+    ViewXMLTreeAction.Checked := FDocumentFrame.XMLTreeVisible;
 
   if FDocumentFrame.ActiveDocumentName <> '' then
     Caption := Format(Application.Title + MAIN_CAPTION_DOCUMENT, [FDocumentFrame.ActiveDocumentName])

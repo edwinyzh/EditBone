@@ -61,8 +61,14 @@ end;
 
 procedure TTabSheetFrame.SetXMLTreeVisible(Value: Boolean);
 begin
+  LoadFromXML(SynEdit.Text);
   VirtualDrawTree.Visible := Value;
   VerticalSplitter.Visible := Value;
+end;
+
+function IsNameNodeType(NodeType: TNodeType): Boolean;
+begin
+  Result := (Ord(NodeType) <> 3) and (Ord(NodeType) <> 4) and (Ord(NodeType) <> 8);
 end;
 
 procedure TTabSheetFrame.VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree;
@@ -111,10 +117,10 @@ begin
     InflateRect(R, -TextMargin, 0);
     Dec(R.Right);
     Dec(R.Bottom);
-    if Ord(TreeNode.Data.NodeType) <> 3 then
-      S := IntToStr(Ord(TreeNode.Data.NodeType)) + ': ' + TreeNode.Data.NodeName
+    if IsNameNodeType(TreeNode.Data.NodeType) then
+      S := TreeNode.Data.NodeName
     else
-      S := IntToStr(Ord(TreeNode.Data.NodeType)) + ': ' + TreeNode.Data.NodeValue;
+      S := TreeNode.Data.NodeValue;
 
     if Length(S) > 0 then
     begin
@@ -162,7 +168,7 @@ begin
   begin
     AMargin := TextMargin;
     TreeNode := Sender.GetNodeData(Node);
-    if Ord(TreeNode.Data.NodeType) <> 3 then
+    if IsNameNodeType(TreeNode.Data.NodeType) then
       NodeWidth := Canvas.TextWidth(TreeNode.Data.NodeName) + 2 * AMargin
     else
       NodeWidth := Canvas.TextWidth(TreeNode.Data.NodeValue) + 2 * AMargin
@@ -186,18 +192,15 @@ end;
 procedure TTabSheetFrame.VirtualDrawTreeInitChildren(Sender: TBaseVirtualTree; Node: PVirtualNode;
   var ChildCount: Cardinal);
 var
+  i: Integer;
   TreeNode: PXMLTreeRec;
   XMLNode: IXMLNode;
 begin
   TreeNode := VirtualDrawTree.GetNodeData(Node);
   XMLNode := TreeNode.Data;
   { attributes }
-  XMLNode := XMLNode.AttributeNodes.First;
-  while Assigned(XMLNode) do
-  begin
-    ProcessNode(XMLNode, Node);
-    XMLNode := XMLNode.NextSibling;
-  end;
+  for i := 0 to XMLNode.AttributeNodes.Count - 1 do
+    ProcessNode(XMLNode.AttributeNodes.Get(i), Node);
   { childnodes }
   XMLNode := TreeNode.Data.ChildNodes.First;
   while Assigned(XMLNode) do

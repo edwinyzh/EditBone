@@ -878,11 +878,7 @@ begin
     end;
 
     { XML Tree }
-    if IsXMLDocument then //if UpperCase(ExtractFileExt(FileName)) = '.XML' then
-    begin
-      TabSheetFrame.LoadFromXML(SynEdit.Text);
-      TabSheetFrame.XMLTreeVisible := True;
-    end;
+    TabSheetFrame.XMLTreeVisible := MainForm.ViewXMLTreeAction.Checked and IsXMLDocument;
 
     UpdateGutter(SynEdit);
     { reduce flickering by setting width & height }
@@ -1885,7 +1881,7 @@ var
   Version: string;
 begin
   FileTypes := TStringList.Create;
-  with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
+  with TBigIniFile.Create(Common.GetINIFilename) do
   try
     { Options }
     OptionsContainer.FontName := ReadString('Options', 'FontName', 'Courier New');
@@ -1926,7 +1922,7 @@ var
 begin
   FileNames := TStringList.Create;
   Bookmarks := TStringList.Create;
-  with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
+  with TBigIniFile.Create(Common.GetINIFilename) do
   try
     PageControl.Visible := False;
     { Open Files }
@@ -1962,7 +1958,7 @@ var
   i, j: Integer;
   SynEdit: TBCSynEdit;
 begin
-  with TBigIniFile.Create(ChangeFileExt(Application.EXEName, '.ini')) do
+  with TBigIniFile.Create(Common.GetINIFilename) do
   try
     { Options }
     WriteString('Options', 'FontName', OptionsContainer.FontName);
