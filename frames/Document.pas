@@ -880,6 +880,7 @@ begin
     { XML Tree }
     if IsXMLDocument then //if UpperCase(ExtractFileExt(FileName)) = '.XML' then
     begin
+      TabSheetFrame.LoadFromXML(SynEdit.Text);
       TabSheetFrame.XMLTreeVisible := True;
     end;
 

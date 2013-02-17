@@ -894,6 +894,7 @@ end;
 procedure TMainForm.FileNewActionExecute(Sender: TObject);
 begin
   FDocumentFrame.New;
+  Repaint;
 end;
 
 procedure TMainForm.FileOpenActionExecute(Sender: TObject);
