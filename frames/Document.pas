@@ -60,7 +60,7 @@ uses
   SynHighlighterKix, SynHighlighterAWK, SynHighlighterVrml97, SynHighlighterVBScript,
   SynHighlighterCobol, SynHighlighterM3, SynHighlighterFortran, SynHighlighterEiffel,
   PlatformDefaultStyleActnCtrls, Vcl.ActnPopup, BCPopupMenu, SynMacroRecorder, SynEditKeyCmds,
-  Vcl.Themes, SynHighlighterDWS, SynEditRegexSearch, BCSynEdit, DocumentTabSheet;
+  Vcl.Themes, SynHighlighterDWS, SynEditRegexSearch, BCSynEdit, DocumentTabSheet, Compare;
 
 type
   TDocumentFrame = class(TFrame)
@@ -235,6 +235,7 @@ type
     function GetActiveDocumentName: string;
     function GetActiveDocumentFound: Boolean;
     function GetTabSheetFrame(TabSheet: TTabSheet): TTabSheetFrame;
+    function GetCompareFrame(TabSheet: TTabSheet): TCompareFrame;
     function GetSynEdit(TabSheet: TTabSheet): TBCSynEdit;
     function GetSplitSynEdit(TabSheet: TTabSheet): TBCSynEdit;
     function GetActivePageCaption: string;
@@ -369,7 +370,7 @@ implementation
 
 uses
   PrintPreview, Replace, ConfirmReplace, Common, Lib, Options, StyleHooks, VirtualTrees,
-  SynTokenMatch, SynHighlighterWebMisc, Compare, System.Types, Winapi.ShellAPI, System.WideStrings,
+  SynTokenMatch, SynHighlighterWebMisc, System.Types, Winapi.ShellAPI, System.WideStrings,
   Main, BigIni, Vcl.GraphUtil, SynUnicode, Language, CommonDialogs, SynEditTextBuffer, Encoding;
 
 { TDocumentFrame }
@@ -941,8 +942,9 @@ end;
 
 procedure TDocumentFrame.UpdateGutterAndControls;
 var
-  i, j: Integer;
+  i: Integer;
   TabSheetFrame: TTabSheetFrame;
+  CompareFrame: TCompareFrame;
 begin
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
   for i := 0 to FSynEditsList.Count - 1 do
@@ -957,16 +959,15 @@ begin
       else
         TabSheetFrame.Panel.Padding.Right := 1;
     end;
-    compare frame
+    CompareFrame := GetCompareFrame(PageControl.Pages[i]);
+    if Assigned(CompareFrame) then
+    begin
+      if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
+        CompareFrame.Panel.Padding.Right := 3
+      else
+        CompareFrame.Panel.Padding.Right := 1;
+    end;
   end;
-    {for j := 0 to PageControl.Pages[i].ComponentCount - 1 do
-      if PageControl.Pages[i].Components[j] is TPanel then
-      begin
-        if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
-          TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 3
-        else
-          TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 1;
-      end;}
   UpdateHighlighterColors;
 end;
 
@@ -1041,7 +1042,6 @@ var
   Frame: TCompareFrame;
   TempList: TStringList;
   SynEdit: TBCSynEdit;
-  Panel: TPanel;
 begin
   { create list of open documents }
   TempList := TStringList.Create;
@@ -1057,7 +1057,7 @@ begin
     for i := 0 to PageControl.PageCount - 1 do
       if PageControl.Pages[i].ImageIndex = FCompareImageIndex then
       begin
-        Frame := TCompareFrame(PageControl.Pages[i].Components[0].Components[0]);
+        Frame := GetCompareFrame(PageControl.Pages[i]);
         { if there already are two files to compare then continue }
         if Frame.ComparedFilesSet then
           Continue
@@ -1076,26 +1076,11 @@ begin
   TabSheet.ImageIndex := FCompareImageIndex;
   TabSheet.Caption := LanguageDataModule.GetConstant('CompareFiles');
   PageControl.ActivePage := TabSheet;
-  Panel := TPanel.Create(TabSheet);
-  with Panel do
-  begin
-    Parent := TabSheet;
-    Align := alClient;
-    BevelOuter := bvNone;
-    Caption := '';
-    DoubleBuffered := False;
-    Padding.Left := 1;
-    Padding.Top := 1;
-    Padding.Right := 3;
-    Padding.Bottom := 2;
-    ParentColor := True;
-    ParentDoubleBuffered := False;
-  end;
   { create a compare frame }
-  Frame := TCompareFrame.Create(Panel);
+  Frame := TCompareFrame.Create(TabSheet);
   with Frame do
   begin
-    Parent := Panel;
+    Parent := TabSheet;
     Align := alClient;
     OpenDocumentsList := TempList;
     SetCompareFile(Filename);
@@ -2059,6 +2044,15 @@ begin
     if TabSheet.ComponentCount <> 0 then
       if TabSheet.Components[0] is TTabSheetFrame then
         Result := TTabSheetFrame(TabSheet.Components[0]);
+end;
+
+function TDocumentFrame.GetCompareFrame(TabSheet: TTabSheet): TCompareFrame;
+begin
+  Result := nil;
+  if Assigned(TabSheet) then
+    if TabSheet.ComponentCount <> 0 then
+      if TabSheet.Components[0] is TCompareFrame then
+        Result := TCompareFrame(TabSheet.Components[0]);
 end;
 
 function TDocumentFrame.GetSplitSynEdit(TabSheet: TTabSheet): TBCSynEdit;
@@ -3290,7 +3284,7 @@ begin
   { compare frames }
   for i := 0 to PageControl.PageCount - 1 do
     if PageControl.Pages[i].ImageIndex = FCompareImageIndex then
-      TCompareFrame(PageControl.Pages[i].Components[0].Components[0]).UpdateLanguage(SelectedLanguage);
+      GetCompareFrame(PageControl.Pages[i]).UpdateLanguage(SelectedLanguage);
 end;
 
 procedure TDocumentFrame.FormatXML;

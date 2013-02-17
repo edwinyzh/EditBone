@@ -364,7 +364,8 @@ begin
        begin
          ChildData := VirtualDrawTree.GetNodeData(ChildNode);
 
-         WriteString(Data.Value[0], ChildData.Value[0], ChildData.Value[1]);
+         if Trim(ChildData.Value[1]) <> '' then
+           WriteString(Data.Value[0], ChildData.Value[0], ChildData.Value[1]);
          if Trim(ChildData.Value[2]) <> '' then
            WriteString(Data.Value[0], Format('%s:h', [ChildData.Value[0]]), ChildData.Value[2]);
          if Trim(ChildData.Value[3]) <> '' then
