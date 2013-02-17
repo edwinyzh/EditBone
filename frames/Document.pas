@@ -805,6 +805,8 @@ begin
       if TabSheetFrame.SynEdit.Highlighter = SynWebXmlSyn then
       begin
         TabSheetFrame.XMLTreeVisible := not TabSheetFrame.XMLTreeVisible;
+        if TabSheetFrame.XMLTreeVisible then
+          TabSheetFrame.LoadFromXML(TabSheetFrame.SynEdit.Text);
         Result := TabSheetFrame.XMLTreeVisible;
       end;
   end;
@@ -878,7 +880,9 @@ begin
     end;
 
     { XML Tree }
-    TabSheetFrame.XMLTreeVisible := MainForm.ViewXMLTreeAction.Checked and IsXMLDocument;
+    XMLTreeVisible := MainForm.ViewXMLTreeAction.Checked and IsXMLDocument;
+    if XMLTreeVisible then
+      LoadFromXML(SynEdit.Text);
 
     UpdateGutter(SynEdit);
     { reduce flickering by setting width & height }
@@ -1362,12 +1366,15 @@ end;
 
 procedure TDocumentFrame.Save;
 begin
-  Save(PageControl.ActivePage);
+  if Assigned(PageControl.ActivePage) then
+    Save(PageControl.ActivePage);
 end;
 
 function TDocumentFrame.SaveAs: string;
 begin
-  Result := Save(PageControl.ActivePage, True);
+  Result := '';
+  if Assigned(PageControl.ActivePage) then
+    Result := Save(PageControl.ActivePage, True);
 end;
 
 procedure TDocumentFrame.SaveAll;
@@ -2049,7 +2056,8 @@ begin
   Result := nil;
   TabSheetFrame := GetTabSheetFrame(TabSheet);
   if Assigned(TabSheetFrame) then
-    Result := TabSheetFrame.SplitSynEdit;
+    if TabSheetFrame.SplitSynEdit.Visible then
+      Result := TabSheetFrame.SplitSynEdit;
 end;
 
 function TDocumentFrame.GetSynEdit(TabSheet: TTabSheet): TBCSynEdit;
@@ -2115,20 +2123,23 @@ begin
     PageControl.ActivePage.Caption := Format('%s~', [PageControl.ActivePage.Caption]);
     PageControlRepaint;
   end;
-  SplitSynEdit := ActiveSplitSynEdit;
-  if Assigned(SplitSynEdit) then
+  if MainForm.ViewSplitAction.Checked then
   begin
-    SplitSynEdit.BeginUpdate;
-
-    for i := 0 to SplitSynEdit.Lines.Count - 1 do
-      if SynEdit.Lines[i] <> SplitSynEdit.Lines[i] then
-        SplitSynEdit.Lines[i] := SynEdit.Lines[i];
-    for i := SplitSynEdit.Lines.Count to SynEdit.Lines.Count - 1 do
-      SplitSynEdit.Lines.Add(SynEdit.Lines[i]);
-    while SplitSynEdit.Lines.Count > SynEdit.Lines.Count do
-      SplitSynEdit.Lines.Delete(SplitSynEdit.Lines.Count);
-    SplitSynEdit.EndUpdate;
-    SplitSynEdit.Repaint;
+    SplitSynEdit := ActiveSplitSynEdit;
+    if Assigned(SplitSynEdit) then
+    begin
+      SplitSynEdit.BeginUpdate;
+      for i := 0 to SplitSynEdit.Lines.Count - 1 do
+        if SynEdit.Lines[i] <> SplitSynEdit.Lines[i] then
+          SplitSynEdit.Lines[i] := SynEdit.Lines[i];
+      for i := SplitSynEdit.Lines.Count to SynEdit.Lines.Count - 1 do
+        SplitSynEdit.Lines.Add(SynEdit.Lines[i]);
+      SplitSynEdit.Text := Trim(SplitSynEdit.Text);
+  //    while SplitSynEdit.Lines.Count > SynEdit.Lines.Count do
+  //      SplitSynEdit.Lines.Delete(SplitSynEdit.Lines.Count);
+      SplitSynEdit.EndUpdate;
+      SplitSynEdit.Repaint;
+    end;
   end;
 end;
 
@@ -2154,8 +2165,9 @@ begin
       end;
     for i := SynEdit.Lines.Count to SplitSynEdit.Lines.Count - 1 do
       SynEdit.Lines.Add(SplitSynEdit.Lines[i]);
-    while SynEdit.Lines.Count > SplitSynEdit.Lines.Count do
-      SynEdit.Lines.Delete(SynEdit.Lines.Count);
+    SplitSynEdit.Text := Trim(SplitSynEdit.Text);
+    //while SynEdit.Lines.Count > SplitSynEdit.Lines.Count do
+    //  SynEdit.Lines.Delete(SynEdit.Lines.Count);
   end;
   SynEdit.EndUpdate;
   SynEdit.Repaint;

@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, VirtualTrees, SynEdit, BCSynEdit,
-  Xml.XMLIntf, Xml.xmldom, Xml.Win.msxmldom, Xml.XMLDoc, Vcl.ImgList;
+  Xml.XMLIntf, Xml.xmldom, Xml.Win.msxmldom, Xml.XMLDoc, Vcl.ImgList, BCImageList, Vcl.Menus,
+  Vcl.ActnList;
 
 type
   PXMLTreeRec = ^TXMLTreeRec;
@@ -23,6 +24,11 @@ type
     HorizontalSplitter: TSplitter;
     XMLDocument: TXMLDocument;
     ImageList: TImageList;
+    PopupMenu: TPopupMenu;
+    PopupImagesList: TBCImageList;
+    PopupActionList: TActionList;
+    RefreshAction: TAction;
+    Refresh1: TMenuItem;
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
@@ -33,6 +39,7 @@ type
       var ChildCount: Cardinal);
     procedure VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
       var InitialStates: TVirtualNodeInitStates);
+    procedure RefreshActionExecute(Sender: TObject);
   private
     { Private declarations }
     function GetXMLTreeVisible: Boolean;
@@ -61,9 +68,9 @@ end;
 
 procedure TTabSheetFrame.SetXMLTreeVisible(Value: Boolean);
 begin
-  LoadFromXML(SynEdit.Text);
-  VirtualDrawTree.Visible := Value;
   VerticalSplitter.Visible := Value;
+  VirtualDrawTree.Visible := Value;
+  //VerticalSplitter.Visible := Value;
 end;
 
 function IsNameNodeType(NodeType: TNodeType): Boolean;
@@ -187,6 +194,11 @@ begin
   VirtualNode := VirtualDrawTree.AddChild(TreeNode);
   NodeData := VirtualDrawTree.GetNodeData(VirtualNode);
   NodeData.Data := Node;
+end;
+
+procedure TTabSheetFrame.RefreshActionExecute(Sender: TObject);
+begin
+  LoadFromXML(SynEdit.Text);
 end;
 
 procedure TTabSheetFrame.VirtualDrawTreeInitChildren(Sender: TBaseVirtualTree; Node: PVirtualNode;
