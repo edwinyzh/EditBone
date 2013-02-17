@@ -942,19 +942,31 @@ end;
 procedure TDocumentFrame.UpdateGutterAndControls;
 var
   i, j: Integer;
+  TabSheetFrame: TTabSheetFrame;
 begin
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
   for i := 0 to FSynEditsList.Count - 1 do
     UpdateGutter(TBCSynEdit(FSynEditsList.Items[i]));
   for i := 0 to PageControl.PageCount - 1 do
-    for j := 0 to PageControl.Pages[i].ComponentCount - 1 do
+  begin
+    TabSheetFrame := GetTabSheetFrame(PageControl.Pages[i]);
+    if Assigned(TabSheetFrame) then
+    begin
+      if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
+        TabSheetFrame.Panel.Padding.Right := 3
+      else
+        TabSheetFrame.Panel.Padding.Right := 1;
+    end;
+    compare frame
+  end;
+    {for j := 0 to PageControl.Pages[i].ComponentCount - 1 do
       if PageControl.Pages[i].Components[j] is TPanel then
       begin
         if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
           TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 3
         else
           TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 1;
-      end;
+      end;}
   UpdateHighlighterColors;
 end;
 
