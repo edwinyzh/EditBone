@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, VirtualTrees, SynEdit, BCSynEdit,
   Xml.XMLIntf, Xml.xmldom, Xml.Win.msxmldom, Xml.XMLDoc, Vcl.ImgList, BCImageList, Vcl.Menus,
-  Vcl.ActnList, SynEditHighlighter, SynHighlighterURI, SynURIOpener, SynHighlighterMulti;
+  Vcl.ActnList, SynEditHighlighter, SynHighlighterMulti;
 
 type
   PXMLTreeRec = ^TXMLTreeRec;
@@ -23,14 +23,6 @@ type
     SplitSynEdit: TBCSynEdit;
     HorizontalSplitter: TSplitter;
     XMLDocument: TXMLDocument;
-    ImageList: TImageList;
-    PopupMenu: TPopupMenu;
-    PopupImagesList: TBCImageList;
-    PopupActionList: TActionList;
-    RefreshAction: TAction;
-    Refresh1: TMenuItem;
-    SynURIOpener: TSynURIOpener;
-    SynURISyn: TSynURISyn;
     SynMultiSyn: TSynMultiSyn;
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
@@ -62,7 +54,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Vcl.Themes;
+  Vcl.Themes, Options;
 
 function TTabSheetFrame.GetXMLTreeVisible: Boolean;
 begin

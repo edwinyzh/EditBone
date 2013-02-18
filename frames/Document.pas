@@ -41,91 +41,36 @@ unit Document;
 interface
 
 uses
-  Winapi.Windows, Winapi.CommDlg, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, SynEdit, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.ImgList,
+  Winapi.Windows, Winapi.CommDlg, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, SynEdit, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.ImgList,
   JvExComCtrls, JvComCtrls, Vcl.Menus, BCPageControl, BCButtonedEdit, Directory, Vcl.Buttons,
-  SynHighlighterCS, SynHighlighterCpp, SynHighlighterCSS, SynHighlighterJava, SynHighlighterJScript,
-  SynHighlighterBat, SynHighlighterPas, SynHighlighterPerl, SynHighlighterPHP, SynHighlighterPython,
-  SynHighlighterRuby, SynHighlighterSQL, SynHighlighterTclTk, SynHighlighterTeX, SynHighlighterXML,
-  SynHighlighterUNIXShellScript, SynHighlighterVB, SynHighlighterAsm, SynEditHighlighter,
-  SynHighlighterHtml, SynEditPrint, SynEditMiscClasses, SynEditSearch, SynEditTypes,
-  SynHighlighterWeb, SynHighlighterWebData, SynEditPlugins, Vcl.StdCtrls, Vcl.ActnList, BCCheckBox,
-  JvExControls, JvExExtCtrls, JvExtComponent, JvFooter, JvExStdCtrls, JvEdit, BCEdit,
-  BCImageList, SynHighlighterRC, SynHighlighterDOT, SynHighlighterLDraw, SynHighlighterHaskell,
-  SynHighlighterCPM, SynHighlighterIDL, SynHighlighterMsg, SynHighlighterProgress,
-  SynHighlighterGalaxy, SynHighlighterBaan, SynHighlighterInno, SynHighlighterIni,
-  SynHighlighterSml, SynHighlighterModelica, SynHighlighterDml, SynHighlighterST,
-  SynHighlighterHP48, SynHighlighterHC11, SynHighlighterADSP21xx, SynHighlighterSDD,
-  SynHighlighterFoxpro, SynHighlighterCache, SynHighlighterCAC, SynHighlighterGWS,
-  SynHighlighterKix, SynHighlighterAWK, SynHighlighterVrml97, SynHighlighterVBScript,
-  SynHighlighterCobol, SynHighlighterM3, SynHighlighterFortran, SynHighlighterEiffel,
-  PlatformDefaultStyleActnCtrls, Vcl.ActnPopup, BCPopupMenu, SynMacroRecorder, SynEditKeyCmds,
-  Vcl.Themes, SynHighlighterDWS, SynEditRegexSearch, BCSynEdit, DocumentTabSheet, Compare;
+  SynEditPrint, SynEditMiscClasses, SynEditSearch, SynEditTypes, SynEditPlugins, Vcl.StdCtrls,
+  Vcl.ActnList, BCCheckBox, JvExControls, JvExExtCtrls, JvExtComponent, JvExStdCtrls, JvEdit, BCEdit,
+  BCImageList, Vcl.ActnPopup, BCPopupMenu, SynMacroRecorder, SynEditKeyCmds, Vcl.Themes,
+  SynEditRegexSearch, BCSynEdit, DocumentTabSheet, Compare, Vcl.PlatformDefaultStyleActnCtrls,
+  SynHighlighterWebData, SynHighlighterURI, SynURIOpener, SynHighlighterTeX, SynHighlighterProgress,
+  SynHighlighterPerl, SynHighlighterKix, SynHighlighterJScript, SynHighlighterGalaxy,
+  SynHighlighterFoxpro, SynHighlighterWeb, SynHighlighterCache, SynHighlighterCobol,
+  SynHighlighterDml, SynHighlighterGWS, SynHighlighterIDL, SynHighlighterCPM, SynHighlighterHaskell,
+  SynHighlighterHP48, SynHighlighterDOT, SynHighlighterADSP21xx, SynHighlighterLDraw,
+  SynHighlighterModelica, SynHighlighterM3, SynHighlighterMsg, SynHighlighterBat, SynHighlighterSQL,
+  SynHighlighterSDD, SynHighlighterRuby, SynHighlighterRC, SynHighlighterPython,
+  SynHighlighterUNIXShellScript, SynHighlighterVB, SynHighlighterVBScript, SynHighlighterVrml97,
+  SynHighlighterAsm, SynHighlighterSml, SynHighlighterST, SynHighlighterTclTk, SynHighlighterPas,
+  SynHighlighterJava, SynHighlighterInno, SynHighlighterIni, SynHighlighterDWS,
+  SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
+  SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11;
 
 type
   TDocumentFrame = class(TFrame)
     ImageList: TBCImageList;
-    SynAsmSyn: TSynAsmSyn;
-    SynVBSyn: TSynVBSyn;
-    SynUNIXShellScriptSyn: TSynUNIXShellScriptSyn;
-    SynTeXSyn: TSynTeXSyn;
-    SynTclTkSyn: TSynTclTkSyn;
-    SynSQLSyn: TSynSQLSyn;
-    SynRubySyn: TSynRubySyn;
-    SynPerlSyn: TSynPerlSyn;
-    ClassicPasSyn: TSynPasSyn;
-    SynBatSyn: TSynBatSyn;
-    SynJScriptSyn: TSynJScriptSyn;
-    SynJavaSyn: TSynJavaSyn;
-    ClassicCppSyn: TSynCppSyn;
-    ClassicCSSyn: TSynCSSyn;
     SynEditPrint: TSynEditPrint;
     SynEditSearch: TSynEditSearch;
-    SynWebHtmlSyn: TSynWebHtmlSyn;
-    SynWebEngine: TSynWebEngine;
-    SynPythonSyn: TSynPythonSyn;
     SearchPanel: TPanel;
     SearchActionList: TActionList;
     SearchCloseAction: TAction;
     SearchFindNextAction: TAction;
     SearchFindPreviousAction: TAction;
-    DocumentPanel: TPanel;
-    PageControl: TBCPageControl;
-    DefaultCSSyn: TSynCSSyn;
-    DefaultPasSyn: TSynPasSyn;
-    DefaultCppSyn: TSynCppSyn;
-    SynEiffelSyn: TSynEiffelSyn;
-    SynFortranSyn: TSynFortranSyn;
-    SynM3Syn: TSynM3Syn;
-    SynCobolSyn: TSynCobolSyn;
-    SynVBScriptSyn: TSynVBScriptSyn;
-    SynVrml97Syn: TSynVrml97Syn;
-    SynAWKSyn: TSynAWKSyn;
-    SynKixSyn: TSynKixSyn;
-    SynGWScriptSyn: TSynGWScriptSyn;
-    SynCACSyn: TSynCACSyn;
-    SynCacheSyn: TSynCacheSyn;
-    SynFoxproSyn: TSynFoxproSyn;
-    SynSDDSyn: TSynSDDSyn;
-    SynADSP21xxSyn: TSynADSP21xxSyn;
-    SynHC11Syn: TSynHC11Syn;
-    SynHP48Syn: TSynHP48Syn;
-    SynSTSyn: TSynSTSyn;
-    SynDmlSyn: TSynDmlSyn;
-    SynModelicaSyn: TSynModelicaSyn;
-    SynSMLSyn: TSynSMLSyn;
-    SynIniSyn: TSynIniSyn;
-    SynInnoSyn: TSynInnoSyn;
-    SynBaanSyn: TSynBaanSyn;
-    SynGalaxySyn: TSynGalaxySyn;
-    SynProgressSyn: TSynProgressSyn;
-    SynMsgSyn: TSynMsgSyn;
-    SynIdlSyn: TSynIdlSyn;
-    SynCPMSyn: TSynCPMSyn;
-    SynHaskellSyn: TSynHaskellSyn;
-    SynLDRSyn: TSynLDRSyn;
-    SynDOTSyn: TSynDOTSyn;
-    SynRCSyn: TSynRCSyn;
     BookmarkImagesList: TBCImageList;
     EditorPopupMenu: TBCPopupMenu;
     CutMenuItem: TMenuItem;
@@ -174,11 +119,6 @@ type
     Separator4MenuItem: TMenuItem;
     SynMacroRecorder: TSynMacroRecorder;
     SearchClearAction: TAction;
-    SynWebCssSyn: TSynWebCssSyn;
-    SynWebXmlSyn: TSynWebXmlSyn;
-    TwilightCSSyn: TSynCSSyn;
-    TwilightPasSyn: TSynPasSyn;
-    TwilightCppSyn: TSynCppSyn;
     ToggleBookmarkMenuItem: TMenuItem;
     SearchPanel1: TPanel;
     JvSpeedButton1: TSpeedButton;
@@ -198,7 +138,6 @@ type
     WholeWordsCheckBox: TBCCheckBox;
     ImageList25: TBCImageList;
     ImageList50: TBCImageList;
-    SynDWSSyn: TSynDWSSyn;
     CaseSensitiveLabel: TLabel;
     Panel1: TPanel;
     SynEditRegexSearch: TSynEditRegexSearch;
@@ -208,6 +147,74 @@ type
     RegularExpressionLabel: TLabel;
     RemoveWhiteSpaceMenuItem: TMenuItem;
     FormatXMLMenuItem: TMenuItem;
+    DocumentPanel: TPanel;
+    PageControl: TBCPageControl;
+    SynHC11Syn: TSynHC11Syn;
+    SynAWKSyn: TSynAWKSyn;
+    SynBaanSyn: TSynBaanSyn;
+    ClassicCSSyn: TSynCSSyn;
+    DefaultCSSyn: TSynCSSyn;
+    TwilightCSSyn: TSynCSSyn;
+    ClassicCppSyn: TSynCppSyn;
+    DefaultCppSyn: TSynCppSyn;
+    TwilightCppSyn: TSynCppSyn;
+    SynCACSyn: TSynCACSyn;
+    SynWebEngine: TSynWebEngine;
+    SynFortranSyn: TSynFortranSyn;
+    SynEiffelSyn: TSynEiffelSyn;
+    SynDWSSyn: TSynDWSSyn;
+    SynIniSyn: TSynIniSyn;
+    SynInnoSyn: TSynInnoSyn;
+    SynJavaSyn: TSynJavaSyn;
+    TwilightPasSyn: TSynPasSyn;
+    SynTclTkSyn: TSynTclTkSyn;
+    SynSTSyn: TSynSTSyn;
+    DefaultPasSyn: TSynPasSyn;
+    ClassicPasSyn: TSynPasSyn;
+    SynSMLSyn: TSynSMLSyn;
+    SynWebXmlSyn: TSynWebXmlSyn;
+    SynAsmSyn: TSynAsmSyn;
+    SynVrml97Syn: TSynVrml97Syn;
+    SynVBScriptSyn: TSynVBScriptSyn;
+    SynVBSyn: TSynVBSyn;
+    SynUNIXShellScriptSyn: TSynUNIXShellScriptSyn;
+    SynPythonSyn: TSynPythonSyn;
+    SynRCSyn: TSynRCSyn;
+    SynRubySyn: TSynRubySyn;
+    SynSDDSyn: TSynSDDSyn;
+    SynSQLSyn: TSynSQLSyn;
+    SynBatSyn: TSynBatSyn;
+    SynMsgSyn: TSynMsgSyn;
+    SynM3Syn: TSynM3Syn;
+    SynModelicaSyn: TSynModelicaSyn;
+    SynLDRSyn: TSynLDRSyn;
+    SynWebHtmlSyn: TSynWebHtmlSyn;
+    SynADSP21xxSyn: TSynADSP21xxSyn;
+    SynDOTSyn: TSynDOTSyn;
+    SynHP48Syn: TSynHP48Syn;
+    SynHaskellSyn: TSynHaskellSyn;
+    SynCPMSyn: TSynCPMSyn;
+    SynIdlSyn: TSynIdlSyn;
+    SynGWScriptSyn: TSynGWScriptSyn;
+    SynDmlSyn: TSynDmlSyn;
+    SynCobolSyn: TSynCobolSyn;
+    SynCacheSyn: TSynCacheSyn;
+    SynWebCssSyn: TSynWebCssSyn;
+    SynFoxproSyn: TSynFoxproSyn;
+    SynGalaxySyn: TSynGalaxySyn;
+    SynJScriptSyn: TSynJScriptSyn;
+    SynKixSyn: TSynKixSyn;
+    SynPerlSyn: TSynPerlSyn;
+    SynProgressSyn: TSynProgressSyn;
+    SynTeXSyn: TSynTeXSyn;
+    SynURIOpener: TSynURIOpener;
+    SynURISyn: TSynURISyn;
+    XMLTreeImageList: TImageList;
+    XMLTreePopupMenu: TPopupMenu;
+    Refresh1: TMenuItem;
+    XMLTreePopupImagesList: TBCImageList;
+    XMLTreePopupActionList: TActionList;
+    RefreshAction: TAction;
     procedure SynEditChange(Sender: TObject);
     procedure SynEditSplitChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
@@ -222,6 +229,7 @@ type
     procedure SynEditSpecialLineColors(Sender: TObject; Line: Integer; var Special: Boolean;
       var FG, BG: TColor);
     procedure SearchForEditChange(Sender: TObject);
+    procedure RefreshActionExecute(Sender: TObject);
   private
     { Private declarations }
     FCompareImageIndex, FNewImageIndex: Integer;
@@ -241,7 +249,6 @@ type
     function Save(TabSheet: TTabSheet; ShowDialog: Boolean = False): string;
       overload;
     procedure InitializeSynEditPrint;
-    procedure SelectHighLighter(TabSheetFrame: TTabSheetFrame; FileName: string);
     function GetOpenTabSheets: Boolean;
     function GetOpenTabSheetCount: Integer;
     function GetSelectionFound: Boolean;
@@ -270,6 +277,7 @@ type
     procedure PageControlRepaint;
     procedure UpdateHighlighterColors;
     function GetXMLTreeVisible: Boolean;
+    procedure SelectHighLighter(TabSheetFrame: TTabSheetFrame; FileName: string);
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -568,236 +576,6 @@ begin
   FHTMLErrorList.Clear;
 end;
 
-procedure TDocumentFrame.SelectHighLighter(TabSheetFrame: TTabSheetFrame; FileName: string);
-
-  procedure SetSynEdit(SynEdit: TBCSynEdit);
-  var
-    FileExt: string;
-  begin
-    FileExt := UpperCase(ExtractFileExt(FileName));
-    with SynEdit do
-    begin
-      Color := clWhite;
-      ActiveLineColor := clSkyBlue;
-      OnPaintTransient := nil;
-      FHTMLDocumentChanged := False;
-      HtmlVersion := shvUndefined;
-      SynWebEngine.Options.HtmlVersion := shvUndefined;
-
-      if Pos(FileExt, OptionsContainer.FileType(ftCS)) <> 0 then
-      begin
-        if OptionsContainer.CPASHighlighter = hClassic then
-        begin
-          Color := clNavy;
-          ActiveLineColor := clBlue;
-        end
-        else
-        if OptionsContainer.CPASHighlighter = hDefault then
-          ActiveLineColor := $E6FFFA
-        else
-        begin
-          Color := clBlack;
-          ActiveLineColor := clGray;
-        end
-      end
-      else if Pos(FileExt, OptionsContainer.FileType(ftCPP)) <> 0 then
-      begin
-        if OptionsContainer.CPASHighlighter = hClassic then
-        begin
-          Color := clNavy;
-          ActiveLineColor := clBlue;
-        end
-        else
-        if OptionsContainer.CPASHighlighter = hDefault then
-          ActiveLineColor := $E6FFFA
-        else
-        begin
-          Color := clBlack;
-          ActiveLineColor := clGray;
-        end
-      end
-      else if (Pos(FileExt, OptionsContainer.FileType(ftHTML)) <> 0) or
-        (Pos(FileExt, OptionsContainer.FileType(ftPHP)) <> 0) then
-      begin
-        OnPaintTransient := SynEditHTMLPaintTransient;
-        OnChange := SynEditHTMLOnChange;
-        FHTMLDocumentChanged := True;
-        HtmlVersion := FindHtmlVersion(FileName);
-        SynWebEngine.Options.HtmlVersion := HtmlVersion;
-      end
-      else if Pos(FileExt, OptionsContainer.FileType(ftPas)) <> 0 then
-      begin
-        if OptionsContainer.CPASHighlighter = hClassic then
-        begin
-          Color := clNavy;
-          ActiveLineColor := clBlue;
-          OnPaintTransient := SynEditPASPaintTransient;
-        end
-        else
-        if OptionsContainer.CPASHighlighter = hDefault then
-          ActiveLineColor := $E6FFFA
-        else
-        begin
-          Highlighter := TwilightPasSyn;
-          Color := clBlack;
-          ActiveLineColor := clGray;
-          OnPaintTransient := SynEditPASPaintTransient;
-        end
-      end
-      else if Pos(FileExt, OptionsContainer.FileType(ftSQL)) <> 0 then
-        SynSQLSyn.SQLDialect := OptionsContainer.SQLDialect
-    end;
-  end;
-
-  procedure SetHighlighter(TabSheetFrame: TTabSheetFrame);
-  var
-    FileExt: string;
-  begin
-    FileExt := UpperCase(ExtractFileExt(FileName));
-    with TabSheetFrame.SynMultiSyn do
-    begin
-      if Pos(FileExt, OptionsContainer.FileType(ftHC11)) <> 0 then
-        DefaultHighlighter := SynHC11Syn
-      else
-      if Pos(FileExt, OptionsContainer.FileType(ftAWK)) <> 0 then
-        DefaultHighlighter := SynAWKSyn
-      else
-      if Pos(FileExt, OptionsContainer.FileType(ftBaan)) <> 0 then
-        DefaultHighlighter := SynBaanSyn
-      else
-      if Pos(FileExt, OptionsContainer.FileType(ftCS)) <> 0 then
-      begin
-        if OptionsContainer.CPASHighlighter = hClassic then
-          DefaultHighlighter := ClassicCSSyn
-        else
-        if OptionsContainer.CPASHighlighter = hDefault then
-          DefaultHighlighter := DefaultCSSyn
-        else
-          DefaultHighlighter := TwilightCSSyn;
-      end
-      else if Pos(FileExt, OptionsContainer.FileType(ftCPP)) <> 0 then
-      begin
-        if OptionsContainer.CPASHighlighter = hClassic then
-          DefaultHighlighter := ClassicCppSyn
-        else
-        if OptionsContainer.CPASHighlighter = hDefault then
-          DefaultHighlighter := DefaultCppSyn
-        else
-          DefaultHighlighter := TwilightCppSyn;
-      end
-      else if Pos(FileExt, OptionsContainer.FileType(ftCAC)) <> 0 then
-        DefaultHighlighter := SynCACSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftCache)) <> 0 then
-        DefaultHighlighter := SynCacheSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftCss)) <> 0 then
-        DefaultHighlighter := SynWebCssSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftCobol)) <> 0 then
-        DefaultHighlighter := SynCobolSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftIdl)) <> 0 then
-        DefaultHighlighter := SynIdlSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftCPM)) <> 0 then
-        DefaultHighlighter := SynCPMSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftDOT)) <> 0 then
-        DefaultHighlighter := SynDOTSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftADSP21xx)) <> 0 then
-        DefaultHighlighter := SynADSP21xxSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftDWScript)) <> 0 then
-        DefaultHighlighter := SynDWSSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftEiffel)) <> 0 then
-        DefaultHighlighter := SynEiffelSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftFortran)) <> 0 then
-        DefaultHighlighter := SynFortranSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftFoxpro)) <> 0 then
-        DefaultHighlighter := SynFoxproSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftGalaxy)) <> 0 then
-        DefaultHighlighter := SynGalaxySyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftDml)) <> 0 then
-        DefaultHighlighter := SynDmlSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftGWScript)) <> 0 then
-        DefaultHighlighter := SynGWScriptSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftHaskell)) <> 0 then
-        DefaultHighlighter := SynHaskellSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftHP48)) <> 0 then
-        DefaultHighlighter := SynHP48Syn
-      else if (Pos(FileExt, OptionsContainer.FileType(ftHTML)) <> 0) or
-        (Pos(FileExt, OptionsContainer.FileType(ftPHP)) <> 0) then
-        DefaultHighlighter := SynWebHtmlSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftIni)) <> 0 then
-        DefaultHighlighter := SynIniSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftInno)) <> 0 then
-        DefaultHighlighter := SynInnoSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftJava)) <> 0 then
-        DefaultHighlighter := SynJavaSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftJScript)) <> 0 then
-        DefaultHighlighter := SynJScriptSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftKix)) <> 0 then
-        DefaultHighlighter := SynKixSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftLDR)) <> 0 then
-        DefaultHighlighter := SynLDRSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftModelica)) <> 0 then
-        DefaultHighlighter := SynModelicaSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftM3)) <> 0 then
-        DefaultHighlighter := SynM3Syn
-      else if Pos(FileExt, OptionsContainer.FileType(ftMsg)) <> 0 then
-        DefaultHighlighter := SynMsgSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftBat)) <> 0 then
-        DefaultHighlighter := SynBatSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftPas)) <> 0 then
-      begin
-        if OptionsContainer.CPASHighlighter = hClassic then
-          DefaultHighlighter := ClassicPasSyn
-        else
-        if OptionsContainer.CPASHighlighter = hDefault then
-          DefaultHighlighter := DefaultPasSyn
-        else
-          DefaultHighlighter := TwilightPasSyn
-      end
-      else if Pos(FileExt, OptionsContainer.FileType(ftPerl)) <> 0 then
-        DefaultHighlighter := SynPerlSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftProgress)) <> 0 then
-        DefaultHighlighter := SynProgressSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftPython)) <> 0 then
-        DefaultHighlighter := SynPythonSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftRC)) <> 0 then
-        DefaultHighlighter := SynRCSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftRuby)) <> 0 then
-        DefaultHighlighter := SynRubySyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftSDD)) <> 0 then
-        DefaultHighlighter := SynSDDSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftSQL)) <> 0 then
-        DefaultHighlighter := SynSQLSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftSML)) <> 0 then
-        DefaultHighlighter := SynSMLSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftST)) <> 0 then
-        DefaultHighlighter := SynSTSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftTclTk)) <> 0 then
-        DefaultHighlighter := SynTclTkSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftTeX)) <> 0 then
-        DefaultHighlighter := SynTeXSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftUNIXShellScript)) <> 0 then
-        DefaultHighlighter := SynUNIXShellScriptSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftVB)) <> 0 then
-        DefaultHighlighter := SynVBSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftVBScript)) <> 0 then
-        DefaultHighlighter := SynVBScriptSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftVrml97)) <> 0 then
-        DefaultHighlighter := SynVrml97Syn
-      else if Pos(FileExt, OptionsContainer.FileType(ftAsm)) <> 0 then
-        DefaultHighlighter := SynAsmSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftXML)) <> 0 then
-        DefaultHighlighter := SynWebXMLSyn
-      else
-        DefaultHighlighter := TabSheetFrame.SynURISyn;
-    end;
-  end;
-
-begin
-  SetSynEdit(TabSheetFrame.SynEdit);
-  if TabSheetFrame.SplitVisible then
-    SetSynEdit(TabSheetFrame.SplitSynEdit);
-  SetHighlighter(TabSheetFrame);
-end;
-
 function GetIconIndex(Name: string; Flags: Cardinal): Integer;
 var
   SFI: TSHFileInfo;
@@ -813,18 +591,8 @@ begin
   Result := GetIconIndex(Path, SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
 end;
 
-function TDocumentFrame.IsXMLDocument: Boolean;
+function TDocumentFrame.ToggleXMLTree: Boolean;
 var
-  TabSheetFrame: TTabSheetFrame;
-begin
-  Result := False;
-  TabSheetFrame := GetTabSheetFrame(PageControl.ActivePage);
-  if Assigned(TabSheetFrame) then
-    Result := TabSheetFrame.SynMultiSyn.DefaultHighlighter = SynWebXmlSyn;
-end;
-
- function TDocumentFrame.ToggleXMLTree: Boolean;
- var
   i: Integer;
   TabSheetFrame: TTabSheetFrame;
 begin
@@ -889,7 +657,6 @@ begin
     { SynEdit }
     with SynEdit do
     begin
-     // Align := alClient;
       DocumentName := FileName;
       FileDateTime := GetFileDateTime(FileName);
       OnChange := SynEditChange;
@@ -900,7 +667,12 @@ begin
       PopupMenu := EditorPopupMenu;
       BookMarkOptions.BookmarkImages := BookmarkImagesList;
     end;
-
+    { VirtualDrawTree }
+    with VirtualDrawTree do
+    begin
+      Images := XMLTreeImageList;
+      PopupMenu := XMLTreePopupMenu;
+    end;
     OptionsContainer.AssignTo(SynEdit);
     SynWebEngine.Options.HtmlVersion := shvUndefined;
     if Filename <> '' then
@@ -1019,6 +791,7 @@ procedure TDocumentFrame.UpdateGutterAndColors(TabSheetFrame: TTabSheetFrame);
   procedure UpdateGutterAndColors(SynEdit: TBCSynEdit);
   var
     LStyles: TCustomStyleServices;
+    Highlighter: TSynCustomHighlighter;
   begin
     LStyles := StyleServices;
     if LStyles.Enabled then
@@ -1031,15 +804,17 @@ procedure TDocumentFrame.UpdateGutterAndColors(TabSheetFrame: TTabSheetFrame);
       SynEdit.SelectedColor.Background := LStyles.GetSystemColor(clHighlight);
       SynEdit.SelectedColor.Foreground := LStyles.GetSystemColor(clHighlightText);
 
-      if Assigned(SynEdit.Highlighter) and
-       ( (SynEdit.Highlighter.Tag = 3) or (SynEdit.Highlighter.Tag = 4) or (SynEdit.Highlighter.Tag = 5) or
-         (SynEdit.Highlighter.Tag = 6) or (SynEdit.Highlighter.Tag = 7) or (SynEdit.Highlighter.Tag = 8) or
-         (SynEdit.Highlighter.Tag = 37) or (SynEdit.Highlighter.Tag = 38) or (SynEdit.Highlighter.Tag = 39) ) then
+      Highlighter := TabSheetFrame.SynMultiSyn.DefaultHighlighter;
+
+      if Assigned(Highlighter) and
+       ( (Highlighter = ClassicCSSyn) or (Highlighter = DefaultCSSyn) or (Highlighter = TwilightCSSyn) or
+         (Highlighter = ClassicCppSyn) or (Highlighter = DefaultCppSyn) or (Highlighter = TwilightCppSyn) or
+         (Highlighter = ClassicPasSyn) or (Highlighter = DefaultPasSyn) or (Highlighter = TwilightPasSyn) ) then
       begin
-        case SynEdit.Highlighter.Tag of
-          3, 6, 37: SynEdit.Color := clNavy;
-          5, 8, 39: SynEdit.Color := clBlack;
-        end;
+        if (Highlighter = ClassicCSSyn) or (Highlighter = ClassicCppSyn) or (Highlighter = ClassicPasSyn) then
+          SynEdit.Color := clNavy;
+        if (Highlighter = TwilightCSSyn) or (Highlighter = TwilightCppSyn) or (Highlighter = TwilightPasSyn) then
+          SynEdit.Color := clBlack;
         if SynEdit.Color = clBlack then
           SynEdit.Color := LStyles.GetStyleColor(scEdit);
       end
@@ -1500,12 +1275,8 @@ end;
 procedure TDocumentFrame.SetMainHighlighterCombo(TabSheetFrame: TTabSheetFrame);
 begin
   if Assigned(TabSheetFrame) then
-  begin
     if Assigned(TabSheetFrame.SynMultiSyn.DefaultHighlighter) then
       MainForm.HighlighterComboIndex := TabSheetFrame.SynMultiSyn.DefaultHighlighter.Tag
-    else
-      MainForm.HighlighterComboIndex := 51; { text }
-  end;
 end;
 
 procedure TDocumentFrame.SetMainEncodingCombo(SynEdit: TBCSynEdit);
@@ -2759,6 +2530,15 @@ begin
   end;
 end;
 
+procedure TDocumentFrame.RefreshActionExecute(Sender: TObject);
+var
+  TabSheetFrame: TTabSheetFrame;
+begin
+  TabSheetFrame := GetTabSheetFrame(PageControl.ActivePage);
+  if Assigned(TabSheetFrame) then
+    TabSheetFrame.LoadFromXML(TabSheetFrame.SynEdit.Text);
+end;
+
 procedure TDocumentFrame.DecreaseIndent;
 var
   SynEdit: TBCSynEdit;
@@ -3337,6 +3117,246 @@ begin
       SynEdit.SetFocus;
     end;
   end;
+end;
+
+function TDocumentFrame.IsXMLDocument: Boolean;
+var
+  TabSheetFrame: TTabSheetFrame;
+begin
+  Result := False;
+  TabSheetFrame := GetTabSheetFrame(PageControl.ActivePage);
+  if Assigned(TabSheetFrame) then
+    Result := TabSheetFrame.SynMultiSyn.DefaultHighlighter = SynWebXmlSyn;
+end;
+
+procedure TDocumentFrame.SelectHighLighter(TabSheetFrame: TTabSheetFrame; FileName: string);
+
+  procedure SetSynEdit(SynEdit: TBCSynEdit);
+  var
+    FileExt: string;
+  begin
+    FileExt := UpperCase(ExtractFileExt(FileName));
+    with SynEdit do
+    begin
+      Color := clWhite;
+      ActiveLineColor := clSkyBlue;
+      OnPaintTransient := nil;
+      FHTMLDocumentChanged := False;
+      HtmlVersion := shvUndefined;
+      SynWebEngine.Options.HtmlVersion := shvUndefined;
+
+      if Pos(FileExt, OptionsContainer.FileType(ftCS)) <> 0 then
+      begin
+        if OptionsContainer.CPASHighlighter = hClassic then
+        begin
+          Color := clNavy;
+          ActiveLineColor := clBlue;
+        end
+        else
+        if OptionsContainer.CPASHighlighter = hDefault then
+          ActiveLineColor := $E6FFFA
+        else
+        begin
+          Color := clBlack;
+          ActiveLineColor := clGray;
+        end
+      end
+      else if Pos(FileExt, OptionsContainer.FileType(ftCPP)) <> 0 then
+      begin
+        if OptionsContainer.CPASHighlighter = hClassic then
+        begin
+          Color := clNavy;
+          ActiveLineColor := clBlue;
+        end
+        else
+        if OptionsContainer.CPASHighlighter = hDefault then
+          ActiveLineColor := $E6FFFA
+        else
+        begin
+          Color := clBlack;
+          ActiveLineColor := clGray;
+        end
+      end
+      else if (Pos(FileExt, OptionsContainer.FileType(ftHTML)) <> 0) or
+        (Pos(FileExt, OptionsContainer.FileType(ftPHP)) <> 0) then
+      begin
+        OnPaintTransient := SynEditHTMLPaintTransient;
+        OnChange := SynEditHTMLOnChange;
+        FHTMLDocumentChanged := True;
+        HtmlVersion := FindHtmlVersion(FileName);
+        SynWebEngine.Options.HtmlVersion := HtmlVersion;
+      end
+      else if Pos(FileExt, OptionsContainer.FileType(ftPas)) <> 0 then
+      begin
+        if OptionsContainer.CPASHighlighter = hClassic then
+        begin
+          Color := clNavy;
+          ActiveLineColor := clBlue;
+          OnPaintTransient := SynEditPASPaintTransient;
+        end
+        else
+        if OptionsContainer.CPASHighlighter = hDefault then
+          ActiveLineColor := $E6FFFA
+        else
+        begin
+          Highlighter := TwilightPasSyn;
+          Color := clBlack;
+          ActiveLineColor := clGray;
+          OnPaintTransient := SynEditPASPaintTransient;
+        end
+      end
+      else if Pos(FileExt, OptionsContainer.FileType(ftSQL)) <> 0 then
+        SynSQLSyn.SQLDialect := OptionsContainer.SQLDialect
+    end;
+  end;
+
+  procedure SetHighlighter;
+  var
+    FileExt: string;
+  begin
+    FileExt := UpperCase(ExtractFileExt(FileName));
+    with TabSheetFrame.SynMultiSyn do
+    begin
+      if Pos(FileExt, OptionsContainer.FileType(ftHC11)) <> 0 then
+        DefaultHighlighter := SynHC11Syn
+      else
+      if Pos(FileExt, OptionsContainer.FileType(ftAWK)) <> 0 then
+        DefaultHighlighter := SynAWKSyn
+      else
+      if Pos(FileExt, OptionsContainer.FileType(ftBaan)) <> 0 then
+        DefaultHighlighter := SynBaanSyn
+      else
+      if Pos(FileExt, OptionsContainer.FileType(ftCS)) <> 0 then
+      begin
+        if OptionsContainer.CPASHighlighter = hClassic then
+          DefaultHighlighter := ClassicCSSyn
+        else
+        if OptionsContainer.CPASHighlighter = hDefault then
+          DefaultHighlighter := DefaultCSSyn
+        else
+          DefaultHighlighter := TwilightCSSyn;
+      end
+      else if Pos(FileExt, OptionsContainer.FileType(ftCPP)) <> 0 then
+      begin
+        if OptionsContainer.CPASHighlighter = hClassic then
+          DefaultHighlighter := ClassicCppSyn
+        else
+        if OptionsContainer.CPASHighlighter = hDefault then
+          DefaultHighlighter := DefaultCppSyn
+        else
+          DefaultHighlighter := TwilightCppSyn;
+      end
+      else if Pos(FileExt, OptionsContainer.FileType(ftCAC)) <> 0 then
+        DefaultHighlighter := SynCACSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftCache)) <> 0 then
+        DefaultHighlighter := SynCacheSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftCss)) <> 0 then
+        DefaultHighlighter := SynWebCssSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftCobol)) <> 0 then
+        DefaultHighlighter := SynCobolSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftIdl)) <> 0 then
+        DefaultHighlighter := SynIdlSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftCPM)) <> 0 then
+        DefaultHighlighter := SynCPMSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftDOT)) <> 0 then
+        DefaultHighlighter := SynDOTSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftADSP21xx)) <> 0 then
+        DefaultHighlighter := SynADSP21xxSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftDWScript)) <> 0 then
+        DefaultHighlighter := SynDWSSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftEiffel)) <> 0 then
+        DefaultHighlighter := SynEiffelSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftFortran)) <> 0 then
+        DefaultHighlighter := SynFortranSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftFoxpro)) <> 0 then
+        DefaultHighlighter := SynFoxproSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftGalaxy)) <> 0 then
+        DefaultHighlighter := SynGalaxySyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftDml)) <> 0 then
+        DefaultHighlighter := SynDmlSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftGWScript)) <> 0 then
+        DefaultHighlighter := SynGWScriptSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftHaskell)) <> 0 then
+        DefaultHighlighter := SynHaskellSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftHP48)) <> 0 then
+        DefaultHighlighter := SynHP48Syn
+      else if (Pos(FileExt, OptionsContainer.FileType(ftHTML)) <> 0) or
+        (Pos(FileExt, OptionsContainer.FileType(ftPHP)) <> 0) then
+        DefaultHighlighter := SynWebHtmlSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftIni)) <> 0 then
+        DefaultHighlighter := SynIniSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftInno)) <> 0 then
+        DefaultHighlighter := SynInnoSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftJava)) <> 0 then
+        DefaultHighlighter := SynJavaSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftJScript)) <> 0 then
+        DefaultHighlighter := SynJScriptSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftKix)) <> 0 then
+        DefaultHighlighter := SynKixSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftLDR)) <> 0 then
+        DefaultHighlighter := SynLDRSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftModelica)) <> 0 then
+        DefaultHighlighter := SynModelicaSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftM3)) <> 0 then
+        DefaultHighlighter := SynM3Syn
+      else if Pos(FileExt, OptionsContainer.FileType(ftMsg)) <> 0 then
+        DefaultHighlighter := SynMsgSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftBat)) <> 0 then
+        DefaultHighlighter := SynBatSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftPas)) <> 0 then
+      begin
+        if OptionsContainer.CPASHighlighter = hClassic then
+          DefaultHighlighter := ClassicPasSyn
+        else
+        if OptionsContainer.CPASHighlighter = hDefault then
+          DefaultHighlighter := DefaultPasSyn
+        else
+          DefaultHighlighter := TwilightPasSyn
+      end
+      else if Pos(FileExt, OptionsContainer.FileType(ftPerl)) <> 0 then
+        DefaultHighlighter := SynPerlSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftProgress)) <> 0 then
+        DefaultHighlighter := SynProgressSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftPython)) <> 0 then
+        DefaultHighlighter := SynPythonSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftRC)) <> 0 then
+        DefaultHighlighter := SynRCSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftRuby)) <> 0 then
+        DefaultHighlighter := SynRubySyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftSDD)) <> 0 then
+        DefaultHighlighter := SynSDDSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftSQL)) <> 0 then
+        DefaultHighlighter := SynSQLSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftSML)) <> 0 then
+        DefaultHighlighter := SynSMLSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftST)) <> 0 then
+        DefaultHighlighter := SynSTSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftTclTk)) <> 0 then
+        DefaultHighlighter := SynTclTkSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftTeX)) <> 0 then
+        DefaultHighlighter := SynTeXSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftUNIXShellScript)) <> 0 then
+        DefaultHighlighter := SynUNIXShellScriptSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftVB)) <> 0 then
+        DefaultHighlighter := SynVBSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftVBScript)) <> 0 then
+        DefaultHighlighter := SynVBScriptSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftVrml97)) <> 0 then
+        DefaultHighlighter := SynVrml97Syn
+      else if Pos(FileExt, OptionsContainer.FileType(ftAsm)) <> 0 then
+        DefaultHighlighter := SynAsmSyn
+      else if Pos(FileExt, OptionsContainer.FileType(ftXML)) <> 0 then
+        DefaultHighlighter := SynWebXMLSyn
+      else
+        DefaultHighlighter := SynURISyn;
+    end;
+  end;
+
+begin
+  SetSynEdit(TabSheetFrame.SynEdit);
+  if TabSheetFrame.SplitVisible then
+    SetSynEdit(TabSheetFrame.SplitSynEdit);
+  SetHighlighter;
 end;
 
 end.

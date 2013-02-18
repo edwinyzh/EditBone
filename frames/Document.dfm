@@ -1,8 +1,8 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 787
-  Height = 499
+  Width = 828
+  Height = 626
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
@@ -10,7 +10,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 787
+    Width = 828
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -467,8 +467,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 787
-    Height = 478
+    Width = 828
+    Height = 605
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -479,8 +479,8 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 787
-      Height = 476
+      Width = 828
+      Height = 603
       Align = alClient
       DoubleBuffered = False
       Font.Charset = DEFAULT_CHARSET
@@ -497,8 +497,8 @@ object DocumentFrame: TDocumentFrame
     end
   end
   object ImageList: TBCImageList
-    Left = 36
-    Top = 342
+    Left = 142
+    Top = 112
     Bitmap = {
       494C0101060038007C0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
@@ -771,178 +771,6 @@ object DocumentFrame: TDocumentFrame
       00FFC01FFFFFFFFF01FFC03FFFFFFFFF00000000000000000000000000000000
       000000000000}
   end
-  object SynAsmSyn: TSynAsmSyn
-    Tag = 56
-    CommentAttri.Foreground = clGreen
-    KeyAttri.Foreground = clBlue
-    KeyAttri.Style = []
-    NumberAttri.Foreground = clRed
-    StringAttri.Foreground = clPurple
-    Left = 606
-    Top = 358
-  end
-  object SynVBSyn: TSynVBSyn
-    Tag = 53
-    CommentAttri.Foreground = clGreen
-    KeyAttri.Foreground = clBlue
-    KeyAttri.Style = []
-    NumberAttri.Foreground = clRed
-    StringAttri.Foreground = clPurple
-    Left = 606
-    Top = 200
-  end
-  object SynUNIXShellScriptSyn: TSynUNIXShellScriptSyn
-    Tag = 52
-    KeyAttri.Style = []
-    Left = 606
-    Top = 146
-  end
-  object SynTeXSyn: TSynTeXSyn
-    Tag = 50
-    TextAttri.Foreground = clNone
-    ControlSequenceAttri.Background = clNone
-    SpaceAttri.Background = clNone
-    Left = 606
-    Top = 34
-  end
-  object SynTclTkSyn: TSynTclTkSyn
-    Tag = 49
-    CommentAttri.Foreground = clGreen
-    KeyAttri.Style = []
-    KeyWords.Strings = (
-      '')
-    SecondKeyWords.Strings = (
-      '')
-    NumberAttri.Foreground = clRed
-    OptionsAttri.Background = clNone
-    OptionsAttri.Foreground = clNone
-    PathAttri.Background = clNone
-    PathAttri.Foreground = clNone
-    VariableAttri.Background = clNone
-    VariableAttri.Foreground = clNone
-    Left = 514
-    Top = 518
-  end
-  object SynSQLSyn: TSynSQLSyn
-    Tag = 46
-    CommentAttri.Foreground = clGreen
-    ConditionalCommentAttri.Foreground = clGreen
-    DataTypeAttri.Foreground = clRed
-    DataTypeAttri.Style = []
-    DefaultPackageAttri.Style = [fsBold, fsItalic]
-    DelimitedIdentifierAttri.Foreground = clBlue
-    ExceptionAttri.Foreground = clRed
-    ExceptionAttri.Style = []
-    FunctionAttri.Foreground = clBlue
-    FunctionAttri.Style = []
-    KeyAttri.Foreground = clBlue
-    KeyAttri.Style = []
-    PLSQLAttri.Foreground = clBlue
-    PLSQLAttri.Style = []
-    SQLPlusAttri.Foreground = clBlue
-    SQLPlusAttri.Style = []
-    StringAttri.Foreground = clPurple
-    TableNameAttri.Foreground = clOlive
-    VariableAttri.Foreground = clNavy
-    Left = 514
-    Top = 358
-  end
-  object SynRubySyn: TSynRubySyn
-    Tag = 44
-    Left = 514
-    Top = 256
-  end
-  object SynPerlSyn: TSynPerlSyn
-    Tag = 40
-    CommentAttri.Foreground = clGreen
-    KeyAttri.Style = []
-    NumberAttri.Foreground = clRed
-    Left = 514
-    Top = 34
-  end
-  object ClassicPasSyn: TSynPasSyn
-    Tag = 37
-    DefaultFilter = 
-      'Pascal Files (*.pas;*.dfm;*.dpr;*.dproj)|*.pas;*.dfm;*.dpr;*.dro' +
-      'j'
-    AsmAttri.Foreground = clLime
-    CommentAttri.Foreground = clSilver
-    DirectiveAttri.Foreground = clSilver
-    IdentifierAttri.Foreground = clYellow
-    KeyAttri.Foreground = clWhite
-    KeyAttri.Style = []
-    NumberAttri.Foreground = clFuchsia
-    FloatAttri.Foreground = clFuchsia
-    HexAttri.Foreground = clFuchsia
-    StringAttri.Foreground = clAqua
-    CharAttri.Foreground = clAqua
-    SymbolAttri.Foreground = clLime
-    PackageSource = False
-    Left = 432
-    Top = 410
-  end
-  object SynBatSyn: TSynBatSyn
-    Tag = 36
-    CommentAttri.Foreground = clGreen
-    KeyAttri.Foreground = clBlue
-    KeyAttri.Style = []
-    NumberAttri.Foreground = clRed
-    Left = 432
-    Top = 358
-  end
-  object SynJScriptSyn: TSynJScriptSyn
-    Tag = 30
-    CommentAttri.Foreground = clGreen
-    KeyAttri.Foreground = clBlue
-    KeyAttri.Style = []
-    NumberAttri.Foreground = clRed
-    StringAttri.Foreground = clPurple
-    Left = 432
-    Top = 34
-  end
-  object SynJavaSyn: TSynJavaSyn
-    Tag = 29
-    CommentAttri.Foreground = clGreen
-    DocumentAttri.Foreground = clGray
-    KeyAttri.Foreground = clBlue
-    KeyAttri.Style = []
-    NumberAttri.Foreground = clRed
-    StringAttri.Foreground = clPurple
-    Left = 346
-    Top = 518
-  end
-  object ClassicCppSyn: TSynCppSyn
-    Tag = 6
-    DefaultFilter = 'C/C++ Files (*.c;*.cpp;*.h;*.hpp)|*.c;*.cpp;*.h;*.hpp'
-    AsmAttri.Foreground = clLime
-    CommentAttri.Foreground = clSilver
-    DirecAttri.Foreground = clSilver
-    IdentifierAttri.Foreground = clYellow
-    KeyAttri.Foreground = clWhite
-    KeyAttri.Style = []
-    NumberAttri.Foreground = clFuchsia
-    FloatAttri.Foreground = clFuchsia
-    HexAttri.Foreground = clFuchsia
-    StringAttri.Foreground = clAqua
-    CharAttri.Foreground = clAqua
-    SymbolAttri.Foreground = clLime
-    Left = 186
-    Top = 358
-  end
-  object ClassicCSSyn: TSynCSSyn
-    Tag = 3
-    AsmAttri.Foreground = clLime
-    CommentAttri.Foreground = clSilver
-    DirecAttri.Foreground = clSilver
-    IdentifierAttri.Foreground = clYellow
-    KeyAttri.Foreground = clWhite
-    KeyAttri.Style = []
-    NumberAttri.Foreground = clFuchsia
-    StringAttri.Foreground = clAqua
-    SymbolAttri.Foreground = clLime
-    Left = 186
-    Top = 200
-  end
   object SynEditPrint: TSynEditPrint
     Copies = 1
     Header.ShadedColor = clNone
@@ -983,51 +811,9 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 238
   end
-  object SynWebHtmlSyn: TSynWebHtmlSyn
-    Tag = 26
-    ActiveHighlighterSwitch = False
-    Engine = SynWebEngine
-    Options.HtmlVersion = shvHtml5
-    Options.CssVersion = scvCss3
-    Options.PhpShortOpenTag = False
-    Options.CssEmbeded = False
-    Options.UseEngineOptions = True
-    Left = 346
-    Top = 358
-  end
-  object SynWebEngine: TSynWebEngine
-    Options.HtmlVersion = shvHtml5
-    Options.CssVersion = scvCss3
-    Options.PhpShortOpenTag = False
-    MLTagKeyAttri.Foreground = clMaroon
-    MLTagKeyValueAttri.Foreground = clPurple
-    MLTagKeyValueQuotedAttri.Foreground = clPurple
-    CssSelectorAttri.Foreground = clNavy
-    CssSelectorAttri.Style = []
-    CssSelectorClassAttri.Foreground = clBlue
-    CssSelectorClassAttri.Style = []
-    CssPropAttri.Foreground = clMaroon
-    CssPropUndefAttri.Foreground = clMaroon
-    CssValAttri.Foreground = clPurple
-    CssValNumberAttri.Foreground = clRed
-    PhpVariableAttri.Foreground = clBlue
-    PhpConstAttri.Foreground = clBlack
-    PhpStringAttri.Foreground = clPurple
-    PhpStringSpecialAttri.Foreground = clPurple
-    PhpDocCommentAttri.Style = [fsItalic]
-    PhpNumberAttri.Foreground = clRed
-    Left = 36
-    Top = 394
-  end
-  object SynPythonSyn: TSynPythonSyn
-    Tag = 42
-    SpaceAttri.Background = clNone
-    Left = 514
-    Top = 146
-  end
   object SearchActionList: TActionList
-    Left = 110
-    Top = 34
+    Left = 142
+    Top = 44
     object SearchCloseAction: TAction
       Hint = 'Close Search'
       OnExecute = SearchCloseActionExecute
@@ -1049,266 +835,10 @@ object DocumentFrame: TDocumentFrame
       OnExecute = SearchClearActionExecute
     end
   end
-  object DefaultCSSyn: TSynCSSyn
-    Tag = 4
-    CommentAttri.Foreground = clGreen
-    KeyAttri.Foreground = clNavy
-    NumberAttri.Foreground = clBlue
-    StringAttri.Foreground = clBlue
-    Left = 186
-    Top = 256
-  end
-  object DefaultPasSyn: TSynPasSyn
-    Tag = 38
-    CommentAttri.Foreground = clGreen
-    KeyAttri.Foreground = clNavy
-    NumberAttri.Foreground = clBlue
-    HexAttri.Foreground = clBlue
-    StringAttri.Foreground = clBlue
-    Left = 432
-    Top = 462
-  end
-  object DefaultCppSyn: TSynCppSyn
-    Tag = 7
-    CommentAttri.Foreground = clGreen
-    KeyAttri.Foreground = clNavy
-    NumberAttri.Foreground = clBlue
-    HexAttri.Foreground = clBlue
-    StringAttri.Foreground = clBlue
-    Left = 186
-    Top = 410
-  end
-  object SynEiffelSyn: TSynEiffelSyn
-    Tag = 18
-    Left = 270
-    Top = 462
-  end
-  object SynFortranSyn: TSynFortranSyn
-    Tag = 19
-    Left = 270
-    Top = 518
-  end
-  object SynM3Syn: TSynM3Syn
-    Tag = 34
-    Left = 432
-    Top = 256
-  end
-  object SynCobolSyn: TSynCobolSyn
-    Tag = 12
-    AreaAStartPos = 7
-    AreaBStartPos = 11
-    CodeEndPos = 71
-    Left = 270
-    Top = 146
-  end
-  object SynVBScriptSyn: TSynVBScriptSyn
-    Tag = 54
-    Left = 606
-    Top = 256
-  end
-  object SynVrml97Syn: TSynVrml97Syn
-    Tag = 55
-    Left = 606
-    Top = 306
-  end
-  object SynAWKSyn: TSynAWKSyn
-    Tag = 1
-    Left = 186
-    Top = 88
-  end
-  object SynKixSyn: TSynKixSyn
-    Tag = 31
-    Left = 432
-    Top = 88
-  end
-  object SynGWScriptSyn: TSynGWScriptSyn
-    Tag = 23
-    Left = 346
-    Top = 200
-  end
-  object SynCACSyn: TSynCACSyn
-    Tag = 9
-    Left = 186
-    Top = 518
-  end
-  object SynCacheSyn: TSynCacheSyn
-    Tag = 10
-    Left = 270
-    Top = 34
-  end
-  object SynFoxproSyn: TSynFoxproSyn
-    Tag = 20
-    Left = 346
-    Top = 34
-  end
-  object SynSDDSyn: TSynSDDSyn
-    Tag = 45
-    Left = 514
-    Top = 306
-  end
-  object SynADSP21xxSyn: TSynADSP21xxSyn
-    Tag = 16
-    Left = 270
-    Top = 358
-  end
-  object SynHC11Syn: TSynHC11Syn
-    Left = 186
-    Top = 34
-  end
-  object SynHP48Syn: TSynHP48Syn
-    Tag = 25
-    BaseRange = rsRpl
-    Left = 346
-    Top = 306
-  end
-  object SynSTSyn: TSynSTSyn
-    Tag = 48
-    Left = 514
-    Top = 462
-  end
-  object SynDmlSyn: TSynDmlSyn
-    Tag = 22
-    FunctionAttri.Foreground = clNone
-    VariableAttri.Foreground = clNone
-    Left = 346
-    Top = 146
-  end
-  object SynModelicaSyn: TSynModelicaSyn
-    Tag = 33
-    Left = 432
-    Top = 200
-  end
-  object SynSMLSyn: TSynSMLSyn
-    Tag = 47
-    Left = 514
-    Top = 410
-  end
-  object SynIniSyn: TSynIniSyn
-    Tag = 27
-    Left = 346
-    Top = 410
-  end
-  object SynInnoSyn: TSynInnoSyn
-    Tag = 28
-    Left = 346
-    Top = 462
-  end
-  object SynBaanSyn: TSynBaanSyn
-    Tag = 2
-    Left = 186
-    Top = 146
-  end
-  object SynGalaxySyn: TSynGalaxySyn
-    Tag = 21
-    KeyWords.Strings = (
-      '#end'
-      '#galaxy'
-      'a'
-      'anonymous'
-      'autounload'
-      'b'
-      'battleprotocol'
-      'c'
-      'cap'
-      'cargo'
-      'col'
-      'compress'
-      'd'
-      'drive'
-      'e'
-      'emp'
-      'f'
-      'fleet'
-      'fleettables'
-      'g'
-      'galaxytv'
-      'gplus'
-      'groupforecast'
-      'h'
-      'i'
-      'j'
-      'l'
-      'm'
-      'machinereport'
-      'mat'
-      'n'
-      'namecase'
-      'no'
-      'o'
-      'options'
-      'p'
-      'planetforecast'
-      'prodtable'
-      'produce'
-      'q'
-      'r'
-      'routesforecast'
-      's'
-      'send'
-      'shields'
-      'shiptypeforecast'
-      'sortgroups'
-      't'
-      'twocol'
-      'u'
-      'underscores'
-      'v'
-      'w'
-      'war'
-      'weapons'
-      'x'
-      'y'
-      'z')
-    Left = 346
-    Top = 88
-  end
-  object SynProgressSyn: TSynProgressSyn
-    Tag = 41
-    Left = 514
-    Top = 88
-  end
-  object SynMsgSyn: TSynMsgSyn
-    Tag = 35
-    Left = 432
-    Top = 306
-  end
-  object SynIdlSyn: TSynIdlSyn
-    Tag = 13
-    Left = 270
-    Top = 200
-  end
-  object SynCPMSyn: TSynCPMSyn
-    Tag = 14
-    Left = 270
-    Top = 256
-  end
-  object SynHaskellSyn: TSynHaskellSyn
-    Tag = 24
-    Left = 346
-    Top = 256
-  end
-  object SynLDRSyn: TSynLDRSyn
-    Tag = 32
-    LineAttri.Foreground = clNone
-    OpLineAttri.Foreground = clNone
-    TriangleAttri.Foreground = clNone
-    Left = 432
-    Top = 146
-  end
-  object SynDOTSyn: TSynDOTSyn
-    Tag = 15
-    Left = 270
-    Top = 306
-  end
-  object SynRCSyn: TSynRCSyn
-    Tag = 43
-    Left = 514
-    Top = 200
-  end
   object BookmarkImagesList: TBCImageList
     ShareImages = True
-    Left = 36
-    Top = 450
+    Left = 144
+    Top = 282
     Bitmap = {
       494C01010A0038005C0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
@@ -1714,8 +1244,8 @@ object DocumentFrame: TDocumentFrame
       000000000000}
   end
   object EditorPopupMenu: TBCPopupMenu
-    Left = 36
-    Top = 504
+    Left = 38
+    Top = 120
     object CutMenuItem: TMenuItem
       Action = MainForm.EditCutAction
     end
@@ -1860,80 +1390,11 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 290
   end
-  object SynWebCssSyn: TSynWebCssSyn
-    Tag = 11
-    DefaultFilter = 'Cascading Stylesheets (*.css)|*.css'
-    ActiveHighlighterSwitch = False
-    Engine = SynWebEngine
-    Options.HtmlVersion = shvHtml5
-    Options.CssVersion = scvCss3
-    Options.PhpShortOpenTag = False
-    Options.UseEngineOptions = True
-    Left = 270
-    Top = 88
-  end
-  object SynWebXmlSyn: TSynWebXmlSyn
-    Tag = 57
-    DefaultFilter = 
-      'XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.x' +
-      'slt;*.dtd'
-    ActiveHighlighterSwitch = False
-    Engine = SynWebEngine
-    Options.UseEngineOptions = True
-    Left = 606
-    Top = 410
-  end
-  object TwilightCSSyn: TSynCSSyn
-    Tag = 5
-    AsmAttri.Foreground = clLime
-    CommentAttri.Foreground = clLime
-    IdentifierAttri.Foreground = clWhite
-    KeyAttri.Foreground = clAqua
-    NumberAttri.Foreground = clFuchsia
-    StringAttri.Foreground = clYellow
-    SymbolAttri.Foreground = clSilver
-    Left = 186
-    Top = 306
-  end
-  object TwilightPasSyn: TSynPasSyn
-    Tag = 39
-    AsmAttri.Foreground = clLime
-    CommentAttri.Foreground = clLime
-    IdentifierAttri.Foreground = clWhite
-    KeyAttri.Foreground = clAqua
-    NumberAttri.Foreground = clFuchsia
-    FloatAttri.Foreground = clFuchsia
-    HexAttri.Foreground = clFuchsia
-    StringAttri.Foreground = clYellow
-    CharAttri.Foreground = clYellow
-    SymbolAttri.Foreground = clSilver
-    Left = 432
-    Top = 518
-  end
-  object TwilightCppSyn: TSynCppSyn
-    Tag = 8
-    AsmAttri.Foreground = clLime
-    CommentAttri.Foreground = clLime
-    DirecAttri.Foreground = clBtnShadow
-    IdentifierAttri.Foreground = clWhite
-    InvalidAttri.Foreground = clRed
-    KeyAttri.Foreground = clAqua
-    NumberAttri.Foreground = clFuchsia
-    FloatAttri.Foreground = clFuchsia
-    HexAttri.Foreground = clFuchsia
-    OctalAttri.Foreground = clFuchsia
-    SpaceAttri.Foreground = clBtnShadow
-    StringAttri.Foreground = clYellow
-    CharAttri.Foreground = clYellow
-    SymbolAttri.Foreground = clSilver
-    Left = 186
-    Top = 462
-  end
   object ImageList25: TBCImageList
     Height = 20
     Width = 20
-    Left = 606
-    Top = 462
+    Left = 142
+    Top = 168
     Bitmap = {
       494C010102009C04B00514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
@@ -2152,8 +1613,8 @@ object DocumentFrame: TDocumentFrame
   object ImageList50: TBCImageList
     Height = 24
     Width = 24
-    Left = 606
-    Top = 518
+    Left = 142
+    Top = 224
     Bitmap = {
       494C01010200BC04B40518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
@@ -2459,14 +1920,1134 @@ object DocumentFrame: TDocumentFrame
       00000000003FFFFFFFFF00000000000000000000000000000000000000000000
       000000000000}
   end
+  object SynEditRegexSearch: TSynEditRegexSearch
+    Left = 42
+    Top = 44
+  end
+  object SynHC11Syn: TSynHC11Syn
+    Left = 222
+    Top = 46
+  end
+  object SynAWKSyn: TSynAWKSyn
+    Tag = 1
+    Left = 222
+    Top = 100
+  end
+  object SynBaanSyn: TSynBaanSyn
+    Tag = 2
+    Left = 222
+    Top = 158
+  end
+  object ClassicCSSyn: TSynCSSyn
+    Tag = 3
+    AsmAttri.Foreground = clLime
+    CommentAttri.Foreground = clSilver
+    DirecAttri.Foreground = clSilver
+    IdentifierAttri.Foreground = clYellow
+    KeyAttri.Foreground = clWhite
+    KeyAttri.Style = []
+    NumberAttri.Foreground = clFuchsia
+    StringAttri.Foreground = clAqua
+    SymbolAttri.Foreground = clLime
+    Left = 222
+    Top = 212
+  end
+  object DefaultCSSyn: TSynCSSyn
+    Tag = 4
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clNavy
+    NumberAttri.Foreground = clBlue
+    StringAttri.Foreground = clBlue
+    Left = 222
+    Top = 268
+  end
+  object TwilightCSSyn: TSynCSSyn
+    Tag = 5
+    AsmAttri.Foreground = clLime
+    CommentAttri.Foreground = clLime
+    IdentifierAttri.Foreground = clWhite
+    KeyAttri.Foreground = clAqua
+    NumberAttri.Foreground = clFuchsia
+    StringAttri.Foreground = clYellow
+    SymbolAttri.Foreground = clSilver
+    Left = 222
+    Top = 318
+  end
+  object ClassicCppSyn: TSynCppSyn
+    Tag = 6
+    DefaultFilter = 'C/C++ Files (*.c;*.cpp;*.h;*.hpp)|*.c;*.cpp;*.h;*.hpp'
+    AsmAttri.Foreground = clLime
+    CommentAttri.Foreground = clSilver
+    DirecAttri.Foreground = clSilver
+    IdentifierAttri.Foreground = clYellow
+    KeyAttri.Foreground = clWhite
+    KeyAttri.Style = []
+    NumberAttri.Foreground = clFuchsia
+    FloatAttri.Foreground = clFuchsia
+    HexAttri.Foreground = clFuchsia
+    StringAttri.Foreground = clAqua
+    CharAttri.Foreground = clAqua
+    SymbolAttri.Foreground = clLime
+    Left = 222
+    Top = 370
+  end
+  object DefaultCppSyn: TSynCppSyn
+    Tag = 7
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clNavy
+    NumberAttri.Foreground = clBlue
+    HexAttri.Foreground = clBlue
+    StringAttri.Foreground = clBlue
+    Left = 222
+    Top = 422
+  end
+  object TwilightCppSyn: TSynCppSyn
+    Tag = 8
+    AsmAttri.Foreground = clLime
+    CommentAttri.Foreground = clLime
+    DirecAttri.Foreground = clBtnShadow
+    IdentifierAttri.Foreground = clWhite
+    InvalidAttri.Foreground = clRed
+    KeyAttri.Foreground = clAqua
+    NumberAttri.Foreground = clFuchsia
+    FloatAttri.Foreground = clFuchsia
+    HexAttri.Foreground = clFuchsia
+    OctalAttri.Foreground = clFuchsia
+    SpaceAttri.Foreground = clBtnShadow
+    StringAttri.Foreground = clYellow
+    CharAttri.Foreground = clYellow
+    SymbolAttri.Foreground = clSilver
+    Left = 222
+    Top = 474
+  end
+  object SynCACSyn: TSynCACSyn
+    Tag = 9
+    Left = 222
+    Top = 530
+  end
+  object SynWebEngine: TSynWebEngine
+    Options.HtmlVersion = shvHtml5
+    Options.CssVersion = scvCss3
+    Options.PhpShortOpenTag = False
+    MLTagKeyAttri.Foreground = clMaroon
+    MLTagKeyValueAttri.Foreground = clPurple
+    MLTagKeyValueQuotedAttri.Foreground = clPurple
+    CssSelectorAttri.Foreground = clNavy
+    CssSelectorAttri.Style = []
+    CssSelectorClassAttri.Foreground = clBlue
+    CssSelectorClassAttri.Style = []
+    CssPropAttri.Foreground = clMaroon
+    CssPropUndefAttri.Foreground = clMaroon
+    CssValAttri.Foreground = clPurple
+    CssValNumberAttri.Foreground = clRed
+    PhpVariableAttri.Foreground = clBlue
+    PhpConstAttri.Foreground = clBlack
+    PhpStringAttri.Foreground = clPurple
+    PhpStringSpecialAttri.Foreground = clPurple
+    PhpDocCommentAttri.Style = [fsItalic]
+    PhpNumberAttri.Foreground = clRed
+    Left = 34
+    Top = 346
+  end
+  object SynFortranSyn: TSynFortranSyn
+    Tag = 19
+    Left = 306
+    Top = 530
+  end
+  object SynEiffelSyn: TSynEiffelSyn
+    Tag = 18
+    Left = 306
+    Top = 474
+  end
   object SynDWSSyn: TSynDWSSyn
     Tag = 17
     DefaultFilter = 'DWScript Files (*.dws)|*.dws'
-    Left = 270
-    Top = 410
+    Left = 306
+    Top = 422
   end
-  object SynEditRegexSearch: TSynEditRegexSearch
-    Left = 60
+  object SynIniSyn: TSynIniSyn
+    Tag = 27
+    Left = 382
+    Top = 422
+  end
+  object SynInnoSyn: TSynInnoSyn
+    Tag = 28
+    Left = 382
+    Top = 474
+  end
+  object SynJavaSyn: TSynJavaSyn
+    Tag = 29
+    CommentAttri.Foreground = clGreen
+    DocumentAttri.Foreground = clGray
+    KeyAttri.Foreground = clBlue
+    KeyAttri.Style = []
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
+    Left = 382
+    Top = 530
+  end
+  object TwilightPasSyn: TSynPasSyn
+    Tag = 39
+    AsmAttri.Foreground = clLime
+    CommentAttri.Foreground = clLime
+    IdentifierAttri.Foreground = clWhite
+    KeyAttri.Foreground = clAqua
+    NumberAttri.Foreground = clFuchsia
+    FloatAttri.Foreground = clFuchsia
+    HexAttri.Foreground = clFuchsia
+    StringAttri.Foreground = clYellow
+    CharAttri.Foreground = clYellow
+    SymbolAttri.Foreground = clSilver
+    Left = 468
+    Top = 530
+  end
+  object SynTclTkSyn: TSynTclTkSyn
+    Tag = 49
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Style = []
+    KeyWords.Strings = (
+      '')
+    SecondKeyWords.Strings = (
+      '')
+    NumberAttri.Foreground = clRed
+    OptionsAttri.Background = clNone
+    OptionsAttri.Foreground = clNone
+    PathAttri.Background = clNone
+    PathAttri.Foreground = clNone
+    VariableAttri.Background = clNone
+    VariableAttri.Foreground = clNone
+    Left = 550
+    Top = 530
+  end
+  object SynSTSyn: TSynSTSyn
+    Tag = 48
+    Left = 550
+    Top = 474
+  end
+  object DefaultPasSyn: TSynPasSyn
+    Tag = 38
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clNavy
+    NumberAttri.Foreground = clBlue
+    HexAttri.Foreground = clBlue
+    StringAttri.Foreground = clBlue
+    Left = 468
+    Top = 474
+  end
+  object ClassicPasSyn: TSynPasSyn
+    Tag = 37
+    DefaultFilter = 
+      'Pascal Files (*.pas;*.dfm;*.dpr;*.dproj)|*.pas;*.dfm;*.dpr;*.dro' +
+      'j'
+    AsmAttri.Foreground = clLime
+    CommentAttri.Foreground = clSilver
+    DirectiveAttri.Foreground = clSilver
+    IdentifierAttri.Foreground = clYellow
+    KeyAttri.Foreground = clWhite
+    KeyAttri.Style = []
+    NumberAttri.Foreground = clFuchsia
+    FloatAttri.Foreground = clFuchsia
+    HexAttri.Foreground = clFuchsia
+    StringAttri.Foreground = clAqua
+    CharAttri.Foreground = clAqua
+    SymbolAttri.Foreground = clLime
+    PackageSource = False
+    Left = 468
+    Top = 422
+  end
+  object SynSMLSyn: TSynSMLSyn
+    Tag = 47
+    Left = 550
+    Top = 422
+  end
+  object SynWebXmlSyn: TSynWebXmlSyn
+    Tag = 57
+    DefaultFilter = 
+      'XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.x' +
+      'slt;*.dtd'
+    ActiveHighlighterSwitch = False
+    Engine = SynWebEngine
+    Options.UseEngineOptions = True
+    Left = 642
+    Top = 422
+  end
+  object SynAsmSyn: TSynAsmSyn
+    Tag = 56
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    KeyAttri.Style = []
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
+    Left = 642
+    Top = 370
+  end
+  object SynVrml97Syn: TSynVrml97Syn
+    Tag = 55
+    Left = 642
+    Top = 318
+  end
+  object SynVBScriptSyn: TSynVBScriptSyn
+    Tag = 54
+    Left = 642
+    Top = 268
+  end
+  object SynVBSyn: TSynVBSyn
+    Tag = 53
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    KeyAttri.Style = []
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
+    Left = 642
+    Top = 212
+  end
+  object SynUNIXShellScriptSyn: TSynUNIXShellScriptSyn
+    Tag = 52
+    KeyAttri.Style = []
+    Left = 642
+    Top = 158
+  end
+  object SynPythonSyn: TSynPythonSyn
+    Tag = 42
+    SpaceAttri.Background = clNone
+    Left = 550
+    Top = 158
+  end
+  object SynRCSyn: TSynRCSyn
+    Tag = 43
+    Left = 550
+    Top = 212
+  end
+  object SynRubySyn: TSynRubySyn
+    Tag = 44
+    Left = 550
+    Top = 268
+  end
+  object SynSDDSyn: TSynSDDSyn
+    Tag = 45
+    Left = 550
+    Top = 318
+  end
+  object SynSQLSyn: TSynSQLSyn
+    Tag = 46
+    CommentAttri.Foreground = clGreen
+    ConditionalCommentAttri.Foreground = clGreen
+    DataTypeAttri.Foreground = clRed
+    DataTypeAttri.Style = []
+    DefaultPackageAttri.Style = [fsBold, fsItalic]
+    DelimitedIdentifierAttri.Foreground = clBlue
+    ExceptionAttri.Foreground = clRed
+    ExceptionAttri.Style = []
+    FunctionAttri.Foreground = clBlue
+    FunctionAttri.Style = []
+    KeyAttri.Foreground = clBlue
+    KeyAttri.Style = []
+    PLSQLAttri.Foreground = clBlue
+    PLSQLAttri.Style = []
+    SQLPlusAttri.Foreground = clBlue
+    SQLPlusAttri.Style = []
+    StringAttri.Foreground = clPurple
+    TableNameAttri.Foreground = clOlive
+    VariableAttri.Foreground = clNavy
+    Left = 550
+    Top = 370
+  end
+  object SynBatSyn: TSynBatSyn
+    Tag = 36
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    KeyAttri.Style = []
+    NumberAttri.Foreground = clRed
+    Left = 468
+    Top = 370
+  end
+  object SynMsgSyn: TSynMsgSyn
+    Tag = 35
+    Left = 468
+    Top = 318
+  end
+  object SynM3Syn: TSynM3Syn
+    Tag = 34
+    Left = 468
+    Top = 268
+  end
+  object SynModelicaSyn: TSynModelicaSyn
+    Tag = 33
+    Left = 468
+    Top = 212
+  end
+  object SynLDRSyn: TSynLDRSyn
+    Tag = 32
+    LineAttri.Foreground = clNone
+    OpLineAttri.Foreground = clNone
+    TriangleAttri.Foreground = clNone
+    Left = 468
+    Top = 158
+  end
+  object SynWebHtmlSyn: TSynWebHtmlSyn
+    Tag = 26
+    ActiveHighlighterSwitch = False
+    Engine = SynWebEngine
+    Options.HtmlVersion = shvHtml5
+    Options.CssVersion = scvCss3
+    Options.PhpShortOpenTag = False
+    Options.CssEmbeded = False
+    Options.UseEngineOptions = True
+    Left = 382
+    Top = 370
+  end
+  object SynADSP21xxSyn: TSynADSP21xxSyn
+    Tag = 16
+    Left = 306
+    Top = 370
+  end
+  object SynDOTSyn: TSynDOTSyn
+    Tag = 15
+    Left = 306
+    Top = 318
+  end
+  object SynHP48Syn: TSynHP48Syn
+    Tag = 25
+    BaseRange = rsRpl
+    Left = 382
+    Top = 318
+  end
+  object SynHaskellSyn: TSynHaskellSyn
+    Tag = 24
+    Left = 382
+    Top = 268
+  end
+  object SynCPMSyn: TSynCPMSyn
+    Tag = 14
+    Left = 306
+    Top = 268
+  end
+  object SynIdlSyn: TSynIdlSyn
+    Tag = 13
+    Left = 306
+    Top = 212
+  end
+  object SynGWScriptSyn: TSynGWScriptSyn
+    Tag = 23
+    Left = 382
+    Top = 212
+  end
+  object SynDmlSyn: TSynDmlSyn
+    Tag = 22
+    FunctionAttri.Foreground = clNone
+    VariableAttri.Foreground = clNone
+    Left = 382
+    Top = 158
+  end
+  object SynCobolSyn: TSynCobolSyn
+    Tag = 12
+    AreaAStartPos = 7
+    AreaBStartPos = 11
+    CodeEndPos = 71
+    Left = 306
+    Top = 158
+  end
+  object SynCacheSyn: TSynCacheSyn
+    Tag = 10
+    Left = 306
+    Top = 46
+  end
+  object SynWebCssSyn: TSynWebCssSyn
+    Tag = 11
+    DefaultFilter = 'Cascading Stylesheets (*.css)|*.css'
+    ActiveHighlighterSwitch = False
+    Engine = SynWebEngine
+    Options.HtmlVersion = shvHtml5
+    Options.CssVersion = scvCss3
+    Options.PhpShortOpenTag = False
+    Options.UseEngineOptions = True
+    Left = 306
     Top = 100
+  end
+  object SynFoxproSyn: TSynFoxproSyn
+    Tag = 20
+    Left = 382
+    Top = 46
+  end
+  object SynGalaxySyn: TSynGalaxySyn
+    Tag = 21
+    KeyWords.Strings = (
+      '#end'
+      '#galaxy'
+      'a'
+      'anonymous'
+      'autounload'
+      'b'
+      'battleprotocol'
+      'c'
+      'cap'
+      'cargo'
+      'col'
+      'compress'
+      'd'
+      'drive'
+      'e'
+      'emp'
+      'f'
+      'fleet'
+      'fleettables'
+      'g'
+      'galaxytv'
+      'gplus'
+      'groupforecast'
+      'h'
+      'i'
+      'j'
+      'l'
+      'm'
+      'machinereport'
+      'mat'
+      'n'
+      'namecase'
+      'no'
+      'o'
+      'options'
+      'p'
+      'planetforecast'
+      'prodtable'
+      'produce'
+      'q'
+      'r'
+      'routesforecast'
+      's'
+      'send'
+      'shields'
+      'shiptypeforecast'
+      'sortgroups'
+      't'
+      'twocol'
+      'u'
+      'underscores'
+      'v'
+      'w'
+      'war'
+      'weapons'
+      'x'
+      'y'
+      'z')
+    Left = 382
+    Top = 100
+  end
+  object SynJScriptSyn: TSynJScriptSyn
+    Tag = 30
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    KeyAttri.Style = []
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
+    Left = 468
+    Top = 46
+  end
+  object SynKixSyn: TSynKixSyn
+    Tag = 31
+    Left = 468
+    Top = 100
+  end
+  object SynPerlSyn: TSynPerlSyn
+    Tag = 40
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Style = []
+    NumberAttri.Foreground = clRed
+    Left = 550
+    Top = 46
+  end
+  object SynProgressSyn: TSynProgressSyn
+    Tag = 41
+    Left = 550
+    Top = 100
+  end
+  object SynTeXSyn: TSynTeXSyn
+    Tag = 50
+    TextAttri.Foreground = clNone
+    ControlSequenceAttri.Background = clNone
+    SpaceAttri.Background = clNone
+    Left = 642
+    Top = 46
+  end
+  object SynURIOpener: TSynURIOpener
+    URIHighlighter = SynURISyn
+    Left = 728
+    Top = 108
+  end
+  object SynURISyn: TSynURISyn
+    Tag = 51
+    URIAttri.Style = []
+    VisitedURIAttri.Style = []
+    Left = 642
+    Top = 102
+  end
+  object XMLTreeImageList: TImageList
+    Left = 746
+    Top = 190
+    Bitmap = {
+      494C010109001800600010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      0000000000003600000028000000400000003000000001002000000000000030
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000096675E009F6F60009F6F60009F6F
+      60009F6F60009F6F60009F6F60009F6F60009F6F60009F6F60009F6F60009F6F
+      60009F6F60000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000099695F00F6E0BF00F4DDB800F3DA
+      B400F3D7AD00F2D5A700F0D3A300F0D09E00EECC9900EECA9300EDC99000EDC6
+      8C009F6F60000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000009D6C6000F6E3C600F6E1C100F4DD
+      BB00F3DCB400F2D8AF00F2D5AA00F0D3A400F0CF9F00EFCC9900EFCB9500EEC9
+      90009F6F60000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000A16E6000F7E6CE00F6E5C700F4E1
+      C100F4DEBB00F3DAB500F3D8B000F3D5AB00F0D3A500EFD19F00EFCE9A00EFCB
+      96009F6F60000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000A6726200F8EAD400D5812700D581
+      2700D5812700D5812700D5812700D5812700D5812700D5812700D5812700EFCF
+      9C009F6F60000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000AB766300FAEEDA00FAEBD500F8E9
+      D0000081BD000081BD000081BD000081BD000081BD000081BD000081BD000081
+      BD000081BD000081BD000081BD000081BD000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000B0786400FAF0E200D5812700D581
+      27000081BD00B1FFFE009AFFFE008AFFFE0082FFFE0081FBFE0081F8FE0081F3
+      FE0081EFFF0081EDFF0081EBFF000081BD000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000B57D6400FCF3E700FBF0E300FAEF
+      DD000081BD00C0FFFE00A9FFFE0095FFFE0079E7E60081FEFE0081FBFE0081F6
+      FE0081F2FF0081EEFE0081EBFE000081BD000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000BB806500FCF7ED00D5812700D581
+      27000081BD00CFFFFE00B1F8F70087D7D5006ABFBD0083FFFE0081FEFE0081FA
+      FE0081F4FF0081F0FF0081EDFF000081BD000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000C0836600FCF8F300FCF7EF00FCF4
+      EA000081BD00DEFFFF0089B0B00082BFBD0090F2F20088FFFE0081FEFE0081FB
+      FE0081F7FE0081F4FF0081EFFE000081BD000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000C4876700FEFBF800D5812700D581
+      27000081BD00EAFFFE00414C4C0060828200A5FFFE0091FFFE0083FFFE0080FE
+      FE0081FAFE0081F6FE0081F2FF000081BD000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000C9896700FEFCFB00FEFBF700FEFA
+      F4000081BD00F4FFFE00B5CBCB0005067400020383009EFFFF008BFFFE0082FF
+      FE0081FCFE0081F8FE0081F4FE000081BD000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000CC8B6800FFFFFF00FFFEFC00FEFC
+      FA000081BD000081BD000081BD0007139D001D38D500000000000081BD000081
+      BD000081BD000081BD000081BD000081BD000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000CF8E6800FFFFFF00FFFFFF00FFFF
+      FC00FFFCFA00FEFBF600FEF8F000FCF7EE004140A60026259800FBEFDD00F8ED
+      D8009F6F60000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000CF8E6800CF8E6800CF8E6800CF8E
+      6800CF8E6800CF8E6800CF8E6800CF8E6800CF8E6800CF8E6800CF8E6800CF8E
+      6800CF8E68000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000079777900797779007977
+      7900797779007977790079777900797779007977790079777900797779007977
+      7900797779007977790079777900000000000000000079777900797779007977
+      7900797779007977790079777900797779007977790079777900797779007977
+      7900797779007977790079777900000000000000820000008200000082000000
+      8200000082000000820000008200000082000000820000008200000082000000
+      8200000082000000820000008200000082000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000084868400F7F3F700F7F3
+      F700F7F3F700F7F3F700F7F3F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7
+      F700F7F7FF00F7FBFF0084868400000000000000000084868400F7F3F700F7F3
+      F700F7F3F700F7F3F700F7F3F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7
+      F700F7F7FF00F7FBFF0084868400000000000000820000008200000082000000
+      8200000082000000820000008200000082000000820000008200000082000000
+      820000008200000082000000820000008200976B65008E5D59008E5D59008E5D
+      59008E5D59008E5D59008E5D59008E5D59008E5D59008E5D59008E5D59008E5D
+      59008E5D59008E5D59008E5D5900885A55000000000094929400F7F3F700F7F3
+      F700F7F3F700F7F3F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7
+      FF00F7FBFF00FFFBFF0094929400000000000000000094929400F7F3F700F7F3
+      F700F7F3F700F7F3F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7
+      FF00F7FBFF00FFFBFF0094929400000000000000820000008200FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF0000008200000082009E756F00E5DAD900E5D7D300E4D3
+      CE00E1D0C700E1CDBE00E0CAB600DFC6AE00DDC2A700DCBC9E00DAB89600D9B5
+      8E00D8B18700D6AF8100D6AB79008B5D5200000000009C9E9C00F7F3F700F7F3
+      F700AD9A9C00AD9A9C00AD9A9C00AD9A9C00AD9A9C00AD969C00AD969C00AD96
+      9C00FFFBFF00FFFBFF009C9E9C0000000000000000009C9E9C00F7F3F700F7F3
+      F700AD9A9C00AD9A9C00AD9A9C00AD9A9C00AD9A9C00AD969C00AD969C00AD96
+      9C00FFFBFF00FFFBFF009C9E9C00000000000000820000008200FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF000000820000008200A47F7A00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFC00FFF7E200FFF3D800FFFFDF00FBE6C200FFECC200FFF1
+      BE00FEE3AD00F4D39900F4CB8B0094675A0000000000ADAEAD00F7F3F700F7F3
+      F700F7F7F700F7F7F700F7F7F700F7F7FF00F7F7FF00F7F7FF00FFFBFF00FFFB
+      FF00FFFBFF00FFFBFF00ADAEAD000000000000000000ADAEAD00F7F3F700F7F3
+      F700F7F7F700F7F7F700F7F7F700F7F7FF00F7F7FF00F7F7FF00FFFBFF00FFFB
+      FF00FFFBFF00FFFBFF00ADAEAD00000000000000820000008200FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF000000820000008200A67F7A00FFFFFF00FFFFFE00DFC1
+      B600BD868100E3C6B500FEF5E700F6E7D500D2A68B00F6E4C600DDB39000B673
+      5900D4A37700F0CF9E00F0C9910093665A0000000000ADAEAD00F7F3F700F7F7
+      F700AD9A9C00AD9A9C00AD9A9C00AD9A9C00AD9A9C00AD969C00AD969C00AD96
+      9C00FFFBFF00FFFBFF00ADAEAD000000000000000000ADAEAD00F7F3F700F7F7
+      F700AD9A9C00AD9A9C00AD9A9C00AD9A9C00AD9A9C00AD969C00AD969C00AD96
+      9C00FFFBFF00FFFBFF00ADAEAD00000000000000820000008200FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF000000820000008200AE847C00FFFFFF00EFDFD700A55B
+      410083242000AD654C00F5E6DA00F5E5D9008F361900EDD5BB00AA5F3D00852A
+      2100A2512E00E2B98D00F3D39E0092665B0000000000B5B2B500F7F7F700F7F7
+      F700F7F7F700F7F7FF00F7FBFF00FFFBFF00FFFBFF00FFFBFF00FFFBFF00FFFB
+      FF00FFFFFF00FFFFFF00B5B2B5000000000000000000B5B2B500F7F7F700F7F7
+      F700F7F7F700F7F7FF00F7FBFF00FFFBFF00FFFBFF00FFFBFF00FFFBFF00FFFB
+      FF00FFFFFF00FFFFFF00B5B2B500000000000000820000008200FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF0000008200FFFFFF0000008200FFFFFF00FFFFFF00FFFF
+      FF0000008200FFFFFF000000820000008200B68B7F00FFFFFF00C89D9000AE6E
+      5C00FFFFFF00A2594300D9B8AC00FAF3EA009C4E3300D5AF99009F513500FFFF
+      F400AB654600C1866100FAE0AE0093675C0000000000B5B2B500F7F7F700F7F7
+      F700F7F7FF00F7FBFF00FFFBFF00FFFBFF00FFFBFF00FFFBFF00FFFBFF00FFFF
+      FF00FFFFFF00FFFFFF00B5B2B5000000000000000000B5B2B500F7F7F700F7F7
+      F700F7F7FF00F7FBFF00FFFBFF00FFFBFF00FFFBFF00FFFBFF00FFFBFF00FFFF
+      FF00FFFFFF00FFFFFF00B5B2B500000000000000820000008200FFFFFF00FFFF
+      FF000000820000008200FFFFFF00FFFFFF00FFFFFF0000008200FFFFFF000000
+      8200FFFFFF00FFFFFF000000820000008200BE928200FFFFFF00CBA29400AE6E
+      5B00FFFFFF00A35A4400DCBDB400FFFFFC009D4F3600D7B4A200A2563900FFFF
+      F600AB664900C58D6A00FCE4B70093675D0000000000B5B6B500F7F7F700D6D3
+      D600796F7100FFFBFF00DEB6B50050921F00619A1600BD928C00FFFFFF00796F
+      7100E7E3E700FFFFFF00B5B6B5000000000000000000B5B6B500F7F7F700D6D3
+      D600796F7100FFFBFF00DEB6B50050921F00619A1600BD928C00FFFFFF00796F
+      7100E7E3E700FFFFFF00B5B6B500000000000000820000008200FFFFFF000000
+      8200FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0000008200FFFF
+      FF00FFFFFF00FFFFFF000000820000008200C9998400FFFFFF00C69A8C00AE6F
+      5C00FFFFFF009F564100EECABC00AA5D440094402500D6B5A500A0533900FFFF
+      FF00AC684E00C1886900FEEAC30093685E0000000000BDBABD00EFEBEF00796F
+      7100FFFBFF00FFFBFF00AD5F3700B5AE2700C6AE4000796F2700FFFFFF00FFFF
+      FF00796F7100F7F3F700BDBABD000000000000000000BDBABD00EFEBEF00796F
+      7100FFFBFF00FFFBFF00AD5F3700B5AE2700C6AE4000796F2700FFFFFF00FFFF
+      FF00796F7100F7F3F700BDBABD00000000000000820000008200FFFFFF00FFFF
+      FF000000820000008200FFFFFF00FFFFFF00FFFFFF0000008200FFFFFF000000
+      8200FFFFFF00FFFFFF000000820000008200D1A18700FFFFFF00E7D1C800A55B
+      42009B4C4900B26A4D00E7D1C800E7D1C8008E321600EFDED400A85E43009B4E
+      4B00A3563700E1BFA300FBEAC9009368600000000000BDBABD00F7FBFF00D6D3
+      D600796F7100FFFBFF00849E6100BDE38400F7C7610071A64800FFFFFF00796F
+      7100DED7DE00FFFFFF00BDBABD000000000000000000BDBABD00F7FBFF00D6D3
+      D600796F7100FFFBFF00849E6100BDE38400F7C7610071A64800FFFFFF00796F
+      7100DED7DE00FFFFFF00BDBABD00000000000000820000008200FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF0000008200FFFFFF0000008200FFFFFF00FFFFFF00FFFF
+      FF0000008200FFFFFF000000820000008200D8A78C00FFFFFF00FFFFFF00D2AC
+      9F009E545400E4C4B500F9F5F100F9F5F100C79B8F00FFFFFF00DAB9AC009D52
+      4E00CFA48F00FFF6E200FCEFD4009066600000000000BDBEBD00FFFBFF00FFFB
+      FF00FFFBFF00FFFBFF00E7E3D6009CBA7900C69A6100D6BEB500FFFFFF00FFFF
+      FF00E7E7E700DEDFE700BDBABD000000000000000000BDBEBD00FFFBFF00FFFB
+      FF00FFFBFF00FFFBFF00E7E3D6009CBA7900C69A6100D6BEB500FFFFFF00FFFF
+      FF00E7E7E700DEDFE700BDBABD00000000000000820000008200FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF000000820000008200D8A38300F4E5DD00F5E6DE00FDF4
+      EE00FFFFF700FAF2ED00F9F5F100F9F5F100F9F5F100F5E7DF00FCF1E800FFFA
+      EC00FAEDDE00F2DBC800EFD4B9009F6E5F0000000000BDBEBD00FFFBFF00FFFB
+      FF00FFFBFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00BDBA
+      BD00BDBABD00BDBABD00BDBABD000000000000000000BDBEBD00FFFBFF00FFFB
+      FF00FFFBFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00BDBA
+      BD00BDBABD00BDBABD00BDBABD00000000000000820000008200FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF000000820000008200D59C7A00CF8E6800CF8E6800CF8E
+      6800D08E6700C5896800C5896800C5896800C5896800D28F6800CF8E6800CF8E
+      6800CF8E6800CF8E6800CF8E6800D1936F0000000000BDBEBD00FFFBFF00FFFB
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00C6C7
+      C600F7F7F700BDBABD00000000000000000000000000BDBEBD00FFFBFF00FFFB
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00C6C7
+      C600F7F7F700BDBABD0000000000000000000000820000008200FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF0000008200000082000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000C6C3C600FFFBFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00CECB
+      CE00BDBABD0000000000000000000000000000000000C6C3C600FFFBFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00CECB
+      CE00BDBABD000000000000000000000000000000820000008200000082000000
+      8200000082000000820000008200000082000000820000008200000082000000
+      8200000082000000820000008200000082000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000C6C3C600C6C3C600C6C3
+      C600C6C3C600C6C3C600C6C3C600C6C3C600C6C3C600C6C3C600C6C3C600BDBE
+      BD000000000000000000000000000000000000000000C6C3C600C6C3C600C6C3
+      C600C6C3C600C6C3C600C6C3C600C6C3C600C6C3C600C6C3C600C6C3C600BDBE
+      BD00000000000000000000000000000000000000820000008200000082000000
+      8200000082000000820000008200000082000000820000008200000082000000
+      8200000082000000820000008200000082000000000079777900797779007977
+      7900797779007977790079777900797779007977790079777900797779007977
+      7900797779007977790079777900000000000757C6000757C6000757C6000757
+      C6000757C6000757C6000757C6000757C6000757C6000757C6000757C6000757
+      C6000757C6000757C6000757C6000757C6000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000084868400F7F3F700F7F3
+      F700F7F3F700F7F3F700F7F3F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7
+      F700F7F7FF00F7FBFF0084868400000000000757C6000757C6000757C6000757
+      C6000757C6000757C6000757C6000757C6000757C6000757C6000757C6000757
+      C6000757C6000757C6000757C6000757C6000000000000000000000000000000
+      000000000000000000000F55BB000F55BB000F55BB0000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000094929400F7F3F700F7F3
+      F700F7F3F700F7F3F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7F700F7F7
+      FF00F7FBFF00FFFBFF0094929400000000000757C6000757C600FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF000757C6000757C6000000000000000000000000000000
+      000000000000000000000F55BB002288FF000F55BB0000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000082000000000000000000000000000000
+      000000000000000000000000000000000000000000009C9E9C00F7F3F700F7F3
+      F700AD9A9C00AD9A9C00AD9A9C00AD9A9C00AD9A9C00AD969C00AD969C00AD96
+      9C00FFFBFF00FFFBFF009C9E9C00000000000757C6000757C600FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00BCD7F2004F91DA00105FCA004F91
+      DA00BCD7F200FFFFFF000757C6000757C60000000000000000000F55BB000F55
+      BB0000000000000000000F55BB00268CFF000F55BB0000000000000000000F55
+      BB000F55BB000000000000000000000000000000000000000000000000000000
+      00000000000000000000000082003858F3000000820000000000000000000000
+      00000000000000000000000000000000000000000000ADAEAD00F7F3F700F7F3
+      F700F7F7F700F7F7F700F7F7F700F7F7FF00F7F7FF00F7F7FF00FFFBFF00FFFB
+      FF00FFFBFF00FFFBFF00ADAEAD00000000000757C6000757C600FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF004F91DA000757C6000757C6000757
+      C6004F91DA00FFFFFF000757C6000757C600000000000F55BB0039A4FA003CAA
+      FF000F55BB00000000000F55BB002B93FF000F55BB00000000000F55BB001D7E
+      F8002084FF000F55BB0000000000000000000000000000000000000000000000
+      000000000000000082003858F300001ED500000C960000008200000000000000
+      00000000000000000000000000000000000000000000ADAEAD00F7F3F700F7F7
+      F700AD9A9C00AD9A9C00AD9A9C00AD9A9C00AD9A9C00AD969C00AD969C00AD96
+      9C00FFFBFF00FFFBFF00ADAEAD00000000000757C6000757C600FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00105FCA000757C6000757C6000757
+      C600105FCA00FFFFFF000757C6000757C600000000000F55BB003398ED0041B1
+      FF003DACFF000F55BB000F55BB002D97FF000F55BB000F55BB002286FF001F84
+      FF001E7FF8000F55BB0000000000000000000000000000000000000000000000
+      0000000082003858F300001CE500001FE1000020DA00000C9600000082000000
+      00000000000000000000000000000000000000000000B5B2B500F7F7F700F7F7
+      F700F7F7F700F7F7FF00F7FBFF00FFFBFF00FFFBFF00FFFBFF00FFFBFF00FFFB
+      FF00FFFFFF00FFFFFF00B5B2B500000000000757C6000757C600FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF004F91DA000757C6000757C6000757
+      C6004F91DA00FFFFFF000757C6000757C60000000000000000000F55BB000F55
+      BB003BA7FB003DACFF0037A4FF00329DFF002D97FF002B93FF00278CFF000F55
+      BB000F55BB000000000000000000000000000000000000000000000000000000
+      82003858F300001CFB00001EF000001EE900001FE5000021DD00000C96000000
+      82000000000000000000000000000000000000000000B5B2B500F7F7F700F7F7
+      F700F7F7FF00F7FBFF00FFFBFF00FFFBFF00FFFBFF00FFFBFF00FFFBFF00FFFF
+      FF00FFFFFF00FFFFFF00B5B2B500000000000757C6000757C600FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00BCD7F2004F91DA00105FCA004F91
+      DA00BCD7F200FFFFFF000757C6000757C6000000000000000000000000000000
+      00000F55BB003298EE003DABFF0036A3FF00339EFF002D96FC000F55BB000000
+      0000000000000000000000000000000000000000000000000000000082003858
+      F300072CFF000223FF00001EFB00001EF400001EEB00001FE900001FDA00000C
+      96000000760000000000000000000000000000000000B5B6B500F7F7F700D6D3
+      D600796F7100FFFBFF00DEB6B50050921F00619A1600BD928C00FFFFFF00796F
+      7100E7E3E700FFFFFF00B5B6B500000000000757C6000757C600FFFFFF007AAD
+      E5005695DD005695DD005695DD005695DD005695DD00B7D4F200FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF000757C6000757C6000000000000000000000000000000
+      00000F55BB003CA6F30041B0FF003BA9FF0037A3FF00339EFF000F55BB000000
+      000000000000000000000000000000000000000000000000820093A6F7001946
+      FF001139FF000B30FF000426FF00001FFE00001EF700001DEE000020F000001C
+      CB00000C960000008200000000000000000000000000BDBABD00EFEBEF00796F
+      7100FFFBFF00FFFBFF00AD5F3700B5AE2700C6AE4000796F2700FFFFFF00FFFF
+      FF00796F7100F7F3F700BDBABD00000000000757C6000757C600FFFFFF00A3C6
+      ED000757C6000757C6000757C6000757C6001867CC00F4F8FC00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF000757C6000757C60000000000000000000F55BB000F55
+      BB004CC0FF004EC2FF0047B8FF0041AFFF003DAAFF0039A7FF0035A1FF000F55
+      BB000F55BB0000000000000000000000000000000000000000000000820093A6
+      F7001C4AFF00133CFF000D34FF000629FF000120FE00001EFF00011FEA00030D
+      93000000820000000000000000000000000000000000BDBABD00F7FBFF00D6D3
+      D600796F7100FFFBFF00849E6100BDE38400F7C7610071A64800FFFFFF00796F
+      7100DED7DE00FFFFFF00BDBABD00000000000757C6000757C600FFFFFF00FFFF
+      FF003D83D7000757C6000757C6000757C60098C0EB00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF000757C6000757C600000000000F55BB0041ACF40051C7
+      FF004EC2FF000F55BB000F55BB0048BAFF000F55BB000F55BB0036A0FB0036A5
+      FF00329DFF000F55BB0000000000000000000000000000000000000000000000
+      820093A6F700204FFF001741FF001037FF00072DFF000428F7000514A9000000
+      82000000000000000000000000000000000000000000BDBEBD00FFFBFF00FFFB
+      FF00FFFBFF00FFFBFF00E7E3D6009CBA7900C69A6100D6BEB500FFFFFF00FFFF
+      FF00E7E7E700DEDFE700BDBABD00000000000757C6000757C600FFFFFF00FFFF
+      FF00CCE1F6000A5AC7000757C600317AD300FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF000757C6000757C600000000000F55BB00369CEA0048BA
+      FA000F55BB00000000000F55BB004EC4FF000F55BB00000000000F55BB002E92
+      EF0035A0FE000F55BB0000000000000000000000000000000000000000000000
+      00000000820093A6F7002352FF001C45FF001641FC000D21BA00000082000000
+      00000000000000000000000000000000000000000000BDBEBD00FFFBFF00FFFB
+      FF00FFFBFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00BDBA
+      BD00BDBABD00BDBABD00BDBABD00000000000757C6000757C600FFFFFF00FFFF
+      FF00FFFFFF005E9ADE000A5AC700C2DAF300FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF000757C6000757C60000000000000000000F55BB000F55
+      BB0000000000000000000F55BB0050C5FF000F55BB0000000000000000000F55
+      BB000F55BB000000000000000000000000000000000000000000000000000000
+      0000000000000000820093A6F7002B5BFF001730CC0000008200000000000000
+      00000000000000000000000000000000000000000000BDBEBD00FFFBFF00FFFB
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00C6C7
+      C600F7F7F700BDBABD0000000000000000000757C6000757C600FFFFFF00FFFF
+      FF00FFFFFF00EEF4FC006CA4E200FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF000757C6000757C6000000000000000000000000000000
+      000000000000000000000F55BB0054CBFF000F55BB0000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000820093A6F7000000820000000000000000000000
+      00000000000000000000000000000000000000000000C6C3C600FFFBFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00CECB
+      CE00BDBABD000000000000000000000000000757C6000757C6000757C6000757
+      C6000757C6000757C6000757C6000757C6000757C6000757C6000757C6000757
+      C6000757C6000757C6000757C6000757C6000000000000000000000000000000
+      000000000000000000000F55BB000F55BB000F55BB0000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000082000000000000000000000000000000
+      00000000000000000000000000000000000000000000C6C3C600C6C3C600C6C3
+      C600C6C3C600C6C3C600C6C3C600C6C3C600C6C3C600C6C3C600C6C3C600BDBE
+      BD00000000000000000000000000000000000757C6000757C6000757C6000757
+      C6000757C6000757C6000757C6000757C6000757C6000757C6000757C6000757
+      C6000757C6000757C6000757C6000757C6000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000424D3E000000000000003E000000
+      2800000040000000300000000100010000000000800100000000000000000000
+      000000000000000000000000FFFFFF00FFFF0000000000000007000000000000
+      0007000000000000000700000000000000070000000000000007000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00070000000000000007000000000000FFFF800180010000FFFF800180010000
+      0000800180010000000080018001000000008001800100000000800180010000
+      0000800180010000000080018001000000008001800100000000800180010000
+      0000800180010000000080018001000000008001800100000000800380030000
+      FFFF800780070000FFFF800F800F000080010000FFFFFFFF80010000FC7FFFFF
+      80010000FC7FFEFF80010000CC67FC7F800100008443F83F800100008003F01F
+      80010000C007E00F80010000F01FC00780010000F01F800380010000C007C007
+      800100008003E00F800100008443F01F80010000CC67F83F80030000FC7FFC7F
+      80070000FC7FFEFF800F0000FFFFFFFF00000000000000000000000000000000
+      000000000000}
+  end
+  object XMLTreePopupMenu: TPopupMenu
+    Images = XMLTreePopupImagesList
+    Left = 746
+    Top = 256
+    object Refresh1: TMenuItem
+      Action = RefreshAction
+    end
+  end
+  object XMLTreePopupImagesList: TBCImageList
+    Left = 744
+    Top = 316
+    Bitmap = {
+      494C010101005400440210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      0000000000003600000028000000400000001000000001002000000000000010
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000070
+      0000000000000000000000000000007000000070000000700000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000070
+      0000047503000000000000700000000000000000000000000000007000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000070
+      0000007000000070000000000000000000000000000000000000000000000070
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000070
+      0000007000000070000000700000000000000000000000000000000000000070
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000070
+      0000007000000070000000700000007000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000007000000070000000700000007000000070
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000070
+      0000000000000000000000000000000000000070000000700000007000000070
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000070
+      0000000000000000000000000000000000000000000000700000007000000070
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000007000000000000000000000000000000070000000000000047503000070
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000070000000700000007000000000000000000000000000000070
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000424D3E000000000000003E000000
+      2800000040000000100000000100010000000000800000000000000000000000
+      000000000000000000000000FFFFFF00FFFF000000000000FFFF000000000000
+      EE3F000000000000E5DF000000000000E3EF000000000000E1EF000000000000
+      E0FF000000000000FFFF000000000000FE0F000000000000EF0F000000000000
+      EF8F000000000000F74F000000000000F8EF000000000000FFFF000000000000
+      FFFF000000000000FFFF00000000000000000000000000000000000000000000
+      000000000000}
+  end
+  object XMLTreePopupActionList: TActionList
+    Images = XMLTreePopupImagesList
+    Left = 742
+    Top = 370
+    object RefreshAction: TAction
+      Caption = '&Refresh'
+      Hint = 'Refresh files'
+      ImageIndex = 0
+      OnExecute = RefreshActionExecute
+    end
   end
 end
