@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, VirtualTrees, SynEdit, BCSynEdit,
   Xml.XMLIntf, Xml.xmldom, Xml.Win.msxmldom, Xml.XMLDoc, Vcl.ImgList, BCImageList, Vcl.Menus,
-  Vcl.ActnList;
+  Vcl.ActnList, SynEditHighlighter, SynHighlighterURI, SynURIOpener, SynHighlighterMulti;
 
 type
   PXMLTreeRec = ^TXMLTreeRec;
@@ -29,6 +29,9 @@ type
     PopupActionList: TActionList;
     RefreshAction: TAction;
     Refresh1: TMenuItem;
+    SynURIOpener: TSynURIOpener;
+    SynURISyn: TSynURISyn;
+    SynMultiSyn: TSynMultiSyn;
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;

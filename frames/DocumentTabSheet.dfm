@@ -90,6 +90,7 @@ object TabSheetFrame: TTabSheetFrame
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
         Gutter.ShowLineNumbers = True
+        Highlighter = SynMultiSyn
         Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
         WantTabs = True
       end
@@ -114,6 +115,7 @@ object TabSheetFrame: TTabSheetFrame
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
         Gutter.ShowLineNumbers = True
+        Highlighter = SynMultiSyn
         Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
         WantTabs = True
       end
@@ -128,7 +130,7 @@ object TabSheetFrame: TTabSheetFrame
     Left = 72
     Top = 70
     Bitmap = {
-      494C010109001800580010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101090018005C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -543,7 +545,7 @@ object TabSheetFrame: TTabSheetFrame
     Left = 70
     Top = 196
     Bitmap = {
-      494C0101010054003C0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010101005400400210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -692,5 +694,22 @@ object TabSheetFrame: TTabSheetFrame
       ImageIndex = 0
       OnExecute = RefreshActionExecute
     end
+  end
+  object SynURIOpener: TSynURIOpener
+    Editor = SynEdit
+    URIHighlighter = SynURISyn
+    Left = 292
+    Top = 76
+  end
+  object SynURISyn: TSynURISyn
+    URIAttri.Style = []
+    VisitedURIAttri.Style = []
+    Left = 294
+    Top = 134
+  end
+  object SynMultiSyn: TSynMultiSyn
+    Schemes = <>
+    Left = 382
+    Top = 112
   end
 end
