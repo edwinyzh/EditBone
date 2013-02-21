@@ -214,7 +214,7 @@ type
     Refresh1: TMenuItem;
     XMLTreePopupImagesList: TBCImageList;
     XMLTreePopupActionList: TActionList;
-    RefreshAction: TAction;
+    XMLTreeRefreshAction: TAction;
     procedure SynEditChange(Sender: TObject);
     procedure SynEditSplitChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
@@ -229,7 +229,7 @@ type
     procedure SynEditSpecialLineColors(Sender: TObject; Line: Integer; var Special: Boolean;
       var FG, BG: TColor);
     procedure SearchForEditChange(Sender: TObject);
-    procedure RefreshActionExecute(Sender: TObject);
+    procedure XMLTreeRefreshActionExecute(Sender: TObject);
   private
     { Private declarations }
     FCompareImageIndex, FNewImageIndex: Integer;
@@ -237,6 +237,8 @@ type
     FDefaultPath: string;
     FHTMLErrorList: TList;
     FHTMLDocumentChanged: Boolean;
+    FCaseCycle: Byte;
+    FSelectedText: UnicodeString;
     function CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
     function GetActiveTabSheetCaption: string;
     function GetActiveDocumentName: string;
@@ -391,6 +393,8 @@ var
 begin
   inherited;
   FNumberOfNewDocument := 0;
+  FCaseCycle := 0;
+  FSelectedText := '';
   FHTMLErrorList := TList.Create;
 
   PageControl.MultiLine := OptionsContainer.MultiLine;
@@ -2039,15 +2043,15 @@ var
   TabSheetFrame: TTabSheetFrame;
 begin
   Result := True;
-  //Temp := PageControl.ActivePageIndex;
 
   for i := 0 to PageControl.PageCount - 1 do
   begin
     if CheckActive or ((PageControl.ActivePageIndex = i) and not CheckActive) then
     begin
       TabSheetFrame := GetTabSheetFrame(PageControl.Pages[i]);
-      if TabSheetFrame.SynEdit.Modified then
-        Exit;
+      if Assigned(TabSheetFrame) then
+        if TabSheetFrame.SynEdit.Modified then
+          Exit;
     end;
   end;
   Result := False;
@@ -2530,7 +2534,7 @@ begin
   end;
 end;
 
-procedure TDocumentFrame.RefreshActionExecute(Sender: TObject);
+procedure TDocumentFrame.XMLTreeRefreshActionExecute(Sender: TObject);
 var
   TabSheetFrame: TTabSheetFrame;
 begin
@@ -2573,11 +2577,52 @@ end;
 
 procedure TDocumentFrame.ToggleCase;
 
+  function Toggle(const aStr: UnicodeString): UnicodeString;
+  var
+    i: Integer;
+    sLower: UnicodeString;
+  begin
+    Result := SynWideUpperCase(aStr);
+    sLower := SynWideLowerCase(aStr);
+    for i := 1 to Length(aStr) do
+    begin
+      if Result[i] = aStr[i] then
+        Result[i] := sLower[i];
+    end;
+  end;
+
   procedure ToggleCase(SynEdit: TBCSynEdit);
+  var
+    SelStart, SelEnd: Integer;
   begin
     if Assigned(SynEdit) then
       if SynEdit.Focused then
-        SynEdit.ExecuteCommand(ecToggleCaseBlock, 'C', nil);
+      begin
+        if SynWideUpperCase(SynEdit.SelText) <> SynWideUpperCase(FSelectedText) then
+        begin
+          FCaseCycle := 0;
+          FSelectedText := SynEdit.SelText;
+        end;
+
+        SynEdit.BeginUpdate;
+        SelStart := SynEdit.SelStart;
+        SelEnd := SynEdit.SelEnd;
+        { UPPER/lower/Sentence/And Title }
+        case FCaseCycle of
+          0: SynEdit.SelText := SynWideUpperCase(FSelectedText);
+          1: SynEdit.SelText := SynWideLowerCase(FSelectedText);
+          2: SynEdit.SelText := Toggle(FSelectedText);
+          3: SynEdit.SelText := SynWideUpperCase(FSelectedText[1]) + SynWideLowerCase(System.Copy(FSelectedText, 2, Length(FSelectedText)));
+          4: SynEdit.SelText := FSelectedText;
+        end;
+        SynEdit.SelStart := SelStart;
+        SynEdit.SelEnd := SelEnd;
+
+        SynEdit.EndUpdate;
+        Inc(FCaseCycle);
+        if FCaseCycle > 4 then
+          FCaseCycle := 0;
+      end;
   end;
 
 begin
