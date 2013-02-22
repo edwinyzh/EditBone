@@ -1704,6 +1704,10 @@ begin
     OptionsContainer.MultiLine := ReadBool('Options', 'MultiLine', False);
     OptionsContainer.HTMLErrorChecking := ReadBool('Options', 'HTMLErrorChecking', True);
     OptionsContainer.HtmlVersion := TSynWebHtmlVersion(StrToInt(ReadString('Options', 'HTMLVersion', '4'))); { default: HTML5 }
+    OptionsContainer.AutoIndent := ReadBool('Options', 'AutoIndent', True);
+    OptionsContainer.TrimTrailingSpaces := ReadBool('Options', 'TrimTrailingSpaces', True);
+    OptionsContainer.ScrollPastEof := ReadBool('Options', 'ScrollPastEof', False);
+    OptionsContainer.ScrollPastEol := ReadBool('Options', 'ScrollPastEol', True);
     { FileTypes }
     Version := ReadString(Application.Title, 'Version', '');
     if Version = '' then  { Version 1.4 has it }
@@ -1772,20 +1776,19 @@ begin
   try
     { Options }
     WriteString('Options', 'FontName', OptionsContainer.FontName);
-    WriteString('Options', 'FontSize', IntToStr(OptionsContainer.FontSize)
-      );
-    WriteString('Options', 'RightEdge', IntToStr
-        (OptionsContainer.RightEdge));
-    WriteString('Options', 'ExtraLineSpacing', IntToStr
-        (OptionsContainer.ExtraLineSpacing));
-    WriteString('Options', 'TabWidth', IntToStr(OptionsContainer.TabWidth)
-      );
+    WriteString('Options', 'FontSize', IntToStr(OptionsContainer.FontSize));
+    WriteString('Options', 'RightEdge', IntToStr(OptionsContainer.RightEdge));
+    WriteString('Options', 'ExtraLineSpacing', IntToStr(OptionsContainer.ExtraLineSpacing));
+    WriteString('Options', 'TabWidth', IntToStr(OptionsContainer.TabWidth));
     WriteBool('Options', 'GutterVisible', OptionsContainer.GutterVisible);
-    WriteBool('Options', 'GutterLineNumbers',
-      OptionsContainer.GutterLineNumbers);
+    WriteBool('Options', 'GutterLineNumbers', OptionsContainer.GutterLineNumbers);
     WriteBool('Options', 'MultiLine', OptionsContainer.MultiLine);
     WriteBool('Options', 'HTMLErrorChecking', OptionsContainer.HTMLErrorChecking);
     WriteString('Options', 'HTMLVersion', IntToStr(Ord(OptionsContainer.HtmlVersion)));
+    WriteBool('Options', 'AutoIndent', OptionsContainer.AutoIndent);
+    WriteBool('Options', 'TrimTrailingSpaces', OptionsContainer.TrimTrailingSpaces);
+    WriteBool('Options', 'ScrollPastEof', OptionsContainer.ScrollPastEof);
+    WriteBool('Options', 'ScrollPastEol', OptionsContainer.ScrollPastEol);
     EraseSection('OpenFiles');
     EraseSection('Bookmarks');
     { Open documents }

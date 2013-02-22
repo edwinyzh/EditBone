@@ -3,7 +3,7 @@ object OptionsDialog: TOptionsDialog
   Top = 154
   BorderStyle = bsDialog
   Caption = 'Options'
-  ClientHeight = 348
+  ClientHeight = 422
   ClientWidth = 470
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -17,22 +17,23 @@ object OptionsDialog: TOptionsDialog
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel1: TPanel
+  object TopPanel: TPanel
     Left = 0
     Top = 0
     Width = 470
-    Height = 307
+    Height = 381
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 6
     Padding.Top = 6
     Padding.Right = 6
     TabOrder = 0
+    ExplicitHeight = 379
     object PageControl: TPageControl
       Left = 6
       Top = 6
       Width = 458
-      Height = 301
+      Height = 375
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
@@ -40,24 +41,27 @@ object OptionsDialog: TOptionsDialog
       ActivePage = EditorTabSheet
       Align = alClient
       TabOrder = 0
+      ExplicitHeight = 373
       object EditorTabSheet: TTabSheet
         Margins.Left = 4
         Margins.Top = 4
         Margins.Right = 4
         Margins.Bottom = 4
         Caption = 'Editor'
-        object Panel3: TPanel
+        ExplicitHeight = 345
+        object EditorPanel: TPanel
           Left = 0
           Top = 0
           Width = 450
-          Height = 273
+          Height = 347
           Align = alClient
           BevelOuter = bvNone
           Padding.Left = 4
           Padding.Right = 4
           Padding.Bottom = 4
           TabOrder = 0
-          object Panel5: TPanel
+          ExplicitHeight = 345
+          object Editor1Panel: TPanel
             Left = 4
             Top = 0
             Width = 442
@@ -111,7 +115,7 @@ object OptionsDialog: TOptionsDialog
                   0202020202020202020202020202020202020202020202020202020202020202
                   0202}
               end
-              object Panel6: TPanel
+              object EditorFontPanel: TPanel
                 Left = 11
                 Top = 20
                 Width = 158
@@ -185,15 +189,100 @@ object OptionsDialog: TOptionsDialog
               end
             end
           end
-          object Panel7: TPanel
+          object Editor2Panel: TPanel
             Left = 4
             Top = 54
+            Width = 442
+            Height = 71
+            Align = alTop
+            BevelOuter = bvNone
+            Padding.Right = 2
+            TabOrder = 1
+            object EditorOptionsGroupBox: TGroupBox
+              Left = 0
+              Top = 0
+              Width = 440
+              Height = 71
+              Margins.Left = 4
+              Margins.Top = 4
+              Margins.Right = 4
+              Margins.Bottom = 4
+              Align = alClient
+              Caption = ' Options '
+              TabOrder = 0
+              object AutoIndentCheckBox: TBCCheckBox
+                Left = 15
+                Top = 20
+                Width = 124
+                Height = 21
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = ' Auto Indent'
+                Checked = True
+                State = cbChecked
+                TabOrder = 0
+                OnClick = HTMLErrorCheckingCheckBoxClick
+                ReadOnly = False
+              end
+              object ScrollPastEofCheckBox: TBCCheckBox
+                Left = 239
+                Top = 20
+                Width = 158
+                Height = 21
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = ' Scroll Past End of File'
+                TabOrder = 2
+                OnClick = HTMLErrorCheckingCheckBoxClick
+                ReadOnly = False
+              end
+              object ScrollPastEolCheckBox: TBCCheckBox
+                Left = 239
+                Top = 38
+                Width = 158
+                Height = 21
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = ' Scroll Past End of Line'
+                Checked = True
+                State = cbChecked
+                TabOrder = 3
+                OnClick = HTMLErrorCheckingCheckBoxClick
+                ReadOnly = False
+              end
+              object TrimTrailingSpacesCheckBox: TBCCheckBox
+                Left = 15
+                Top = 38
+                Width = 124
+                Height = 21
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = ' Trim Trailing Spaces'
+                Checked = True
+                State = cbChecked
+                TabOrder = 1
+                OnClick = HTMLErrorCheckingCheckBoxClick
+                ReadOnly = False
+              end
+            end
+          end
+          object Editor3Panel: TPanel
+            Left = 4
+            Top = 125
             Width = 442
             Height = 54
             Align = alTop
             BevelOuter = bvNone
             Padding.Right = 2
-            TabOrder = 1
+            TabOrder = 2
             object LineSpacingGroupBox: TGroupBox
               Left = 0
               Top = 0
@@ -204,6 +293,7 @@ object OptionsDialog: TOptionsDialog
               Margins.Right = 4
               Margins.Bottom = 4
               Align = alClient
+              Anchors = [akLeft, akTop, akBottom]
               Caption = ' Line spacing / Tab spacing '
               TabOrder = 0
               object ExtraLinesLabel: TLabel
@@ -264,15 +354,15 @@ object OptionsDialog: TOptionsDialog
               end
             end
           end
-          object Panel8: TPanel
+          object Editor4Panel: TPanel
             Left = 4
-            Top = 108
+            Top = 179
             Width = 442
             Height = 54
             Align = alTop
             BevelOuter = bvNone
             Padding.Right = 2
-            TabOrder = 2
+            TabOrder = 3
             object RightEdgeGroupBox: TGroupBox
               Left = 0
               Top = 0
@@ -326,6 +416,7 @@ object OptionsDialog: TOptionsDialog
               Margins.Right = 4
               Margins.Bottom = 4
               Align = alRight
+              Anchors = [akLeft, akTop, akBottom]
               Caption = ' Page Control Tabs '
               TabOrder = 1
               object MultilineCheckBox: TBCCheckBox
@@ -343,15 +434,15 @@ object OptionsDialog: TOptionsDialog
               end
             end
           end
-          object Panel9: TPanel
+          object Editor5Panel: TPanel
             Left = 4
-            Top = 162
+            Top = 233
             Width = 442
             Height = 54
             Align = alTop
             BevelOuter = bvNone
             Padding.Right = 2
-            TabOrder = 3
+            TabOrder = 4
             object CPASHighlighterGroupBox: TGroupBox
               Left = 0
               Top = 0
@@ -392,6 +483,7 @@ object OptionsDialog: TOptionsDialog
               Margins.Right = 4
               Margins.Bottom = 4
               Align = alRight
+              Anchors = [akLeft, akTop, akBottom]
               Caption = ' SQL Dialect '
               TabOrder = 1
               DesignSize = (
@@ -417,20 +509,22 @@ object OptionsDialog: TOptionsDialog
               end
             end
           end
-          object Panel10: TPanel
+          object Editor6Panel: TPanel
             Left = 4
-            Top = 216
+            Top = 287
             Width = 442
-            Height = 53
+            Height = 56
             Align = alClient
             BevelOuter = bvNone
             Padding.Right = 2
-            TabOrder = 4
+            Padding.Bottom = 2
+            TabOrder = 5
+            ExplicitHeight = 54
             object HTMLVersionGroupBox: TGroupBox
               Left = 0
               Top = 0
               Width = 440
-              Height = 53
+              Height = 54
               Margins.Left = 4
               Margins.Top = 4
               Margins.Right = 4
@@ -438,9 +532,10 @@ object OptionsDialog: TOptionsDialog
               Align = alClient
               Caption = ' HTML Error Checking / Version When DOCTYPE Does Not Exist'
               TabOrder = 0
+              ExplicitHeight = 58
               DesignSize = (
                 440
-                53)
+                54)
               object HTMLVersionComboBox: TBCComboBox
                 Left = 238
                 Top = 20
@@ -478,6 +573,11 @@ object OptionsDialog: TOptionsDialog
           end
         end
       end
+      object ToolbarTabSheet: TTabSheet
+        Caption = 'Toolbar'
+        ImageIndex = 2
+        ExplicitHeight = 349
+      end
       object FileTypesTabSheet: TTabSheet
         Margins.Left = 4
         Margins.Top = 4
@@ -485,14 +585,16 @@ object OptionsDialog: TOptionsDialog
         Margins.Bottom = 4
         Caption = 'File Types'
         ImageIndex = 1
-        object Panel11: TPanel
+        ExplicitHeight = 349
+        object FileTypesBottomPanel: TPanel
           Left = 0
-          Top = 243
+          Top = 317
           Width = 450
           Height = 30
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 0
+          ExplicitTop = 319
           DesignSize = (
             450
             30)
@@ -527,22 +629,23 @@ object OptionsDialog: TOptionsDialog
             NumbersAllowNegative = False
           end
         end
-        object Panel12: TPanel
+        object FileTypesTopPanel: TPanel
           Left = 0
           Top = 0
           Width = 450
-          Height = 243
+          Height = 317
           Align = alClient
           BevelOuter = bvNone
           Padding.Left = 4
           Padding.Top = 4
           Padding.Right = 4
           TabOrder = 1
+          ExplicitHeight = 319
           object FileTypesListBox: TListBox
             Left = 4
             Top = 4
             Width = 442
-            Height = 239
+            Height = 313
             Margins.Left = 4
             Margins.Top = 4
             Margins.Right = 4
@@ -551,14 +654,15 @@ object OptionsDialog: TOptionsDialog
             ItemHeight = 13
             TabOrder = 0
             OnClick = FileTypesListBoxClick
+            ExplicitHeight = 315
           end
         end
       end
     end
   end
-  object Panel2: TPanel
+  object ButtonPanel: TPanel
     Left = 0
-    Top = 307
+    Top = 381
     Width = 470
     Height = 41
     Align = alBottom
@@ -567,6 +671,7 @@ object OptionsDialog: TOptionsDialog
     Padding.Right = 6
     Padding.Bottom = 8
     TabOrder = 1
+    ExplicitTop = 379
     object OKButton: TButton
       Left = 306
       Top = 8
@@ -596,7 +701,7 @@ object OptionsDialog: TOptionsDialog
       ModalResult = 2
       TabOrder = 1
     end
-    object Panel4: TPanel
+    object ButtonDividerPanel: TPanel
       Left = 381
       Top = 8
       Width = 8
@@ -617,8 +722,8 @@ object OptionsDialog: TOptionsDialog
     Top = 70
   end
   object ActionList: TActionList
-    Left = 130
-    Top = 78
+    Left = 136
+    Top = 34
     object SelectFontAction: TAction
       Hint = 'Select a font'
       OnExecute = SelectFontActionExecute

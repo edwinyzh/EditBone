@@ -26,49 +26,56 @@ type
     FontDialog: TFontDialog;
     ActionList: TActionList;
     SelectFontAction: TAction;
-    Panel1: TPanel;
+    TopPanel: TPanel;
     PageControl: TPageControl;
     EditorTabSheet: TTabSheet;
     FileTypesTabSheet: TTabSheet;
-    Panel2: TPanel;
+    ButtonPanel: TPanel;
     OKButton: TButton;
     CancelButton: TButton;
-    Panel4: TPanel;
-    Panel3: TPanel;
-    Panel5: TPanel;
+    ButtonDividerPanel: TPanel;
+    EditorPanel: TPanel;
+    Editor1Panel: TPanel;
     EditorFontGroupBox: TGroupBox;
     SelectFontSpeedButton: TSpeedButton;
-    Panel6: TPanel;
+    EditorFontPanel: TPanel;
     FontLabel: TLabel;
     GutterGroupBox: TGroupBox;
     LineNumbersCheckBox: TBCCheckBox;
     GutterVisibleCheckBox: TBCCheckBox;
-    Panel7: TPanel;
+    Editor3Panel: TPanel;
     LineSpacingGroupBox: TGroupBox;
     ExtraLinesLabel: TLabel;
     TabWidthLabel: TLabel;
     ExtraLinesEdit: TBCEdit;
     TabWidthEdit: TBCEdit;
-    Panel8: TPanel;
+    Editor4Panel: TPanel;
     RightEdgeGroupBox: TGroupBox;
     EdgeColumnLabel: TLabel;
     EdgeColumnEdit: TBCEdit;
     TabsGroupBox: TGroupBox;
     MultilineCheckBox: TBCCheckBox;
-    Panel9: TPanel;
+    Editor5Panel: TPanel;
     CPASHighlighterGroupBox: TGroupBox;
     CPASHighlighterComboBox: TBCComboBox;
     SQLDialectGroupBox: TGroupBox;
     SQLDialectComboBox: TBCComboBox;
-    Panel10: TPanel;
+    Editor6Panel: TPanel;
     HTMLVersionGroupBox: TGroupBox;
     HTMLVersionComboBox: TBCComboBox;
     HTMLErrorCheckingCheckBox: TBCCheckBox;
-    Panel11: TPanel;
+    FileTypesBottomPanel: TPanel;
     ExtensionsLabel: TLabel;
     ExtensionsEdit: TBCEdit;
-    Panel12: TPanel;
+    FileTypesTopPanel: TPanel;
     FileTypesListBox: TListBox;
+    Editor2Panel: TPanel;
+    EditorOptionsGroupBox: TGroupBox;
+    AutoIndentCheckBox: TBCCheckBox;
+    ScrollPastEofCheckBox: TBCCheckBox;
+    ScrollPastEolCheckBox: TBCCheckBox;
+    TrimTrailingSpacesCheckBox: TBCCheckBox;
+    ToolbarTabSheet: TTabSheet;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FileTypesListBoxClick(Sender: TObject);
@@ -106,6 +113,10 @@ type
     FHTMLErrorChecking: Boolean;
     FSQLDialect: TSQLDialect;
     FCPASHighlighter: TCPASHighlighter;
+    FAutoIndent: Boolean;
+    FTrimTrailingSpaces: Boolean;
+    FScrollPastEof: Boolean;
+    FScrollPastEol: Boolean;
     function GetFilters: string;
     function GetExtensions: string;
   public
@@ -116,6 +127,10 @@ type
   published
     property FontName: string read FFontName write FFontName;
     property FontSize: Integer read FFontSize write FFontSize;
+    property AutoIndent: Boolean read FAutoIndent write FAutoIndent;
+    property TrimTrailingSpaces: Boolean read FTrimTrailingSpaces write FTrimTrailingSpaces;
+    property ScrollPastEof: Boolean read FScrollPastEof write FScrollPastEof;
+    property ScrollPastEol: Boolean read FScrollPastEol write FScrollPastEol;
     property ExtraLineSpacing: Integer read FExtraLineSpacing write FExtraLineSpacing;
     property GutterVisible: Boolean read FGutterVisible write FGutterVisible;
     property GutterLineNumbers: Boolean read FGutterVisible write FGutterLineNumbers;
@@ -165,6 +180,22 @@ begin
     TCustomSynEdit(Dest).ExtraLineSpacing := FExtraLineSpacing;
     TCustomSynEdit(Dest).RightEdge := FRightEdge;
     TCustomSynEdit(Dest).TabWidth := FTabWidth;
+    if FAutoIndent then
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoAutoIndent]
+    else
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoAutoIndent];
+    if FScrollPastEof then
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoScrollPastEof]
+    else
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoScrollPastEof];
+    if FScrollPastEol then
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoScrollPastEol]
+    else
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoScrollPastEol];
+    if FTrimTrailingSpaces then
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoTrimTrailingSpaces]
+    else
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoTrimTrailingSpaces];
     if TCustomSynEdit(Dest).Highlighter is TSynWebHtmlSyn then
       TSynWebHtmlSyn(TCustomSynEdit(Dest).Highlighter).Engine.Options.HtmlVersion := FHTMLVersion;
     if TCustomSynEdit(Dest).Highlighter is TSynSQLSyn then
@@ -343,6 +374,10 @@ var
   i: Integer;
 begin
   inherited;
+  FAutoIndent := True;
+  FTrimTrailingSpaces := True;
+  FScrollPastEof := False;
+  FScrollPastEol := True;
   FGutterVisible := True;
   FGutterLineNumbers := True;
   FMultiLine := False;
@@ -428,15 +463,20 @@ var
 begin
   MultiLineCheckBox.Checked := FOptionsContainer.MultiLine;
   HTMLErrorCheckingCheckBox.Checked := FOptionsContainer.HTMLErrorChecking;
-  //Gutter
+  { Options }
+  AutoIndentCheckBox.Checked := FOptionsContainer.AutoIndent;
+  TrimTrailingSpacesCheckBox.Checked := FOptionsContainer.TrimTrailingSpaces;
+  ScrollPastEofCheckBox.Checked := FOptionsContainer.ScrollPastEof;
+  ScrollPastEolCheckBox.Checked := FOptionsContainer.ScrollPastEol;
+  { Gutter }
   GutterVisibleCheckBox.Checked := FOptionsContainer.GutterVisible;
   LineNumbersCheckBox.Checked := FOptionsContainer.GutterLineNumbers;
-   //Right Edge
+  { Right Edge }
   EdgeColumnEdit.Text := IntToStr(FOptionsContainer.RightEdge);
-  //Line Spacing
+  { Line Spacing }
   ExtraLinesEdit.Text := IntToStr(FOptionsContainer.ExtraLineSpacing);
   TabWidthEdit.Text := IntToStr(FOptionsContainer.TabWidth);
-  //Font
+  { Font }
   FontLabel.Font.Name := FOptionsContainer.FontName;
   FontLabel.Font.Size := FOptionsContainer.FontSize;
   FontLabel.Caption := Format('%s %dpt', [FontLabel.Font.Name, FontLabel.Font.Size]);
@@ -478,15 +518,20 @@ var
 begin
   FOptionsContainer.MultiLine := MultiLineCheckBox.Checked;
   FOptionsContainer.HTMLErrorChecking := HTMLErrorCheckingCheckBox.Checked;
-  //Gutter
+  { Options }
+  FOptionsContainer.AutoIndent := AutoIndentCheckBox.Checked;
+  FOptionsContainer.TrimTrailingSpaces := TrimTrailingSpacesCheckBox.Checked;
+  FOptionsContainer.ScrollPastEof := ScrollPastEofCheckBox.Checked;
+  FOptionsContainer.ScrollPastEol := ScrollPastEolCheckBox.Checked;
+  { Gutter }
   FOptionsContainer.GutterVisible := GutterVisibleCheckBox.Checked;
   FOptionsContainer.GutterLineNumbers := LineNumbersCheckBox.Checked;
-  //Right Edge
+  { Right Edge }
   FOptionsContainer.RightEdge := StrToIntDef(EdgeColumnEdit.Text, 80);
-  //Line Spacing
+  { Line Spacing }
   FOptionsContainer.ExtraLineSpacing := StrToIntDef(ExtraLinesEdit.Text, 0);
   FOptionsContainer.TabWidth := StrToIntDef(TabWidthEdit.Text, 8);
-  //Font
+  { Font }
   FOptionsContainer.FontName := FontLabel.Font.Name;
   FOptionsContainer.FontSize := FontLabel.Font.Size;
   FOptionsContainer.FHTMLVersion := TSynWebHtmlVersion(HTMLVersionComboBox.ItemIndex);
