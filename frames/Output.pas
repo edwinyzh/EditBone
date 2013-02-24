@@ -11,52 +11,51 @@ uses
 
 type
   TOutputFrame = class(TFrame)
+    CloseAllMenuItem: TMenuItem;
+    CloseAllOtherPagesAction: TAction;
+    CloseAllOtherPagesMenuItem: TMenuItem;
+    CloseMenuItem: TMenuItem;
+    ImageList: TBCImageList;
     OutputActionList: TActionList;
     OutputCloseAction: TAction;
-    ImageList: TBCImageList;
+    OutputCloseAllAction: TAction;
     PageControl: TJvPageControl;
     PopupMenu: TBCPopupMenu;
-    CloseMenuItem: TMenuItem;
-    CloseAllMenuItem: TMenuItem;
-    CloseAllOtherPagesMenuItem: TMenuItem;
-    N1: TMenuItem;
-    OutputCloseAllAction: TAction;
-    CloseAllOtherPagesAction: TAction;
+    SeparatorMenuItem: TMenuItem;
+    procedure CloseAllOtherPagesActionExecute(Sender: TObject);
     procedure OutputCloseActionExecute(Sender: TObject);
+    procedure OutputCloseAllActionExecute(Sender: TObject);
     procedure TabsheetDblClick(Sender: TObject);
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
-    procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree;
-      HintCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
-    procedure OutputCloseAllActionExecute(Sender: TObject);
-    procedure CloseAllOtherPagesActionExecute(Sender: TObject);
+    procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
   private
     { Private declarations }
-    FTabsheetDblClick: TNotifyEvent;
     FProcessingTabSheet: Boolean;
-    function GetIsEmpty: Boolean;
+    FTabsheetDblClick: TNotifyEvent;
     function GetCount: Integer;
     function GetIsAnyOutput: Boolean;
+    function GetIsEmpty: Boolean;
+    function TabFound(TabCaption: string): Boolean;
     function VirtualDrawTree: TVirtualDrawTree;
     procedure SetProcessingTabSheet(Value: Boolean);
-    function TabFound(TabCaption: string): Boolean;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
+    function SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
     procedure AddTreeView(TabCaption: string; AutoExpand: Boolean = False);
     procedure AddTreeViewLine(Text: string); overload;
     procedure AddTreeViewLine(var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongWord; Text: WideString; SearchString: ShortString = '');  overload;
-    procedure CloseTabSheet;
-    procedure CloseAllTabSheets;
-    procedure CloseAllOtherTabSheets;
     procedure Clear;
-    function SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
-    property IsEmpty: Boolean read GetIsEmpty;
+    procedure CloseAllOtherTabSheets;
+    procedure CloseAllTabSheets;
+    procedure CloseTabSheet;
+    procedure UpdateControls;
     property Count: Integer read GetCount;
     property IsAnyOutput: Boolean read GetIsAnyOutput;
+    property IsEmpty: Boolean read GetIsEmpty;
     property OnTabsheetDblClick: TNotifyEvent read FTabsheetDblClick write FTabsheetDblClick;
     property ProcessingTabSheet: Boolean read FProcessingTabSheet write SetProcessingTabSheet;
-    procedure UpdateControls;
   end;
 
 implementation

@@ -28,7 +28,6 @@ object OptionsDialog: TOptionsDialog
     Padding.Top = 6
     Padding.Right = 6
     TabOrder = 0
-    ExplicitHeight = 379
     object PageControl: TPageControl
       Left = 6
       Top = 6
@@ -41,14 +40,12 @@ object OptionsDialog: TOptionsDialog
       ActivePage = EditorTabSheet
       Align = alClient
       TabOrder = 0
-      ExplicitHeight = 373
       object EditorTabSheet: TTabSheet
         Margins.Left = 4
         Margins.Top = 4
         Margins.Right = 4
         Margins.Bottom = 4
         Caption = 'Editor'
-        ExplicitHeight = 345
         object EditorPanel: TPanel
           Left = 0
           Top = 0
@@ -60,7 +57,6 @@ object OptionsDialog: TOptionsDialog
           Padding.Right = 4
           Padding.Bottom = 4
           TabOrder = 0
-          ExplicitHeight = 345
           object Editor1Panel: TPanel
             Left = 4
             Top = 0
@@ -519,7 +515,6 @@ object OptionsDialog: TOptionsDialog
             Padding.Right = 2
             Padding.Bottom = 2
             TabOrder = 5
-            ExplicitHeight = 54
             object HTMLVersionGroupBox: TGroupBox
               Left = 0
               Top = 0
@@ -532,7 +527,6 @@ object OptionsDialog: TOptionsDialog
               Align = alClient
               Caption = ' HTML Error Checking / Version When DOCTYPE Does Not Exist'
               TabOrder = 0
-              ExplicitHeight = 58
               DesignSize = (
                 440
                 54)
@@ -576,6 +570,9 @@ object OptionsDialog: TOptionsDialog
       object ToolbarTabSheet: TTabSheet
         Caption = 'Toolbar'
         ImageIndex = 2
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
         ExplicitHeight = 349
       end
       object FileTypesTabSheet: TTabSheet
@@ -585,7 +582,6 @@ object OptionsDialog: TOptionsDialog
         Margins.Bottom = 4
         Caption = 'File Types'
         ImageIndex = 1
-        ExplicitHeight = 349
         object FileTypesBottomPanel: TPanel
           Left = 0
           Top = 317
@@ -594,7 +590,6 @@ object OptionsDialog: TOptionsDialog
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 0
-          ExplicitTop = 319
           DesignSize = (
             450
             30)
@@ -654,7 +649,6 @@ object OptionsDialog: TOptionsDialog
             ItemHeight = 13
             TabOrder = 0
             OnClick = FileTypesListBoxClick
-            ExplicitHeight = 315
           end
         end
       end
@@ -671,7 +665,6 @@ object OptionsDialog: TOptionsDialog
     Padding.Right = 6
     Padding.Bottom = 8
     TabOrder = 1
-    ExplicitTop = 379
     object OKButton: TButton
       Left = 306
       Top = 8

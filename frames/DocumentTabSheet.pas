@@ -15,40 +15,36 @@ type
   end;
 
   TDocTabSheetFrame = class(TFrame)
-    Panel: TPanel;
-    VirtualDrawTree: TVirtualDrawTree;
-    VerticalSplitter: TSplitter;
     DocumentPanel: TPanel;
-    SynEdit: TBCSynEdit;
-    SplitSynEdit: TBCSynEdit;
     HorizontalSplitter: TSplitter;
-    XMLDocument: TXMLDocument;
+    Panel: TPanel;
+    SplitSynEdit: TBCSynEdit;
+    SynEdit: TBCSynEdit;
     SynMultiSyn: TSynMultiSyn;
-    SynURISyn: TSynURISyn;
     SynURIOpener: TSynURIOpener;
+    SynURISyn: TSynURISyn;
+    VerticalSplitter: TSplitter;
+    VirtualDrawTree: TVirtualDrawTree;
+    XMLDocument: TXMLDocument;
+    procedure RefreshActionExecute(Sender: TObject);
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
-    procedure VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
-      Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
-    procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas;
-      Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
-    procedure VirtualDrawTreeInitChildren(Sender: TBaseVirtualTree; Node: PVirtualNode;
-      var ChildCount: Cardinal);
-    procedure VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
-      var InitialStates: TVirtualNodeInitStates);
-    procedure RefreshActionExecute(Sender: TObject);
+    procedure VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
+    procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
+    procedure VirtualDrawTreeInitChildren(Sender: TBaseVirtualTree; Node: PVirtualNode; var ChildCount: Cardinal);
+    procedure VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
   private
     { Private declarations }
-    function GetXMLTreeVisible: Boolean;
-    procedure SetXMLTreeVisible(Value: Boolean);
     function GetSplitVisible: Boolean;
-    procedure SetSplitVisible(Value: Boolean);
+    function GetXMLTreeVisible: Boolean;
     procedure ProcessNode(Node: IXMLNode; TreeNode: PVirtualNode);
+    procedure SetSplitVisible(Value: Boolean);
+    procedure SetXMLTreeVisible(Value: Boolean);
   public
     { Public declarations }
     procedure LoadFromXML(XML: string);
-    property XMLTreeVisible: Boolean read GetXMLTreeVisible write SetXMLTreeVisible;
     property SplitVisible: Boolean read GetSplitVisible write SetSplitVisible;
+    property XMLTreeVisible: Boolean read GetXMLTreeVisible write SetXMLTreeVisible;
   end;
 
 implementation

@@ -68,36 +68,36 @@ object DirectoryFrame: TDirectoryFrame
     Images = ImagesList
     Left = 104
     Top = 156
-    object OpenDirectory1: TMenuItem
+    object OpenDirectoryMenuItem: TMenuItem
       Action = DirectoryOpenAction
       Hint = 'Open a new directory'
     end
-    object CloseDirectory1: TMenuItem
+    object CloseDirectoryMenuItem: TMenuItem
       Action = DirectoryCloseAction
       Hint = 'Close the active directory'
     end
-    object EditDirectory1: TMenuItem
+    object EditDirectoryMenuItem: TMenuItem
       Action = DirectoryEditAction
     end
-    object N2: TMenuItem
+    object Separator2MenuItem: TMenuItem
       Caption = '-'
     end
-    object Refresh1: TMenuItem
+    object RefreshMenuItem: TMenuItem
       Action = DirectoryRefreshAction
     end
-    object N1: TMenuItem
+    object Separator1MenuItem: TMenuItem
       Caption = '-'
     end
-    object Rename1: TMenuItem
+    object RenameMenuItem: TMenuItem
       Action = DirectoryRenameAction
     end
-    object Delete1: TMenuItem
+    object DeleteMenuItem: TMenuItem
       Action = DirectoryDeleteAction
     end
-    object N3: TMenuItem
+    object Separator3MenuItem: TMenuItem
       Caption = '-'
     end
-    object Properties1: TMenuItem
+    object PropertiesMenuItem: TMenuItem
       Action = DirectoryPropertiesAction
     end
   end
@@ -105,7 +105,7 @@ object DirectoryFrame: TDirectoryFrame
     Left = 264
     Top = 96
     Bitmap = {
-      494C010106005400240210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106005400340210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

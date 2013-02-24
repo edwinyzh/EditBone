@@ -13,67 +13,65 @@ uses
 
 type
   TDirectoryFrame = class(TFrame)
+    CloseDirectoryMenuItem: TMenuItem;
+    DeleteMenuItem: TMenuItem;
     DirectoryActionList: TActionList;
     DirectoryCloseAction: TAction;
-    PopupMenu: TBCPopupMenu;
-    DirectoryRenameAction: TAction;
     DirectoryDeleteAction: TAction;
-    Rename1: TMenuItem;
-    Delete1: TMenuItem;
-    PageControl: TBCPageControl;
-    CloseDirectory1: TMenuItem;
-    N1: TMenuItem;
-    OpenDirectory1: TMenuItem;
-    DirectoryOpenAction: TAction;
-    ImagesList: TBCImageList;
-    DirectoryRefreshAction: TAction;
-    N2: TMenuItem;
-    Refresh1: TMenuItem;
     DirectoryEditAction: TAction;
-    EditDirectory1: TMenuItem;
-    N3: TMenuItem;
+    DirectoryOpenAction: TAction;
     DirectoryPropertiesAction: TAction;
-    Properties1: TMenuItem;
-    procedure DirectoryRenameActionExecute(Sender: TObject);
+    DirectoryRefreshAction: TAction;
+    DirectoryRenameAction: TAction;
+    EditDirectoryMenuItem: TMenuItem;
+    ImagesList: TBCImageList;
+    OpenDirectoryMenuItem: TMenuItem;
+    PageControl: TBCPageControl;
+    PopupMenu: TBCPopupMenu;
+    PropertiesMenuItem: TMenuItem;
+    RefreshMenuItem: TMenuItem;
+    RenameMenuItem: TMenuItem;
+    Separator1MenuItem: TMenuItem;
+    Separator2MenuItem: TMenuItem;
+    Separator3MenuItem: TMenuItem;
+    procedure DirectoryCloseActionExecute(Sender: TObject);
     procedure DirectoryDeleteActionExecute(Sender: TObject);
+    procedure DirectoryEditActionExecute(Sender: TObject);
+    procedure DirectoryOpenActionExecute(Sender: TObject);
+    procedure DirectoryPropertiesActionExecute(Sender: TObject);
+    procedure DirectoryRefreshActionExecute(Sender: TObject);
+    procedure DirectoryRenameActionExecute(Sender: TObject);
     procedure DriveComboChange(Sender: TObject);
     procedure TabsheetDblClick(Sender: TObject);
-    procedure DirectoryCloseActionExecute(Sender: TObject);
-    procedure DirectoryOpenActionExecute(Sender: TObject);
-    procedure DirectoryRefreshActionExecute(Sender: TObject);
-    procedure DirectoryEditActionExecute(Sender: TObject);
-    procedure DirectoryPropertiesActionExecute(Sender: TObject);
-    //procedure VirtualDrawTreeKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
     FTabsheetDblClick: TNotifyEvent;
-    function ReadIniFile: Boolean;
     function ActiveDriveComboBox: TBCDriveComboBox;
-    function GetIsAnyDirectory: Boolean;
-    function GetExcludeOtherBranches: Boolean;
-    function GetSelectedPath: string;
-    function GetRootDirectory: string;
     function GetDirTabSheetFrame(TabSheet: TTabSheet): TDirTabSheetFrame;
+    function GetExcludeOtherBranches: Boolean;
+    function GetIsAnyDirectory: Boolean;
+    function GetRootDirectory: string;
+    function GetSelectedPath: string;
+    function ReadIniFile: Boolean;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    function ActiveFileTreeView: TBCFileTreeView;
     function ActiveDrivesPanel: TPanel;
+    function ActiveFileTreeView: TBCFileTreeView;
     function SelectedFile: string;
-    property SelectedPath: string read GetSelectedPath;
-    procedure OpenPath(RootDirectory: string; LastPath: string; ExcludeOtherBranches: Boolean);
-    procedure WriteIniFile;
-    procedure OpenDirectory; overload;
-    procedure OpenDirectory(TabName: string; RootDirectory: string; LastPath: string; ShowDrives: Boolean;
-      ExcludeOtherBranches: Boolean); overload;
     procedure CloseDirectory;
     procedure EditDirectory;
-    property OnTabsheetDblClick: TNotifyEvent read FTabsheetDblClick write FTabsheetDblClick;
-    property IsAnyDirectory: Boolean read GetIsAnyDirectory;
-    property RootDirectory: string read GetRootDirectory;
-    property ExcludeOtherBranches: Boolean read GetExcludeOtherBranches;
+    procedure OpenDirectory(TabName: string; RootDirectory: string; LastPath: string; ShowDrives: Boolean; ExcludeOtherBranches: Boolean); overload;
+    procedure OpenDirectory; overload;
+    procedure OpenPath(RootDirectory: string; LastPath: string; ExcludeOtherBranches: Boolean);
     procedure UpdateControls;
+    procedure WriteIniFile;
+    property ExcludeOtherBranches: Boolean read GetExcludeOtherBranches;
+    property IsAnyDirectory: Boolean read GetIsAnyDirectory;
+    property OnTabsheetDblClick: TNotifyEvent read FTabsheetDblClick write FTabsheetDblClick;
+    property RootDirectory: string read GetRootDirectory;
+    property SelectedPath: string read GetSelectedPath;
   end;
 
 implementation

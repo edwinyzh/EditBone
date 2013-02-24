@@ -12,47 +12,47 @@ type
 
   TDirectoryTabDialog = class(TDialog)
     ActionList: TActionList;
-    OKAction: TAction;
-    ExcludeOtherBranchesAction: TAction;
-    TopPanel: TPanel;
     ButtonPanel: TPanel;
-    OKButton: TButton;
     CancelButton: TButton;
-    RootDirectoryClickAction: TAction;
-    Panel1: TPanel;
-    TabNamePanel: TPanel;
-    TabNameLabel: TLabel;
-    TabNameEdit: TBCEdit;
-    RootDirectoryPanel: TPanel;
-    RootDirectoryLabel: TLabel;
-    RootDirectoryEdit: TBCEdit;
-    RootDrectoryBitBtn: TBitBtn;
     CheckBoxPanel: TPanel;
-    ShowDrivesCheckBox: TBCCheckBox;
+    ExcludeOtherBranchesAction: TAction;
     ExcludeOtherBranchesCheckBox: TBCCheckBox;
+    OKAction: TAction;
+    OKButton: TButton;
+    Panel1: TPanel;
+    RootDirectoryClickAction: TAction;
+    RootDirectoryEdit: TBCEdit;
+    RootDirectoryLabel: TLabel;
+    RootDirectoryPanel: TPanel;
+    RootDrectoryBitBtn: TBitBtn;
+    ShowDrivesCheckBox: TBCCheckBox;
     ShowDrivesLabel: TLabel;
-    procedure OKActionExecute(Sender: TObject);
+    TabNameEdit: TBCEdit;
+    TabNameLabel: TLabel;
+    TabNamePanel: TPanel;
+    TopPanel: TPanel;
     procedure ExcludeOtherBranchesActionExecute(Sender: TObject);
-    procedure RootDirectoryClickActionExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure OKActionExecute(Sender: TObject);
+    procedure RootDirectoryClickActionExecute(Sender: TObject);
   private
     { Private declarations }
-    function GetTabName: string;
-    procedure SetTabName(Value: string);
-    function GetRootDirectory: string;
-    procedure SetRootDirectory(Value: string);
-    function GetShowDrives: Boolean;
-    procedure SetShowDrives(Value: Boolean);
-    function GetExcludeOtherBranches: Boolean;
-    procedure SetExcludeOtherBranches(Value: Boolean);
     function CheckFields: Boolean;
+    function GetExcludeOtherBranches: Boolean;
+    function GetRootDirectory: string;
+    function GetShowDrives: Boolean;
+    function GetTabName: string;
+    procedure SetExcludeOtherBranches(Value: Boolean);
+    procedure SetRootDirectory(Value: string);
+    procedure SetShowDrives(Value: Boolean);
+    procedure SetTabName(Value: string);
   public
     { Public declarations }
     function Open(DialogType: TDirectoryTabDialogType): Boolean;
-    property TabName: string read GetTabName write SetTabName;
+    property ExcludeOtherBranches: Boolean read GetExcludeOtherBranches write SetExcludeOtherBranches;
     property RootDirectory: string read GetRootDirectory write SetRootDirectory;
     property ShowDrives: Boolean read GetShowDrives write SetShowDrives;
-    property ExcludeOtherBranches: Boolean read GetExcludeOtherBranches write SetExcludeOtherBranches;
+    property TabName: string read GetTabName write SetTabName;
   end;
 
 function DirectoryTabDialog: TDirectoryTabDialog;

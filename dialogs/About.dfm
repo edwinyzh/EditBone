@@ -30,7 +30,7 @@ object AboutDialog: TAboutDialog
     Color = clWhite
     ParentBackground = False
     TabOrder = 0
-    object OhjelmanNimiLabel: TLabel
+    object ProgramNameLabel: TLabel
       Left = 11
       Top = 11
       Width = 105
@@ -85,7 +85,7 @@ object AboutDialog: TAboutDialog
       Padding.Top = 6
       Padding.Bottom = 6
       TabOrder = 0
-      object KayttovaltuusImage: TImage
+      object EditBoneImage: TImage
         Left = 0
         Top = 6
         Width = 128
@@ -515,14 +515,13 @@ object AboutDialog: TAboutDialog
     object CopyrightLabel: TLabel
       Left = 0
       Top = 64
-      Width = 376
+      Width = 170
       Height = 13
       Align = alBottom
       Alignment = taCenter
       Caption = 'Copyright %s. All Rights Reserved.'
-      ExplicitWidth = 170
     end
-    object LinkLabel3: TLinkLabel
+    object LinkLabel2: TLinkLabel
       Left = 11
       Top = 40
       Width = 306
@@ -535,7 +534,7 @@ object AboutDialog: TAboutDialog
       TabOrder = 0
       OnLinkClick = LinkClick
     end
-    object CodeGearLinkLabel: TLinkLabel
+    object LinkLabel1: TLinkLabel
       Left = 11
       Top = 25
       Width = 343

@@ -9,26 +9,25 @@ uses
 
 type
   TAboutDialog = class(TDialog)
+    CopyrightLabel: TLabel;
+    EditBoneImage: TImage;
+    LinkLabel1: TLinkLabel;
+    LinkLabel2: TLinkLabel;
+    MemoryAvailableLabel: TLabel;
+    OKButton: TButton;
+    OSLabel: TLabel;
     Panel1: TPanel;
     Panel2: TPanel;
-    OhjelmanNimiLabel: TLabel;
-    VersionLabel: TLabel;
-    OSLabel: TLabel;
-    MemoryAvailableLabel: TLabel;
     Panel3: TPanel;
-    LinkLabel3: TLinkLabel;
-    CodeGearLinkLabel: TLinkLabel;
-    ThanksToLabel: TLabel;
     Panel4: TPanel;
-    OKButton: TButton;
     Panel6: TPanel;
-    KayttovaltuusImage: TImage;
-    CopyrightLabel: TLabel;
+    ProgramNameLabel: TLabel;
+    ThanksToLabel: TLabel;
+    VersionLabel: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
-    procedure LinkClick(Sender: TObject; const Link: string;
-      LinkType: TSysLinkType);
     procedure FormShow(Sender: TObject);
+    procedure LinkClick(Sender: TObject; const Link: string; LinkType: TSysLinkType);
   private
     function GetVersion: string;
   public

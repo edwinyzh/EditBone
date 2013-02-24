@@ -19,60 +19,52 @@ type
   end;
 
   TLanguageEditorForm = class(TForm)
-    ImageList: TBCImageList;
     ActionList: TActionList;
+    ApplicationEvents: TApplicationEvents;
+    Bevel1: TBevel;
+    ButtonPanel: TPanel;
+    FileNewAction: TAction;
     FileOpenAction: TAction;
     FileSaveAction: TAction;
-    StatusBar: TStatusBar;
-    VirtualTreePanel: TPanel;
-    VirtualDrawTree: TVirtualDrawTree;
-    FileNewAction: TAction;
-    ButtonPanel: TPanel;
-    Bevel1: TBevel;
-    SaveToolBar: TBCToolBar;
-    ZoomToolButton: TToolButton;
-    ToolButton2: TToolButton;
+    ImageList: TBCImageList;
     PrintToolBar: TBCToolBar;
+    SaveToolBar: TBCToolBar;
+    StatusBar: TStatusBar;
     ToolButton1: TToolButton;
-    ApplicationEvents: TApplicationEvents;
-    procedure FormDestroy(Sender: TObject);
+    ToolButton2: TToolButton;
+    VirtualDrawTree: TVirtualDrawTree;
+    VirtualTreePanel: TPanel;
+    ZoomToolButton: TToolButton;
     procedure ApplicationEventsHint(Sender: TObject);
     procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
+    procedure FileNewActionExecute(Sender: TObject);
+    procedure FileOpenActionExecute(Sender: TObject);
+    procedure FileSaveActionExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
-    procedure VirtualDrawTreeCompareNodes(Sender: TBaseVirtualTree; Node1, Node2: PVirtualNode;
-      Column: TColumnIndex; var Result: Integer);
+    procedure FormDestroy(Sender: TObject);
+    procedure VirtualDrawTreeCompareNodes(Sender: TBaseVirtualTree; Node1, Node2: PVirtualNode; Column: TColumnIndex; var Result: Integer);
+    procedure VirtualDrawTreeCreateEditor(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex; out EditLink: IVTEditLink);
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
+    procedure VirtualDrawTreeEdited(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex);
+    procedure VirtualDrawTreeEditing(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex; var Allowed: Boolean);
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
-    procedure VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
-      Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
-    procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas;
-      Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
-    procedure VirtualDrawTreeInitChildren(Sender: TBaseVirtualTree; Node: PVirtualNode;
-      var ChildCount: Cardinal);
-    procedure VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
-      var InitialStates: TVirtualNodeInitStates);
-    procedure VirtualDrawTreeCreateEditor(Sender: TBaseVirtualTree; Node: PVirtualNode;
-      Column: TColumnIndex; out EditLink: IVTEditLink);
-    procedure VirtualDrawTreeEditing(Sender: TBaseVirtualTree; Node: PVirtualNode;
-      Column: TColumnIndex; var Allowed: Boolean);
-    procedure FileOpenActionExecute(Sender: TObject);
-    procedure VirtualDrawTreeEdited(Sender: TBaseVirtualTree; Node: PVirtualNode;
-      Column: TColumnIndex);
-    procedure FileNewActionExecute(Sender: TObject);
-    procedure FileSaveActionExecute(Sender: TObject);
+    procedure VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
+    procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
+    procedure VirtualDrawTreeInitChildren(Sender: TBaseVirtualTree; Node: PVirtualNode; var ChildCount: Cardinal);
+    procedure VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
   private
     { Private declarations }
     FLanguageFileName: string;
-    procedure ReadIniFile;
-    procedure WriteIniFile;
-    procedure Save;
-    procedure AddTreeNode(NodeText: string);
-    procedure LoadLanguageFile(FileName: string);
+    function GetCaption: string;
     function GetModifiedInfo: string;
     function SaveAs(FileName: string): Boolean;
+    procedure AddTreeNode(NodeText: string);
+    procedure LoadLanguageFile(FileName: string);
+    procedure ReadIniFile;
+    procedure Save;
     procedure SaveToFile(FileName: string);
-    function GetCaption: string;
+    procedure WriteIniFile;
   public
     { Public declarations }
     procedure Open;
@@ -85,12 +77,9 @@ type
     FNode: PVirtualNode;       // The node being edited.
     FColumn: Integer;          // The column of the node being edited.
   protected
-    //procedure EditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    //procedure EditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure EditKeyPress(Sender: TObject; var Key: Char);
   public
     destructor Destroy; override;
-
     function BeginEdit: Boolean; stdcall;
     function CancelEdit: Boolean; stdcall;
     function EndEdit: Boolean; stdcall;
