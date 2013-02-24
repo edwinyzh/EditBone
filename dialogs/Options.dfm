@@ -206,10 +206,13 @@ object OptionsDialog: TOptionsDialog
               Align = alClient
               Caption = ' Options '
               TabOrder = 0
+              DesignSize = (
+                440
+                71)
               object AutoIndentCheckBox: TBCCheckBox
                 Left = 15
                 Top = 20
-                Width = 124
+                Width = 201
                 Height = 21
                 Margins.Left = 4
                 Margins.Top = 4
@@ -225,12 +228,13 @@ object OptionsDialog: TOptionsDialog
               object ScrollPastEofCheckBox: TBCCheckBox
                 Left = 239
                 Top = 20
-                Width = 158
+                Width = 186
                 Height = 21
                 Margins.Left = 4
                 Margins.Top = 4
                 Margins.Right = 4
                 Margins.Bottom = 4
+                Anchors = [akTop, akRight]
                 Caption = ' Scroll Past End of File'
                 TabOrder = 2
                 OnClick = HTMLErrorCheckingCheckBoxClick
@@ -239,12 +243,13 @@ object OptionsDialog: TOptionsDialog
               object ScrollPastEolCheckBox: TBCCheckBox
                 Left = 239
                 Top = 38
-                Width = 158
+                Width = 191
                 Height = 21
                 Margins.Left = 4
                 Margins.Top = 4
                 Margins.Right = 4
                 Margins.Bottom = 4
+                Anchors = [akTop, akRight]
                 Caption = ' Scroll Past End of Line'
                 Checked = True
                 State = cbChecked
@@ -255,7 +260,7 @@ object OptionsDialog: TOptionsDialog
               object TrimTrailingSpacesCheckBox: TBCCheckBox
                 Left = 15
                 Top = 38
-                Width = 124
+                Width = 201
                 Height = 21
                 Margins.Left = 4
                 Margins.Top = 4
@@ -567,14 +572,6 @@ object OptionsDialog: TOptionsDialog
           end
         end
       end
-      object ToolbarTabSheet: TTabSheet
-        Caption = 'Toolbar'
-        ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 349
-      end
       object FileTypesTabSheet: TTabSheet
         Margins.Left = 4
         Margins.Top = 4
@@ -608,7 +605,7 @@ object OptionsDialog: TOptionsDialog
           object ExtensionsEdit: TBCEdit
             Left = 70
             Top = 6
-            Width = 374
+            Width = 375
             Height = 21
             Margins.Left = 4
             Margins.Top = 4
@@ -633,13 +630,12 @@ object OptionsDialog: TOptionsDialog
           BevelOuter = bvNone
           Padding.Left = 4
           Padding.Top = 4
-          Padding.Right = 4
+          Padding.Right = 5
           TabOrder = 1
-          ExplicitHeight = 319
           object FileTypesListBox: TListBox
             Left = 4
             Top = 4
-            Width = 442
+            Width = 441
             Height = 313
             Margins.Left = 4
             Margins.Top = 4

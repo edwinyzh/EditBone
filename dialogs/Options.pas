@@ -8,7 +8,7 @@ uses
   Vcl.Menus, SynEdit, SynEditHighlighter, SynEditMiscClasses, SynHighlighterWebData, SynEditKeyCmds,
   System.Classes, System.SysUtils, Vcl.ImgList, SynHighlighterWeb, Vcl.Grids, SynHighlighterSQL,
   BCCheckBox, Document, JvExStdCtrls, JvEdit, BCEdit, JvCombobox, BCComboBox, Vcl.ActnList,
-  Vcl.Themes, Dlg;
+  Vcl.Themes, Dlg, Vcl.CheckLst;
 
 type
   TCPASHighlighter = (hClassic, hDefault, hTwilight);
@@ -73,7 +73,6 @@ type
     TabsGroupBox: TGroupBox;
     TabWidthEdit: TBCEdit;
     TabWidthLabel: TLabel;
-    ToolbarTabSheet: TTabSheet;
     TopPanel: TPanel;
     TrimTrailingSpacesCheckBox: TBCCheckBox;
     procedure ExtensionsEditChange(Sender: TObject);
