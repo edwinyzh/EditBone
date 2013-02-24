@@ -701,7 +701,9 @@ end;
 
 procedure TDocumentFrame.UpdateHighlighterColors;
 var
+  i: Integer;
   LStyles: TCustomStyleServices;
+  DocTabSheetFrame: TDocTabSheetFrame;
   WhiteBackground: Boolean;
 begin
   LStyles := StyleServices;
@@ -734,6 +736,12 @@ begin
     UpdateTclTkSynColors(SynTclTkSyn, WhiteBackground);
     UpdateTexSynColors(SynTexSyn, WhiteBackground);
     UpdateUNIXShellScriptSynColors(SynUNIXShellScriptSyn, WhiteBackground);
+    for i := 0 to PageControl.PageCount - 1 do
+    begin
+      DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
+      if Assigned(DocTabSheetFrame) then
+        UpdateURISynColors(DocTabSheetFrame.SynURISyn, WhiteBackground);
+    end;
     UpdateVBSynColors(SynVBSyn, WhiteBackground);
     UpdateASMSynColors(SynASMSyn, WhiteBackground);
     UpdateWebEngineColors(SynWebEngine, WhiteBackground);

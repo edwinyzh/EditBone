@@ -549,7 +549,7 @@ begin
   if FOnStartUp then
   begin
     Repaint;
-    FDocumentFrame.Visible := False;
+    //FDocumentFrame.Visible := False;
     Application.ProcessMessages;
     { paint problem with styles if this is done before OnShow... }
 
@@ -567,7 +567,7 @@ begin
     FDirectoryFrame.UpdateControls;
     FDocumentFrame.UpdateGutterAndControls;
     FOutputFrame.UpdateControls;
-    FDocumentFrame.Visible := True;
+    //FDocumentFrame.Visible := True;
     FOnStartUp := False;
     ReadWindowState; { because of styles this cannot be done before... }
     Repaint;
