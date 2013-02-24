@@ -207,8 +207,6 @@ type
     SynPerlSyn: TSynPerlSyn;
     SynProgressSyn: TSynProgressSyn;
     SynTeXSyn: TSynTeXSyn;
-    SynURIOpener: TSynURIOpener;
-    SynURISyn: TSynURISyn;
     XMLTreeImageList: TImageList;
     XMLTreePopupMenu: TPopupMenu;
     Refresh1: TMenuItem;
@@ -243,7 +241,7 @@ type
     function GetActiveTabSheetCaption: string;
     function GetActiveDocumentName: string;
     function GetActiveDocumentFound: Boolean;
-    function GetTabSheetFrame(TabSheet: TTabSheet): TTabSheetFrame;
+    function GetDocTabSheetFrame(TabSheet: TTabSheet): TDocTabSheetFrame;
     function GetCompareFrame(TabSheet: TTabSheet): TCompareFrame;
     function GetSynEdit(TabSheet: TTabSheet): TBCSynEdit;
     function GetSplitSynEdit(TabSheet: TTabSheet): TBCSynEdit;
@@ -271,15 +269,15 @@ type
     procedure DoSearch;
     function GetFileDateTime(FileName: string): TDateTime;
     function GetActiveDocumentModified: Boolean;
-    procedure SetMainHighlighterCombo(TabSheetFrame: TTabSheetFrame);
+    procedure SetMainHighlighterCombo(DocTabSheetFrame: TDocTabSheetFrame);
     procedure SetMainEncodingCombo(SynEdit: TBCSynEdit);
-    procedure UpdateGutterAndColors(TabSheetFrame: TTabSheetFrame);
+    procedure UpdateGutterAndColors(DocTabSheetFrame: TDocTabSheetFrame);
     function GetSelectionModeChecked: Boolean;
     function GetSplitChecked: Boolean;
     procedure PageControlRepaint;
     procedure UpdateHighlighterColors;
     function GetXMLTreeVisible: Boolean;
-    procedure SelectHighLighter(TabSheetFrame: TTabSheetFrame; FileName: string);
+    procedure SelectHighLighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -598,19 +596,19 @@ end;
 function TDocumentFrame.ToggleXMLTree: Boolean;
 var
   i: Integer;
-  TabSheetFrame: TTabSheetFrame;
+  DocTabSheetFrame: TDocTabSheetFrame;
 begin
   Result := False;
   for i := 0 to PageControl.PageCount - 1 do
   begin
-    TabSheetFrame := GetTabSheetFrame(PageControl.Pages[i]);
-    if Assigned(TabSheetFrame) then
-      if TabSheetFrame.SynMultiSyn.DefaultHighlighter = SynWebXmlSyn then
+    DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
+    if Assigned(DocTabSheetFrame) then
+      if DocTabSheetFrame.SynMultiSyn.DefaultHighlighter = SynWebXmlSyn then
       begin
-        TabSheetFrame.XMLTreeVisible := not TabSheetFrame.XMLTreeVisible;
-        if TabSheetFrame.XMLTreeVisible then
-          TabSheetFrame.LoadFromXML(TabSheetFrame.SynEdit.Text);
-        Result := TabSheetFrame.XMLTreeVisible;
+        DocTabSheetFrame.XMLTreeVisible := not DocTabSheetFrame.XMLTreeVisible;
+        if DocTabSheetFrame.XMLTreeVisible then
+          DocTabSheetFrame.LoadFromXML(DocTabSheetFrame.SynEdit.Text);
+        Result := DocTabSheetFrame.XMLTreeVisible;
       end;
   end;
   PageControlRepaint;
@@ -618,18 +616,18 @@ end;
 
 function TDocumentFrame.GetXMLTreeVisible: Boolean;
 var
-  TabSheetFrame: TTabSheetFrame;
+  DocTabSheetFrame: TDocTabSheetFrame;
 begin
   Result := False;
-  TabSheetFrame := GetTabSheetFrame(PageControl.ActivePage);
-  if Assigned(TabSheetFrame) then
-    Result := TabSheetFrame.VirtualDrawTree.Visible;
+  DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+  if Assigned(DocTabSheetFrame) then
+    Result := DocTabSheetFrame.VirtualDrawTree.Visible;
 end;
 
 function TDocumentFrame.CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
 var
   TabSheet: TTabSheet;
-  TabSheetFrame: TTabSheetFrame;
+  DocTabSheetFrame: TDocTabSheetFrame;
 begin
   { create a TabSheet }
   TabSheet := TTabSheet.Create(PageControl);
@@ -647,16 +645,12 @@ begin
     TabSheet.Caption := ExtractFileName(FileName);
   PageControl.ActivePage := TabSheet;
 
-  TabSheetFrame := TTabSheetFrame.Create(TabSheet);
-  with TabSheetFrame do
+  DocTabSheetFrame := TDocTabSheetFrame.Create(TabSheet);
+  with DocTabSheetFrame do
   begin
     SynEdit.Visible := False;
     Parent := TabSheet;
     Align := alClient;
-    if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
-      Panel.Padding.Right := 3
-    else
-      Panel.Padding.Right := 1;
 
     { SynEdit }
     with SynEdit do
@@ -682,7 +676,7 @@ begin
     if Filename <> '' then
     begin
       SynEdit.LoadFromFile(FileName);
-      SelectHighLighter(TabSheetFrame, FileName);
+      SelectHighLighter(DocTabSheetFrame, FileName);
     end;
 
     { XML Tree }
@@ -690,7 +684,8 @@ begin
     if XMLTreeVisible then
       LoadFromXML(SynEdit.Text);
 
-    UpdateGutterAndColors(TabSheetFrame);
+    UpdateGutterAndColors(DocTabSheetFrame);
+    UpdateGutterAndControls;
     { reduce flickering by setting width & height }
     SynEdit.Width := 0;
     SynEdit.Height := 0;
@@ -698,7 +693,7 @@ begin
 
     if SynEdit.CanFocus then
       SynEdit.SetFocus;
-    SetMainHighlighterCombo(TabSheetFrame);
+    SetMainHighlighterCombo(DocTabSheetFrame);
     SetMainEncodingCombo(SynEdit);
     Result := SynEdit;
   end;
@@ -748,20 +743,20 @@ end;
 procedure TDocumentFrame.UpdateGutterAndControls;
 var
   i: Integer;
-  TabSheetFrame: TTabSheetFrame;
+  DocTabSheetFrame: TDocTabSheetFrame;
   CompareFrame: TCompareFrame;
 begin
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
   for i := 0 to PageControl.PageCount - 1 do
   begin
-    TabSheetFrame := GetTabSheetFrame(PageControl.Pages[i]);
-    UpdateGutterAndColors(TabSheetFrame);
-    if Assigned(TabSheetFrame) then
+    DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
+    UpdateGutterAndColors(DocTabSheetFrame);
+    if Assigned(DocTabSheetFrame) then
     begin
       if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
-        TabSheetFrame.Panel.Padding.Right := 3
+        DocTabSheetFrame.Panel.Padding.Right := 3
       else
-        TabSheetFrame.Panel.Padding.Right := 1;
+        DocTabSheetFrame.Panel.Padding.Right := 2;
     end;
     CompareFrame := GetCompareFrame(PageControl.Pages[i]);
     if Assigned(CompareFrame) then
@@ -769,7 +764,7 @@ begin
       if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
         CompareFrame.Panel.Padding.Right := 3
       else
-        CompareFrame.Panel.Padding.Right := 1;
+        CompareFrame.Panel.Padding.Right := 2;
     end;
   end;
   UpdateHighlighterColors;
@@ -790,7 +785,7 @@ begin
     end;
 end;
 
-procedure TDocumentFrame.UpdateGutterAndColors(TabSheetFrame: TTabSheetFrame);
+procedure TDocumentFrame.UpdateGutterAndColors(DocTabSheetFrame: TDocTabSheetFrame);
 
   procedure UpdateGutterAndColors(SynEdit: TBCSynEdit);
   var
@@ -808,7 +803,7 @@ procedure TDocumentFrame.UpdateGutterAndColors(TabSheetFrame: TTabSheetFrame);
       SynEdit.SelectedColor.Background := LStyles.GetSystemColor(clHighlight);
       SynEdit.SelectedColor.Foreground := LStyles.GetSystemColor(clHighlightText);
 
-      Highlighter := TabSheetFrame.SynMultiSyn.DefaultHighlighter;
+      Highlighter := DocTabSheetFrame.SynMultiSyn.DefaultHighlighter;
 
       if Assigned(Highlighter) and
        ( (Highlighter = ClassicCSSyn) or (Highlighter = DefaultCSSyn) or (Highlighter = TwilightCSSyn) or
@@ -841,9 +836,9 @@ procedure TDocumentFrame.UpdateGutterAndColors(TabSheetFrame: TTabSheetFrame);
   end;
 
 begin
-  UpdateGutterAndColors(TabSheetFrame.SynEdit);
-  if TabSheetFrame.SplitVisible then
-    UpdateGutterAndColors(TabSheetFrame.SplitSynEdit);
+  UpdateGutterAndColors(DocTabSheetFrame.SynEdit);
+  if DocTabSheetFrame.SplitVisible then
+    UpdateGutterAndColors(DocTabSheetFrame.SplitSynEdit);
 end;
 
 procedure TDocumentFrame.SynEditEnter(Sender: TObject);
@@ -999,7 +994,7 @@ begin
       SetBookmarks(SynEdit, Bookmarks);
       CheckHTMLErrors;
       try
-        SetMainHighlighterCombo(GetTabSheetFrame(PageControl.ActivePage));
+        SetMainHighlighterCombo(GetDocTabSheetFrame(PageControl.ActivePage));
         SetMainEncodingCombo(SynEdit);
         PageControlRepaint;
         if SynEdit.CanFocus then
@@ -1049,7 +1044,7 @@ begin
     if PageControl.PageCount = 0 then
       FNumberOfNewDocument := 0;
   end;
-  SetMainHighlighterCombo(GetTabSheetFrame(PageControl.ActivePage));
+  SetMainHighlighterCombo(GetDocTabSheetFrame(PageControl.ActivePage));
   SetMainEncodingCombo(ActiveSynEdit);
   CheckHTMLErrors;
   PageControlRepaint;
@@ -1127,15 +1122,15 @@ end;
 
 function TDocumentFrame.Save(TabSheet: TTabSheet; ShowDialog: Boolean): string;
 var
-  TabSheetFrame: TTabSheetFrame;
+  DocTabSheetFrame: TDocTabSheetFrame;
   AFileName: string;
 begin
   Result := '';
   PageControl.ActivePage := TabSheet;
-  TabSheetFrame := GetTabSheetFrame(TabSheet);
-  if Assigned(TabSheetFrame) then
+  DocTabSheetFrame := GetDocTabSheetFrame(TabSheet);
+  if Assigned(DocTabSheetFrame) then
   begin
-    if (TabSheetFrame.SynEdit.DocumentName = '') or ShowDialog then
+    if (DocTabSheetFrame.SynEdit.DocumentName = '') or ShowDialog then
     begin
       AFileName := TabSheet.Caption;
       if Pos('~', TabSheet.Caption) = Length(TabSheet.Caption) then
@@ -1145,17 +1140,17 @@ begin
       begin
         Application.ProcessMessages; { style fix }
         PageControl.ActivePage.Caption := ExtractFileName(CommonDialogs.Files[0]);
-        TabSheetFrame.SynEdit.DocumentName := CommonDialogs.Files[0];
+        DocTabSheetFrame.SynEdit.DocumentName := CommonDialogs.Files[0];
         Result := CommonDialogs.Files[0];
       end
       else
       begin
-        if TabSheetFrame.SynEdit.CanFocus then
-          TabSheetFrame.SynEdit.SetFocus;
+        if DocTabSheetFrame.SynEdit.CanFocus then
+          DocTabSheetFrame.SynEdit.SetFocus;
         Exit;
       end;
     end;
-    with TabSheetFrame.SynEdit do
+    with DocTabSheetFrame.SynEdit do
     begin
       SaveToFile(DocumentName);
       UndoList.Clear;
@@ -1164,9 +1159,9 @@ begin
       TabSheet.ImageIndex := GetImageIndex(DocumentName);
       if Pos('~', TabSheet.Caption) = Length(TabSheet.Caption) then
         TabSheet.Caption := System.Copy(TabSheet.Caption, 0, Length(TabSheet.Caption) - 1);
-      SelectHighLighter(TabSheetFrame, DocumentName);
+      SelectHighLighter(DocTabSheetFrame, DocumentName);
     end;
-    UpdateGutterAndColors(TabSheetFrame);
+    UpdateGutterAndColors(DocTabSheetFrame);
   end;
   PageControlRepaint;
 end;
@@ -1276,11 +1271,11 @@ begin
   PageControlRepaint;
 end;
 
-procedure TDocumentFrame.SetMainHighlighterCombo(TabSheetFrame: TTabSheetFrame);
+procedure TDocumentFrame.SetMainHighlighterCombo(DocTabSheetFrame: TDocTabSheetFrame);
 begin
-  if Assigned(TabSheetFrame) then
-    if Assigned(TabSheetFrame.SynMultiSyn.DefaultHighlighter) then
-      MainForm.HighlighterComboIndex := TabSheetFrame.SynMultiSyn.DefaultHighlighter.Tag
+  if Assigned(DocTabSheetFrame) then
+    if Assigned(DocTabSheetFrame.SynMultiSyn.DefaultHighlighter) then
+      MainForm.HighlighterComboIndex := DocTabSheetFrame.SynMultiSyn.DefaultHighlighter.Tag
 end;
 
 procedure TDocumentFrame.SetMainEncodingCombo(SynEdit: TBCSynEdit);
@@ -1314,14 +1309,14 @@ end;
 
 procedure TDocumentFrame.PageControlChange(Sender: TObject);
 var
-  TabSheetFrame: TTabSheetFrame;
+  DocTabSheetFrame: TDocTabSheetFrame;
 begin
-  TabSheetFrame := GetTabSheetFrame(PageControl.ActivePage);
-  if Assigned(TabSheetFrame) then
+  DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+  if Assigned(DocTabSheetFrame) then
   begin
-    SynWebEngine.Options.HtmlVersion := TabSheetFrame.SynEdit.HtmlVersion;
-    SetMainHighlighterCombo(TabSheetFrame);
-    SetMainEncodingCombo(TabSheetFrame.SynEdit);
+    SynWebEngine.Options.HtmlVersion := DocTabSheetFrame.SynEdit.HtmlVersion;
+    SetMainHighlighterCombo(DocTabSheetFrame);
+    SetMainEncodingCombo(DocTabSheetFrame.SynEdit);
   end;
   PageControlRepaint;
 end;
@@ -1753,7 +1748,7 @@ begin
     if i < PageControl.PageCount then
     begin
       PageControl.ActivePageIndex := i;
-      SetMainHighlighterCombo(GetTabSheetFrame(PageControl.ActivePage));
+      SetMainHighlighterCombo(GetDocTabSheetFrame(PageControl.ActivePage));
       SetMainEncodingCombo(ActiveSynEdit);
     end;
 
@@ -1822,7 +1817,7 @@ end;
 function TDocumentFrame.Options: Boolean;
 var
   i: Integer;
-  TabSheetFrame: TTabSheetFrame;
+  DocTabSheetFrame: TDocTabSheetFrame;
 begin
   Result := False;
 
@@ -1831,13 +1826,13 @@ begin
     { assign to every synedit }
     for i := 0 to PageControl.PageCount - 1 do
     begin
-      TabSheetFrame := GetTabSheetFrame(PageControl.Pages[i]);
-      if Assigned(TabSheetFrame) then
+      DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
+      if Assigned(DocTabSheetFrame) then
       begin
-        OptionsContainer.AssignTo(TabSheetFrame.SynEdit);
-        OptionsContainer.AssignTo(TabSheetFrame.SplitSynEdit);
-        SelectHighLighter(TabSheetFrame, TabSheetFrame.SynEdit.DocumentName);
-        UpdateGutterAndColors(TabSheetFrame);
+        OptionsContainer.AssignTo(DocTabSheetFrame.SynEdit);
+        OptionsContainer.AssignTo(DocTabSheetFrame.SplitSynEdit);
+        SelectHighLighter(DocTabSheetFrame, DocTabSheetFrame.SynEdit.DocumentName);
+        UpdateGutterAndColors(DocTabSheetFrame);
         UpdateHighlighterColors;
       end;
     end;
@@ -1847,13 +1842,13 @@ begin
   end;
 end;
 
-function TDocumentFrame.GetTabSheetFrame(TabSheet: TTabSheet): TTabSheetFrame;
+function TDocumentFrame.GetDocTabSheetFrame(TabSheet: TTabSheet): TDocTabSheetFrame;
 begin
   Result := nil;
   if Assigned(TabSheet) then
     if TabSheet.ComponentCount <> 0 then
-      if TabSheet.Components[0] is TTabSheetFrame then
-        Result := TTabSheetFrame(TabSheet.Components[0]);
+      if TabSheet.Components[0] is TDocTabSheetFrame then
+        Result := TDocTabSheetFrame(TabSheet.Components[0]);
 end;
 
 function TDocumentFrame.GetCompareFrame(TabSheet: TTabSheet): TCompareFrame;
@@ -1867,23 +1862,23 @@ end;
 
 function TDocumentFrame.GetSplitSynEdit(TabSheet: TTabSheet): TBCSynEdit;
 var
-  TabSheetFrame: TTabSheetFrame;
+  DocTabSheetFrame: TDocTabSheetFrame;
 begin
   Result := nil;
-  TabSheetFrame := GetTabSheetFrame(TabSheet);
-  if Assigned(TabSheetFrame) then
-    if TabSheetFrame.SplitVisible then
-      Result := TabSheetFrame.SplitSynEdit;
+  DocTabSheetFrame := GetDocTabSheetFrame(TabSheet);
+  if Assigned(DocTabSheetFrame) then
+    if DocTabSheetFrame.SplitVisible then
+      Result := DocTabSheetFrame.SplitSynEdit;
 end;
 
 function TDocumentFrame.GetSynEdit(TabSheet: TTabSheet): TBCSynEdit;
 var
-  TabSheetFrame: TTabSheetFrame;
+  DocTabSheetFrame: TDocTabSheetFrame;
 begin
   Result := nil;
-  TabSheetFrame := GetTabSheetFrame(TabSheet);
-  if Assigned(TabSheetFrame) then
-    Result := TabSheetFrame.SynEdit;
+  DocTabSheetFrame := GetDocTabSheetFrame(TabSheet);
+  if Assigned(DocTabSheetFrame) then
+    Result := DocTabSheetFrame.SynEdit;
 end;
 
 procedure TDocumentFrame.GotoBookmarks(ItemIndex: Integer);
@@ -2043,7 +2038,7 @@ end;
 function TDocumentFrame.ModifiedDocuments(CheckActive: Boolean): Boolean;
 var
   i: Integer;
-  TabSheetFrame: TTabSheetFrame;
+  DocTabSheetFrame: TDocTabSheetFrame;
 begin
   Result := True;
 
@@ -2051,9 +2046,9 @@ begin
   begin
     if CheckActive or ((PageControl.ActivePageIndex = i) and not CheckActive) then
     begin
-      TabSheetFrame := GetTabSheetFrame(PageControl.Pages[i]);
-      if Assigned(TabSheetFrame) then
-        if TabSheetFrame.SynEdit.Modified then
+      DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
+      if Assigned(DocTabSheetFrame) then
+        if DocTabSheetFrame.SynEdit.Modified then
           Exit;
     end;
   end;
@@ -2539,11 +2534,11 @@ end;
 
 procedure TDocumentFrame.XMLTreeRefreshActionExecute(Sender: TObject);
 var
-  TabSheetFrame: TTabSheetFrame;
+  DocTabSheetFrame: TDocTabSheetFrame;
 begin
-  TabSheetFrame := GetTabSheetFrame(PageControl.ActivePage);
-  if Assigned(TabSheetFrame) then
-    TabSheetFrame.LoadFromXML(TabSheetFrame.SynEdit.Text);
+  DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+  if Assigned(DocTabSheetFrame) then
+    DocTabSheetFrame.LoadFromXML(DocTabSheetFrame.SynEdit.Text);
 end;
 
 procedure TDocumentFrame.DecreaseIndent;
@@ -3075,31 +3070,31 @@ end;
 
 function TDocumentFrame.GetSplitChecked: Boolean;
 var
-  TabSheetFrame: TTabSheetFrame;
+  DocTabSheetFrame: TDocTabSheetFrame;
 begin
   Result := False;
-  TabSheetFrame := GetTabSheetFrame(PageControl.ActivePage);
-  if Assigned(TabSheetFrame) then
-    Result := TabSheetFrame.SplitVisible;
+  DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+  if Assigned(DocTabSheetFrame) then
+    Result := DocTabSheetFrame.SplitVisible;
 end;
 
 procedure TDocumentFrame.ToggleSplit;
 var
   FileName: string;
   ASynEdit: TBCSynEdit;
-  TabSheetFrame: TTabSheetFrame;
+  DocTabSheetFrame: TDocTabSheetFrame;
   SplitVisible: Boolean;
 begin
   ASynEdit := ActiveSynEdit;
   FileName := ASynEdit.DocumentName;
-  TabSheetFrame := GetTabSheetFrame(PageControl.ActivePage);
-  if Assigned(TabSheetFrame) then
+  DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+  if Assigned(DocTabSheetFrame) then
   begin
-    SplitVisible := not TabSheetFrame.SplitVisible;
+    SplitVisible := not DocTabSheetFrame.SplitVisible;
 
     if SplitVisible then
     begin
-      with TabSheetFrame.SplitSynEdit do
+      with DocTabSheetFrame.SplitSynEdit do
       begin
         DocumentName := FileName;
         FileDateTime := GetFileDateTime(FileName);
@@ -3117,19 +3112,19 @@ begin
         SearchEngine := SynEditSearch;
         PopupMenu := EditorPopupMenu;
         BookMarkOptions.BookmarkImages := BookmarkImagesList;
-        Height := TabSheetFrame.DocumentPanel.Height div 2;
+        Height := DocTabSheetFrame.DocumentPanel.Height div 2;
         Width := 0; // reduce flickering
       end;
-      OptionsContainer.AssignTo(TabSheetFrame.SplitSynEdit);
+      OptionsContainer.AssignTo(DocTabSheetFrame.SplitSynEdit);
       if Filename <> '' then
       begin
-        TabSheetFrame.SplitSynEdit.Text := ASynEdit.Text;
-        SelectHighLighter(TabSheetFrame, FileName);
+        DocTabSheetFrame.SplitSynEdit.Text := ASynEdit.Text;
+        SelectHighLighter(DocTabSheetFrame, FileName);
       end;
-      UpdateGutterAndColors(TabSheetFrame);
+      UpdateGutterAndColors(DocTabSheetFrame);
       Application.ProcessMessages;
     end;
-    TabSheetFrame.SplitVisible := SplitVisible;
+    DocTabSheetFrame.SplitVisible := SplitVisible;
   end;
 end;
 
@@ -3169,15 +3164,15 @@ end;
 
 function TDocumentFrame.IsXMLDocument: Boolean;
 var
-  TabSheetFrame: TTabSheetFrame;
+  DocTabSheetFrame: TDocTabSheetFrame;
 begin
   Result := False;
-  TabSheetFrame := GetTabSheetFrame(PageControl.ActivePage);
-  if Assigned(TabSheetFrame) then
-    Result := TabSheetFrame.SynMultiSyn.DefaultHighlighter = SynWebXmlSyn;
+  DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+  if Assigned(DocTabSheetFrame) then
+    Result := DocTabSheetFrame.SynMultiSyn.DefaultHighlighter = SynWebXmlSyn;
 end;
 
-procedure TDocumentFrame.SelectHighLighter(TabSheetFrame: TTabSheetFrame; FileName: string);
+procedure TDocumentFrame.SelectHighLighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);
 
   procedure SetSynEdit(SynEdit: TBCSynEdit);
   var
@@ -3263,7 +3258,7 @@ procedure TDocumentFrame.SelectHighLighter(TabSheetFrame: TTabSheetFrame; FileNa
     FileExt: string;
   begin
     FileExt := UpperCase(ExtractFileExt(FileName));
-    with TabSheetFrame.SynMultiSyn do
+    with DocTabSheetFrame.SynMultiSyn do
     begin
       if Pos(FileExt, OptionsContainer.FileType(ftHC11)) <> 0 then
         DefaultHighlighter := SynHC11Syn
@@ -3396,14 +3391,14 @@ procedure TDocumentFrame.SelectHighLighter(TabSheetFrame: TTabSheetFrame; FileNa
       else if Pos(FileExt, OptionsContainer.FileType(ftXML)) <> 0 then
         DefaultHighlighter := SynWebXMLSyn
       else
-        DefaultHighlighter := SynURISyn;
+        DefaultHighlighter := DocTabSheetFrame.SynURISyn;
     end;
   end;
 
 begin
-  SetSynEdit(TabSheetFrame.SynEdit);
-  if TabSheetFrame.SplitVisible then
-    SetSynEdit(TabSheetFrame.SplitSynEdit);
+  SetSynEdit(DocTabSheetFrame.SynEdit);
+  if DocTabSheetFrame.SplitVisible then
+    SetSynEdit(DocTabSheetFrame.SplitSynEdit);
   SetHighlighter;
 end;
 

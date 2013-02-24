@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, VirtualTrees, SynEdit, BCSynEdit,
   Xml.XMLIntf, Xml.xmldom, Xml.Win.msxmldom, Xml.XMLDoc, Vcl.ImgList, BCImageList, Vcl.Menus,
-  Vcl.ActnList, SynEditHighlighter, SynHighlighterMulti;
+  Vcl.ActnList, SynEditHighlighter, SynHighlighterMulti, SynURIOpener, SynHighlighterURI;
 
 type
   PXMLTreeRec = ^TXMLTreeRec;
@@ -14,7 +14,7 @@ type
     Data: IXMLNode;
   end;
 
-  TTabSheetFrame = class(TFrame)
+  TDocTabSheetFrame = class(TFrame)
     Panel: TPanel;
     VirtualDrawTree: TVirtualDrawTree;
     VerticalSplitter: TSplitter;
@@ -24,6 +24,8 @@ type
     HorizontalSplitter: TSplitter;
     XMLDocument: TXMLDocument;
     SynMultiSyn: TSynMultiSyn;
+    SynURISyn: TSynURISyn;
+    SynURIOpener: TSynURIOpener;
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
@@ -56,12 +58,12 @@ implementation
 uses
   Vcl.Themes, Options;
 
-function TTabSheetFrame.GetXMLTreeVisible: Boolean;
+function TDocTabSheetFrame.GetXMLTreeVisible: Boolean;
 begin
   Result := VirtualDrawTree.Visible;
 end;
 
-procedure TTabSheetFrame.SetXMLTreeVisible(Value: Boolean);
+procedure TDocTabSheetFrame.SetXMLTreeVisible(Value: Boolean);
 begin
   VerticalSplitter.Visible := Value;
   VirtualDrawTree.Visible := Value;
@@ -73,7 +75,7 @@ begin
   Result := (Ord(NodeType) <> 3) and (Ord(NodeType) <> 4) and (Ord(NodeType) <> 8);
 end;
 
-procedure TTabSheetFrame.VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree;
+procedure TDocTabSheetFrame.VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree;
   const PaintInfo: TVTPaintInfo);
 var
   TreeNode: PXMLTreeRec;
@@ -138,7 +140,7 @@ begin
   end;
 end;
 
-procedure TTabSheetFrame.VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
+procedure TDocTabSheetFrame.VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
 var
   Data: PXMLTreeRec;
 begin
@@ -148,7 +150,7 @@ begin
   //Finalize(Data^);
 end;
 
-procedure TTabSheetFrame.VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
+procedure TDocTabSheetFrame.VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
   Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
 var
   TreeNode: PXMLTreeRec;
@@ -160,7 +162,7 @@ begin
   end;
 end;
 
-procedure TTabSheetFrame.VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas;
+procedure TDocTabSheetFrame.VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas;
   Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
 var
   TreeNode: PXMLTreeRec;
@@ -177,7 +179,7 @@ begin
   end;
 end;
 
-procedure TTabSheetFrame.ProcessNode(Node: IXMLNode; TreeNode: PVirtualNode);
+procedure TDocTabSheetFrame.ProcessNode(Node: IXMLNode; TreeNode: PVirtualNode);
 var
   VirtualNode: PVirtualNode;
   NodeData: PXMLTreeRec;
@@ -191,12 +193,12 @@ begin
   NodeData.Data := Node;
 end;
 
-procedure TTabSheetFrame.RefreshActionExecute(Sender: TObject);
+procedure TDocTabSheetFrame.RefreshActionExecute(Sender: TObject);
 begin
   LoadFromXML(SynEdit.Text);
 end;
 
-procedure TTabSheetFrame.VirtualDrawTreeInitChildren(Sender: TBaseVirtualTree; Node: PVirtualNode;
+procedure TDocTabSheetFrame.VirtualDrawTreeInitChildren(Sender: TBaseVirtualTree; Node: PVirtualNode;
   var ChildCount: Cardinal);
 var
   i: Integer;
@@ -218,7 +220,7 @@ begin
   ChildCount := VirtualDrawTree.ChildCount[Node];
 end;
 
-procedure TTabSheetFrame.VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
+procedure TDocTabSheetFrame.VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
   Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
 var
   TreeNode: PXMLTreeRec;
@@ -229,18 +231,18 @@ begin
     Include(InitialStates, ivsHasChildren);
 end;
 
-function TTabSheetFrame.GetSplitVisible: Boolean;
+function TDocTabSheetFrame.GetSplitVisible: Boolean;
 begin
   Result := SplitSynEdit.Visible;
 end;
 
-procedure TTabSheetFrame.SetSplitVisible(Value: Boolean);
+procedure TDocTabSheetFrame.SetSplitVisible(Value: Boolean);
 begin
   SplitSynEdit.Visible := Value;
   HorizontalSplitter.Visible := Value;
 end;
 
-procedure TTabSheetFrame.LoadFromXML(XML: string);
+procedure TDocTabSheetFrame.LoadFromXML(XML: string);
 var
   XMLNode: IXMLNode;
 begin

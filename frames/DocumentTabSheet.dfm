@@ -1,4 +1,4 @@
-object TabSheetFrame: TTabSheetFrame
+object DocTabSheetFrame: TDocTabSheetFrame
   Left = 0
   Top = 0
   Width = 928
@@ -128,5 +128,18 @@ object TabSheetFrame: TTabSheetFrame
     Schemes = <>
     Left = 310
     Top = 86
+  end
+  object SynURISyn: TSynURISyn
+    Tag = 51
+    URIAttri.Style = []
+    VisitedURIAttri.Style = []
+    Left = 642
+    Top = 102
+  end
+  object SynURIOpener: TSynURIOpener
+    Editor = SynEdit
+    URIHighlighter = SynURISyn
+    Left = 728
+    Top = 108
   end
 end

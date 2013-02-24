@@ -1,16 +1,18 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 304
+  Width = 948
+  Height = 509
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
   TabOrder = 0
+  ExplicitWidth = 451
+  ExplicitHeight = 304
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 948
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -18,6 +20,7 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 0
     Visible = False
+    ExplicitWidth = 451
     object WholeWordsOnlyLabel: TLabel
       Left = 465
       Top = 0
@@ -128,9 +131,10 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 50
-        Height = 13
+        Height = 18
         Align = alLeft
         Caption = 'Search for'
+        ExplicitHeight = 13
       end
     end
     object SearchPanel3: TPanel
@@ -419,10 +423,11 @@ object DocumentFrame: TDocumentFrame
         Left = 0
         Top = 2
         Width = 70
-        Height = 13
+        Height = 19
         Align = alLeft
         Caption = 'Case Sensitive'
         Layout = tlCenter
+        ExplicitHeight = 13
       end
       object WholeWordsCheckBox: TBCCheckBox
         Left = 78
@@ -465,8 +470,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 451
-    Height = 283
+    Width = 948
+    Height = 488
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -474,11 +479,13 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentColor = True
     TabOrder = 1
+    ExplicitWidth = 451
+    ExplicitHeight = 283
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 871
-      Height = 489
+      Width = 948
+      Height = 486
       Align = alClient
       DoubleBuffered = False
       Font.Charset = DEFAULT_CHARSET
@@ -500,7 +507,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 112
     Bitmap = {
-      494C010106003800840510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101060038008C0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -840,7 +847,7 @@ object DocumentFrame: TDocumentFrame
     Left = 144
     Top = 282
     Bitmap = {
-      494C01010A003800640510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A0038006C0510001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1396,7 +1403,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 168
     Bitmap = {
-      494C010102009C04B80514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010102009C04C00514001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000A4676900A4676900A467
@@ -1616,7 +1623,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 224
     Bitmap = {
-      494C01010200BC04BC0518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010200BC04C40518001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000A467
@@ -2469,23 +2476,11 @@ object DocumentFrame: TDocumentFrame
     Left = 642
     Top = 46
   end
-  object SynURIOpener: TSynURIOpener
-    URIHighlighter = SynURISyn
-    Left = 728
-    Top = 108
-  end
-  object SynURISyn: TSynURISyn
-    Tag = 51
-    URIAttri.Style = []
-    VisitedURIAttri.Style = []
-    Left = 642
-    Top = 102
-  end
   object XMLTreeImageList: TImageList
     Left = 746
     Top = 190
     Bitmap = {
-      494C010109001800680010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010109001800700010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2900,7 +2895,7 @@ object DocumentFrame: TDocumentFrame
     Left = 744
     Top = 316
     Bitmap = {
-      494C0101010054004C0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010101005400540210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -9,7 +9,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.ComCtrls, BCFileControl, Vcl.StdCtrls, Vcl.ExtCtrls,
   Vcl.ImgList, Vcl.ToolWin, Vcl.ActnList, Vcl.Buttons, JvExControls, JvLabel, Vcl.Menus,
   JvSpeedButton, JvExComCtrls, JvComCtrls, BCPopupMenu, BCPageControl, Vcl.ActnPopup, Vcl.Themes,
-  Vcl.PlatformDefaultStyleActnCtrls, BCImageList, VirtualTrees;
+  Vcl.PlatformDefaultStyleActnCtrls, BCImageList, VirtualTrees, DirectoryTabSheet;
 
 type
   TDirectoryFrame = class(TFrame)
@@ -48,11 +48,12 @@ type
     { Private declarations }
     FTabsheetDblClick: TNotifyEvent;
     function ReadIniFile: Boolean;
-    function DriveComboBox: TBCDriveComboBox;
+    function ActiveDriveComboBox: TBCDriveComboBox;
     function GetIsAnyDirectory: Boolean;
     function GetExcludeOtherBranches: Boolean;
     function GetSelectedPath: string;
     function GetRootDirectory: string;
+    function GetDirTabSheetFrame(TabSheet: TTabSheet): TDirTabSheetFrame;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -106,18 +107,18 @@ begin
     for i := 0 to LastPaths.Count - 1 do
     begin
       s := System.Copy(LastPaths.Strings[i], Pos('=', LastPaths.Strings[i]) + 1, Length(LastPaths.Strings[i]));
-      if Pos(';', s) <> 0 then
-      begin
-        TabName := Copy(s, 1, Pos(';', s) - 1);
-        s := Copy(s, Pos(';', s) + 1, Length(s));
-        Root := Copy(s, 1, Pos(';', s) - 1);
-        s := Copy(s, Pos(';', s) + 1, Length(s));
-        LastPath := Copy(s, 1, Pos(';', s) - 1);
-        s := Copy(s, Pos(';', s) + 1, Length(s));
-        ShowDrives := StrToBool(Copy(s, 1, Pos(';', s) - 1));
-        s := Copy(s, Pos(';', s) + 1, Length(s));
-        ExcludeOtherBranches := StrToBool(s);
-      end
+      { if Pos(';', s) <> 0 then
+      begin }
+      TabName := Copy(s, 1, Pos(';', s) - 1);
+      s := Copy(s, Pos(';', s) + 1, Length(s));
+      Root := Copy(s, 1, Pos(';', s) - 1);
+      s := Copy(s, Pos(';', s) + 1, Length(s));
+      LastPath := Copy(s, 1, Pos(';', s) - 1);
+      s := Copy(s, Pos(';', s) + 1, Length(s));
+      ShowDrives := StrToBool(Copy(s, 1, Pos(';', s) - 1));
+      s := Copy(s, Pos(';', s) + 1, Length(s));
+      ExcludeOtherBranches := StrToBool(s);
+      (* end
       else
       begin
         { old ini version before 1.6.2 }
@@ -126,7 +127,7 @@ begin
         LastPath := s;
         ShowDrives := True;
         ExcludeOtherBranches := False;
-      end;
+      end; *)
       if DirectoryExists(LastPath) then
         OpenDirectory(TabName, Root, LastPath, ShowDrives, ExcludeOtherBranches);
     end;
@@ -146,17 +147,23 @@ begin
   inherited;
 end;
 
-function TDirectoryFrame.ActiveDrivesPanel: TPanel;
-var
-  i: Integer;
+function TDirectoryFrame.GetDirTabSheetFrame(TabSheet: TTabSheet): TDirTabSheetFrame;
 begin
   Result := nil;
-  for i := 0 to PageControl.ActivePage.ComponentCount - 1 do
-    if PageControl.ActivePage.Components[i].Tag = 99 then
-    begin
-      Result := TPanel(PageControl.ActivePage.Components[i]);
-      Exit;
-    end;
+  if Assigned(TabSheet) then
+    if TabSheet.ComponentCount <> 0 then
+      if TabSheet.Components[0] is TDirTabSheetFrame then
+        Result := TDirTabSheetFrame(TabSheet.Components[0]);
+end;
+
+function TDirectoryFrame.ActiveDrivesPanel: TPanel;
+var
+  DirTabSheetFrame: TDirTabSheetFrame;
+begin
+  Result := nil;
+  DirTabSheetFrame := GetDirTabSheetFrame(PageControl.ActivePage);
+  if Assigned(DirTabSheetFrame) then
+      Result := DirTabSheetFrame.DriveComboBoxPanel;
 end;
 
 function TDirectoryFrame.GetExcludeOtherBranches: Boolean;
@@ -178,7 +185,7 @@ begin
     WriteInteger('Options', 'ActiveDirectoryIndex', PageControl.ActivePageIndex);
     { Options }
     EraseSection('LastPaths');
-    EraseSection('Directory'); // old stuff, remove if exists
+    //EraseSection('Directory'); // old stuff, remove if exists
     { Open directories }
     for i := 0 to PageControl.PageCount - 1 do
     begin
@@ -194,16 +201,12 @@ end;
 
 function TDirectoryFrame.ActiveFileTreeView: TBCFileTreeView;
 var
-  i: Integer;
+  DirTabSheetFrame: TDirTabSheetFrame;
 begin
   Result := nil;
-  if Assigned(PageControl.ActivePage) then
-  for i := 0 to PageControl.ActivePage.ComponentCount - 1 do
-    if PageControl.ActivePage.Components[i] is TBCFileTreeView then
-    begin
-      Result := TBCFileTreeView(PageControl.ActivePage.Components[i]);
-      Break;
-    end;
+  DirTabSheetFrame := GetDirTabSheetFrame(PageControl.ActivePage);
+  if Assigned(DirTabSheetFrame) then
+    Result := DirTabSheetFrame.FileTreeView;
 end;
 
 procedure TDirectoryFrame.TabsheetDblClick(Sender: TObject);
@@ -212,18 +215,14 @@ begin
     FTabsheetDblClick(Sender);
 end;
 
-function TDirectoryFrame.DriveComboBox: TBCDriveComboBox;
+function TDirectoryFrame.ActiveDriveComboBox: TBCDriveComboBox;
 var
-  i: Integer;
+  DirTabSheetFrame: TDirTabSheetFrame;
 begin
   Result := nil;
-  if Assigned(PageControl.ActivePage) then
-  for i := 0 to PageControl.ActivePage.ComponentCount - 1 do
-    if PageControl.ActivePage.Components[i] is TBCDriveComboBox then
-    begin
-      Result := TBCDriveComboBox(PageControl.ActivePage.Components[i]);
-      Break;
-    end;
+  DirTabSheetFrame := GetDirTabSheetFrame(PageControl.ActivePage);
+  if Assigned(DirTabSheetFrame) then
+    Result := DirTabSheetFrame.DriveComboBox;
 end;
 
 procedure TDirectoryFrame.CloseDirectory;
@@ -236,9 +235,9 @@ begin
     if PageControl.PageCount > 0 then
       PageControl.ActivePageIndex := PageControl.PageCount - 1;
   end;
-  { for some reason Destroy method will lose the Images property even there is still pages... }
+  { for some reason Destroy method will lose the Images property even there are still pages... }
   if PageControl.PageCount > 0 then
-    PageControl.Images := DriveComboBox.SystemIconsImageList;
+    PageControl.Images := ActiveDriveComboBox.SystemIconsImageList;
   Application.ProcessMessages;
 end;
 
@@ -337,7 +336,7 @@ procedure TDirectoryFrame.OpenPath(RootDirectory: string; LastPath: string; Excl
 var
   FileTreeView: TBCFileTreeView;
 begin
-  DriveComboBox.Drive := ExtractFileDir(RootDirectory)[1];
+  ActiveDriveComboBox.Drive := ExtractFileDir(RootDirectory)[1];
   FileTreeView := ActiveFileTreeView;
   if Assigned(FileTreeView) then
     FileTreeView.OpenPath(RootDirectory, LastPath, ExcludeOtherBranches);
@@ -345,32 +344,22 @@ end;
 
 procedure TDirectoryFrame.DriveComboChange(Sender: TObject);
 var
-  BCDriveComboBox: TBCDriveComboBox;
+  DriveComboBox: TBCDriveComboBox;
 begin
-  BCDriveComboBox := DriveComboBox;
-  if Assigned(BCDriveComboBox) then
+  DriveComboBox := ActiveDriveComboBox;
+  if Assigned(DriveComboBox) then
   begin
-    PageControl.ActivePage.ImageIndex := BCDriveComboBox.IconIndex;
+    PageControl.ActivePage.ImageIndex := DriveComboBox.IconIndex;
     if (Length(PageControl.ActivePage.Caption) = 3) and
       (Pos(':\', PageControl.ActivePage.Caption) = 2) then
-      PageControl.ActivePage.Caption := Format('%s:\', [BCDriveComboBox.Drive]);
+      PageControl.ActivePage.Caption := Format('%s:\', [DriveComboBox.Drive]);
   end;
 end;
-
-{procedure TDirectoryFrame.VirtualDrawTreeKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  PageControl.ActivePage.Repaint;
-end;}
 
 procedure TDirectoryFrame.OpenDirectory(TabName: string; RootDirectory: string; LastPath: string; ShowDrives: Boolean; ExcludeOtherBranches: Boolean);
 var
   TabSheet: TTabSheet;
-  FileTreeViewPanel: TPanel;
-  DriveComboBoxPanel: TPanel;
-  BCDriveComboBox: TBCDriveComboBox;
-  BCFileTreeView: TBCFileTreeView;
-  //LStyles: TCustomStyleServices;
-  //LColor: TColor;
+  DirTabSheetFrame: TDirTabSheetFrame;
 begin
   if not DirectoryExists(RootDirectory) then
     Exit;
@@ -381,93 +370,33 @@ begin
   TabSheet.Visible := False;
   TabSheet.PageControl := PageControl;
   TabSheet.ImageIndex := -1;
-  TabSheet.Padding.Bottom := 2;
 
- // if PageControl.PageCount > 0 then
   PageControl.ActivePage := TabSheet;
 
-  FileTreeViewPanel := TPanel.Create(TabSheet);
-  with FileTreeViewPanel do
+  DirTabSheetFrame := TDirTabSheetFrame.Create(TabSheet);
+  with DirTabSheetFrame do
   begin
-    Visible := False;
+    Panel.Visible := False;
     Parent := TabSheet;
     Align := alClient;
-    BevelOuter := bvNone;
-    Padding.Top := 1;
-    Padding.Left := 1;
-    //if TStyleManager.ActiveStyle.Name = 'Windows' then
-      Padding.Right := 3;
-    //else
-    //  Padding.Right := 1;
-    //Padding.Bottom := 2;
-    ParentBackground := True;
-    //DoubleBuffered := False;
-    ParentColor := True;
-    //ParentDoubleBuffered := False;
+    with FileTreeView do
+    begin
+      PopupMenu := Self.PopupMenu;
+      ShowHiddenFiles := False;
+      ShowSystemFiles := False;
+      ShowArchiveFiles := True;
+      OnDblClick := TabsheetDblClick;
+      DefaultNodeHeight := Images.Height + 2;
+    end;
+    DriveComboBox.OnChange := DriveComboChange;
+    DriveComboBoxPanel.Visible := ShowDrives;
+    PageControl.Images := DriveComboBox.SystemIconsImageList;
+    TabSheet.ImageIndex := DriveComboBox.IconIndex;
   end;
-
-  BCFileTreeView := TBCFileTreeView.Create(TabSheet);
-  with BCFileTreeView do
-  begin
-    Parent := FileTreeViewPanel;
-    Align := alClient;
-    //Width := 446;
-
-    //ParentColor := True;
-    //ParentBackground := True;
-    PopupMenu := Self.PopupMenu;
-    ShowHiddenFiles := False;
-    ShowSystemFiles := False;
-    ShowArchiveFiles := True;
-    TabOrder := 0;
-    TabStop := True;
-    OnDblClick := TabsheetDblClick;
-    DefaultNodeHeight := Images.Height + 2;
-  end;
-  DriveComboBoxPanel := TPanel.Create(TabSheet);
-  with DriveComboBoxPanel do
-  begin
-    Parent := TabSheet; //FileTreeViewPanel;
-    //Height := 24;
-    Align := alBottom;
-
-    BevelOuter := bvNone;
-    Padding.Top := 3;
-    //Padding.Bottom := 0;
-    Padding.Left := 1;
-    //if TStyleManager.ActiveStyle.Name = 'Windows' then
-    Padding.Right := 3;
-    //Padding.Bottom := 2;
-    //else
-    //  Padding.Right := 1;
-    ParentBackground := True;
-    //DoubleBuffered := False;
-    ParentColor := True;
-    //ParentDoubleBuffered := False;
-    Tag := 99; { to find it }
-  end;
-  BCDriveComboBox := TBCDriveComboBox.Create(TabSheet);
-  with BCDriveComboBox do
-  begin
-    Parent := DriveComboBoxPanel;
-    Left := 0;
-    //Top := 3;
-    //Width := 446;
-    Height := 21;
-    Align := alClient;
-    FileTreeView := BCFileTreeView;
-    Drive := 'C';
-    TabOrder := 1;
-    OnChange := DriveComboChange;
-  end;
-  DriveComboBoxPanel.Visible := ShowDrives;
-  DriveComboBoxPanel.AutoSize := True;
-  PageControl.Images := BCDriveComboBox.SystemIconsImageList;
-  TabSheet.ImageIndex := BCDriveComboBox.IconIndex;
   PageControl.ActivePage.Caption := TabName;
 
   OpenPath(RootDirectory, LastPath, ExcludeOtherBranches);
-  FileTreeViewPanel.Visible := True;
+  DirTabSheetFrame.Panel.Visible := True;
   TabSheet.Visible := True;
 end;
 
@@ -480,19 +409,22 @@ end;
 
 procedure TDirectoryFrame.UpdateControls;
 var
-  i, j: Integer;
+  i: Integer;
+  DirTabSheetFrame: TDirTabSheetFrame;
 begin
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
   Application.ProcessMessages; { Important! }
   for i := 0 to PageControl.PageCount - 1 do
-    for j := 0 to PageControl.Pages[i].ComponentCount - 1 do
-      if PageControl.Pages[i].Components[j] is TPanel then
-      begin
-        if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
-          TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 3
-        else
-          TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 1;
-      end;
+  begin
+    DirTabSheetFrame := GetDirTabSheetFrame(PageControl.Pages[i]);
+    if Assigned(DirTabSheetFrame) then
+    begin
+      if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
+        DirTabSheetFrame.Panel.Padding.Right := 3
+      else
+        DirTabSheetFrame.Panel.Padding.Right := 2;
+    end;
+  end;
 end;
 
 end.

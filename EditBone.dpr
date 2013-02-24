@@ -30,8 +30,9 @@ uses
   Common in '..\..\Common\units\Common.pas',
   CommonDialogs in '..\..\Common\units\CommonDialogs.pas',
   LanguageEditor in 'forms\LanguageEditor.pas' {LanguageEditorForm},
-  DocumentTabSheet in 'frames\DocumentTabSheet.pas' {TabSheetFrame: TFrame},
-  Encoding in '..\..\Common\units\Encoding.pas';
+  DocumentTabSheet in 'frames\DocumentTabSheet.pas' {DocTabSheetFrame: TFrame},
+  Encoding in '..\..\Common\units\Encoding.pas',
+  DirectoryTabSheet in 'frames\DirectoryTabSheet.pas' {DirTabSheetFrame: TFrame};
 
 {$R *.res}
 
