@@ -411,18 +411,29 @@ procedure TDirectoryFrame.UpdateControls;
 var
   i: Integer;
   DirTabSheetFrame: TDirTabSheetFrame;
+  LStyles: TCustomStyleServices;
+  PanelColor: TColor;
 begin
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
   Application.ProcessMessages; { Important! }
+  LStyles := StyleServices;
+  PanelColor := clNone;
+  if LStyles.Enabled then
+    PanelColor := LStyles.GetStyleColor(scPanel);
   for i := 0 to PageControl.PageCount - 1 do
   begin
     DirTabSheetFrame := GetDirTabSheetFrame(PageControl.Pages[i]);
+
     if Assigned(DirTabSheetFrame) then
     begin
       if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
         DirTabSheetFrame.Panel.Padding.Right := 3
       else
-        DirTabSheetFrame.Panel.Padding.Right := 2;
+      if LStyles.Enabled and
+        (GetRValue(PanelColor) + GetGValue(PanelColor) + GetBValue(PanelColor) > 500) then
+        DirTabSheetFrame.Panel.Padding.Right := 2
+      else
+        DirTabSheetFrame.Panel.Padding.Right := 1;
     end;
   end;
 end;

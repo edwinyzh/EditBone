@@ -753,8 +753,15 @@ var
   i: Integer;
   DocTabSheetFrame: TDocTabSheetFrame;
   CompareFrame: TCompareFrame;
+  LStyles: TCustomStyleServices;
+  PanelColor: TColor;
 begin
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
+  Application.ProcessMessages;
+  LStyles := StyleServices;
+  PanelColor := clNone;
+  if LStyles.Enabled then
+    PanelColor := LStyles.GetStyleColor(scPanel);
   for i := 0 to PageControl.PageCount - 1 do
   begin
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
@@ -764,7 +771,11 @@ begin
       if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
         DocTabSheetFrame.Panel.Padding.Right := 3
       else
-        DocTabSheetFrame.Panel.Padding.Right := 2;
+      if LStyles.Enabled and
+        (GetRValue(PanelColor) + GetGValue(PanelColor) + GetBValue(PanelColor) > 500) then
+        DocTabSheetFrame.Panel.Padding.Right := 2
+      else
+        DocTabSheetFrame.Panel.Padding.Right := 1;
     end;
     CompareFrame := GetCompareFrame(PageControl.Pages[i]);
     if Assigned(CompareFrame) then
@@ -772,7 +783,11 @@ begin
       if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
         CompareFrame.Panel.Padding.Right := 3
       else
-        CompareFrame.Panel.Padding.Right := 2;
+      if LStyles.Enabled and
+        (GetRValue(PanelColor) + GetGValue(PanelColor) + GetBValue(PanelColor) > 500) then
+        CompareFrame.Panel.Padding.Right := 2
+      else
+        CompareFrame.Panel.Padding.Right := 1;
     end;
   end;
   UpdateHighlighterColors;
