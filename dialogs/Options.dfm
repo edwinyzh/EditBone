@@ -154,9 +154,9 @@ object OptionsDialog: TOptionsDialog
               Caption = ' Gutter '
               TabOrder = 1
               object LineNumbersCheckBox: TBCCheckBox
-                Left = 120
+                Left = 92
                 Top = 20
-                Width = 90
+                Width = 115
                 Height = 21
                 Margins.Left = 4
                 Margins.Top = 4

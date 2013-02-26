@@ -584,7 +584,10 @@ procedure TMainForm.ViewOpenDirectoryActionExecute(Sender: TObject);
 begin
   FDirectoryFrame.OpenDirectory;
   if not DirectoryPanel.Visible then
+  begin
     DirectoryPanel.Visible := True;
+    VerticalSplitter.Visible := True;
+  end;
 end;
 
 procedure TMainForm.ReadWindowState;
@@ -835,6 +838,7 @@ begin
     DirectoryPanel.Visible := False;
   end;
 
+  ViewEditDirectoryAction.Enabled := DirectoryPanel.Visible;
   ViewCloseDirectoryAction.Enabled := DirectoryPanel.Visible;
 
   if DirectoryPanel.Visible then
