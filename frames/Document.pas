@@ -2677,7 +2677,7 @@ procedure TDocumentFrame.SortAsc;
         Strings := TWideStringList.Create;
         Strings.Text := SynEdit.SelText;
         Strings.Sort;
-        SynEdit.SelText := Trim(Strings.Text);
+        SynEdit.SelText := TrimRight(Strings.Text);
         Strings.Free;
       end;
   end;
@@ -2704,7 +2704,7 @@ procedure TDocumentFrame.SortDesc;
         Strings.Sort;
         for i := Strings.Count - 1 downto 0 do
           s := s + Strings.Strings[i] + Chr(13) + Chr(10);
-        SynEdit.SelText := Trim(s);
+        SynEdit.SelText := TrimRight(s);
         Strings.Free;
       end;
   end;
