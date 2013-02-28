@@ -670,7 +670,9 @@ begin
     begin
       SynEdit.LoadFromFile(FileName);
       SelectHighLighter(DocTabSheetFrame, FileName);
-    end;
+    end
+    else
+      SetActiveHighlighter(51);
 
     { XML Tree }
     XMLTreeVisible := MainForm.ViewXMLTreeAction.Checked and IsXMLDocument;
@@ -2965,123 +2967,135 @@ begin
 end;
 
 procedure TDocumentFrame.SetActiveHighlighter(Value: Integer);
-var
-  SynEdit: TBCSynEdit;
-begin
-  SynEdit := ActiveSynEdit;
-  if Assigned(SynEdit) then
-  with SynEdit do
+
+  procedure SetActiveSynEditProperties;
+  var
+    SynEdit: TBCSynEdit;
   begin
-    Color := clWhite;
-    ActiveLineColor := clSkyBlue;
-    OnPaintTransient := nil;
-    HtmlVersion := shvUndefined;
-    SynWebEngine.Options.HtmlVersion := shvUndefined;
-    case Value of
-      0: Highlighter := SynHC11Syn;
-      1: Highlighter := SynAWKSyn;
-      2: Highlighter := SynBaanSyn;
-      3: begin
-           Highlighter := ClassicCSSyn;
-           Color := clNavy;
-           ActiveLineColor := clBlue;
-         end;
-      4: begin
-           Highlighter := DefaultCSSyn;
-           ActiveLineColor := $E6FFFA;
-         end;
-      5: begin
-           Highlighter := TwilightCSSyn;
-           Color := clBlack;
-           ActiveLineColor := clGray;
-         end;
-      6: begin
-           Highlighter := ClassicCppSyn;
-           Color := clNavy;
-           ActiveLineColor := clBlue;
-         end;
-      7: begin
-           Highlighter := DefaultCppSyn;
-           ActiveLineColor := $E6FFFA;
-         end;
-      8: begin
-           Highlighter := TwilightCppSyn;
-           Color := clBlack;
-           ActiveLineColor := clGray;
-         end;
-      9: Highlighter := SynCACSyn;
-      10: Highlighter := SynCacheSyn;
-      11: Highlighter := SynWebCssSyn;
-      12: Highlighter := SynCobolSyn;
-      13: Highlighter := SynIdlSyn;
-      14: Highlighter := SynCPMSyn;
-      15: Highlighter := SynDOTSyn;
-      16: Highlighter := SynADSP21xxSyn;
-      17: Highlighter := SynDWSSyn;
-      18: Highlighter := SynEiffelSyn;
-      19: Highlighter := SynFortranSyn;
-      20: Highlighter := SynFoxproSyn;
-      21: Highlighter := SynGalaxySyn;
-      22: Highlighter := SynDmlSyn;
-      23: Highlighter := SynGWScriptSyn;
-      24: Highlighter := SynHaskellSyn;
-      25: Highlighter := SynHP48Syn;
-      26: begin
-            Highlighter := SynWebHtmlSyn;
-            OnPaintTransient := SynEditHTMLPaintTransient;
-            OnChange := SynEditHTMLOnChange;
-            FHTMLDocumentChanged := True;
-            HtmlVersion := OptionsContainer.HTMLVersion;
-            SynWebEngine.Options.HtmlVersion := HtmlVersion;
-          end;
-      27: Highlighter := SynIniSyn;
-      28: Highlighter := SynInnoSyn;
-      29: Highlighter := SynJavaSyn;
-      30: Highlighter := SynJScriptSyn;
-      31: Highlighter := SynKixSyn;
-      32: Highlighter := SynLDRSyn;
-      33: Highlighter := SynModelicaSyn;
-      34: Highlighter := SynM3Syn;
-      35: Highlighter := SynMsgSyn;
-      36: Highlighter := SynBatSyn;
-      37: begin
-            Highlighter := ClassicPasSyn;
-            Color := clNavy;
-            ActiveLineColor := clBlue;
-            OnPaintTransient := SynEditPASPaintTransient;
-          end;
-      38: begin
-            Highlighter := DefaultPasSyn;
-            ActiveLineColor := $E6FFFA;
-          end;
-      39: begin
-            Highlighter := TwilightPasSyn;
-            Color := clBlack;
-            ActiveLineColor := clGray;
-            OnPaintTransient := SynEditPASPaintTransient;
-          end;
-      40: Highlighter := SynPerlSyn;
-      41: Highlighter := SynProgressSyn;
-      42: Highlighter := SynPythonSyn;
-      43: Highlighter := SynRCSyn;
-      44: Highlighter := SynRubySyn;
-      45: Highlighter := SynSDDSyn;
-      46: begin
-            Highlighter := SynSQLSyn;
-            SynSQLSyn.SQLDialect := OptionsContainer.SQLDialect;
-          end;
-      47: Highlighter := SynSMLSyn;
-      48: Highlighter := SynSTSyn;
-      49: Highlighter := SynTclTkSyn;
-      50: Highlighter := SynTeXSyn;
-      52: Highlighter := SynUNIXShellScriptSyn;
-      53: Highlighter := SynVBSyn;
-      54: Highlighter := SynVBScriptSyn;
-      55: Highlighter := SynVrml97Syn;
-      56: Highlighter := SynAsmSyn;
-      57: Highlighter := SynWebXmlSyn;
+    SynEdit := ActiveSynEdit;
+    if Assigned(SynEdit) then
+    with SynEdit do
+    begin
+      Color := clWhite;
+      ActiveLineColor := clSkyBlue;
+      OnPaintTransient := nil;
+      HtmlVersion := shvUndefined;
+      SynWebEngine.Options.HtmlVersion := shvUndefined;
+      case Value of
+        3: begin
+             Color := clNavy;
+             ActiveLineColor := clBlue;
+           end;
+        4: ActiveLineColor := $E6FFFA;
+        5: begin
+             Color := clBlack;
+             ActiveLineColor := clGray;
+           end;
+        6: begin
+             Color := clNavy;
+             ActiveLineColor := clBlue;
+           end;
+        7: ActiveLineColor := $E6FFFA;
+        8: begin
+             Color := clBlack;
+             ActiveLineColor := clGray;
+           end;
+        26: begin
+              OnPaintTransient := SynEditHTMLPaintTransient;
+              OnChange := SynEditHTMLOnChange;
+              FHTMLDocumentChanged := True;
+              HtmlVersion := OptionsContainer.HTMLVersion;
+              SynWebEngine.Options.HtmlVersion := HtmlVersion;
+            end;
+        37: begin
+              Color := clNavy;
+              ActiveLineColor := clBlue;
+              OnPaintTransient := SynEditPASPaintTransient;
+            end;
+        38: ActiveLineColor := $E6FFFA;
+        39: begin
+              Color := clBlack;
+              ActiveLineColor := clGray;
+              OnPaintTransient := SynEditPASPaintTransient;
+            end;
+        46: SynSQLSyn.SQLDialect := OptionsContainer.SQLDialect;
+      end;
     end;
   end;
+
+  procedure SetActiveHighlighter;
+  var
+    DocTabSheetFrame: TDocTabSheetFrame;
+  begin
+    DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+    if Assigned(DocTabSheetFrame) then
+    with DocTabSheetFrame.SynMultiSyn do
+    begin
+      case Value of
+        0: DefaultHighlighter := SynHC11Syn;
+        1: DefaultHighlighter := SynAWKSyn;
+        2: DefaultHighlighter := SynBaanSyn;
+        3: DefaultHighlighter := ClassicCSSyn;
+        4: DefaultHighlighter := DefaultCSSyn;
+        5: DefaultHighlighter := TwilightCSSyn;
+        6: DefaultHighlighter := ClassicCppSyn;
+        7: DefaultHighlighter := DefaultCppSyn;
+        8: DefaultHighlighter := TwilightCppSyn;
+        9: DefaultHighlighter := SynCACSyn;
+        10: DefaultHighlighter := SynCacheSyn;
+        11: DefaultHighlighter := SynWebCssSyn;
+        12: DefaultHighlighter := SynCobolSyn;
+        13: DefaultHighlighter := SynIdlSyn;
+        14: DefaultHighlighter := SynCPMSyn;
+        15: DefaultHighlighter := SynDOTSyn;
+        16: DefaultHighlighter := SynADSP21xxSyn;
+        17: DefaultHighlighter := SynDWSSyn;
+        18: DefaultHighlighter := SynEiffelSyn;
+        19: DefaultHighlighter := SynFortranSyn;
+        20: DefaultHighlighter := SynFoxproSyn;
+        21: DefaultHighlighter := SynGalaxySyn;
+        22: DefaultHighlighter := SynDmlSyn;
+        23: DefaultHighlighter := SynGWScriptSyn;
+        24: DefaultHighlighter := SynHaskellSyn;
+        25: DefaultHighlighter := SynHP48Syn;
+        26: DefaultHighlighter := SynWebHtmlSyn;
+        27: DefaultHighlighter := SynIniSyn;
+        28: DefaultHighlighter := SynInnoSyn;
+        29: DefaultHighlighter := SynJavaSyn;
+        30: DefaultHighlighter := SynJScriptSyn;
+        31: DefaultHighlighter := SynKixSyn;
+        32: DefaultHighlighter := SynLDRSyn;
+        33: DefaultHighlighter := SynModelicaSyn;
+        34: DefaultHighlighter := SynM3Syn;
+        35: DefaultHighlighter := SynMsgSyn;
+        36: DefaultHighlighter := SynBatSyn;
+        37: DefaultHighlighter := ClassicPasSyn;
+        38: DefaultHighlighter := DefaultPasSyn;
+        39: DefaultHighlighter := TwilightPasSyn;
+        40: DefaultHighlighter := SynPerlSyn;
+        41: DefaultHighlighter := SynProgressSyn;
+        42: DefaultHighlighter := SynPythonSyn;
+        43: DefaultHighlighter := SynRCSyn;
+        44: DefaultHighlighter := SynRubySyn;
+        45: DefaultHighlighter := SynSDDSyn;
+        46: DefaultHighlighter := SynSQLSyn;
+        47: DefaultHighlighter := SynSMLSyn;
+        48: DefaultHighlighter := SynSTSyn;
+        49: DefaultHighlighter := SynTclTkSyn;
+        50: DefaultHighlighter := SynTeXSyn;
+        51: DefaultHighlighter := DocTabSheetFrame.SynURISyn;
+        52: DefaultHighlighter := SynUNIXShellScriptSyn;
+        53: DefaultHighlighter := SynVBSyn;
+        54: DefaultHighlighter := SynVBScriptSyn;
+        55: DefaultHighlighter := SynVrml97Syn;
+        56: DefaultHighlighter := SynAsmSyn;
+        57: DefaultHighlighter := SynWebXmlSyn;
+      end;
+    end;
+  end;
+begin
+  SetActiveSynEditProperties;
+  SetActiveHighlighter;
 end;
 
 function TDocumentFrame.GetSplitChecked: Boolean;

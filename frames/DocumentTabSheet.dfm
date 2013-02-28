@@ -133,7 +133,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
     Tag = 51
     URIAttri.Style = []
     VisitedURIAttri.Style = []
-    Left = 642
+    Left = 640
     Top = 102
   end
   object SynURIOpener: TSynURIOpener
