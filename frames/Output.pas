@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, JvExControls,
   JvLabel, Vcl.ActnList, Vcl.ImgList, Vcl.ToolWin, Vcl.StdCtrls, JvSpeedButton, JvExComCtrls,
   JvComCtrls, Vcl.Menus, BCPopupMenu, VirtualTrees, Vcl.PlatformDefaultStyleActnCtrls,
-  Vcl.ActnPopup, BCImageList, Vcl.Themes;
+  Vcl.ActnPopup, BCImageList, Vcl.Themes, OutputTabSheet;
 
 type
   TOutputFrame = class(TFrame)
@@ -36,8 +36,8 @@ type
     function GetCount: Integer;
     function GetIsAnyOutput: Boolean;
     function GetIsEmpty: Boolean;
+    function GetOutputTabSheetFrame(TabSheet: TTabSheet): TOutputTabSheetFrame;
     function TabFound(TabCaption: string): Boolean;
-    function VirtualDrawTree: TVirtualDrawTree;
     procedure SetProcessingTabSheet(Value: Boolean);
   public
     { Public declarations }
@@ -105,11 +105,8 @@ end;
 procedure TOutputFrame.AddTreeView(TabCaption: string; AutoExpand: Boolean);
 var
   TabSheet: TTabSheet;
-  TreeViewPanel: TPanel;
-  OutputTreeView: TVirtualDrawTree;
-  LStyles: TCustomStyleServices;
+  OutputTabSheetFrame: TOutputTabSheetFrame;
 begin
-  LStyles := StyleServices;
   { check if there already is a tab with same name }
   if TabFound(TabCaption) then
   begin
@@ -127,61 +124,22 @@ begin
   TabSheet.Caption := TabCaption;
   PageControl.ActivePage := TabSheet;
 
-  TreeViewPanel := TPanel.Create(PageControl);
-  with TreeViewPanel do
+  OutputTabSheetFrame := TOutputTabSheetFrame.Create(TabSheet);
+  with OutputTabSheetFrame do
   begin
+    Align := alClient;
     Parent := TabSheet;
-    Align := alClient;
-    BevelOuter := bvNone;
-    Padding.Top := 1;
-    Padding.Left := 1;
-    if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
-      Padding.Right := 3
-    else
-      Padding.Right := 1;
-    Padding.Bottom := 2;
-    ParentBackground := True;
-    ParentColor := True;
-  end;
-
-  OutputTreeView := TVirtualDrawTree.Create(TabSheet);
-  with OutputTreeView do
-  begin
-    Parent := TreeViewPanel;
-    Align := alClient;
-    DragOperations := [];
-    Header.Options := [];
-    ParentCtl3D := False;
-    Indent := 20; //16;
-    TreeOptions.AutoOptions := [toAutoDropExpand, toAutoScroll, toAutoChangeScale, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes];
-    TreeOptions.MiscOptions := [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning];
-    TreeOptions.PaintOptions := [toShowButtons, toShowRoot, toUseBlendedSelection, toThemeAware];
     if AutoExpand then
-      TreeOptions.AutoOptions := TreeOptions.AutoOptions + [toAutoExpand];
-    OnDrawNode := VirtualDrawTreeDrawNode;
-    OnFreeNode := VirtualDrawTreeFreeNode;
-    OnGetNodeWidth := VirtualDrawTreeGetNodeWidth;
-    OnDblClick := TabsheetDblClick;
-    Colors.GridLineColor := clScrollBar;
-    NodeDataSize := SizeOf(TOutputRec);
-    if LStyles.Enabled then
-      Color := LStyles.GetStyleColor(scEdit);
+      VirtualDrawTree.TreeOptions.AutoOptions := VirtualDrawTree.TreeOptions.AutoOptions + [toAutoExpand];
+    VirtualDrawTree.OnDrawNode := VirtualDrawTreeDrawNode;
+    VirtualDrawTree.OnFreeNode := VirtualDrawTreeFreeNode;
+    VirtualDrawTree.OnGetNodeWidth := VirtualDrawTreeGetNodeWidth;
+    VirtualDrawTree.OnDblClick := TabsheetDblClick;
+    VirtualDrawTree.NodeDataSize := SizeOf(TOutputRec);
   end;
+  UpdateControls;
   TabSheet.TabVisible := True;
   Self.Clear;
-end;
-
-function TOutputFrame.VirtualDrawTree: TVirtualDrawTree;
-var
-  i: Integer;
-begin
-  Result := nil;
-  for i := 0 to PageControl.ActivePage.ComponentCount - 1 do
-    if PageControl.ActivePage.Components[i] is TVirtualDrawTree then
-    begin
-      Result := TVirtualDrawTree(PageControl.ActivePage.Components[i]);
-      Break;
-    end;
 end;
 
 procedure TOutputFrame.AddTreeViewLine(Text: string);
@@ -345,7 +303,7 @@ var
   OutputTreeView: TVirtualDrawTree;
   S: WideString;
 begin
-  OutputTreeView := VirtualDrawTree;
+  OutputTreeView := GetOutputTabSheetFrame(PageControl.ActivePage).VirtualDrawTree;
   if not Assigned(OutputTreeView) then
     Exit;
 
@@ -354,7 +312,7 @@ begin
     Root := OutputTreeView.GetFirst;
     while Assigned(Root) do
     begin
-      NodeData := VirtualDrawTree.GetNodeData(Root);
+      NodeData := OutputTreeView.GetNodeData(Root);
       if String(NodeData.Filename) = FileName then
         Break;
       Root := OutputTreeView.GetNext(Root);
@@ -364,14 +322,14 @@ begin
   if not Assigned(Root) then
   begin
     Root := OutputTreeView.AddChild(nil);
-    NodeData := VirtualDrawTree.GetNodeData(Root);
+    NodeData := OutputTreeView.GetNodeData(Root);
     NodeData.Level := 0;
     NodeData.Filename := Filename;
 
   end;
 
   Node := OutputTreeView.AddChild(Root);
-  NodeData := VirtualDrawTree.GetNodeData(Node);
+  NodeData := OutputTreeView.GetNodeData(Node);
   NodeData.Level := 1;
   NodeData.Ln := Ln;
   NodeData.Ch := Ch;
@@ -406,7 +364,7 @@ procedure TOutputFrame.Clear;
 var
   OutputTreeView: TVirtualDrawTree;
 begin
-  OutputTreeView := VirtualDrawTree;
+  OutputTreeView := GetOutputTabSheetFrame(PageControl.ActivePage).VirtualDrawTree;
   if Assigned(OutputTreeView) then
   begin
     OutputTreeView.Clear;
@@ -421,7 +379,7 @@ var
   OutputTreeView: TVirtualDrawTree;
 begin
   Result := False;
-  OutputTreeView := VirtualDrawTree;
+  OutputTreeView := GetOutputTabSheetFrame(PageControl.ActivePage).VirtualDrawTree;
   if not Assigned(OutputTreeView) then
     Exit;
 
@@ -442,7 +400,7 @@ var
   OutputTreeView: TVirtualDrawTree;
 begin
   Result := False;
-  OutputTreeView := VirtualDrawTree;
+  OutputTreeView := GetOutputTabSheetFrame(PageControl.ActivePage).VirtualDrawTree;
   if not Assigned(OutputTreeView) then
     Exit;
   Result := OutputTreeView.GetFirst = nil;
@@ -453,7 +411,7 @@ var
   OutputTreeView: TVirtualDrawTree;
 begin
   Result := 0;
-  OutputTreeView := VirtualDrawTree;
+  OutputTreeView := GetOutputTabSheetFrame(PageControl.ActivePage).VirtualDrawTree;
   if not Assigned(OutputTreeView) then
     Exit;
   Result := OutputTreeView.Tag;
@@ -518,21 +476,44 @@ begin
   OutputCloseAction.Enabled := not Value;
 end;
 
+function TOutputFrame.GetOutputTabSheetFrame(TabSheet: TTabSheet): TOutputTabSheetFrame;
+begin
+  Result := nil;
+  if Assigned(TabSheet) then
+    if TabSheet.ComponentCount <> 0 then
+      if TabSheet.Components[0] is TOutputTabSheetFrame then
+        Result := TOutputTabSheetFrame(TabSheet.Components[0]);
+end;
+
 procedure TOutputFrame.UpdateControls;
 var
-  i, j: Integer;
+  i: Integer;
+  LStyles: TCustomStyleServices;
+  PanelColor: TColor;
+  OutputTabSheetFrame: TOutputTabSheetFrame;
 begin
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
 
+  LStyles := StyleServices;
+  PanelColor := clNone;
+  if LStyles.Enabled then
+    PanelColor := LStyles.GetStyleColor(scPanel);
   for i := 0 to PageControl.PageCount - 1 do
-    for j := 0 to PageControl.Pages[i].ComponentCount - 1 do
-      if PageControl.Pages[i].Components[j] is TPanel then
-      begin
-        if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
-          TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 3
-        else
-          TPanel(PageControl.Pages[i].Components[j]).Padding.Right := 1;
-      end;
+  begin
+    OutputTabSheetFrame := GetOutputTabSheetFrame(PageControl.Pages[i]);
+
+    if Assigned(OutputTabSheetFrame) then
+    begin
+      if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
+        OutputTabSheetFrame.Panel.Padding.Right := 3
+      else
+      if LStyles.Enabled and
+        (GetRValue(PanelColor) + GetGValue(PanelColor) + GetBValue(PanelColor) > 500) then
+        OutputTabSheetFrame.Panel.Padding.Right := 2
+      else
+        OutputTabSheetFrame.Panel.Padding.Right := 1;
+    end;
+  end;
 end;
 
 end.

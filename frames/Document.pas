@@ -1135,7 +1135,6 @@ begin
   end;
 
   CheckHTMLErrors;
-
 end;
 
 function TDocumentFrame.Save(TabSheet: TTabSheet; ShowDialog: Boolean): string;
@@ -2337,19 +2336,19 @@ end;
 procedure TDocumentFrame.CheckHTMLErrors;
 var
   i: Integer;
-  hl: TSynWebBase;
-  e: TBCSynEdit;
+  SynWebBase: TSynWebBase;
+  DocTabSheetFrame: TDocTabSheetFrame;
 
   procedure AddError(S: WideString);
   var
     OutputObject: POutputRec;
   begin
-    S := Format(S, [hl.GetToken]);
+    S := Format(S, [SynWebBase.GetToken]);
 
     System.New(OutputObject);
-    OutputObject.FileName := e.DocumentName;
+    OutputObject.FileName := DocTabSheetFrame.SynEdit.DocumentName;
     OutputObject.Ln := i + 1;
-    OutputObject.Ch := hl.GetTokenPos + 1;
+    OutputObject.Ch := SynWebBase.GetTokenPos + 1;
     OutputObject.Text := ShortString(S);
 
     FHTMLErrorList.Add(OutputObject);
@@ -2358,24 +2357,26 @@ var
 begin
   if not OptionsContainer.HTMLErrorChecking then
     Exit;
-  e := ActiveSynEdit;
-  if not Assigned(e) then
+
+  DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+  if not Assigned(DocTabSheetFrame) then
     Exit;
 
   DestroyHTMLErrorListItems;
 
-  SynWebEngine.Options.HtmlVersion := e.HtmlVersion;
-  if e.Highlighter is TSynWebBase then
+  SynWebEngine.Options.HtmlVersion := DocTabSheetFrame.SynEdit.HtmlVersion;
+
+  if DocTabSheetFrame.SynMultiSyn.DefaultHighlighter is TSynWebBase then
   begin
-    hl := TSynWebBase(e.Highlighter);
-    hl.ResetRange;
+    SynWebBase := TSynWebBase(DocTabSheetFrame.SynMultiSyn.DefaultHighlighter);
+    SynWebBase.ResetRange;
     i := 0;
-    while i < e.Lines.Count do
+    while i < DocTabSheetFrame.SynEdit.Lines.Count do
     begin
-      hl.SetLine(e.Lines[i], i + 1);
-      while not hl.GetEol do
+      SynWebBase.SetLine(DocTabSheetFrame.SynEdit.Lines[i], i + 1);
+      while not SynWebBase.GetEol do
       begin
-        case hl.GetTokenID of
+        case SynWebBase.GetTokenID of
           stkMLTagNameUndef:
             AddError(LanguageDataModule.GetConstant('InvalidHTMLTag'));
           stkMLTagKeyUndef:
@@ -2398,7 +2399,7 @@ begin
           stkPhpError:
             AddError(LanguageDataModule.GetConstant('InvalidPHPToken'));
         end;
-        hl.Next;
+        SynWebBase.Next;
       end;
       Inc(i);
     end;

@@ -32,7 +32,8 @@ uses
   LanguageEditor in 'forms\LanguageEditor.pas' {LanguageEditorForm},
   DocumentTabSheet in 'frames\DocumentTabSheet.pas' {DocTabSheetFrame: TFrame},
   Encoding in '..\..\Common\units\Encoding.pas',
-  DirectoryTabSheet in 'frames\DirectoryTabSheet.pas' {DirTabSheetFrame: TFrame};
+  DirectoryTabSheet in 'frames\DirectoryTabSheet.pas' {DirTabSheetFrame: TFrame},
+  OutputTabSheet in 'frames\OutputTabSheet.pas' {OutputTabSheetFrame: TFrame};
 
 {$R *.res}
 
