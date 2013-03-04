@@ -596,7 +596,7 @@ begin
   begin
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
     if Assigned(DocTabSheetFrame) then
-      if DocTabSheetFrame.SynMultiSyn.DefaultHighlighter = SynWebXmlSyn then
+      if DocTabSheetFrame.SynEdit.Highlighter = SynWebXmlSyn then
       begin
         DocTabSheetFrame.XMLTreeVisible := not DocTabSheetFrame.XMLTreeVisible;
         if DocTabSheetFrame.XMLTreeVisible then
@@ -666,6 +666,7 @@ begin
     end;
     OptionsContainer.AssignTo(SynEdit);
     SynWebEngine.Options.HtmlVersion := shvUndefined;
+
     if Filename <> '' then
     begin
       SynEdit.LoadFromFile(FileName);
@@ -821,7 +822,7 @@ procedure TDocumentFrame.UpdateGutterAndColors(DocTabSheetFrame: TDocTabSheetFra
       SynEdit.SelectedColor.Background := LStyles.GetSystemColor(clHighlight);
       SynEdit.SelectedColor.Foreground := LStyles.GetSystemColor(clHighlightText);
 
-      Highlighter := DocTabSheetFrame.SynMultiSyn.DefaultHighlighter;
+      Highlighter := DocTabSheetFrame.SynEdit.Highlighter;
 
       if Assigned(Highlighter) and
        ( (Highlighter = ClassicCSSyn) or (Highlighter = DefaultCSSyn) or (Highlighter = TwilightCSSyn) or
@@ -1291,8 +1292,8 @@ end;
 procedure TDocumentFrame.SetMainHighlighterCombo(DocTabSheetFrame: TDocTabSheetFrame);
 begin
   if Assigned(DocTabSheetFrame) then
-    if Assigned(DocTabSheetFrame.SynMultiSyn.DefaultHighlighter) then
-      MainForm.HighlighterComboIndex := DocTabSheetFrame.SynMultiSyn.DefaultHighlighter.Tag
+    if Assigned(DocTabSheetFrame.SynEdit.Highlighter) then
+      MainForm.HighlighterComboIndex := DocTabSheetFrame.SynEdit.Highlighter.Tag
 end;
 
 procedure TDocumentFrame.SetMainEncodingCombo(SynEdit: TBCSynEdit);
@@ -2366,9 +2367,9 @@ begin
 
   SynWebEngine.Options.HtmlVersion := DocTabSheetFrame.SynEdit.HtmlVersion;
 
-  if DocTabSheetFrame.SynMultiSyn.DefaultHighlighter is TSynWebBase then
+  if DocTabSheetFrame.SynEdit.Highlighter is TSynWebBase then
   begin
-    SynWebBase := TSynWebBase(DocTabSheetFrame.SynMultiSyn.DefaultHighlighter);
+    SynWebBase := TSynWebBase(DocTabSheetFrame.SynEdit.Highlighter);
     SynWebBase.ResetRange;
     i := 0;
     while i < DocTabSheetFrame.SynEdit.Lines.Count do
@@ -3030,67 +3031,67 @@ procedure TDocumentFrame.SetActiveHighlighter(Value: Integer);
   begin
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
     if Assigned(DocTabSheetFrame) then
-    with DocTabSheetFrame.SynMultiSyn do
+    with DocTabSheetFrame.SynEdit do
     begin
       case Value of
-        0: DefaultHighlighter := SynHC11Syn;
-        1: DefaultHighlighter := SynAWKSyn;
-        2: DefaultHighlighter := SynBaanSyn;
-        3: DefaultHighlighter := ClassicCSSyn;
-        4: DefaultHighlighter := DefaultCSSyn;
-        5: DefaultHighlighter := TwilightCSSyn;
-        6: DefaultHighlighter := ClassicCppSyn;
-        7: DefaultHighlighter := DefaultCppSyn;
-        8: DefaultHighlighter := TwilightCppSyn;
-        9: DefaultHighlighter := SynCACSyn;
-        10: DefaultHighlighter := SynCacheSyn;
-        11: DefaultHighlighter := SynWebCssSyn;
-        12: DefaultHighlighter := SynCobolSyn;
-        13: DefaultHighlighter := SynIdlSyn;
-        14: DefaultHighlighter := SynCPMSyn;
-        15: DefaultHighlighter := SynDOTSyn;
-        16: DefaultHighlighter := SynADSP21xxSyn;
-        17: DefaultHighlighter := SynDWSSyn;
-        18: DefaultHighlighter := SynEiffelSyn;
-        19: DefaultHighlighter := SynFortranSyn;
-        20: DefaultHighlighter := SynFoxproSyn;
-        21: DefaultHighlighter := SynGalaxySyn;
-        22: DefaultHighlighter := SynDmlSyn;
-        23: DefaultHighlighter := SynGWScriptSyn;
-        24: DefaultHighlighter := SynHaskellSyn;
-        25: DefaultHighlighter := SynHP48Syn;
-        26: DefaultHighlighter := SynWebHtmlSyn;
-        27: DefaultHighlighter := SynIniSyn;
-        28: DefaultHighlighter := SynInnoSyn;
-        29: DefaultHighlighter := SynJavaSyn;
-        30: DefaultHighlighter := SynJScriptSyn;
-        31: DefaultHighlighter := SynKixSyn;
-        32: DefaultHighlighter := SynLDRSyn;
-        33: DefaultHighlighter := SynModelicaSyn;
-        34: DefaultHighlighter := SynM3Syn;
-        35: DefaultHighlighter := SynMsgSyn;
-        36: DefaultHighlighter := SynBatSyn;
-        37: DefaultHighlighter := ClassicPasSyn;
-        38: DefaultHighlighter := DefaultPasSyn;
-        39: DefaultHighlighter := TwilightPasSyn;
-        40: DefaultHighlighter := SynPerlSyn;
-        41: DefaultHighlighter := SynProgressSyn;
-        42: DefaultHighlighter := SynPythonSyn;
-        43: DefaultHighlighter := SynRCSyn;
-        44: DefaultHighlighter := SynRubySyn;
-        45: DefaultHighlighter := SynSDDSyn;
-        46: DefaultHighlighter := SynSQLSyn;
-        47: DefaultHighlighter := SynSMLSyn;
-        48: DefaultHighlighter := SynSTSyn;
-        49: DefaultHighlighter := SynTclTkSyn;
-        50: DefaultHighlighter := SynTeXSyn;
-        51: DefaultHighlighter := DocTabSheetFrame.SynURISyn;
-        52: DefaultHighlighter := SynUNIXShellScriptSyn;
-        53: DefaultHighlighter := SynVBSyn;
-        54: DefaultHighlighter := SynVBScriptSyn;
-        55: DefaultHighlighter := SynVrml97Syn;
-        56: DefaultHighlighter := SynAsmSyn;
-        57: DefaultHighlighter := SynWebXmlSyn;
+        0: Highlighter := SynHC11Syn;
+        1: Highlighter := SynAWKSyn;
+        2: Highlighter := SynBaanSyn;
+        3: Highlighter := ClassicCSSyn;
+        4: Highlighter := DefaultCSSyn;
+        5: Highlighter := TwilightCSSyn;
+        6: Highlighter := ClassicCppSyn;
+        7: Highlighter := DefaultCppSyn;
+        8: Highlighter := TwilightCppSyn;
+        9: Highlighter := SynCACSyn;
+        10: Highlighter := SynCacheSyn;
+        11: Highlighter := SynWebCssSyn;
+        12: Highlighter := SynCobolSyn;
+        13: Highlighter := SynIdlSyn;
+        14: Highlighter := SynCPMSyn;
+        15: Highlighter := SynDOTSyn;
+        16: Highlighter := SynADSP21xxSyn;
+        17: Highlighter := SynDWSSyn;
+        18: Highlighter := SynEiffelSyn;
+        19: Highlighter := SynFortranSyn;
+        20: Highlighter := SynFoxproSyn;
+        21: Highlighter := SynGalaxySyn;
+        22: Highlighter := SynDmlSyn;
+        23: Highlighter := SynGWScriptSyn;
+        24: Highlighter := SynHaskellSyn;
+        25: Highlighter := SynHP48Syn;
+        26: Highlighter := SynWebHtmlSyn;
+        27: Highlighter := SynIniSyn;
+        28: Highlighter := SynInnoSyn;
+        29: Highlighter := SynJavaSyn;
+        30: Highlighter := SynJScriptSyn;
+        31: Highlighter := SynKixSyn;
+        32: Highlighter := SynLDRSyn;
+        33: Highlighter := SynModelicaSyn;
+        34: Highlighter := SynM3Syn;
+        35: Highlighter := SynMsgSyn;
+        36: Highlighter := SynBatSyn;
+        37: Highlighter := ClassicPasSyn;
+        38: Highlighter := DefaultPasSyn;
+        39: Highlighter := TwilightPasSyn;
+        40: Highlighter := SynPerlSyn;
+        41: Highlighter := SynProgressSyn;
+        42: Highlighter := SynPythonSyn;
+        43: Highlighter := SynRCSyn;
+        44: Highlighter := SynRubySyn;
+        45: Highlighter := SynSDDSyn;
+        46: Highlighter := SynSQLSyn;
+        47: Highlighter := SynSMLSyn;
+        48: Highlighter := SynSTSyn;
+        49: Highlighter := SynTclTkSyn;
+        50: Highlighter := SynTeXSyn;
+        51: Highlighter := DocTabSheetFrame.SynURISyn;
+        52: Highlighter := SynUNIXShellScriptSyn;
+        53: Highlighter := SynVBSyn;
+        54: Highlighter := SynVBScriptSyn;
+        55: Highlighter := SynVrml97Syn;
+        56: Highlighter := SynAsmSyn;
+        57: Highlighter := SynWebXmlSyn;
       end;
     end;
   end;
@@ -3200,7 +3201,7 @@ begin
   Result := False;
   DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
   if Assigned(DocTabSheetFrame) then
-    Result := DocTabSheetFrame.SynMultiSyn.DefaultHighlighter = SynWebXmlSyn;
+    Result := DocTabSheetFrame.SynEdit.Highlighter = SynWebXmlSyn;
 end;
 
 procedure TDocumentFrame.SelectHighLighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);
@@ -3273,7 +3274,6 @@ procedure TDocumentFrame.SelectHighLighter(DocTabSheetFrame: TDocTabSheetFrame; 
           ActiveLineColor := $E6FFFA
         else
         begin
-          Highlighter := TwilightPasSyn;
           Color := clBlack;
           ActiveLineColor := clGray;
           OnPaintTransient := SynEditPASPaintTransient;
@@ -3287,142 +3287,165 @@ procedure TDocumentFrame.SelectHighLighter(DocTabSheetFrame: TDocTabSheetFrame; 
   procedure SetHighlighter;
   var
     FileExt: string;
+
+    function IsExtInFileType(Ext: string; FileType: TFileType): Boolean;
+    var
+      s, FileTypes: string;
+    begin
+      Result := False;
+      Ext := '*' + Ext;
+      FileTypes := OptionsContainer.FileType(FileType);
+      if Pos(';', FileTypes) <> 0 then
+      begin
+        while Pos(';', FileTypes) <> 0 do
+        begin
+          s := System.Copy(FileTypes, 1,  Pos(';', FileTypes) - 1);
+          Result := Ext = s;
+          if Result then
+            Exit;
+          FileTypes := System.Copy(FileTypes, Pos(';', FileTypes) + 1, Length(FileTypes));
+        end;
+      end
+      else
+        Result := Ext = FileTypes;
+    end;
+
   begin
     FileExt := UpperCase(ExtractFileExt(FileName));
-    with DocTabSheetFrame.SynMultiSyn do
+    with DocTabSheetFrame.SynEdit do
     begin
-      if Pos(FileExt, OptionsContainer.FileType(ftHC11)) <> 0 then
-        DefaultHighlighter := SynHC11Syn
+      if IsExtInFileType(FileExt, ftHC11) then
+        Highlighter := SynHC11Syn
       else
-      if Pos(FileExt, OptionsContainer.FileType(ftAWK)) <> 0 then
-        DefaultHighlighter := SynAWKSyn
+      if IsExtInFileType(FileExt, ftAWK) then
+        Highlighter := SynAWKSyn
       else
-      if Pos(FileExt, OptionsContainer.FileType(ftBaan)) <> 0 then
-        DefaultHighlighter := SynBaanSyn
+      if IsExtInFileType(FileExt, ftBaan) then
+        Highlighter := SynBaanSyn
       else
-      if Pos(FileExt, OptionsContainer.FileType(ftCS)) <> 0 then
+      if IsExtInFileType(FileExt, ftCS) then
       begin
         if OptionsContainer.CPASHighlighter = hClassic then
-          DefaultHighlighter := ClassicCSSyn
+          Highlighter := ClassicCSSyn
         else
         if OptionsContainer.CPASHighlighter = hDefault then
-          DefaultHighlighter := DefaultCSSyn
+          Highlighter := DefaultCSSyn
         else
-          DefaultHighlighter := TwilightCSSyn;
+          Highlighter := TwilightCSSyn;
       end
-      else if Pos(FileExt, OptionsContainer.FileType(ftCPP)) <> 0 then
+      else if IsExtInFileType(FileExt, ftCPP) then
       begin
         if OptionsContainer.CPASHighlighter = hClassic then
-          DefaultHighlighter := ClassicCppSyn
+          Highlighter := ClassicCppSyn
         else
         if OptionsContainer.CPASHighlighter = hDefault then
-          DefaultHighlighter := DefaultCppSyn
+          Highlighter := DefaultCppSyn
         else
-          DefaultHighlighter := TwilightCppSyn;
+          Highlighter := TwilightCppSyn;
       end
-      else if Pos(FileExt, OptionsContainer.FileType(ftCAC)) <> 0 then
-        DefaultHighlighter := SynCACSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftCache)) <> 0 then
-        DefaultHighlighter := SynCacheSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftCss)) <> 0 then
-        DefaultHighlighter := SynWebCssSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftCobol)) <> 0 then
-        DefaultHighlighter := SynCobolSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftIdl)) <> 0 then
-        DefaultHighlighter := SynIdlSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftCPM)) <> 0 then
-        DefaultHighlighter := SynCPMSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftDOT)) <> 0 then
-        DefaultHighlighter := SynDOTSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftADSP21xx)) <> 0 then
-        DefaultHighlighter := SynADSP21xxSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftDWScript)) <> 0 then
-        DefaultHighlighter := SynDWSSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftEiffel)) <> 0 then
-        DefaultHighlighter := SynEiffelSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftFortran)) <> 0 then
-        DefaultHighlighter := SynFortranSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftFoxpro)) <> 0 then
-        DefaultHighlighter := SynFoxproSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftGalaxy)) <> 0 then
-        DefaultHighlighter := SynGalaxySyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftDml)) <> 0 then
-        DefaultHighlighter := SynDmlSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftGWScript)) <> 0 then
-        DefaultHighlighter := SynGWScriptSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftHaskell)) <> 0 then
-        DefaultHighlighter := SynHaskellSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftHP48)) <> 0 then
-        DefaultHighlighter := SynHP48Syn
-      else if (Pos(FileExt, OptionsContainer.FileType(ftHTML)) <> 0) or
-        (Pos(FileExt, OptionsContainer.FileType(ftPHP)) <> 0) then
-        DefaultHighlighter := SynWebHtmlSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftIni)) <> 0 then
-        DefaultHighlighter := SynIniSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftInno)) <> 0 then
-        DefaultHighlighter := SynInnoSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftJava)) <> 0 then
-        DefaultHighlighter := SynJavaSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftJScript)) <> 0 then
-        DefaultHighlighter := SynJScriptSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftKix)) <> 0 then
-        DefaultHighlighter := SynKixSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftLDR)) <> 0 then
-        DefaultHighlighter := SynLDRSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftModelica)) <> 0 then
-        DefaultHighlighter := SynModelicaSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftM3)) <> 0 then
-        DefaultHighlighter := SynM3Syn
-      else if Pos(FileExt, OptionsContainer.FileType(ftMsg)) <> 0 then
-        DefaultHighlighter := SynMsgSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftBat)) <> 0 then
-        DefaultHighlighter := SynBatSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftPas)) <> 0 then
+      else if IsExtInFileType(FileExt, ftCAC) then
+        Highlighter := SynCACSyn
+      else if IsExtInFileType(FileExt, ftCache) then
+        Highlighter := SynCacheSyn
+      else if IsExtInFileType(FileExt, ftCss) then
+        Highlighter := SynWebCssSyn
+      else if IsExtInFileType(FileExt, ftCobol) then
+        Highlighter := SynCobolSyn
+      else if IsExtInFileType(FileExt, ftIdl) then
+        Highlighter := SynIdlSyn
+      else if IsExtInFileType(FileExt, ftCPM) then
+        Highlighter := SynCPMSyn
+      else if IsExtInFileType(FileExt, ftDOT) then
+        Highlighter := SynDOTSyn
+      else if IsExtInFileType(FileExt, ftADSP21xx) then
+        Highlighter := SynADSP21xxSyn
+      else if IsExtInFileType(FileExt, ftDWScript) then
+        Highlighter := SynDWSSyn
+      else if IsExtInFileType(FileExt, ftEiffel) then
+        Highlighter := SynEiffelSyn
+      else if IsExtInFileType(FileExt, ftFortran) then
+        Highlighter := SynFortranSyn
+      else if IsExtInFileType(FileExt, ftFoxpro) then
+        Highlighter := SynFoxproSyn
+      else if IsExtInFileType(FileExt, ftGalaxy) then
+        Highlighter := SynGalaxySyn
+      else if IsExtInFileType(FileExt, ftDml) then
+        Highlighter := SynDmlSyn
+      else if IsExtInFileType(FileExt, ftGWScript) then
+        Highlighter := SynGWScriptSyn
+      else if IsExtInFileType(FileExt, ftHaskell) then
+        Highlighter := SynHaskellSyn
+      else if IsExtInFileType(FileExt, ftHP48) then
+        Highlighter := SynHP48Syn
+      else if (IsExtInFileType(FileExt, ftHTML)) or
+        (IsExtInFileType(FileExt, ftPHP)) then
+        Highlighter := SynWebHtmlSyn
+      else if IsExtInFileType(FileExt, ftIni) then
+        Highlighter := SynIniSyn
+      else if IsExtInFileType(FileExt, ftInno) then
+        Highlighter := SynInnoSyn
+      else if IsExtInFileType(FileExt, ftJava) then
+        Highlighter := SynJavaSyn
+      else if IsExtInFileType(FileExt, ftJScript) then
+        Highlighter := SynJScriptSyn
+      else if IsExtInFileType(FileExt, ftKix) then
+        Highlighter := SynKixSyn
+      else if IsExtInFileType(FileExt, ftLDR) then
+        Highlighter := SynLDRSyn
+      else if IsExtInFileType(FileExt, ftModelica) then
+        Highlighter := SynModelicaSyn
+      else if IsExtInFileType(FileExt, ftM3) then
+        Highlighter := SynM3Syn
+      else if IsExtInFileType(FileExt, ftMsg) then
+        Highlighter := SynMsgSyn
+      else if IsExtInFileType(FileExt, ftBat) then
+        Highlighter := SynBatSyn
+      else if IsExtInFileType(FileExt, ftPas) then
       begin
         if OptionsContainer.CPASHighlighter = hClassic then
-          DefaultHighlighter := ClassicPasSyn
+          Highlighter := ClassicPasSyn
         else
         if OptionsContainer.CPASHighlighter = hDefault then
-          DefaultHighlighter := DefaultPasSyn
+          Highlighter := DefaultPasSyn
         else
-          DefaultHighlighter := TwilightPasSyn
+          Highlighter := TwilightPasSyn
       end
-      else if Pos(FileExt, OptionsContainer.FileType(ftPerl)) <> 0 then
-        DefaultHighlighter := SynPerlSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftProgress)) <> 0 then
-        DefaultHighlighter := SynProgressSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftPython)) <> 0 then
-        DefaultHighlighter := SynPythonSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftRC)) <> 0 then
-        DefaultHighlighter := SynRCSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftRuby)) <> 0 then
-        DefaultHighlighter := SynRubySyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftSDD)) <> 0 then
-        DefaultHighlighter := SynSDDSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftSQL)) <> 0 then
-        DefaultHighlighter := SynSQLSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftSML)) <> 0 then
-        DefaultHighlighter := SynSMLSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftST)) <> 0 then
-        DefaultHighlighter := SynSTSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftTclTk)) <> 0 then
-        DefaultHighlighter := SynTclTkSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftTeX)) <> 0 then
-        DefaultHighlighter := SynTeXSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftUNIXShellScript)) <> 0 then
-        DefaultHighlighter := SynUNIXShellScriptSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftVB)) <> 0 then
-        DefaultHighlighter := SynVBSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftVBScript)) <> 0 then
-        DefaultHighlighter := SynVBScriptSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftVrml97)) <> 0 then
-        DefaultHighlighter := SynVrml97Syn
-      else if Pos(FileExt, OptionsContainer.FileType(ftAsm)) <> 0 then
-        DefaultHighlighter := SynAsmSyn
-      else if Pos(FileExt, OptionsContainer.FileType(ftXML)) <> 0 then
-        DefaultHighlighter := SynWebXMLSyn
+      else if IsExtInFileType(FileExt, ftPerl) then
+        Highlighter := SynPerlSyn
+      else if IsExtInFileType(FileExt, ftProgress) then
+        Highlighter := SynProgressSyn
+      else if IsExtInFileType(FileExt, ftPython) then
+        Highlighter := SynPythonSyn
+      else if IsExtInFileType(FileExt, ftRC) then
+        Highlighter := SynRCSyn
+      else if IsExtInFileType(FileExt, ftRuby) then
+        Highlighter := SynRubySyn
+      else if IsExtInFileType(FileExt, ftSDD) then
+        Highlighter := SynSDDSyn
+      else if IsExtInFileType(FileExt, ftSQL) then
+        Highlighter := SynSQLSyn
+      else if IsExtInFileType(FileExt, ftSML) then
+        Highlighter := SynSMLSyn
+      else if IsExtInFileType(FileExt, ftST) then
+        Highlighter := SynSTSyn
+      else if IsExtInFileType(FileExt, ftTclTk) then
+        Highlighter := SynTclTkSyn
+      else if IsExtInFileType(FileExt, ftTeX) then
+        Highlighter := SynTeXSyn
+      else if IsExtInFileType(FileExt, ftUNIXShellScript) then
+        Highlighter := SynUNIXShellScriptSyn
+      else if IsExtInFileType(FileExt, ftVB) then
+        Highlighter := SynVBSyn
+      else if IsExtInFileType(FileExt, ftVBScript) then
+        Highlighter := SynVBScriptSyn
+      else if IsExtInFileType(FileExt, ftVrml97) then
+        Highlighter := SynVrml97Syn
+      else if IsExtInFileType(FileExt, ftAsm) then
+        Highlighter := SynAsmSyn
+      else if IsExtInFileType(FileExt, ftXML) then
+        Highlighter := SynWebXMLSyn
       else
-        DefaultHighlighter := DocTabSheetFrame.SynURISyn;
+        Highlighter := DocTabSheetFrame.SynURISyn;
     end;
   end;
 

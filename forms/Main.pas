@@ -753,6 +753,7 @@ begin
   IsXMLDocument := FDocumentFrame.IsXMLDocument;
   ViewToolbarAction.Checked := ActionToolBar.Visible;
   ViewOutputAction.Checked := OutputPanel.Visible;
+  ViewDirectoryAction.Enabled := FDirectoryFrame.IsAnyDirectory;
   ViewDirectoryAction.Checked := DirectoryPanel.Visible;
   HorizontalSplitter.Visible := OutputPanel.Visible;
 

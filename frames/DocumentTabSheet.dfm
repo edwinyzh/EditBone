@@ -88,7 +88,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
         Gutter.ShowLineNumbers = True
-        Highlighter = SynMultiSyn
         Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
         WantTabs = True
       end
@@ -113,7 +112,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
         Gutter.ShowLineNumbers = True
-        Highlighter = SynMultiSyn
         Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
         WantTabs = True
       end
@@ -123,11 +121,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
     Left = 310
     Top = 28
     DOMVendorDesc = 'MSXML'
-  end
-  object SynMultiSyn: TSynMultiSyn
-    Schemes = <>
-    Left = 310
-    Top = 86
   end
   object SynURISyn: TSynURISyn
     Tag = 51

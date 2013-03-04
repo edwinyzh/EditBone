@@ -466,7 +466,6 @@ object OptionsDialog: TOptionsDialog
                 Margins.Right = 4
                 Margins.Bottom = 4
                 DropDownCount = 9
-                ItemHeight = 13
                 ReadOnly = False
                 TabOrder = 0
                 EditColor = clInfoBk
@@ -501,7 +500,6 @@ object OptionsDialog: TOptionsDialog
                 Margins.Bottom = 4
                 Anchors = [akTop, akRight]
                 DropDownCount = 9
-                ItemHeight = 13
                 ReadOnly = False
                 TabOrder = 0
                 EditColor = clInfoBk
@@ -545,7 +543,6 @@ object OptionsDialog: TOptionsDialog
                 Margins.Right = 4
                 Margins.Bottom = 4
                 Anchors = [akTop, akRight]
-                ItemHeight = 13
                 ReadOnly = False
                 TabOrder = 0
                 EditColor = clInfoBk

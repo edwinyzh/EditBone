@@ -89,7 +89,7 @@ type
     function Execute(EditOptions: TOptionsContainer) : Boolean;
   end;
 
-  TFileTypes = (ftHC11, ftAWK, ftBaan, ftCS, ftCPP, ftCAC, ftCache, ftCss, ftCobol, ftIdl,
+  TFileType = (ftHC11, ftAWK, ftBaan, ftCS, ftCPP, ftCAC, ftCache, ftCss, ftCobol, ftIdl,
     ftCPM, ftDOT, ftADSP21xx, ftDWScript, ftEiffel, ftFortran, ftFoxpro, ftGalaxy, ftDml, ftGWScript, ftHaskell,
     ftHP48, ftHTML, ftIni, ftInno, ftJava, ftJScript, ftKix, ftLDR, ftModelica, ftM3,
     ftMsg, ftBat, ftPas, ftPerl, ftPHP, ftProgress, ftPython, ftRC, ftRuby, ftSDD,
@@ -121,7 +121,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure AssignTo(Dest: TPersistent); override;
-    function FileType(FileType: TFileTypes): string;
+    function FileType(FileType: TFileType): string;
   published
     property FontName: string read FFontName write FFontName;
     property FontSize: Integer read FFontSize write FFontSize;
@@ -152,7 +152,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, Lib, StyleHooks, Language;
+  Common, Lib, StyleHooks, Language, SynHighlighterMulti;
 
 { TOptionsContainer }
 
@@ -203,7 +203,7 @@ begin
     inherited;
 end;
 
-function TOptionsContainer.FileType(FileType: TFileTypes): string;
+function TOptionsContainer.FileType(FileType: TFileType): string;
 begin
   if FileType = ftHC11 then
     Result := FFileTypes.Strings[0]

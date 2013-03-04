@@ -20,7 +20,6 @@ type
     Panel: TPanel;
     SplitSynEdit: TBCSynEdit;
     SynEdit: TBCSynEdit;
-    SynMultiSyn: TSynMultiSyn;
     SynURIOpener: TSynURIOpener;
     SynURISyn: TSynURISyn;
     VerticalSplitter: TSplitter;
