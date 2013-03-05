@@ -14,7 +14,7 @@ type
   TObjectNodeRec = record
     Level: Byte;
     ValueType: array[0..3] of TValueType;
-    Value: array[0..3] of string;
+    Value: array[0..3] of UnicodeString;
     ImageIndex: Byte;
   end;
 
@@ -96,7 +96,7 @@ implementation
 {$R *.dfm}
 
 uses
-  BigINI, Common, Language, CommonDialogs, Vcl.Themes, Vcl.StdCtrls, Vcl.Menus;
+  System.IniFiles, Common, Language, CommonDialogs, Vcl.Themes, Vcl.StdCtrls, Vcl.Menus;
 
 
 const
@@ -307,7 +307,7 @@ end;
 
 procedure TLanguageEditorForm.ReadIniFile;
 begin
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TMemIniFile.Create(Common.GetINIFilename) do
   try
     { Size }
     Width := ReadInteger('LanguageEditorSize', 'Width', Round(Screen.Width * 0.5));
@@ -323,7 +323,7 @@ end;
 procedure TLanguageEditorForm.WriteIniFile;
 begin
   if Windowstate = wsNormal then
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TMemIniFile.Create(Common.GetINIFilename) do
   try
     { Position }
     WriteInteger('LanguageEditorPosition', 'Left', Left);
@@ -332,6 +332,7 @@ begin
     WriteInteger('LanguageEditorSize', 'Width', Width);
     WriteInteger('LanguageEditorSize', 'Height', Height);
   finally
+    UpdateFile;
     Free;
   end;
 end;
@@ -341,7 +342,7 @@ var
   Node, ChildNode: PVirtualNode;
   Data, ChildData: PObjectNodeRec;
 begin
-  with TBigIniFile.Create(FileName) do
+  with TMemIniFile.Create(FileName, TEncoding.Unicode) do
   try
      Node := VirtualDrawTree.GetFirst;
      while Assigned(Node) do
@@ -365,6 +366,7 @@ begin
        Node := Node.NextSibling;
      end;
   finally
+    UpdateFile;
     Free;
   end;
 end;
@@ -586,7 +588,7 @@ begin
   VirtualDrawTree.BeginUpdate;
   VirtualDrawTree.Clear;
   SectionStringList := TStringList.Create;
-  with TBigIniFile.Create(FileName) do
+  with TMemIniFile.Create(FileName, TEncoding.Unicode) do
   try
     ReadSections(SectionStringList);
     for i := 0 to SectionStringList.Count - 1 do
@@ -664,7 +666,7 @@ begin
       FileName := System.Copy(FileName, 0, Length(FileName) - 1);
 
     StringList := TStringList.Create;
-    with TBigIniFile.Create(FileName) do
+    with TMemIniFile.Create(FileName, TEncoding.Unicode) do
     try
       ReadSectionValues(String(Data.Value[0]), StringList);
       for i := 0 to StringList.Count - 1 do

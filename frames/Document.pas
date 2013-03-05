@@ -436,7 +436,7 @@ begin
 
   PageControl.Images := TBCImageList.Create(Self);
 
-  SysImageList := SHGetFileInfo(PChar(PathInfo), 0, SHFileInfo, SizeOf(TSHFileInfo), SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
+  SysImageList := SHGetFileInfo(PChar(PathInfo), 0, SHFileInfo, SizeOf(SHFileInfo), SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
   if SysImageList <> 0 then
   begin
     PageControl.Images.Handle := SysImageList;
@@ -575,7 +575,7 @@ function GetIconIndex(Name: string; Flags: Cardinal): Integer;
 var
   SFI: TSHFileInfo;
 begin
-  if SHGetFileInfo(PChar(Name), 0, SFI, SizeOf(TSHFileInfo), Flags) = 0 then
+  if SHGetFileInfo(PChar(Name), 0, SFI, SizeOf(SHFileInfo), Flags) = 0 then
     Result := -1
   else
     Result := SFI.iIcon;
