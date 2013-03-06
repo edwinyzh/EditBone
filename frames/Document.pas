@@ -266,7 +266,7 @@ type
     procedure SelectHighLighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);
     procedure SetBookmarks(SynEdit: TBCSynEdit; Bookmarks: TStrings);
     procedure SetMainEncodingCombo(SynEdit: TBCSynEdit);
-    procedure SetMainHighlighterCombo(DocTabSheetFrame: TDocTabSheetFrame);
+    procedure SetMainHighlighterCombo(SynEdit: TBCSynEdit);
     procedure SynEditHTMLOnChange(Sender: TObject);
     procedure SynEditHTMLPaintTransient(Sender: TObject; Canvas: TCanvas; TransientType: TTransientType);
     procedure SynEditPASPaintTransient(Sender: TObject; Canvas: TCanvas; TransientType: TTransientType);
@@ -276,8 +276,8 @@ type
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    function ActiveSplitSynEdit: TBCSynEdit;
-    function ActiveSynEdit: TBCSynEdit;
+    function GetActiveSplitSynEdit: TBCSynEdit;
+    function GetActiveSynEdit: TBCSynEdit;
     function GetCaretInfo: string;
     function GetHTMLErrors: TList;
     function GetMacroRecordPauseImageIndex: Integer;
@@ -689,7 +689,7 @@ begin
 
     if SynEdit.CanFocus then
       SynEdit.SetFocus;
-    SetMainHighlighterCombo(DocTabSheetFrame);
+    SetMainHighlighterCombo(SynEdit);
     SetMainEncodingCombo(SynEdit);
     Result := SynEdit;
   end;
@@ -761,9 +761,10 @@ begin
   for i := 0 to PageControl.PageCount - 1 do
   begin
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
-    UpdateGutterAndColors(DocTabSheetFrame);
     if Assigned(DocTabSheetFrame) then
     begin
+      UpdateGutterAndColors(DocTabSheetFrame);
+
       if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
         DocTabSheetFrame.Panel.Padding.Right := 3
       else
@@ -923,7 +924,7 @@ procedure TDocumentFrame.PageControlRepaint;
 var
   SynEdit: TBCSynEdit;
 begin
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     SynEdit.Repaint;
   if Assigned(PageControl.ActivePage) then
@@ -933,7 +934,7 @@ end;
 
 procedure TDocumentFrame.SelectForCompare;
 begin
-  CompareFiles(ActiveSynEdit.DocumentName);
+  CompareFiles(GetActiveSynEdit.DocumentName);
 end;
 
 function TDocumentFrame.FindOpenFile(FileName: string): TBCSynEdit;
@@ -1013,7 +1014,7 @@ begin
       SetBookmarks(SynEdit, Bookmarks);
       CheckHTMLErrors;
       try
-        SetMainHighlighterCombo(GetDocTabSheetFrame(PageControl.ActivePage));
+        SetMainHighlighterCombo(SynEdit);
         SetMainEncodingCombo(SynEdit);
         PageControlRepaint;
         if SynEdit.CanFocus then
@@ -1046,7 +1047,7 @@ var
 begin
   Rslt := mrNone;
 
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) and SynEdit.Modified then
   begin
     Rslt := Common.SaveChanges;
@@ -1063,8 +1064,9 @@ begin
     if PageControl.PageCount = 0 then
       FNumberOfNewDocument := 0;
   end;
-  SetMainHighlighterCombo(GetDocTabSheetFrame(PageControl.ActivePage));
-  SetMainEncodingCombo(ActiveSynEdit);
+  SynEdit := GetActiveSynEdit;
+  SetMainHighlighterCombo(SynEdit);
+  SetMainEncodingCombo(SynEdit);
   CheckHTMLErrors;
   PageControlRepaint;
 end;
@@ -1112,7 +1114,7 @@ begin
       for i := 0 to PageControl.PageCount - 1 do
       begin
         PageControl.ActivePage := PageControl.Pages[i];
-        SynEdit := ActiveSynEdit;
+        SynEdit := GetActiveSynEdit;
         if Assigned(SynEdit) and (SynEdit.Modified) and (i <> Temp) then
           Save(PageControl.Pages[i]);
       end;
@@ -1129,7 +1131,7 @@ begin
 
     PageControl.ActivePage.Tag := 0; { important! }
 
-    if ActiveSynEdit.DocumentName = '' then
+    if GetActiveSynEdit.DocumentName = '' then
       FNumberOfNewDocument := 1
     else
       FNumberOfNewDocument := 0
@@ -1207,7 +1209,7 @@ begin
   for i := 0 to PageControl.PageCount - 1 do
   begin
     PageControl.ActivePage := PageControl.Pages[i];
-    SynEdit := ActiveSynEdit;
+    SynEdit := GetActiveSynEdit;
     if Assigned(SynEdit) and SynEdit.Modified then
       Save(PageControl.Pages[i]);
   end;
@@ -1239,8 +1241,8 @@ procedure TDocumentFrame.Undo;
   end;
 
 begin
-  Undo(ActiveSynEdit);
-  Undo(ActiveSplitSynEdit);
+  Undo(GetActiveSynEdit);
+  Undo(GetActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
@@ -1254,8 +1256,8 @@ procedure TDocumentFrame.Redo;
   end;
 
 begin
-  Redo(ActiveSynEdit);
-  Redo(ActiveSplitSynEdit);
+  Redo(GetActiveSynEdit);
+  Redo(GetActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
@@ -1269,8 +1271,8 @@ procedure TDocumentFrame.Cut;
   end;
 
 begin
-  Cut(ActiveSynEdit);
-  Cut(ActiveSplitSynEdit);
+  Cut(GetActiveSynEdit);
+  Cut(GetActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
@@ -1284,16 +1286,16 @@ procedure TDocumentFrame.Copy;
   end;
 
 begin
-  Copy(ActiveSynEdit);
-  Copy(ActiveSplitSynEdit);
+  Copy(GetActiveSynEdit);
+  Copy(GetActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
-procedure TDocumentFrame.SetMainHighlighterCombo(DocTabSheetFrame: TDocTabSheetFrame);
+procedure TDocumentFrame.SetMainHighlighterCombo(SynEdit: TBCSynEdit);
 begin
-  if Assigned(DocTabSheetFrame) then
-    if Assigned(DocTabSheetFrame.SynEdit.Highlighter) then
-      MainForm.HighlighterComboIndex := DocTabSheetFrame.SynEdit.Highlighter.Tag
+  if Assigned(SynEdit) then
+    if Assigned(SynEdit.Highlighter) then
+      MainForm.HighlighterComboIndex := SynEdit.Highlighter.Tag
 end;
 
 procedure TDocumentFrame.SetMainEncodingCombo(SynEdit: TBCSynEdit);
@@ -1327,14 +1329,14 @@ end;
 
 procedure TDocumentFrame.PageControlChange(Sender: TObject);
 var
-  DocTabSheetFrame: TDocTabSheetFrame;
+  SynEdit: TBCSynEdit;
 begin
-  DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
-  if Assigned(DocTabSheetFrame) then
+  SynEdit := GetActiveSynEdit;
+  if Assigned(SynEdit) then
   begin
-    SynWebEngine.Options.HtmlVersion := DocTabSheetFrame.SynEdit.HtmlVersion;
-    SetMainHighlighterCombo(DocTabSheetFrame);
-    SetMainEncodingCombo(DocTabSheetFrame.SynEdit);
+    SynWebEngine.Options.HtmlVersion := SynEdit.HtmlVersion;
+    SetMainHighlighterCombo(SynEdit);
+    SetMainEncodingCombo(SynEdit);
   end;
   PageControlRepaint;
 end;
@@ -1343,8 +1345,8 @@ procedure TDocumentFrame.Paste;
 var
   SynEdit, SplitSynedit: TBCSynEdit;
 begin
-  SynEdit := ActiveSynEdit;
-  SplitSynedit := ActiveSplitSynEdit;
+  SynEdit := GetActiveSynEdit;
+  SplitSynedit := GetActiveSplitSynEdit;
   if Assigned(SynEdit) and SynEdit.Focused then
     SynEdit.PasteFromClipboard
   else
@@ -1359,7 +1361,7 @@ procedure TDocumentFrame.InitializeSynEditPrint;
 var
   SynEdit: TBCSynEdit;
 begin
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
 
   with SynEditPrint.Header do
   begin
@@ -1415,15 +1417,18 @@ begin
 end;
 
 procedure TDocumentFrame.Search;
+var
+  SynEdit: TBCSynEdit;
 begin
   SearchPanel.Visible := not SearchPanel.Visible;
   if SearchPanel.Visible then
   begin
+    SynEdit := GetActiveSynEdit;
     SearchPanel.Height := SearchForEdit.Height;
-    if ActiveSynEdit.SelAvail then
-      SearchForEdit.Text := ActiveSynEdit.SelText;
+    if SynEdit.SelAvail then
+      SearchForEdit.Text := SynEdit.SelText;
     SearchForEdit.SetFocus;
-    ActiveSynEdit.CaretXY := BufferCoord(0, 0);
+    SynEdit.CaretXY := BufferCoord(0, 0);
     DoSearch;
   end;
 end;
@@ -1436,7 +1441,7 @@ begin
   if SearchForEdit.Text = '' then
     Exit;
 
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if RegularExpressionCheckBox.Checked then
     SynEdit.SearchEngine := SynEditRegexSearch
   else
@@ -1482,7 +1487,7 @@ begin
   if SearchForEdit.Text = '' then
     Exit;
   SynSearchOptions := SearchOptions(False);
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
 
   if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
   begin
@@ -1501,7 +1506,7 @@ begin
   if Trim(SearchForEdit.Text) = '' then
     Exit;
   SynSearchOptions := SearchOptions(True);
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
   begin
     MessageBeep(MB_ICONASTERISK);
@@ -1518,8 +1523,9 @@ var
 begin
   with ReplaceDialog do
   begin
-    if ActiveSynEdit.SelAvail then
-      SearchForComboBox.Text := ActiveSynEdit.SelText;
+    SynEdit := GetActiveSynEdit;
+    if SynEdit.SelAvail then
+      SearchForComboBox.Text := SynEdit.SelText;
     MResult := ShowModal;
     if (MResult = mrOK) or (MResult = mrYes) then
     begin
@@ -1530,7 +1536,6 @@ begin
       Include(SynSearchOptions, ssoReplaceAll);
       if ReplaceInWholeFile then
       begin
-        SynEdit := ActiveSynEdit;
         SynEdit.CaretXY := BufferCoord(0, 0);
         SynEdit.SearchReplace(SearchText, ReplaceText, SynSearchOptions);
       end
@@ -1540,7 +1545,7 @@ begin
         for i := 0 to PageControl.PageCount - 1 do
         begin
           PageControl.ActivePageIndex := i;
-          SynEdit := ActiveSynEdit;
+          SynEdit := GetActiveSynEdit;
           if Assigned(SynEdit) then
           begin
             SynEdit.CaretXY := BufferCoord(0, 0);
@@ -1572,14 +1577,14 @@ begin
     8: SynEditorCommand := ecSetMarker8;
     9: SynEditorCommand := ecSetMarker9;
   end;
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     SynEdit.ExecuteCommand(SynEditorCommand, Char(ItemIndex), nil);
 end;
 
 procedure TDocumentFrame.SearchForEditChange(Sender: TObject);
 begin
-  ActiveSynEdit.CaretXY := BufferCoord(0, 0);
+  GetActiveSynEdit.CaretXY := BufferCoord(0, 0);
   SearchFindNextAction.Enabled := CanFindNextPrevious;
   SearchFindPreviousAction.Enabled := SearchFindNextAction.Enabled;
   DoSearch;
@@ -1646,7 +1651,7 @@ var
   SynEdit: TBCSynEdit;
 begin
   Result := False;
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     Result := SynEdit.SelectionMode = smColumn;
 end;
@@ -1746,6 +1751,7 @@ var
   i: Integer;
   FName: string;
   FileNames, Bookmarks: TStrings;
+  SynEdit: TBCSynEdit;
 begin
   FileNames := TStringList.Create;
   Bookmarks := TStringList.Create;
@@ -1766,8 +1772,9 @@ begin
     if i < PageControl.PageCount then
     begin
       PageControl.ActivePageIndex := i;
-      SetMainHighlighterCombo(GetDocTabSheetFrame(PageControl.ActivePage));
-      SetMainEncodingCombo(ActiveSynEdit);
+      SynEdit := GetActiveSynEdit;
+      SetMainHighlighterCombo(SynEdit);
+      SetMainEncodingCombo(SynEdit);
     end;
 
     Result := FileNames.Count > 0;
@@ -1917,12 +1924,12 @@ begin
     8: SynEditorCommand := ecGotoMarker8;
     9: SynEditorCommand := ecGotoMarker9;
   end;
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     SynEdit.ExecuteCommand(SynEditorCommand, Char(ItemIndex), nil);
 end;
 
-function TDocumentFrame.ActiveSplitSynEdit: TBCSynEdit;
+function TDocumentFrame.GetActiveSplitSynEdit: TBCSynEdit;
 begin
   if Assigned(PageControl.ActivePage) then
     Result := GetSplitSynEdit(PageControl.ActivePage)
@@ -1930,7 +1937,7 @@ begin
     Result := nil;
 end;
 
-function TDocumentFrame.ActiveSynEdit: TBCSynEdit;
+function TDocumentFrame.GetActiveSynEdit: TBCSynEdit;
 begin
   if Assigned(PageControl.ActivePage) then
     Result := GetSynEdit(PageControl.ActivePage)
@@ -1945,7 +1952,7 @@ var
 begin
   inherited;
   Application.ProcessMessages;
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   SynEdit.Modified := True;
   if Pos('~', PageControl.ActivePage.Caption) = 0 then
   begin
@@ -1954,7 +1961,7 @@ begin
   end;
   if MainForm.ViewSplitAction.Checked then
   begin
-    SplitSynEdit := ActiveSplitSynEdit;
+    SplitSynEdit := GetActiveSplitSynEdit;
     if Assigned(SplitSynEdit) then
     begin
       SplitSynEdit.BeginUpdate;
@@ -1981,9 +1988,9 @@ begin
   inherited;
   Application.ProcessMessages;
   LinesChanged := False;
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   SynEdit.BeginUpdate;
-  SplitSynEdit := ActiveSplitSynEdit;
+  SplitSynEdit := GetActiveSplitSynEdit;
   if Assigned(SplitSynEdit) then
   begin
     for i := 0 to SynEdit.Lines.Count - 1 do
@@ -2019,7 +2026,7 @@ begin
 
   if Assigned(PageControl.ActivePage) then
   begin
-    SynEdit := ActiveSynEdit;
+    SynEdit := GetActiveSynEdit;
     if Assigned(SynEdit) then
       Result := True;
   end;
@@ -2032,7 +2039,7 @@ begin
   Result := '';
   if Assigned(PageControl.ActivePage) then
   begin
-    SynEdit := ActiveSynEdit;
+    SynEdit := GetActiveSynEdit;
     if Assigned(SynEdit) then
       if SynEdit.DocumentName <> '' then
       begin
@@ -2056,7 +2063,7 @@ end;
 function TDocumentFrame.ModifiedDocuments(CheckActive: Boolean): Boolean;
 var
   i: Integer;
-  DocTabSheetFrame: TDocTabSheetFrame;
+  SynEdit: TBCSynEdit;
 begin
   Result := True;
 
@@ -2064,9 +2071,9 @@ begin
   begin
     if CheckActive or ((PageControl.ActivePageIndex = i) and not CheckActive) then
     begin
-      DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
-      if Assigned(DocTabSheetFrame) then
-        if DocTabSheetFrame.SynEdit.Modified then
+      SynEdit := GetSynEdit(PageControl.Pages[i]);
+      if Assigned(SynEdit) then
+        if SynEdit.Modified then
           Exit;
     end;
   end;
@@ -2078,11 +2085,11 @@ var
   SynEdit: TBCSynEdit;
 begin
   Result := False;
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     Result := SynEdit.SelAvail;
 
-  SynEdit := ActiveSplitSynEdit;
+  SynEdit := GetActiveSplitSynEdit;
   if Assigned(SynEdit) then
     Result := Result or SynEdit.SelAvail;
 end;
@@ -2092,11 +2099,11 @@ var
   SynEdit: TBCSynEdit;
 begin
   Result := False;
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     Result := SynEdit.UndoList.ItemCount > 0;
 
-  SynEdit := ActiveSplitSynEdit;
+  SynEdit := GetActiveSplitSynEdit;
   if Assigned(SynEdit) then
     Result := Result or (SynEdit.UndoList.ItemCount > 0);
 end;
@@ -2106,11 +2113,11 @@ var
   SynEdit: TBCSynEdit;
 begin
   Result := False;
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     Result := SynEdit.RedoList.ItemCount > 0;
 
-  SynEdit := ActiveSplitSynEdit;
+  SynEdit := GetActiveSplitSynEdit;
   if Assigned(SynEdit) then
     Result := Result or (SynEdit.RedoList.ItemCount > 0);
 end;
@@ -2127,7 +2134,7 @@ begin
     Action := raSkip
   else
   begin
-    SynEdit := ActiveSynEdit;
+    SynEdit := GetActiveSynEdit;
     APos := SynEdit.ClientToScreen(SynEdit.RowColumnToPixels
         (SynEdit.BufferToDisplayPos(BufferCoord(Column, Line))));
 
@@ -2410,7 +2417,7 @@ end;
 procedure TDocumentFrame.SynEditHTMLOnChange(Sender: TObject);
 begin
   inherited;
-  ActiveSynEdit.Modified := True;
+  GetActiveSynEdit.Modified := True;
   if Pos('~', PageControl.ActivePage.Caption) = 0 then
   begin
     PageControl.ActivePage.Caption := Format('%s~', [PageControl.ActivePage.Caption]);
@@ -2424,7 +2431,7 @@ function TDocumentFrame.GetCaretInfo: string;
 var
   SynEdit: TBCSynEdit;
 begin
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   Result := Format('%d: %d', [SynEdit.CaretY, SynEdit.CaretX]);
 end;
 
@@ -2433,7 +2440,7 @@ var
   SynEdit: TBCSynEdit;
 begin
   Result := '';
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) and SynEdit.Modified then
     Result := LanguageDataModule.GetConstant('Modified');
 end;
@@ -2442,7 +2449,7 @@ function TDocumentFrame.GetActiveDocumentModified: Boolean;
 var
   SynEdit: TBCSynEdit;
 begin
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   Result := Assigned(SynEdit) and SynEdit.Modified;
 end;
 
@@ -2452,7 +2459,7 @@ var
   SynEdit: TBCSynEdit;
   CaretX, CaretY: Integer;
 begin
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   for i := 0 to SynEdit.Marks.Count - 1 do
     if SynEdit.CaretY = SynEdit.Marks[i].Line then
     begin
@@ -2565,7 +2572,7 @@ procedure TDocumentFrame.DecreaseIndent;
 var
   SynEdit: TBCSynEdit;
 begin
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     SynEdit.ExecuteCommand(ecBlockUnindent, 'U', nil);
 end;
@@ -2574,7 +2581,7 @@ procedure TDocumentFrame.IncreaseIndent;
 var
   SynEdit: TBCSynEdit;
 begin
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     SynEdit.ExecuteCommand(ecBlockIndent, 'I', nil);
 end;
@@ -2589,8 +2596,8 @@ procedure TDocumentFrame.SelectAll;
   end;
 
 begin
-  SelectAll(ActiveSynEdit);
-  SelectAll(ActiveSplitSynEdit);
+  SelectAll(GetActiveSynEdit);
+  SelectAll(GetActiveSplitSynEdit);
 end;
 
 procedure TDocumentFrame.ToggleCase;
@@ -2644,8 +2651,8 @@ procedure TDocumentFrame.ToggleCase;
   end;
 
 begin
-  ToggleCase(ActiveSynEdit);
-  ToggleCase(ActiveSplitSynEdit);
+  ToggleCase(GetActiveSynEdit);
+  ToggleCase(GetActiveSplitSynEdit);
 end;
 
 procedure TDocumentFrame.RemoveWhiteSpace;
@@ -2665,8 +2672,8 @@ procedure TDocumentFrame.RemoveWhiteSpace;
   end;
 
 begin
-  RemoveWhiteSpace(ActiveSynEdit);
-  RemoveWhiteSpace(ActiveSplitSynEdit);
+  RemoveWhiteSpace(GetActiveSynEdit);
+  RemoveWhiteSpace(GetActiveSplitSynEdit);
 end;
 
 procedure TDocumentFrame.SortAsc;
@@ -2687,8 +2694,8 @@ procedure TDocumentFrame.SortAsc;
   end;
 
 begin
-  SortAsc(ActiveSynEdit);
-  SortAsc(ActiveSplitSynEdit);
+  SortAsc(GetActiveSynEdit);
+  SortAsc(GetActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
@@ -2714,8 +2721,8 @@ procedure TDocumentFrame.SortDesc;
   end;
 
 begin
-  SortDesc(ActiveSynEdit);
-  SortDesc(ActiveSplitSynEdit);
+  SortDesc(GetActiveSynEdit);
+  SortDesc(GetActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
@@ -2732,8 +2739,8 @@ procedure TDocumentFrame.ClearBookmarks;
   end;
 
 begin
-  ClearBookmarks(ActiveSynEdit);
-  ClearBookmarks(ActiveSplitSynEdit);
+  ClearBookmarks(GetActiveSynEdit);
+  ClearBookmarks(GetActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
@@ -2747,8 +2754,8 @@ procedure TDocumentFrame.InsertLine;
   end;
 
 begin
-  InsertLine(ActiveSynEdit);
-  InsertLine(ActiveSplitSynEdit);
+  InsertLine(GetActiveSynEdit);
+  InsertLine(GetActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
@@ -2762,8 +2769,8 @@ procedure TDocumentFrame.DeleteWord;
   end;
 
 begin
-  DeleteWord(ActiveSynEdit);
-  DeleteWord(ActiveSplitSynEdit);
+  DeleteWord(GetActiveSynEdit);
+  DeleteWord(GetActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
@@ -2777,8 +2784,8 @@ procedure TDocumentFrame.DeleteLine;
   end;
 
 begin
-  DeleteLine(ActiveSynEdit);
-  DeleteLine(ActiveSplitSynEdit);
+  DeleteLine(GetActiveSynEdit);
+  DeleteLine(GetActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
@@ -2792,8 +2799,8 @@ procedure TDocumentFrame.DeleteEOL;
   end;
 
 begin
-  DeleteEOL(ActiveSynEdit);
-  DeleteEOL(ActiveSplitSynEdit);
+  DeleteEOL(GetActiveSynEdit);
+  DeleteEOL(GetActiveSplitSynEdit);
   PageControlRepaint;
 end;
 
@@ -2811,7 +2818,7 @@ procedure TDocumentFrame.ShowWordCount;
 var
   SynEdit: TBCSynEdit;
 begin
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     Common.ShowMessage(Format(LanguageDataModule.GetMessage('DocumentStatistics'), [SynEdit.Lines.Count, CHR_ENTER, Common.WordCount(SynEdit.Text), CHR_ENTER, LengthWithoutWhiteSpaces(SynEdit.Text)]));
 end;
@@ -2821,7 +2828,7 @@ var
   SynEdit: TBCSynEdit;
 begin
   Result := Lib.IMAGEINDEX_RECORD;
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     if Assigned(SynEdit.SynMacroRecorder) then
        if SynEdit.SynMacroRecorder.State = msRecording then
@@ -2833,7 +2840,7 @@ var
   SynEdit: TBCSynEdit;
 begin
   Result := False;
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     if Assigned(SynEdit.SynMacroRecorder) then
       Result := SynEdit.SynMacroRecorder.State = msRecording
@@ -2844,7 +2851,7 @@ var
   SynEdit: TBCSynEdit;
 begin
   Result := False;
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     if Assigned(SynEdit.SynMacroRecorder) then
       Result := SynEdit.SynMacroRecorder.State = msStopped
@@ -2854,7 +2861,7 @@ procedure TDocumentFrame.RecordMacro;
 var
   SynEdit: TBCSynEdit;
 begin
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
   begin
     if not Assigned(SynEdit.SynMacroRecorder) then
@@ -2884,7 +2891,7 @@ procedure TDocumentFrame.StopMacro;
 var
   SynEdit: TBCSynEdit;
 begin
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
   begin
     if Assigned(SynEdit.SynMacroRecorder) then
@@ -2896,7 +2903,7 @@ procedure TDocumentFrame.PlaybackMacro;
 var
   SynEdit: TBCSynEdit;
 begin
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
   begin
     if Assigned(SynEdit.SynMacroRecorder) then
@@ -2908,7 +2915,7 @@ procedure TDocumentFrame.SaveMacro;
 var
   SynEdit: TBCSynEdit;
 begin
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     if Assigned(SynEdit.SynMacroRecorder) then
       if CommonDialogs.SaveFile(Handle, DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
@@ -2924,7 +2931,7 @@ procedure TDocumentFrame.LoadMacro;
 var
   SynEdit: TBCSynEdit;
 begin
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
   begin
     if CommonDialogs.OpenFile(Handle, DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
@@ -2943,7 +2950,7 @@ procedure TDocumentFrame.FileProperties;
 var
   SynEdit: TBCSynEdit;
 begin
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     Common.PropertiesDialog(SynEdit.DocumentName);
 end;
@@ -2952,7 +2959,7 @@ procedure TDocumentFrame.SetActiveEncoding(Value: Integer);
 var
   SynEdit: TBCSynEdit;
 begin
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
   with SynEdit do
   begin
@@ -2974,7 +2981,7 @@ procedure TDocumentFrame.SetActiveHighlighter(Value: Integer);
   var
     SynEdit: TBCSynEdit;
   begin
-    SynEdit := ActiveSynEdit;
+    SynEdit := GetActiveSynEdit;
     if Assigned(SynEdit) then
     with SynEdit do
     begin
@@ -3117,7 +3124,7 @@ var
   DocTabSheetFrame: TDocTabSheetFrame;
   SplitVisible: Boolean;
 begin
-  ASynEdit := ActiveSynEdit;
+  ASynEdit := GetActiveSynEdit;
   FileName := ASynEdit.DocumentName;
   DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
   if Assigned(DocTabSheetFrame) then
@@ -3180,7 +3187,7 @@ procedure TDocumentFrame.FormatXML;
 var
   SynEdit: TBCSynEdit;
 begin
-  SynEdit := ActiveSynEdit;
+  SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
   begin
     SynEdit.BeginUndoBlock;

@@ -1064,7 +1064,7 @@ begin
   if HighlighterComboBox.Visible then
     if HighlighterComboBox.CanFocus then
       HighlighterComboBox.SetFocus; { get the combo unselected }
-  SynEdit := FDocumentFrame.ActiveSynEdit;
+  SynEdit := FDocumentFrame.GetActiveSynEdit;
   if Assigned(SynEdit) then
     SynEdit.SetFocus;
   { Post the custom message WM_AFTER_SHOW to our form }
@@ -1351,7 +1351,7 @@ begin
       if Assigned(FDirectoryFrame) then
         FolderText := FDirectoryFrame.SelectedPath;
     Extensions := OptionsContainer.Extensions;
-    SynEdit := FDocumentFrame.ActiveSynEdit;
+    SynEdit := FDocumentFrame.GetActiveSynEdit;
     if Assigned(SynEdit) then
       if SynEdit.SelAvail then
         FindWhatComboBox.Text := SynEdit.SelText;
@@ -1661,7 +1661,7 @@ begin
   HighlighterComboBox.ItemIndex := Value;
   if HighlighterComboBox.CanFocus then
     HighlighterComboBox.SetFocus; { get the combo unselected }
-  SynEdit := FDocumentFrame.ActiveSynEdit;
+  SynEdit := FDocumentFrame.GetActiveSynEdit;
   if Assigned(SynEdit) then
     if SynEdit.CanFocus then
       SynEdit.SetFocus
