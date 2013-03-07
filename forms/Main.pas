@@ -645,7 +645,7 @@ begin
       ViewWordWrapActionExecute(nil);
     ViewLineNumbersAction.Checked := ReadBool('Options', 'EnableLineNumbers', True);
     if not ViewLineNumbersAction.Checked then
-      ViewLineNumbersActionExecute(nil); //ViewLineNumbersAction.Execute;
+      ViewLineNumbersActionExecute(nil);
     ViewSpecialCharsAction.Checked := ReadBool('Options', 'EnableSpecialChars', False);
     if ViewSpecialCharsAction.Checked then
       ViewSpecialCharsActionExecute(nil);
