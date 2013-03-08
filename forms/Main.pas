@@ -423,7 +423,7 @@ end;
 
 procedure TMainForm.SelectStyleActionExecute(Sender: TObject);
 var
-  i: Integer;
+  i, j: Integer;
   ActionCaption: string;
   Action: TAction;
   ActionClientItem: TActionClientItem;
@@ -452,7 +452,8 @@ begin
 
   ActionClientItem := GetActionClientItem(VIEW_MENU_ITEMINDEX, VIEW_STYLE_MENU_ITEMINDEX);
   for i := 0 to ActionClientItem.Items.Count - 1 do
-    TAction(ActionClientItem.Items[i].Action).Checked := False;
+    for j := 0 to ActionClientItem.Items[i].Items.Count - 1 do
+      TAction(ActionClientItem.Items[i].Items[j].Action).Checked := False;
   Action.Checked := True;
   FDirectoryFrame.UpdateControls;
   FDocumentFrame.UpdateGutterAndControls;
@@ -505,10 +506,34 @@ end;
 
 procedure TMainForm.CreateStyleMenu;
 var
-  FilePath, FileName: string;
+  FilePath, FileName, StyleName, ActionCaption: string;
   StyleInfo: TStyleInfo;
   ActionClientItem: TActionClientItem;
   Action: TAction;
+
+  procedure SetMenuItem;
+  var
+    i: Integer;
+  begin
+    ActionClientItem := GetActionClientItem(VIEW_MENU_ITEMINDEX, VIEW_STYLE_MENU_ITEMINDEX);
+    { alphabet submenu }
+    for i := 0 to ActionClientItem.Items.Count - 1 do
+    begin
+      ActionCaption := StringReplace(ActionClientItem.Items[i].Caption, '&', '', [rfReplaceAll]);
+      if ActionCaption = StyleName[1] then
+      begin
+        ActionClientItem := ActionClientItem.Items[i];
+        Break;
+      end;
+    end;
+    ActionCaption := StringReplace(ActionClientItem.Caption, '&', '', [rfReplaceAll]);
+    if ActionCaption <> StyleName[1] then
+    begin
+      ActionClientItem := ActionClientItem.Items.Add;
+      ActionClientItem.Caption := StyleName[1];
+    end;
+    ActionClientItem := ActionClientItem.Items.Add;
+  end;
 begin
   FilePath := IncludeTrailingPathDelimiter(Format('%s%s', [ExtractFilePath(ParamStr(0)), 'Styles']));
   if not DirectoryExists(FilePath) then
@@ -518,9 +543,9 @@ begin
   begin
     if TStyleManager.IsValidStyle(FileName, StyleInfo) then
     begin
-      ActionClientItem := GetActionClientItem(VIEW_MENU_ITEMINDEX, VIEW_STYLE_MENU_ITEMINDEX);
-      ActionClientItem := ActionClientItem.Items.Add;
-
+      StyleName := ExtractFileName(FileName);
+      { Style menu item }
+      SetMenuItem;
       Action := TAction.Create(ActionManager);
       Action.Name := StringReplace(StyleInfo.Name, ' ', '', [rfReplaceAll]) + 'StyleSelectAction';
       Action.Caption := FileName;
@@ -531,8 +556,8 @@ begin
     end;
   end;
   { Windows }
-  ActionClientItem := GetActionClientItem(VIEW_MENU_ITEMINDEX, VIEW_STYLE_MENU_ITEMINDEX);
-  ActionClientItem := ActionClientItem.Items.Add;
+  StyleName := 'Windows.vsf';
+  SetMenuItem;
   Action := TAction.Create(ActionManager);
   Action.Name := 'WindowsStyleSelectAction';
   Action.Caption := STYLENAME_WINDOWS;
@@ -815,7 +840,7 @@ begin
   ViewLineNumbersAction.Enabled := ActiveDocumentFound;
   ViewSpecialCharsAction.Enabled := ActiveDocumentFound;
   ToolsWordCountAction.Enabled := ActiveDocumentFound;
-  ToolsSelectForCompareAction.Enabled := not FDocumentFrame.ActiveDocumentModified;
+  ToolsSelectForCompareAction.Enabled := ActiveDocumentFound and not FDocumentFrame.ActiveDocumentModified;
   FormatXMLAction.Visible := ActiveDocumentFound and IsXMLDocument;
 
   if OutputPanel.Visible then
