@@ -278,6 +278,7 @@ type
     procedure InitializeSynEditPrint;
     procedure PageControlRepaint;
     procedure SelectHighLighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);
+    procedure SetActivePageCaptionModified;
     procedure SetBookmarks(SynEdit: TBCSynEdit; Bookmarks: TStrings);
     procedure SetMainEncodingCombo(SynEdit: TBCSynEdit);
     procedure SetMainHighlighterCombo(SynEdit: TBCSynEdit);
@@ -652,7 +653,7 @@ begin
   else
     TabSheet.Caption := ExtractFileName(FileName);
   if TStyleManager.ActiveStyle.Name <> STYLENAME_WINDOWS then
-    TabSheet.Caption := TabSheet.Caption + '      ';
+    TabSheet.Caption := TabSheet.Caption + SPACE_FOR_TAB_CLOSE_BUTTON;
   PageControl.ActivePage := TabSheet;
 
   DocTabSheetFrame := TDocTabSheetFrame.Create(TabSheet);
@@ -923,6 +924,8 @@ begin
   TabSheet.PageControl := PageControl;
   TabSheet.ImageIndex := FCompareImageIndex;
   TabSheet.Caption := LanguageDataModule.GetConstant('CompareFiles');
+  if TStyleManager.ActiveStyle.Name <> STYLENAME_WINDOWS then
+    TabSheet.Caption := TabSheet.Caption + SPACE_FOR_TAB_CLOSE_BUTTON;
   PageControl.ActivePage := TabSheet;
   { create a compare frame }
   Frame := TCompareFrame.Create(TabSheet);
@@ -1160,7 +1163,7 @@ end;
 function TDocumentFrame.Save(TabSheet: TTabSheet; ShowDialog: Boolean): string;
 var
   DocTabSheetFrame: TDocTabSheetFrame;
-  AFileName: string;
+  AFileName, FilePath: string;
 begin
   Result := '';
   PageControl.ActivePage := TabSheet;
@@ -1169,14 +1172,23 @@ begin
   begin
     if (DocTabSheetFrame.SynEdit.DocumentName = '') or ShowDialog then
     begin
-      AFileName := TabSheet.Caption;
-      if Pos('~', TabSheet.Caption) = Length(TabSheet.Caption) then
-        AFileName := System.Copy(TabSheet.Caption, 0, Length(TabSheet.Caption) - 1);
+      if DocTabSheetFrame.SynEdit.DocumentName = '' then
+      begin
+        AFileName := Trim(TabSheet.Caption);
+        if Pos('~', AFileName) = Length(AFileName) then
+          AFileName := System.Copy(AFileName, 0, Length(AFileName) - 1);
+      end
+      else
+        AFileName := ExtractFileName(DocTabSheetFrame.SynEdit.DocumentName);
 
-      if CommonDialogs.SaveFile(Handle, DefaultPath, OptionsContainer.Filters, LanguageDataModule.GetConstant('SaveAs'), AFileName) then
+      FilePath := ExtractFilePath(DocTabSheetFrame.SynEdit.DocumentName);
+      if FilePath = '' then
+        FilePath := DefaultPath;
+
+      if CommonDialogs.SaveFile(Handle, FilePath, OptionsContainer.Filters, LanguageDataModule.GetConstant('SaveAs'), AFileName) then
       begin
         Application.ProcessMessages; { style fix }
-        PageControl.ActivePage.Caption := ExtractFileName(CommonDialogs.Files[0]);
+        TabSheet.Caption := ExtractFileName(CommonDialogs.Files[0]);
         DocTabSheetFrame.SynEdit.DocumentName := CommonDialogs.Files[0];
         Result := CommonDialogs.Files[0];
       end
@@ -1194,8 +1206,14 @@ begin
       FileDateTime := GetFileDateTime(DocumentName);
       Modified := False;
       TabSheet.ImageIndex := GetImageIndex(DocumentName);
-      if Pos('~', TabSheet.Caption) = Length(TabSheet.Caption) then
-        TabSheet.Caption := System.Copy(TabSheet.Caption, 0, Length(TabSheet.Caption) - 1);
+
+      AFileName := Trim(TabSheet.Caption);
+      if Pos('~', AFileName) = Length(AFileName) then
+        AFileName := System.Copy(AFileName, 0, Length(AFileName) - 1);
+      TabSheet.Caption := AFileName;
+      if TStyleManager.ActiveStyle.Name <> STYLENAME_WINDOWS then
+        TabSheet.Caption := TabSheet.Caption + SPACE_FOR_TAB_CLOSE_BUTTON;
+
       SelectHighLighter(DocTabSheetFrame, DocumentName);
     end;
     UpdateGutterAndColors(DocTabSheetFrame);
@@ -1236,9 +1254,9 @@ end;
 
 function TDocumentFrame.GetActivePageCaption: string;
 begin
-  Result := PageControl.ActivePage.Caption;
-  if Pos('~', PageControl.ActivePage.Caption) = Length(PageControl.ActivePage.Caption) then
-    Result := System.Copy(PageControl.ActivePage.Caption, 0, Length(PageControl.ActivePage.Caption) - 1);
+  Result := Trim(PageControl.ActivePage.Caption);
+  if Pos('~', Result) = Length(Result) then
+    Result := System.Copy(Result, 0, Length(Result) - 1);
 end;
 
 procedure TDocumentFrame.Undo;
@@ -1990,6 +2008,17 @@ begin
     Result := nil;
 end;
 
+procedure TDocumentFrame.SetActivePageCaptionModified;
+begin
+  if Pos('~', PageControl.ActivePage.Caption) = 0 then
+  begin
+    PageControl.ActivePage.Caption := Format('%s~', [Trim(PageControl.ActivePage.Caption)]);
+    if TStyleManager.ActiveStyle.Name <> STYLENAME_WINDOWS then
+        PageControl.ActivePage.Caption := PageControl.ActivePage.Caption + SPACE_FOR_TAB_CLOSE_BUTTON;
+    PageControlRepaint;
+  end;
+end;
+
 procedure TDocumentFrame.SynEditChange(Sender: TObject);
 var
   i: Integer;
@@ -1999,11 +2028,7 @@ begin
   Application.ProcessMessages;
   SynEdit := GetActiveSynEdit;
   SynEdit.Modified := True;
-  if Pos('~', PageControl.ActivePage.Caption) = 0 then
-  begin
-    PageControl.ActivePage.Caption := Format('%s~', [PageControl.ActivePage.Caption]);
-    PageControlRepaint;
-  end;
+  SetActivePageCaptionModified;
   if MainForm.ViewSplitAction.Checked then
   begin
     SplitSynEdit := GetActiveSplitSynEdit;
@@ -2060,7 +2085,7 @@ function TDocumentFrame.GetActiveTabSheetCaption: string;
 begin
   Result := '';
   if Assigned(PageControl.ActivePage) then
-    Result := PageControl.ActivePage.Caption;
+    Result := Trim(PageControl.ActivePage.Caption);
 end;
 
 function TDocumentFrame.GetActiveDocumentFound: Boolean;
@@ -2463,11 +2488,7 @@ procedure TDocumentFrame.SynEditHTMLOnChange(Sender: TObject);
 begin
   inherited;
   GetActiveSynEdit.Modified := True;
-  if Pos('~', PageControl.ActivePage.Caption) = 0 then
-  begin
-    PageControl.ActivePage.Caption := Format('%s~', [PageControl.ActivePage.Caption]);
-    PageControlRepaint;
-  end;
+  SetActivePageCaptionModified;
   FHTMLDocumentChanged := True;
   CheckHTMLErrors;
 end;
