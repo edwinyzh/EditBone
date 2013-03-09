@@ -30,8 +30,6 @@ type
     CancelButton: TButton;
     CPASHighlighterComboBox: TBCComboBox;
     CPASHighlighterGroupBox: TGroupBox;
-    EdgeColumnEdit: TBCEdit;
-    EdgeColumnLabel: TLabel;
     Editor1Panel: TPanel;
     Editor2Panel: TPanel;
     Editor3Panel: TPanel;
@@ -63,7 +61,6 @@ type
     MultilineCheckBox: TBCCheckBox;
     OKButton: TButton;
     PageControl: TPageControl;
-    RightEdgeGroupBox: TGroupBox;
     ScrollPastEofCheckBox: TBCCheckBox;
     ScrollPastEolCheckBox: TBCCheckBox;
     SelectFontAction: TAction;
@@ -75,6 +72,9 @@ type
     TabWidthLabel: TLabel;
     TopPanel: TPanel;
     TrimTrailingSpacesCheckBox: TBCCheckBox;
+    EdgeColumnLabel: TLabel;
+    EdgeColumnEdit: TBCEdit;
+    ShowCloseButtonCheckBox: TBCCheckBox;
     procedure ExtensionsEditChange(Sender: TObject);
     procedure FileTypesListBoxClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);

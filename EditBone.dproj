@@ -162,22 +162,18 @@
 			<DCCReference Include="..\..\Common\units\CommonDialogs.pas"/>
 			<DCCReference Include="forms\LanguageEditor.pas">
 				<Form>LanguageEditorForm</Form>
-				<FormType>dfm</FormType>
 			</DCCReference>
 			<DCCReference Include="frames\DocumentTabSheet.pas">
 				<Form>DocTabSheetFrame</Form>
-				<FormType>dfm</FormType>
 				<DesignClass>TFrame</DesignClass>
 			</DCCReference>
 			<DCCReference Include="..\..\Common\units\Encoding.pas"/>
 			<DCCReference Include="frames\DirectoryTabSheet.pas">
 				<Form>DirTabSheetFrame</Form>
-				<FormType>dfm</FormType>
 				<DesignClass>TFrame</DesignClass>
 			</DCCReference>
 			<DCCReference Include="frames\OutputTabSheet.pas">
 				<Form>OutputTabSheetFrame</Form>
-				<FormType>dfm</FormType>
 				<DesignClass>TFrame</DesignClass>
 			</DCCReference>
 			<BuildConfiguration Include="Debug">

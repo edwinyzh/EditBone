@@ -222,6 +222,8 @@ type
     GotoLineNumberEdit: TBCEdit;
     GotoLineButtonPanel: TPanel;
     GotoLineGoSpeedButton: TSpeedButton;
+    GotoLineAction: TAction;
+    GotoLineCloseAction: TAction;
     procedure PageControlChange(Sender: TObject);
     procedure SearchClearActionExecute(Sender: TObject);
     procedure SearchCloseActionExecute(Sender: TObject);
@@ -234,6 +236,9 @@ type
     procedure SynEditSpecialLineColors(Sender: TObject; Line: Integer; var Special: Boolean; var FG, BG: TColor);
     procedure SynEditSplitChange(Sender: TObject);
     procedure XMLTreeRefreshActionExecute(Sender: TObject);
+    procedure GotoLineCloseActionExecute(Sender: TObject);
+    procedure GotoLineActionExecute(Sender: TObject);
+    procedure GotoLineNumberEditKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FCaseCycle: Byte;
@@ -320,6 +325,7 @@ type
     procedure FindPrevious;
     procedure FormatXML;
     procedure GotoBookmarks(ItemIndex: Integer);
+    procedure GotoLine;
     procedure IncreaseIndent;
     procedure InsertLine;
     procedure LoadMacro;
@@ -379,7 +385,7 @@ implementation
 
 uses
   PrintPreview, Replace, ConfirmReplace, Common, Lib, Options, StyleHooks, VirtualTrees,
-  SynTokenMatch, SynHighlighterWebMisc, System.Types, Winapi.ShellAPI, System.WideStrings,
+  SynTokenMatch, SynHighlighterWebMisc, System.Types, Winapi.ShellAPI, System.WideStrings, Math,
   Main, BigIni, Vcl.GraphUtil, SynUnicode, Language, CommonDialogs, SynEditTextBuffer, Encoding;
 
 { TDocumentFrame }
@@ -645,6 +651,8 @@ begin
     TabSheet.Caption := LanguageDataModule.GetConstant('Document') + IntToStr(FNumberOfNewDocument)
   else
     TabSheet.Caption := ExtractFileName(FileName);
+  if TStyleManager.ActiveStyle.Name <> STYLENAME_WINDOWS then
+    TabSheet.Caption := TabSheet.Caption + '      ';
   PageControl.ActivePage := TabSheet;
 
   DocTabSheetFrame := TDocTabSheetFrame.Create(TabSheet);
@@ -1936,6 +1944,34 @@ begin
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     SynEdit.ExecuteCommand(SynEditorCommand, Char(ItemIndex), nil);
+end;
+
+procedure TDocumentFrame.GotoLineActionExecute(Sender: TObject);
+begin
+  try
+    GetActiveSynEdit.CaretY := StrToInt(GotoLineNumberEdit.Text);
+  except
+    { silent }
+  end;
+end;
+
+procedure TDocumentFrame.GotoLine;
+begin
+  GotoLinePanel.Visible := not GotoLinePanel.Visible;
+  if GotoLinePanel.Visible then
+    if GotoLineNumberEdit.CanFocus then
+      GotoLineNumberEdit.SetFocus;
+end;
+
+procedure TDocumentFrame.GotoLineCloseActionExecute(Sender: TObject);
+begin
+  GotoLinePanel.Hide;
+end;
+
+procedure TDocumentFrame.GotoLineNumberEditKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+    GotoLineAction.Execute;
 end;
 
 function TDocumentFrame.GetActiveSplitSynEdit: TBCSynEdit;

@@ -295,7 +295,7 @@ object OptionsDialog: TOptionsDialog
               Margins.Bottom = 4
               Align = alClient
               Anchors = [akLeft, akTop, akBottom]
-              Caption = ' Line spacing / Tab spacing '
+              Caption = ' Line Spacing / Tab Spacing / Right Edge '
               TabOrder = 0
               object ExtraLinesLabel: TLabel
                 Left = 15
@@ -309,7 +309,7 @@ object OptionsDialog: TOptionsDialog
                 Caption = 'Extra Lines'
               end
               object TabWidthLabel: TLabel
-                Left = 238
+                Left = 152
                 Top = 23
                 Width = 49
                 Height = 13
@@ -319,10 +319,21 @@ object OptionsDialog: TOptionsDialog
                 Margins.Bottom = 4
                 Caption = 'Tab Width'
               end
+              object EdgeColumnLabel: TLabel
+                Left = 288
+                Top = 23
+                Width = 62
+                Height = 13
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = 'Edge Column'
+              end
               object ExtraLinesEdit: TBCEdit
-                Left = 137
+                Left = 105
                 Top = 20
-                Width = 64
+                Width = 30
                 Height = 21
                 Margins.Left = 4
                 Margins.Top = 4
@@ -337,9 +348,9 @@ object OptionsDialog: TOptionsDialog
                 NumbersAllowNegative = False
               end
               object TabWidthEdit: TBCEdit
-                Left = 361
+                Left = 239
                 Top = 20
-                Width = 64
+                Width = 30
                 Height = 21
                 Margins.Left = 4
                 Margins.Top = 4
@@ -347,6 +358,25 @@ object OptionsDialog: TOptionsDialog
                 Margins.Bottom = 4
                 TabOrder = 1
                 Text = '8'
+                OnlyNumbers = False
+                NumbersWithDots = False
+                NumbersWithSpots = False
+                EditColor = clInfoBk
+                NumbersAllowNegative = False
+              end
+              object EdgeColumnEdit: TBCEdit
+                Left = 394
+                Top = 20
+                Width = 30
+                Height = 21
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Flat = False
+                ParentFlat = False
+                TabOrder = 2
+                Text = '80'
                 OnlyNumbers = False
                 NumbersWithDots = False
                 NumbersWithSpots = False
@@ -364,53 +394,10 @@ object OptionsDialog: TOptionsDialog
             BevelOuter = bvNone
             Padding.Right = 2
             TabOrder = 3
-            object RightEdgeGroupBox: TGroupBox
+            object TabsGroupBox: TGroupBox
               Left = 0
               Top = 0
-              Width = 216
-              Height = 54
-              Margins.Left = 4
-              Margins.Top = 4
-              Margins.Right = 4
-              Margins.Bottom = 4
-              Align = alLeft
-              Caption = ' Right Edge '
-              TabOrder = 0
-              object EdgeColumnLabel: TLabel
-                Left = 15
-                Top = 23
-                Width = 62
-                Height = 13
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Caption = 'Edge Column'
-              end
-              object EdgeColumnEdit: TBCEdit
-                Left = 138
-                Top = 20
-                Width = 63
-                Height = 21
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Flat = False
-                ParentFlat = False
-                TabOrder = 0
-                Text = '80'
-                OnlyNumbers = False
-                NumbersWithDots = False
-                NumbersWithSpots = False
-                EditColor = clInfoBk
-                NumbersAllowNegative = False
-              end
-            end
-            object TabsGroupBox: TGroupBox
-              Left = 224
-              Top = 0
-              Width = 216
+              Width = 440
               Height = 54
               Margins.Left = 4
               Margins.Top = 4
@@ -419,11 +406,11 @@ object OptionsDialog: TOptionsDialog
               Align = alRight
               Anchors = [akLeft, akTop, akBottom]
               Caption = ' Page Control Tabs '
-              TabOrder = 1
+              TabOrder = 0
               object MultilineCheckBox: TBCCheckBox
                 Left = 15
-                Top = 20
-                Width = 147
+                Top = 22
+                Width = 158
                 Height = 21
                 Margins.Left = 4
                 Margins.Top = 4
@@ -431,6 +418,19 @@ object OptionsDialog: TOptionsDialog
                 Margins.Bottom = 4
                 Caption = ' Multiline'
                 TabOrder = 0
+                ReadOnly = False
+              end
+              object ShowCloseButtonCheckBox: TBCCheckBox
+                Left = 239
+                Top = 22
+                Width = 158
+                Height = 21
+                Margins.Left = 4
+                Margins.Top = 4
+                Margins.Right = 4
+                Margins.Bottom = 4
+                Caption = ' Show Close Button'
+                TabOrder = 1
                 ReadOnly = False
               end
             end
@@ -466,6 +466,7 @@ object OptionsDialog: TOptionsDialog
                 Margins.Right = 4
                 Margins.Bottom = 4
                 DropDownCount = 9
+                ItemHeight = 13
                 ReadOnly = False
                 TabOrder = 0
                 EditColor = clInfoBk
@@ -500,6 +501,7 @@ object OptionsDialog: TOptionsDialog
                 Margins.Bottom = 4
                 Anchors = [akTop, akRight]
                 DropDownCount = 9
+                ItemHeight = 13
                 ReadOnly = False
                 TabOrder = 0
                 EditColor = clInfoBk
@@ -543,6 +545,7 @@ object OptionsDialog: TOptionsDialog
                 Margins.Right = 4
                 Margins.Bottom = 4
                 Anchors = [akTop, akRight]
+                ItemHeight = 13
                 ReadOnly = False
                 TabOrder = 0
                 EditColor = clInfoBk

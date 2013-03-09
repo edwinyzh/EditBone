@@ -180,6 +180,7 @@ type
     ViewToolbarAction: TAction;
     ViewWordWrapAction: TAction;
     ViewXMLTreeAction: TAction;
+    ViewGotoLineAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -279,6 +280,7 @@ type
     procedure ViewToolbarActionExecute(Sender: TObject);
     procedure ViewWordWrapActionExecute(Sender: TObject);
     procedure ViewXMLTreeActionExecute(Sender: TObject);
+    procedure ViewGotoLineActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -738,6 +740,11 @@ begin
   EncodingComboBox.Visible := not EncodingComboBox.Visible;
 end;
 
+procedure TMainForm.ViewGotoLineActionExecute(Sender: TObject);
+begin
+  FDocumentFrame.GotoLine;
+end;
+
 procedure TMainForm.AppInstancesCmdLineReceived(Sender: TObject;
   CmdLine: TStrings);
 var
@@ -768,7 +775,7 @@ end;
 procedure TMainForm.SetFields;
 var
   ActiveDocumentFound: Boolean;
-  InfoText: string;
+  ActiveDocumentName, InfoText: string;
   KeyState: TKeyboardState;
   SelectionFound: Boolean;
   IsXMLDocument: Boolean;
@@ -789,8 +796,9 @@ begin
   if ViewXMLTreeAction.Visible then
     ViewXMLTreeAction.Checked := FDocumentFrame.XMLTreeVisible;
 
-  if FDocumentFrame.ActiveDocumentName <> '' then
-    Caption := Format(Application.Title + MAIN_CAPTION_DOCUMENT, [FDocumentFrame.ActiveDocumentName])
+  ActiveDocumentName := FDocumentFrame.ActiveDocumentName;
+  if ActiveDocumentName <> '' then
+    Caption := Format(Application.Title + MAIN_CAPTION_DOCUMENT, [ActiveDocumentName])
   else
   if FDocumentFrame.ActiveTabSheetCaption <> '' then
     Caption := Format(Application.Title + MAIN_CAPTION_DOCUMENT, [FDocumentFrame.ActiveTabSheetCaption])
@@ -799,6 +807,7 @@ begin
   FileCloseAction.Enabled := FDocumentFrame.OpenTabSheets;
   FileCloseAllAction.Enabled := FileCloseAction.Enabled;
   FileCloseAllOtherPagesAction.Enabled := FileCloseAction.Enabled;
+  FilePropertiesAction.Enabled := ActiveDocumentFound and (ActiveDocumentName <> '');
   ViewNextPageAction.Enabled := FDocumentFrame.OpenTabSheetCount > 1;
   ViewPreviousPageAction.Enabled := ViewNextPageAction.Enabled;
   ToolsOptionsAction.Enabled := FileCloseAction.Enabled;
@@ -1067,6 +1076,9 @@ begin
 
   ReadLanguageFile(Common.GetSelectedLanguage);
   ReadIniFile;
+
+  //TStyleManager.Engine.RegisterStyleHook(TCustomTabControl, TTabControlStyleHookBtnClose);
+  //TStyleManager.Engine.RegisterStyleHook(TTabControl, TTabControlStyleHookBtnClose);
 end;
 
 procedure TMainForm.FormKeyDown(Sender: TObject; var Key: Word;

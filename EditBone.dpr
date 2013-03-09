@@ -19,7 +19,7 @@ uses
   Diff in '..\..\Common\units\Diff.pas',
   Hash in '..\..\Common\units\Hash.pas',
   DirectoryTab in 'dialogs\DirectoryTab.pas' {DirectoryTabDialog},
-  Vcl.Themes,
+  Vcl.Themes, Vcl.ComCtrls,
   Vcl.Styles,
   Main in 'forms\Main.pas' {MainForm},
   StyleHooks in '..\..\Common\units\StyleHooks.pas',
@@ -40,6 +40,8 @@ uses
 var
   StyleFilename: string;
 begin
+  TStyleManager.Engine.RegisterStyleHook(TCustomTabControl, TTabControlStyleHookBtnClose);
+  //TStyleManager.Engine.RegisterStyleHook(TTabControl, TTabControlStyleHookBtnClose);
   with TBigIniFile.Create(Common.GetINIFilename) do
   try
     StyleFilename := ReadString('Options', 'StyleFilename', STYLENAME_WINDOWS);
