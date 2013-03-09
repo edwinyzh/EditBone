@@ -633,6 +633,13 @@ begin
     Result := DocTabSheetFrame.VirtualDrawTree.Visible;
 end;
 
+procedure FormatTabSheetCaption(TabSheet: TTabSheet);
+begin
+  TabSheet.Caption := Trim(TabSheet.Caption);
+  if TStyleManager.ActiveStyle.Name <> STYLENAME_WINDOWS then
+    TabSheet.Caption := TabSheet.Caption + SPACE_FOR_TAB_CLOSE_BUTTON;
+end;
+
 function TDocumentFrame.CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
 var
   TabSheet: TTabSheet;
@@ -652,8 +659,8 @@ begin
     TabSheet.Caption := LanguageDataModule.GetConstant('Document') + IntToStr(FNumberOfNewDocument)
   else
     TabSheet.Caption := ExtractFileName(FileName);
-  if TStyleManager.ActiveStyle.Name <> STYLENAME_WINDOWS then
-    TabSheet.Caption := TabSheet.Caption + SPACE_FOR_TAB_CLOSE_BUTTON;
+  FormatTabSheetCaption(TabSheet);
+
   PageControl.ActivePage := TabSheet;
 
   DocTabSheetFrame := TDocTabSheetFrame.Create(TabSheet);
@@ -778,6 +785,8 @@ begin
     PanelColor := LStyles.GetStyleColor(scPanel);
   for i := 0 to PageControl.PageCount - 1 do
   begin
+    FormatTabSheetCaption(PageControl.Pages[i]);
+
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
     if Assigned(DocTabSheetFrame) then
     begin
@@ -924,8 +933,7 @@ begin
   TabSheet.PageControl := PageControl;
   TabSheet.ImageIndex := FCompareImageIndex;
   TabSheet.Caption := LanguageDataModule.GetConstant('CompareFiles');
-  if TStyleManager.ActiveStyle.Name <> STYLENAME_WINDOWS then
-    TabSheet.Caption := TabSheet.Caption + SPACE_FOR_TAB_CLOSE_BUTTON;
+  FormatTabSheetCaption(TabSheet);
   PageControl.ActivePage := TabSheet;
   { create a compare frame }
   Frame := TCompareFrame.Create(TabSheet);
@@ -1211,8 +1219,7 @@ begin
       if Pos('~', AFileName) = Length(AFileName) then
         AFileName := System.Copy(AFileName, 0, Length(AFileName) - 1);
       TabSheet.Caption := AFileName;
-      if TStyleManager.ActiveStyle.Name <> STYLENAME_WINDOWS then
-        TabSheet.Caption := TabSheet.Caption + SPACE_FOR_TAB_CLOSE_BUTTON;
+      FormatTabSheetCaption(TabSheet);
 
       SelectHighLighter(DocTabSheetFrame, DocumentName);
     end;
@@ -2013,8 +2020,7 @@ begin
   if Pos('~', PageControl.ActivePage.Caption) = 0 then
   begin
     PageControl.ActivePage.Caption := Format('%s~', [Trim(PageControl.ActivePage.Caption)]);
-    if TStyleManager.ActiveStyle.Name <> STYLENAME_WINDOWS then
-        PageControl.ActivePage.Caption := PageControl.ActivePage.Caption + SPACE_FOR_TAB_CLOSE_BUTTON;
+    FormatTabSheetCaption(PageControl.ActivePage);
     PageControlRepaint;
   end;
 end;
