@@ -239,6 +239,7 @@ type
     procedure GotoLineCloseActionExecute(Sender: TObject);
     procedure GotoLineActionExecute(Sender: TObject);
     procedure GotoLineNumberEditKeyPress(Sender: TObject; var Key: Char);
+    procedure PageControlCloseButtonClick(Sender: TObject);
   private
     { Private declarations }
     FCaseCycle: Byte;
@@ -403,9 +404,6 @@ begin
   FCaseCycle := 0;
   FSelectedText := '';
   FHTMLErrorList := TList.Create;
-
-  //PageControl.MultiLine := OptionsContainer.MultiLine;
-  //PageControl.ShowCloseButton := OptionsContainer.ShowCloseButton;
 
   { IDE can lose these, if the main form is not open }
   EditorPopupMenu.Images := MainForm.ImageList;
@@ -1065,6 +1063,7 @@ var
   Rslt: Integer;
   SynEdit: TBCSynEdit;
 begin
+  Application.ProcessMessages;
   Rslt := mrNone;
 
   SynEdit := GetActiveSynEdit;
@@ -1372,6 +1371,11 @@ begin
     SetMainEncodingCombo(SynEdit);
   end;
   PageControlRepaint;
+end;
+
+procedure TDocumentFrame.PageControlCloseButtonClick(Sender: TObject);
+begin
+  MainForm.FileCloseAction.Execute;
 end;
 
 procedure TDocumentFrame.Paste;
@@ -2014,6 +2018,7 @@ begin
   if Pos('~', PageControl.ActivePage.Caption) = 0 then
   begin
     PageControl.ActivePage.Caption := Format('%s~', [Trim(PageControl.ActivePage.Caption)]);
+    PageControl.ShowCloseButton := OptionsContainer.ShowCloseButton;
     PageControlRepaint;
   end;
 end;

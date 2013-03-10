@@ -29,6 +29,7 @@ type
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
+    procedure PageControlCloseButtonClick(Sender: TObject);
   private
     { Private declarations }
     FProcessingTabSheet: Boolean;
@@ -72,6 +73,11 @@ end;
 procedure TOutputFrame.OutputCloseAllActionExecute(Sender: TObject);
 begin
   CloseAllTabSheets;
+end;
+
+procedure TOutputFrame.PageControlCloseButtonClick(Sender: TObject);
+begin
+  OutputCloseAction.Execute;
 end;
 
 procedure TOutputFrame.TabsheetDblClick(Sender: TObject);

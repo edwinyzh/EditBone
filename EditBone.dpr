@@ -5,6 +5,7 @@ uses
   Windows,
   System.SysUtils,
   System.Classes,
+  Vcl.Themes, Vcl.ComCtrls, Vcl.Styles,
   Language in '..\..\Common\units\Language.pas' {LanguageDataModule: TDataModule},
   Directory in 'frames\Directory.pas' {DirectoryFrame: TFrame},
   Output in 'frames\Output.pas' {OutputFrame: TFrame},
@@ -19,8 +20,6 @@ uses
   Diff in '..\..\Common\units\Diff.pas',
   Hash in '..\..\Common\units\Hash.pas',
   DirectoryTab in 'dialogs\DirectoryTab.pas' {DirectoryTabDialog},
-  Vcl.Themes, Vcl.ComCtrls,
-  Vcl.Styles, BCPageControl,
   Main in 'forms\Main.pas' {MainForm},
   StyleHooks in '..\..\Common\units\StyleHooks.pas',
   DownloadURL in '..\..\Common\dialogs\DownloadURL.pas' {DownloadURLDialog},
@@ -40,7 +39,6 @@ uses
 var
   StyleFilename: string;
 begin
-  TStyleManager.Engine.RegisterStyleHook(TCustomTabControl, TTabControlStyleHookBtnClose);
   with TBigIniFile.Create(Common.GetINIFilename) do
   try
     StyleFilename := ReadString('Options', 'StyleFilename', STYLENAME_WINDOWS);
