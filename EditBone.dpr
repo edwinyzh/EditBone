@@ -20,7 +20,7 @@ uses
   Hash in '..\..\Common\units\Hash.pas',
   DirectoryTab in 'dialogs\DirectoryTab.pas' {DirectoryTabDialog},
   Vcl.Themes, Vcl.ComCtrls,
-  Vcl.Styles,
+  Vcl.Styles, BCPageControl,
   Main in 'forms\Main.pas' {MainForm},
   StyleHooks in '..\..\Common\units\StyleHooks.pas',
   DownloadURL in '..\..\Common\dialogs\DownloadURL.pas' {DownloadURLDialog},
@@ -41,7 +41,6 @@ var
   StyleFilename: string;
 begin
   TStyleManager.Engine.RegisterStyleHook(TCustomTabControl, TTabControlStyleHookBtnClose);
-  //TStyleManager.Engine.RegisterStyleHook(TTabControl, TTabControlStyleHookBtnClose);
   with TBigIniFile.Create(Common.GetINIFilename) do
   try
     StyleFilename := ReadString('Options', 'StyleFilename', STYLENAME_WINDOWS);

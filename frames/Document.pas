@@ -404,7 +404,8 @@ begin
   FSelectedText := '';
   FHTMLErrorList := TList.Create;
 
-  PageControl.MultiLine := OptionsContainer.MultiLine;
+  //PageControl.MultiLine := OptionsContainer.MultiLine;
+  //PageControl.ShowCloseButton := OptionsContainer.ShowCloseButton;
 
   { IDE can lose these, if the main form is not open }
   EditorPopupMenu.Images := MainForm.ImageList;
@@ -633,13 +634,6 @@ begin
     Result := DocTabSheetFrame.VirtualDrawTree.Visible;
 end;
 
-procedure FormatTabSheetCaption(TabSheet: TTabSheet);
-begin
-  TabSheet.Caption := Trim(TabSheet.Caption);
-  if TStyleManager.ActiveStyle.Name <> STYLENAME_WINDOWS then
-    TabSheet.Caption := TabSheet.Caption + SPACE_FOR_TAB_CLOSE_BUTTON;
-end;
-
 function TDocumentFrame.CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
 var
   TabSheet: TTabSheet;
@@ -659,7 +653,6 @@ begin
     TabSheet.Caption := LanguageDataModule.GetConstant('Document') + IntToStr(FNumberOfNewDocument)
   else
     TabSheet.Caption := ExtractFileName(FileName);
-  FormatTabSheetCaption(TabSheet);
 
   PageControl.ActivePage := TabSheet;
 
@@ -778,6 +771,8 @@ var
   PanelColor: TColor;
 begin
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
+  PageControl.MultiLine := OptionsContainer.MultiLine;
+  PageControl.ShowCloseButton := OptionsContainer.ShowCloseButton;
   Application.ProcessMessages;
   LStyles := StyleServices;
   PanelColor := clNone;
@@ -785,8 +780,6 @@ begin
     PanelColor := LStyles.GetStyleColor(scPanel);
   for i := 0 to PageControl.PageCount - 1 do
   begin
-    FormatTabSheetCaption(PageControl.Pages[i]);
-
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
     if Assigned(DocTabSheetFrame) then
     begin
@@ -933,7 +926,6 @@ begin
   TabSheet.PageControl := PageControl;
   TabSheet.ImageIndex := FCompareImageIndex;
   TabSheet.Caption := LanguageDataModule.GetConstant('CompareFiles');
-  FormatTabSheetCaption(TabSheet);
   PageControl.ActivePage := TabSheet;
   { create a compare frame }
   Frame := TCompareFrame.Create(TabSheet);
@@ -1219,7 +1211,6 @@ begin
       if Pos('~', AFileName) = Length(AFileName) then
         AFileName := System.Copy(AFileName, 0, Length(AFileName) - 1);
       TabSheet.Caption := AFileName;
-      FormatTabSheetCaption(TabSheet);
 
       SelectHighLighter(DocTabSheetFrame, DocumentName);
     end;
@@ -1762,6 +1753,7 @@ begin
     OptionsContainer.GutterVisible := ReadBool('Options', 'GutterVisible', True);
     OptionsContainer.GutterLineNumbers := ReadBool('Options', 'GutterLineNumbers', True);
     OptionsContainer.MultiLine := ReadBool('Options', 'MultiLine', False);
+    OptionsContainer.ShowCloseButton := ReadBool('Options', 'ShowCloseButton', False);
     OptionsContainer.HTMLErrorChecking := ReadBool('Options', 'HTMLErrorChecking', True);
     OptionsContainer.HtmlVersion := TSynWebHtmlVersion(StrToInt(ReadString('Options', 'HTMLVersion', '4'))); { default: HTML5 }
     OptionsContainer.AutoIndent := ReadBool('Options', 'AutoIndent', True);
@@ -1845,6 +1837,7 @@ begin
     WriteBool('Options', 'GutterVisible', OptionsContainer.GutterVisible);
     WriteBool('Options', 'GutterLineNumbers', OptionsContainer.GutterLineNumbers);
     WriteBool('Options', 'MultiLine', OptionsContainer.MultiLine);
+    WriteBool('Options', 'ShowCloseButton', OptionsContainer.ShowCloseButton);
     WriteBool('Options', 'HTMLErrorChecking', OptionsContainer.HTMLErrorChecking);
     WriteString('Options', 'HTMLVersion', IntToStr(Ord(OptionsContainer.HtmlVersion)));
     WriteBool('Options', 'AutoIndent', OptionsContainer.AutoIndent);
@@ -1904,6 +1897,7 @@ begin
       end;
     end;
     PageControl.MultiLine := OptionsContainer.MultiLine;
+    PageControl.ShowCloseButton := OptionsContainer.ShowCloseButton;
     WriteIniFile;
     Result := True;
   end;
@@ -2020,7 +2014,6 @@ begin
   if Pos('~', PageControl.ActivePage.Caption) = 0 then
   begin
     PageControl.ActivePage.Caption := Format('%s~', [Trim(PageControl.ActivePage.Caption)]);
-    FormatTabSheetCaption(PageControl.ActivePage);
     PageControlRepaint;
   end;
 end;

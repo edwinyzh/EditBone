@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, JvExControls,
   JvLabel, Vcl.ActnList, Vcl.ImgList, Vcl.ToolWin, Vcl.StdCtrls, JvSpeedButton, JvExComCtrls,
   JvComCtrls, Vcl.Menus, BCPopupMenu, VirtualTrees, Vcl.PlatformDefaultStyleActnCtrls,
-  Vcl.ActnPopup, BCImageList, Vcl.Themes, OutputTabSheet;
+  Vcl.ActnPopup, BCImageList, Vcl.Themes, OutputTabSheet, BCPageControl;
 
 type
   TOutputFrame = class(TFrame)
@@ -19,7 +19,7 @@ type
     OutputActionList: TActionList;
     OutputCloseAction: TAction;
     OutputCloseAllAction: TAction;
-    PageControl: TJvPageControl;
+    PageControl: TBCPageControl;
     PopupMenu: TBCPopupMenu;
     SeparatorMenuItem: TMenuItem;
     procedure CloseAllOtherPagesActionExecute(Sender: TObject);
@@ -41,7 +41,6 @@ type
     procedure SetProcessingTabSheet(Value: Boolean);
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent); override;
     function SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
     procedure AddTreeView(TabCaption: string; AutoExpand: Boolean = False);
     procedure AddTreeViewLine(Text: string); overload;
@@ -64,12 +63,6 @@ implementation
 
 uses
   Common, Lib, Options, StyleHooks;
-
-constructor TOutputFrame.Create(AOwner: TComponent);
-begin
-  inherited;
-  PageControl.MultiLine := OptionsContainer.MultiLine;
-end;
 
 procedure TOutputFrame.OutputCloseActionExecute(Sender: TObject);
 begin
@@ -493,6 +486,8 @@ var
   OutputTabSheetFrame: TOutputTabSheetFrame;
 begin
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
+  PageControl.MultiLine := OptionsContainer.MultiLine;
+  PageControl.ShowCloseButton := OptionsContainer.ShowCloseButton;
 
   LStyles := StyleServices;
   PanelColor := clNone;

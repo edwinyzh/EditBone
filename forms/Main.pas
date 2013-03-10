@@ -1524,7 +1524,10 @@ begin
   if FDocumentFrame.Options then
   begin
     if Assigned(FOutputFrame) then
+    begin
       FOutputFrame.PageControl.MultiLine := OptionsContainer.MultiLine;
+      FOutputFrame.PageControl.ShowCloseButton := OptionsContainer.ShowCloseButton;
+    end;
     if Assigned(FDirectoryFrame) then
       FDirectoryFrame.PageControl.MultiLine := OptionsContainer.MultiLine;
   end;

@@ -8,7 +8,7 @@ uses
   Vcl.Menus, SynEdit, SynEditHighlighter, SynEditMiscClasses, SynHighlighterWebData, SynEditKeyCmds,
   System.Classes, System.SysUtils, Vcl.ImgList, SynHighlighterWeb, Vcl.Grids, SynHighlighterSQL,
   BCCheckBox, Document, JvExStdCtrls, JvEdit, BCEdit, JvCombobox, BCComboBox, Vcl.ActnList,
-  Vcl.Themes, Dlg, Vcl.CheckLst;
+  Vcl.Themes, Dlg, Vcl.CheckLst, BCPageControl, JvExComCtrls, JvComCtrls;
 
 type
   TCPASHighlighter = (hClassic, hDefault, hTwilight);
@@ -60,7 +60,7 @@ type
     LineSpacingGroupBox: TGroupBox;
     MultilineCheckBox: TBCCheckBox;
     OKButton: TButton;
-    PageControl: TPageControl;
+    PageControl: TBCPageControl;
     ScrollPastEofCheckBox: TBCCheckBox;
     ScrollPastEolCheckBox: TBCCheckBox;
     SelectFontAction: TAction;
@@ -106,6 +106,7 @@ type
     FGutterVisible: Boolean;
     FGutterLineNumbers: Boolean;
     FMultiLine: Boolean;
+    FShowCloseButton: Boolean;
     FHTMLVersion: TSynWebHtmlVersion;
     FFileTypes: TStrings;
     FHTMLErrorChecking: Boolean;
@@ -133,6 +134,7 @@ type
     property GutterVisible: Boolean read FGutterVisible write FGutterVisible;
     property GutterLineNumbers: Boolean read FGutterVisible write FGutterLineNumbers;
     property MultiLine: Boolean read FMultiLine write FMultiLine;
+    property ShowCloseButton: Boolean read FShowCloseButton write FShowCloseButton;
     property RightEdge: Integer read FRightEdge write FRightEdge;
     property TabWidth: Integer read FTabWidth write FTabWidth;
     property HTMLVersion: TSynWebHtmlVersion read FHTMLVersion write FHTMLVersion;
@@ -379,6 +381,7 @@ begin
   FGutterVisible := True;
   FGutterLineNumbers := True;
   FMultiLine := False;
+  FShowCloseButton := False;
   FHTMLErrorChecking := True;
   FFontName := 'Courier New';
   FFontSize := 10;
@@ -460,6 +463,7 @@ var
   FileType: string;
 begin
   MultiLineCheckBox.Checked := FOptionsContainer.MultiLine;
+  ShowCloseButtonCheckBox.Checked := FOptionsContainer.ShowCloseButton;
   HTMLErrorCheckingCheckBox.Checked := FOptionsContainer.HTMLErrorChecking;
   { Options }
   AutoIndentCheckBox.Checked := FOptionsContainer.AutoIndent;
@@ -515,6 +519,7 @@ var
 
 begin
   FOptionsContainer.MultiLine := MultiLineCheckBox.Checked;
+  FOptionsContainer.ShowCloseButton := ShowCloseButtonCheckBox.Checked;
   FOptionsContainer.HTMLErrorChecking := HTMLErrorCheckingCheckBox.Checked;
   { Options }
   FOptionsContainer.AutoIndent := AutoIndentCheckBox.Checked;

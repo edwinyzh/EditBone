@@ -28,7 +28,7 @@ object OptionsDialog: TOptionsDialog
     Padding.Top = 6
     Padding.Right = 6
     TabOrder = 0
-    object PageControl: TPageControl
+    object PageControl: TBCPageControl
       Left = 6
       Top = 6
       Width = 458
@@ -40,6 +40,9 @@ object OptionsDialog: TOptionsDialog
       ActivePage = EditorTabSheet
       Align = alClient
       TabOrder = 0
+      TabDragDrop = False
+      HoldShiftToDragDrop = False
+      ShowCloseButton = False
       object EditorTabSheet: TTabSheet
         Margins.Left = 4
         Margins.Top = 4
