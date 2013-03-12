@@ -3,8 +3,8 @@ object OptionsDialog: TOptionsDialog
   Top = 154
   BorderStyle = bsDialog
   Caption = 'Options'
-  ClientHeight = 422
-  ClientWidth = 470
+  ClientHeight = 479
+  ClientWidth = 522
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,648 +15,61 @@ object OptionsDialog: TOptionsDialog
   Position = poMainFormCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object TopPanel: TPanel
     Left = 0
     Top = 0
-    Width = 470
-    Height = 381
+    Width = 522
+    Height = 438
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 6
     Padding.Top = 6
     Padding.Right = 6
     TabOrder = 0
-    object PageControl: TBCPageControl
+    object OptionsVirtualStringTree: TVirtualStringTree
       Left = 6
       Top = 6
-      Width = 458
-      Height = 375
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      ActivePage = EditorTabSheet
-      Align = alClient
+      Width = 200
+      Height = 432
+      Align = alLeft
+      Header.AutoSizeIndex = 0
+      Header.Font.Charset = DEFAULT_CHARSET
+      Header.Font.Color = clWindowText
+      Header.Font.Height = -11
+      Header.Font.Name = 'Tahoma'
+      Header.Font.Style = []
+      Header.MainColumn = -1
+      Images = ImageList
+      RootNodeCount = 4
       TabOrder = 0
-      TabDragDrop = False
-      HoldShiftToDragDrop = False
-      ShowCloseButton = False
-      object EditorTabSheet: TTabSheet
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
-        Caption = 'Editor'
-        object EditorPanel: TPanel
-          Left = 0
-          Top = 0
-          Width = 450
-          Height = 347
-          Align = alClient
-          BevelOuter = bvNone
-          Padding.Left = 4
-          Padding.Right = 4
-          Padding.Bottom = 4
-          TabOrder = 0
-          object Editor1Panel: TPanel
-            Left = 4
-            Top = 0
-            Width = 442
-            Height = 54
-            Align = alTop
-            BevelOuter = bvNone
-            Padding.Right = 2
-            TabOrder = 0
-            object EditorFontGroupBox: TGroupBox
-              Left = 0
-              Top = 0
-              Width = 216
-              Height = 54
-              Margins.Left = 4
-              Margins.Top = 4
-              Margins.Right = 4
-              Margins.Bottom = 4
-              Align = alLeft
-              Caption = ' Editor Font '
-              TabOrder = 0
-              object SelectFontSpeedButton: TSpeedButton
-                Left = 178
-                Top = 20
-                Width = 21
-                Height = 21
-                Action = SelectFontAction
-                Glyph.Data = {
-                  FE020000424DFE02000000000000FE0100002800000010000000100000000100
-                  08000000000000010000120B0000120B0000720000007200000000000000FFFF
-                  FF00FF00FF00705364009053550077494B00FF828300F27B7D00FF838400F47D
-                  7F00CE6B6D00FF868700FC848600FF878800B6626300A65A5B00884D4E009957
-                  5900A65F6000985759007D4B4C00D8707000D7707000D36E6E00AC5B5A00FF86
-                  8600BD656500A15656008E4D4D00A75B5B00A65B5B00A0585800A15959009F58
-                  58009C5656009C5757009A5656009F5A590098555500935353007F4949007A47
-                  4700CF433F00CB433F00E36C6800744544007E4D4C00FE7E0000EA880900AB79
-                  1F00BD882200968A3400837B310000F3ED0000EDEE0009D9FA0008CBF00008C1
-                  E900019FD100048EBA000998C5000D779A0011A3D4001176A1002793C100006A
-                  A600026398001290D3001B90D0004490BA000065A00000609A00056099000A7B
-                  BD001593DD002295DD00299DE3002E99DD0036ADF80000569000025F9E00035D
-                  9A000564A3000765A6000963A0000A6099000C66A4000F6EAF001273B400228B
-                  CF002DA1EE001B5D8B003299DE00095E9E00095F9E0009609E00095D99001F62
-                  9600428EC900459CEA005083B1004F759C004A6B8B003698FE00216EF2002269
-                  FA0059658300374D87005B688B000F42F7006F7BA3007782A600062AF8007F82
-                  9F00020202020202020202020202020202020202020202020202020202020202
-                  02020202020202020202020202020202020202022821182E02020323121C0202
-                  0202020202200B0F0202022C1925020202020202020222070414051606110202
-                  020202020202021F17290216061302020202020202020202211A2D1506220202
-                  020202020202020202210E0A081B02020202020202020202020226090D1D0202
-                  0202020202020202020202240C1E020202020202020202020202020227100202
-                  0202020202020202020202020202020202020202020202020202020202020202
-                  0202020202020202020202020202020202020202020202020202020202020202
-                  0202}
-              end
-              object EditorFontPanel: TPanel
-                Left = 11
-                Top = 20
-                Width = 158
-                Height = 33
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                BevelOuter = bvNone
-                TabOrder = 0
-                object FontLabel: TLabel
-                  Left = 4
-                  Top = 3
-                  Width = 128
-                  Height = 16
-                  Margins.Left = 4
-                  Margins.Top = 4
-                  Margins.Right = 4
-                  Margins.Bottom = 4
-                  Caption = 'Courier New 10pt'
-                  Font.Charset = DEFAULT_CHARSET
-                  Font.Color = clWindowText
-                  Font.Height = -13
-                  Font.Name = 'Courier New'
-                  Font.Style = []
-                  ParentFont = False
-                end
-              end
-            end
-            object GutterGroupBox: TGroupBox
-              Left = 224
-              Top = 0
-              Width = 216
-              Height = 54
-              Margins.Left = 4
-              Margins.Top = 4
-              Margins.Right = 4
-              Margins.Bottom = 4
-              Align = alRight
-              Caption = ' Gutter '
-              TabOrder = 1
-              object LineNumbersCheckBox: TBCCheckBox
-                Left = 92
-                Top = 20
-                Width = 115
-                Height = 21
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Caption = ' Line Numbers'
-                Checked = True
-                State = cbChecked
-                TabOrder = 0
-                ReadOnly = False
-              end
-              object GutterVisibleCheckBox: TBCCheckBox
-                Left = 15
-                Top = 20
-                Width = 62
-                Height = 21
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Caption = ' Visible'
-                Checked = True
-                State = cbChecked
-                TabOrder = 1
-                ReadOnly = False
-              end
-            end
-          end
-          object Editor2Panel: TPanel
-            Left = 4
-            Top = 54
-            Width = 442
-            Height = 71
-            Align = alTop
-            BevelOuter = bvNone
-            Padding.Right = 2
-            TabOrder = 1
-            object EditorOptionsGroupBox: TGroupBox
-              Left = 0
-              Top = 0
-              Width = 440
-              Height = 71
-              Margins.Left = 4
-              Margins.Top = 4
-              Margins.Right = 4
-              Margins.Bottom = 4
-              Align = alClient
-              Caption = ' Options '
-              TabOrder = 0
-              DesignSize = (
-                440
-                71)
-              object AutoIndentCheckBox: TBCCheckBox
-                Left = 15
-                Top = 20
-                Width = 201
-                Height = 21
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Caption = ' Auto Indent'
-                Checked = True
-                State = cbChecked
-                TabOrder = 0
-                OnClick = HTMLErrorCheckingCheckBoxClick
-                ReadOnly = False
-              end
-              object ScrollPastEofCheckBox: TBCCheckBox
-                Left = 239
-                Top = 20
-                Width = 186
-                Height = 21
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Anchors = [akTop, akRight]
-                Caption = ' Scroll Past End of File'
-                TabOrder = 2
-                OnClick = HTMLErrorCheckingCheckBoxClick
-                ReadOnly = False
-              end
-              object ScrollPastEolCheckBox: TBCCheckBox
-                Left = 239
-                Top = 38
-                Width = 191
-                Height = 21
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Anchors = [akTop, akRight]
-                Caption = ' Scroll Past End of Line'
-                Checked = True
-                State = cbChecked
-                TabOrder = 3
-                OnClick = HTMLErrorCheckingCheckBoxClick
-                ReadOnly = False
-              end
-              object TrimTrailingSpacesCheckBox: TBCCheckBox
-                Left = 15
-                Top = 38
-                Width = 201
-                Height = 21
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Caption = ' Trim Trailing Spaces'
-                Checked = True
-                State = cbChecked
-                TabOrder = 1
-                OnClick = HTMLErrorCheckingCheckBoxClick
-                ReadOnly = False
-              end
-            end
-          end
-          object Editor3Panel: TPanel
-            Left = 4
-            Top = 125
-            Width = 442
-            Height = 54
-            Align = alTop
-            BevelOuter = bvNone
-            Padding.Right = 2
-            TabOrder = 2
-            object LineSpacingGroupBox: TGroupBox
-              Left = 0
-              Top = 0
-              Width = 440
-              Height = 54
-              Margins.Left = 4
-              Margins.Top = 4
-              Margins.Right = 4
-              Margins.Bottom = 4
-              Align = alClient
-              Anchors = [akLeft, akTop, akBottom]
-              Caption = ' Line Spacing / Tab Spacing / Right Edge '
-              TabOrder = 0
-              object ExtraLinesLabel: TLabel
-                Left = 15
-                Top = 23
-                Width = 53
-                Height = 13
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Caption = 'Extra Lines'
-              end
-              object TabWidthLabel: TLabel
-                Left = 152
-                Top = 23
-                Width = 49
-                Height = 13
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Caption = 'Tab Width'
-              end
-              object EdgeColumnLabel: TLabel
-                Left = 288
-                Top = 23
-                Width = 62
-                Height = 13
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Caption = 'Edge Column'
-              end
-              object ExtraLinesEdit: TBCEdit
-                Left = 105
-                Top = 20
-                Width = 30
-                Height = 21
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                TabOrder = 0
-                Text = '0'
-                OnlyNumbers = False
-                NumbersWithDots = False
-                NumbersWithSpots = False
-                EditColor = clInfoBk
-                NumbersAllowNegative = False
-              end
-              object TabWidthEdit: TBCEdit
-                Left = 239
-                Top = 20
-                Width = 30
-                Height = 21
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                TabOrder = 1
-                Text = '8'
-                OnlyNumbers = False
-                NumbersWithDots = False
-                NumbersWithSpots = False
-                EditColor = clInfoBk
-                NumbersAllowNegative = False
-              end
-              object EdgeColumnEdit: TBCEdit
-                Left = 394
-                Top = 20
-                Width = 30
-                Height = 21
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Flat = False
-                ParentFlat = False
-                TabOrder = 2
-                Text = '80'
-                OnlyNumbers = False
-                NumbersWithDots = False
-                NumbersWithSpots = False
-                EditColor = clInfoBk
-                NumbersAllowNegative = False
-              end
-            end
-          end
-          object Editor4Panel: TPanel
-            Left = 4
-            Top = 179
-            Width = 442
-            Height = 54
-            Align = alTop
-            BevelOuter = bvNone
-            Padding.Right = 2
-            TabOrder = 3
-            object TabsGroupBox: TGroupBox
-              Left = 0
-              Top = 0
-              Width = 440
-              Height = 54
-              Margins.Left = 4
-              Margins.Top = 4
-              Margins.Right = 4
-              Margins.Bottom = 4
-              Align = alRight
-              Anchors = [akLeft, akTop, akBottom]
-              Caption = ' Page Control Tabs '
-              TabOrder = 0
-              object MultilineCheckBox: TBCCheckBox
-                Left = 15
-                Top = 22
-                Width = 158
-                Height = 21
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Caption = ' Multiline'
-                TabOrder = 0
-                ReadOnly = False
-              end
-              object ShowCloseButtonCheckBox: TBCCheckBox
-                Left = 239
-                Top = 22
-                Width = 158
-                Height = 21
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Caption = ' Show Close Button'
-                TabOrder = 1
-                ReadOnly = False
-              end
-            end
-          end
-          object Editor5Panel: TPanel
-            Left = 4
-            Top = 233
-            Width = 442
-            Height = 54
-            Align = alTop
-            BevelOuter = bvNone
-            Padding.Right = 2
-            TabOrder = 4
-            object CPASHighlighterGroupBox: TGroupBox
-              Left = 0
-              Top = 0
-              Width = 216
-              Height = 54
-              Margins.Left = 4
-              Margins.Top = 4
-              Margins.Right = 4
-              Margins.Bottom = 4
-              Align = alLeft
-              Caption = ' Default C / Pascal Highlighter '
-              TabOrder = 0
-              object CPASHighlighterComboBox: TBCComboBox
-                Left = 15
-                Top = 20
-                Width = 186
-                Height = 21
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                DropDownCount = 9
-                ItemHeight = 13
-                ReadOnly = False
-                TabOrder = 0
-                EditColor = clInfoBk
-                DeniedKeyStrokes = True
-                DropDownFixedWidth = 0
-              end
-            end
-            object SQLDialectGroupBox: TGroupBox
-              Left = 224
-              Top = 0
-              Width = 216
-              Height = 54
-              Margins.Left = 4
-              Margins.Top = 4
-              Margins.Right = 4
-              Margins.Bottom = 4
-              Align = alRight
-              Anchors = [akLeft, akTop, akBottom]
-              Caption = ' SQL Dialect '
-              TabOrder = 1
-              DesignSize = (
-                216
-                54)
-              object SQLDialectComboBox: TBCComboBox
-                Left = 15
-                Top = 20
-                Width = 186
-                Height = 21
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Anchors = [akTop, akRight]
-                DropDownCount = 9
-                ItemHeight = 13
-                ReadOnly = False
-                TabOrder = 0
-                EditColor = clInfoBk
-                DeniedKeyStrokes = True
-                DropDownFixedWidth = 0
-              end
-            end
-          end
-          object Editor6Panel: TPanel
-            Left = 4
-            Top = 287
-            Width = 442
-            Height = 56
-            Align = alClient
-            BevelOuter = bvNone
-            Padding.Right = 2
-            Padding.Bottom = 2
-            TabOrder = 5
-            object HTMLVersionGroupBox: TGroupBox
-              Left = 0
-              Top = 0
-              Width = 440
-              Height = 54
-              Margins.Left = 4
-              Margins.Top = 4
-              Margins.Right = 4
-              Margins.Bottom = 4
-              Align = alClient
-              Caption = ' HTML Error Checking / Version When DOCTYPE Does Not Exist'
-              TabOrder = 0
-              DesignSize = (
-                440
-                54)
-              object HTMLVersionComboBox: TBCComboBox
-                Left = 238
-                Top = 20
-                Width = 186
-                Height = 21
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Anchors = [akTop, akRight]
-                ItemHeight = 13
-                ReadOnly = False
-                TabOrder = 0
-                EditColor = clInfoBk
-                DeniedKeyStrokes = True
-                DropDownFixedWidth = 0
-              end
-              object HTMLErrorCheckingCheckBox: TBCCheckBox
-                Left = 15
-                Top = 20
-                Width = 124
-                Height = 21
-                Margins.Left = 4
-                Margins.Top = 4
-                Margins.Right = 4
-                Margins.Bottom = 4
-                Caption = ' Enabled'
-                Checked = True
-                State = cbChecked
-                TabOrder = 1
-                OnClick = HTMLErrorCheckingCheckBoxClick
-                ReadOnly = False
-              end
-            end
-          end
-        end
-      end
-      object FileTypesTabSheet: TTabSheet
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
-        Caption = 'File Types'
-        ImageIndex = 1
-        object FileTypesBottomPanel: TPanel
-          Left = 0
-          Top = 317
-          Width = 450
-          Height = 30
-          Align = alBottom
-          BevelOuter = bvNone
-          TabOrder = 0
-          DesignSize = (
-            450
-            30)
-          object ExtensionsLabel: TLabel
-            Left = 8
-            Top = 8
-            Width = 52
-            Height = 13
-            Margins.Left = 4
-            Margins.Top = 4
-            Margins.Right = 4
-            Margins.Bottom = 4
-            Anchors = [akLeft, akBottom]
-            Caption = 'Extensions'
-          end
-          object ExtensionsEdit: TBCEdit
-            Left = 70
-            Top = 6
-            Width = 375
-            Height = 21
-            Margins.Left = 4
-            Margins.Top = 4
-            Margins.Right = 4
-            Margins.Bottom = 4
-            Anchors = [akLeft, akRight, akBottom]
-            TabOrder = 0
-            OnChange = ExtensionsEditChange
-            OnlyNumbers = False
-            NumbersWithDots = False
-            NumbersWithSpots = False
-            EditColor = clInfoBk
-            NumbersAllowNegative = False
-          end
-        end
-        object FileTypesTopPanel: TPanel
-          Left = 0
-          Top = 0
-          Width = 450
-          Height = 317
-          Align = alClient
-          BevelOuter = bvNone
-          Padding.Left = 4
-          Padding.Top = 4
-          Padding.Right = 5
-          TabOrder = 1
-          object FileTypesListBox: TListBox
-            Left = 4
-            Top = 4
-            Width = 441
-            Height = 313
-            Margins.Left = 4
-            Margins.Top = 4
-            Margins.Right = 4
-            Margins.Bottom = 4
-            Align = alClient
-            ItemHeight = 13
-            TabOrder = 0
-            OnClick = FileTypesListBoxClick
-          end
-        end
-      end
+      TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
+      TreeOptions.PaintOptions = [toShowBackground, toShowButtons, toShowDropmark, toShowRoot, toThemeAware, toUseBlendedSelection, toUseExplorerTheme]
+      TreeOptions.SelectionOptions = [toFullRowSelect]
+      TreeOptions.StringOptions = []
+      OnClick = OptionsVirtualStringTreeClick
+      OnFreeNode = OptionsVirtualStringTreeFreeNode
+      OnGetText = OptionsVirtualStringTreeGetText
+      OnGetImageIndex = OptionsVirtualStringTreeGetImageIndex
+      OnInitNode = OptionsVirtualStringTreeInitNode
+      Columns = <>
+    end
+    object OptionsPanel: TPanel
+      Left = 206
+      Top = 6
+      Width = 310
+      Height = 432
+      Align = alClient
+      BevelOuter = bvNone
+      TabOrder = 1
     end
   end
   object ButtonPanel: TPanel
     Left = 0
-    Top = 381
-    Width = 470
+    Top = 438
+    Width = 522
     Height = 41
     Align = alBottom
     BevelOuter = bvNone
@@ -665,7 +78,7 @@ object OptionsDialog: TOptionsDialog
     Padding.Bottom = 8
     TabOrder = 1
     object OKButton: TButton
-      Left = 306
+      Left = 358
       Top = 8
       Width = 75
       Height = 25
@@ -680,7 +93,7 @@ object OptionsDialog: TOptionsDialog
       TabOrder = 0
     end
     object CancelButton: TButton
-      Left = 389
+      Left = 441
       Top = 8
       Width = 75
       Height = 25
@@ -694,7 +107,7 @@ object OptionsDialog: TOptionsDialog
       TabOrder = 1
     end
     object ButtonDividerPanel: TPanel
-      Left = 381
+      Left = 433
       Top = 8
       Width = 8
       Height = 25
@@ -703,22 +116,320 @@ object OptionsDialog: TOptionsDialog
       TabOrder = 2
     end
   end
-  object FontDialog: TFontDialog
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    Options = [fdFixedPitchOnly, fdNoSimulations]
-    Left = 332
-    Top = 70
-  end
   object ActionList: TActionList
+    Images = ImageList
     Left = 136
     Top = 34
-    object SelectFontAction: TAction
-      Hint = 'Select a font'
-      OnExecute = SelectFontActionExecute
+    object EditorAction: TAction
+      Caption = 'Editor'
+      ImageIndex = 0
     end
+    object EditorFontAction: TAction
+      Caption = 'Font'
+      ImageIndex = 4
+    end
+    object EditorGutterAction: TAction
+      Caption = 'Gutter'
+      ImageIndex = 5
+    end
+    object EditorTabsAction: TAction
+      Caption = 'Tabs'
+      ImageIndex = 6
+    end
+    object EditorErrorCheckingAction: TAction
+      Caption = 'HTML Error Checking'
+      ImageIndex = 7
+    end
+    object EditorOthersAction: TAction
+      Caption = 'Other'
+      ImageIndex = 8
+    end
+    object CompareAction: TAction
+      Caption = 'Compare'
+      ImageIndex = 1
+    end
+    object MenuAction: TAction
+      Caption = 'Menu'
+      ImageIndex = 2
+    end
+    object FileTypesAction: TAction
+      Caption = 'File Types'
+      ImageIndex = 3
+    end
+  end
+  object ImageList: TImageList
+    Left = 106
+    Top = 158
+    Bitmap = {
+      494C010106000800800010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      0000000000003600000028000000400000002000000001002000000000000020
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000A4676900A4676900A4676900A467
+      6900A4676900A4676900A4676900A4676900A4676900A4676900A4676900A467
+      6900A4676900A4676900A4676900A46769000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000A4676900E7C59600E7C59600A467
+      6900FEE9C700F4DAB500F3D5AA00F2D0A000EFCB9600EFC68B00EDC18200EBC1
+      7F00D1926D00EBC18000F2C78200A46769000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000000000007F4949009F58
+      5800AC5B5A007E4D4C000000000000000000705364009C575700A65F60008E4D
+      4D0000000000000000000000000000000000A4676900E7C5960097979700A467
+      6900FCEACE00F3DABC00F2D5B100F0D0A700EECB9E00EDC79300EDC28B00E9BD
+      8100D1926D00E9BD7F00EFC48100A46769000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000000000000A159
+      5900FF868700A65A5B00000000000000000000000000E36C6800FF8686009F5A
+      590000000000000000000000000000000000A4676900EACBA300BABABA00A467
+      6900FEEFDA00F6E0C600F2DABC00F2D5B200EFD0A900EECB9E00EDC79600EBC2
+      8C00D1926D00E9BD7F00EFC48100A46769000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00009C565600F27B7D00905355007D4B4C0077494B00D7707000FF8283009957
+      590000000000000000000000000000000000A4676900EAD1B1009C9C9C00A467
+      6900FFF4E500F7E5CF00F4E0C500F3DABB00F2D5B100F0D0A600EECB9E00EDC7
+      9500D1926D00EABF8100EFC48000A46769000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000A0585800D36E6E007A47470000000000D7707000FF8283009857
+      590000000000000000000000000000000000A4676900EFD9C100C1C1C100A467
+      6900FFFBF000F8EADC00F6E3CF00F4E0C600F2D9BC00F2D5B100F0D0A900EDCB
+      9E00D1926D00EBC28A00EFC58300A46769000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000009F585800BD65650074454400D8707000FF8283009C56
+      560000000000000000000000000000000000A5686A00F7E7D400F7E7D400A467
+      6900FFFFFC00FAF0E600F8EADA00F7E5CF00F4E0C500F2DABA00F2D5B100F0D0
+      A700D1926D00EBC79300F2C98C00A46769000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000009F585800B6626300CE6B6D00FF838400A156
+      560000000000000000000000000000000000A7756B00FBEFE500CBCBCB00A467
+      6900FFFFFF00FEF7F200FAEFE600F8EAD900F7E3CF00F6E0C500F2DABB00F2D4
+      B100D1926D00EECC9E00F3CE9700A46769000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000098555500F47D7F00FF878800A75B
+      5B0000000000000000000000000000000000A7756B00FFFBF700C2C2C200A467
+      6900FFFFFF00FFFEFC00FCF6F000FAEFE600F7EADA00F6E3CF00F4E0C500F3D9
+      BB00D1926D00F0D0A600F6D3A000A46769000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000009A565600FC848600A65B
+      5B0000000000000000000000000000000000BC826800F5F5F500DEDEDE00A467
+      6900FFFFFF00FFFFFF00FFFEFC00FEF7F000FAEFE500F8EAD900F7E5CE00F6DE
+      C400D1926D00F4D8B100EBCFA400A46769000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000093535300884D
+      4E0000000000000000000000000000000000BC826800FFFFFF00B9B9B900A467
+      6900FFFFFF00FFFFFF00FFFFFF00FFFEFC00FCF7F000FAEFE500F8E9D900F8E7
+      D100D1926D00F3D9BB00F4D8B100A46769000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000D1926D00FEFEFE00FEFEFE00A467
+      6900FEFEFE00FEFEFE00FEFEFE00FEFEFE00FEFEFE00FCF7F000FAEFE500F8E9
+      D900D1926D00F8E7D100F3D9BB00A46769000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000DA9D7500FEFEFE00FEFEFE00A467
+      6900FEFEFE00FEFEFE00FEFEFE00FEFEFE00FEFEFE00FEFEFE00FCF7F000FAEF
+      E500D1926D00F8E9D900F8E7D100A46769000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000E7AB7900FEFEFE00FEFEFE00A467
+      6900FEFEFE00FEFEFE00FEFEFE00FEFEFE00FEFEFE00FEFEFE00FEFEFE00FCF7
+      F000D1926D00FAEFE500F8E9D900A46769000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000E7AB7900D1926D00D1926D00D192
+      6D00D1926D00D1926D00D1926D00D1926D00D1926D00D1926D00D1926D00D192
+      6D00D1926D00D1926D00D1926D00D1926D000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000A3666800A3666800A3666800A3666800A467
+      6900A4676900A4676900A4676900A46769000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000005CFF00005CFF00005CFF00005CFF00005CFF00005CFF00005C
+      FF00005CFF00005CFF00005CFF00005CFF00A4676900A4676900A4676900A467
+      6900A4676900A4676900A4676900A4676900A4676900A4676900A4676900A467
+      6900A46769000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000009F646600F7E5C600F2D9B100EED1A100EECC
+      9300F0C78700EFC58000F7D08300A4676900A4676900A4676900A4676900A467
+      6900A4676900A4676900A4676900A4676900A4676900A4676900A4676900A467
+      6900A467690000000000000000000000000095655F00A5696A00A5696A00A569
+      6A00A5696A00005CFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00005CFF00A4676900FCEACE00F0D8BA00DCC1
+      A000C4AA8900BFA48000CFAF8200DCB58100E2B87E00E7BC7E00E9BD7F00EFC4
+      8100A46769000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000008E595B00D8CAB700D3C0A700D1B89A00DCBD
+      9700E6C29200E7BF8400F0C68100A4676900A4676900E7C59600E7C59600E7C5
+      9600E7C59600E7C59600E7C59600E7C59600E7C59600E7C59600E7C59600E7C5
+      9600A467690000000000000000000000000098686000FBE5C000F4D5AD00F0CF
+      9F00EFCA9600005CFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009FC2FF00DFEB
+      FF00FFFFFF00FFFFFF00FFFFFF00005CFF00A0675B00FEEFDA00F6E0C600302D
+      2D00212527003745460099846800AD926F00C2A07400DCB27A00E7BC7E00EFC4
+      8100A46769000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000076575100A19C93009E928400A0917F00C0A9
+      8C00DABC9500E6C19000F0C98700A4676900A4676900E7C59600979797008A8A
+      8A009D9D9D008D8D8D00E7C596009A9A9A0099999900E7C59600E7C59600E7C5
+      9600A46769000000000000000000000000009D6B6200FCE7C900F2D5B500F0D0
+      A900EECB9E00005CFF00FFFFFF00EFF5FF00BFD6FF00FFFFFF003F84FF00BFD6
+      FF00EFF5FF00BFD6FF00FFFFFF00005CFF00A0675B00FFF4E500F7E5CF009C8F
+      80000D466300036292000B3B54004B474100917B5E00B5976C00D1AB7400E9BF
+      7D00A46769000000000000000000000000000000000000000000000000000000
+      00000000000000000000005CFF0056413B006B696800005CFF00736A5F009688
+      7600C0A98C00DDBD9600EECC9300A4676900A4676900EACBA300BABABA00EACB
+      A300EACBA300EACBA300EACBA300C8C8C800EACBA300EACBA300EACBA300EACB
+      A300A4676900000000000000000000000000A36F6400FEEED400F4DDC000F2D7
+      B500F0D1AA00005CFF00FFFFFF00AFCCFF00005CFF006FA3FF002F7AFF007FAD
+      FF001F70FF002F7AFF00FFFFFF00005CFF00A7756B00FFFBF000F8EADC00EEDD
+      CA0022576C00165E8200745D65007D5254005E3F390086725800A78C6600CEAA
+      7300A0656700000000000000000000000000A5686A00A6696A00A4686900A066
+      67008F5B5B006D454500005CFF00005CFF00005CFF00005CFF005B5652007269
+      5F00A0927F00D1B69800F2D3A300A3666800A4676900EAD1B1009C9C9C008D8D
+      8D00ABABAB0090909000EAD1B100EAD1B100EAD1B100EAD1B100EAD1B100EAD1
+      B100A4676900000000000000000000000000A7746600FFF4E100F6E1CA00F3DC
+      BF00F2D7B400005CFF00FFFFFF00FFFFFF00DFEBFF003F84FF00005CFF000F66
+      FF008FB7FF00FFFFFF00FFFFFF00005CFF00A7756B00FFFFFC00FAF0E600F8EA
+      DA008F9F9D0062555D00DD908C00B87979008E5757005B3D37007D6B51009A81
+      5D00925C5E00000000000000000000000000A4676900FCE6C100EECFA600E7C5
+      9600005CFF00005CFF00005CFF00005CFF00005CFF00005CFF00005CFF00005C
+      FF009F928400DAC9AD00EAD8B200A3666800A4676900EFD9C100C1C1C100EFD9
+      C100EFD9C100EFD9C100EFD9C100EFD9C100EFD9C100EFD9C100EFD9C100EFD9
+      C100A4676900000000000000000000000000AD786900FFFBEE00F7E7D500F4E1
+      CA00F3DCBF00005CFF00FFFFFF00FFFFFF009FC2FF000F66FF00005CFF00005C
+      FF005F99FF00DFEBFF00FFFFFF00005CFF00BC826800FFFFFF00FEF7F200FAEF
+      E600F0E5D5006B5D6200E9A4A100CF909000B275750087535300583C35007A69
+      500081535400000000000000000000000000A5686A00FEEED300F0D5B500EACB
+      A300CEAD8300005CFF00005CFF005541330077777700005CFF00005CFF006B69
+      6700A19990008C5B51009D665B00A3666800A5686A00F7E7D400F7E7D400F7E7
+      D400F7E7D400F7E7D400F7E7D400F7E7D400F7E7D400F7E7D400F7E7D400F7E7
+      D400A4676900000000000000000000000000B47E6B00FFFFFB00F8EDE100F7E6
+      D400F6E1C900005CFF00FFFFFF00AFCCFF000F66FF00AFCCFF003F84FF00AFCC
+      FF004F8EFF002F7AFF00FFFFFF00005CFF00BC826800FFFFFF00FFFEFC00FCF6
+      F000FAEFE600EBDCCE008C5E5D00E2A1A100CE8F8F00B4767600865252005C3F
+      3800764C4E00000000000000000000000000A7756B00FFF7E300F3DDC400EAD1
+      B100D0B59100005CFF00005CFF005441320060606000005CFF00005CFF007676
+      7600A4A19F008C5B5100DA904400BD724700A7756B00FBEFE500CBCBCB00BABA
+      BA00C5C5C500CACACA00CBCBCB00DADADA00E3E3E300FBEFE500FBEFE500FBEF
+      E500A4676900000000000000000000000000BA836D00FFFFFF00FCF4EE00FAED
+      E100F8E9D500005CFF00FFFFFF00FFFFFF00EFF5FF00FFFFFF003F84FF00BFD6
+      FF00FFFFFF00EFF5FF00FFFFFF00005CFF00D1926D00FFFFFF00FFFFFF00FFFE
+      FC00FEF7F000FAEFE500E1CEC00087595800E1A1A100CC8E8E00B07474008651
+      5100633B3C00000000000000000000000000A7756B00FFFEF700F7E7D400EFD9
+      C100005CFF00005CFF00005CFF00005CFF00005CFF00005CFF00005CFF00005C
+      FF00C0BABA0095605600C584600000000000A7756B00FFFBF700C2C2C200FFFB
+      F700FFFBF700FFFBF700FFFBF700FFFBF700FFFBF700FFFBF700FFFBF700FFFB
+      F700A4676900000000000000000000000000BF877000FFFFFF00FFFBFA00FEF4
+      ED00FAEEE000005CFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00CFE0FF00EFF5
+      FF00FFFFFF00FFFFFF00FFFFFF00005CFF00D1926D00FFFFFF00FFFFFF00FFFF
+      FF00FFFEFC00FCF7F000FAEFE500D7C1B5008A5B5B00E6A6A600CA8B8B00B675
+      75007E4442003E4145000000000000000000BC826800FFFFFF00FBEFE500F6E5
+      D300EED9C000DDC4A600005CFF00005CFF00005CFF00005CFF00D1926D00D192
+      6D00D1926D009D665B000000000000000000BC826800F5F5F500DEDEDE00C1C1
+      C100CECECE00CECECE00E1E1E100ECECEC00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00A4676900000000000000000000000000C48C7200FFFFFF00FFFFFF00FFFC
+      FA00FCF4ED00005CFF00005CFF00005CFF00005CFF00005CFF00005CFF00005C
+      FF00005CFF00005CFF00005CFF00005CFF00DA9D7500FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFEFC00FCF6EF00FCF3E600CFB5AA0097666600EFAAA9008C6D
+      73001E799F000C98BD000C98BD0000000000BC826800FFFFFF00FFFBF700FAF0
+      E500F6E5D100EFD9C000005CFF00CFB692008C585A00005CFF00000000000000
+      000000000000000000000000000000000000BC826800FFFFFF00B9B9B900FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00A4676900000000000000000000000000CA917400FFFFFF00FFFFFF00FFFF
+      FF00FFFCFA00FCF4ED00FAEDDE00F8E7D400FCEBD300E3D3BB00B7AD9C00A569
+      6A0000000000000000000000000000000000DA9D7500FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFEFB00FFFEF700DAC1BA00955F56009E5D58002D84
+      A70006BBF000008EDE00000F950000008100D1926D00FFFFFF00FFFFFF00FEFB
+      F700FBEFE500F7E5D100A1695D00A0685C009E63650000000000000000000000
+      000000000000000000000000000000000000D1926D00FEFEFE00FEFEFE00FEFE
+      FE00FEFEFE00FEFEFE00FEFEFE00FEFEFE00FEFEFE00FEFEFE00FEFEFE00FEFE
+      FE00A4676900000000000000000000000000CE957600FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FEFCFA00FCF6EB00FAEFE000A5696A00A5696A00A5696A00A569
+      6A0000000000000000000000000000000000E7AB7900FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00DCC7C500A56B5F00D1914F00068F
+      C1000393DE000320BA000318B200010B9900DA9D7500FFFFFF00FFFFFF00FFFF
+      FF00FFFEFC00E5D3CC00A56B5F00CF834300AF6A540000000000000000000000
+      000000000000000000000000000000000000DA9D7500A4676900A4676900A467
+      6900A4676900A4676900A4676900A4676900A4676900A4676900A4676900A467
+      6900A4676900000000000000000000000000D3977800FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFC00F4EBE600A5696A00E2A35B00EF993800BB70
+      4F0000000000000000000000000000000000E7AB7900FBF4F000FBF4EF00FAF3
+      EF00FAF3EF00F8F2EF00F7F2EF00F7F2EF00D8C2C000A56B5F00C1836C000000
+      00000263BF002F45ED001031D300010A9500E7AB7900FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00E1D5D900A56B5F00D48E5A000000000000000000000000000000
+      000000000000000000000000000000000000E7AB7900CF834300CF834300CF83
+      4300CF834300CF834300A56B5F00000000000000000000000000000000000000
+      000000000000000000000000000000000000D59A7900FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00F8F8FE00A5696A00E5A55F00C2805C000000
+      000000000000000000000000000000000000E7AB7900D1926D00D1926D00D192
+      6D00D1926D00D1926D00D1926D00D1926D00D1926D00A56B5F00000000000000
+      0000000000002732D0000C19B40000000000E7AB7900D1926D00D1926D00D192
+      6D00D1926D00D1926D00A56B5F00000000000000000000000000000000000000
+      000000000000000000000000000000000000E7AB7900D1926D00D1926D00D192
+      6D00D1926D00D1926D00D1926D00000000000000000000000000000000000000
+      000000000000000000000000000000000000D0906B00D0906B00D0906B00D090
+      6B00D0906B00D0906B00D0906B00D0906B00A5696A00BB7F6A00000000000000
+      000000000000000000000000000000000000424D3E000000000000003E000000
+      2800000040000000200000000100010000000000000100000000000000000000
+      000000000000000000000000FFFFFF00FFFFFFFF00000000FFFF000000000000
+      FFFF000000000000C30F000000000000E38F000000000000F00F000000000000
+      F88F000000000000FC0F000000000000FE0F000000000000FF0F000000000000
+      FF8F000000000000FFCF000000000000FFFF000000000000FFFF000000000000
+      FFFF000000000000FFFF000000000000FFFFFE00FFFFF8000007FE0000070000
+      0007FE00000700000007FE00000700000007FC00000700000007000000070000
+      0007000000070000000700000007000000070000000700000007000100070000
+      00030003000700000001003F0007000F0000007F0007000F0000007F0007000F
+      001000FF01FF001F003901FF01FF003F00000000000000000000000000000000
+      000000000000}
   end
 end

@@ -3,6 +3,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
   Top = 0
   Width = 928
   Height = 613
+  Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0

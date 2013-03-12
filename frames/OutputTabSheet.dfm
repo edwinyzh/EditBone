@@ -3,6 +3,7 @@ object OutputTabSheetFrame: TOutputTabSheetFrame
   Top = 0
   Width = 595
   Height = 198
+  Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
@@ -23,6 +24,7 @@ object OutputTabSheetFrame: TOutputTabSheetFrame
       Width = 591
       Height = 195
       Align = alClient
+      BorderWidth = 1
       Colors.GridLineColor = clScrollBar
       Ctl3D = True
       DragOperations = []
@@ -40,8 +42,6 @@ object OutputTabSheetFrame: TOutputTabSheetFrame
       TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScroll, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
       TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
       TreeOptions.PaintOptions = [toShowButtons, toShowRoot, toThemeAware, toUseBlendedSelection]
-      ExplicitTop = 2
-      ExplicitHeight = 194
       Columns = <>
     end
   end

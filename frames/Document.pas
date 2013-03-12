@@ -659,7 +659,6 @@ begin
   begin
     SynEdit.Visible := False;
     Parent := TabSheet;
-    Align := alClient;
 
     { SynEdit }
     with SynEdit do
@@ -696,7 +695,6 @@ begin
     if XMLTreeVisible then
       LoadFromXML(SynEdit.Text);
 
-    UpdateGutterAndColors(DocTabSheetFrame);
     UpdateGutterAndControls;
     { reduce flickering by setting width & height }
     SynEdit.Width := 0;
@@ -824,59 +822,10 @@ begin
 end;
 
 procedure TDocumentFrame.UpdateGutterAndColors(DocTabSheetFrame: TDocTabSheetFrame);
-
-  procedure UpdateGutterAndColors(SynEdit: TBCSynEdit);
-  var
-    LStyles: TCustomStyleServices;
-    Highlighter: TSynCustomHighlighter;
-  begin
-    LStyles := StyleServices;
-    if LStyles.Enabled then
-    begin
-      SynEdit.Gutter.Font.Color := LStyles.GetStyleFontColor(sfHeaderSectionTextNormal);
-      SynEdit.Gutter.BorderColor := LStyles.GetStyleColor(scEdit);
-      SynEdit.Gutter.Color := LStyles.GetStyleColor(scPanel);
-      SynEdit.RightEdgeColor := LStyles.GetStyleColor(scPanel);
-
-      SynEdit.SelectedColor.Background := LStyles.GetSystemColor(clHighlight);
-      SynEdit.SelectedColor.Foreground := LStyles.GetSystemColor(clHighlightText);
-
-      Highlighter := DocTabSheetFrame.SynEdit.Highlighter;
-
-      if Assigned(Highlighter) and
-       ( (Highlighter = ClassicCSSyn) or (Highlighter = DefaultCSSyn) or (Highlighter = TwilightCSSyn) or
-         (Highlighter = ClassicCppSyn) or (Highlighter = DefaultCppSyn) or (Highlighter = TwilightCppSyn) or
-         (Highlighter = ClassicPasSyn) or (Highlighter = DefaultPasSyn) or (Highlighter = TwilightPasSyn) ) then
-      begin
-        if (Highlighter = ClassicCSSyn) or (Highlighter = ClassicCppSyn) or (Highlighter = ClassicPasSyn) then
-          SynEdit.Color := clNavy;
-        if (Highlighter = TwilightCSSyn) or (Highlighter = TwilightCppSyn) or (Highlighter = TwilightPasSyn) then
-          SynEdit.Color := clBlack;
-        if SynEdit.Color = clBlack then
-          SynEdit.Color := LStyles.GetStyleColor(scEdit);
-      end
-      else
-      begin
-        SynEdit.Font.Color := LStyles.GetStyleFontColor(sfEditBoxTextNormal);
-        SynEdit.Color := LStyles.GetStyleColor(scEdit);
-      end;
-    end
-    else
-    begin
-      SynEdit.Gutter.GradientStartColor := clWindow;
-      SynEdit.Gutter.GradientEndColor := clBtnFace;
-      SynEdit.Gutter.Font.Color := clWindowText;
-      SynEdit.Gutter.BorderColor := clWindow;
-      SynEdit.Gutter.Color := clBtnFace;
-      SynEdit.Color := clWindow;
-    end;
-    SynEdit.ActiveLineColor := SynEdit.Color;
-  end;
-
 begin
-  UpdateGutterAndColors(DocTabSheetFrame.SynEdit);
+  StyleHooks.UpdateGutterAndColors(DocTabSheetFrame.SynEdit);
   if DocTabSheetFrame.SplitVisible then
-    UpdateGutterAndColors(DocTabSheetFrame.SplitSynEdit);
+    StyleHooks.UpdateGutterAndColors(DocTabSheetFrame.SplitSynEdit);
 end;
 
 procedure TDocumentFrame.SynEditEnter(Sender: TObject);
@@ -1213,7 +1162,7 @@ begin
 
       SelectHighLighter(DocTabSheetFrame, DocumentName);
     end;
-    UpdateGutterAndColors(DocTabSheetFrame);
+    UpdateGutterAndControls;
   end;
   PageControlRepaint;
 end;
@@ -1896,7 +1845,7 @@ begin
         OptionsContainer.AssignTo(DocTabSheetFrame.SynEdit);
         OptionsContainer.AssignTo(DocTabSheetFrame.SplitSynEdit);
         SelectHighLighter(DocTabSheetFrame, DocTabSheetFrame.SynEdit.DocumentName);
-        UpdateGutterAndColors(DocTabSheetFrame);
+        UpdateGutterAndControls;
         UpdateHighlighterColors;
       end;
     end;
@@ -3230,7 +3179,7 @@ begin
         DocTabSheetFrame.SplitSynEdit.Text := ASynEdit.Text;
         SelectHighLighter(DocTabSheetFrame, FileName);
       end;
-      UpdateGutterAndColors(DocTabSheetFrame);
+      UpdateGutterAndControls;
       Application.ProcessMessages;
     end;
     DocTabSheetFrame.SplitVisible := SplitVisible;

@@ -126,7 +126,6 @@ begin
   OutputTabSheetFrame := TOutputTabSheetFrame.Create(TabSheet);
   with OutputTabSheetFrame do
   begin
-    Align := alClient;
     Parent := TabSheet;
     if AutoExpand then
       VirtualDrawTree.TreeOptions.AutoOptions := VirtualDrawTree.TreeOptions.AutoOptions + [toAutoExpand];

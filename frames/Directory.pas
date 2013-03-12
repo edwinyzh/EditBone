@@ -376,7 +376,6 @@ begin
   begin
     Panel.Visible := False;
     Parent := TabSheet;
-    Align := alClient;
     with FileTreeView do
     begin
       PopupMenu := Self.PopupMenu;

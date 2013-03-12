@@ -5,7 +5,9 @@ uses
   Windows,
   System.SysUtils,
   System.Classes,
-  Vcl.Themes, Vcl.ComCtrls, Vcl.Styles,
+  Vcl.Themes,
+  Vcl.ComCtrls,
+  Vcl.Styles,
   Language in '..\..\Common\units\Language.pas' {LanguageDataModule: TDataModule},
   Directory in 'frames\Directory.pas' {DirectoryFrame: TFrame},
   Output in 'frames\Output.pas' {OutputFrame: TFrame},
@@ -32,7 +34,16 @@ uses
   DocumentTabSheet in 'frames\DocumentTabSheet.pas' {DocTabSheetFrame: TFrame},
   Encoding in '..\..\Common\units\Encoding.pas',
   DirectoryTabSheet in 'frames\DirectoryTabSheet.pas' {DirTabSheetFrame: TFrame},
-  OutputTabSheet in 'frames\OutputTabSheet.pas' {OutputTabSheetFrame: TFrame};
+  OutputTabSheet in 'frames\OutputTabSheet.pas' {OutputTabSheetFrame: TFrame},
+  OptionsEditorOptions in 'frames\OptionsEditorOptions.pas' {EditorOptionsFrame: TFrame},
+  OptionsEditorErrorChecking in 'frames\OptionsEditorErrorChecking.pas' {EditorErrorCheckingFrame: TFrame},
+  OptionsEditorOther in 'frames\OptionsEditorOther.pas' {EditorOtherFrame: TFrame},
+  OptionsEditorFont in 'frames\OptionsEditorFont.pas' {EditorFontFrame: TFrame},
+  OptionsEditorGutter in 'frames\OptionsEditorGutter.pas' {EditorGutterFrame: TFrame},
+  OptionsEditorTabs in 'frames\OptionsEditorTabs.pas' {EditorTabsFrame: TFrame},
+  OptionsFileTypes in 'frames\OptionsFileTypes.pas' {FileTypesFrame: TFrame},
+  OptionsMenu in 'frames\OptionsMenu.pas' {MenuFrame: TFrame},
+  OptionsCompare in 'frames\OptionsCompare.pas' {OptionsCompareFrame: TFrame};
 
 {$R *.res}
 

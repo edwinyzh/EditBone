@@ -281,6 +281,7 @@ type
     procedure ViewWordWrapActionExecute(Sender: TObject);
     procedure ViewXMLTreeActionExecute(Sender: TObject);
     procedure ViewGotoLineActionExecute(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -1079,6 +1080,12 @@ begin
 
   //TStyleManager.Engine.RegisterStyleHook(TCustomTabControl, TTabControlStyleHookBtnClose);
   //TStyleManager.Engine.RegisterStyleHook(TTabControl, TTabControlStyleHookBtnClose);
+end;
+
+procedure TMainForm.FormDestroy(Sender: TObject);
+begin
+  FDocumentFrame.Destroy;
+  FDirectoryFrame.Destroy;
 end;
 
 procedure TMainForm.FormKeyDown(Sender: TObject; var Key: Word;

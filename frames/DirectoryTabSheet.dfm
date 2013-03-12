@@ -3,6 +3,7 @@ object DirTabSheetFrame: TDirTabSheetFrame
   Top = 0
   Width = 323
   Height = 489
+  Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
@@ -37,8 +38,6 @@ object DirTabSheetFrame: TDirTabSheetFrame
         FileTreeView = FileTreeView
         Drive = 'C'
         TabOrder = 0
-        ExplicitLeft = 1
-        ExplicitWidth = 318
       end
     end
     object FileTreeViewPanel: TPanel
@@ -55,6 +54,7 @@ object DirTabSheetFrame: TDirTabSheetFrame
         Width = 319
         Height = 461
         Align = alClient
+        BorderWidth = 1
         DragOperations = []
         EditDelay = 500
         Header.AutoSizeIndex = 0
