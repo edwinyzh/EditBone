@@ -39,6 +39,7 @@ type
     EditorTabsAction: TAction;
     EditorErrorCheckingAction: TAction;
     EditorOthersAction: TAction;
+    Splitter1: TSplitter;
     OptionsPanel: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -50,6 +51,7 @@ type
     procedure OptionsVirtualStringTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
     procedure OptionsVirtualStringTreeClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     FOptionsContainer: TOptionsContainer;
     FEditorOptionsFrame: TEditorOptionsFrame;
@@ -63,6 +65,8 @@ type
     FOptionsCompareFrame: TOptionsCompareFrame;
     procedure GetData;
     procedure PutData;
+    procedure ReadIniFile;
+    procedure WriteIniFile;
   public
     function Execute(EditOptions: TOptionsContainer) : Boolean;
   end;
@@ -81,6 +85,7 @@ type
     FRightEdge: Integer;
     FFontName: string;
     FFontSize: Integer;
+    FColorBrightness: Integer;
     FGutterVisible: Boolean;
     FGutterLineNumbers: Boolean;
     FMultiLine: Boolean;
@@ -94,6 +99,8 @@ type
     FTrimTrailingSpaces: Boolean;
     FScrollPastEof: Boolean;
     FScrollPastEol: Boolean;
+    FIgnoreCase: Boolean;
+    FIgnoreBlanks: Boolean;
     function GetFilters: string;
     function GetExtensions: string;
   public
@@ -104,6 +111,7 @@ type
   published
     property FontName: string read FFontName write FFontName;
     property FontSize: Integer read FFontSize write FFontSize;
+    property ColorBrightness: Integer read FColorBrightness write FColorBrightness;
     property AutoIndent: Boolean read FAutoIndent write FAutoIndent;
     property TrimTrailingSpaces: Boolean read FTrimTrailingSpaces write FTrimTrailingSpaces;
     property ScrollPastEof: Boolean read FScrollPastEof write FScrollPastEof;
@@ -113,6 +121,8 @@ type
     property GutterLineNumbers: Boolean read FGutterVisible write FGutterLineNumbers;
     property MultiLine: Boolean read FMultiLine write FMultiLine;
     property ShowCloseButton: Boolean read FShowCloseButton write FShowCloseButton;
+    property IgnoreCase: Boolean read FIgnoreCase write FIgnoreCase;
+    property IgnoreBlanks: Boolean read FIgnoreBlanks write FIgnoreBlanks;
     property RightEdge: Integer read FRightEdge write FRightEdge;
     property TabWidth: Integer read FTabWidth write FTabWidth;
     property HTMLVersion: TSynWebHtmlVersion read FHTMLVersion write FHTMLVersion;
@@ -132,7 +142,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, StyleHooks, Language, SynHighlighterMulti;
+  Common, StyleHooks, Language, SynHighlighterMulti, System.IniFiles;
 
 { TOptionsContainer }
 
@@ -360,6 +370,8 @@ begin
   FGutterLineNumbers := True;
   FMultiLine := False;
   FShowCloseButton := False;
+  FIgnoreCase := True;
+  FIgnoreBlanks := True;
   FHTMLErrorChecking := True;
   FFontName := 'Courier New';
   FFontSize := 10;
@@ -431,13 +443,17 @@ end;
 
 function TOptionsDialog.Execute(EditOptions: TOptionsContainer): Boolean;
 begin
-  if (EditOptions = nil) then
+  ReadIniFile;
+
+  if EditOptions = nil then
   begin
     Result:= False;
     Exit;
   end;
+
   FOptionsContainer := EditOptions;
   GetData;
+
   Result:= Showmodal = mrOk;
   if Result then
     PutData;
@@ -455,6 +471,7 @@ begin
   FEditorOptionsFrame.ScrollPastEolCheckBox.Checked := FOptionsContainer.ScrollPastEol;
   FEditorOptionsFrame.ExtraLinesEdit.Text := IntToStr(FOptionsContainer.ExtraLineSpacing);
   FEditorOptionsFrame.TabWidthEdit.Text := IntToStr(FOptionsContainer.TabWidth);
+  FEditorOptionsFrame.BrightnessTrackBar.Position := FOptionsContainer.ColorBrightness;
   { Font }
   FEditorFontFrame.FontLabel.Font.Name := FOptionsContainer.FontName;
   FEditorFontFrame.FontLabel.Font.Size := FOptionsContainer.FontSize;
@@ -470,6 +487,9 @@ begin
   FEditorErrorCheckingFrame.HTMLErrorCheckingCheckBox.Checked := FOptionsContainer.HTMLErrorChecking;
   FEditorErrorCheckingFrame.HTMLVersionComboBox.ItemIndex := Ord(FOptionsContainer.HTMLVersion);
   FEditorErrorCheckingFrame.HTMLVersionComboBox.Enabled := FEditorErrorCheckingFrame.HTMLErrorCheckingCheckBox.Checked;
+  { Compare }
+  FOptionsCompareFrame.IgnoreCaseCheckBox.Checked := FOptionsContainer.IgnoreCase;
+  FOptionsCompareFrame.IgnoreBlanksCheckBox.Checked := FOptionsContainer.IgnoreBlanks;
   { File types }
   FFileTypesFrame.FileTypesListBox.Clear;
   for i := 0 to FOptionsContainer.FileTypes.Count - 1 do
@@ -514,6 +534,11 @@ begin
     FOptionsCompareFrame.Visible := (Level = 0) and (TreeNode.Index = 1);
     FMenuFrame.Visible := (Level = 0) and (TreeNode.Index = 2);
     FFileTypesFrame.Visible := (Level = 0) and (TreeNode.Index = 3);
+
+    { style bug with long TEdit border and resize }
+    if FFileTypesFrame.Visible then
+      if FFileTypesFrame.ExtensionsEdit.CanFocus then
+        FFileTypesFrame.ExtensionsEdit.SetFocus;
   end;
 end;
 
@@ -635,6 +660,7 @@ begin
   FOptionsContainer.ScrollPastEol := FEditorOptionsFrame.ScrollPastEolCheckBox.Checked;
   FOptionsContainer.ExtraLineSpacing := StrToIntDef(FEditorOptionsFrame.ExtraLinesEdit.Text, 0);
   FOptionsContainer.TabWidth := StrToIntDef(FEditorOptionsFrame.TabWidthEdit.Text, 8);
+  FOptionsContainer.ColorBrightness := FEditorOptionsFrame.BrightnessTrackBar.Position;
   { Font }
   FOptionsContainer.FontName := FEditorFontFrame.FontLabel.Font.Name;
   FOptionsContainer.FontSize := FEditorFontFrame.FontLabel.Font.Size;
@@ -645,6 +671,9 @@ begin
   { Tabs }
   FOptionsContainer.MultiLine := FEditorTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.ShowCloseButton := FEditorTabsFrame.ShowCloseButtonCheckBox.Checked;
+  { Compare }
+  FOptionsContainer.IgnoreCase := FOptionsCompareFrame.IgnoreCaseCheckBox.Checked;
+  FOptionsContainer.IgnoreBlanks := FOptionsCompareFrame.IgnoreBlanksCheckBox.Checked;
   { Error checking }
   FOptionsContainer.HTMLErrorChecking := FEditorErrorCheckingFrame.HTMLErrorCheckingCheckBox.Checked;
   FOptionsContainer.HTMLVersion := TSynWebHtmlVersion(FEditorErrorCheckingFrame.HTMLVersionComboBox.ItemIndex);
@@ -660,6 +689,48 @@ begin
   { Other }
   FOptionsContainer.FSQLDialect := TSQLDialect(FEditorOtherFrame.SQLDialectComboBox.ItemIndex);
   FOptionsContainer.FCPASHighlighter := TCPASHighlighter(FEditorOtherFrame.CPASHighlighterComboBox.ItemIndex);
+end;
+
+procedure TOptionsDialog.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+  WriteIniFile;
+end;
+
+procedure TOptionsDialog.ReadIniFile;
+begin
+  with TMemIniFile.Create(Common.GetINIFilename) do
+  try
+    { Size }
+    Width := ReadInteger('OptionsSize', 'Width', Width);
+    Height := ReadInteger('OptionsSize', 'Height', Height);
+    { Position }
+    Left := ReadInteger('OptionsPosition', 'Left', (Screen.Width - Width) div 2);
+    Top := ReadInteger('OptionsPosition', 'Top', (Screen.Height - Height) div 2);
+    { Tree width }
+    OptionsVirtualStringTree.Width := ReadInteger('OptionsSize', 'TreeWidth', OptionsVirtualStringTree.Width);
+  finally
+    Free;
+  end;
+end;
+
+procedure TOptionsDialog.WriteIniFile;
+begin
+  if Windowstate = wsNormal then
+  with TMemIniFile.Create(Common.GetINIFilename) do
+  try
+    { Position }
+    WriteInteger('OptionsPosition', 'Left', Left);
+    WriteInteger('OptionsPosition', 'Top', Top);
+    { Size }
+    WriteInteger('OptionsSize', 'Width', Width);
+    WriteInteger('OptionsSize', 'Height', Height);
+    { Tree width }
+    WriteInteger('OptionsSize', 'TreeWidth', OptionsVirtualStringTree.Width);
+  finally
+    UpdateFile;
+    Free;
+  end;
 end;
 
 procedure TOptionsDialog.FormCreate(Sender: TObject);

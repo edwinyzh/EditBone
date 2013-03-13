@@ -1,15 +1,15 @@
 object EditorOptionsFrame: TEditorOptionsFrame
   Left = 0
   Top = 0
-  Width = 367
-  Height = 391
+  Width = 451
+  Height = 304
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 367
-    Height = 391
+    Width = 451
+    Height = 304
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
@@ -34,6 +34,17 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = 'Tab Width'
+    end
+    object ActiveLineColorBrightnessLabel: TLabel
+      Left = 9
+      Top = 181
+      Width = 133
+      Height = 13
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = 'Active Line Color Brightness'
     end
     object AutoIndentCheckBox: TBCCheckBox
       Left = 9
@@ -126,6 +137,15 @@ object EditorOptionsFrame: TEditorOptionsFrame
       NumbersWithSpots = False
       EditColor = clInfoBk
       NumbersAllowNegative = False
+    end
+    object BrightnessTrackBar: TTrackBar
+      Left = 2
+      Top = 196
+      Width = 150
+      Height = 27
+      Min = 1
+      Position = 2
+      TabOrder = 6
     end
   end
 end

@@ -817,7 +817,7 @@ begin
       Special := True;
       LStyles := StyleServices;
       if LStyles.Enabled then
-        BG := LightenColor(TBCSynEdit(Sender).Color);
+        BG := LightenColor(TBCSynEdit(Sender).Color, 1 - (10 - OptionsContainer.ColorBrightness)/10);
     end;
 end;
 
@@ -1700,6 +1700,7 @@ begin
     { Options }
     OptionsContainer.FontName := ReadString('Options', 'FontName', 'Courier New');
     OptionsContainer.FontSize := StrToInt(ReadString('Options', 'FontSize', '10'));
+    OptionsContainer.ColorBrightness := StrToInt(ReadString('Options', 'ActiveLineColorBrightness', '2'));
     OptionsContainer.RightEdge := StrToInt(ReadString('Options', 'RightEdge', '80'));
     OptionsContainer.ExtraLineSpacing := StrToInt(ReadString('Options', 'ExtraLineSpacing', '0'));
     OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '8'));
@@ -1713,6 +1714,8 @@ begin
     OptionsContainer.TrimTrailingSpaces := ReadBool('Options', 'TrimTrailingSpaces', True);
     OptionsContainer.ScrollPastEof := ReadBool('Options', 'ScrollPastEof', False);
     OptionsContainer.ScrollPastEol := ReadBool('Options', 'ScrollPastEol', True);
+    OptionsContainer.IgnoreCase := ReadBool('Options', 'IgnoreCase', True);
+    OptionsContainer.IgnoreBlanks := ReadBool('Options', 'IgnoreBlanks', True);
     { FileTypes }
     Version := ReadString(Application.Title, 'Version', '');
     if Version = '' then  { Version 1.4 has it }
@@ -1787,6 +1790,7 @@ begin
     WriteString('Options', 'RightEdge', IntToStr(OptionsContainer.RightEdge));
     WriteString('Options', 'ExtraLineSpacing', IntToStr(OptionsContainer.ExtraLineSpacing));
     WriteString('Options', 'TabWidth', IntToStr(OptionsContainer.TabWidth));
+    WriteString('Options', 'ActiveLineColorBrightness', IntToStr(OptionsContainer.ColorBrightness));
     WriteBool('Options', 'GutterVisible', OptionsContainer.GutterVisible);
     WriteBool('Options', 'GutterLineNumbers', OptionsContainer.GutterLineNumbers);
     WriteBool('Options', 'MultiLine', OptionsContainer.MultiLine);
@@ -1797,6 +1801,8 @@ begin
     WriteBool('Options', 'TrimTrailingSpaces', OptionsContainer.TrimTrailingSpaces);
     WriteBool('Options', 'ScrollPastEof', OptionsContainer.ScrollPastEof);
     WriteBool('Options', 'ScrollPastEol', OptionsContainer.ScrollPastEol);
+    WriteBool('Options', 'IgnoreCase', OptionsContainer.IgnoreCase);
+    WriteBool('Options', 'IgnoreBlanks', OptionsContainer.IgnoreBlanks);
     EraseSection('OpenFiles');
     EraseSection('Bookmarks');
     { Open documents }

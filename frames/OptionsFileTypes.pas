@@ -10,10 +10,10 @@ uses
 type
   TFileTypesFrame = class(TFrame)
     FileTypesBottomPanel: TPanel;
-    ExtensionsLabel: TLabel;
     ExtensionsEdit: TBCEdit;
     FileTypesTopPanel: TPanel;
     FileTypesListBox: TListBox;
+    ExtensionsLabel: TLabel;
     procedure FileTypesListBoxClick(Sender: TObject);
     procedure ExtensionsEditChange(Sender: TObject);
   private
