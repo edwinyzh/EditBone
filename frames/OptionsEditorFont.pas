@@ -46,7 +46,6 @@ begin
     FontLabel.Caption := Format('%s %dpt', [FontLabel.Font.Name, FontLabel.Font.Size]);
     SynEdit.Text := FontLabel.Caption;
     SynEdit.Font.Assign(FontDialog.Font);
-
   end;
 end;
 

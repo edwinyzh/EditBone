@@ -1,23 +1,23 @@
 object EditorFontFrame: TEditorFontFrame
   Left = 0
   Top = 0
-  Width = 420
-  Height = 325
+  Width = 451
+  Height = 304
   Align = alClient
   TabOrder = 0
   Visible = False
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 420
-    Height = 325
+    Width = 451
+    Height = 304
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
     object TopPanel: TPanel
       Left = 0
       Top = 0
-      Width = 420
+      Width = 451
       Height = 33
       Align = alTop
       BevelOuter = bvNone
@@ -57,7 +57,7 @@ object EditorFontFrame: TEditorFontFrame
       end
       object FontLabel: TLabel
         Left = 34
-        Top = 7
+        Top = 11
         Width = 128
         Height = 16
         Margins.Left = 4
@@ -76,8 +76,8 @@ object EditorFontFrame: TEditorFontFrame
     object BottomPanel: TPanel
       Left = 0
       Top = 33
-      Width = 420
-      Height = 292
+      Width = 451
+      Height = 271
       Align = alClient
       BevelOuter = bvNone
       Caption = 'BottomPanel'
@@ -86,8 +86,8 @@ object EditorFontFrame: TEditorFontFrame
       object SynEdit: TBCSynEdit
         Left = 4
         Top = 0
-        Width = 416
-        Height = 292
+        Width = 447
+        Height = 271
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -100,10 +100,6 @@ object EditorFontFrame: TEditorFontFrame
         Gutter.Font.Height = -11
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
-        ExplicitLeft = 5
-        ExplicitTop = 1
-        ExplicitWidth = 414
-        ExplicitHeight = 290
       end
     end
   end
@@ -113,7 +109,7 @@ object EditorFontFrame: TEditorFontFrame
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    Options = [fdFixedPitchOnly, fdNoSimulations]
+    Options = []
     Left = 10
     Top = 40
   end

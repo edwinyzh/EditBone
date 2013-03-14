@@ -1,4 +1,4 @@
-object EditorGutterFrame: TEditorGutterFrame
+object MainMenuFrame: TMainMenuFrame
   Left = 0
   Top = 0
   Width = 451
@@ -14,20 +14,9 @@ object EditorGutterFrame: TEditorGutterFrame
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    object RightMarginLabel: TLabel
-      Left = 9
-      Top = 55
-      Width = 60
-      Height = 13
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = 'Right Margin'
-    end
     object SelectFontSpeedButton: TSpeedButton
       Left = 8
-      Top = 100
+      Top = 71
       Width = 21
       Height = 21
       Action = SelectFontAction
@@ -60,54 +49,100 @@ object EditorGutterFrame: TEditorGutterFrame
     end
     object FontLabel: TLabel
       Left = 36
-      Top = 104
-      Width = 105
-      Height = 14
+      Top = 75
+      Width = 57
+      Height = 13
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = 'Courier New 8pt'
+      Caption = 'Tahoma 8pt'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
-      Font.Name = 'Courier New'
+      Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
     end
-    object GutterVisibleCheckBox: TBCCheckBox
+    object AnimationStyleLabel: TLabel
+      Left = 9
+      Top = 102
+      Width = 74
+      Height = 13
+      Caption = 'Animation Style'
+    end
+    object AnimationDurationLabel: TLabel
+      Left = 9
+      Top = 142
+      Width = 91
+      Height = 13
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = 'Animation Duration'
+    end
+    object PersistentHotKeysCheckBox: TBCCheckBox
       Left = 9
       Top = 6
-      Width = 198
+      Width = 232
       Height = 21
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Visible'
-      Checked = True
-      State = cbChecked
+      Caption = ' Persistent Hot Keys'
       TabOrder = 0
       ReadOnly = False
     end
-    object LineNumbersCheckBox: TBCCheckBox
+    object ShadowsCheckBox: TBCCheckBox
       Left = 9
       Top = 26
-      Width = 212
+      Width = 232
       Height = 21
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Line Numbers'
+      Caption = ' Shadows'
       Checked = True
       State = cbChecked
       TabOrder = 1
       ReadOnly = False
     end
-    object RightMarginEdit: TBCEdit
-      Left = 7
-      Top = 72
+    object UseSystemFontCheckBox: TBCCheckBox
+      Left = 9
+      Top = 46
+      Width = 232
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Use System Font'
+      TabOrder = 2
+      ReadOnly = False
+    end
+    object AnimationStyleComboBox: TBCComboBox
+      Left = 8
+      Top = 118
+      Width = 186
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      DropDownCount = 9
+      ItemHeight = 13
+      ReadOnly = False
+      TabOrder = 3
+      EditColor = clInfoBk
+      DeniedKeyStrokes = True
+      DropDownFixedWidth = 0
+    end
+    object AnimationDurationEdit: TBCEdit
+      Left = 8
+      Top = 158
       Width = 64
       Height = 21
       Margins.Left = 4
@@ -116,8 +151,8 @@ object EditorGutterFrame: TEditorGutterFrame
       Margins.Bottom = 4
       Flat = False
       ParentFlat = False
-      TabOrder = 2
-      Text = '80'
+      TabOrder = 4
+      Text = '150'
       OnlyNumbers = True
       NumbersWithDots = False
       NumbersWithSpots = False

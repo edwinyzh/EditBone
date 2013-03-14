@@ -73,7 +73,7 @@ object MainForm: TMainForm
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -12
-      Font.Name = 'Segoe UI'
+      Font.Name = 'Tahoma'
       Font.Style = []
       ParentShowHint = False
       ShowHint = True
@@ -1916,6 +1916,7 @@ object MainForm: TMainForm
     object ViewGotoLineAction: TAction
       Category = '&Search'
       Caption = 'Go to Line'
+      Hint = 'Go to Line'
       ImageIndex = 33
       ShortCut = 16455
       OnExecute = ViewGotoLineActionExecute
@@ -1925,7 +1926,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C010141005C01480610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010141005C01580610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001001000001002000000000000010
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000131020001420300025104000251040001420300013102000000

@@ -14,8 +14,8 @@ object EditorOptionsFrame: TEditorOptionsFrame
     BevelOuter = bvNone
     TabOrder = 0
     object ExtraLinesLabel: TLabel
-      Left = 9
-      Top = 91
+      Left = 7
+      Top = 111
       Width = 53
       Height = 13
       Margins.Left = 4
@@ -25,8 +25,8 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Caption = 'Extra Lines'
     end
     object TabWidthLabel: TLabel
-      Left = 9
-      Top = 135
+      Left = 7
+      Top = 155
       Width = 49
       Height = 13
       Margins.Left = 4
@@ -36,8 +36,8 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Caption = 'Tab Width'
     end
     object ActiveLineColorBrightnessLabel: TLabel
-      Left = 9
-      Top = 181
+      Left = 7
+      Top = 201
       Width = 133
       Height = 13
       Margins.Left = 4
@@ -105,9 +105,9 @@ object EditorOptionsFrame: TEditorOptionsFrame
       ReadOnly = False
     end
     object ExtraLinesEdit: TBCEdit
-      Left = 9
-      Top = 106
-      Width = 30
+      Left = 7
+      Top = 126
+      Width = 64
       Height = 21
       Margins.Left = 4
       Margins.Top = 4
@@ -115,16 +115,16 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Margins.Bottom = 4
       TabOrder = 4
       Text = '0'
-      OnlyNumbers = False
+      OnlyNumbers = True
       NumbersWithDots = False
       NumbersWithSpots = False
       EditColor = clInfoBk
       NumbersAllowNegative = False
     end
     object TabWidthEdit: TBCEdit
-      Left = 9
-      Top = 152
-      Width = 30
+      Left = 7
+      Top = 172
+      Width = 64
       Height = 21
       Margins.Left = 4
       Margins.Top = 4
@@ -132,20 +132,35 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Margins.Bottom = 4
       TabOrder = 5
       Text = '8'
-      OnlyNumbers = False
+      OnlyNumbers = True
       NumbersWithDots = False
       NumbersWithSpots = False
       EditColor = clInfoBk
       NumbersAllowNegative = False
     end
     object BrightnessTrackBar: TTrackBar
-      Left = 2
-      Top = 196
+      Left = 0
+      Top = 216
       Width = 150
       Height = 27
       Min = 1
       Position = 2
       TabOrder = 6
+    end
+    object TabsToSpacesCheckBox: TBCCheckBox
+      Left = 9
+      Top = 86
+      Width = 198
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Tabs to Spaces'
+      Checked = True
+      State = cbChecked
+      TabOrder = 7
+      ReadOnly = False
     end
   end
 end

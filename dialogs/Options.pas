@@ -10,7 +10,8 @@ uses
   BCCheckBox, Document, JvExStdCtrls, JvEdit, BCEdit, JvCombobox, BCComboBox, Vcl.ActnList,
   Vcl.Themes, Dlg, Vcl.CheckLst, BCPageControl, JvExComCtrls, JvComCtrls, VirtualTrees,
   OptionsEditorOptions, OptionsEditorFont, OptionsEditorGutter, OptionsEditorTabs, Lib,
-  OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, OptionsCompare, OptionsMenu;
+  OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, OptionsCompare, OptionsMainMenu,
+  OptionsDirectoryTabs, OptionsOutputTabs, Vcl.ActnMenus;
 
 type
   POptionsRec = ^TOptionsRec;
@@ -33,25 +34,28 @@ type
     ImageList: TImageList;
     CompareAction: TAction;
     FileTypesAction: TAction;
-    MenuAction: TAction;
+    MainMenuAction: TAction;
     EditorFontAction: TAction;
     EditorGutterAction: TAction;
     EditorTabsAction: TAction;
     EditorErrorCheckingAction: TAction;
-    EditorOthersAction: TAction;
+    EditorOtherAction: TAction;
     Splitter1: TSplitter;
     OptionsPanel: TPanel;
+    OutputAction: TAction;
+    DirectoryAction: TAction;
+    DirectoryTabsAction: TAction;
+    OutputTabsAction: TAction;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure OptionsVirtualStringTreeGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
     procedure OptionsVirtualStringTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
-    procedure OptionsVirtualStringTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
-      Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
     procedure OptionsVirtualStringTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
     procedure OptionsVirtualStringTreeClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
   private
     FOptionsContainer: TOptionsContainer;
     FEditorOptionsFrame: TEditorOptionsFrame;
@@ -61,12 +65,16 @@ type
     FEditorErrorCheckingFrame: TEditorErrorCheckingFrame;
     FEditorOtherFrame: TEditorOtherFrame;
     FFileTypesFrame: TFileTypesFrame;
-    FMenuFrame: TMenuFrame;
+    FMainMenuFrame: TMainMenuFrame;
     FOptionsCompareFrame: TOptionsCompareFrame;
+    FDirectoryTabsFrame: TDirectoryTabsFrame;
+    FOutputTabsFrame: TOutputTabsFrame;
     procedure GetData;
     procedure PutData;
     procedure ReadIniFile;
     procedure WriteIniFile;
+    procedure SetVisibleFrame;
+    procedure CreateTree;
   public
     function Execute(EditOptions: TOptionsContainer) : Boolean;
   end;
@@ -82,25 +90,42 @@ type
   private
     FExtraLineSpacing: Integer;
     FTabWidth: Integer;
-    FRightEdge: Integer;
+    FRightMargin: Integer;
     FFontName: string;
     FFontSize: Integer;
+    FGutterFontName: string;
+    FGutterFontSize: Integer;
     FColorBrightness: Integer;
     FGutterVisible: Boolean;
     FGutterLineNumbers: Boolean;
-    FMultiLine: Boolean;
-    FShowCloseButton: Boolean;
+    FDocMultiLine: Boolean;
+    FDocShowCloseButton: Boolean;
+    FDirMultiLine: Boolean;
+    FDirShowCloseButton: Boolean;
+    FOutputMultiLine: Boolean;
+    FOutputShowCloseButton: Boolean;
     FHTMLVersion: TSynWebHtmlVersion;
     FFileTypes: TStrings;
     FHTMLErrorChecking: Boolean;
     FSQLDialect: TSQLDialect;
     FCPASHighlighter: TCPASHighlighter;
+    FCSSVersion: TSynWebCssVersion;
+    FPHPVersion: TSynWebPhpVersion;
     FAutoIndent: Boolean;
     FTrimTrailingSpaces: Boolean;
     FScrollPastEof: Boolean;
     FScrollPastEol: Boolean;
+    FTabsToSpaces: Boolean;
     FIgnoreCase: Boolean;
     FIgnoreBlanks: Boolean;
+
+    FPersistentHotKeys: Boolean;
+    FShadows: Boolean;
+    FUseSystemFont: Boolean;
+    FMainMenuFontName: string;
+    FMainMenuFontSize: Integer;
+    FAnimationStyle: TAnimationStyle;
+    FAnimationDuration: Integer;
     function GetFilters: string;
     function GetExtensions: string;
   public
@@ -111,19 +136,26 @@ type
   published
     property FontName: string read FFontName write FFontName;
     property FontSize: Integer read FFontSize write FFontSize;
+    property GutterFontName: string read FGutterFontName write FGutterFontName;
+    property GutterFontSize: Integer read FGutterFontSize write FGutterFontSize;
     property ColorBrightness: Integer read FColorBrightness write FColorBrightness;
     property AutoIndent: Boolean read FAutoIndent write FAutoIndent;
     property TrimTrailingSpaces: Boolean read FTrimTrailingSpaces write FTrimTrailingSpaces;
     property ScrollPastEof: Boolean read FScrollPastEof write FScrollPastEof;
     property ScrollPastEol: Boolean read FScrollPastEol write FScrollPastEol;
+    property TabsToSpaces: Boolean read FTabsToSpaces write FTabsToSpaces;
     property ExtraLineSpacing: Integer read FExtraLineSpacing write FExtraLineSpacing;
     property GutterVisible: Boolean read FGutterVisible write FGutterVisible;
     property GutterLineNumbers: Boolean read FGutterVisible write FGutterLineNumbers;
-    property MultiLine: Boolean read FMultiLine write FMultiLine;
-    property ShowCloseButton: Boolean read FShowCloseButton write FShowCloseButton;
+    property DocMultiLine: Boolean read FDocMultiLine write FDocMultiLine;
+    property DocShowCloseButton: Boolean read FDocShowCloseButton write FDocShowCloseButton;
+    property DirMultiLine: Boolean read FDirMultiLine write FDirMultiLine;
+    property DirShowCloseButton: Boolean read FDirShowCloseButton write FDirShowCloseButton;
+    property OutputMultiLine: Boolean read FOutputMultiLine write FOutputMultiLine;
+    property OutputShowCloseButton: Boolean read FOutputShowCloseButton write FOutputShowCloseButton;
     property IgnoreCase: Boolean read FIgnoreCase write FIgnoreCase;
     property IgnoreBlanks: Boolean read FIgnoreBlanks write FIgnoreBlanks;
-    property RightEdge: Integer read FRightEdge write FRightEdge;
+    property RightMargin: Integer read FRightMargin write FRightMargin;
     property TabWidth: Integer read FTabWidth write FTabWidth;
     property HTMLVersion: TSynWebHtmlVersion read FHTMLVersion write FHTMLVersion;
     property FileTypes: TStrings read FFileTypes write FFileTypes;
@@ -132,6 +164,15 @@ type
     property HTMLErrorChecking: Boolean read FHTMLErrorChecking write FHTMLErrorChecking;
     property SQLDialect: TSQLDialect read FSQLDialect write FSQLDialect;
     property CPASHighlighter: TCPASHighlighter read FCPASHighlighter write FCPASHighlighter;
+    property CSSVersion: TSynWebCssVersion read FCSSVersion write FCSSVersion;
+    property PHPVersion: TSynWebPhpVersion read FPHPVersion write FPHPVersion;
+    property PersistentHotKeys: Boolean read FPersistentHotKeys write FPersistentHotKeys;
+    property Shadows: Boolean read FShadows write FShadows;
+    property UseSystemFont: Boolean read FUseSystemFont write FUseSystemFont;
+    property MainMenuFontName: string read FMainMenuFontName write FMainMenuFontName;
+    property MainMenuFontSize: Integer read FMainMenuFontSize write FMainMenuFontSize;
+    property AnimationStyle: TAnimationStyle read FAnimationStyle write FAnimationStyle;
+    property AnimationDuration: Integer read FAnimationDuration write FAnimationDuration;
   end;
 
 function OptionsDialog(Sender: TComponent): TOptionsDialog;
@@ -165,8 +206,10 @@ begin
     TCustomSynEdit(Dest).Font.Size := FFontSize;
     TCustomSynEdit(Dest).Gutter.Visible := FGutterVisible;
     TCustomSynEdit(Dest).Gutter.ShowLineNumbers := FGutterLineNumbers;
+    TCustomSynEdit(Dest).Gutter.Font.Name := FGutterFontName;
+    TCustomSynEdit(Dest).Gutter.Font.Size := FGutterFontSize;
     TCustomSynEdit(Dest).ExtraLineSpacing := FExtraLineSpacing;
-    TCustomSynEdit(Dest).RightEdge := FRightEdge;
+    TCustomSynEdit(Dest).RightEdge := FRightMargin;
     TCustomSynEdit(Dest).TabWidth := FTabWidth;
     if FAutoIndent then
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoAutoIndent]
@@ -180,16 +223,37 @@ begin
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoScrollPastEol]
     else
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoScrollPastEol];
+    if FTabsToSpaces then
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoTabsToSpaces]
+    else
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoTabsToSpaces];
     if FTrimTrailingSpaces then
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoTrimTrailingSpaces]
     else
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoTrimTrailingSpaces];
     if TCustomSynEdit(Dest).Highlighter is TSynWebHtmlSyn then
+    begin
       TSynWebHtmlSyn(TCustomSynEdit(Dest).Highlighter).Engine.Options.HtmlVersion := FHTMLVersion;
+      TSynWebHtmlSyn(TCustomSynEdit(Dest).Highlighter).Engine.Options.CssVersion := FCSSVersion;
+      TSynWebHtmlSyn(TCustomSynEdit(Dest).Highlighter).Engine.Options.PhpVersion := FPHPVersion;
+    end;
     if TCustomSynEdit(Dest).Highlighter is TSynSQLSyn then
       TSynSQLSyn(TCustomSynEdit(Dest).Highlighter).SQLDialect := FSQLDialect;
   end
-    else
+  else
+  if Assigned(Dest) and (Dest is TActionMainMenuBar) then
+  begin
+    TActionMainMenuBar(Dest).PersistentHotKeys := FPersistentHotKeys;
+    TActionMainMenuBar(Dest).Shadows := FShadows;
+    TActionMainMenuBar(Dest).UseSystemFont := FUseSystemFont;
+    Screen.MenuFont.Name := FMainMenuFontName;
+    Screen.MenuFont.Size := FMainMenuFontSize;
+    //TActionMainMenuBar(Dest).Font.Name := FMainMenuFontName;
+    //TActionMainMenuBar(Dest).Font.Size := FMainMenuFontSize;
+    TActionMainMenuBar(Dest).AnimationStyle := FAnimationStyle;
+    TActionMainMenuBar(Dest).AnimateDuration := FAnimationDuration;
+  end
+  else
     inherited;
 end;
 
@@ -366,19 +430,33 @@ begin
   FTrimTrailingSpaces := True;
   FScrollPastEof := False;
   FScrollPastEol := True;
+  FTabsToSpaces := True;
   FGutterVisible := True;
   FGutterLineNumbers := True;
-  FMultiLine := False;
-  FShowCloseButton := False;
+  FDocMultiLine := False;
+  FDocShowCloseButton := False;
+  FDirMultiLine := False;
+  FDirShowCloseButton := False;
+  FOutputMultiLine := False;
+  FOutputShowCloseButton := False;
   FIgnoreCase := True;
   FIgnoreBlanks := True;
   FHTMLErrorChecking := True;
   FFontName := 'Courier New';
   FFontSize := 10;
+  FGutterFontName := 'Courier New';
+  FGutterFontSize := 8;
   FExtraLineSpacing := 0;
-  FRightEdge := 80;
+  FRightMargin := 80;
   FTabWidth := 8;
   FHTMLVersion := shvHtml5;
+  FPersistentHotKeys := False;
+  FShadows := True;
+  FUseSystemFont := False;
+  FMainMenuFontName := 'Tahoma';
+  FMainMenuFontSize := 8;
+  FAnimationStyle := asDefault;
+  FAnimationDuration := 150;
   FFileTypes := TStringList.Create;
 
   for i := 0 to 52 do
@@ -436,12 +514,102 @@ begin
   FEditorOtherFrame.Destroy;
   FFileTypesFrame.Destroy;
   FOptionsCompareFrame.Destroy;
-  FMenuFrame.Destroy;
+  FMainMenuFrame.Destroy;
+  FDirectoryTabsFrame.Destroy;
+  FOutputTabsFrame.Destroy;
 
   FOptionsDialog := nil;
 end;
 
+procedure TOptionsDialog.CreateTree;
+var
+  Data: POptionsRec;
+  Node, ChildNode: PVirtualNode;
+begin
+  with OptionsVirtualStringTree do
+  begin
+    Clear;
+    { Editor }
+    Node := AddChild(nil);
+    Data := GetNodeData(Node);
+
+    Data.ImageIndex := EditorAction.ImageIndex;
+    Data.Caption := EditorAction.Caption;
+    { Font }
+    ChildNode := AddChild(Node);
+    Data := GetNodeData(ChildNode);
+    Data.ImageIndex := EditorFontAction.ImageIndex;
+    Data.Caption := EditorFontAction.Caption;
+    { Gutter }
+    ChildNode := AddChild(Node);
+    Data := GetNodeData(ChildNode);
+    Data.ImageIndex := EditorGutterAction.ImageIndex;
+    Data.Caption := EditorGutterAction.Caption;
+    { Tabs }
+    ChildNode := AddChild(Node);
+    Data := GetNodeData(ChildNode);
+    Data.ImageIndex := EditorTabsAction.ImageIndex;
+    Data.Caption := EditorTabsAction.Caption;
+    { Error checking }
+    ChildNode := AddChild(Node);
+    Data := GetNodeData(ChildNode);
+    Data.ImageIndex := EditorErrorCheckingAction.ImageIndex;
+    Data.Caption := EditorErrorCheckingAction.Caption;
+    { Other }
+    ChildNode := AddChild(Node);
+    Data := GetNodeData(ChildNode);
+    Data.ImageIndex := EditorOtherAction.ImageIndex;
+    Data.Caption := EditorOtherAction.Caption;
+    Node.ChildCount := 5;
+    OptionsVirtualStringTree.Selected[Node] := True;
+    OptionsVirtualStringTree.Expanded[Node] := True;
+    { Directory }
+    Node := AddChild(nil);
+    Data := GetNodeData(Node);
+    Data.ImageIndex := DirectoryAction.ImageIndex;
+    Data.Caption := DirectoryAction.Caption;
+    { Tabs }
+    ChildNode := AddChild(Node);
+    Data := GetNodeData(ChildNode);
+    Data.ImageIndex := DirectoryTabsAction.ImageIndex;
+    Data.Caption := DirectoryTabsAction.Caption;
+    OptionsVirtualStringTree.Selected[Node] := True;
+    OptionsVirtualStringTree.Expanded[Node] := True;
+    { Output }
+    Node := AddChild(nil);
+    Data := GetNodeData(Node);
+    Data.ImageIndex := OutputAction.ImageIndex;
+    Data.Caption := OutputAction.Caption;
+    { Tabs }
+    ChildNode := AddChild(Node);
+    Data := GetNodeData(ChildNode);
+    Data.ImageIndex := OutputTabsAction.ImageIndex;
+    Data.Caption := OutputTabsAction.Caption;
+    OptionsVirtualStringTree.Selected[Node] := True;
+    OptionsVirtualStringTree.Expanded[Node] := True;
+    { Compare }
+    Node := AddChild(nil);
+    Data := GetNodeData(Node);
+    Data.ImageIndex := CompareAction.ImageIndex;
+    Data.Caption := CompareAction.Caption;
+    { Main menu }
+    Node := AddChild(nil);
+    Data := GetNodeData(Node);
+    Data.ImageIndex := MainMenuAction.ImageIndex;
+    Data.Caption := MainMenuAction.Caption;
+    { File types }
+    Node := AddChild(nil);
+    Data := GetNodeData(Node);
+    Data.ImageIndex := FileTypesAction.ImageIndex;
+    Data.Caption := FileTypesAction.Caption;
+
+    OptionsVirtualStringTree.Selected[OptionsVirtualStringTree.GetFirst] := True;
+  end;
+end;
+
 function TOptionsDialog.Execute(EditOptions: TOptionsContainer): Boolean;
+var
+  SelectedLanguage: string;
 begin
   ReadIniFile;
 
@@ -450,6 +618,18 @@ begin
     Result:= False;
     Exit;
   end;
+  SelectedLanguage := Common.GetSelectedLanguage;
+  Common.UpdateLanguage(FEditorOptionsFrame, SelectedLanguage);
+  Common.UpdateLanguage(FEditorFontFrame, SelectedLanguage);
+  Common.UpdateLanguage(FEditorGutterFrame, SelectedLanguage);
+  Common.UpdateLanguage(FEditorTabsFrame, SelectedLanguage);
+  Common.UpdateLanguage(FEditorErrorCheckingFrame, SelectedLanguage);
+  Common.UpdateLanguage(FEditorOtherFrame, SelectedLanguage);
+  Common.UpdateLanguage(FFileTypesFrame, SelectedLanguage);
+  Common.UpdateLanguage(FOptionsCompareFrame, SelectedLanguage);
+  Common.UpdateLanguage(FMainMenuFrame, SelectedLanguage);
+  Common.UpdateLanguage(FDirectoryTabsFrame, SelectedLanguage);
+  Common.UpdateLanguage(FOutputTabsFrame, SelectedLanguage);
 
   FOptionsContainer := EditOptions;
   GetData;
@@ -469,6 +649,7 @@ begin
   FEditorOptionsFrame.TrimTrailingSpacesCheckBox.Checked := FOptionsContainer.TrimTrailingSpaces;
   FEditorOptionsFrame.ScrollPastEofCheckBox.Checked := FOptionsContainer.ScrollPastEof;
   FEditorOptionsFrame.ScrollPastEolCheckBox.Checked := FOptionsContainer.ScrollPastEol;
+  FEditorOptionsFrame.TabsToSpacesCheckBox.Checked := FOptionsContainer.TabsToSpaces;
   FEditorOptionsFrame.ExtraLinesEdit.Text := IntToStr(FOptionsContainer.ExtraLineSpacing);
   FEditorOptionsFrame.TabWidthEdit.Text := IntToStr(FOptionsContainer.TabWidth);
   FEditorOptionsFrame.BrightnessTrackBar.Position := FOptionsContainer.ColorBrightness;
@@ -479,10 +660,19 @@ begin
   { Gutter }
   FEditorGutterFrame.GutterVisibleCheckBox.Checked := FOptionsContainer.GutterVisible;
   FEditorGutterFrame.LineNumbersCheckBox.Checked := FOptionsContainer.GutterLineNumbers;
-  FEditorGutterFrame.EdgeColumnEdit.Text := IntToStr(FOptionsContainer.RightEdge);
-  { Tabs }
-  FEditorTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.MultiLine;
-  FEditorTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.ShowCloseButton;
+  FEditorGutterFrame.RightMarginEdit.Text := IntToStr(FOptionsContainer.RightMargin);
+  FEditorGutterFrame.FontLabel.Font.Name := FOptionsContainer.GutterFontName;
+  FEditorGutterFrame.FontLabel.Font.Size := FOptionsContainer.GutterFontSize;
+  FEditorGutterFrame.FontLabel.Caption := Format('%s %dpt', [FEditorGutterFrame.FontLabel.Font.Name, FEditorGutterFrame.FontLabel.Font.Size]);
+  { Document tabs }
+  FEditorTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.DocMultiLine;
+  FEditorTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DocShowCloseButton;
+  { Directory abs }
+  FDirectoryTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.DirMultiLine;
+  FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DirShowCloseButton;
+  { Output tabs }
+  FOutputTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.OutputMultiLine;
+  FOutputTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.OutputShowCloseButton;
   { Error checking }
   FEditorErrorCheckingFrame.HTMLErrorCheckingCheckBox.Checked := FOptionsContainer.HTMLErrorChecking;
   FEditorErrorCheckingFrame.HTMLVersionComboBox.ItemIndex := Ord(FOptionsContainer.HTMLVersion);
@@ -504,11 +694,27 @@ begin
   { Other }
   FEditorOtherFrame.SQLDialectComboBox.ItemIndex := Ord(FOptionsContainer.SQLDialect);
   FEditorOtherFrame.CPASHighlighterComboBox.ItemIndex := Ord(FOptionsContainer.CPASHighlighter);
+  FEditorOtherFrame.CSSVersionComboBox.ItemIndex := Ord(FOptionsContainer.CSSVersion);
+  FEditorOtherFrame.PHPVersionComboBox.ItemIndex := Ord(FOptionsContainer.PHPVersion);
+  { Main menu }
+  FMainMenuFrame.PersistentHotKeysCheckBox.Checked := FOptionsContainer.PersistentHotKeys;
+  FMainMenuFrame.ShadowsCheckBox.Checked := FOptionsContainer.Shadows;
+  FMainMenuFrame.UseSystemFontCheckBox.Checked := FOptionsContainer.UseSystemFont;
+  FMainMenuFrame.FontLabel.Font.Name := FOptionsContainer.MainMenuFontName;
+  FMainMenuFrame.FontLabel.Font.Size := FOptionsContainer.MainMenuFontSize;
+  FMainMenuFrame.FontLabel.Caption := Format('%s %dpt', [FMainMenuFrame.FontLabel.Font.Name, FMainMenuFrame.FontLabel.Font.Size]);
+  FMainMenuFrame.AnimationStyleComboBox.ItemIndex := Ord(FOptionsContainer.AnimationStyle);
+  FMainMenuFrame.AnimationDurationEdit.Text := IntToStr(FOptionsContainer.AnimationDuration);
 end;
 
 procedure TOptionsDialog.OptionsVirtualStringTreeClick(Sender: TObject);
+begin
+  SetVisibleFrame;
+end;
+
+procedure TOptionsDialog.SetVisibleFrame;
 var
-  i, Level: Integer;
+  i, Level, ParentIndex: Integer;
   TreeNode: PVirtualNode;
 begin
   inherited;
@@ -520,20 +726,27 @@ begin
       if Components[i]  is TFrame then
         TFrame(Components[i]).Visible := False;
     Level := OptionsVirtualStringTree.GetNodeLevel(TreeNode);
+    ParentIndex := -1;
+    if Level = 1 then
+      ParentIndex := TreeNode.Parent.Index;
     FEditorOptionsFrame.Visible := (Level = 0) and (TreeNode.Index = 0);
-    FEditorFontFrame.Visible := (Level = 1) and (TreeNode.Index = 0);
+    FEditorFontFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 0);
     if FEditorFontFrame.Visible then
     begin
       FOptionsContainer.AssignTo(FEditorFontFrame.SynEdit);
       StyleHooks.UpdateGutterAndColors(FEditorFontFrame.SynEdit);
     end;
-    FEditorGutterFrame.Visible := (Level = 1) and (TreeNode.Index = 1);
-    FEditorTabsFrame.Visible := (Level = 1) and (TreeNode.Index = 2);
-    FEditorErrorCheckingFrame.Visible := (Level = 1) and (TreeNode.Index = 3);
-    FEditorOtherFrame.Visible := (Level = 1) and (TreeNode.Index = 4);
-    FOptionsCompareFrame.Visible := (Level = 0) and (TreeNode.Index = 1);
-    FMenuFrame.Visible := (Level = 0) and (TreeNode.Index = 2);
-    FFileTypesFrame.Visible := (Level = 0) and (TreeNode.Index = 3);
+    FEditorGutterFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 1);
+    FEditorTabsFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 2);
+    FEditorErrorCheckingFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 3);
+    FEditorOtherFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 4);
+
+    FDirectoryTabsFrame.Visible := (ParentIndex = 1) and (Level = 1) and (TreeNode.Index = 0);
+    FOutputTabsFrame.Visible := (ParentIndex = 2) and (Level = 1) and (TreeNode.Index = 0);
+
+    FOptionsCompareFrame.Visible := (Level = 0) and (TreeNode.Index = 3);
+    FMainMenuFrame.Visible := (Level = 0) and (TreeNode.Index = 4);
+    FFileTypesFrame.Visible := (Level = 0) and (TreeNode.Index = 5);
 
     { style bug with long TEdit border and resize }
     if FFileTypesFrame.Visible then
@@ -575,69 +788,6 @@ begin
     CellText := Data.Caption;
 end;
 
-procedure TOptionsDialog.OptionsVirtualStringTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
-  Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
-var
-  Data: POptionsRec;
-  ChildNode: PVirtualNode;
-begin
-  with Sender do
-  begin
-    Data := GetNodeData(Node);
-    if GetNodeLevel(Node) = 0 then
-    case Node.Index of
-      0:
-      begin
-        Data.ImageIndex := EditorAction.ImageIndex;
-        Data.Caption := EditorAction.Caption;
-        { Font }
-        ChildNode := OptionsVirtualStringTree.AddChild(Node);
-        Data := GetNodeData(ChildNode);
-        Data.ImageIndex := EditorFontAction.ImageIndex;
-        Data.Caption := EditorFontAction.Caption;
-        { Gutter }
-        ChildNode := OptionsVirtualStringTree.AddChild(Node);
-        Data := GetNodeData(ChildNode);
-        Data.ImageIndex := EditorGutterAction.ImageIndex;
-        Data.Caption := EditorGutterAction.Caption;
-        { Tabs }
-        ChildNode := OptionsVirtualStringTree.AddChild(Node);
-        Data := GetNodeData(ChildNode);
-        Data.ImageIndex := EditorTabsAction.ImageIndex;
-        Data.Caption := EditorTabsAction.Caption;
-        { Error checking }
-        ChildNode := OptionsVirtualStringTree.AddChild(Node);
-        Data := GetNodeData(ChildNode);
-        Data.ImageIndex := EditorErrorCheckingAction.ImageIndex;
-        Data.Caption := EditorErrorCheckingAction.Caption;
-        { Other }
-        ChildNode := OptionsVirtualStringTree.AddChild(Node);
-        Data := GetNodeData(ChildNode);
-        Data.ImageIndex := EditorOthersAction.ImageIndex;
-        Data.Caption := EditorOthersAction.Caption;
-        Node.ChildCount := 5;
-        OptionsVirtualStringTree.Selected[Node] := True;
-        OptionsVirtualStringTree.Expanded[Node] := True;
-      end;
-      1:
-      begin
-        Data.ImageIndex := CompareAction.ImageIndex;
-        Data.Caption := CompareAction.Caption;
-      end;
-      2:
-      begin
-        Data.ImageIndex := MenuAction.ImageIndex;
-        Data.Caption := MenuAction.Caption;
-      end;
-      3:
-      begin
-        Data.ImageIndex := FileTypesAction.ImageIndex;
-        Data.Caption := FileTypesAction.Caption;
-      end;
-    end;
-  end;
-end;
-
 procedure TOptionsDialog.PutData;
 var
   i: Integer;
@@ -658,6 +808,7 @@ begin
   FOptionsContainer.TrimTrailingSpaces := FEditorOptionsFrame.TrimTrailingSpacesCheckBox.Checked;
   FOptionsContainer.ScrollPastEof := FEditorOptionsFrame.ScrollPastEofCheckBox.Checked;
   FOptionsContainer.ScrollPastEol := FEditorOptionsFrame.ScrollPastEolCheckBox.Checked;
+  FOptionsContainer.TabsToSpaces := FEditorOptionsFrame.TabsToSpacesCheckBox.Checked;
   FOptionsContainer.ExtraLineSpacing := StrToIntDef(FEditorOptionsFrame.ExtraLinesEdit.Text, 0);
   FOptionsContainer.TabWidth := StrToIntDef(FEditorOptionsFrame.TabWidthEdit.Text, 8);
   FOptionsContainer.ColorBrightness := FEditorOptionsFrame.BrightnessTrackBar.Position;
@@ -667,10 +818,18 @@ begin
   { Gutter }
   FOptionsContainer.GutterVisible := FEditorGutterFrame.GutterVisibleCheckBox.Checked;
   FOptionsContainer.GutterLineNumbers := FEditorGutterFrame.LineNumbersCheckBox.Checked;
-  FOptionsContainer.RightEdge := StrToIntDef(FEditorGutterFrame.EdgeColumnEdit.Text, 80);
-  { Tabs }
-  FOptionsContainer.MultiLine := FEditorTabsFrame.MultiLineCheckBox.Checked;
-  FOptionsContainer.ShowCloseButton := FEditorTabsFrame.ShowCloseButtonCheckBox.Checked;
+  FOptionsContainer.RightMargin := StrToIntDef(FEditorGutterFrame.RightMarginEdit.Text, 80);
+  FOptionsContainer.GutterFontName := FEditorGutterFrame.FontLabel.Font.Name;
+  FOptionsContainer.GutterFontSize := FEditorGutterFrame.FontLabel.Font.Size;
+  { Document tabs }
+  FOptionsContainer.DocMultiLine := FEditorTabsFrame.MultiLineCheckBox.Checked;
+  FOptionsContainer.DocShowCloseButton := FEditorTabsFrame.ShowCloseButtonCheckBox.Checked;
+  { Directory tabs }
+  FOptionsContainer.DirMultiLine := FDirectoryTabsFrame.MultiLineCheckBox.Checked;
+  FOptionsContainer.DirShowCloseButton := FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked;
+  { Output tabs }
+  FOptionsContainer.OutputMultiLine := FOutputTabsFrame.MultiLineCheckBox.Checked;
+  FOptionsContainer.OutputShowCloseButton := FOutputTabsFrame.ShowCloseButtonCheckBox.Checked;
   { Compare }
   FOptionsContainer.IgnoreCase := FOptionsCompareFrame.IgnoreCaseCheckBox.Checked;
   FOptionsContainer.IgnoreBlanks := FOptionsCompareFrame.IgnoreBlanksCheckBox.Checked;
@@ -687,8 +846,18 @@ begin
       FileType, Common.StringBetween(FFileTypesFrame.FileTypesListBox.Items.Strings[i], '(', ')')]));
   end;
   { Other }
-  FOptionsContainer.FSQLDialect := TSQLDialect(FEditorOtherFrame.SQLDialectComboBox.ItemIndex);
-  FOptionsContainer.FCPASHighlighter := TCPASHighlighter(FEditorOtherFrame.CPASHighlighterComboBox.ItemIndex);
+  FOptionsContainer.SQLDialect := TSQLDialect(FEditorOtherFrame.SQLDialectComboBox.ItemIndex);
+  FOptionsContainer.CPASHighlighter := TCPASHighlighter(FEditorOtherFrame.CPASHighlighterComboBox.ItemIndex);
+  FOptionsContainer.CSSVersion := TSynWebCssVersion(FEditorOtherFrame.CSSVersionComboBox.ItemIndex);
+  FOptionsContainer.PHPVersion := TSynWebPhpVersion(FEditorOtherFrame.PHPVersionComboBox.ItemIndex);
+  { Main menu }
+  FOptionsContainer.PersistentHotKeys := FMainMenuFrame.PersistentHotKeysCheckBox.Checked;
+  FOptionsContainer.Shadows := FMainMenuFrame.ShadowsCheckBox.Checked;
+  FOptionsContainer.UseSystemFont := FMainMenuFrame.UseSystemFontCheckBox.Checked;
+  FOptionsContainer.MainMenuFontName := FMainMenuFrame.FontLabel.Font.Name;
+  FOptionsContainer.MainMenuFontSize := FMainMenuFrame.FontLabel.Font.Size;
+  FOptionsContainer.AnimationStyle := TAnimationStyle(FMainMenuFrame.AnimationStyleComboBox.ItemIndex);
+  FOptionsContainer.AnimationDuration := StrToIntDef(FMainMenuFrame.AnimationDurationEdit.Text, 150);
 end;
 
 procedure TOptionsDialog.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -752,8 +921,23 @@ begin
   FFileTypesFrame.Parent := OptionsPanel;
   FOptionsCompareFrame := TOptionsCompareFrame.Create(OptionsPanel);
   FOptionsCompareFrame.Parent := OptionsPanel;
-  FMenuFrame := TMenuFrame.Create(OptionsPanel);
-  FMenuFrame.Parent := OptionsPanel;
+  FMainMenuFrame := TMainMenuFrame.Create(OptionsPanel);
+  FMainMenuFrame.Parent := OptionsPanel;
+  FOutputTabsFrame := TOutputTabsFrame.Create(OptionsPanel);
+  FOutputTabsFrame.Parent := OptionsPanel;
+  FDirectoryTabsFrame := TDirectoryTabsFrame.Create(OptionsPanel);
+  FDirectoryTabsFrame.Parent := OptionsPanel;
+end;
+
+procedure TOptionsDialog.FormShow(Sender: TObject);
+var
+  Node: PVirtualNode;
+begin
+  inherited;
+  Node := OptionsVirtualStringTree.GetFirstSelected;
+  CreateTree;
+  OptionsVirtualStringTree.Selected[Node] := True;
+  SetVisibleFrame;
 end;
 
 end.

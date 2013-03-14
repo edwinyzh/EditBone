@@ -320,7 +320,8 @@ implementation
 
 uses
   About, FindInFiles, Vcl.ClipBrd, Common, VirtualTrees, BigIni, StyleHooks,
-  System.IOUtils, Language, ConfirmReplace, LanguageEditor, BCSynEdit;
+  System.IOUtils, Language, ConfirmReplace, LanguageEditor, BCSynEdit,
+  Vcl.PlatformVclStylesActnCtrls;
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
@@ -680,6 +681,7 @@ begin
     ViewSelectionModeAction.Checked := ReadBool('Options', 'EnableSelectionMode', False);
     if ViewSelectionModeAction.Checked then
       ViewSelectionModeActionExecute(nil);
+
     { Toolbar action visibility }
     ReadSectionValues('ActionToolBar', ActionToolBarStrings);
     for i := 0 to ActionToolBarStrings.Count - 1 do
@@ -1067,9 +1069,11 @@ end;
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   FOnStartUp := True;
+  ActionManager.Style := PlatformVclStylesStyle;
   { IDE is losing these for some reason... }
-  ActionMainMenuBar.Font.Name := 'Tahoma';
-  ActionMainMenuBar.Font.Size := 8;
+  //ActionMainMenuBar.Font.Name := 'Tahoma';
+  //ActionMainMenuBar.Font.Size := 8;
+
   StatusBar.Font.Name := 'Tahoma';
   StatusBar.Font.Size := 8;
 
@@ -1077,6 +1081,8 @@ begin
 
   ReadLanguageFile(Common.GetSelectedLanguage);
   ReadIniFile;
+
+  OptionsContainer.AssignTo(ActionMainMenuBar);
 
   //TStyleManager.Engine.RegisterStyleHook(TCustomTabControl, TTabControlStyleHookBtnClose);
   //TStyleManager.Engine.RegisterStyleHook(TTabControl, TTabControlStyleHookBtnClose);
@@ -1530,13 +1536,17 @@ procedure TMainForm.ToolsOptionsActionExecute(Sender: TObject);
 begin
   if FDocumentFrame.Options then
   begin
+    OptionsContainer.AssignTo(ActionMainMenuBar);
     if Assigned(FOutputFrame) then
     begin
-      FOutputFrame.PageControl.MultiLine := OptionsContainer.MultiLine;
-      FOutputFrame.PageControl.ShowCloseButton := OptionsContainer.ShowCloseButton;
+      FOutputFrame.PageControl.MultiLine := OptionsContainer.OutputMultiLine;
+      FOutputFrame.PageControl.ShowCloseButton := OptionsContainer.OutputShowCloseButton;
     end;
     if Assigned(FDirectoryFrame) then
-      FDirectoryFrame.PageControl.MultiLine := OptionsContainer.MultiLine;
+    begin
+      FDirectoryFrame.PageControl.MultiLine := OptionsContainer.DirMultiLine;
+      FDirectoryFrame.PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
+    end;
   end;
 end;
 

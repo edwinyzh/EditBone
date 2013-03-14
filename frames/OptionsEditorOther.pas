@@ -14,6 +14,10 @@ type
     SQLDialectLabel: TLabel;
     CPASHighlighterComboBox: TBCComboBox;
     SQLDialectComboBox: TBCComboBox;
+    CSSVersionLabel: TLabel;
+    CSSVersionComboBox: TBCComboBox;
+    PHPVersionLabel: TLabel;
+    PHPVersionComboBox: TBCComboBox;
   private
     { Private declarations }
   public
@@ -26,18 +30,24 @@ implementation
 {$R *.dfm}
 
 uses
-  Lib, SynHighlighterSQL;
+  Lib, SynHighlighterSQL, SynHighlighterWebData;
 
 constructor TEditorOtherFrame.Create(AOwner: TComponent);
 var
   i: TSQLDialect;
   j: TCPASHighlighter;
+  k: TSynWebCssVersion;
+  l: TSynWebPhpVersion;
 begin
   inherited;
   for i := Low(TSQLDialect) to High(TSQLDialect) do
     SQLDialectComboBox.Items.Add(TSQLDialectStr[TSQLDialect(i)]);
   for j := Low(TCPASHighlighter) to High(TCPASHighlighter) do
     CPASHighlighterComboBox.Items.Add(TCPASHighlighterStr[TCPASHighlighter(j)]);
+  for k := Low(TSynWebCssVersion) to High(TSynWebCssVersion) do
+    CSSVersionComboBox.Items.Add(TSynWebCssVersionStr[TSynWebCssVersion(k)]);
+  for l := Low(TSynWebPhpVersion) to High(TSynWebPhpVersion) do
+    PHPVersionComboBox.Items.Add(TSynWebPhpVersionStr[TSynWebPhpVersion(l)]);
 end;
 
 end.

@@ -42,8 +42,11 @@ uses
   OptionsEditorGutter in 'frames\OptionsEditorGutter.pas' {EditorGutterFrame: TFrame},
   OptionsEditorTabs in 'frames\OptionsEditorTabs.pas' {EditorTabsFrame: TFrame},
   OptionsFileTypes in 'frames\OptionsFileTypes.pas' {FileTypesFrame: TFrame},
-  OptionsMenu in 'frames\OptionsMenu.pas' {MenuFrame: TFrame},
-  OptionsCompare in 'frames\OptionsCompare.pas' {OptionsCompareFrame: TFrame};
+  OptionsMainMenu in 'frames\OptionsMainMenu.pas' {MainMenuFrame: TFrame},
+  OptionsCompare in 'frames\OptionsCompare.pas' {OptionsCompareFrame: TFrame},
+  OptionsDirectoryTabs in 'frames\OptionsDirectoryTabs.pas' {DirectoryTabsFrame: TFrame},
+  OptionsOutputTabs in 'frames\OptionsOutputTabs.pas' {OutputTabsFrame: TFrame},
+  Vcl.PlatformVclStylesActnCtrls in '..\..\Common\units\Vcl.PlatformVclStylesActnCtrls.pas';
 
 {$R *.res}
 

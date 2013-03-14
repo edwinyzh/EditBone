@@ -491,8 +491,8 @@ var
   OutputTabSheetFrame: TOutputTabSheetFrame;
 begin
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
-  PageControl.MultiLine := OptionsContainer.MultiLine;
-  PageControl.ShowCloseButton := OptionsContainer.ShowCloseButton;
+  PageControl.MultiLine := OptionsContainer.OutputMultiLine;
+  PageControl.ShowCloseButton := OptionsContainer.OutputShowCloseButton;
 
   LStyles := StyleServices;
   PanelColor := clNone;

@@ -31,6 +31,8 @@ type
     TabNameLabel: TLabel;
     TabNamePanel: TPanel;
     TopPanel: TPanel;
+    Divider1Panel: TPanel;
+    ExcludeOtherBranchesLabel: TLabel;
     procedure ExcludeOtherBranchesActionExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure OKActionExecute(Sender: TObject);

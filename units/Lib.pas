@@ -3,7 +3,7 @@ unit Lib;
 interface
 
 uses
-  SynHighlighterSQL;
+  SynHighlighterSQL, Vcl.ActnMenus;
 
 type
   TCPASHighlighter = (hClassic, hDefault, hTwilight);
@@ -28,6 +28,8 @@ const
     ('Standard', 'Interbase 6', 'MSSQL 7', 'MySQL', 'Oracle', 'Sybase', 'Ingres', 'MSSQL 2K', 'Postgres', 'Nexus');
   TCPASHighlighterStr: array[Low(TCPASHighlighter)..High(TCPASHighlighter)] of String =
     ('Classic', 'Default', 'Twilight');
+  TAnimationStyleStr: array[Low(TAnimationStyle)..High(TAnimationStyle)] of String = ('None',
+    'Default','Unfold', 'Slide', 'Fade');
 
 implementation
 

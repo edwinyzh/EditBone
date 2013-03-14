@@ -20,6 +20,7 @@ type
     TabWidthEdit: TBCEdit;
     BrightnessTrackBar: TTrackBar;
     ActiveLineColorBrightnessLabel: TLabel;
+    TabsToSpacesCheckBox: TBCCheckBox;
   private
     { Private declarations }
   public

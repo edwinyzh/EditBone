@@ -34,6 +34,17 @@
    add -> , 'ä', 'Ä', 'ö', 'Ö', 'å', 'Å'
   ---------------------------------------
 
+  ---------------  Fix 5  ---------------
+  Fixed SynEditTextBuffer.pas:
+  392: Finalize(fList^[Index]); =>
+       try
+         Finalize(fList^[Index]);
+       except
+         Finalize(fList^[Index-1]);
+       end;
+  Temporary solution. Sometimes Index is out of range when lines are deleted manually. TODO: Why?
+  ---------------------------------------
+
   Note! Input method editor keyboard shortcut (CTRL+SHIFT+0) switches the input language: http://support.microsoft.com/kb/967893
 }
 unit Document;
@@ -275,7 +286,7 @@ type
     function SearchOptions(IncludeBackwards: Boolean): TSynSearchOptions;
     procedure CheckHTMLErrors;
     procedure DestroyHTMLErrorListItems;
-    procedure DoSearch;
+    procedure DoSearch(SynEdit: TBCSynEdit);
     procedure InitializeSynEditPrint;
     procedure PageControlRepaint;
     procedure SelectHighLighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);
@@ -386,7 +397,7 @@ implementation
 {$R *.dfm}
 
 uses
-  PrintPreview, Replace, ConfirmReplace, Common, Lib, Options, StyleHooks, VirtualTrees,
+  PrintPreview, Replace, ConfirmReplace, Common, Lib, Options, StyleHooks, VirtualTrees, Vcl.ActnMenus,
   SynTokenMatch, SynHighlighterWebMisc, System.Types, Winapi.ShellAPI, System.WideStrings, Math,
   Main, BigIni, Vcl.GraphUtil, SynUnicode, Language, CommonDialogs, SynEditTextBuffer, Encoding;
 
@@ -517,7 +528,6 @@ begin
 
   SynEdit := TBCSynEdit.Create(nil);
   SynEdit.LoadFromFile(FileName);
-
   try
     try
       for Ln := 0 to SynEdit.Lines.Count - 1 do
@@ -767,8 +777,8 @@ var
   PanelColor: TColor;
 begin
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
-  PageControl.MultiLine := OptionsContainer.MultiLine;
-  PageControl.ShowCloseButton := OptionsContainer.ShowCloseButton;
+  PageControl.MultiLine := OptionsContainer.DocMultiLine;
+  PageControl.ShowCloseButton := OptionsContainer.DocShowCloseButton;
   Application.ProcessMessages;
   LStyles := StyleServices;
   PanelColor := clNone;
@@ -824,8 +834,8 @@ end;
 procedure TDocumentFrame.UpdateGutterAndColors(DocTabSheetFrame: TDocTabSheetFrame);
 begin
   StyleHooks.UpdateGutterAndColors(DocTabSheetFrame.SynEdit);
-  if DocTabSheetFrame.SplitVisible then
-    StyleHooks.UpdateGutterAndColors(DocTabSheetFrame.SplitSynEdit);
+  //if DocTabSheetFrame.SplitVisible then
+  StyleHooks.UpdateGutterAndColors(DocTabSheetFrame.SplitSynEdit);
 end;
 
 procedure TDocumentFrame.SynEditEnter(Sender: TObject);
@@ -841,6 +851,8 @@ var
   TempList: TStringList;
   SynEdit: TBCSynEdit;
 begin
+  SearchPanel.Visible := False;
+  GotoLinePanel.Visible := False;
   { create list of open documents }
   TempList := TStringList.Create;
   for i := 0 to PageControl.PageCount - 1 do
@@ -1318,6 +1330,11 @@ begin
     SynWebEngine.Options.HtmlVersion := SynEdit.HtmlVersion;
     SetMainHighlighterCombo(SynEdit);
     SetMainEncodingCombo(SynEdit);
+  end
+  else
+  begin
+    SearchPanel.Visible := False;
+    GotoLinePanel.Visible := False;
   end;
   PageControlRepaint;
 end;
@@ -1404,30 +1421,36 @@ end;
 
 procedure TDocumentFrame.Search;
 var
+  DocTabSheetFrame: TDocTabSheetFrame;
   SynEdit: TBCSynEdit;
 begin
   SearchPanel.Visible := not SearchPanel.Visible;
   if SearchPanel.Visible then
   begin
-    SynEdit := GetActiveSynEdit;
-    SearchPanel.Height := SearchForEdit.Height;
-    if SynEdit.SelAvail then
-      SearchForEdit.Text := SynEdit.SelText;
-    SearchForEdit.SetFocus;
-    SynEdit.CaretXY := BufferCoord(0, 0);
-    DoSearch;
+    DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+    if DocTabSheetFrame.SplitSynEdit.Focused then
+      SynEdit := DocTabSheetFrame.SplitSynEdit
+    else
+      SynEdit := GetActiveSynEdit;
+    if Assigned(SynEdit) then
+    begin
+      SearchPanel.Height := SearchForEdit.Height;
+      if SynEdit.SelAvail then
+        SearchForEdit.Text := SynEdit.SelText;
+      SearchForEdit.SetFocus;
+      SynEdit.CaretXY := BufferCoord(0, 0);
+      DoSearch(SynEdit);
+    end;
   end;
 end;
 
-procedure TDocumentFrame.DoSearch;
+procedure TDocumentFrame.DoSearch(SynEdit: TBCSynEdit);
 var
   SynSearchOptions: TSynSearchOptions;
-  SynEdit: TBCSynEdit;
 begin
   if SearchForEdit.Text = '' then
     Exit;
 
-  SynEdit := GetActiveSynEdit;
   if RegularExpressionCheckBox.Checked then
     SynEdit.SearchEngine := SynEditRegexSearch
   else
@@ -1468,18 +1491,29 @@ end;
 procedure TDocumentFrame.FindNext;
 var
   SynSearchOptions: TSynSearchOptions;
+  DocTabSheetFrame: TDocTabSheetFrame;
   SynEdit: TBCSynEdit;
 begin
   if SearchForEdit.Text = '' then
     Exit;
   SynSearchOptions := SearchOptions(False);
-  SynEdit := GetActiveSynEdit;
+
+  DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+  if DocTabSheetFrame.SplitSynEdit.Focused then
+    SynEdit := DocTabSheetFrame.SplitSynEdit
+  else
+    SynEdit := GetActiveSynEdit;
 
   if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
   begin
     MessageBeep(MB_ICONASTERISK);
     SynEdit.BlockBegin := SynEdit.BlockEnd;
     SynEdit.CaretXY := SynEdit.BlockBegin;
+    if Common.AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('SearchMatchNotFound'), [Common.CHR_DOUBLE_ENTER])) then
+    begin
+      SynEdit.CaretX := 0;
+      SynEdit.CaretY := 0;
+    end;
   end;
   // end;
 end;
@@ -1487,12 +1521,19 @@ end;
 procedure TDocumentFrame.FindPrevious;
 var
   SynSearchOptions: TSynSearchOptions;
+  DocTabSheetFrame: TDocTabSheetFrame;
   SynEdit: TBCSynEdit;
 begin
   if Trim(SearchForEdit.Text) = '' then
     Exit;
   SynSearchOptions := SearchOptions(True);
-  SynEdit := GetActiveSynEdit;
+
+  DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+  if DocTabSheetFrame.SplitSynEdit.Focused then
+    SynEdit := DocTabSheetFrame.SplitSynEdit
+  else
+    SynEdit := GetActiveSynEdit;
+
   if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
   begin
     MessageBeep(MB_ICONASTERISK);
@@ -1569,11 +1610,17 @@ begin
 end;
 
 procedure TDocumentFrame.SearchForEditChange(Sender: TObject);
+var
+  SynEdit: TBCSynEdit;
 begin
-  GetActiveSynEdit.CaretXY := BufferCoord(0, 0);
-  SearchFindNextAction.Enabled := CanFindNextPrevious;
-  SearchFindPreviousAction.Enabled := SearchFindNextAction.Enabled;
-  DoSearch;
+  SynEdit := GetActiveSynEdit;
+  if Assigned(SynEdit) then
+  begin
+    SynEdit.CaretXY := BufferCoord(0, 0);
+    SearchFindNextAction.Enabled := CanFindNextPrevious;
+    SearchFindPreviousAction.Enabled := SearchFindNextAction.Enabled;
+    DoSearch(SynEdit);
+  end;
 end;
 
 function TDocumentFrame.CanFindNextPrevious: Boolean;
@@ -1700,22 +1747,37 @@ begin
     { Options }
     OptionsContainer.FontName := ReadString('Options', 'FontName', 'Courier New');
     OptionsContainer.FontSize := StrToInt(ReadString('Options', 'FontSize', '10'));
+    OptionsContainer.GutterFontName := ReadString('Options', 'GutterFontName', 'Courier New');
+    OptionsContainer.GutterFontSize := StrToInt(ReadString('Options', 'GutterFontSize', '8'));
     OptionsContainer.ColorBrightness := StrToInt(ReadString('Options', 'ActiveLineColorBrightness', '2'));
-    OptionsContainer.RightEdge := StrToInt(ReadString('Options', 'RightEdge', '80'));
+    OptionsContainer.RightMargin := StrToInt(ReadString('Options', 'RightMargin', '80'));
     OptionsContainer.ExtraLineSpacing := StrToInt(ReadString('Options', 'ExtraLineSpacing', '0'));
     OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '8'));
     OptionsContainer.GutterVisible := ReadBool('Options', 'GutterVisible', True);
     OptionsContainer.GutterLineNumbers := ReadBool('Options', 'GutterLineNumbers', True);
-    OptionsContainer.MultiLine := ReadBool('Options', 'MultiLine', False);
-    OptionsContainer.ShowCloseButton := ReadBool('Options', 'ShowCloseButton', False);
+    OptionsContainer.DocMultiLine := ReadBool('Options', 'DocMultiLine', False);
+    OptionsContainer.DocShowCloseButton := ReadBool('Options', 'DocShowCloseButton', False);
+    OptionsContainer.DirMultiLine := ReadBool('Options', 'DirMultiLine', False);
+    OptionsContainer.DirShowCloseButton := ReadBool('Options', 'DirShowCloseButton', False);
+    OptionsContainer.OutputMultiLine := ReadBool('Options', 'OutputMultiLine', False);
+    OptionsContainer.OutputShowCloseButton := ReadBool('Options', 'OutputShowCloseButton', False);
     OptionsContainer.HTMLErrorChecking := ReadBool('Options', 'HTMLErrorChecking', True);
     OptionsContainer.HtmlVersion := TSynWebHtmlVersion(StrToInt(ReadString('Options', 'HTMLVersion', '4'))); { default: HTML5 }
     OptionsContainer.AutoIndent := ReadBool('Options', 'AutoIndent', True);
     OptionsContainer.TrimTrailingSpaces := ReadBool('Options', 'TrimTrailingSpaces', True);
     OptionsContainer.ScrollPastEof := ReadBool('Options', 'ScrollPastEof', False);
     OptionsContainer.ScrollPastEol := ReadBool('Options', 'ScrollPastEol', True);
+    OptionsContainer.TabsToSpaces := ReadBool('Options', 'TabsToSpaces', True);
     OptionsContainer.IgnoreCase := ReadBool('Options', 'IgnoreCase', True);
     OptionsContainer.IgnoreBlanks := ReadBool('Options', 'IgnoreBlanks', True);
+    OptionsContainer.PersistentHotKeys := ReadBool('Options', 'PersistentHotKeys', False);
+    OptionsContainer.Shadows := ReadBool('Options', 'Shadows', True);
+    OptionsContainer.UseSystemFont := ReadBool('Options', 'UseSystemFont', False);
+    OptionsContainer.MainMenuFontName := ReadString('Options', 'MainMenuFontName', 'Tahoma');
+    OptionsContainer.MainMenuFontSize := StrToInt(ReadString('Options', 'MainMenuFontSize', '8'));
+    OptionsContainer.AnimationStyle := TAnimationStyle(StrToInt(ReadString('Options', 'AnimationStyle', '1')));
+    OptionsContainer.AnimationDuration := StrToInt(ReadString('Options', 'AnimationDuration', '150'));
+
     { FileTypes }
     Version := ReadString(Application.Title, 'Version', '');
     if Version = '' then  { Version 1.4 has it }
@@ -1730,6 +1792,8 @@ begin
     end;
     OptionsContainer.SQLDialect := TSQLDialect(StrToInt(ReadString('Options', 'SQLDialect', '0')));
     OptionsContainer.CPASHighlighter := TCPASHighlighter(StrToInt(ReadString('Options', 'CPASHighlighter', '0')));
+    OptionsContainer.CSSVersion := TSynWebCssVersion(StrToInt(ReadString('Options', 'CSSVersion', '2')));
+    OptionsContainer.PHPVersion := TSynWebPhpVersion(StrToInt(ReadString('Options', 'PHPVersion', '1')));
   finally
     FileTypes.Free;
     Free;
@@ -1787,22 +1851,36 @@ begin
     { Options }
     WriteString('Options', 'FontName', OptionsContainer.FontName);
     WriteString('Options', 'FontSize', IntToStr(OptionsContainer.FontSize));
-    WriteString('Options', 'RightEdge', IntToStr(OptionsContainer.RightEdge));
+    WriteString('Options', 'GutterFontName', OptionsContainer.GutterFontName);
+    WriteString('Options', 'GutterFontSize', IntToStr(OptionsContainer.GutterFontSize));
+    WriteString('Options', 'RightMargin', IntToStr(OptionsContainer.RightMargin));
     WriteString('Options', 'ExtraLineSpacing', IntToStr(OptionsContainer.ExtraLineSpacing));
     WriteString('Options', 'TabWidth', IntToStr(OptionsContainer.TabWidth));
     WriteString('Options', 'ActiveLineColorBrightness', IntToStr(OptionsContainer.ColorBrightness));
     WriteBool('Options', 'GutterVisible', OptionsContainer.GutterVisible);
     WriteBool('Options', 'GutterLineNumbers', OptionsContainer.GutterLineNumbers);
-    WriteBool('Options', 'MultiLine', OptionsContainer.MultiLine);
-    WriteBool('Options', 'ShowCloseButton', OptionsContainer.ShowCloseButton);
+    WriteBool('Options', 'DocMultiLine', OptionsContainer.DocMultiLine);
+    WriteBool('Options', 'DocShowCloseButton', OptionsContainer.DocShowCloseButton);
+    WriteBool('Options', 'DirMultiLine', OptionsContainer.DirMultiLine);
+    WriteBool('Options', 'DirShowCloseButton', OptionsContainer.DirShowCloseButton);
+    WriteBool('Options', 'OutputMultiLine', OptionsContainer.OutputMultiLine);
+    WriteBool('Options', 'OutputShowCloseButton', OptionsContainer.OutputShowCloseButton);
     WriteBool('Options', 'HTMLErrorChecking', OptionsContainer.HTMLErrorChecking);
     WriteString('Options', 'HTMLVersion', IntToStr(Ord(OptionsContainer.HtmlVersion)));
     WriteBool('Options', 'AutoIndent', OptionsContainer.AutoIndent);
     WriteBool('Options', 'TrimTrailingSpaces', OptionsContainer.TrimTrailingSpaces);
     WriteBool('Options', 'ScrollPastEof', OptionsContainer.ScrollPastEof);
     WriteBool('Options', 'ScrollPastEol', OptionsContainer.ScrollPastEol);
+    WriteBool('Options', 'TabsToSpaces', OptionsContainer.TabsToSpaces);
     WriteBool('Options', 'IgnoreCase', OptionsContainer.IgnoreCase);
     WriteBool('Options', 'IgnoreBlanks', OptionsContainer.IgnoreBlanks);
+    WriteBool('Options', 'PersistentHotKeys', OptionsContainer.PersistentHotKeys);
+    WriteBool('Options', 'Shadows', OptionsContainer.Shadows);
+    WriteBool('Options', 'UseSystemFont', OptionsContainer.UseSystemFont);
+    WriteString('Options', 'MainMenuFontName', OptionsContainer.MainMenuFontName);
+    WriteString('Options', 'MainMenuFontSize', IntToStr(OptionsContainer.MainMenuFontSize));
+    WriteString('Options', 'AnimationStyle', IntToStr(Ord(OptionsContainer.AnimationStyle)));
+    WriteString('Options', 'AnimationDuration', IntToStr(OptionsContainer.AnimationDuration));
     EraseSection('OpenFiles');
     EraseSection('Bookmarks');
     { Open documents }
@@ -1828,6 +1906,8 @@ begin
         OptionsContainer.FileTypes.Strings[i]);
     WriteString('Options', 'SQLDialect', IntToStr(Ord(OptionsContainer.SQLDialect)));
     WriteString('Options', 'CPASHighlighter', IntToStr(Ord(OptionsContainer.CPASHighlighter)));
+    WriteString('Options', 'CSSVersion', IntToStr(Ord(OptionsContainer.CSSVersion)));
+    WriteString('Options', 'PHPVersion', IntToStr(Ord(OptionsContainer.PHPVersion)));
   finally
     Free;
   end;
@@ -1855,8 +1935,8 @@ begin
         UpdateHighlighterColors;
       end;
     end;
-    PageControl.MultiLine := OptionsContainer.MultiLine;
-    PageControl.ShowCloseButton := OptionsContainer.ShowCloseButton;
+    PageControl.MultiLine := OptionsContainer.DocMultiLine;
+    PageControl.ShowCloseButton := OptionsContainer.DocShowCloseButton;
     WriteIniFile;
     Result := True;
   end;
@@ -1973,7 +2053,7 @@ begin
   if Pos('~', PageControl.ActivePage.Caption) = 0 then
   begin
     PageControl.ActivePage.Caption := Format('%s~', [Trim(PageControl.ActivePage.Caption)]);
-    PageControl.ShowCloseButton := OptionsContainer.ShowCloseButton;
+    PageControl.ShowCloseButton := OptionsContainer.DocShowCloseButton;
     PageControlRepaint;
   end;
 end;
@@ -1994,14 +2074,19 @@ begin
     if Assigned(SplitSynEdit) then
     begin
       SplitSynEdit.BeginUpdate;
+
+      while SplitSynEdit.Lines.Count > SynEdit.Lines.Count do
+        SplitSynEdit.Lines.Delete(SplitSynEdit.Lines.Count);
+      while SplitSynEdit.Lines.Count < SynEdit.Lines.Count do
+        SplitSynEdit.Lines.Add('');
       for i := 0 to SplitSynEdit.Lines.Count - 1 do
         if SynEdit.Lines[i] <> SplitSynEdit.Lines[i] then
           SplitSynEdit.Lines[i] := SynEdit.Lines[i];
-      for i := SplitSynEdit.Lines.Count to SynEdit.Lines.Count - 1 do
+      (*for i := SplitSynEdit.Lines.Count to SynEdit.Lines.Count - 1 do
         SplitSynEdit.Lines.Add(SynEdit.Lines[i]);
-      SplitSynEdit.Text := Trim(SplitSynEdit.Text);
-  //    while SplitSynEdit.Lines.Count > SynEdit.Lines.Count do
-  //      SplitSynEdit.Lines.Delete(SplitSynEdit.Lines.Count);
+      //SplitSynEdit.Text := Trim(SplitSynEdit.Text);
+      while SplitSynEdit.Lines.Count > SynEdit.Lines.Count do
+        SplitSynEdit.Lines.Delete(SplitSynEdit.Lines.Count);*)
       SplitSynEdit.EndUpdate;
       SplitSynEdit.Repaint;
     end;
@@ -2011,33 +2096,38 @@ end;
 procedure TDocumentFrame.SynEditSplitChange(Sender: TObject);
 var
   i: Integer;
-  LinesChanged: Boolean;
   SynEdit, SplitSynEdit: TBCSynEdit;
 begin
   inherited;
   Application.ProcessMessages;
-  LinesChanged := False;
   SynEdit := GetActiveSynEdit;
-  SynEdit.BeginUpdate;
+  SynEdit.Modified := True;
+  SetActivePageCaptionModified;
+
   SplitSynEdit := GetActiveSplitSynEdit;
   if Assigned(SplitSynEdit) then
   begin
-    for i := 0 to SynEdit.Lines.Count - 1 do
+    SynEdit.BeginUpdate;
+    while SynEdit.Lines.Count > SplitSynEdit.Lines.Count do
+      SynEdit.Lines.Delete(SynEdit.Lines.Count);
+    while SynEdit.Lines.Count < SplitSynEdit.Lines.Count do
+      SynEdit.Lines.Add('');
+    for i := 0 to SplitSynEdit.Lines.Count - 1 do
       if SynEdit.Lines[i] <> SplitSynEdit.Lines[i] then
-      begin
-        LinesChanged := True;
         SynEdit.Lines[i] := SplitSynEdit.Lines[i];
-      end;
-    for i := SynEdit.Lines.Count to SplitSynEdit.Lines.Count - 1 do
+    {for i := 0 to SynEdit.Lines.Count - 1 do
+      if SynEdit.Lines[i] <> SplitSynEdit.Lines[i] then
+        SynEdit.Lines[i] := SplitSynEdit.Lines[i]; }
+    (*for i := SynEdit.Lines.Count to SplitSynEdit.Lines.Count - 1 do
       SynEdit.Lines.Add(SplitSynEdit.Lines[i]);
-    SplitSynEdit.Text := Trim(SplitSynEdit.Text);
-    //while SynEdit.Lines.Count > SplitSynEdit.Lines.Count do
-    //  SynEdit.Lines.Delete(SynEdit.Lines.Count);
+    //SplitSynEdit.Text := Trim(SplitSynEdit.Text);
+    while SynEdit.Lines.Count > SplitSynEdit.Lines.Count do
+      SynEdit.Lines.Delete(SynEdit.Lines.Count);  *)
+    SynEdit.EndUpdate;
   end;
-  SynEdit.EndUpdate;
   SynEdit.Repaint;
-  if LinesChanged then
-    SynEdit.OnChange(Sender);
+  //if LinesChanged then
+  //  SynEdit.OnChange(Sender);
 end;
 
 function TDocumentFrame.GetActiveTabSheetCaption: string;
@@ -3483,8 +3573,8 @@ procedure TDocumentFrame.SelectHighLighter(DocTabSheetFrame: TDocTabSheetFrame; 
 
 begin
   SetSynEdit(DocTabSheetFrame.SynEdit);
-  if DocTabSheetFrame.SplitVisible then
-    SetSynEdit(DocTabSheetFrame.SplitSynEdit);
+  //if DocTabSheetFrame.SplitVisible then
+  SetSynEdit(DocTabSheetFrame.SplitSynEdit);
   SetHighlighter;
 end;
 

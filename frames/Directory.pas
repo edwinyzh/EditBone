@@ -79,7 +79,7 @@ implementation
 {$R *.dfm}
 
 uses
-  System.Types, DirectoryTab, Winapi.ShellAPI, StyleHooks, Common, BigIni, Language;
+  System.Types, DirectoryTab, Winapi.ShellAPI, StyleHooks, Common, BigIni, Language, Options;
 
 constructor TDirectoryFrame.Create(AOwner: TComponent);
 begin
@@ -412,6 +412,8 @@ var
   PanelColor: TColor;
 begin
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
+  PageControl.MultiLine := OptionsContainer.DirMultiLine;
+  PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
   Application.ProcessMessages; { Important! }
   LStyles := StyleServices;
   PanelColor := clNone;
