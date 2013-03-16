@@ -78,7 +78,7 @@ object EditorOtherFrame: TEditorOtherFrame
     end
     object CSSVersionComboBox: TBCComboBox
       Left = 7
-      Top = 20
+      Top = 21
       Width = 186
       Height = 21
       Margins.Left = 4

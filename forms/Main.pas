@@ -181,6 +181,8 @@ type
     ViewWordWrapAction: TAction;
     ViewXMLTreeAction: TAction;
     ViewGotoLineAction: TAction;
+    FileReopenAction: TAction;
+    FileReopenClearAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -282,6 +284,8 @@ type
     procedure ViewXMLTreeActionExecute(Sender: TObject);
     procedure ViewGotoLineActionExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FileReopenClearActionExecute(Sender: TObject);
+    procedure FileReopenActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -307,6 +311,7 @@ type
     procedure WriteIniFile;
   public
     { Public declarations }
+    procedure CreateFileReopenList;
     property EncodingComboIndex: Integer write SetEncodingComboIndex;
     property HighlighterComboIndex: Integer write SetHighlighterComboIndex;
   end;
@@ -352,6 +357,24 @@ begin
     { 4th panel }
     StatusPanel := Panels.Add;
     StatusPanel.Width := 50;
+  end;
+end;
+
+procedure TMainForm.CreateFileReopenList;
+var
+  ActionClientItem: TActionClientItem;
+begin
+  //ActionClientItem := GetActionClientItem(FILE_MENU_ITEMINDEX, FILE_REOPEN_MENU_ITEMINDEX);
+
+end;
+
+procedure TMainForm.FileReopenClearActionExecute(Sender: TObject);
+begin
+  with TBigIniFile.Create(Common.GetINIFilename) do
+  try
+    EraseSection('FileReopenList');
+  finally
+    Free;
   end;
 end;
 
@@ -1025,6 +1048,11 @@ end;
 procedure TMainForm.FilePropertiesActionExecute(Sender: TObject);
 begin
   FDocumentFrame.FileProperties;
+end;
+
+procedure TMainForm.FileReopenActionExecute(Sender: TObject);
+begin
+  { dummy action for language algorithm }
 end;
 
 procedure TMainForm.FileExitActionExecute(Sender: TObject);
