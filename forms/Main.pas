@@ -13,6 +13,8 @@ uses
 const
   WM_AFTER_SHOW = WM_USER + 300; // custom message
   { Main menu item indexes }
+  FILE_MENU_ITEMINDEX = 0;
+  FILE_REOPEN_MENU_ITEMINDEX = 2;
   VIEW_MENU_ITEMINDEX = 3;
   VIEW_LANGUAGE_MENU_ITEMINDEX = 12;
   VIEW_STYLE_MENU_ITEMINDEX = 13;
@@ -183,6 +185,7 @@ type
     ViewGotoLineAction: TAction;
     FileReopenAction: TAction;
     FileReopenClearAction: TAction;
+    SelectReopenFileAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -286,6 +289,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FileReopenClearActionExecute(Sender: TObject);
     procedure FileReopenActionExecute(Sender: TObject);
+    procedure SelectReopenFileActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -362,20 +366,65 @@ end;
 
 procedure TMainForm.CreateFileReopenList;
 var
-  ActionClientItem: TActionClientItem;
+  i, j: Integer;
+  s: string;
+  ReopenActionClientItem, ActionClientItem: TActionClientItem;
+  Files: TStrings;
+  Action: TAction;
 begin
-  //ActionClientItem := GetActionClientItem(FILE_MENU_ITEMINDEX, FILE_REOPEN_MENU_ITEMINDEX);
+  ReopenActionClientItem := GetActionClientItem(FILE_MENU_ITEMINDEX, FILE_REOPEN_MENU_ITEMINDEX);
+  { Destroy actions }
+  for i := ReopenActionClientItem.Items.Count - 1 downto 0 do
+    if Assigned(ReopenActionClientItem.Items[i].Action) then
+      if ReopenActionClientItem.Items[i].Action.Tag = 1 then
+        ReopenActionClientItem.Items[i].Action.Free;
+  ReopenActionClientItem.Items.Clear;
 
+  Files := TStringList.Create;
+  with TBigIniFile.Create(Common.GetINIFilename) do
+  try
+    ReadSectionValues('FileReopenFiles', Files);
+    { Files }
+    j := 0;
+    for i := 0 to Files.Count - 1 do
+    begin
+      s := System.Copy(Files.Strings[i], Pos('=', Files.Strings[i]) + 1, Length(Files.Strings[i]));
+      if FileExists(FileName) then
+      begin
+        ActionClientItem := ReopenActionClientItem.Items.Add;
+        Action := TAction.Create(ActionManager);
+        Action.Name := Format('ReopenFile%dSelectAction', [j]);
+        Action.Caption := Format('%d %s', [j, s]);
+        Action.OnExecute := SelectReopenFileActionExecute;
+        Action.Tag := 1;
+        ActionClientItem.Action := Action;
+        Inc(j);
+      end;
+    end;
+    { Divider }
+    if Files.Count > 0 then
+    begin
+      ActionClientItem := ReopenActionClientItem.Items.Add;
+      ActionClientItem.Caption := '-';
+      { Clear }
+      ActionClientItem := ReopenActionClientItem.Items.Add;
+      ActionClientItem.Action := FileReopenClearAction;
+    end;
+  finally
+    Free;
+    Files.Free;
+  end;
 end;
 
 procedure TMainForm.FileReopenClearActionExecute(Sender: TObject);
 begin
   with TBigIniFile.Create(Common.GetINIFilename) do
   try
-    EraseSection('FileReopenList');
+    EraseSection('FileReopenFiles');
   finally
     Free;
   end;
+  CreateFileReopenList;
 end;
 
 function TMainForm.GetActionClientItem(MenuItemIndex, SubMenuItemIndex: Integer): TActionClientItem;
@@ -407,6 +456,16 @@ begin
   Action.Checked := True;
 
   ReadLanguageFile(ActionCaption);
+end;
+
+procedure TMainForm.SelectReopenFileActionExecute(Sender: TObject);
+var
+  FileName: string;
+  Action: TAction;
+begin
+  Action := Sender as TAction;
+  FileName := System.Copy(Action.Caption, Pos(' ', Action.Caption) + 1, Length(Action.Caption));
+  FDocumentFrame.Open(FileName);
 end;
 
 procedure TMainForm.MainMenuTitleBarActions(Enabled: Boolean);
@@ -609,10 +668,11 @@ begin
       FDocumentFrame.New;
     if ParamCount > 0 then
       for i := 1 to ParamCount do
-        FDocumentFrame.Open(ParamStr(i));
+        FDocumentFrame.Open(ParamStr(i), nil, 0, 0, True);
 
     CreateLanguageMenu;
     CreateStyleMenu;
+    CreateFileReopenList;
 
     ReadIniOptions;
 
@@ -630,7 +690,6 @@ procedure TMainForm.ToggleBookmarkActionExecute(Sender: TObject);
 begin
   FDocumentFrame.ToggleBookMark;
 end;
-
 
 procedure TMainForm.ViewOpenDirectoryActionExecute(Sender: TObject);
 begin
@@ -805,6 +864,7 @@ var
   KeyState: TKeyboardState;
   SelectionFound: Boolean;
   IsXMLDocument: Boolean;
+  ReopenActionClientItem: TActionClientItem;
 begin
   ActiveDocumentFound := FDocumentFrame.ActiveDocumentFound;
   SelectionFound := FDocumentFrame.SelectionFound;
@@ -830,6 +890,8 @@ begin
     Caption := Format(Application.Title + MAIN_CAPTION_DOCUMENT, [FDocumentFrame.ActiveTabSheetCaption])
   else
     Caption := Application.Title;
+  ReopenActionClientItem := GetActionClientItem(FILE_MENU_ITEMINDEX, FILE_REOPEN_MENU_ITEMINDEX);
+  FileReopenAction.Enabled := ReopenActionClientItem.Items.Count > 0;
   FileCloseAction.Enabled := FDocumentFrame.OpenTabSheets;
   FileCloseAllAction.Enabled := FileCloseAction.Enabled;
   FileCloseAllOtherPagesAction.Enabled := FileCloseAction.Enabled;
@@ -965,8 +1027,8 @@ end;
 
 procedure TMainForm.FileOpenActionExecute(Sender: TObject);
 begin
-  if Assigned(FDirectoryFrame) then
-    FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
+  //if Assigned(FDirectoryFrame) then
+  //  FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
   FDocumentFrame.Open;
 end;
 
@@ -987,8 +1049,8 @@ end;
 
 procedure TMainForm.FileSaveActionExecute(Sender: TObject);
 begin
-  if Assigned(FDirectoryFrame) then
-    FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
+  //if Assigned(FDirectoryFrame) then
+  //  FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
   FDocumentFrame.Save;
   Repaint;
 end;
@@ -1003,7 +1065,7 @@ begin
     if Assigned(FDirectoryFrame) then
     begin
       RootDirectory := FDirectoryFrame.RootDirectory;
-      FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
+      //FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
     end;
     Filename := FDocumentFrame.SaveAs;
     if Filename <> '' then
@@ -1030,8 +1092,8 @@ end;
 
 procedure TMainForm.FileSaveAllActionExecute(Sender: TObject);
 begin
-  if Assigned(FDirectoryFrame) then
-    FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
+  //if Assigned(FDirectoryFrame) then
+  //  FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
   FDocumentFrame.SaveAll;
 end;
 

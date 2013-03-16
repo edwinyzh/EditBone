@@ -1944,6 +1944,9 @@ object MainForm: TMainForm
       ImageIndex = 65
       OnExecute = FileReopenClearActionExecute
     end
+    object SelectReopenFileAction: TAction
+      OnExecute = SelectReopenFileActionExecute
+    end
   end
   object ImageList: TBCImageList
     Left = 408

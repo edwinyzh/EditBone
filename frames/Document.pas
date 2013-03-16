@@ -255,7 +255,7 @@ type
     { Private declarations }
     FCaseCycle: Byte;
     FCompareImageIndex, FNewImageIndex: Integer;
-    FDefaultPath: string;
+    //FDefaultPath: string;
     FHTMLDocumentChanged: Boolean;
     FHTMLErrorList: TList;
     FNumberOfNewDocument: Integer;
@@ -284,6 +284,7 @@ type
     function GetXMLTreeVisible: Boolean;
     function Save(TabSheet: TTabSheet; ShowDialog: Boolean = False): string; overload;
     function SearchOptions(IncludeBackwards: Boolean): TSynSearchOptions;
+    procedure AddToReopenFiles(FileName: string);
     procedure CheckHTMLErrors;
     procedure DestroyHTMLErrorListItems;
     procedure DoSearch(SynEdit: TBCSynEdit);
@@ -344,7 +345,8 @@ type
     procedure LoadMacro;
     procedure New;
     procedure NextPage;
-    procedure Open(FileName: string = ''; Bookmarks: TStrings = nil; Ln: Integer = 0; Ch: Integer = 0);
+    procedure Open(FileName: string = ''; Bookmarks: TStrings = nil; Ln: Integer = 0;
+      Ch: Integer = 0; StartUp: Boolean = False);
     procedure Paste;
     procedure PlaybackMacro;
     procedure PreviousPage;
@@ -383,7 +385,7 @@ type
     property ActiveTabSheetCaption: string read GetActiveTabSheetCaption;
     property CanRedo: Boolean read GetCanRedo;
     property CanUndo: Boolean read GetCanUndo;
-    property DefaultPath: string read FDefaultPath write FDefaultPath;
+    //property DefaultPath: string read FDefaultPath write FDefaultPath;
     property OpenTabSheetCount: Integer read GetOpenTabSheetCount;
     property OpenTabSheets: Boolean read GetOpenTabSheets;
     property SelectionFound: Boolean read GetSelectionFound;
@@ -967,15 +969,48 @@ begin
   end;
 end;
 
+procedure TDocumentFrame.AddToReopenFiles(FileName: string);
+var
+  i: Integer;
+  Files: TStrings;
+begin
+  Files := TStringList.Create;
+  { Read section }
+  with TBigIniFile.Create(Common.GetINIFilename) do
+  try
+    ReadSectionValues('FileReopenFiles', Files);
+  finally
+    Free;
+  end;
+  { Insert filename }
+  for i := 0 to Files.Count - 1 do
+    Files[i] := System.Copy(Files[i], Pos('=', Files[i]) + 1, Length(Files[i]));
+  for i := Files.Count - 1 downto 0 do
+    if Files[i] = FileName then
+      Files.Delete(i);
+  Files.Insert(0, FileName);
+  while Files.Count > 10 do
+    Files.Delete(Files.Count - 1);
+  { write section }
+  with TBigIniFile.Create(Common.GetINIFilename) do
+  try
+    EraseSection('FileReopenFiles');
+    for i := 0 to Files.Count - 1 do
+      WriteString('FileReopenFiles', IntToStr(i), Files.Strings[i]);
+  finally
+    Free;
+  end;
+end;
+
 procedure TDocumentFrame.Open(FileName: string = ''; Bookmarks: TStrings = nil;
-  Ln: Integer = 0; Ch: Integer = 0);
+  Ln: Integer = 0; Ch: Integer = 0; StartUp: Boolean = False);
 var
   i: Integer;
   SynEdit: TBCSynEdit;
 begin
   if FileName = '' then
   begin
-    if CommonDialogs.OpenFiles(Handle, DefaultPath, OptionsContainer.Filters, LanguageDataModule.GetConstant('Open')) then
+    if CommonDialogs.OpenFiles(Handle, '', OptionsContainer.Filters, LanguageDataModule.GetConstant('Open')) then
     begin
       Application.ProcessMessages; { style fix }
       for i := 0 to CommonDialogs.Files.Count - 1 do
@@ -998,6 +1033,11 @@ begin
         PageControlRepaint;
         if SynEdit.CanFocus then
           SynEdit.SetFocus;
+        if not StartUp then
+        begin
+          AddToReopenFiles(FileName);
+          MainForm.CreateFileReopenList;
+        end;
       except
         { It is not always possible to focus... }
       end;
@@ -1142,8 +1182,8 @@ begin
         AFileName := ExtractFileName(DocTabSheetFrame.SynEdit.DocumentName);
 
       FilePath := ExtractFilePath(DocTabSheetFrame.SynEdit.DocumentName);
-      if FilePath = '' then
-        FilePath := DefaultPath;
+      //if FilePath = '' then
+      //  FilePath := DefaultPath;
 
       if CommonDialogs.SaveFile(Handle, FilePath, OptionsContainer.Filters, LanguageDataModule.GetConstant('SaveAs'), AFileName) then
       begin
@@ -1739,7 +1779,6 @@ procedure TDocumentFrame.ReadIniFile;
 var
   i: Integer;
   FileTypes: TStrings;
-  Version: string;
 begin
   FileTypes := TStringList.Create;
   with TBigIniFile.Create(Common.GetINIFilename) do
@@ -1779,17 +1818,11 @@ begin
     OptionsContainer.AnimationDuration := StrToInt(ReadString('Options', 'AnimationDuration', '150'));
 
     { FileTypes }
-    Version := ReadString(Application.Title, 'Version', '');
-    if Version = '' then  { Version 1.4 has it }
-      EraseSection('FileTypes')
-    else
-    begin
-      ReadSectionValues('FileTypes', FileTypes);
-      for i := 0 to FileTypes.Count - 1 do
-        OptionsContainer.FileTypes.Strings[i] := System.Copy
-          (FileTypes.Strings[i], Pos('=', FileTypes.Strings[i]) + 1, Length
-            (FileTypes.Strings[i]));
-    end;
+    ReadSectionValues('FileTypes', FileTypes);
+    for i := 0 to FileTypes.Count - 1 do
+      OptionsContainer.FileTypes.Strings[i] := System.Copy
+        (FileTypes.Strings[i], Pos('=', FileTypes.Strings[i]) + 1, Length
+          (FileTypes.Strings[i]));
     OptionsContainer.SQLDialect := TSQLDialect(StrToInt(ReadString('Options', 'SQLDialect', '0')));
     OptionsContainer.CPASHighlighter := TCPASHighlighter(StrToInt(ReadString('Options', 'CPASHighlighter', '0')));
     OptionsContainer.CSSVersion := TSynWebCssVersion(StrToInt(ReadString('Options', 'CSSVersion', '2')));
@@ -1819,7 +1852,7 @@ begin
       FName := System.Copy(FileNames.Strings[i], Pos('=', FileNames.Strings[i]) + 1, Length(FileNames.Strings[i]));
       ReadSectionValues('Bookmarks', Bookmarks);
       if FileExists(FName) then
-        Open(FName, Bookmarks);
+        Open(FName, Bookmarks, 0, 0, True);
     end;
 
     i := ReadInteger('Options', 'ActivePageIndex', 0);
@@ -1902,8 +1935,7 @@ begin
     EraseSection('FileTypes');
     { FileTypes }
     for i := 0 to OptionsContainer.FileTypes.Count - 1 do
-      WriteString('FileTypes', IntToStr(i),
-        OptionsContainer.FileTypes.Strings[i]);
+      WriteString('FileTypes', IntToStr(i), OptionsContainer.FileTypes.Strings[i]);
     WriteString('Options', 'SQLDialect', IntToStr(Ord(OptionsContainer.SQLDialect)));
     WriteString('Options', 'CPASHighlighter', IntToStr(Ord(OptionsContainer.CPASHighlighter)));
     WriteString('Options', 'CSSVersion', IntToStr(Ord(OptionsContainer.CSSVersion)));
@@ -3033,7 +3065,7 @@ begin
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     if Assigned(SynEdit.SynMacroRecorder) then
-      if CommonDialogs.SaveFile(Handle, DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
+      if CommonDialogs.SaveFile(Handle, '', Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
         , '|', #0, [rfReplaceAll])) + #0#0,
         LanguageDataModule.GetConstant('SaveAs'), '', 'mcr') then
       begin
@@ -3049,7 +3081,7 @@ begin
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
   begin
-    if CommonDialogs.OpenFile(Handle, DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
+    if CommonDialogs.OpenFile(Handle, '', Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
       , '|', #0, [rfReplaceAll])) + #0#0,
       LanguageDataModule.GetConstant('Open'), 'mcr') then
     begin
