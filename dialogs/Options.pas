@@ -118,7 +118,6 @@ type
     FTabsToSpaces: Boolean;
     FIgnoreCase: Boolean;
     FIgnoreBlanks: Boolean;
-
     FPersistentHotKeys: Boolean;
     FShadows: Boolean;
     FUseSystemFont: Boolean;
