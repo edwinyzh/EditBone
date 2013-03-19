@@ -308,6 +308,7 @@ type
     procedure ReadLanguageFile(SelectedLanguage: string);
     procedure ReadWindowState;
     procedure RecreateStatusBar;
+    procedure RecreateDragDrop;
     procedure SetEncodingComboIndex(Value: Integer);
     procedure SetFields;
     procedure SetHighlighterComboIndex(Value: Integer);
@@ -362,6 +363,19 @@ begin
     StatusPanel := Panels.Add;
     StatusPanel.Width := 50;
   end;
+end;
+
+procedure TMainForm.RecreateDragDrop;
+begin
+  if Assigned(DragDrop) then
+  begin
+    DragDrop.Free;
+    DragDrop := nil
+  end;
+  DragDrop := TJvDragDrop.Create(MainForm);
+  DragDrop.DropTarget := MainForm;
+  DragDrop.OnDrop := DragDropDrop;
+  DragDrop.AcceptDrag := True;
 end;
 
 procedure TMainForm.CreateFileReopenList;
@@ -545,6 +559,7 @@ begin
   FDocumentFrame.UpdateGutterAndControls;
   FOutputFrame.UpdateControls;
   RecreateStatusBar;
+  RecreateDragDrop;
 end;
 
 procedure TMainForm.ToggleBookmarks0ActionExecute(Sender: TObject);
@@ -1307,8 +1322,13 @@ var
   i: Integer;
 begin
   if FDocumentFrame.IsCompareFilesActivePage then
-    for i := 0 to Value.Count - 1 do
-      FDocumentFrame.CompareFiles(Value.Strings[i])
+  begin
+    if Value.Count > 1 then
+      for i := 0 to Value.Count - 1 do
+        FDocumentFrame.CompareFiles(Value.Strings[i])
+    else
+      FDocumentFrame.CompareFiles(Value.Strings[0], True)
+  end
   else
   for i := 0 to Value.Count - 1 do
     FDocumentFrame.Open(Value.Strings[i]);

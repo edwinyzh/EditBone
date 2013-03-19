@@ -327,7 +327,7 @@ type
     procedure Close;
     procedure CloseAll(CloseDocuments: Boolean = True);
     procedure CloseAllOtherPages;
-    procedure CompareFiles(FileName: string = '');
+    procedure CompareFiles(FileName: string = ''; AFileDragDrop: Boolean = False);
     procedure Copy;
     procedure Cut;
     procedure DecreaseIndent;
@@ -845,7 +845,7 @@ begin
   CheckFileDateTimes;
 end;
 
-procedure TDocumentFrame.CompareFiles(FileName: string);
+procedure TDocumentFrame.CompareFiles(FileName: string; AFileDragDrop: Boolean);
 var
   i: Integer;
   TabSheet: TTabSheet;
@@ -877,7 +877,7 @@ begin
         begin
           { else set file and exit}
           PageControl.ActivePageIndex := i;
-          Frame.SetCompareFile(Filename);
+          Frame.SetCompareFile(Filename, AFileDragDrop);
           Exit;
         end;
       end;
@@ -898,6 +898,7 @@ begin
     SetCompareFile(Filename);
   end;
   Common.UpdateLanguage(Frame);
+  UpdateGutterAndControls;
   PageControlRepaint;
 end;
 
