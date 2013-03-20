@@ -125,6 +125,11 @@ type
     FMainMenuFontSize: Integer;
     FAnimationStyle: TAnimationStyle;
     FAnimationDuration: Integer;
+    FShowXMLTree: Boolean;
+    FEnableWordWrap: Boolean;
+    FEnableLineNumbers: Boolean;
+    FEnableSpecialChars: Boolean;
+    FEnableSelectionMode: Boolean;
     function GetFilters: string;
     function GetExtensions: string;
   public
@@ -172,6 +177,12 @@ type
     property MainMenuFontSize: Integer read FMainMenuFontSize write FMainMenuFontSize;
     property AnimationStyle: TAnimationStyle read FAnimationStyle write FAnimationStyle;
     property AnimationDuration: Integer read FAnimationDuration write FAnimationDuration;
+
+    property ShowXMLTree: Boolean read FShowXMLTree write FShowXMLTree;
+    property EnableWordWrap: Boolean read FEnableWordWrap write FEnableWordWrap;
+    property EnableLineNumbers: Boolean read FEnableLineNumbers write FEnableLineNumbers;
+    property EnableSpecialChars: Boolean read FEnableSpecialChars write FEnableSpecialChars;
+    property EnableSelectionMode: Boolean read FEnableSelectionMode write FEnableSelectionMode;
   end;
 
 function OptionsDialog(Sender: TComponent): TOptionsDialog;
@@ -182,7 +193,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, StyleHooks, Language, SynHighlighterMulti, System.IniFiles;
+  Common, StyleHooks, Language, SynHighlighterMulti, System.IniFiles, SynEditTypes;
 
 { TOptionsContainer }
 
@@ -230,6 +241,21 @@ begin
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoTrimTrailingSpaces]
     else
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoTrimTrailingSpaces];
+
+
+    TCustomSynEdit(Dest).WordWrap := FEnableWordWrap;
+    TCustomSynEdit(Dest).Gutter.ShowLineNumbers := FEnableLineNumbers;
+
+    if FEnableSpecialChars then
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoShowSpecialChars]
+    else
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoShowSpecialChars];
+
+    if FEnableSelectionMode then
+      TCustomSynEdit(Dest).SelectionMode := smColumn
+    else
+      TCustomSynEdit(Dest).SelectionMode := smNormal;
+
     if TCustomSynEdit(Dest).Highlighter is TSynWebHtmlSyn then
     begin
       TSynWebHtmlSyn(TCustomSynEdit(Dest).Highlighter).Engine.Options.HtmlVersion := FHTMLVersion;
@@ -247,8 +273,6 @@ begin
     TActionMainMenuBar(Dest).UseSystemFont := FUseSystemFont;
     Screen.MenuFont.Name := FMainMenuFontName;
     Screen.MenuFont.Size := FMainMenuFontSize;
-    //TActionMainMenuBar(Dest).Font.Name := FMainMenuFontName;
-    //TActionMainMenuBar(Dest).Font.Size := FMainMenuFontSize;
     TActionMainMenuBar(Dest).AnimationStyle := FAnimationStyle;
     TActionMainMenuBar(Dest).AnimateDuration := FAnimationDuration;
   end

@@ -290,7 +290,7 @@ type
     procedure DoSearch(SynEdit: TBCSynEdit);
     procedure InitializeSynEditPrint;
     procedure PageControlRepaint;
-    procedure SelectHighLighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);
+    procedure SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);
     procedure SetActivePageCaptionModified;
     procedure SetBookmarks(SynEdit: TBCSynEdit; Bookmarks: TStrings);
     procedure SetMainEncodingCombo(SynEdit: TBCSynEdit);
@@ -697,13 +697,13 @@ begin
     if Filename <> '' then
     begin
       SynEdit.LoadFromFile(FileName);
-      SelectHighLighter(DocTabSheetFrame, FileName);
+      SelectHighlighter(DocTabSheetFrame, FileName);
     end
     else
       SetActiveHighlighter(51);
 
     { XML Tree }
-    XMLTreeVisible := MainForm.ViewXMLTreeAction.Checked and IsXMLDocument;
+    XMLTreeVisible := OptionsContainer.ShowXMLTree {MainForm.ViewXMLTreeAction.Checked} and IsXMLDocument;
     if XMLTreeVisible then
       LoadFromXML(SynEdit.Text);
 
@@ -896,6 +896,7 @@ begin
     Align := alClient;
     OpenDocumentsList := TempList;
     SetCompareFile(Filename);
+    SpecialChars := OptionsContainer.EnableSpecialChars;
   end;
   Common.UpdateLanguage(Frame);
   UpdateGutterAndControls;
@@ -1213,7 +1214,7 @@ begin
         AFileName := System.Copy(AFileName, 0, Length(AFileName) - 1);
       TabSheet.Caption := AFileName;
 
-      SelectHighLighter(DocTabSheetFrame, DocumentName);
+      SelectHighlighter(DocTabSheetFrame, DocumentName);
     end;
     UpdateGutterAndControls;
   end;
@@ -1716,6 +1717,8 @@ begin
       else
         SynEdit.Options := SynEdit.Options + [eoShowSpecialChars];
     end;
+    if PageControl.Pages[i].Components[0] is TCompareFrame then
+      Result := TCompareFrame(PageControl.Pages[i].Components[0]).ToggleSpecialChars
   end;
   PageControlRepaint;
 end;
@@ -1817,6 +1820,12 @@ begin
     OptionsContainer.MainMenuFontSize := StrToInt(ReadString('Options', 'MainMenuFontSize', '8'));
     OptionsContainer.AnimationStyle := TAnimationStyle(StrToInt(ReadString('Options', 'AnimationStyle', '1')));
     OptionsContainer.AnimationDuration := StrToInt(ReadString('Options', 'AnimationDuration', '150'));
+
+    OptionsContainer.ShowXMLTree := ReadBool('Options', 'ShowXMLTree', True);
+    OptionsContainer.EnableWordWrap := ReadBool('Options', 'EnableWordWrap', False);
+    OptionsContainer.EnableLineNumbers := ReadBool('Options', 'EnableLineNumbers', True);
+    OptionsContainer.EnableSpecialChars := ReadBool('Options', 'EnableSpecialChars', False);
+    OptionsContainer.EnableSelectionMode := ReadBool('Options', 'EnableSelectionMode', False);
 
     { FileTypes }
     ReadSectionValues('FileTypes', FileTypes);
@@ -1963,7 +1972,7 @@ begin
       begin
         OptionsContainer.AssignTo(DocTabSheetFrame.SynEdit);
         OptionsContainer.AssignTo(DocTabSheetFrame.SplitSynEdit);
-        SelectHighLighter(DocTabSheetFrame, DocTabSheetFrame.SynEdit.DocumentName);
+        SelectHighlighter(DocTabSheetFrame, DocTabSheetFrame.SynEdit.DocumentName);
         UpdateGutterAndControls;
         UpdateHighlighterColors;
       end;
@@ -3306,7 +3315,7 @@ begin
       if Filename <> '' then
       begin
         DocTabSheetFrame.SplitSynEdit.Text := ASynEdit.Text;
-        SelectHighLighter(DocTabSheetFrame, FileName);
+        SelectHighlighter(DocTabSheetFrame, FileName);
       end;
       UpdateGutterAndControls;
       Application.ProcessMessages;
@@ -3359,91 +3368,9 @@ begin
     Result := DocTabSheetFrame.SynEdit.Highlighter = SynWebXmlSyn;
 end;
 
-procedure TDocumentFrame.SelectHighLighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);
+procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);
 
-  procedure SetSynEdit(SynEdit: TBCSynEdit);
-  var
-    FileExt: string;
-  begin
-    FileExt := UpperCase(ExtractFileExt(FileName));
-    with SynEdit do
-    begin
-      Color := clWhite;
-      ActiveLineColor := clSkyBlue;
-      OnPaintTransient := nil;
-      FHTMLDocumentChanged := False;
-      HtmlVersion := shvUndefined;
-      SynWebEngine.Options.HtmlVersion := shvUndefined;
-
-      if Pos(FileExt, OptionsContainer.FileType(ftCS)) <> 0 then
-      begin
-        if OptionsContainer.CPASHighlighter = hClassic then
-        begin
-          Color := clNavy;
-          ActiveLineColor := clBlue;
-        end
-        else
-        if OptionsContainer.CPASHighlighter = hDefault then
-          ActiveLineColor := $E6FFFA
-        else
-        begin
-          Color := clBlack;
-          ActiveLineColor := clGray;
-        end
-      end
-      else if Pos(FileExt, OptionsContainer.FileType(ftCPP)) <> 0 then
-      begin
-        if OptionsContainer.CPASHighlighter = hClassic then
-        begin
-          Color := clNavy;
-          ActiveLineColor := clBlue;
-        end
-        else
-        if OptionsContainer.CPASHighlighter = hDefault then
-          ActiveLineColor := $E6FFFA
-        else
-        begin
-          Color := clBlack;
-          ActiveLineColor := clGray;
-        end
-      end
-      else if (Pos(FileExt, OptionsContainer.FileType(ftHTML)) <> 0) or
-        (Pos(FileExt, OptionsContainer.FileType(ftPHP)) <> 0) then
-      begin
-        OnPaintTransient := SynEditHTMLPaintTransient;
-        OnChange := SynEditHTMLOnChange;
-        FHTMLDocumentChanged := True;
-        HtmlVersion := FindHtmlVersion(FileName);
-        SynWebEngine.Options.HtmlVersion := HtmlVersion;
-      end
-      else if Pos(FileExt, OptionsContainer.FileType(ftPas)) <> 0 then
-      begin
-        if OptionsContainer.CPASHighlighter = hClassic then
-        begin
-          Color := clNavy;
-          ActiveLineColor := clBlue;
-          OnPaintTransient := SynEditPASPaintTransient;
-        end
-        else
-        if OptionsContainer.CPASHighlighter = hDefault then
-          ActiveLineColor := $E6FFFA
-        else
-        begin
-          Color := clBlack;
-          ActiveLineColor := clGray;
-          OnPaintTransient := SynEditPASPaintTransient;
-        end
-      end
-      else if Pos(FileExt, OptionsContainer.FileType(ftSQL)) <> 0 then
-        SynSQLSyn.SQLDialect := OptionsContainer.SQLDialect
-    end;
-  end;
-
-  procedure SetHighlighter;
-  var
-    FileExt: string;
-
-    function IsExtInFileType(Ext: string; FileType: TFileType): Boolean;
+  function IsExtInFileType(Ext: string; FileType: TFileType): Boolean;
     var
       s, FileTypes: string;
     begin
@@ -3455,16 +3382,96 @@ procedure TDocumentFrame.SelectHighLighter(DocTabSheetFrame: TDocTabSheetFrame; 
         while Pos(';', FileTypes) <> 0 do
         begin
           s := System.Copy(FileTypes, 1,  Pos(';', FileTypes) - 1);
-          Result := Ext = s;
+          Result := LowerCase(Ext) = LowerCase(s);
           if Result then
             Exit;
           FileTypes := System.Copy(FileTypes, Pos(';', FileTypes) + 1, Length(FileTypes));
         end;
       end
       else
-        Result := Ext = FileTypes;
+        Result := LowerCase(Ext) = LowerCase(FileTypes);
     end;
 
+  procedure SetSynEdit(SynEdit: TBCSynEdit);
+  var
+    FileExt: string;
+  begin
+    FileExt := ExtractFileExt(FileName);
+    with SynEdit do
+    begin
+      Color := clWhite;
+      ActiveLineColor := clSkyBlue;
+      OnPaintTransient := nil;
+      FHTMLDocumentChanged := False;
+      HtmlVersion := shvUndefined;
+      SynWebEngine.Options.HtmlVersion := shvUndefined;
+
+      if IsExtInFileType(FileExt, ftCS) then
+      begin
+        if OptionsContainer.CPASHighlighter = hClassic then
+        begin
+          Color := clNavy;
+          ActiveLineColor := clBlue;
+        end
+        else
+        if OptionsContainer.CPASHighlighter = hDefault then
+          ActiveLineColor := $E6FFFA
+        else
+        begin
+          Color := clBlack;
+          ActiveLineColor := clGray;
+        end
+      end
+      else if IsExtInFileType(FileExt, ftCPP) then
+      begin
+        if OptionsContainer.CPASHighlighter = hClassic then
+        begin
+          Color := clNavy;
+          ActiveLineColor := clBlue;
+        end
+        else
+        if OptionsContainer.CPASHighlighter = hDefault then
+          ActiveLineColor := $E6FFFA
+        else
+        begin
+          Color := clBlack;
+          ActiveLineColor := clGray;
+        end
+      end
+      else if IsExtInFileType(FileExt, ftHTML) or IsExtInFileType(FileExt, ftPHP) then
+      begin
+        OnPaintTransient := SynEditHTMLPaintTransient;
+        OnChange := SynEditHTMLOnChange;
+        FHTMLDocumentChanged := True;
+        HtmlVersion := FindHtmlVersion(FileName);
+        SynWebEngine.Options.HtmlVersion := HtmlVersion;
+      end
+      else if IsExtInFileType(FileExt, ftPas) then
+      begin
+        if OptionsContainer.CPASHighlighter = hClassic then
+        begin
+          Color := clNavy;
+          ActiveLineColor := clBlue;
+          OnPaintTransient := SynEditPASPaintTransient;
+        end
+        else
+        if OptionsContainer.CPASHighlighter = hDefault then
+          ActiveLineColor := $E6FFFA
+        else
+        begin
+          Color := clBlack;
+          ActiveLineColor := clGray;
+          OnPaintTransient := SynEditPASPaintTransient;
+        end
+      end
+      else if IsExtInFileType(FileExt, ftSQL) then
+        SynSQLSyn.SQLDialect := OptionsContainer.SQLDialect
+    end;
+  end;
+
+  procedure SetHighlighter;
+  var
+    FileExt: string;
   begin
     FileExt := UpperCase(ExtractFileExt(FileName));
     with DocTabSheetFrame.SynEdit do
@@ -3532,8 +3539,7 @@ procedure TDocumentFrame.SelectHighLighter(DocTabSheetFrame: TDocTabSheetFrame; 
         Highlighter := SynHaskellSyn
       else if IsExtInFileType(FileExt, ftHP48) then
         Highlighter := SynHP48Syn
-      else if (IsExtInFileType(FileExt, ftHTML)) or
-        (IsExtInFileType(FileExt, ftPHP)) then
+      else if IsExtInFileType(FileExt, ftHTML) or IsExtInFileType(FileExt, ftPHP) then
         Highlighter := SynWebHtmlSyn
       else if IsExtInFileType(FileExt, ftIni) then
         Highlighter := SynIniSyn

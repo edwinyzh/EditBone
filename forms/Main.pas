@@ -763,7 +763,8 @@ begin
     HighlighterComboBox.Visible := ReadBool('Options', 'ShowHighlighterSelection', True);
     EncodingComboBox.Visible := ReadBool('Options', 'ShowEncodingSelection', False);
     VerticalSplitter.Visible := DirectoryPanel.Visible;
-    ViewXMLTreeAction.Checked := ReadBool('Options', 'ShowXMLTree', True);
+
+    {ViewXMLTreeAction.Checked := ReadBool('Options', 'ShowXMLTree', True);
     if ViewXMLTreeAction.Checked then
       ViewXMLTreeActionExecute(nil);
     ViewWordWrapAction.Checked := ReadBool('Options', 'EnableWordWrap', False);
@@ -777,7 +778,12 @@ begin
       ViewSpecialCharsActionExecute(nil);
     ViewSelectionModeAction.Checked := ReadBool('Options', 'EnableSelectionMode', False);
     if ViewSelectionModeAction.Checked then
-      ViewSelectionModeActionExecute(nil);
+      ViewSelectionModeActionExecute(nil); }
+    ViewXMLTreeAction.Checked := OptionsContainer.ShowXMLTree;
+    ViewWordWrapAction.Checked := OptionsContainer.EnableWordWrap;
+    ViewLineNumbersAction.Checked := OptionsContainer.EnableLineNumbers;
+    ViewSpecialCharsAction.Checked := OptionsContainer.EnableSpecialChars;
+    ViewSelectionModeAction.Checked := OptionsContainer.EnableSelectionMode;
 
     { Toolbar action visibility }
     ReadSectionValues('ActionToolBar', ActionToolBarStrings);
@@ -950,7 +956,7 @@ begin
   ToggleBookmarkAction.Enabled := ActiveDocumentFound;
   ViewWordWrapAction.Enabled := ActiveDocumentFound;
   ViewLineNumbersAction.Enabled := ActiveDocumentFound;
-  ViewSpecialCharsAction.Enabled := ActiveDocumentFound;
+  ViewSpecialCharsAction.Enabled := ActiveDocumentFound or FDocumentFrame.IsCompareFilesActivePage;
   ToolsWordCountAction.Enabled := ActiveDocumentFound;
   ToolsSelectForCompareAction.Enabled := ActiveDocumentFound and not FDocumentFrame.ActiveDocumentModified;
   FormatXMLAction.Visible := ActiveDocumentFound and IsXMLDocument;
