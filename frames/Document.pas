@@ -897,6 +897,7 @@ begin
     OpenDocumentsList := TempList;
     SetCompareFile(Filename);
     SpecialChars := OptionsContainer.EnableSpecialChars;
+    LineNumbers := OptionsContainer.EnableLineNumbers;
   end;
   Common.UpdateLanguage(Frame);
   UpdateGutterAndControls;
@@ -1775,6 +1776,8 @@ begin
     SynEdit := GetSplitSynEdit(PageControl.Pages[i]);
     if Assigned(SynEdit) then
       SynEdit.Gutter.ShowLineNumbers := not SynEdit.Gutter.ShowLineNumbers;
+    if PageControl.Pages[i].Components[0] is TCompareFrame then
+      Result := TCompareFrame(PageControl.Pages[i].Components[0]).ToggleLineNumbers
   end;
   PageControlRepaint;
 end;

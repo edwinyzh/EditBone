@@ -675,10 +675,8 @@ begin
   if FOnStartUp then
   begin
     Repaint;
-    //FDocumentFrame.Visible := False;
     Application.ProcessMessages;
     { paint problem with styles if this is done before OnShow... }
-
     if not FDocumentFrame.ReadIniOpenFiles then
       FDocumentFrame.New;
     if ParamCount > 0 then
@@ -764,21 +762,6 @@ begin
     EncodingComboBox.Visible := ReadBool('Options', 'ShowEncodingSelection', False);
     VerticalSplitter.Visible := DirectoryPanel.Visible;
 
-    {ViewXMLTreeAction.Checked := ReadBool('Options', 'ShowXMLTree', True);
-    if ViewXMLTreeAction.Checked then
-      ViewXMLTreeActionExecute(nil);
-    ViewWordWrapAction.Checked := ReadBool('Options', 'EnableWordWrap', False);
-    if ViewWordWrapAction.Checked then
-      ViewWordWrapActionExecute(nil);
-    ViewLineNumbersAction.Checked := ReadBool('Options', 'EnableLineNumbers', True);
-    if not ViewLineNumbersAction.Checked then
-      ViewLineNumbersActionExecute(nil);
-    ViewSpecialCharsAction.Checked := ReadBool('Options', 'EnableSpecialChars', False);
-    if ViewSpecialCharsAction.Checked then
-      ViewSpecialCharsActionExecute(nil);
-    ViewSelectionModeAction.Checked := ReadBool('Options', 'EnableSelectionMode', False);
-    if ViewSelectionModeAction.Checked then
-      ViewSelectionModeActionExecute(nil); }
     ViewXMLTreeAction.Checked := OptionsContainer.ShowXMLTree;
     ViewWordWrapAction.Checked := OptionsContainer.EnableWordWrap;
     ViewLineNumbersAction.Checked := OptionsContainer.EnableLineNumbers;
@@ -955,8 +938,8 @@ begin
   SearchFindPreviousAction.Enabled := ActiveDocumentFound;
   ToggleBookmarkAction.Enabled := ActiveDocumentFound;
   ViewWordWrapAction.Enabled := ActiveDocumentFound;
-  ViewLineNumbersAction.Enabled := ActiveDocumentFound;
-  ViewSpecialCharsAction.Enabled := ActiveDocumentFound or FDocumentFrame.IsCompareFilesActivePage;
+  ViewLineNumbersAction.Enabled := FDocumentFrame.OpenTabSheetCount > 0;
+  ViewSpecialCharsAction.Enabled := ViewLineNumbersAction.Enabled; //ActiveDocumentFound or FDocumentFrame.IsCompareFilesActivePage;
   ToolsWordCountAction.Enabled := ActiveDocumentFound;
   ToolsSelectForCompareAction.Enabled := ActiveDocumentFound and not FDocumentFrame.ActiveDocumentModified;
   FormatXMLAction.Visible := ActiveDocumentFound and IsXMLDocument;
