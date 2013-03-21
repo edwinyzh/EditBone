@@ -772,7 +772,7 @@ end;
 
 procedure TDocumentFrame.UpdateGutterAndControls;
 var
-  i: Integer;
+  i, Right: Integer;
   DocTabSheetFrame: TDocTabSheetFrame;
   CompareFrame: TCompareFrame;
   LStyles: TCustomStyleServices;
@@ -786,34 +786,25 @@ begin
   PanelColor := clNone;
   if LStyles.Enabled then
     PanelColor := LStyles.GetStyleColor(scPanel);
+  if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
+    Right := 3
+  else
+  if LStyles.Enabled and
+    (GetRValue(PanelColor) + GetGValue(PanelColor) + GetBValue(PanelColor) > 500) then
+    Right := 2
+  else
+    Right := 1;
   for i := 0 to PageControl.PageCount - 1 do
   begin
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
     if Assigned(DocTabSheetFrame) then
     begin
       UpdateGutterAndColors(DocTabSheetFrame);
-
-      if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
-        DocTabSheetFrame.Panel.Padding.Right := 3
-      else
-      if LStyles.Enabled and
-        (GetRValue(PanelColor) + GetGValue(PanelColor) + GetBValue(PanelColor) > 500) then
-        DocTabSheetFrame.Panel.Padding.Right := 2
-      else
-        DocTabSheetFrame.Panel.Padding.Right := 1;
+      DocTabSheetFrame.Panel.Padding.Right := Right
     end;
     CompareFrame := GetCompareFrame(PageControl.Pages[i]);
     if Assigned(CompareFrame) then
-    begin
-      if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
-        CompareFrame.Panel.Padding.Right := 3
-      else
-      if LStyles.Enabled and
-        (GetRValue(PanelColor) + GetGValue(PanelColor) + GetBValue(PanelColor) > 500) then
-        CompareFrame.Panel.Padding.Right := 2
-      else
-        CompareFrame.Panel.Padding.Right := 1;
-    end;
+      CompareFrame.Panel.Padding.Right := Right
   end;
   UpdateHighlighterColors;
 end;
@@ -2515,13 +2506,13 @@ var
   var
     OutputObject: POutputRec;
   begin
-    S := Format(S, [SynWebBase.GetToken]);
+    s := Format(S, [SynWebBase.GetToken]);
 
     System.New(OutputObject);
     OutputObject.FileName := DocTabSheetFrame.SynEdit.DocumentName;
     OutputObject.Ln := i + 1;
     OutputObject.Ch := SynWebBase.GetTokenPos + 1;
-    OutputObject.Text := ShortString(S);
+    OutputObject.Text := s;
 
     FHTMLErrorList.Add(OutputObject);
   end;

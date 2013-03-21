@@ -15,8 +15,8 @@ type
     Ln: LongWord;
     Ch: LongWord;
     TextCh: LongWord;
-    Text: ShortString;
-    SearchString: ShortString;
+    Text: WideString;
+    SearchString: WideString;
   end;
 
 const

@@ -1788,7 +1788,7 @@ begin
                     begin
                       Found := True;
                       ChPos := ChPos + Ch;
-                      FOutputFrame.AddTreeViewLine(Root, AddSlash(FolderText) + FName, Ln + 1, ChPos, Line, ShortString(FindWhatText));
+                      FOutputFrame.AddTreeViewLine(Root, AddSlash(FolderText) + FName, Ln + 1, ChPos, Line, FindWhatText);
                       S := Copy(S, Ch + LongWord(Length(FindWhatText)), Length(S));
                       ChPos := ChPos + LongWord(Length(FindWhatText)) - 1;
                     end

@@ -44,8 +44,8 @@ type
     { Public declarations }
     function SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
     procedure AddTreeView(TabCaption: string; AutoExpand: Boolean = False);
-    procedure AddTreeViewLine(Text: string); overload;
-    procedure AddTreeViewLine(var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongWord; Text: WideString; SearchString: ShortString = '');  overload;
+    procedure AddTreeViewLine(Text: WideString); overload;
+    procedure AddTreeViewLine(var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongWord; Text: WideString; SearchString: WideString = '');  overload;
     procedure Clear;
     procedure CloseAllOtherTabSheets;
     procedure CloseAllTabSheets;
@@ -140,7 +140,7 @@ begin
   Self.Clear;
 end;
 
-procedure TOutputFrame.AddTreeViewLine(Text: string);
+procedure TOutputFrame.AddTreeViewLine(Text: WideString);
 var
   Root: PVirtualNode;
 begin
@@ -239,7 +239,8 @@ begin
         Canvas.Font.Color := LColor;
         R.Left := R.Left + Canvas.TextWidth(S);
         Canvas.Font.Style := Canvas.Font.Style - [fsBold];
-        S := Copy(String(Data.Text), Data.TextCh + Length(Data.SearchString), Length(String(Data.Text)));
+        //S := Copy(String(Data.Text), Data.TextCh + Length(String(Data.SearchString)), Length(String(Data.Text)));
+        S := System.Copy(Data.Text, Integer(Data.TextCh) + Integer(System.Length(Data.SearchString)), Length(Data.Text));
         DrawTextW(Canvas.Handle, PWideChar(S), Length(S), R, Format);
       end;
     end;
@@ -294,12 +295,12 @@ begin
   end;
 end;
 
-procedure TOutputFrame.AddTreeViewLine(var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongWord; Text: WideString; SearchString: ShortString);
+procedure TOutputFrame.AddTreeViewLine(var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongWord; Text: WideString; SearchString: WideString);
 var
   Node: PVirtualNode;
   NodeData: POutputRec;
   OutputTreeView: TVirtualDrawTree;
-  S: WideString;
+  s: WideString;
 begin
   OutputTreeView := GetOutputTabSheetFrame(PageControl.ActivePage).VirtualDrawTree;
   if not Assigned(OutputTreeView) then
@@ -334,7 +335,7 @@ begin
   NodeData.SearchString := SearchString;
   NodeData.Filename := Filename;
 
-  S := Text;
+  s := Text;
 
   if NodeData.SearchString <> '' then
   begin
@@ -353,7 +354,7 @@ begin
     if not OutputTreeView.Expanded[Root] then
       OutputTreeView.FullExpand(Root);
 
-  NodeData.Text := ShortString(S);
+  NodeData.Text := s;
   OutputTreeView.Tag := OutputTreeView.Tag + 1;
   Application.ProcessMessages;
 end;
@@ -485,7 +486,7 @@ end;
 
 procedure TOutputFrame.UpdateControls;
 var
-  i: Integer;
+  i, Right: Integer;
   LStyles: TCustomStyleServices;
   PanelColor: TColor;
   OutputTabSheetFrame: TOutputTabSheetFrame;
@@ -498,21 +499,21 @@ begin
   PanelColor := clNone;
   if LStyles.Enabled then
     PanelColor := LStyles.GetStyleColor(scPanel);
+
+  if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
+    Right := 3
+  else
+  if LStyles.Enabled and
+    (GetRValue(PanelColor) + GetGValue(PanelColor) + GetBValue(PanelColor) > 500) then
+    Right := 2
+  else
+    Right := 1;
+
   for i := 0 to PageControl.PageCount - 1 do
   begin
     OutputTabSheetFrame := GetOutputTabSheetFrame(PageControl.Pages[i]);
-
     if Assigned(OutputTabSheetFrame) then
-    begin
-      if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
-        OutputTabSheetFrame.Panel.Padding.Right := 3
-      else
-      if LStyles.Enabled and
-        (GetRValue(PanelColor) + GetGValue(PanelColor) + GetBValue(PanelColor) > 500) then
-        OutputTabSheetFrame.Panel.Padding.Right := 2
-      else
-        OutputTabSheetFrame.Panel.Padding.Right := 1;
-    end;
+      OutputTabSheetFrame.Panel.Padding.Right := Right
   end;
 end;
 
