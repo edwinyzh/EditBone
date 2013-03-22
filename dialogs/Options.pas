@@ -812,16 +812,6 @@ procedure TOptionsDialog.PutData;
 var
   i: Integer;
   FileType: string;
-  vOptions: TSynEditorOptions;
-
-  procedure SetFlag(aOption: TSynEditorOption; aValue: Boolean);
-  begin
-    if aValue then
-      Include(vOptions, aOption)
-    else
-      Exclude(vOptions, aOption);
-  end;
-
 begin
   { Options }
   FOptionsContainer.AutoIndent := FEditorOptionsFrame.AutoIndentCheckBox.Checked;

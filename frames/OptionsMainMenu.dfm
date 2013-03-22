@@ -133,7 +133,6 @@ object MainMenuFrame: TMainMenuFrame
       Margins.Right = 4
       Margins.Bottom = 4
       DropDownCount = 9
-      ItemHeight = 13
       ReadOnly = False
       TabOrder = 3
       EditColor = clInfoBk

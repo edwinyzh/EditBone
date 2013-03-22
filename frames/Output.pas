@@ -239,7 +239,6 @@ begin
         Canvas.Font.Color := LColor;
         R.Left := R.Left + Canvas.TextWidth(S);
         Canvas.Font.Style := Canvas.Font.Style - [fsBold];
-        //S := Copy(String(Data.Text), Data.TextCh + Length(String(Data.SearchString)), Length(String(Data.Text)));
         S := System.Copy(Data.Text, Integer(Data.TextCh) + Integer(System.Length(Data.SearchString)), Length(Data.Text));
         DrawTextW(Canvas.Handle, PWideChar(S), Length(S), R, Format);
       end;
