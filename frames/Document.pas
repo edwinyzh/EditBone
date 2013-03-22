@@ -1465,7 +1465,7 @@ begin
     if DocTabSheetFrame.SplitSynEdit.Focused then
       SynEdit := DocTabSheetFrame.SplitSynEdit
     else
-      SynEdit := GetActiveSynEdit;
+      SynEdit := DocTabSheetFrame.SynEdit;
     if Assigned(SynEdit) then
     begin
       SearchPanel.Height := SearchForEdit.Height;
@@ -1536,7 +1536,7 @@ begin
   if DocTabSheetFrame.SplitSynEdit.Focused then
     SynEdit := DocTabSheetFrame.SplitSynEdit
   else
-    SynEdit := GetActiveSynEdit;
+    SynEdit := DocTabSheetFrame.SynEdit;
 
   if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
   begin
@@ -1549,7 +1549,6 @@ begin
       SynEdit.CaretY := 0;
     end;
   end;
-  // end;
 end;
 
 procedure TDocumentFrame.FindPrevious;
@@ -1566,7 +1565,7 @@ begin
   if DocTabSheetFrame.SplitSynEdit.Focused then
     SynEdit := DocTabSheetFrame.SplitSynEdit
   else
-    SynEdit := GetActiveSynEdit;
+    SynEdit := DocTabSheetFrame.SynEdit;
 
   if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
   begin
