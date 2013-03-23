@@ -1270,6 +1270,7 @@ procedure TDocumentFrame.Undo;
 begin
   Undo(GetActiveSynEdit);
   Undo(GetActiveSplitSynEdit);
+  UpdateGutterAndControls;
   PageControlRepaint;
 end;
 
@@ -1285,6 +1286,7 @@ procedure TDocumentFrame.Redo;
 begin
   Redo(GetActiveSynEdit);
   Redo(GetActiveSplitSynEdit);
+  UpdateGutterAndControls;
   PageControlRepaint;
 end;
 
@@ -1375,7 +1377,7 @@ end;
 
 procedure TDocumentFrame.PageControlCloseButtonClick(Sender: TObject);
 begin
-  MainForm.FileCloseAction.Execute;
+  Close;
 end;
 
 procedure TDocumentFrame.Paste;

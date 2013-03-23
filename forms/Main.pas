@@ -1646,6 +1646,7 @@ begin
       FDirectoryFrame.PageControl.MultiLine := OptionsContainer.DirMultiLine;
       FDirectoryFrame.PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
     end;
+    Repaint;
   end;
 end;
 
