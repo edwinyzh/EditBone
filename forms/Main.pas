@@ -692,7 +692,6 @@ begin
     FDirectoryFrame.UpdateControls;
     FDocumentFrame.UpdateGutterAndControls;
     FOutputFrame.UpdateControls;
-    //FDocumentFrame.Visible := True;
     FOnStartUp := False;
     ReadWindowState; { because of styles this cannot be done before... }
     Repaint;
