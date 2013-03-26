@@ -86,7 +86,6 @@ object MainForm: TMainForm
       Height = 21
       Align = alRight
       DropDownCount = 57
-      ItemHeight = 13
       ReadOnly = True
       TabOrder = 1
       Text = '<highlighter>'
@@ -158,10 +157,9 @@ object MainForm: TMainForm
       Left = 779
       Top = 2
       Width = 130
-      Height = 21
+      Height = 22
       Align = alRight
       DropDownCount = 57
-      ItemHeight = 13
       ReadOnly = True
       TabOrder = 2
       Text = '<encoding>'

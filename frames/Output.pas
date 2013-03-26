@@ -93,7 +93,7 @@ begin
   Result := False;
   { check if there already is a tab with same name }
   for i := 0 to PageControl.PageCount - 1 do
-    if PageControl.Pages[i].Caption = TabCaption then
+    if Trim(PageControl.Pages[i].Caption) = TabCaption then
     begin
       PageControl.ActivePageIndex := i;
       Result := True;

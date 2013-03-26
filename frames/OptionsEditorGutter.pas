@@ -11,7 +11,6 @@ type
   TEditorGutterFrame = class(TFrame)
     Panel: TPanel;
     GutterVisibleCheckBox: TBCCheckBox;
-    LineNumbersCheckBox: TBCCheckBox;
     RightMarginLabel: TLabel;
     RightMarginEdit: TBCEdit;
     FontDialog: TFontDialog;

@@ -16,7 +16,7 @@ object EditorGutterFrame: TEditorGutterFrame
     TabOrder = 0
     object RightMarginLabel: TLabel
       Left = 9
-      Top = 55
+      Top = 31
       Width = 60
       Height = 13
       Margins.Left = 4
@@ -27,7 +27,7 @@ object EditorGutterFrame: TEditorGutterFrame
     end
     object SelectFontSpeedButton: TSpeedButton
       Left = 8
-      Top = 100
+      Top = 76
       Width = 21
       Height = 21
       Action = SelectFontAction
@@ -60,7 +60,7 @@ object EditorGutterFrame: TEditorGutterFrame
     end
     object FontLabel: TLabel
       Left = 36
-      Top = 104
+      Top = 80
       Width = 105
       Height = 14
       Margins.Left = 4
@@ -90,24 +90,9 @@ object EditorGutterFrame: TEditorGutterFrame
       TabOrder = 0
       ReadOnly = False
     end
-    object LineNumbersCheckBox: TBCCheckBox
-      Left = 9
-      Top = 26
-      Width = 212
-      Height = 21
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = ' Line Numbers'
-      Checked = True
-      State = cbChecked
-      TabOrder = 1
-      ReadOnly = False
-    end
     object RightMarginEdit: TBCEdit
       Left = 7
-      Top = 72
+      Top = 48
       Width = 64
       Height = 21
       Margins.Left = 4
@@ -116,7 +101,7 @@ object EditorGutterFrame: TEditorGutterFrame
       Margins.Bottom = 4
       Flat = False
       ParentFlat = False
-      TabOrder = 2
+      TabOrder = 1
       Text = '80'
       OnlyNumbers = True
       NumbersWithDots = False

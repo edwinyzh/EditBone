@@ -106,7 +106,6 @@ type
     FFontSize: Integer;
     FGutterFontName: string;
     FGutterFontSize: Integer;
-    FGutterLineNumbers: Boolean;
     FGutterVisible: Boolean;
     FHTMLErrorChecking: Boolean;
     FHTMLVersion: TSynWebHtmlVersion;
@@ -158,7 +157,6 @@ type
     property FontSize: Integer read FFontSize write FFontSize;
     property GutterFontName: string read FGutterFontName write FGutterFontName;
     property GutterFontSize: Integer read FGutterFontSize write FGutterFontSize;
-    property GutterLineNumbers: Boolean read FGutterVisible write FGutterLineNumbers;
     property GutterVisible: Boolean read FGutterVisible write FGutterVisible;
     property HTMLErrorChecking: Boolean read FHTMLErrorChecking write FHTMLErrorChecking;
     property HTMLVersion: TSynWebHtmlVersion read FHTMLVersion write FHTMLVersion;
@@ -212,7 +210,6 @@ begin
     TCustomSynEdit(Dest).Font.Name := FFontName;
     TCustomSynEdit(Dest).Font.Size := FFontSize;
     TCustomSynEdit(Dest).Gutter.Visible := FGutterVisible;
-    TCustomSynEdit(Dest).Gutter.ShowLineNumbers := FGutterLineNumbers;
     TCustomSynEdit(Dest).Gutter.Font.Name := FGutterFontName;
     TCustomSynEdit(Dest).Gutter.Font.Size := FGutterFontSize;
     TCustomSynEdit(Dest).ExtraLineSpacing := FExtraLineSpacing;
@@ -452,7 +449,6 @@ begin
   FScrollPastEol := True;
   FTabsToSpaces := True;
   FGutterVisible := True;
-  FGutterLineNumbers := True;
   FDocMultiLine := False;
   FDocShowCloseButton := False;
   FDirMultiLine := False;
@@ -679,7 +675,6 @@ begin
   FEditorFontFrame.FontLabel.Caption := Format('%s %dpt', [FEditorFontFrame.FontLabel.Font.Name, FEditorFontFrame.FontLabel.Font.Size]);
   { Gutter }
   FEditorGutterFrame.GutterVisibleCheckBox.Checked := FOptionsContainer.GutterVisible;
-  FEditorGutterFrame.LineNumbersCheckBox.Checked := FOptionsContainer.GutterLineNumbers;
   FEditorGutterFrame.RightMarginEdit.Text := IntToStr(FOptionsContainer.RightMargin);
   FEditorGutterFrame.FontLabel.Font.Name := FOptionsContainer.GutterFontName;
   FEditorGutterFrame.FontLabel.Font.Size := FOptionsContainer.GutterFontSize;
@@ -827,7 +822,6 @@ begin
   FOptionsContainer.FontSize := FEditorFontFrame.FontLabel.Font.Size;
   { Gutter }
   FOptionsContainer.GutterVisible := FEditorGutterFrame.GutterVisibleCheckBox.Checked;
-  FOptionsContainer.GutterLineNumbers := FEditorGutterFrame.LineNumbersCheckBox.Checked;
   FOptionsContainer.RightMargin := StrToIntDef(FEditorGutterFrame.RightMarginEdit.Text, 80);
   FOptionsContainer.GutterFontName := FEditorGutterFrame.FontLabel.Font.Name;
   FOptionsContainer.GutterFontSize := FEditorGutterFrame.FontLabel.Font.Size;

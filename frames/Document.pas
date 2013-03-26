@@ -902,6 +902,10 @@ begin
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     SynEdit.Repaint;
+  SynEdit := GetActiveSplitSynEdit;
+  if Assigned(SynEdit) then
+    SynEdit.Repaint;
+  Application.ProcessMessages;
   if Assigned(PageControl.ActivePage) then
     PageControl.ActivePage.Repaint;
   PageControl.Repaint;
@@ -1792,7 +1796,6 @@ begin
     OptionsContainer.ExtraLineSpacing := StrToInt(ReadString('Options', 'ExtraLineSpacing', '0'));
     OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '8'));
     OptionsContainer.GutterVisible := ReadBool('Options', 'GutterVisible', True);
-    OptionsContainer.GutterLineNumbers := ReadBool('Options', 'GutterLineNumbers', True);
     OptionsContainer.DocMultiLine := ReadBool('Options', 'DocMultiLine', False);
     OptionsContainer.DocShowCloseButton := ReadBool('Options', 'DocShowCloseButton', False);
     OptionsContainer.DirMultiLine := ReadBool('Options', 'DirMultiLine', False);
@@ -1896,7 +1899,6 @@ begin
     WriteString('Options', 'TabWidth', IntToStr(OptionsContainer.TabWidth));
     WriteString('Options', 'ActiveLineColorBrightness', IntToStr(OptionsContainer.ColorBrightness));
     WriteBool('Options', 'GutterVisible', OptionsContainer.GutterVisible);
-    WriteBool('Options', 'GutterLineNumbers', OptionsContainer.GutterLineNumbers);
     WriteBool('Options', 'DocMultiLine', OptionsContainer.DocMultiLine);
     WriteBool('Options', 'DocShowCloseButton', OptionsContainer.DocShowCloseButton);
     WriteBool('Options', 'DirMultiLine', OptionsContainer.DirMultiLine);
@@ -2682,7 +2684,7 @@ begin
             SynEdit.Modified := True;
             if Pos('~', PageControl.Pages[i].Caption) = 0 then
             begin
-              PageControl.Pages[i].Caption := Format('%s~', [PageControl.Pages[i].Caption]);
+              PageControl.Pages[i].Caption := Format('%s~', [Trim(PageControl.Pages[i].Caption)]);
               PageControlRepaint;
             end;
           end;

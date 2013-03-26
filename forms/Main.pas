@@ -815,6 +815,7 @@ begin
     WriteBool('Options', 'EnableSpecialChars', ViewSpecialCharsAction.Checked);
     WriteBool('Options', 'EnableSelectionMode', ViewSelectionModeAction.Checked);
     DeleteKey('Options', 'StyleName'); { depricated }
+    DeleteKey('Options', 'GutterLineNumbers'); { depricated }
     { Toolbar action visibility }
     EraseSection('ActionToolBar');
     for i := 0 to ToolbarPopupMenu.Items.Count - 1 do
@@ -1164,9 +1165,6 @@ procedure TMainForm.FormCreate(Sender: TObject);
 begin
   FOnStartUp := True;
   ActionManager.Style := PlatformVclStylesStyle;
-  { IDE is losing these for some reason... }
-  //ActionMainMenuBar.Font.Name := 'Tahoma';
-  //ActionMainMenuBar.Font.Size := 8;
 
   StatusBar.Font.Name := 'Tahoma';
   StatusBar.Font.Size := 8;
@@ -1177,9 +1175,6 @@ begin
   ReadIniFile;
 
   OptionsContainer.AssignTo(ActionMainMenuBar);
-
-  //TStyleManager.Engine.RegisterStyleHook(TCustomTabControl, TTabControlStyleHookBtnClose);
-  //TStyleManager.Engine.RegisterStyleHook(TTabControl, TTabControlStyleHookBtnClose);
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
