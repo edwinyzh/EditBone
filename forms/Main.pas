@@ -182,7 +182,7 @@ type
     ViewToolbarAction: TAction;
     ViewWordWrapAction: TAction;
     ViewXMLTreeAction: TAction;
-    ViewGotoLineAction: TAction;
+    SearchGotoLineAction: TAction;
     FileReopenAction: TAction;
     FileReopenClearAction: TAction;
     SelectReopenFileAction: TAction;
@@ -285,7 +285,7 @@ type
     procedure ViewToolbarActionExecute(Sender: TObject);
     procedure ViewWordWrapActionExecute(Sender: TObject);
     procedure ViewXMLTreeActionExecute(Sender: TObject);
-    procedure ViewGotoLineActionExecute(Sender: TObject);
+    procedure SearchGotoLineActionExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FileReopenClearActionExecute(Sender: TObject);
     procedure FileReopenActionExecute(Sender: TObject);
@@ -830,7 +830,7 @@ begin
   EncodingComboBox.Visible := not EncodingComboBox.Visible;
 end;
 
-procedure TMainForm.ViewGotoLineActionExecute(Sender: TObject);
+procedure TMainForm.SearchGotoLineActionExecute(Sender: TObject);
 begin
   FDocumentFrame.GotoLine;
 end;
@@ -934,13 +934,14 @@ begin
   ViewSplitAction.Enabled := ActiveDocumentFound;
   ViewSplitAction.Checked := FDocumentFrame.SplitChecked;
   SearchAction.Enabled := ActiveDocumentFound;
+  SearchGotoLineAction.Enabled := ActiveDocumentFound;
   SearchReplaceAction.Enabled := ActiveDocumentFound;
   SearchFindNextAction.Enabled := ActiveDocumentFound;
   SearchFindPreviousAction.Enabled := ActiveDocumentFound;
   ToggleBookmarkAction.Enabled := ActiveDocumentFound;
   ViewWordWrapAction.Enabled := ActiveDocumentFound;
-  ViewLineNumbersAction.Enabled := FDocumentFrame.OpenTabSheetCount > 0;
-  ViewSpecialCharsAction.Enabled := ViewLineNumbersAction.Enabled; //ActiveDocumentFound or FDocumentFrame.IsCompareFilesActivePage;
+  ViewLineNumbersAction.Enabled := Assigned(FDocumentFrame) and (FDocumentFrame.OpenTabSheetCount > 0);
+  ViewSpecialCharsAction.Enabled := ViewLineNumbersAction.Enabled;
   ToolsWordCountAction.Enabled := ActiveDocumentFound;
   ToolsSelectForCompareAction.Enabled := ActiveDocumentFound and not FDocumentFrame.ActiveDocumentModified;
   FormatXMLAction.Visible := ActiveDocumentFound and IsXMLDocument;

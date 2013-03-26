@@ -2165,8 +2165,6 @@ begin
     SynEdit.EndUpdate;
   end;
   SynEdit.Repaint;
-  //if LinesChanged then
-  //  SynEdit.OnChange(Sender);
 end;
 
 function TDocumentFrame.GetActiveTabSheetCaption: string;

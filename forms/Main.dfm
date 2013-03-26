@@ -666,7 +666,7 @@ object MainForm: TMainForm
                 Caption = '-'
               end
               item
-                Action = ViewGotoLineAction
+                Action = SearchGotoLineAction
                 Caption = '&Go to Line'
                 ImageIndex = 33
                 ShortCut = 16455
@@ -1928,13 +1928,13 @@ object MainForm: TMainForm
       ImageIndex = 63
       OnExecute = FormatXMLActionExecute
     end
-    object ViewGotoLineAction: TAction
+    object SearchGotoLineAction: TAction
       Category = '&Search'
       Caption = 'Go to Line'
       Hint = 'Go to Line'
       ImageIndex = 33
       ShortCut = 16455
-      OnExecute = ViewGotoLineActionExecute
+      OnExecute = SearchGotoLineActionExecute
     end
     object FileReopenClearAction: TAction
       Category = '&Reopen'
@@ -1950,7 +1950,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C010142005C01900610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010142005C01940610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001001000001002000000000000010
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000131020001420300025104000251040001420300013102000000
