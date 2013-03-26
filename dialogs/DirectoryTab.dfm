@@ -69,6 +69,8 @@ object DirectoryTabDialog: TDirectoryTabDialog
       Height = 26
       Align = alTop
       BevelOuter = bvNone
+      Padding.Top = 4
+      Padding.Bottom = 1
       TabOrder = 1
       DesignSize = (
         464
@@ -96,12 +98,12 @@ object DirectoryTabDialog: TDirectoryTabDialog
         NumbersAllowNegative = False
       end
       object RootDrectoryBitBtn: TBitBtn
-        Left = 442
+        Left = 443
         Top = 4
         Width = 21
         Height = 21
         Action = RootDirectoryClickAction
-        Anchors = [akTop, akRight]
+        Align = alRight
         Glyph.Data = {
           36030000424D3603000000000000360000002800000010000000100000000100
           18000000000000030000120B0000120B00000000000000000000FF00FFFF00FF
@@ -130,6 +132,8 @@ object DirectoryTabDialog: TDirectoryTabDialog
           FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
         TabOrder = 1
+        ExplicitTop = 0
+        ExplicitHeight = 26
       end
     end
     object CheckBoxPanel: TPanel
