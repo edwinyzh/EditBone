@@ -670,6 +670,7 @@ end;
 procedure TMainForm.WMAfterShow(var Msg: TMessage);
 var
   i: Integer;
+  SynEdit: TBCSynEdit;
 begin
   { Style change will call the FormShow }
   if FOnStartUp then
@@ -695,6 +696,10 @@ begin
     FOnStartUp := False;
     ReadWindowState; { because of styles this cannot be done before... }
     Repaint;
+    SynEdit := FDocumentFrame.GetActiveSynEdit;
+    if Assigned(SynEdit) then
+      if SynEdit.CanFocus then
+        SynEdit.SetFocus;
   end;
 end;
 
@@ -1129,6 +1134,12 @@ end;
 
 procedure TMainForm.FormActivate(Sender: TObject);
 begin
+  if Assigned(FDirectoryFrame) then
+    FDirectoryFrame.Repaint;
+  if Assigned(FDocumentFrame) then
+    FDocumentFrame.Repaint;
+  if Assigned(FOutputFrame) then
+    FOutputFrame.Repaint;
   Repaint;
 end;
 

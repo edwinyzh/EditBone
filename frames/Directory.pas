@@ -43,6 +43,7 @@ type
     procedure DirectoryRenameActionExecute(Sender: TObject);
     procedure DriveComboChange(Sender: TObject);
     procedure TabsheetDblClick(Sender: TObject);
+    procedure PageControlCloseButtonClick(Sender: TObject);
   private
     { Private declarations }
     FTabsheetDblClick: TNotifyEvent;
@@ -188,7 +189,7 @@ begin
     for i := 0 to PageControl.PageCount - 1 do
     begin
       PageControl.ActivePageIndex := i;
-      WriteString('LastPaths', IntToStr(i), Format('%s;%s;%s;%s;%s', [PageControl.ActivePage.Caption,
+      WriteString('LastPaths', IntToStr(i), Format('%s;%s;%s;%s;%s', [Trim(PageControl.ActivePage.Caption),
         ActiveFileTreeView.RootDirectory, SelectedPath, BoolToStr(ActiveDrivesPanel.Visible),
         BoolToStr(GetExcludeOtherBranches)]));
     end;
@@ -225,7 +226,7 @@ end;
 
 procedure TDirectoryFrame.CloseDirectory;
 begin
-  if not Common.AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('CloseDirectory'), [PageControl.ActivePage.Caption])) then
+  if not Common.AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('CloseDirectory'), [Trim(PageControl.ActivePage.Caption)])) then
     Exit;
   if PageControl.PageCount > 0 then
   begin
@@ -268,13 +269,14 @@ procedure TDirectoryFrame.EditDirectory;
 begin
   with DirectoryTabDialog do
   begin
-    TabName := PageControl.ActivePage.Caption;
+    TabName := Trim(PageControl.ActivePage.Caption);
     RootDirectory := ActiveFileTreeView.RootDirectory;
     ShowDrives := ActiveDrivesPanel.Visible;
     ExcludeOtherBranches := GetExcludeOtherBranches;
     if Open(dtEdit) then
     begin
       PageControl.ActivePage.Caption := TabName;
+      PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
       ActiveDrivesPanel.Visible := ShowDrives;
       ActiveFileTreeView.OpenPath(RootDirectory, SelectedPath, ExcludeOtherBranches);
     end;
@@ -340,6 +342,11 @@ begin
     FileTreeView.OpenPath(RootDirectory, LastPath, ExcludeOtherBranches);
 end;
 
+procedure TDirectoryFrame.PageControlCloseButtonClick(Sender: TObject);
+begin
+  DirectoryCloseAction.Execute;
+end;
+
 procedure TDirectoryFrame.DriveComboChange(Sender: TObject);
 var
   DriveComboBox: TBCDriveComboBox;
@@ -348,9 +355,12 @@ begin
   if Assigned(DriveComboBox) then
   begin
     PageControl.ActivePage.ImageIndex := DriveComboBox.IconIndex;
-    if (Length(PageControl.ActivePage.Caption) = 3) and
+    if (Length(Trim(PageControl.ActivePage.Caption)) = 3) and
       (Pos(':\', PageControl.ActivePage.Caption) = 2) then
+    begin
       PageControl.ActivePage.Caption := Format('%s:\', [DriveComboBox.Drive]);
+      PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
+    end;
   end;
 end;
 
@@ -391,7 +401,7 @@ begin
     TabSheet.ImageIndex := DriveComboBox.IconIndex;
   end;
   PageControl.ActivePage.Caption := TabName;
-
+  PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
   OpenPath(RootDirectory, LastPath, ExcludeOtherBranches);
   DirTabSheetFrame.Panel.Visible := True;
   TabSheet.Visible := True;
