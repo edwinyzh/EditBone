@@ -1208,15 +1208,7 @@ begin
 end;
 
 procedure TMainForm.FormShow(Sender: TObject);
-var
-  SynEdit: TBCSynEdit;
 begin
-  if HighlighterComboBox.Visible then
-    if HighlighterComboBox.CanFocus then
-      HighlighterComboBox.SetFocus; { get the combo unselected }
-  SynEdit := FDocumentFrame.GetActiveSynEdit;
-  if Assigned(SynEdit) then
-    SynEdit.SetFocus;
   { Post the custom message WM_AFTER_SHOW to our form }
   if FOnStartUp then
     PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
