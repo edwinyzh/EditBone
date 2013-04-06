@@ -1,15 +1,15 @@
 object DirTabSheetFrame: TDirTabSheetFrame
   Left = 0
   Top = 0
-  Width = 323
-  Height = 489
+  Width = 451
+  Height = 304
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 323
-    Height = 489
+    Width = 451
+    Height = 304
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 1
@@ -20,8 +20,8 @@ object DirTabSheetFrame: TDirTabSheetFrame
     TabOrder = 0
     object DriveComboBoxPanel: TPanel
       Left = 1
-      Top = 462
-      Width = 319
+      Top = 277
+      Width = 447
       Height = 25
       Align = alBottom
       AutoSize = True
@@ -32,7 +32,7 @@ object DirTabSheetFrame: TDirTabSheetFrame
       object DriveComboBox: TBCDriveComboBox
         Left = 0
         Top = 3
-        Width = 319
+        Width = 447
         Height = 22
         Align = alClient
         FileTreeView = FileTreeView
@@ -43,16 +43,16 @@ object DirTabSheetFrame: TDirTabSheetFrame
     object FileTreeViewPanel: TPanel
       Left = 1
       Top = 1
-      Width = 319
-      Height = 461
+      Width = 447
+      Height = 276
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 1
       object FileTreeView: TBCFileTreeView
         Left = 0
         Top = 0
-        Width = 319
-        Height = 461
+        Width = 447
+        Height = 276
         Align = alClient
         BorderWidth = 1
         DragOperations = []
@@ -70,7 +70,7 @@ object DirTabSheetFrame: TDirTabSheetFrame
         TabOrder = 0
         TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScroll, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
         TreeOptions.MiscOptions = [toEditable, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
-        TreeOptions.PaintOptions = [toShowBackground, toShowButtons, toShowDropmark, toShowRoot, toThemeAware, toUseBlendedSelection]
+        TreeOptions.PaintOptions = [toShowBackground, toShowButtons, toShowDropmark, toShowRoot, toThemeAware, toUseBlendedSelection, toUseExplorerTheme]
         Columns = <>
       end
     end

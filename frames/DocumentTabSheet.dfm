@@ -1,15 +1,15 @@
 object DocTabSheetFrame: TDocTabSheetFrame
   Left = 0
   Top = 0
-  Width = 928
-  Height = 613
+  Width = 451
+  Height = 304
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 928
-    Height = 613
+    Width = 451
+    Height = 304
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 1
@@ -17,6 +17,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
     Padding.Bottom = 2
     ParentColor = True
     TabOrder = 0
+    ExplicitWidth = 928
+    ExplicitHeight = 613
     object VerticalSplitter: TSplitter
       Left = 201
       Top = 1

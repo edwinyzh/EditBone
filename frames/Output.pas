@@ -63,7 +63,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, Lib, Options, StyleHooks;
+  Common, Lib, Options, StyleHooks, Math;
 
 procedure TOutputFrame.OutputCloseActionExecute(Sender: TObject);
 begin
@@ -423,13 +423,16 @@ begin
 end;
 
 procedure TOutputFrame.CloseTabSheet;
+var
+  ActivePageIndex: Integer;
 begin
   if PageControl.PageCount > 0 then
   begin
     Self.Clear;
+    ActivePageIndex := PageControl.ActivePageIndex;
     PageControl.ActivePage.Destroy;
     if PageControl.PageCount > 0 then
-      PageControl.ActivePageIndex := PageControl.PageCount - 1;
+      PageControl.ActivePageIndex := Max(ActivePageIndex - 1, 0);
   end;
 end;
 

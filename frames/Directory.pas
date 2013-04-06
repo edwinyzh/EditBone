@@ -80,7 +80,8 @@ implementation
 {$R *.dfm}
 
 uses
-  System.Types, DirectoryTab, Winapi.ShellAPI, StyleHooks, Common, BigIni, Language, Options;
+  System.Types, DirectoryTab, Winapi.ShellAPI, StyleHooks, Common, BigIni, Language, Options,
+  Math;
 
 constructor TDirectoryFrame.Create(AOwner: TComponent);
 begin
@@ -184,7 +185,6 @@ begin
     WriteInteger('Options', 'ActiveDirectoryIndex', PageControl.ActivePageIndex);
     { Options }
     EraseSection('LastPaths');
-    //EraseSection('Directory'); // old stuff, remove if exists
     { Open directories }
     for i := 0 to PageControl.PageCount - 1 do
     begin
@@ -225,14 +225,17 @@ begin
 end;
 
 procedure TDirectoryFrame.CloseDirectory;
+var
+  ActivePageIndex: Integer;
 begin
   if not Common.AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('CloseDirectory'), [Trim(PageControl.ActivePage.Caption)])) then
     Exit;
   if PageControl.PageCount > 0 then
   begin
+    ActivePageIndex := PageControl.ActivePageIndex;
     PageControl.ActivePage.Destroy;
     if PageControl.PageCount > 0 then
-      PageControl.ActivePageIndex := PageControl.PageCount - 1;
+      PageControl.ActivePageIndex := Max(ActivePageIndex - 1, 0);
   end;
   { for some reason Destroy method will lose the Images property even there are still pages... }
   if PageControl.PageCount > 0 then

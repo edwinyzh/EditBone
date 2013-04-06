@@ -578,22 +578,12 @@ end;
 procedure TDocumentFrame.DestroyHTMLErrorListItems;
 var
   i: Integer;
-  OutputObject: POutputRec;
+  Data: POutputRec;
 begin
   for i := FHTMLErrorList.Count - 1 downto 0 do
   begin
-    OutputObject := FHTMLErrorList.Items[i];
-    if Assigned(OutputObject) then
-    begin
-      OutputObject^.Level := 0;
-      OutputObject^.Filename := '';
-      OutputObject^.Ln := 0;
-      OutputObject^.Ch := 0;
-      OutputObject^.TextCh := 0;
-      OutputObject^.Text := '';
-      OutputObject^.SearchString := '';
-    end;
-    //Finalize(OutputObject^);
+    Data := FHTMLErrorList.Items[i];
+    Finalize(Data^);
   end;
   FHTMLErrorList.Clear;
 end;
@@ -663,6 +653,7 @@ begin
     TabSheet.Caption := LanguageDataModule.GetConstant('Document') + IntToStr(FNumberOfNewDocument)
   else
     TabSheet.Caption := ExtractFileName(FileName);
+  UpdateGutterAndControls; { prevent flickering }
 
   PageControl.ActivePage := TabSheet;
 
@@ -1059,6 +1050,7 @@ end;
 
 procedure TDocumentFrame.Close;
 var
+  ActivePageIndex: Integer;
   Rslt: Integer;
   SynEdit: TBCSynEdit;
 begin
@@ -1075,10 +1067,11 @@ begin
 
   if Rslt <> mrCancel then
   begin
+    ActivePageIndex := PageControl.ActivePageIndex;
     if PageControl.PageCount > 0 then
       PageControl.ActivePage.Destroy;
     if PageControl.PageCount > 0 then
-      PageControl.ActivePageIndex := PageControl.PageCount - 1;
+      PageControl.ActivePageIndex := Max(ActivePageIndex - 1, 0);
     if PageControl.PageCount = 0 then
       FNumberOfNewDocument := 0;
   end;

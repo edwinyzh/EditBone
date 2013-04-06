@@ -140,9 +140,7 @@ var
   Data: PXMLTreeRec;
 begin
   Data := Sender.GetNodeData(Node);
-  if Assigned(Data) then
-    Data^.Data := nil;
-  //Finalize(Data^);
+  Finalize(Data^);
 end;
 
 procedure TDocTabSheetFrame.VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
