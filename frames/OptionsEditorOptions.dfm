@@ -113,7 +113,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      TabOrder = 4
+      TabOrder = 5
       Text = '0'
       OnlyNumbers = True
       NumbersWithDots = False
@@ -130,7 +130,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      TabOrder = 5
+      TabOrder = 6
       Text = '8'
       OnlyNumbers = True
       NumbersWithDots = False
@@ -145,7 +145,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Height = 27
       Min = 1
       Position = 2
-      TabOrder = 6
+      TabOrder = 7
     end
     object TabsToSpacesCheckBox: TBCCheckBox
       Left = 9
@@ -159,7 +159,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Caption = ' Tabs to Spaces'
       Checked = True
       State = cbChecked
-      TabOrder = 7
+      TabOrder = 4
       ReadOnly = False
     end
   end

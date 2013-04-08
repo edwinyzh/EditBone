@@ -11,7 +11,7 @@ uses
   Vcl.Themes, Dlg, Vcl.CheckLst, BCPageControl, JvExComCtrls, JvComCtrls, VirtualTrees,
   OptionsEditorOptions, OptionsEditorFont, OptionsEditorGutter, OptionsEditorTabs, Lib,
   OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, OptionsCompare, OptionsMainMenu,
-  OptionsDirectoryTabs, OptionsOutputTabs, Vcl.ActnMenus;
+  OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, Vcl.ActnMenus;
 
 type
   POptionsRec = ^TOptionsRec;
@@ -55,6 +55,7 @@ type
     procedure OptionsVirtualStringTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
     procedure OptionsVirtualStringTreeGetText(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
   private
+    FDirectoryOptionsFrame: TDirectoryOptionsFrame;
     FDirectoryTabsFrame: TDirectoryTabsFrame;
     FEditorErrorCheckingFrame: TEditorErrorCheckingFrame;
     FEditorFontFrame: TEditorFontFrame;
@@ -92,6 +93,8 @@ type
     FColorBrightness: Integer;
     FCPASHighlighter: TCPASHighlighter;
     FCSSVersion: TSynWebCssVersion;
+    FDirShowTreeLines: Boolean;
+    FDirIndent: Integer;
     FDirMultiLine: Boolean;
     FDirShowCloseButton: Boolean;
     FDocMultiLine: Boolean;
@@ -113,6 +116,8 @@ type
     FIgnoreCase: Boolean;
     FMainMenuFontName: string;
     FMainMenuFontSize: Integer;
+    FMainMenuSystemFontName: string;
+    FMainMenuSystemFontSize: Integer;
     FOutputMultiLine: Boolean;
     FOutputShowCloseButton: Boolean;
     FPersistentHotKeys: Boolean;
@@ -141,6 +146,8 @@ type
     property ColorBrightness: Integer read FColorBrightness write FColorBrightness;
     property CPASHighlighter: TCPASHighlighter read FCPASHighlighter write FCPASHighlighter;
     property CSSVersion: TSynWebCssVersion read FCSSVersion write FCSSVersion;
+    property DirShowTreeLines: Boolean read FDirShowTreeLines write FDirShowTreeLines;
+    property DirIndent: Integer read FDirIndent write FDirIndent;
     property DirMultiLine: Boolean read FDirMultiLine write FDirMultiLine;
     property DirShowCloseButton: Boolean read FDirShowCloseButton write FDirShowCloseButton;
     property DocMultiLine: Boolean read FDocMultiLine write FDocMultiLine;
@@ -164,6 +171,8 @@ type
     property IgnoreCase: Boolean read FIgnoreCase write FIgnoreCase;
     property MainMenuFontName: string read FMainMenuFontName write FMainMenuFontName;
     property MainMenuFontSize: Integer read FMainMenuFontSize write FMainMenuFontSize;
+    property MainMenuSystemFontName: string read FMainMenuSystemFontName write FMainMenuSystemFontName;
+    property MainMenuSystemFontSize: Integer read FMainMenuSystemFontSize write FMainMenuSystemFontSize;
     property OutputMultiLine: Boolean read FOutputMultiLine write FOutputMultiLine;
     property OutputShowCloseButton: Boolean read FOutputShowCloseButton write FOutputShowCloseButton;
     property PersistentHotKeys: Boolean read FPersistentHotKeys write FPersistentHotKeys;
@@ -265,8 +274,16 @@ begin
     TActionMainMenuBar(Dest).PersistentHotKeys := FPersistentHotKeys;
     TActionMainMenuBar(Dest).Shadows := FShadows;
     TActionMainMenuBar(Dest).UseSystemFont := FUseSystemFont;
-    Screen.MenuFont.Name := FMainMenuFontName;
-    Screen.MenuFont.Size := FMainMenuFontSize;
+    if FUseSystemFont then
+    begin
+      Screen.MenuFont.Name := FMainMenuSystemFontName;
+      Screen.MenuFont.Size := FMainMenuSystemFontSize;
+    end
+    else
+    begin
+      Screen.MenuFont.Name := FMainMenuFontName;
+      Screen.MenuFont.Size := FMainMenuFontSize;
+    end;
     TActionMainMenuBar(Dest).AnimationStyle := FAnimationStyle;
     TActionMainMenuBar(Dest).AnimateDuration := FAnimationDuration;
   end
@@ -471,6 +488,8 @@ begin
   FUseSystemFont := False;
   FMainMenuFontName := 'Tahoma';
   FMainMenuFontSize := 8;
+  FMainMenuSystemFontName := Screen.MenuFont.Name;
+  FMainMenuSystemFontSize := Screen.MenuFont.Size;
   FAnimationStyle := asDefault;
   FAnimationDuration := 150;
   FFileTypes := TStringList.Create;
@@ -531,6 +550,7 @@ begin
   FFileTypesFrame.Destroy;
   FOptionsCompareFrame.Destroy;
   FMainMenuFrame.Destroy;
+  FDirectoryOptionsFrame.Destroy;
   FDirectoryTabsFrame.Destroy;
   FOutputTabsFrame.Destroy;
 
@@ -644,6 +664,7 @@ begin
   Common.UpdateLanguage(FFileTypesFrame, SelectedLanguage);
   Common.UpdateLanguage(FOptionsCompareFrame, SelectedLanguage);
   Common.UpdateLanguage(FMainMenuFrame, SelectedLanguage);
+  Common.UpdateLanguage(FDirectoryOptionsFrame, SelectedLanguage);
   Common.UpdateLanguage(FDirectoryTabsFrame, SelectedLanguage);
   Common.UpdateLanguage(FOutputTabsFrame, SelectedLanguage);
 
@@ -682,7 +703,10 @@ begin
   { Document tabs }
   FEditorTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.DocMultiLine;
   FEditorTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DocShowCloseButton;
-  { Directory abs }
+  { Directory }
+  FDirectoryOptionsFrame.ShowTreeLinesCheckBox.Checked := FOptionsContainer.DirShowTreeLines;
+  FDirectoryOptionsFrame.IndentEdit.Text := IntToStr(FOptionsContainer.DirIndent);
+  { Directory tabs }
   FDirectoryTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.DirMultiLine;
   FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DirShowCloseButton;
   { Output tabs }
@@ -755,7 +779,7 @@ begin
     FEditorTabsFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 2);
     FEditorErrorCheckingFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 3);
     FEditorOtherFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 4);
-
+    FDirectoryOptionsFrame.Visible := (Level = 0) and (TreeNode.Index = 1);
     FDirectoryTabsFrame.Visible := (ParentIndex = 1) and (Level = 1) and (TreeNode.Index = 0);
     FOutputTabsFrame.Visible := (ParentIndex = 2) and (Level = 1) and (TreeNode.Index = 0);
 
@@ -828,6 +852,9 @@ begin
   { Document tabs }
   FOptionsContainer.DocMultiLine := FEditorTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.DocShowCloseButton := FEditorTabsFrame.ShowCloseButtonCheckBox.Checked;
+  { Directory }
+  FOptionsContainer.DirShowTreeLines := FDirectoryOptionsFrame.ShowTreeLinesCheckBox.Checked;
+  FOptionsContainer.DirIndent := StrToIntDef(FDirectoryOptionsFrame.IndentEdit.Text, 20);
   { Directory tabs }
   FOptionsContainer.DirMultiLine := FDirectoryTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.DirShowCloseButton := FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked;
@@ -929,6 +956,8 @@ begin
   FMainMenuFrame.Parent := OptionsPanel;
   FOutputTabsFrame := TOutputTabsFrame.Create(OptionsPanel);
   FOutputTabsFrame.Parent := OptionsPanel;
+  FDirectoryOptionsFrame := TDirectoryOptionsFrame.Create(OptionsPanel);
+  FDirectoryOptionsFrame.Parent := OptionsPanel;
   FDirectoryTabsFrame := TDirectoryTabsFrame.Create(OptionsPanel);
   FDirectoryTabsFrame.Parent := OptionsPanel;
 end;

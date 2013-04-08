@@ -1791,6 +1791,8 @@ begin
     OptionsContainer.GutterVisible := ReadBool('Options', 'GutterVisible', True);
     OptionsContainer.DocMultiLine := ReadBool('Options', 'DocMultiLine', False);
     OptionsContainer.DocShowCloseButton := ReadBool('Options', 'DocShowCloseButton', False);
+    OptionsContainer.DirShowTreeLines:= ReadBool('Options', 'DirShowTreeLines', False);
+    OptionsContainer.DirIndent := StrToInt(ReadString('Options', 'DirIndent', '20'));
     OptionsContainer.DirMultiLine := ReadBool('Options', 'DirMultiLine', False);
     OptionsContainer.DirShowCloseButton := ReadBool('Options', 'DirShowCloseButton', False);
     OptionsContainer.OutputMultiLine := ReadBool('Options', 'OutputMultiLine', False);
@@ -1809,6 +1811,8 @@ begin
     OptionsContainer.UseSystemFont := ReadBool('Options', 'UseSystemFont', False);
     OptionsContainer.MainMenuFontName := ReadString('Options', 'MainMenuFontName', 'Tahoma');
     OptionsContainer.MainMenuFontSize := StrToInt(ReadString('Options', 'MainMenuFontSize', '8'));
+    OptionsContainer.MainMenuFontName := ReadString('Options', 'MainMenuSystemFontName', Screen.MenuFont.Name);
+    OptionsContainer.MainMenuFontSize := StrToInt(ReadString('Options', 'MainMenuSystemFontSize', IntToStr(Screen.MenuFont.Size)));
     OptionsContainer.AnimationStyle := TAnimationStyle(StrToInt(ReadString('Options', 'AnimationStyle', '1')));
     OptionsContainer.AnimationDuration := StrToInt(ReadString('Options', 'AnimationDuration', '150'));
 
@@ -1894,6 +1898,8 @@ begin
     WriteBool('Options', 'GutterVisible', OptionsContainer.GutterVisible);
     WriteBool('Options', 'DocMultiLine', OptionsContainer.DocMultiLine);
     WriteBool('Options', 'DocShowCloseButton', OptionsContainer.DocShowCloseButton);
+    WriteBool('Options', 'DirShowTreeLines', OptionsContainer.DirShowTreeLines);
+    WriteString('Options', 'DirIndent', IntToStr(OptionsContainer.DirIndent));
     WriteBool('Options', 'DirMultiLine', OptionsContainer.DirMultiLine);
     WriteBool('Options', 'DirShowCloseButton', OptionsContainer.DirShowCloseButton);
     WriteBool('Options', 'OutputMultiLine', OptionsContainer.OutputMultiLine);
@@ -1912,6 +1918,8 @@ begin
     WriteBool('Options', 'UseSystemFont', OptionsContainer.UseSystemFont);
     WriteString('Options', 'MainMenuFontName', OptionsContainer.MainMenuFontName);
     WriteString('Options', 'MainMenuFontSize', IntToStr(OptionsContainer.MainMenuFontSize));
+    WriteString('Options', 'MainMenuSystemFontName', OptionsContainer.MainMenuSystemFontName);
+    WriteString('Options', 'MainMenuSystemFontSize', IntToStr(OptionsContainer.MainMenuSystemFontSize));
     WriteString('Options', 'AnimationStyle', IntToStr(Ord(OptionsContainer.AnimationStyle)));
     WriteString('Options', 'AnimationDuration', IntToStr(OptionsContainer.AnimationDuration));
     EraseSection('OpenFiles');

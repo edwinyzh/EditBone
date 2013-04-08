@@ -1177,7 +1177,7 @@ begin
   FOnStartUp := True;
   ActionManager.Style := PlatformVclStylesStyle;
 
-  StatusBar.Font.Name := 'Tahoma';
+  StatusBar.Font.Name := 'Arial'; //Tahoma';
   StatusBar.Font.Size := 8;
 
   CreateFrames;
@@ -1635,15 +1635,9 @@ begin
   begin
     OptionsContainer.AssignTo(ActionMainMenuBar);
     if Assigned(FOutputFrame) then
-    begin
-      FOutputFrame.PageControl.MultiLine := OptionsContainer.OutputMultiLine;
-      FOutputFrame.PageControl.ShowCloseButton := OptionsContainer.OutputShowCloseButton;
-    end;
+      FOutputFrame.SetOptions;
     if Assigned(FDirectoryFrame) then
-    begin
-      FDirectoryFrame.PageControl.MultiLine := OptionsContainer.DirMultiLine;
-      FDirectoryFrame.PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
-    end;
+      FDirectoryFrame.SetOptions;
     Repaint;
   end;
 end;

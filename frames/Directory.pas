@@ -67,6 +67,7 @@ type
     procedure OpenDirectory; overload;
     procedure OpenPath(RootDirectory: string; LastPath: string; ExcludeOtherBranches: Boolean);
     procedure UpdateControls;
+    procedure SetOptions;
     procedure WriteIniFile;
     property ExcludeOtherBranches: Boolean read GetExcludeOtherBranches;
     property IsAnyDirectory: Boolean read GetIsAnyDirectory;
@@ -404,7 +405,7 @@ begin
     TabSheet.ImageIndex := DriveComboBox.IconIndex;
   end;
   PageControl.ActivePage.Caption := TabName;
-  PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
+  SetOptions;
   OpenPath(RootDirectory, LastPath, ExcludeOtherBranches);
   DirTabSheetFrame.Panel.Visible := True;
   TabSheet.Visible := True;
@@ -417,6 +418,24 @@ begin
     Result := PageControl.PageCount <> 0;
 end;
 
+procedure TDirectoryFrame.SetOptions;
+var
+  i: Integer;
+  FileTreeView: TBCFileTreeView;
+begin
+  PageControl.MultiLine := OptionsContainer.DirMultiLine;
+  PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
+  for i := 0 to PageControl.PageCount - 1 do
+  begin
+    FileTreeView := TDirTabSheetFrame(PageControl.Pages[i].Components[0]).FileTreeView;
+    FileTreeView.Indent := OptionsContainer.DirIndent;
+    if OptionsContainer.DirShowTreeLines then
+      FileTreeView.TreeOptions.PaintOptions := FileTreeView.TreeOptions.PaintOptions + [toShowTreeLines]
+    else
+      FileTreeView.TreeOptions.PaintOptions := FileTreeView.TreeOptions.PaintOptions - [toShowTreeLines]
+  end;
+end;
+
 procedure TDirectoryFrame.UpdateControls;
 var
   i, Right: Integer;
@@ -425,8 +444,7 @@ var
   PanelColor: TColor;
 begin
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
-  PageControl.MultiLine := OptionsContainer.DirMultiLine;
-  PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
+  SetOptions;
   Application.ProcessMessages; { Important! }
   LStyles := StyleServices;
   PanelColor := clNone;

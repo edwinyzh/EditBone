@@ -51,6 +51,7 @@ type
     procedure CloseAllTabSheets;
     procedure CloseTabSheet;
     procedure UpdateControls;
+    procedure SetOptions;
     property Count: Integer read GetCount;
     property IsAnyOutput: Boolean read GetIsAnyOutput;
     property IsEmpty: Boolean read GetIsEmpty;
@@ -486,6 +487,12 @@ begin
         Result := TOutputTabSheetFrame(TabSheet.Components[0]);
 end;
 
+procedure TOutputFrame.SetOptions;
+begin
+  PageControl.MultiLine := OptionsContainer.OutputMultiLine;
+  PageControl.ShowCloseButton := OptionsContainer.OutputShowCloseButton;
+end;
+
 procedure TOutputFrame.UpdateControls;
 var
   i, Right: Integer;
@@ -494,8 +501,7 @@ var
   OutputTabSheetFrame: TOutputTabSheetFrame;
 begin
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
-  PageControl.MultiLine := OptionsContainer.OutputMultiLine;
-  PageControl.ShowCloseButton := OptionsContainer.OutputShowCloseButton;
+  SetOptions;
 
   LStyles := StyleServices;
   PanelColor := clNone;

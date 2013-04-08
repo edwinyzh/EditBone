@@ -46,7 +46,8 @@ uses
   OptionsCompare in 'frames\OptionsCompare.pas' {OptionsCompareFrame: TFrame},
   OptionsDirectoryTabs in 'frames\OptionsDirectoryTabs.pas' {DirectoryTabsFrame: TFrame},
   OptionsOutputTabs in 'frames\OptionsOutputTabs.pas' {OutputTabsFrame: TFrame},
-  Vcl.PlatformVclStylesActnCtrls in '..\..\Common\units\Vcl.PlatformVclStylesActnCtrls.pas';
+  Vcl.PlatformVclStylesActnCtrls in '..\..\Common\units\Vcl.PlatformVclStylesActnCtrls.pas',
+  OptionsDirectory in 'frames\OptionsDirectory.pas' {DirectoryOptionsFrame: TFrame};
 
 {$R *.res}
 
