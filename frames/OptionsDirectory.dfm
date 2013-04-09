@@ -12,10 +12,6 @@ object DirectoryOptionsFrame: TDirectoryOptionsFrame
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitLeft = -131
-    ExplicitTop = -64
-    ExplicitWidth = 451
-    ExplicitHeight = 304
     object IndentLabel: TLabel
       Left = 9
       Top = 31

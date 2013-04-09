@@ -1808,14 +1808,17 @@ begin
     OptionsContainer.IgnoreBlanks := ReadBool('Options', 'IgnoreBlanks', True);
     OptionsContainer.PersistentHotKeys := ReadBool('Options', 'PersistentHotKeys', False);
     OptionsContainer.Shadows := ReadBool('Options', 'Shadows', True);
-    OptionsContainer.UseSystemFont := ReadBool('Options', 'UseSystemFont', False);
+    DeleteKey('Options', 'UseSystemFont'); { depricated }
+    OptionsContainer.MainMenuUseSystemFont := ReadBool('Options', 'MainMenuUseSystemFont', False);
     OptionsContainer.MainMenuFontName := ReadString('Options', 'MainMenuFontName', 'Tahoma');
     OptionsContainer.MainMenuFontSize := StrToInt(ReadString('Options', 'MainMenuFontSize', '8'));
-    OptionsContainer.MainMenuFontName := ReadString('Options', 'MainMenuSystemFontName', Screen.MenuFont.Name);
-    OptionsContainer.MainMenuFontSize := StrToInt(ReadString('Options', 'MainMenuSystemFontSize', IntToStr(Screen.MenuFont.Size)));
+    OptionsContainer.MainMenuSystemFontName := ReadString('Options', 'MainMenuSystemFontName', Screen.MenuFont.Name);
+    OptionsContainer.MainMenuSystemFontSize := StrToInt(ReadString('Options', 'MainMenuSystemFontSize', IntToStr(Screen.MenuFont.Size)));
     OptionsContainer.AnimationStyle := TAnimationStyle(StrToInt(ReadString('Options', 'AnimationStyle', '1')));
     OptionsContainer.AnimationDuration := StrToInt(ReadString('Options', 'AnimationDuration', '150'));
-
+    OptionsContainer.StatusBarUseSystemFont := ReadBool('Options', 'StatusBarUseSystemFont', False);
+    OptionsContainer.StatusBarFontName := ReadString('Options', 'StatusBarFontName', 'Tahoma');
+    OptionsContainer.StatusBarFontSize := StrToInt(ReadString('Options', 'StatusBarFontSize', '8'));
     OptionsContainer.ShowXMLTree := ReadBool('Options', 'ShowXMLTree', True);
     OptionsContainer.EnableWordWrap := ReadBool('Options', 'EnableWordWrap', False);
     OptionsContainer.EnableLineNumbers := ReadBool('Options', 'EnableLineNumbers', True);
@@ -1915,13 +1918,16 @@ begin
     WriteBool('Options', 'IgnoreBlanks', OptionsContainer.IgnoreBlanks);
     WriteBool('Options', 'PersistentHotKeys', OptionsContainer.PersistentHotKeys);
     WriteBool('Options', 'Shadows', OptionsContainer.Shadows);
-    WriteBool('Options', 'UseSystemFont', OptionsContainer.UseSystemFont);
+    WriteBool('Options', 'MainMenuUseSystemFont', OptionsContainer.MainMenuUseSystemFont);
     WriteString('Options', 'MainMenuFontName', OptionsContainer.MainMenuFontName);
     WriteString('Options', 'MainMenuFontSize', IntToStr(OptionsContainer.MainMenuFontSize));
     WriteString('Options', 'MainMenuSystemFontName', OptionsContainer.MainMenuSystemFontName);
     WriteString('Options', 'MainMenuSystemFontSize', IntToStr(OptionsContainer.MainMenuSystemFontSize));
     WriteString('Options', 'AnimationStyle', IntToStr(Ord(OptionsContainer.AnimationStyle)));
     WriteString('Options', 'AnimationDuration', IntToStr(OptionsContainer.AnimationDuration));
+    WriteBool('Options', 'StatusBarUseSystemFont', OptionsContainer.StatusBarUseSystemFont);
+    WriteString('Options', 'StatusBarFontName', OptionsContainer.StatusBarFontName);
+    WriteString('Options', 'StatusBarFontSize', IntToStr(OptionsContainer.StatusBarFontSize));
     EraseSection('OpenFiles');
     EraseSection('Bookmarks');
     { Open documents }

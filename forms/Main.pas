@@ -346,6 +346,7 @@ begin
     StatusBar := nil;
   end;
   StatusBar := TStatusBar.Create(Self);
+  OptionsContainer.AssignTo(StatusBar);
   with StatusBar do
   begin
     Parent := Self;
@@ -1177,10 +1178,8 @@ begin
   FOnStartUp := True;
   ActionManager.Style := PlatformVclStylesStyle;
 
-  StatusBar.Font.Name := 'Arial'; //Tahoma';
-  StatusBar.Font.Size := 8;
-
   CreateFrames;
+  RecreateStatusBar;
 
   ReadLanguageFile(Common.GetSelectedLanguage);
   ReadIniFile;
@@ -1634,6 +1633,7 @@ begin
   if FDocumentFrame.Options then
   begin
     OptionsContainer.AssignTo(ActionMainMenuBar);
+    RecreateStatusBar;
     if Assigned(FOutputFrame) then
       FOutputFrame.SetOptions;
     if Assigned(FDirectoryFrame) then
