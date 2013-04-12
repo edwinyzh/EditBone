@@ -21,6 +21,7 @@ type
     BrightnessTrackBar: TTrackBar;
     ActiveLineColorBrightnessLabel: TLabel;
     TabsToSpacesCheckBox: TBCCheckBox;
+    AutoSaveCheckBox: TBCCheckBox;
   private
     { Private declarations }
   public

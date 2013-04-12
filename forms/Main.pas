@@ -186,6 +186,7 @@ type
     FileReopenAction: TAction;
     FileReopenClearAction: TAction;
     SelectReopenFileAction: TAction;
+    ViewStatusBarAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -290,6 +291,7 @@ type
     procedure FileReopenClearActionExecute(Sender: TObject);
     procedure FileReopenActionExecute(Sender: TObject);
     procedure SelectReopenFileActionExecute(Sender: TObject);
+    procedure ViewStatusBarActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -585,6 +587,7 @@ var
   ActionClientItem: TActionClientItem;
   Action: TAction;
 begin
+  ViewLanguageAction.Enabled := False;
   LanguagePath := IncludeTrailingPathDelimiter(Format('%s%s', [ExtractFilePath(ParamStr(0)), 'Languages']));
   if not DirectoryExists(LanguagePath) then
     Exit;
@@ -604,6 +607,8 @@ begin
     Action.Checked := LanguageName = ExtractedFileName;
     ActionClientItem.Action := Action;
   end;
+  ActionClientItem := GetActionClientItem(VIEW_MENU_ITEMINDEX, VIEW_LANGUAGE_MENU_ITEMINDEX);
+  ViewLanguageAction.Enabled := ActionClientItem.Items.Count > 0;
 end;
 
 procedure TMainForm.CreateStyleMenu;
@@ -637,6 +642,7 @@ var
     ActionClientItem := ActionClientItem.Items.Add;
   end;
 begin
+  ViewStyleAction.Enabled := False;
   FilePath := IncludeTrailingPathDelimiter(Format('%s%s', [ExtractFilePath(ParamStr(0)), 'Styles']));
   if not DirectoryExists(FilePath) then
     Exit;
@@ -666,6 +672,7 @@ begin
   Action.OnExecute := SelectStyleActionExecute;
   Action.Checked :=  TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
   ActionClientItem.Action := Action;
+  ViewStyleAction.Enabled := True;
 end;
 
 procedure TMainForm.WMAfterShow(var Msg: TMessage);
@@ -689,7 +696,7 @@ begin
     CreateStyleMenu;
     CreateFileReopenList;
 
-    ReadIniOptions;
+    //ReadIniOptions;
 
     FDirectoryFrame.UpdateControls;
     FDocumentFrame.UpdateGutterAndControls;
@@ -762,6 +769,7 @@ begin
   try
     { Options }
     ActionToolBar.Visible := ReadBool('Options', 'ShowToolBar', True);
+    StatusBar.Visible := ReadBool('Options', 'ShowStatusbar', True);
     DirectoryPanel.Visible := ReadBool('Options', 'ShowDirectory', True);
     HighlighterComboBox.Visible := ReadBool('Options', 'ShowHighlighterSelection', True);
     EncodingComboBox.Visible := ReadBool('Options', 'ShowEncodingSelection', False);
@@ -811,6 +819,7 @@ begin
     WriteInteger('Size', 'State', State);
     { Options }
     WriteBool('Options', 'ShowToolBar', ActionToolBar.Visible);
+    WriteBool('Options', 'ShowStatusbar', StatusBar.Visible);
     WriteBool('Options', 'ShowDirectory', DirectoryPanel.Visible);
     WriteBool('Options', 'ShowHighlighterSelection', HighlighterComboBox.Visible);
     WriteBool('Options', 'ShowEncodingSelection', EncodingComboBox.Visible);
@@ -880,6 +889,7 @@ begin
   SelectionFound := FDocumentFrame.SelectionFound;
   IsXMLDocument := FDocumentFrame.IsXMLDocument;
   ViewToolbarAction.Checked := ActionToolBar.Visible;
+  ViewStatusbarAction.Checked := StatusBar.Visible;
   ViewOutputAction.Checked := OutputPanel.Visible;
   ViewDirectoryAction.Enabled := FDirectoryFrame.IsAnyDirectory;
   ViewDirectoryAction.Checked := DirectoryPanel.Visible;
@@ -910,8 +920,8 @@ begin
   ViewPreviousPageAction.Enabled := ViewNextPageAction.Enabled;
   ToolsOptionsAction.Enabled := FileCloseAction.Enabled;
   FileSaveAsAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
-  FileSaveAction.Enabled := FDocumentFrame.ModifiedDocuments and ActiveDocumentFound;
-  FileSaveAllAction.Enabled := FileSaveAction.Enabled and ActiveDocumentFound;
+  FileSaveAction.Enabled := FDocumentFrame.ActiveDocumentModified and ActiveDocumentFound;
+  FileSaveAllAction.Enabled := FDocumentFrame.ModifiedDocuments and ActiveDocumentFound;
   FilePrintAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
   FilePrintPreviewAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
   EditUndoAction.Enabled := FileCloseAction.Enabled and FDocumentFrame.CanUndo and ActiveDocumentFound;
@@ -1208,6 +1218,7 @@ end;
 
 procedure TMainForm.FormShow(Sender: TObject);
 begin
+  ReadIniOptions;
   { Post the custom message WM_AFTER_SHOW to our form }
   if FOnStartUp then
     PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
@@ -1482,6 +1493,12 @@ end;
 procedure TMainForm.ViewSplitActionExecute(Sender: TObject);
 begin
   FDocumentFrame.ToggleSplit;
+end;
+
+procedure TMainForm.ViewStatusBarActionExecute(Sender: TObject);
+begin
+  with StatusBar do
+  Visible := not Visible;
 end;
 
 procedure TMainForm.SearchFindInFilesActionExecute(Sender: TObject);

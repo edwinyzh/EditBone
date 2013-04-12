@@ -241,7 +241,7 @@ type
     procedure SearchFindNextActionExecute(Sender: TObject);
     procedure SearchFindPreviousActionExecute(Sender: TObject);
     procedure SearchForEditChange(Sender: TObject);
-    procedure SynEditChange(Sender: TObject);
+    procedure SynEditOnChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
     procedure SynEditorReplaceText(Sender: TObject; const ASearch, AReplace: UnicodeString; Line, Column: Integer; var Action: TSynReplaceAction);
     procedure SynEditSpecialLineColors(Sender: TObject; Line: Integer; var Special: Boolean; var FG, BG: TColor);
@@ -668,7 +668,7 @@ begin
     begin
       DocumentName := FileName;
       FileDateTime := GetFileDateTime(FileName);
-      OnChange := SynEditChange;
+      OnChange := SynEditOnChange;
       OnSpecialLineColors := SynEditSpecialLineColors;
       OnEnter := SynEditEnter;
       OnReplaceText := SynEditorReplaceText;
@@ -1173,8 +1173,6 @@ begin
         AFileName := ExtractFileName(DocTabSheetFrame.SynEdit.DocumentName);
 
       FilePath := ExtractFilePath(DocTabSheetFrame.SynEdit.DocumentName);
-      //if FilePath = '' then
-      //  FilePath := DefaultPath;
 
       if CommonDialogs.SaveFile(Handle, FilePath, OptionsContainer.Filters, LanguageDataModule.GetConstant('SaveAs'), AFileName) then
       begin
@@ -1800,6 +1798,7 @@ begin
     OptionsContainer.HTMLErrorChecking := ReadBool('Options', 'HTMLErrorChecking', True);
     OptionsContainer.HtmlVersion := TSynWebHtmlVersion(StrToInt(ReadString('Options', 'HTMLVersion', '4'))); { default: HTML5 }
     OptionsContainer.AutoIndent := ReadBool('Options', 'AutoIndent', True);
+    OptionsContainer.AutoSave := ReadBool('Options', 'AutoSave', False);
     OptionsContainer.TrimTrailingSpaces := ReadBool('Options', 'TrimTrailingSpaces', True);
     OptionsContainer.ScrollPastEof := ReadBool('Options', 'ScrollPastEof', False);
     OptionsContainer.ScrollPastEol := ReadBool('Options', 'ScrollPastEol', True);
@@ -1910,6 +1909,7 @@ begin
     WriteBool('Options', 'HTMLErrorChecking', OptionsContainer.HTMLErrorChecking);
     WriteString('Options', 'HTMLVersion', IntToStr(Ord(OptionsContainer.HtmlVersion)));
     WriteBool('Options', 'AutoIndent', OptionsContainer.AutoIndent);
+    WriteBool('Options', 'AutoSave', OptionsContainer.AutoSave);
     WriteBool('Options', 'TrimTrailingSpaces', OptionsContainer.TrimTrailingSpaces);
     WriteBool('Options', 'ScrollPastEof', OptionsContainer.ScrollPastEof);
     WriteBool('Options', 'ScrollPastEol', OptionsContainer.ScrollPastEol);
@@ -2104,16 +2104,21 @@ begin
   end;
 end;
 
-procedure TDocumentFrame.SynEditChange(Sender: TObject);
+procedure TDocumentFrame.SynEditOnChange(Sender: TObject);
 var
   i: Integer;
   SynEdit, SplitSynEdit: TBCSynEdit;
 begin
   inherited;
-  Application.ProcessMessages;
   SynEdit := GetActiveSynEdit;
-  SynEdit.Modified := True;
-  SetActivePageCaptionModified;
+  if OptionsContainer.AutoSave then
+    Save
+  else
+  begin
+    Application.ProcessMessages;
+    SynEdit.Modified := True;
+    SetActivePageCaptionModified;
+  end;
   if MainForm.ViewSplitAction.Checked then
   begin
     SplitSynEdit := GetActiveSplitSynEdit;
@@ -2128,11 +2133,6 @@ begin
       for i := 0 to SplitSynEdit.Lines.Count - 1 do
         if SynEdit.Lines[i] <> SplitSynEdit.Lines[i] then
           SplitSynEdit.Lines[i] := SynEdit.Lines[i];
-      (*for i := SplitSynEdit.Lines.Count to SynEdit.Lines.Count - 1 do
-        SplitSynEdit.Lines.Add(SynEdit.Lines[i]);
-      //SplitSynEdit.Text := Trim(SplitSynEdit.Text);
-      while SplitSynEdit.Lines.Count > SynEdit.Lines.Count do
-        SplitSynEdit.Lines.Delete(SplitSynEdit.Lines.Count);*)
       SplitSynEdit.EndUpdate;
       SplitSynEdit.Repaint;
     end;
@@ -2145,10 +2145,16 @@ var
   SynEdit, SplitSynEdit: TBCSynEdit;
 begin
   inherited;
-  Application.ProcessMessages;
   SynEdit := GetActiveSynEdit;
-  SynEdit.Modified := True;
-  SetActivePageCaptionModified;
+
+  if OptionsContainer.AutoSave then
+    Save
+  else
+  begin
+    Application.ProcessMessages;
+    SynEdit.Modified := True;
+    SetActivePageCaptionModified;
+  end;
 
   SplitSynEdit := GetActiveSplitSynEdit;
   if Assigned(SplitSynEdit) then
@@ -2161,14 +2167,6 @@ begin
     for i := 0 to SplitSynEdit.Lines.Count - 1 do
       if SynEdit.Lines[i] <> SplitSynEdit.Lines[i] then
         SynEdit.Lines[i] := SplitSynEdit.Lines[i];
-    {for i := 0 to SynEdit.Lines.Count - 1 do
-      if SynEdit.Lines[i] <> SplitSynEdit.Lines[i] then
-        SynEdit.Lines[i] := SplitSynEdit.Lines[i]; }
-    (*for i := SynEdit.Lines.Count to SplitSynEdit.Lines.Count - 1 do
-      SynEdit.Lines.Add(SplitSynEdit.Lines[i]);
-    //SplitSynEdit.Text := Trim(SplitSynEdit.Text);
-    while SynEdit.Lines.Count > SplitSynEdit.Lines.Count do
-      SynEdit.Lines.Delete(SynEdit.Lines.Count);  *)
     SynEdit.EndUpdate;
   end;
   SynEdit.Repaint;
@@ -2580,8 +2578,13 @@ end;
 procedure TDocumentFrame.SynEditHTMLOnChange(Sender: TObject);
 begin
   inherited;
-  GetActiveSynEdit.Modified := True;
-  SetActivePageCaptionModified;
+  if OptionsContainer.AutoSave then
+    Save
+  else
+  begin
+    GetActiveSynEdit.Modified := True;
+    SetActivePageCaptionModified;
+  end;
   FHTMLDocumentChanged := True;
   CheckHTMLErrors;
 end;
@@ -2686,11 +2689,16 @@ begin
           end
           else
           begin
-            SynEdit.Modified := True;
-            if Pos('~', PageControl.Pages[i].Caption) = 0 then
+            if OptionsContainer.AutoSave then
+              Save
+            else
             begin
-              PageControl.Pages[i].Caption := Format('%s~', [Trim(PageControl.Pages[i].Caption)]);
-              PageControlRepaint;
+              SynEdit.Modified := True;
+              if Pos('~', PageControl.Pages[i].Caption) = 0 then
+              begin
+                PageControl.Pages[i].Caption := Format('%s~', [Trim(PageControl.Pages[i].Caption)]);
+                PageControlRepaint;
+              end;
             end;
           end;
         end;

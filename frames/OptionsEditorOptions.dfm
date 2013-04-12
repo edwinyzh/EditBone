@@ -15,7 +15,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
     TabOrder = 0
     object ExtraLinesLabel: TLabel
       Left = 7
-      Top = 111
+      Top = 131
       Width = 53
       Height = 13
       Margins.Left = 4
@@ -26,7 +26,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
     end
     object TabWidthLabel: TLabel
       Left = 7
-      Top = 155
+      Top = 175
       Width = 49
       Height = 13
       Margins.Left = 4
@@ -37,7 +37,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
     end
     object ActiveLineColorBrightnessLabel: TLabel
       Left = 7
-      Top = 201
+      Top = 221
       Width = 133
       Height = 13
       Margins.Left = 4
@@ -63,7 +63,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
     end
     object TrimTrailingSpacesCheckBox: TBCCheckBox
       Left = 9
-      Top = 26
+      Top = 46
       Width = 201
       Height = 21
       Margins.Left = 4
@@ -73,12 +73,12 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Caption = ' Trim Trailing Spaces'
       Checked = True
       State = cbChecked
-      TabOrder = 1
+      TabOrder = 2
       ReadOnly = False
     end
     object ScrollPastEofCheckBox: TBCCheckBox
       Left = 9
-      Top = 46
+      Top = 66
       Width = 201
       Height = 21
       Margins.Left = 4
@@ -86,12 +86,12 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = ' Scroll Past End of File'
-      TabOrder = 2
+      TabOrder = 3
       ReadOnly = False
     end
     object ScrollPastEolCheckBox: TBCCheckBox
       Left = 9
-      Top = 66
+      Top = 86
       Width = 198
       Height = 21
       Margins.Left = 4
@@ -101,19 +101,19 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Caption = ' Scroll Past End of Line'
       Checked = True
       State = cbChecked
-      TabOrder = 3
+      TabOrder = 4
       ReadOnly = False
     end
     object ExtraLinesEdit: TBCEdit
       Left = 7
-      Top = 126
+      Top = 146
       Width = 64
       Height = 21
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      TabOrder = 5
+      TabOrder = 6
       Text = '0'
       OnlyNumbers = True
       NumbersWithDots = False
@@ -123,14 +123,14 @@ object EditorOptionsFrame: TEditorOptionsFrame
     end
     object TabWidthEdit: TBCEdit
       Left = 7
-      Top = 172
+      Top = 192
       Width = 64
       Height = 21
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      TabOrder = 6
+      TabOrder = 7
       Text = '8'
       OnlyNumbers = True
       NumbersWithDots = False
@@ -140,16 +140,16 @@ object EditorOptionsFrame: TEditorOptionsFrame
     end
     object BrightnessTrackBar: TTrackBar
       Left = 0
-      Top = 216
+      Top = 236
       Width = 150
       Height = 27
       Min = 1
       Position = 2
-      TabOrder = 7
+      TabOrder = 8
     end
     object TabsToSpacesCheckBox: TBCCheckBox
       Left = 9
-      Top = 86
+      Top = 106
       Width = 198
       Height = 21
       Margins.Left = 4
@@ -159,7 +159,20 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Caption = ' Tabs to Spaces'
       Checked = True
       State = cbChecked
-      TabOrder = 4
+      TabOrder = 5
+      ReadOnly = False
+    end
+    object AutoSaveCheckBox: TBCCheckBox
+      Left = 9
+      Top = 26
+      Width = 201
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Auto Save'
+      TabOrder = 1
       ReadOnly = False
     end
   end
