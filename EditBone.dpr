@@ -48,7 +48,8 @@ uses
   OptionsOutputTabs in 'frames\OptionsOutputTabs.pas' {OutputTabsFrame: TFrame},
   Vcl.PlatformVclStylesActnCtrls in '..\..\Common\units\Vcl.PlatformVclStylesActnCtrls.pas',
   OptionsDirectory in 'frames\OptionsDirectory.pas' {DirectoryOptionsFrame: TFrame},
-  OptionsStatusBar in 'frames\OptionsStatusBar.pas' {StatusBarFrame: TFrame};
+  OptionsStatusBar in 'frames\OptionsStatusBar.pas' {StatusBarFrame: TFrame},
+  OptionsOutput in 'frames\OptionsOutput.pas' {OptionsOutputFrame: TFrame};
 
 {$R *.res}
 

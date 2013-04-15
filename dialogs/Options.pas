@@ -11,7 +11,8 @@ uses
   Vcl.Themes, Dlg, Vcl.CheckLst, BCPageControl, JvExComCtrls, JvComCtrls, VirtualTrees,
   OptionsEditorOptions, OptionsEditorFont, OptionsEditorGutter, OptionsEditorTabs, Lib,
   OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, OptionsCompare, OptionsMainMenu,
-  OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, OptionsStatusBar, Vcl.ActnMenus;
+  OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, OptionsStatusBar, OptionsOutput,
+  Vcl.ActnMenus;
 
 type
   POptionsRec = ^TOptionsRec;
@@ -70,6 +71,7 @@ type
     FOptionsCompareFrame: TOptionsCompareFrame;
     FOptionsContainer: TOptionsContainer;
     FOutputTabsFrame: TOutputTabsFrame;
+    FOptionsOutputFrame: TOptionsOutputFrame;
     procedure CreateTree;
     procedure GetData;
     procedure PutData;
@@ -126,6 +128,8 @@ type
     FStatusBarFontSize: Integer;
     FOutputMultiLine: Boolean;
     FOutputShowCloseButton: Boolean;
+    FOutputShowTreeLines: Boolean;
+    FOutputIndent: Integer;
     FPersistentHotKeys: Boolean;
     FPHPVersion: TSynWebPhpVersion;
     FRightMargin: Integer;
@@ -183,6 +187,8 @@ type
     property StatusBarUseSystemFont: Boolean read FStatusBarUseSystemFont write FStatusBarUseSystemFont;
     property StatusBarFontName: string read FStatusBarFontName write FStatusBarFontName;
     property StatusBarFontSize: Integer read FStatusBarFontSize write FStatusBarFontSize;
+    property OutputShowTreeLines: Boolean read FOutputShowTreeLines write FOutputShowTreeLines;
+    property OutputIndent: Integer read FOutputIndent write FOutputIndent;
     property OutputMultiLine: Boolean read FOutputMultiLine write FOutputMultiLine;
     property OutputShowCloseButton: Boolean read FOutputShowCloseButton write FOutputShowCloseButton;
     property PersistentHotKeys: Boolean read FPersistentHotKeys write FPersistentHotKeys;
@@ -489,6 +495,8 @@ begin
   FGutterVisible := True;
   FDocMultiLine := False;
   FDocShowCloseButton := False;
+  FDirShowtreeLines := False;
+  FDirIndent := 20;
   FDirMultiLine := False;
   FDirShowCloseButton := False;
   FOutputMultiLine := False;
@@ -516,6 +524,8 @@ begin
   FStatusBarFontSize := 8;
   FAnimationStyle := asDefault;
   FAnimationDuration := 150;
+  FOutputShowtreeLines := False;
+  FOutputIndent := 20;
   FFileTypes := TStringList.Create;
 
   for i := 0 to 52 do
@@ -577,6 +587,7 @@ begin
   FDirectoryOptionsFrame.Destroy;
   FDirectoryTabsFrame.Destroy;
   FOutputTabsFrame.Destroy;
+  FOptionsOutputFrame.Destroy;
   FStatusBarFrame.Destroy;
 
   FOptionsDialog := nil;
@@ -697,6 +708,7 @@ begin
   Common.UpdateLanguage(FStatusBarFrame, SelectedLanguage);
   Common.UpdateLanguage(FDirectoryOptionsFrame, SelectedLanguage);
   Common.UpdateLanguage(FDirectoryTabsFrame, SelectedLanguage);
+  Common.UpdateLanguage(FOptionsOutputFrame, SelectedLanguage);
   Common.UpdateLanguage(FOutputTabsFrame, SelectedLanguage);
 
   FOptionsContainer := EditOptions;
@@ -741,6 +753,9 @@ begin
   { Directory tabs }
   FDirectoryTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.DirMultiLine;
   FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DirShowCloseButton;
+  { Output }
+  FOptionsOutputFrame.ShowTreeLinesCheckBox.Checked := FOptionsContainer.OutputShowTreeLines;
+  FOptionsOutputFrame.IndentEdit.Text := IntToStr(FOptionsContainer.OutputIndent);
   { Output tabs }
   FOutputTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.OutputMultiLine;
   FOutputTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.OutputShowCloseButton;
@@ -818,8 +833,8 @@ begin
     FEditorOtherFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 4);
     FDirectoryOptionsFrame.Visible := (Level = 0) and (TreeNode.Index = 1);
     FDirectoryTabsFrame.Visible := (ParentIndex = 1) and (Level = 1) and (TreeNode.Index = 0);
+    FOptionsOutputFrame.Visible := (Level = 0) and (TreeNode.Index = 2);
     FOutputTabsFrame.Visible := (ParentIndex = 2) and (Level = 1) and (TreeNode.Index = 0);
-
     FOptionsCompareFrame.Visible := (Level = 0) and (TreeNode.Index = 3);
     FMainMenuFrame.Visible := (Level = 0) and (TreeNode.Index = 4);
     FStatusBarFrame.Visible := (Level = 0) and (TreeNode.Index = 5);
@@ -897,6 +912,9 @@ begin
   { Directory tabs }
   FOptionsContainer.DirMultiLine := FDirectoryTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.DirShowCloseButton := FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked;
+  { Output }
+  FOptionsContainer.OutputShowTreeLines := FOptionsOutputFrame.ShowTreeLinesCheckBox.Checked;
+  FOptionsContainer.OutputIndent := StrToIntDef(FOptionsOutputFrame.IndentEdit.Text, 20);
   { Output tabs }
   FOptionsContainer.OutputMultiLine := FOutputTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.OutputShowCloseButton := FOutputTabsFrame.ShowCloseButtonCheckBox.Checked;
@@ -999,6 +1017,8 @@ begin
   FMainMenuFrame.Parent := OptionsPanel;
   FStatusBarFrame := TStatusBarFrame.Create(OptionsPanel);
   FStatusBarFrame.Parent := OptionsPanel;
+  FOptionsOutputFrame := TOptionsOutputFrame.Create(OptionsPanel);
+  FOptionsOutputFrame.Parent := OptionsPanel;
   FOutputTabsFrame := TOutputTabsFrame.Create(OptionsPanel);
   FOutputTabsFrame.Parent := OptionsPanel;
   FDirectoryOptionsFrame := TDirectoryOptionsFrame.Create(OptionsPanel);

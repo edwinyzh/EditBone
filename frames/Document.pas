@@ -1823,6 +1823,8 @@ begin
     OptionsContainer.EnableLineNumbers := ReadBool('Options', 'EnableLineNumbers', True);
     OptionsContainer.EnableSpecialChars := ReadBool('Options', 'EnableSpecialChars', False);
     OptionsContainer.EnableSelectionMode := ReadBool('Options', 'EnableSelectionMode', False);
+    OptionsContainer.OutputShowTreeLines:= ReadBool('Options', 'OutputShowTreeLines', False);
+    OptionsContainer.OutputIndent := StrToInt(ReadString('Options', 'OutputIndent', '20'));
 
     { FileTypes }
     ReadSectionValues('FileTypes', FileTypes);
@@ -1928,6 +1930,8 @@ begin
     WriteBool('Options', 'StatusBarUseSystemFont', OptionsContainer.StatusBarUseSystemFont);
     WriteString('Options', 'StatusBarFontName', OptionsContainer.StatusBarFontName);
     WriteString('Options', 'StatusBarFontSize', IntToStr(OptionsContainer.StatusBarFontSize));
+    WriteBool('Options', 'OutputShowTreeLines', OptionsContainer.OutputShowTreeLines);
+    WriteString('Options', 'OutputIndent', IntToStr(OptionsContainer.OutputIndent));
     EraseSection('OpenFiles');
     EraseSection('Bookmarks');
     { Open documents }

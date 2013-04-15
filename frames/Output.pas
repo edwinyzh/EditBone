@@ -488,9 +488,21 @@ begin
 end;
 
 procedure TOutputFrame.SetOptions;
+var
+  i: Integer;
+  VirtualDrawTree: TVirtualDrawTree;
 begin
   PageControl.MultiLine := OptionsContainer.OutputMultiLine;
   PageControl.ShowCloseButton := OptionsContainer.OutputShowCloseButton;
+  for i := 0 to PageControl.PageCount - 1 do
+  begin
+    VirtualDrawTree := TOutputTabSheetFrame(PageControl.Pages[i].Components[0]).VirtualDrawTree;
+    VirtualDrawTree.Indent := OptionsContainer.OutputIndent;
+    if OptionsContainer.OutputShowTreeLines then
+      VirtualDrawTree.TreeOptions.PaintOptions := VirtualDrawTree.TreeOptions.PaintOptions + [toShowTreeLines]
+    else
+      VirtualDrawTree.TreeOptions.PaintOptions := VirtualDrawTree.TreeOptions.PaintOptions - [toShowTreeLines]
+  end;
 end;
 
 procedure TOutputFrame.UpdateControls;
