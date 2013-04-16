@@ -49,7 +49,8 @@ uses
   Vcl.PlatformVclStylesActnCtrls in '..\..\Common\units\Vcl.PlatformVclStylesActnCtrls.pas',
   OptionsDirectory in 'frames\OptionsDirectory.pas' {DirectoryOptionsFrame: TFrame},
   OptionsStatusBar in 'frames\OptionsStatusBar.pas' {StatusBarFrame: TFrame},
-  OptionsOutput in 'frames\OptionsOutput.pas' {OptionsOutputFrame: TFrame};
+  OptionsOutput in 'frames\OptionsOutput.pas' {OptionsOutputFrame: TFrame},
+  InsertTag in 'dialogs\InsertTag.pas' {InsertTagDialog};
 
 {$R *.res}
 

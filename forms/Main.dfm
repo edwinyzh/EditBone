@@ -68,7 +68,6 @@ object MainForm: TMainForm
       Top = 0
       Width = 833
       Height = 30
-      UseSystemFont = False
       ActionManager = ActionManager
       Align = alNone
       Color = clMenuBar
@@ -77,7 +76,7 @@ object MainForm: TMainForm
       ColorMap.BtnSelectedFont = clBlack
       ColorMap.UnusedColor = clWhite
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clMenuText
       Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = []
@@ -474,6 +473,37 @@ object MainForm: TMainForm
               item
                 Action = EditDeleteEOLAction
                 ShortCut = 24665
+              end
+              item
+                Caption = '-'
+              end
+              item
+                Items = <
+                  item
+                    Action = EditInsertTagAction
+                    ShortCut = 24660
+                  end
+                  item
+                    Action = EditInsertDateTimeAction
+                    ShortCut = 24644
+                  end>
+                Action = EditInsertAction
+                UsageCount = 1
+              end
+              item
+                Items = <
+                  item
+                    Action = EditConversionHexToDecAction
+                    Caption = '&Hex to Dec'
+                    ShortCut = 24643
+                  end
+                  item
+                    Action = EditConversionDecToHexAction
+                    Caption = '&Dec to Hex'
+                    ShortCut = 24664
+                  end>
+                Action = EditConversionAction
+                UsageCount = 1
               end
               item
                 Caption = '-'
@@ -1964,12 +1994,47 @@ object MainForm: TMainForm
     object SelectReopenFileAction: TAction
       OnExecute = SelectReopenFileActionExecute
     end
+    object EditInsertAction: TAction
+      Category = '&Insert'
+      Caption = '&Insert'
+      OnExecute = DummyActionExecute
+    end
+    object EditInsertTagAction: TAction
+      Category = '&Insert'
+      Caption = '&Insert Tag...'
+      Hint = 'Insert tag'
+      ShortCut = 24660
+      OnExecute = EditInsertTagActionExecute
+    end
+    object EditInsertDateTimeAction: TAction
+      Category = '&Insert'
+      Caption = '&Date and Time'
+      Hint = 'Insert date and time'
+      ShortCut = 24644
+    end
+    object EditConversionAction: TAction
+      Category = '&Conversion'
+      Caption = '&Conversion'
+      OnExecute = DummyActionExecute
+    end
+    object EditConversionHexToDecAction: TAction
+      Category = '&Conversion'
+      Caption = 'Hex to Dec'
+      Hint = 'Convert hexadecimal to decimal'
+      ShortCut = 24643
+    end
+    object EditConversionDecToHexAction: TAction
+      Category = '&Conversion'
+      Caption = 'Dec to Hex'
+      Hint = 'Convert decimal to hexadecimal'
+      ShortCut = 24664
+    end
   end
   object ImageList: TBCImageList
     Left = 408
     Top = 224
     Bitmap = {
-      494C010142005C01C80610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010142005C01D00610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001001000001002000000000000010
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000131020001420300025104000251040001420300013102000000

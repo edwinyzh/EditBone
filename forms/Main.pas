@@ -187,6 +187,12 @@ type
     FileReopenClearAction: TAction;
     SelectReopenFileAction: TAction;
     ViewStatusBarAction: TAction;
+    EditInsertTagAction: TAction;
+    EditInsertDateTimeAction: TAction;
+    EditConversionHexToDecAction: TAction;
+    EditConversionDecToHexAction: TAction;
+    EditInsertAction: TAction;
+    EditConversionAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -292,6 +298,7 @@ type
     procedure FileReopenActionExecute(Sender: TObject);
     procedure SelectReopenFileActionExecute(Sender: TObject);
     procedure ViewStatusBarActionExecute(Sender: TObject);
+    procedure EditInsertTagActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -1627,6 +1634,11 @@ end;
 procedure TMainForm.EditInsertLineActionExecute(Sender: TObject);
 begin
   FDocumentFrame.InsertLine;
+end;
+
+procedure TMainForm.EditInsertTagActionExecute(Sender: TObject);
+begin
+  FDocumentFrame.InsertTag;
 end;
 
 procedure TMainForm.EditCopyActionExecute(Sender: TObject);

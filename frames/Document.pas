@@ -311,6 +311,7 @@ type
     function GetMacroRecordPauseImageIndex: Integer;
     function GetModifiedInfo: string;
     function IsCompareFilesActivePage: Boolean;
+    function InsertTag: Boolean;
     function IsMacroStopped: Boolean;
     function IsRecordingMacro: Boolean;
     function IsXMLDocument: Boolean;
@@ -401,7 +402,8 @@ implementation
 uses
   PrintPreview, Replace, ConfirmReplace, Common, Lib, Options, StyleHooks, VirtualTrees, Vcl.ActnMenus,
   SynTokenMatch, SynHighlighterWebMisc, System.Types, Winapi.ShellAPI, System.WideStrings, Math,
-  Main, BigIni, Vcl.GraphUtil, SynUnicode, Language, CommonDialogs, SynEditTextBuffer, Encoding;
+  Main, BigIni, Vcl.GraphUtil, SynUnicode, Language, CommonDialogs, SynEditTextBuffer, Encoding,
+  InsertTag;
 
 { TDocumentFrame }
 
@@ -1254,6 +1256,7 @@ procedure TDocumentFrame.Undo;
       if SynEdit.Focused then
       begin
         SynEdit.Undo;
+        SynEdit.SelEnd := 0;
         if SynEdit.UndoList.ItemCount = 0 then
         begin
           SynEdit.Modified := False;
@@ -1963,14 +1966,32 @@ begin
   end;
 end;
 
+function TDocumentFrame.InsertTag: Boolean;
+var
+  SynEdit: TBCSynEdit;
+  TagName: string;
+begin
+  Result := InsertTagDialog(Self).Execute;
+  if Result then
+  begin
+    SynEdit := GetActiveSynEdit;
+    if Assigned(SynEdit) then
+    begin
+      TagName := InsertTagDialog(Self).TagName;
+      SynEdit.ExecuteCommand(ecImeStr, #0, PWideChar(Format('<%s></%s>', [TagName, TagName])));
+      SynEdit.CaretX := SynEdit.CaretX - Length(TagName) - 3; { -3 from </> }
+    end;
+  end;
+end;
+
 function TDocumentFrame.Options: Boolean;
 var
   i: Integer;
   DocTabSheetFrame: TDocTabSheetFrame;
 begin
-  Result := False;
+  Result := OptionsDialog(Self).Execute(OptionsContainer);
 
-  if OptionsDialog(Self).Execute(OptionsContainer) then
+  if Result then
   begin
     { assign to every synedit }
     for i := 0 to PageControl.PageCount - 1 do
@@ -1988,7 +2009,6 @@ begin
     PageControl.MultiLine := OptionsContainer.DocMultiLine;
     PageControl.ShowCloseButton := OptionsContainer.DocShowCloseButton;
     WriteIniFile;
-    Result := True;
   end;
 end;
 
