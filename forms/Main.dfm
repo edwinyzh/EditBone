@@ -489,19 +489,32 @@ object MainForm: TMainForm
                     ShortCut = 41028
                   end>
                 Action = EditInsertAction
+                Caption = 'Insert'
                 UsageCount = 1
               end
               item
                 Items = <
                   item
                     Action = EditConversionDecToHexAction
+                    Caption = '&Dec to Hex'
                     ShortCut = 24648
                   end
                   item
+                    Action = EditConversionHexToDecAction
+                    Caption = '&Hex to Dec'
+                    ShortCut = 41032
+                  end
+                  item
                     Action = EditConversionDecToBinAction
+                    Caption = 'D&ec to Bin'
                     ShortCut = 24642
+                  end
+                  item
+                    Action = EditConversionBinToDecAction
+                    ShortCut = 41026
                   end>
                 Action = EditConversionAction
+                Caption = 'Con&version'
                 UsageCount = 1
               end
               item
@@ -2024,12 +2037,26 @@ object MainForm: TMainForm
       ShortCut = 24648
       OnExecute = EditConversionDecToHexActionExecute
     end
+    object EditConversionHexToDecAction: TAction
+      Category = '&Conversion'
+      Caption = 'Hex to Dec'
+      Hint = 'Convert hexadecimal to decimal'
+      ShortCut = 41032
+      OnExecute = EditConversionHexToDecActionExecute
+    end
     object EditConversionDecToBinAction: TAction
       Category = '&Conversion'
       Caption = 'Dec to Bin'
       Hint = 'Convert decimal to binary'
       ShortCut = 24642
       OnExecute = EditConversionDecToBinActionExecute
+    end
+    object EditConversionBinToDecAction: TAction
+      Category = '&Conversion'
+      Caption = 'Bin to Dec'
+      Hint = 'Convert binary to decimal'
+      ShortCut = 41026
+      OnExecute = EditConversionBinToDecActionExecute
     end
   end
   object ImageList: TBCImageList

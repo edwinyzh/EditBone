@@ -193,6 +193,8 @@ type
     EditConversionDecToBinAction: TAction;
     EditInsertAction: TAction;
     EditConversionAction: TAction;
+    EditConversionHexToDecAction: TAction;
+    EditConversionBinToDecAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -302,6 +304,8 @@ type
     procedure EditInsertDateTimeActionExecute(Sender: TObject);
     procedure EditConversionDecToHexActionExecute(Sender: TObject);
     procedure EditConversionDecToBinActionExecute(Sender: TObject);
+    procedure EditConversionHexToDecActionExecute(Sender: TObject);
+    procedure EditConversionBinToDecActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -947,7 +951,9 @@ begin
   EditInsertTagAction.Enabled := ActiveDocumentFound;
   EditInsertDateTimeAction.Enabled := ActiveDocumentFound;
   EditConversionDecToHexAction.Enabled := SelectionFound;
+  EditConversionHexToDecAction.Enabled := SelectionFound;
   EditConversionDecToBinAction.Enabled := SelectionFound;
+  EditConversionBinToDecAction.Enabled := SelectionFound;
   EditRemoveWhiteSpaceAction.Enabled := SelectionFound;
   EditInsertLineAction.Enabled := ActiveDocumentFound;
   EditDeleteWordAction.Enabled := ActiveDocumentFound;
@@ -1653,6 +1659,11 @@ begin
   FDocumentFrame.InsertTag;
 end;
 
+procedure TMainForm.EditConversionBinToDecActionExecute(Sender: TObject);
+begin
+  FDocumentFrame.BinToDec;
+end;
+
 procedure TMainForm.EditConversionDecToBinActionExecute(Sender: TObject);
 begin
   FDocumentFrame.DecToBin;
@@ -1661,6 +1672,11 @@ end;
 procedure TMainForm.EditConversionDecToHexActionExecute(Sender: TObject);
 begin
   FDocumentFrame.DecToHex;
+end;
+
+procedure TMainForm.EditConversionHexToDecActionExecute(Sender: TObject);
+begin
+  FDocumentFrame.HexToDec;
 end;
 
 procedure TMainForm.EditCopyActionExecute(Sender: TObject);
