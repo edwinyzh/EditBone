@@ -331,6 +331,8 @@ type
     procedure CompareFiles(FileName: string = ''; AFileDragDrop: Boolean = False);
     procedure Copy;
     procedure Cut;
+    procedure DecToHex;
+    procedure DecToBin;
     procedure DecreaseIndent;
     procedure DeleteEOL;
     procedure DeleteLine;
@@ -343,6 +345,7 @@ type
     procedure GotoLine;
     procedure IncreaseIndent;
     procedure InsertLine;
+    procedure InsertDateAndTime;
     procedure LoadMacro;
     procedure New;
     procedure NextPage;
@@ -1984,6 +1987,15 @@ begin
   end;
 end;
 
+procedure TDocumentFrame.InsertDateAndTime;
+var
+  SynEdit: TBCSynEdit;
+begin
+  SynEdit := GetActiveSynEdit;
+  if Assigned(SynEdit) then
+    SynEdit.ExecuteCommand(ecImeStr, #0, PWideChar(DateTimeToStr(Now)));
+end;
+
 function TDocumentFrame.Options: Boolean;
 var
   i: Integer;
@@ -2844,6 +2856,50 @@ procedure TDocumentFrame.ToggleCase;
 begin
   ToggleCase(GetActiveSynEdit);
   ToggleCase(GetActiveSplitSynEdit);
+end;
+
+procedure TDocumentFrame.DecToHex;
+
+  procedure DecToHex(SynEdit: TBCSynEdit);
+  begin
+    if Assigned(SynEdit) then
+    begin
+      SynEdit.BeginUpdate;
+      try
+        SynEdit.SelText := IntToHex(StrToInt(SynEdit.SelText), 2);
+      except
+        { silent }
+      end;
+      SynEdit.EndUpdate;
+    end;
+  end;
+
+begin
+  DecToHex(GetActiveSynEdit);
+  DecToHex(GetActiveSplitSynEdit);
+end;
+
+procedure TDocumentFrame.DecToBin;
+
+  procedure DecToBin(SynEdit: TBCSynEdit);
+  var
+    LStr1, LStr2: String;
+  begin
+    if Assigned(SynEdit) then
+    begin
+      SynEdit.BeginUpdate;
+      try
+        SynEdit.SelText := Common.IntToBin(StrToInt(SynEdit.SelText), Length(SynEdit.SelText) * 4);
+      except
+        { silent }
+      end;
+      SynEdit.EndUpdate;
+    end;
+  end;
+
+begin
+  DecToBin(GetActiveSynEdit);
+  DecToBin(GetActiveSplitSynEdit);
 end;
 
 procedure TDocumentFrame.RemoveWhiteSpace;

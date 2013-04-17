@@ -189,8 +189,8 @@ type
     ViewStatusBarAction: TAction;
     EditInsertTagAction: TAction;
     EditInsertDateTimeAction: TAction;
-    EditConversionHexToDecAction: TAction;
     EditConversionDecToHexAction: TAction;
+    EditConversionDecToBinAction: TAction;
     EditInsertAction: TAction;
     EditConversionAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
@@ -299,6 +299,9 @@ type
     procedure SelectReopenFileActionExecute(Sender: TObject);
     procedure ViewStatusBarActionExecute(Sender: TObject);
     procedure EditInsertTagActionExecute(Sender: TObject);
+    procedure EditInsertDateTimeActionExecute(Sender: TObject);
+    procedure EditConversionDecToHexActionExecute(Sender: TObject);
+    procedure EditConversionDecToBinActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -941,6 +944,10 @@ begin
   EditSortAscAction.Enabled := SelectionFound;
   EditSortDescAction.Enabled := SelectionFound;
   EditToggleCaseAction.Enabled := SelectionFound;
+  EditInsertTagAction.Enabled := ActiveDocumentFound;
+  EditInsertDateTimeAction.Enabled := ActiveDocumentFound;
+  EditConversionDecToHexAction.Enabled := SelectionFound;
+  EditConversionDecToBinAction.Enabled := SelectionFound;
   EditRemoveWhiteSpaceAction.Enabled := SelectionFound;
   EditInsertLineAction.Enabled := ActiveDocumentFound;
   EditDeleteWordAction.Enabled := ActiveDocumentFound;
@@ -1631,6 +1638,11 @@ begin
   FDocumentFrame.IncreaseIndent;
 end;
 
+procedure TMainForm.EditInsertDateTimeActionExecute(Sender: TObject);
+begin
+  FDocumentFrame.InsertDateAndTime;
+end;
+
 procedure TMainForm.EditInsertLineActionExecute(Sender: TObject);
 begin
   FDocumentFrame.InsertLine;
@@ -1639,6 +1651,16 @@ end;
 procedure TMainForm.EditInsertTagActionExecute(Sender: TObject);
 begin
   FDocumentFrame.InsertTag;
+end;
+
+procedure TMainForm.EditConversionDecToBinActionExecute(Sender: TObject);
+begin
+  FDocumentFrame.DecToBin;
+end;
+
+procedure TMainForm.EditConversionDecToHexActionExecute(Sender: TObject);
+begin
+  FDocumentFrame.DecToHex;
 end;
 
 procedure TMainForm.EditCopyActionExecute(Sender: TObject);

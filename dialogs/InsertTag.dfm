@@ -2,7 +2,7 @@ object InsertTagDialog: TInsertTagDialog
   Left = 0
   Top = 0
   BorderStyle = bsDialog
-  Caption = 'Insert Tag'
+  Caption = 'Insert HTML/XML Tags'
   ClientHeight = 72
   ClientWidth = 170
   Color = clBtnFace
@@ -73,15 +73,15 @@ object InsertTagDialog: TInsertTagDialog
     Height = 31
     Align = alClient
     BevelOuter = bvNone
-    Padding.Left = 6
-    Padding.Top = 6
-    Padding.Right = 6
+    Padding.Left = 8
+    Padding.Top = 8
+    Padding.Right = 8
     Padding.Bottom = 4
     TabOrder = 0
     object InsertTagEdit: TBCEdit
-      Left = 6
-      Top = 6
-      Width = 158
+      Left = 8
+      Top = 8
+      Width = 154
       Height = 21
       Margins.Left = 4
       Margins.Top = 4

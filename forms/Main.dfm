@@ -68,6 +68,7 @@ object MainForm: TMainForm
       Top = 0
       Width = 833
       Height = 30
+      UseSystemFont = False
       ActionManager = ActionManager
       Align = alNone
       Color = clMenuBar
@@ -76,7 +77,7 @@ object MainForm: TMainForm
       ColorMap.BtnSelectedFont = clBlack
       ColorMap.UnusedColor = clWhite
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clMenuText
+      Font.Color = clBlack
       Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = []
@@ -485,7 +486,7 @@ object MainForm: TMainForm
                   end
                   item
                     Action = EditInsertDateTimeAction
-                    ShortCut = 24644
+                    ShortCut = 41028
                   end>
                 Action = EditInsertAction
                 UsageCount = 1
@@ -493,14 +494,12 @@ object MainForm: TMainForm
               item
                 Items = <
                   item
-                    Action = EditConversionHexToDecAction
-                    Caption = '&Hex to Dec'
-                    ShortCut = 24643
+                    Action = EditConversionDecToHexAction
+                    ShortCut = 24648
                   end
                   item
-                    Action = EditConversionDecToHexAction
-                    Caption = '&Dec to Hex'
-                    ShortCut = 24664
+                    Action = EditConversionDecToBinAction
+                    ShortCut = 24642
                   end>
                 Action = EditConversionAction
                 UsageCount = 1
@@ -2001,8 +2000,8 @@ object MainForm: TMainForm
     end
     object EditInsertTagAction: TAction
       Category = '&Insert'
-      Caption = '&Insert Tag...'
-      Hint = 'Insert tag'
+      Caption = '&HTML/XML Tags...'
+      Hint = 'Insert HTML/XML tags'
       ShortCut = 24660
       OnExecute = EditInsertTagActionExecute
     end
@@ -2010,24 +2009,27 @@ object MainForm: TMainForm
       Category = '&Insert'
       Caption = '&Date and Time'
       Hint = 'Insert date and time'
-      ShortCut = 24644
+      ShortCut = 41028
+      OnExecute = EditInsertDateTimeActionExecute
     end
     object EditConversionAction: TAction
       Category = '&Conversion'
       Caption = '&Conversion'
       OnExecute = DummyActionExecute
     end
-    object EditConversionHexToDecAction: TAction
-      Category = '&Conversion'
-      Caption = 'Hex to Dec'
-      Hint = 'Convert hexadecimal to decimal'
-      ShortCut = 24643
-    end
     object EditConversionDecToHexAction: TAction
       Category = '&Conversion'
       Caption = 'Dec to Hex'
       Hint = 'Convert decimal to hexadecimal'
-      ShortCut = 24664
+      ShortCut = 24648
+      OnExecute = EditConversionDecToHexActionExecute
+    end
+    object EditConversionDecToBinAction: TAction
+      Category = '&Conversion'
+      Caption = 'Dec to Bin'
+      Hint = 'Convert decimal to binary'
+      ShortCut = 24642
+      OnExecute = EditConversionDecToBinActionExecute
     end
   end
   object ImageList: TBCImageList
