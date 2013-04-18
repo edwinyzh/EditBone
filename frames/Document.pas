@@ -45,6 +45,16 @@
   Temporary solution. Sometimes Index is out of range when lines are deleted manually. TODO: Why?
   ---------------------------------------
 
+  ---------------  Fix 6  ---------------
+  There's a bug in VirtualTrees.pas, comment following lines:
+
+  function TBaseVirtualTree.GetNodeData(Node: PVirtualNode): Pointer;
+  ...
+  //if ([vsInitialized, vsInitialUserData] * Node.States = []) then
+  //  InitNode(Node);
+  ...
+  ---------------------------------------
+
   Note! Input method editor keyboard shortcut (CTRL+SHIFT+0) switches the input language: http://support.microsoft.com/kb/967893
 }
 unit Document;
