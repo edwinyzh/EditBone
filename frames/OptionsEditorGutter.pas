@@ -18,6 +18,10 @@ type
     FontLabel: TLabel;
     ActionList: TActionList;
     SelectFontAction: TAction;
+    AutoSizeCheckBox: TBCCheckBox;
+    WidthLabel: TLabel;
+    WidthEdit: TBCEdit;
+    VisibleRightMarginCheckBox: TBCCheckBox;
     procedure SelectFontActionExecute(Sender: TObject);
   private
     { Private declarations }

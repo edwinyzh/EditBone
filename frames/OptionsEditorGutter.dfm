@@ -15,8 +15,8 @@ object EditorGutterFrame: TEditorGutterFrame
     BevelOuter = bvNone
     TabOrder = 0
     object RightMarginLabel: TLabel
-      Left = 9
-      Top = 31
+      Left = 11
+      Top = 111
       Width = 60
       Height = 13
       Margins.Left = 4
@@ -26,8 +26,8 @@ object EditorGutterFrame: TEditorGutterFrame
       Caption = 'Right Margin'
     end
     object SelectFontSpeedButton: TSpeedButton
-      Left = 8
-      Top = 76
+      Left = 10
+      Top = 156
       Width = 21
       Height = 21
       Action = SelectFontAction
@@ -59,8 +59,8 @@ object EditorGutterFrame: TEditorGutterFrame
         0202}
     end
     object FontLabel: TLabel
-      Left = 36
-      Top = 80
+      Left = 38
+      Top = 160
       Width = 105
       Height = 14
       Margins.Left = 4
@@ -75,9 +75,20 @@ object EditorGutterFrame: TEditorGutterFrame
       Font.Style = []
       ParentFont = False
     end
+    object WidthLabel: TLabel
+      Left = 11
+      Top = 70
+      Width = 28
+      Height = 13
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = 'Width'
+    end
     object GutterVisibleCheckBox: TBCCheckBox
       Left = 9
-      Top = 6
+      Top = 26
       Width = 198
       Height = 21
       Margins.Left = 4
@@ -91,8 +102,8 @@ object EditorGutterFrame: TEditorGutterFrame
       ReadOnly = False
     end
     object RightMarginEdit: TBCEdit
-      Left = 7
-      Top = 48
+      Left = 9
+      Top = 128
       Width = 64
       Height = 21
       Margins.Left = 4
@@ -108,6 +119,55 @@ object EditorGutterFrame: TEditorGutterFrame
       NumbersWithSpots = False
       EditColor = clInfoBk
       NumbersAllowNegative = False
+    end
+    object AutoSizeCheckBox: TBCCheckBox
+      Left = 9
+      Top = 6
+      Width = 198
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Auto Size'
+      Checked = True
+      State = cbChecked
+      TabOrder = 2
+      ReadOnly = False
+    end
+    object WidthEdit: TBCEdit
+      Left = 9
+      Top = 87
+      Width = 64
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Flat = False
+      ParentFlat = False
+      TabOrder = 3
+      Text = '30'
+      OnlyNumbers = True
+      NumbersWithDots = False
+      NumbersWithSpots = False
+      EditColor = clInfoBk
+      NumbersAllowNegative = False
+    end
+    object VisibleRightMarginCheckBox: TBCCheckBox
+      Left = 9
+      Top = 46
+      Width = 198
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Visible Right Margin'
+      Checked = True
+      State = cbChecked
+      TabOrder = 4
+      ReadOnly = False
     end
   end
   object FontDialog: TFontDialog

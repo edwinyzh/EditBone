@@ -46,6 +46,16 @@
   ---------------------------------------
 
   ---------------  Fix 6  ---------------
+  Fixed SynEdit.pas:
+  procedure TCustomSynEdit.GutterChanged(Sender: TObject);
+  ...
+  8290: if not fGutter.AutoSize then
+          SetGutterWidth(fGutter.Width)
+        else
+  ...
+  ---------------------------------------
+
+  ---------------  Fix 7  ---------------
   There's a bug in VirtualTrees.pas, comment following lines:
 
   function TBaseVirtualTree.GetNodeData(Node: PVirtualNode): Pointer;
@@ -1797,13 +1807,16 @@ begin
     { Options }
     OptionsContainer.FontName := ReadString('Options', 'FontName', 'Courier New');
     OptionsContainer.FontSize := StrToInt(ReadString('Options', 'FontSize', '10'));
+    OptionsContainer.ColorBrightness := StrToInt(ReadString('Options', 'ActiveLineColorBrightness', '2'));
     OptionsContainer.GutterFontName := ReadString('Options', 'GutterFontName', 'Courier New');
     OptionsContainer.GutterFontSize := StrToInt(ReadString('Options', 'GutterFontSize', '8'));
-    OptionsContainer.ColorBrightness := StrToInt(ReadString('Options', 'ActiveLineColorBrightness', '2'));
-    OptionsContainer.RightMargin := StrToInt(ReadString('Options', 'RightMargin', '80'));
+    OptionsContainer.GutterAutoSize := ReadBool('Options', 'GutterAutoSize', True);
+    OptionsContainer.GutterVisibleRightMargin := ReadBool('Options', 'GutterVisibleRightMargin', True);
+    OptionsContainer.GutterRightMargin := StrToInt(ReadString('Options', 'RightMargin', '80'));
+    OptionsContainer.GutterVisible := ReadBool('Options', 'GutterVisible', True);
+    OptionsContainer.GutterWidth := StrToInt(ReadString('Options', 'GutterWidth', '48'));
     OptionsContainer.ExtraLineSpacing := StrToInt(ReadString('Options', 'ExtraLineSpacing', '0'));
     OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '8'));
-    OptionsContainer.GutterVisible := ReadBool('Options', 'GutterVisible', True);
     OptionsContainer.DocMultiLine := ReadBool('Options', 'DocMultiLine', False);
     OptionsContainer.DocShowCloseButton := ReadBool('Options', 'DocShowCloseButton', False);
     OptionsContainer.DirShowTreeLines:= ReadBool('Options', 'DirShowTreeLines', False);
@@ -1912,7 +1925,10 @@ begin
     WriteString('Options', 'FontSize', IntToStr(OptionsContainer.FontSize));
     WriteString('Options', 'GutterFontName', OptionsContainer.GutterFontName);
     WriteString('Options', 'GutterFontSize', IntToStr(OptionsContainer.GutterFontSize));
-    WriteString('Options', 'RightMargin', IntToStr(OptionsContainer.RightMargin));
+    WriteString('Options', 'RightMargin', IntToStr(OptionsContainer.GutterRightMargin));
+    WriteBool('Options', 'GutterAutoSize', OptionsContainer.GutterAutoSize);
+    WriteString('Options', 'GutterWidth', IntToStr(OptionsContainer.GutterWidth));
+    WriteBool('Options', 'GutterVisibleRightMargin', OptionsContainer.GutterVisibleRightMargin);
     WriteString('Options', 'ExtraLineSpacing', IntToStr(OptionsContainer.ExtraLineSpacing));
     WriteString('Options', 'TabWidth', IntToStr(OptionsContainer.TabWidth));
     WriteString('Options', 'ActiveLineColorBrightness', IntToStr(OptionsContainer.ColorBrightness));
