@@ -17,12 +17,10 @@ object DocTabSheetFrame: TDocTabSheetFrame
     Padding.Bottom = 2
     ParentColor = True
     TabOrder = 0
-    ExplicitWidth = 928
-    ExplicitHeight = 613
     object VerticalSplitter: TSplitter
       Left = 201
       Top = 1
-      Height = 610
+      Height = 301
       Visible = False
       ExplicitLeft = 216
       ExplicitTop = 90
@@ -32,9 +30,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 1
       Top = 1
       Width = 200
-      Height = 610
+      Height = 301
       Align = alLeft
-      BorderWidth = 1
       Header.AutoSizeIndex = 0
       Header.Font.Charset = DEFAULT_CHARSET
       Header.Font.Color = clWindowText
@@ -55,15 +52,15 @@ object DocTabSheetFrame: TDocTabSheetFrame
     object DocumentPanel: TPanel
       Left = 204
       Top = 1
-      Width = 724
-      Height = 610
+      Width = 247
+      Height = 301
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 1
       object HorizontalSplitter: TSplitter
         Left = 0
-        Top = 429
-        Width = 724
+        Top = 120
+        Width = 247
         Height = 3
         Cursor = crVSplit
         Align = alBottom
@@ -74,8 +71,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       object SynEdit: TBCSynEdit
         Left = 0
         Top = 0
-        Width = 724
-        Height = 429
+        Width = 247
+        Height = 120
         Align = alClient
         ActiveLineColor = clSkyBlue
         Font.Charset = DEFAULT_CHARSET
@@ -96,8 +93,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       end
       object SplitSynEdit: TBCSynEdit
         Left = 0
-        Top = 432
-        Width = 724
+        Top = 123
+        Width = 247
         Height = 178
         Align = alBottom
         ActiveLineColor = clSkyBlue

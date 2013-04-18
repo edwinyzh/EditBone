@@ -1,15 +1,15 @@
 object OutputTabSheetFrame: TOutputTabSheetFrame
   Left = 0
   Top = 0
-  Width = 595
-  Height = 198
+  Width = 451
+  Height = 304
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 595
-    Height = 198
+    Width = 451
+    Height = 304
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 1
@@ -21,10 +21,9 @@ object OutputTabSheetFrame: TOutputTabSheetFrame
     object VirtualDrawTree: TVirtualDrawTree
       Left = 1
       Top = 1
-      Width = 591
-      Height = 195
+      Width = 447
+      Height = 301
       Align = alClient
-      BorderWidth = 1
       Colors.GridLineColor = clScrollBar
       Ctl3D = True
       DragOperations = []

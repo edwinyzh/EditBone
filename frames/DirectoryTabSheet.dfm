@@ -54,7 +54,6 @@ object DirTabSheetFrame: TDirTabSheetFrame
         Width = 447
         Height = 276
         Align = alClient
-        BorderWidth = 1
         DragOperations = []
         EditDelay = 500
         Header.AutoSizeIndex = 0

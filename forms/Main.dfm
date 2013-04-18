@@ -511,6 +511,7 @@ object MainForm: TMainForm
                   end
                   item
                     Action = EditConversionBinToDecAction
+                    Caption = '&Bin to Dec'
                     ShortCut = 41026
                   end>
                 Action = EditConversionAction
@@ -553,6 +554,7 @@ object MainForm: TMainForm
               end
               item
                 Action = EditRemoveWhiteSpaceAction
+                ImageIndex = 65
               end>
             Caption = '&Edit'
           end
@@ -1974,6 +1976,7 @@ object MainForm: TMainForm
       Category = '&Edit'
       Caption = 'Re&move Whitespace'
       Hint = 'Remove all whitespace from selected text'
+      ImageIndex = 65
       OnExecute = EditRemoveWhiteSpaceActionExecute
     end
     object FilePropertiesAction: TAction
@@ -2063,7 +2066,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C010142005C01D00610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010142005C01D40610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001001000001002000000000000010
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000131020001420300025104000251040001420300013102000000
