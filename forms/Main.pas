@@ -801,41 +801,34 @@ var
   i: Integer;
 begin
   PopupMenuStandardAction.Checked := OptionsContainer.ToolBarStandard;
-  for i := 0 to 8 do
-    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarStandard;
+  for i := 0 to 45 do
+    case i of
+      0..8: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarStandard;
+      9..11: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarPrint;
+      12..15: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarDirectory;
+      16..18: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarIndent;
+      19..21: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarSort;
+      22..23: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarCase;
+      24..26: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarCommand;
+      27..30: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarSearch;
+      31..35: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarMode;
+      36..37: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarTools;
+      38..43: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarMacro;
+      44..45: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarDocument;
+    end;
+  ActionToolBar.ActionControls[43].Visible := OptionsContainer.ToolBarDocument; { last separator }
+
   PopupMenuPrintAction.Checked := OptionsContainer.ToolBarPrint;
-  for i := 9 to 11 do
-    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarPrint;
   PopupMenuDirectoryAction.Checked := OptionsContainer.ToolBarDirectory;
-  for i := 12 to 15 do
-    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarDirectory;
   PopupMenuIndentAction.Checked := OptionsContainer.ToolBarIndent;
-  for i := 16 to 18 do
-    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarIndent;
   PopupMenuSortAction.Checked := OptionsContainer.ToolBarSort;
-  for i := 19 to 21 do
-    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarSort;
   PopupMenuCaseAction.Checked := OptionsContainer.ToolBarCase;
-  for i := 22 to 23 do
-    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarCase;
   PopupMenuCommandAction.Checked := OptionsContainer.ToolBarCommand;
-  for i := 24 to 26 do
-    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarCommand;
   PopupMenuSearchAction.Checked := OptionsContainer.ToolBarSearch;
-  for i := 27 to 30 do
-    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarSearch;
   PopupMenuModeAction.Checked := OptionsContainer.ToolBarMode;
-  for i := 31 to 35 do
-    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarMode;
   PopupMenuToolsAction.Checked := OptionsContainer.ToolBarTools;
-  for i := 36 to 37 do
-    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarTools;
   PopupMenuMacroAction.Checked := OptionsContainer.ToolBarMacro;
-  for i := 38 to 43 do
-    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarMacro;
   PopupMenuDocumentAction.Checked := OptionsContainer.ToolBarDocument;
-  for i := 43 to 45 do
-    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarDocument;
 
   ActionToolBar.Repaint;
 end;
