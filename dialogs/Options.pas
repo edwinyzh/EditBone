@@ -12,7 +12,7 @@ uses
   OptionsEditorOptions, OptionsEditorFont, OptionsEditorGutter, OptionsEditorTabs, Lib,
   OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, OptionsCompare, OptionsMainMenu,
   OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, OptionsStatusBar, OptionsOutput,
-  Vcl.ActnMenus;
+  OptionsToolBar, Vcl.ActnMenus;
 
 type
   POptionsRec = ^TOptionsRec;
@@ -48,6 +48,7 @@ type
     Splitter: TSplitter;
     TopPanel: TPanel;
     StatusBarAction: TAction;
+    ToolBarAction: TAction;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -67,6 +68,7 @@ type
     FEditorTabsFrame: TEditorTabsFrame;
     FFileTypesFrame: TFileTypesFrame;
     FMainMenuFrame: TMainMenuFrame;
+    FToolBarFrame: TToolBarFrame;
     FStatusBarFrame: TStatusBarFrame;
     FOptionsCompareFrame: TOptionsCompareFrame;
     FOptionsContainer: TOptionsContainer;
@@ -146,6 +148,18 @@ type
     FSQLDialect: TSQLDialect;
     FTabsToSpaces: Boolean;
     FTabWidth: Integer;
+    FToolBarStandard: Boolean;
+    FToolBarPrint: Boolean;
+    FToolBarDirectory: Boolean;
+    FToolBarIndent: Boolean;
+    FToolBarSort: Boolean;
+    FToolBarCase: Boolean;
+    FToolBarCommand: Boolean;
+    FToolBarSearch: Boolean;
+    FToolBarMode: Boolean;
+    FToolBarTools: Boolean;
+    FToolBarMacro: Boolean;
+    FToolBarDocument: Boolean;
     FTrimTrailingSpaces: Boolean;
     FMainMenuUseSystemFont: Boolean;
     function GetExtensions: string;
@@ -213,6 +227,18 @@ type
     property SQLDialect: TSQLDialect read FSQLDialect write FSQLDialect;
     property TabsToSpaces: Boolean read FTabsToSpaces write FTabsToSpaces;
     property TabWidth: Integer read FTabWidth write FTabWidth;
+    property ToolBarStandard: Boolean read FToolBarStandard write FToolBarStandard;
+    property ToolBarPrint: Boolean read FToolBarPrint write FToolBarPrint;
+    property ToolBarDirectory: Boolean read FToolBarDirectory write FToolBarDirectory;
+    property ToolBarIndent: Boolean read FToolBarIndent write FToolBarIndent;
+    property ToolBarSort: Boolean read FToolBarSort write FToolBarSort;
+    property ToolBarCase: Boolean read FToolBarCase write FToolBarCase;
+    property ToolBarCommand: Boolean read FToolBarCommand write FToolBarCommand;
+    property ToolBarSearch: Boolean read FToolBarSearch write FToolBarSearch;
+    property ToolBarMode: Boolean read FToolBarMode write FToolBarMode;
+    property ToolBarTools: Boolean read FToolBarTools write FToolBarTools;
+    property ToolBarMacro: Boolean read FToolBarMacro write FToolBarMacro;
+    property ToolBarDocument: Boolean read FToolBarDocument write FToolBarDocument;
     property TrimTrailingSpaces: Boolean read FTrimTrailingSpaces write FTrimTrailingSpaces;
     property MainMenuUseSystemFont: Boolean read FMainMenuUseSystemFont write FMainMenuUseSystemFont;
   end;
@@ -549,8 +575,20 @@ begin
   FOutputShowtreeLines := False;
   FOutputShowImage := True;
   FOutputIndent := 20;
-  FFileTypes := TStringList.Create;
+  FToolBarStandard := True;
+  FToolBarPrint := True;
+  FToolBarDirectory := True;
+  FToolBarIndent := True;
+  FToolBarSort := True;
+  FToolBarCase := True;
+  FToolBarCommand := True;
+  FToolBarSearch := True;
+  FToolBarMode := True;
+  FToolBarTools := True;
+  FToolBarMacro := True;
+  FToolBarDocument := True;
 
+  FFileTypes := TStringList.Create;
   for i := 0 to 52 do
     FFileTypes.Add(LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text);
 end;
@@ -612,6 +650,7 @@ begin
   FOutputTabsFrame.Destroy;
   FOptionsOutputFrame.Destroy;
   FStatusBarFrame.Destroy;
+  FToolBarFrame.Destroy;
 
   FOptionsDialog := nil;
 end;
@@ -692,6 +731,11 @@ begin
     Data := GetNodeData(Node);
     Data.ImageIndex := MainMenuAction.ImageIndex;
     Data.Caption := MainMenuAction.Caption;
+    { Tool Bar }
+    Node := AddChild(nil);
+    Data := GetNodeData(Node);
+    Data.ImageIndex := ToolBarAction.ImageIndex;
+    Data.Caption := ToolBarAction.Caption;
     { Status Bar }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
@@ -728,6 +772,7 @@ begin
   Common.UpdateLanguage(FFileTypesFrame, SelectedLanguage);
   Common.UpdateLanguage(FOptionsCompareFrame, SelectedLanguage);
   Common.UpdateLanguage(FMainMenuFrame, SelectedLanguage);
+  Common.UpdateLanguage(FToolBarFrame, SelectedLanguage);
   Common.UpdateLanguage(FStatusBarFrame, SelectedLanguage);
   Common.UpdateLanguage(FDirectoryOptionsFrame, SelectedLanguage);
   Common.UpdateLanguage(FDirectoryTabsFrame, SelectedLanguage);
@@ -820,6 +865,19 @@ begin
   FMainMenuFrame.FontLabel.Caption := Format('%s %dpt', [FMainMenuFrame.FontLabel.Font.Name, FMainMenuFrame.FontLabel.Font.Size]);
   FMainMenuFrame.AnimationStyleComboBox.ItemIndex := Ord(FOptionsContainer.AnimationStyle);
   FMainMenuFrame.AnimationDurationEdit.Text := IntToStr(FOptionsContainer.AnimationDuration);
+  { Tool bar }
+  FToolBarFrame.StandardCheckBox.Checked := FOptionsContainer.ToolBarStandard;
+  FToolBarFrame.PrintCheckBox.Checked := FOptionsContainer.ToolBarPrint;
+  FToolBarFrame.DirectoryCheckBox.Checked := FOptionsContainer.ToolBarDirectory;
+  FToolBarFrame.IndentCheckBox.Checked := FOptionsContainer.ToolBarIndent;
+  FToolBarFrame.SortCheckBox.Checked := FOptionsContainer.ToolBarSort;
+  FToolBarFrame.CaseCheckBox.Checked := FOptionsContainer.ToolBarCase;
+  FToolBarFrame.CommandCheckBox.Checked := FOptionsContainer.ToolBarCommand;
+  FToolBarFrame.SearchCheckBox.Checked := FOptionsContainer.ToolBarSearch;
+  FToolBarFrame.ModeCheckBox.Checked := FOptionsContainer.ToolBarMode;
+  FToolBarFrame.ToolsCheckBox.Checked := FOptionsContainer.ToolBarTools;
+  FToolBarFrame.MacroCheckBox.Checked := FOptionsContainer.ToolBarMacro;
+  FToolBarFrame.DocumentCheckBox.Checked := FOptionsContainer.ToolBarDocument;
   { Status bar }
   FStatusBarFrame.UseSystemFontCheckBox.Checked := FOptionsContainer.StatusBarUseSystemFont;
   FStatusBarFrame.FontLabel.Font.Name := FOptionsContainer.StatusBarFontName;
@@ -866,8 +924,9 @@ begin
     FOutputTabsFrame.Visible := (ParentIndex = 2) and (Level = 1) and (TreeNode.Index = 0);
     FOptionsCompareFrame.Visible := (Level = 0) and (TreeNode.Index = 3);
     FMainMenuFrame.Visible := (Level = 0) and (TreeNode.Index = 4);
-    FStatusBarFrame.Visible := (Level = 0) and (TreeNode.Index = 5);
-    FFileTypesFrame.Visible := (Level = 0) and (TreeNode.Index = 6);
+    FToolBarFrame.Visible := (Level = 0) and (TreeNode.Index = 5);
+    FStatusBarFrame.Visible := (Level = 0) and (TreeNode.Index = 6);
+    FFileTypesFrame.Visible := (Level = 0) and (TreeNode.Index = 7);
 
     { style bug with long TEdit border and resize }
     if FFileTypesFrame.Visible then
@@ -981,6 +1040,19 @@ begin
   FOptionsContainer.MainMenuFontSize := FMainMenuFrame.FontLabel.Font.Size;
   FOptionsContainer.AnimationStyle := TAnimationStyle(FMainMenuFrame.AnimationStyleComboBox.ItemIndex);
   FOptionsContainer.AnimationDuration := StrToIntDef(FMainMenuFrame.AnimationDurationEdit.Text, 150);
+  { Tool bar }
+  FOptionsContainer.ToolBarStandard := FToolBarFrame.StandardCheckBox.Checked;
+  FOptionsContainer.ToolBarPrint := FToolBarFrame.PrintCheckBox.Checked;
+  FOptionsContainer.ToolBarDirectory :=  FToolBarFrame.DirectoryCheckBox.Checked;
+  FOptionsContainer.ToolBarIndent := FToolBarFrame.IndentCheckBox.Checked;
+  FOptionsContainer.ToolBarSort := FToolBarFrame.SortCheckBox.Checked;
+  FOptionsContainer.ToolBarCase := FToolBarFrame.CaseCheckBox.Checked;
+  FOptionsContainer.ToolBarCommand := FToolBarFrame.CommandCheckBox.Checked;
+  FOptionsContainer.ToolBarSearch := FToolBarFrame.SearchCheckBox.Checked;
+  FOptionsContainer.ToolBarMode := FToolBarFrame.ModeCheckBox.Checked;
+  FOptionsContainer.ToolBarTools := FToolBarFrame.ToolsCheckBox.Checked;
+  FOptionsContainer.ToolBarMacro := FToolBarFrame.MacroCheckBox.Checked;
+  FOptionsContainer.ToolBarDocument := FToolBarFrame.DocumentCheckBox.Checked;
   { Status bar }
   FOptionsContainer.StatusBarUseSystemFont := FStatusBarFrame.UseSystemFontCheckBox.Checked;
   FOptionsContainer.StatusBarFontName := FStatusBarFrame.FontLabel.Font.Name;
@@ -1050,6 +1122,8 @@ begin
   FOptionsCompareFrame.Parent := OptionsPanel;
   FMainMenuFrame := TMainMenuFrame.Create(OptionsPanel);
   FMainMenuFrame.Parent := OptionsPanel;
+  FToolBarFrame := TToolBarFrame.Create(OptionsPanel);
+  FToolBarFrame.Parent := OptionsPanel;
   FStatusBarFrame := TStatusBarFrame.Create(OptionsPanel);
   FStatusBarFrame.Parent := OptionsPanel;
   FOptionsOutputFrame := TOptionsOutputFrame.Create(OptionsPanel);

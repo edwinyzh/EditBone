@@ -173,6 +173,10 @@ object OptionsDialog: TOptionsDialog
       Caption = 'Main Menu'
       ImageIndex = 2
     end
+    object ToolBarAction: TAction
+      Caption = 'Tool Bar'
+      ImageIndex = 12
+    end
     object StatusBarAction: TAction
       Caption = 'Status Bar'
       ImageIndex = 11

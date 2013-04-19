@@ -1863,7 +1863,6 @@ begin
     OptionsContainer.EnableSelectionMode := ReadBool('Options', 'EnableSelectionMode', False);
     OptionsContainer.OutputShowTreeLines:= ReadBool('Options', 'OutputShowTreeLines', False);
     OptionsContainer.OutputIndent := StrToInt(ReadString('Options', 'OutputIndent', '20'));
-
     { FileTypes }
     ReadSectionValues('FileTypes', FileTypes);
     for i := 0 to FileTypes.Count - 1 do
@@ -1874,6 +1873,19 @@ begin
     OptionsContainer.CPASHighlighter := TCPASHighlighter(StrToInt(ReadString('Options', 'CPASHighlighter', '0')));
     OptionsContainer.CSSVersion := TSynWebCssVersion(StrToInt(ReadString('Options', 'CSSVersion', '2')));
     OptionsContainer.PHPVersion := TSynWebPhpVersion(StrToInt(ReadString('Options', 'PHPVersion', '1')));
+    { Tool Bar }
+    OptionsContainer.ToolBarStandard := ReadBool('ActionToolBar', 'Standard', True);
+    OptionsContainer.ToolBarPrint := ReadBool('ActionToolBar', 'Print', True);
+    OptionsContainer.ToolBarDirectory := ReadBool('ActionToolBar', 'Directory', True);
+    OptionsContainer.ToolBarIndent := ReadBool('ActionToolBar', 'Indent', True);
+    OptionsContainer.ToolBarSort := ReadBool('ActionToolBar', 'Sort', True);
+    OptionsContainer.ToolBarCase := ReadBool('ActionToolBar', 'Case', True);
+    OptionsContainer.ToolBarCommand := ReadBool('ActionToolBar', 'Command', True);
+    OptionsContainer.ToolBarSearch := ReadBool('ActionToolBar', 'Search', True);
+    OptionsContainer.ToolBarMode := ReadBool('ActionToolBar', 'Mode', True);
+    OptionsContainer.ToolBarTools := ReadBool('ActionToolBar', 'Tools', True);
+    OptionsContainer.ToolBarMacro := ReadBool('ActionToolBar', 'Macro', True);
+    OptionsContainer.ToolBarDocument := ReadBool('ActionToolBar', 'Document', True);
   finally
     FileTypes.Free;
     Free;

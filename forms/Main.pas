@@ -328,6 +328,7 @@ type
     procedure SetEncodingComboIndex(Value: Integer);
     procedure SetFields;
     procedure SetHighlighterComboIndex(Value: Integer);
+    procedure UpdateToolBar;
     procedure WMAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
     procedure WriteIniFile;
   public
@@ -710,7 +711,7 @@ begin
     CreateStyleMenu;
     CreateFileReopenList;
 
-    //ReadIniOptions;
+    UpdateToolBar;
 
     FDirectoryFrame.UpdateControls;
     FDocumentFrame.UpdateGutterAndControls;
@@ -774,11 +775,7 @@ finally
 end;
 
 procedure TMainForm.ReadIniOptions;
-var
-  i: Integer;
-  ActionToolBarStrings: TStrings;
 begin
-  ActionToolBarStrings := TStringList.Create;
   with TBigIniFile.Create(Common.GetINIFilename) do
   try
     { Options }
@@ -794,18 +791,53 @@ begin
     ViewLineNumbersAction.Checked := OptionsContainer.EnableLineNumbers;
     ViewSpecialCharsAction.Checked := OptionsContainer.EnableSpecialChars;
     ViewSelectionModeAction.Checked := OptionsContainer.EnableSelectionMode;
-
-    { Toolbar action visibility }
-    ReadSectionValues('ActionToolBar', ActionToolBarStrings);
-    for i := 0 to ActionToolBarStrings.Count - 1 do
-      if not StrToBool(System.Copy(ActionToolBarStrings.Strings[i],
-        Pos('=', ActionToolBarStrings.Strings[i]) + 1, Length(ActionToolBarStrings.Strings[i]))) then
-           ToolbarPopupMenu.Items[i].Action.Execute;
-    ActionToolBar.Repaint;
   finally
-    ActionToolBarStrings.Free;
     Free;
   end;
+end;
+
+procedure TMainForm.UpdateToolBar;
+var
+  i: Integer;
+begin
+  PopupMenuStandardAction.Checked := OptionsContainer.ToolBarStandard;
+  for i := 0 to 8 do
+    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarStandard;
+  PopupMenuPrintAction.Checked := OptionsContainer.ToolBarPrint;
+  for i := 9 to 11 do
+    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarPrint;
+  PopupMenuDirectoryAction.Checked := OptionsContainer.ToolBarDirectory;
+  for i := 12 to 15 do
+    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarDirectory;
+  PopupMenuIndentAction.Checked := OptionsContainer.ToolBarIndent;
+  for i := 16 to 18 do
+    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarIndent;
+  PopupMenuSortAction.Checked := OptionsContainer.ToolBarSort;
+  for i := 19 to 21 do
+    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarSort;
+  PopupMenuCaseAction.Checked := OptionsContainer.ToolBarCase;
+  for i := 22 to 23 do
+    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarCase;
+  PopupMenuCommandAction.Checked := OptionsContainer.ToolBarCommand;
+  for i := 24 to 26 do
+    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarCommand;
+  PopupMenuSearchAction.Checked := OptionsContainer.ToolBarSearch;
+  for i := 27 to 30 do
+    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarSearch;
+  PopupMenuModeAction.Checked := OptionsContainer.ToolBarMode;
+  for i := 31 to 35 do
+    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarMode;
+  PopupMenuToolsAction.Checked := OptionsContainer.ToolBarTools;
+  for i := 36 to 37 do
+    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarTools;
+  PopupMenuMacroAction.Checked := OptionsContainer.ToolBarMacro;
+  for i := 38 to 43 do
+    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarMacro;
+  PopupMenuDocumentAction.Checked := OptionsContainer.ToolBarDocument;
+  for i := 43 to 45 do
+    ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarDocument;
+
+  ActionToolBar.Repaint;
 end;
 
 procedure TMainForm.WriteIniFile;
@@ -1360,124 +1392,76 @@ begin
     FDocumentFrame.Open(Filename, nil, Ln, Ch);
 end;
 
-procedure TMainForm.PopupMenuCaseActionExecute(Sender: TObject);
-var
-  i: Integer;
+procedure TMainForm.PopupMenuStandardActionExecute(Sender: TObject);
 begin
-  PopupMenuCaseAction.Checked := not PopupMenuCaseAction.Checked;
-
-  for i := 22 to 23 do
-    ActionToolBar.ActionControls[i].Visible := PopupMenuCaseAction.Checked
-end;
-
-procedure TMainForm.PopupMenuCommandActionExecute(Sender: TObject);
-var
-  i: Integer;
-begin
-  PopupMenuCommandAction.Checked := not PopupMenuCommandAction.Checked;
-
-  for i := 24 to 26 do
-    ActionToolBar.ActionControls[i].Visible := PopupMenuCommandAction.Checked
-end;
-
-procedure TMainForm.PopupMenuDirectoryActionExecute(Sender: TObject);
-var
-  i: Integer;
-begin
-  PopupMenuDirectoryAction.Checked := not PopupMenuDirectoryAction.Checked;
-
-  for i := 12 to 15 do
-    ActionToolBar.ActionControls[i].Visible := PopupMenuDirectoryAction.Checked
-end;
-
-procedure TMainForm.PopupMenuDocumentActionExecute(Sender: TObject);
-var
-  i: Integer;
-begin
-  PopupMenuDocumentAction.Checked := not PopupMenuDocumentAction.Checked;
-
-  for i := 43 to 45 do
-    ActionToolBar.ActionControls[i].Visible := PopupMenuDocumentAction.Checked
-end;
-
-procedure TMainForm.PopupMenuIndentActionExecute(Sender: TObject);
-var
-  i: Integer;
-begin
-  PopupMenuIndentAction.Checked := not PopupMenuIndentAction.Checked;
-
-  for i := 16 to 18 do
-    ActionToolBar.ActionControls[i].Visible := PopupMenuIndentAction.Checked
-end;
-
-procedure TMainForm.PopupMenuMacroActionExecute(Sender: TObject);
-var
-  i: Integer;
-begin
-  PopupMenuMacroAction.Checked := not PopupMenuMacroAction.Checked;
-
-  for i := 38 to 43 do
-    ActionToolBar.ActionControls[i].Visible := PopupMenuMacroAction.Checked
-end;
-
-procedure TMainForm.PopupMenuModeActionExecute(Sender: TObject);
-var
-  i: Integer;
-begin
-  PopupMenuModeAction.Checked := not PopupMenuModeAction.Checked;
-
-  for i := 31 to 35 do
-    ActionToolBar.ActionControls[i].Visible := PopupMenuModeAction.Checked
+  OptionsContainer.ToolBarStandard := not OptionsContainer.ToolBarStandard;
+  UpdateToolBar;
 end;
 
 procedure TMainForm.PopupMenuPrintActionExecute(Sender: TObject);
-var
-  i: Integer;
 begin
-  PopupMenuPrintAction.Checked := not PopupMenuPrintAction.Checked;
-
-  for i := 9 to 11 do
-    ActionToolBar.ActionControls[i].Visible := PopupMenuPrintAction.Checked
+  OptionsContainer.ToolBarPrint := not OptionsContainer.ToolBarPrint;
+  UpdateToolBar;
 end;
 
-procedure TMainForm.PopupMenuSearchActionExecute(Sender: TObject);
-var
-  i: Integer;
+procedure TMainForm.PopupMenuDirectoryActionExecute(Sender: TObject);
 begin
-  PopupMenuSearchAction.Checked := not PopupMenuSearchAction.Checked;
+  OptionsContainer.ToolBarDirectory := not OptionsContainer.ToolBarDirectory;
+  UpdateToolBar;
+end;
 
-  for i := 27 to 30 do
-    ActionToolBar.ActionControls[i].Visible := PopupMenuSearchAction.Checked
+procedure TMainForm.PopupMenuIndentActionExecute(Sender: TObject);
+begin
+  OptionsContainer.ToolBarIndent := not OptionsContainer.ToolBarIndent;
+  UpdateToolBar;
 end;
 
 procedure TMainForm.PopupMenuSortActionExecute(Sender: TObject);
-var
-  i: Integer;
 begin
-  PopupMenuSortAction.Checked := not PopupMenuSortAction.Checked;
-
-  for i := 19 to 21 do
-    ActionToolBar.ActionControls[i].Visible := PopupMenuSortAction.Checked
+  OptionsContainer.ToolBarSort := not OptionsContainer.ToolBarSort;
+  UpdateToolBar;
 end;
 
-procedure TMainForm.PopupMenuStandardActionExecute(Sender: TObject);
-var
-  i: Integer;
+procedure TMainForm.PopupMenuCaseActionExecute(Sender: TObject);
 begin
-  PopupMenuStandardAction.Checked := not PopupMenuStandardAction.Checked;
+  OptionsContainer.ToolBarCase := not OptionsContainer.ToolBarCase;
+  UpdateToolBar;
+end;
 
-  for i := 0 to 8 do
-    ActionToolBar.ActionControls[i].Visible := PopupMenuStandardAction.Checked
+procedure TMainForm.PopupMenuCommandActionExecute(Sender: TObject);
+begin
+  OptionsContainer.ToolBarCommand := not OptionsContainer.ToolBarCommand;
+  UpdateToolBar;
+end;
+
+procedure TMainForm.PopupMenuSearchActionExecute(Sender: TObject);
+begin
+  OptionsContainer.ToolBarSearch := not OptionsContainer.ToolBarSearch;
+  UpdateToolBar;
+end;
+
+procedure TMainForm.PopupMenuModeActionExecute(Sender: TObject);
+begin
+  OptionsContainer.ToolBarMode := not OptionsContainer.ToolBarMode;
+  UpdateToolBar;
 end;
 
 procedure TMainForm.PopupMenuToolsActionExecute(Sender: TObject);
-var
-  i: Integer;
 begin
-  PopupMenuToolsAction.Checked := not PopupMenuToolsAction.Checked;
+  OptionsContainer.ToolBarTools := not OptionsContainer.ToolBarTools;
+  UpdateToolBar;
+end;
 
-  for i := 36 to 37 do
-    ActionToolBar.ActionControls[i].Visible := PopupMenuToolsAction.Checked
+procedure TMainForm.PopupMenuMacroActionExecute(Sender: TObject);
+begin
+  OptionsContainer.ToolBarMacro := not OptionsContainer.ToolBarMacro;
+  UpdateToolBar;
+end;
+
+procedure TMainForm.PopupMenuDocumentActionExecute(Sender: TObject);
+begin
+  OptionsContainer.ToolBarDocument := not OptionsContainer.ToolBarDocument;
+  UpdateToolBar;
 end;
 
 procedure TMainForm.ViewPreviousPageActionExecute(Sender: TObject);
@@ -1700,6 +1684,7 @@ begin
   if FDocumentFrame.Options then
   begin
     OptionsContainer.AssignTo(ActionMainMenuBar);
+    UpdateToolBar;
     RecreateStatusBar;
     if Assigned(FOutputFrame) then
       FOutputFrame.SetOptions;
