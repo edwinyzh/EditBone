@@ -102,8 +102,10 @@ type
     FDirIndent: Integer;
     FDirMultiLine: Boolean;
     FDirShowCloseButton: Boolean;
+    FDirShowImage: Boolean;
     FDocMultiLine: Boolean;
     FDocShowCloseButton: Boolean;
+    FDocShowImage: Boolean;
     FEnableLineNumbers: Boolean;
     FEnableSelectionMode: Boolean;
     FEnableSpecialChars: Boolean;
@@ -132,6 +134,7 @@ type
     FStatusBarFontSize: Integer;
     FOutputMultiLine: Boolean;
     FOutputShowCloseButton: Boolean;
+    FOutputShowImage: Boolean;
     FOutputShowTreeLines: Boolean;
     FOutputIndent: Integer;
     FPersistentHotKeys: Boolean;
@@ -164,8 +167,10 @@ type
     property DirIndent: Integer read FDirIndent write FDirIndent;
     property DirMultiLine: Boolean read FDirMultiLine write FDirMultiLine;
     property DirShowCloseButton: Boolean read FDirShowCloseButton write FDirShowCloseButton;
+    property DirShowImage: Boolean read FDirShowImage write FDirShowImage;
     property DocMultiLine: Boolean read FDocMultiLine write FDocMultiLine;
     property DocShowCloseButton: Boolean read FDocShowCloseButton write FDocShowCloseButton;
+    property DocShowImage: Boolean read FDocShowImage write FDocShowImage;
     property EnableLineNumbers: Boolean read FEnableLineNumbers write FEnableLineNumbers;
     property EnableSelectionMode: Boolean read FEnableSelectionMode write FEnableSelectionMode;
     property EnableSpecialChars: Boolean read FEnableSpecialChars write FEnableSpecialChars;
@@ -198,6 +203,7 @@ type
     property OutputIndent: Integer read FOutputIndent write FOutputIndent;
     property OutputMultiLine: Boolean read FOutputMultiLine write FOutputMultiLine;
     property OutputShowCloseButton: Boolean read FOutputShowCloseButton write FOutputShowCloseButton;
+    property OutputShowImage: Boolean read FOutputShowImage write FOutputShowImage;
     property PersistentHotKeys: Boolean read FPersistentHotKeys write FPersistentHotKeys;
     property PHPVersion: TSynWebPhpVersion read FPHPVersion write FPHPVersion;
     property ScrollPastEof: Boolean read FScrollPastEof write FScrollPastEof;
@@ -506,10 +512,12 @@ begin
   FGutterVisible := True;
   FDocMultiLine := False;
   FDocShowCloseButton := False;
+  FDocShowImage := True;
   FDirShowtreeLines := False;
   FDirIndent := 20;
   FDirMultiLine := False;
   FDirShowCloseButton := False;
+  FDirShowImage := True;
   FOutputMultiLine := False;
   FOutputShowCloseButton := False;
   FIgnoreCase := True;
@@ -539,6 +547,7 @@ begin
   FAnimationStyle := asDefault;
   FAnimationDuration := 150;
   FOutputShowtreeLines := False;
+  FOutputShowImage := True;
   FOutputIndent := 20;
   FFileTypes := TStringList.Create;
 
@@ -764,18 +773,21 @@ begin
   { Document tabs }
   FEditorTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.DocMultiLine;
   FEditorTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DocShowCloseButton;
+  FEditorTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.DocShowImage;
   { Directory }
   FDirectoryOptionsFrame.ShowTreeLinesCheckBox.Checked := FOptionsContainer.DirShowTreeLines;
   FDirectoryOptionsFrame.IndentEdit.Text := IntToStr(FOptionsContainer.DirIndent);
   { Directory tabs }
   FDirectoryTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.DirMultiLine;
   FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DirShowCloseButton;
+  FDirectoryTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.DirShowImage;
   { Output }
   FOptionsOutputFrame.ShowTreeLinesCheckBox.Checked := FOptionsContainer.OutputShowTreeLines;
   FOptionsOutputFrame.IndentEdit.Text := IntToStr(FOptionsContainer.OutputIndent);
   { Output tabs }
   FOutputTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.OutputMultiLine;
   FOutputTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.OutputShowCloseButton;
+  FOutputTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.OutputShowImage;
   { Error checking }
   FEditorErrorCheckingFrame.HTMLErrorCheckingCheckBox.Checked := FOptionsContainer.HTMLErrorChecking;
   FEditorErrorCheckingFrame.HTMLVersionComboBox.ItemIndex := Ord(FOptionsContainer.HTMLVersion);
@@ -926,18 +938,21 @@ begin
   { Document tabs }
   FOptionsContainer.DocMultiLine := FEditorTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.DocShowCloseButton := FEditorTabsFrame.ShowCloseButtonCheckBox.Checked;
+  FOptionsContainer.DocShowImage := FEditorTabsFrame.ShowImageCheckBox.Checked;
   { Directory }
   FOptionsContainer.DirShowTreeLines := FDirectoryOptionsFrame.ShowTreeLinesCheckBox.Checked;
   FOptionsContainer.DirIndent := StrToIntDef(FDirectoryOptionsFrame.IndentEdit.Text, 20);
   { Directory tabs }
   FOptionsContainer.DirMultiLine := FDirectoryTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.DirShowCloseButton := FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked;
+  FOptionsContainer.DirShowImage := FDirectoryTabsFrame.ShowImageCheckBox.Checked;
   { Output }
   FOptionsContainer.OutputShowTreeLines := FOptionsOutputFrame.ShowTreeLinesCheckBox.Checked;
   FOptionsContainer.OutputIndent := StrToIntDef(FOptionsOutputFrame.IndentEdit.Text, 20);
   { Output tabs }
   FOptionsContainer.OutputMultiLine := FOutputTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.OutputShowCloseButton := FOutputTabsFrame.ShowCloseButtonCheckBox.Checked;
+  FOptionsContainer.OutputShowImage := FOutputTabsFrame.ShowImageCheckBox.Checked;
   { Compare }
   FOptionsContainer.IgnoreCase := FOptionsCompareFrame.IgnoreCaseCheckBox.Checked;
   FOptionsContainer.IgnoreBlanks := FOptionsCompareFrame.IgnoreBlanksCheckBox.Checked;

@@ -40,5 +40,18 @@ object EditorTabsFrame: TEditorTabsFrame
       TabOrder = 1
       ReadOnly = False
     end
+    object ShowImageCheckBox: TBCCheckBox
+      Left = 9
+      Top = 48
+      Width = 218
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Show Image'
+      TabOrder = 2
+      ReadOnly = False
+    end
   end
 end

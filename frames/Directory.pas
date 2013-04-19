@@ -425,6 +425,10 @@ var
 begin
   PageControl.MultiLine := OptionsContainer.DirMultiLine;
   PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
+  if OptionsContainer.DirShowImage then
+    PageControl.Images := ActiveDriveComboBox.SystemIconsImageList
+  else
+    PageControl.Images := nil;
   for i := 0 to PageControl.PageCount - 1 do
   begin
     FileTreeView := TDirTabSheetFrame(PageControl.Pages[i].Components[0]).FileTreeView;

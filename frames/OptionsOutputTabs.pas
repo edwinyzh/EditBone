@@ -11,6 +11,7 @@ type
     Panel: TPanel;
     MultilineCheckBox: TBCCheckBox;
     ShowCloseButtonCheckBox: TBCCheckBox;
+    ShowImageCheckBox: TBCCheckBox;
   private
     { Private declarations }
   public

@@ -280,6 +280,7 @@ type
     FHTMLErrorList: TList;
     FNumberOfNewDocument: Integer;
     FSelectedText: UnicodeString;
+    FImages: TBCImageList;
     function CanFindNextPrevious: Boolean;
     function CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
     function FindHtmlVersion(FileName: string): TSynWebHtmlVersion;
@@ -489,8 +490,8 @@ begin
   GotoBookmark9MenuItem.Action := MainForm.GotoBookmarks9Action;
   FormatXMLMenuItem.Action := MainForm.FormatXMLAction;
 
-  PageControl.Images := TBCImageList.Create(Self);
-
+  FImages := TBCImageList.Create(Self);
+  PageControl.Images := FImages;
   SysImageList := SHGetFileInfo(PChar(PathInfo), 0, SHFileInfo, SizeOf(SHFileInfo), SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
   if SysImageList <> 0 then
   begin
@@ -541,8 +542,8 @@ begin
     DestroyHTMLErrorListItems;
     FreeAndNil(FHTMLErrorList);
   end;
-  if Assigned(PageControl.Images) then
-    PageControl.Images.Free;
+  if Assigned(FImages) then
+    FImages.Free;
 
   inherited Destroy;
 end;
@@ -799,6 +800,10 @@ begin
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
   PageControl.MultiLine := OptionsContainer.DocMultiLine;
   PageControl.ShowCloseButton := OptionsContainer.DocShowCloseButton;
+  if OptionsContainer.DocShowImage then
+    PageControl.Images := FImages
+  else
+    PageControl.Images := nil;
   Application.ProcessMessages;
   LStyles := StyleServices;
   PanelColor := clNone;
@@ -1819,12 +1824,15 @@ begin
     OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '8'));
     OptionsContainer.DocMultiLine := ReadBool('Options', 'DocMultiLine', False);
     OptionsContainer.DocShowCloseButton := ReadBool('Options', 'DocShowCloseButton', False);
+    OptionsContainer.DocShowImage := ReadBool('Options', 'DocShowImage', True);
     OptionsContainer.DirShowTreeLines:= ReadBool('Options', 'DirShowTreeLines', False);
     OptionsContainer.DirIndent := StrToInt(ReadString('Options', 'DirIndent', '20'));
     OptionsContainer.DirMultiLine := ReadBool('Options', 'DirMultiLine', False);
     OptionsContainer.DirShowCloseButton := ReadBool('Options', 'DirShowCloseButton', False);
+    OptionsContainer.DirShowImage := ReadBool('Options', 'DirShowImage', True);
     OptionsContainer.OutputMultiLine := ReadBool('Options', 'OutputMultiLine', False);
     OptionsContainer.OutputShowCloseButton := ReadBool('Options', 'OutputShowCloseButton', False);
+    OptionsContainer.OutputShowImage := ReadBool('Options', 'OutputShowImage', True);
     OptionsContainer.HTMLErrorChecking := ReadBool('Options', 'HTMLErrorChecking', True);
     OptionsContainer.HtmlVersion := TSynWebHtmlVersion(StrToInt(ReadString('Options', 'HTMLVersion', '4'))); { default: HTML5 }
     OptionsContainer.AutoIndent := ReadBool('Options', 'AutoIndent', True);
@@ -1935,10 +1943,12 @@ begin
     WriteBool('Options', 'GutterVisible', OptionsContainer.GutterVisible);
     WriteBool('Options', 'DocMultiLine', OptionsContainer.DocMultiLine);
     WriteBool('Options', 'DocShowCloseButton', OptionsContainer.DocShowCloseButton);
+    WriteBool('Options', 'DocShowImage', OptionsContainer.DocShowImage);
     WriteBool('Options', 'DirShowTreeLines', OptionsContainer.DirShowTreeLines);
     WriteString('Options', 'DirIndent', IntToStr(OptionsContainer.DirIndent));
     WriteBool('Options', 'DirMultiLine', OptionsContainer.DirMultiLine);
     WriteBool('Options', 'DirShowCloseButton', OptionsContainer.DirShowCloseButton);
+    WriteBool('Options', 'DirShowImage', OptionsContainer.DirShowImage);
     WriteBool('Options', 'OutputMultiLine', OptionsContainer.OutputMultiLine);
     WriteBool('Options', 'OutputShowCloseButton', OptionsContainer.OutputShowCloseButton);
     WriteBool('Options', 'HTMLErrorChecking', OptionsContainer.HTMLErrorChecking);
@@ -1964,6 +1974,7 @@ begin
     WriteString('Options', 'StatusBarFontName', OptionsContainer.StatusBarFontName);
     WriteString('Options', 'StatusBarFontSize', IntToStr(OptionsContainer.StatusBarFontSize));
     WriteBool('Options', 'OutputShowTreeLines', OptionsContainer.OutputShowTreeLines);
+    WriteBool('Options', 'OutputShowImage', OptionsContainer.OutputShowImage);
     WriteString('Options', 'OutputIndent', IntToStr(OptionsContainer.OutputIndent));
     EraseSection('OpenFiles');
     EraseSection('Bookmarks');

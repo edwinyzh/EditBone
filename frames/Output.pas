@@ -494,6 +494,10 @@ var
 begin
   PageControl.MultiLine := OptionsContainer.OutputMultiLine;
   PageControl.ShowCloseButton := OptionsContainer.OutputShowCloseButton;
+  if OptionsContainer.OutputShowImage then
+    PageControl.Images := ImageList
+  else
+    PageControl.Images := nil;
   for i := 0 to PageControl.PageCount - 1 do
   begin
     VirtualDrawTree := TOutputTabSheetFrame(PageControl.Pages[i].Components[0]).VirtualDrawTree;
