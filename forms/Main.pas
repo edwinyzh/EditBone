@@ -420,7 +420,7 @@ begin
     for i := 0 to Files.Count - 1 do
     begin
       s := System.Copy(Files.Strings[i], Pos('=', Files.Strings[i]) + 1, Length(Files.Strings[i]));
-      if FileExists(FileName) then
+      if FileExists(s) then
       begin
         ActionClientItem := ReopenActionClientItem.Items.Add;
         Action := TAction.Create(ActionManager);
