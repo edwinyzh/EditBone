@@ -917,16 +917,21 @@ end;
 
 procedure TMainForm.SetFields;
 var
+  i: Integer;
   ActiveDocumentFound: Boolean;
   ActiveDocumentName, InfoText: string;
   KeyState: TKeyboardState;
   SelectionFound: Boolean;
   IsXMLDocument: Boolean;
   ReopenActionClientItem: TActionClientItem;
+  BookmarkList: TSynEditMarkList;
+  GotoBookmarksAction, ToggleBookmarksAction: TAction;
 begin
   ActiveDocumentFound := FDocumentFrame.ActiveDocumentFound;
   SelectionFound := FDocumentFrame.SelectionFound;
   IsXMLDocument := FDocumentFrame.IsXMLDocument;
+  BookmarkList := FDocumentFrame.GetActiveBookmarkList;
+
   ViewToolbarAction.Checked := ActionToolBar.Visible;
   ViewStatusbarAction.Checked := StatusBar.Visible;
   ViewOutputAction.Checked := OutputPanel.Visible;
@@ -1063,6 +1068,26 @@ begin
   MacroPlaybackAction.Enabled := ActiveDocumentFound and FDocumentFrame.IsMacroStopped;
   MacroOpenAction.Enabled := ActiveDocumentFound;
   MacroSaveAsAction.Enabled := MacroPlaybackAction.Enabled;
+  { Bookmarks }
+  for i := 0 to 9 do
+  begin
+    GotoBookmarksAction := TAction(FindComponent(Format('GotoBookmarks%dAction', [i])));
+    GotoBookmarksAction.Enabled := False;
+    GotoBookmarksAction.Caption := Format('%s &%d', [LanguageDataModule.GetConstant('Bookmark'), i]);
+    ToggleBookmarksAction := TAction(FindComponent(Format('ToggleBookmarks%dAction', [i])));
+    ToggleBookmarksAction.Caption := Format('%s &%d', [LanguageDataModule.GetConstant('Bookmark'), i]);
+  end;
+  if Assigned(BookmarkList) then
+  for i := 0 to BookmarkList.Count - 1 do
+  begin
+    GotoBookmarksAction := TAction(FindComponent(Format('GotoBookmarks%dAction', [BookmarkList.Items[i].BookmarkNumber])));
+    GotoBookmarksAction.Enabled := True;
+    GotoBookmarksAction.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
+      BookmarkList.Items[i].BookmarkNumber, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
+    ToggleBookmarksAction := TAction(FindComponent(Format('ToggleBookmarks%dAction', [BookmarkList.Items[i].BookmarkNumber])));
+    ToggleBookmarksAction.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
+      BookmarkList.Items[i].BookmarkNumber, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
+  end;
 end;
 
 procedure TMainForm.ViewCloseDirectoryActionExecute(Sender: TObject);

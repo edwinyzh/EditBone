@@ -1,8 +1,8 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 304
+  Width = 824
+  Height = 541
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
@@ -10,7 +10,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 824
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -18,6 +18,7 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 0
     Visible = False
+    ExplicitWidth = 451
     object WholeWordsOnlyLabel: TLabel
       Left = 465
       Top = 0
@@ -467,8 +468,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 451
-    Height = 258
+    Width = 824
+    Height = 495
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -476,11 +477,13 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentColor = True
     TabOrder = 1
+    ExplicitWidth = 451
+    ExplicitHeight = 258
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 451
-      Height = 256
+      Width = 824
+      Height = 493
       Align = alClient
       DoubleBuffered = False
       Font.Charset = DEFAULT_CHARSET
@@ -496,12 +499,14 @@ object DocumentFrame: TDocumentFrame
       HoldShiftToDragDrop = False
       ShowCloseButton = False
       OnCloseButtonClick = PageControlCloseButtonClick
+      ExplicitWidth = 451
+      ExplicitHeight = 256
     end
   end
   object GotoLinePanel: TPanel
     Left = 0
-    Top = 279
-    Width = 451
+    Top = 516
+    Width = 824
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
@@ -510,6 +515,8 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 2
     Visible = False
+    ExplicitTop = 279
+    ExplicitWidth = 451
     object GotoLineClosePanel: TPanel
       Left = 0
       Top = 2
@@ -705,7 +712,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 112
     Bitmap = {
-      494C0101060038003C0610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106003800400610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1053,7 +1060,7 @@ object DocumentFrame: TDocumentFrame
     Left = 144
     Top = 282
     Bitmap = {
-      494C01010A0038001C0610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A003800200610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1484,8 +1491,10 @@ object DocumentFrame: TDocumentFrame
       Caption = '-'
     end
     object ToggleBookmarkMenuItem: TMenuItem
+      Action = MainForm.ToggleBookmarkAction
     end
     object ToggleBookmarksMenuItem: TMenuItem
+      Action = MainForm.ToggleBookmarksAction
       object ToggleBookmark0MenuItem: TMenuItem
       end
       object ToggleBookmark1MenuItem: TMenuItem
@@ -1517,6 +1526,7 @@ object DocumentFrame: TDocumentFrame
       end
     end
     object GotoBookmarksMenuItem: TMenuItem
+      Action = MainForm.GotoBookmarksAction
       SubMenuImages = BookmarkImagesList
       object GotoBookmark0MenuItem: TMenuItem
       end
@@ -1566,6 +1576,33 @@ object DocumentFrame: TDocumentFrame
     object DeleteEOLMenuItem: TMenuItem
       Action = MainForm.EditDeleteEOLAction
     end
+    object Separator7MenuItem: TMenuItem
+      Caption = '-'
+    end
+    object InsertMenuItem: TMenuItem
+      Action = MainForm.EditInsertAction
+      object InsertTagMenuItem: TMenuItem
+        Action = MainForm.EditInsertTagAction
+      end
+      object DateandTimeMenuItem: TMenuItem
+        Action = MainForm.EditInsertDateTimeAction
+      end
+    end
+    object ConversionMenuItem: TMenuItem
+      Action = MainForm.EditConversionAction
+      object DectoHexMenuItem: TMenuItem
+        Action = MainForm.EditConversionDecToHexAction
+      end
+      object HexToDecMenuItem: TMenuItem
+        Action = MainForm.EditConversionHexToDecAction
+      end
+      object DectoBinMenuItem: TMenuItem
+        Action = MainForm.EditConversionDecToBinAction
+      end
+      object BintoDecMenuItem: TMenuItem
+        Action = MainForm.EditConversionBinToDecAction
+      end
+    end
     object Separator4MenuItem: TMenuItem
       Caption = '-'
     end
@@ -1607,7 +1644,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 168
     Bitmap = {
-      494C010102009C04700614001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010102009C04740614001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000A4676900A4676900A467
@@ -1827,7 +1864,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 224
     Bitmap = {
-      494C01010200BC04740618001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010200BC04780618001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000A467
@@ -2683,7 +2720,7 @@ object DocumentFrame: TDocumentFrame
     Left = 746
     Top = 190
     Bitmap = {
-      494C010109001800200110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010109001800240110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3098,7 +3135,7 @@ object DocumentFrame: TDocumentFrame
     Left = 744
     Top = 316
     Bitmap = {
-      494C010101005400040310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010101005400080310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

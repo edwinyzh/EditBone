@@ -92,6 +92,7 @@ object MainForm: TMainForm
       Height = 21
       Align = alRight
       DropDownCount = 57
+      ItemHeight = 13
       ReadOnly = True
       TabOrder = 1
       Text = '<highlighter>'
@@ -163,9 +164,10 @@ object MainForm: TMainForm
       Left = 779
       Top = 2
       Width = 130
-      Height = 22
+      Height = 21
       Align = alRight
       DropDownCount = 57
+      ItemHeight = 13
       ReadOnly = True
       TabOrder = 2
       Text = '<encoding>'
@@ -2064,7 +2066,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C010142005C01D80610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010142005C01E00610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001001000001002000000000000010
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000131020001420300025104000251040001420300013102000000

@@ -255,6 +255,15 @@ type
     GotoLineGoSpeedButton: TSpeedButton;
     GotoLineAction: TAction;
     GotoLineCloseAction: TAction;
+    Separator7MenuItem: TMenuItem;
+    InsertMenuItem: TMenuItem;
+    InsertTagMenuItem: TMenuItem;
+    ConversionMenuItem: TMenuItem;
+    HexToDecMenuItem: TMenuItem;
+    DateandTimeMenuItem: TMenuItem;
+    DectoHexMenuItem: TMenuItem;
+    BintoDecMenuItem: TMenuItem;
+    DectoBinMenuItem: TMenuItem;
     procedure PageControlChange(Sender: TObject);
     procedure SearchClearActionExecute(Sender: TObject);
     procedure SearchCloseActionExecute(Sender: TObject);
@@ -331,6 +340,7 @@ type
     function GetHTMLErrors: TList;
     function GetMacroRecordPauseImageIndex: Integer;
     function GetModifiedInfo: string;
+    function GetActiveBookmarkList: TSynEditMarkList;
     function IsCompareFilesActivePage: Boolean;
     function InsertTag: Boolean;
     function IsMacroStopped: Boolean;
@@ -458,6 +468,14 @@ begin
   DeleteWordMenuItem.Action := MainForm.EditDeleteWordAction;
   DeleteLineMenuItem.Action := MainForm.EditDeleteLineAction;
   DeleteEOLMenuItem.Action := MainForm.EditDeleteEOLAction;
+  InsertMenuItem.Action := MainForm.EditInsertAction;
+  InsertTagMenuItem.Action := MainForm.EditInsertTagAction;
+  DateandTimeMenuItem.Action := MainForm.EditInsertDateTimeAction;
+  ConversionMenuItem.Action := MainForm.EditConversionAction;
+  DectoHexMenuItem.Action := MainForm.EditConversionDecToHexAction;
+  HexToDecMenuItem.Action := MainForm.EditConversionHexToDecAction;
+  DectoBinMenuItem.Action := MainForm.EditConversionDecToBinAction;
+  BintoDecMenuItem.Action := MainForm.EditConversionBinToDecAction;
   IncreaseIndentMenuItem.Action := MainForm.EditIncreaseIndentAction;
   DecreaseIndentMenuItem.Action := MainForm.EditDecreaseIndentAction;
   SortAscendingMenuItem.Action := MainForm.EditSortAscAction;
@@ -3795,6 +3813,16 @@ begin
   //if DocTabSheetFrame.SplitVisible then
   SetSynEdit(DocTabSheetFrame.SplitSynEdit);
   SetHighlighter;
+end;
+
+function TDocumentFrame.GetActiveBookmarkList: TSynEditMarkList;
+var
+  SynEdit: TBCSynEdit;
+begin
+  Result := nil;
+  SynEdit := GetActiveSynEdit;
+  if Assigned(SynEdit) then
+    Result := SynEdit.Marks;
 end;
 
 end.
