@@ -147,7 +147,7 @@ object EditorGutterFrame: TEditorGutterFrame
       Flat = False
       ParentFlat = False
       TabOrder = 3
-      Text = '30'
+      Text = '48'
       OnlyNumbers = True
       NumbersWithDots = False
       NumbersWithSpots = False

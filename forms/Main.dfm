@@ -366,7 +366,6 @@ object MainForm: TMainForm
                     ImageIndex = 65
                   end>
                 Action = FileReopenAction
-                Caption = '&Reopen'
                 UsageCount = 1
               end
               item
@@ -406,7 +405,6 @@ object MainForm: TMainForm
               end
               item
                 Action = FilePrintPreviewAction
-                Caption = 'Pr&int Preview...'
                 ImageIndex = 8
               end
               item
@@ -489,7 +487,6 @@ object MainForm: TMainForm
                     ShortCut = 41028
                   end>
                 Action = EditInsertAction
-                Caption = 'Insert'
                 UsageCount = 1
               end
               item
@@ -515,7 +512,6 @@ object MainForm: TMainForm
                     ShortCut = 41026
                   end>
                 Action = EditConversionAction
-                Caption = 'Con&version'
                 UsageCount = 1
               end
               item
@@ -652,7 +648,6 @@ object MainForm: TMainForm
                     ShortCut = 16441
                   end>
                 Action = GotoBookmarksAction
-                Caption = 'Go to Boo&kmarks'
                 UsageCount = 1
               end
               item
@@ -719,7 +714,6 @@ object MainForm: TMainForm
               end
               item
                 Action = SearchGotoLineAction
-                Caption = '&Go to Line'
                 ImageIndex = 33
                 ShortCut = 16455
               end>
@@ -803,7 +797,6 @@ object MainForm: TMainForm
               end
               item
                 Action = ViewPreviousPageAction
-                Caption = 'P&revious Page'
                 ImageIndex = 30
                 ShortCut = 24585
               end>
@@ -817,7 +810,6 @@ object MainForm: TMainForm
               end
               item
                 Action = FormatXMLAction
-                Caption = '&Format XML'
                 ImageIndex = 63
               end
               item
@@ -1259,7 +1251,7 @@ object MainForm: TMainForm
     end
     object FilePrintPreviewAction: TAction
       Category = '&File'
-      Caption = 'P&rint Preview...'
+      Caption = 'Pr&int Preview...'
       Hint = 'Preview the active document'
       ImageIndex = 8
       OnExecute = FilePrintPreviewActionExecute
@@ -2011,7 +2003,7 @@ object MainForm: TMainForm
     end
     object EditInsertAction: TAction
       Category = '&Insert'
-      Caption = '&Insert'
+      Caption = 'Insert'
       OnExecute = DummyActionExecute
     end
     object EditInsertTagAction: TAction
@@ -2030,7 +2022,7 @@ object MainForm: TMainForm
     end
     object EditConversionAction: TAction
       Category = '&Conversion'
-      Caption = '&Conversion'
+      Caption = 'Con&version'
       OnExecute = DummyActionExecute
     end
     object EditConversionDecToHexAction: TAction
@@ -2066,7 +2058,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C010142005C01E00610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010142005C01E40610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001001000001002000000000000010
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000131020001420300025104000251040001420300013102000000

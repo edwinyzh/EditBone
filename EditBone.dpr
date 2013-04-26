@@ -47,7 +47,7 @@ uses
   OptionsDirectoryTabs in 'frames\OptionsDirectoryTabs.pas' {DirectoryTabsFrame: TFrame},
   OptionsOutputTabs in 'frames\OptionsOutputTabs.pas' {OutputTabsFrame: TFrame},
   Vcl.PlatformVclStylesActnCtrls in '..\..\Common\units\Vcl.PlatformVclStylesActnCtrls.pas',
-  OptionsDirectory in 'frames\OptionsDirectory.pas' {DirectoryOptionsFrame: TFrame},
+  OptionsDirectory in 'frames\OptionsDirectory.pas' {OptionsDirectoryFrame: TFrame},
   OptionsStatusBar in 'frames\OptionsStatusBar.pas' {StatusBarFrame: TFrame},
   OptionsOutput in 'frames\OptionsOutput.pas' {OptionsOutputFrame: TFrame},
   InsertTag in 'dialogs\InsertTag.pas' {InsertTagDialog},

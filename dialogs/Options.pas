@@ -58,7 +58,7 @@ type
     procedure OptionsVirtualStringTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
     procedure OptionsVirtualStringTreeGetText(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
   private
-    FDirectoryOptionsFrame: TDirectoryOptionsFrame;
+    FOptionsDirectoryFrame: TOptionsDirectoryFrame;
     FDirectoryTabsFrame: TDirectoryTabsFrame;
     FEditorErrorCheckingFrame: TEditorErrorCheckingFrame;
     FEditorFontFrame: TEditorFontFrame;
@@ -645,7 +645,7 @@ begin
   FFileTypesFrame.Destroy;
   FOptionsCompareFrame.Destroy;
   FMainMenuFrame.Destroy;
-  FDirectoryOptionsFrame.Destroy;
+  FOptionsDirectoryFrame.Destroy;
   FDirectoryTabsFrame.Destroy;
   FOutputTabsFrame.Destroy;
   FOptionsOutputFrame.Destroy;
@@ -774,7 +774,7 @@ begin
   Common.UpdateLanguage(FMainMenuFrame, SelectedLanguage);
   Common.UpdateLanguage(FToolBarFrame, SelectedLanguage);
   Common.UpdateLanguage(FStatusBarFrame, SelectedLanguage);
-  Common.UpdateLanguage(FDirectoryOptionsFrame, SelectedLanguage);
+  Common.UpdateLanguage(FOptionsDirectoryFrame, SelectedLanguage);
   Common.UpdateLanguage(FDirectoryTabsFrame, SelectedLanguage);
   Common.UpdateLanguage(FOptionsOutputFrame, SelectedLanguage);
   Common.UpdateLanguage(FOutputTabsFrame, SelectedLanguage);
@@ -820,8 +820,8 @@ begin
   FEditorTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DocShowCloseButton;
   FEditorTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.DocShowImage;
   { Directory }
-  FDirectoryOptionsFrame.ShowTreeLinesCheckBox.Checked := FOptionsContainer.DirShowTreeLines;
-  FDirectoryOptionsFrame.IndentEdit.Text := IntToStr(FOptionsContainer.DirIndent);
+  FOptionsDirectoryFrame.ShowTreeLinesCheckBox.Checked := FOptionsContainer.DirShowTreeLines;
+  FOptionsDirectoryFrame.IndentEdit.Text := IntToStr(FOptionsContainer.DirIndent);
   { Directory tabs }
   FDirectoryTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.DirMultiLine;
   FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DirShowCloseButton;
@@ -918,7 +918,7 @@ begin
     FEditorTabsFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 2);
     FEditorErrorCheckingFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 3);
     FEditorOtherFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 4);
-    FDirectoryOptionsFrame.Visible := (Level = 0) and (TreeNode.Index = 1);
+    FOptionsDirectoryFrame.Visible := (Level = 0) and (TreeNode.Index = 1);
     FDirectoryTabsFrame.Visible := (ParentIndex = 1) and (Level = 1) and (TreeNode.Index = 0);
     FOptionsOutputFrame.Visible := (Level = 0) and (TreeNode.Index = 2);
     FOutputTabsFrame.Visible := (ParentIndex = 2) and (Level = 1) and (TreeNode.Index = 0);
@@ -999,8 +999,8 @@ begin
   FOptionsContainer.DocShowCloseButton := FEditorTabsFrame.ShowCloseButtonCheckBox.Checked;
   FOptionsContainer.DocShowImage := FEditorTabsFrame.ShowImageCheckBox.Checked;
   { Directory }
-  FOptionsContainer.DirShowTreeLines := FDirectoryOptionsFrame.ShowTreeLinesCheckBox.Checked;
-  FOptionsContainer.DirIndent := StrToIntDef(FDirectoryOptionsFrame.IndentEdit.Text, 20);
+  FOptionsContainer.DirShowTreeLines := FOptionsDirectoryFrame.ShowTreeLinesCheckBox.Checked;
+  FOptionsContainer.DirIndent := StrToIntDef(FOptionsDirectoryFrame.IndentEdit.Text, 20);
   { Directory tabs }
   FOptionsContainer.DirMultiLine := FDirectoryTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.DirShowCloseButton := FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked;
@@ -1130,8 +1130,8 @@ begin
   FOptionsOutputFrame.Parent := OptionsPanel;
   FOutputTabsFrame := TOutputTabsFrame.Create(OptionsPanel);
   FOutputTabsFrame.Parent := OptionsPanel;
-  FDirectoryOptionsFrame := TDirectoryOptionsFrame.Create(OptionsPanel);
-  FDirectoryOptionsFrame.Parent := OptionsPanel;
+  FOptionsDirectoryFrame := TOptionsDirectoryFrame.Create(OptionsPanel);
+  FOptionsDirectoryFrame.Parent := OptionsPanel;
   FDirectoryTabsFrame := TDirectoryTabsFrame.Create(OptionsPanel);
   FDirectoryTabsFrame.Parent := OptionsPanel;
 end;

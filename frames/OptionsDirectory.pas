@@ -8,7 +8,7 @@ uses
   BCCheckBox, Vcl.ExtCtrls;
 
 type
-  TDirectoryOptionsFrame = class(TFrame)
+  TOptionsDirectoryFrame = class(TFrame)
     Panel: TPanel;
     IndentLabel: TLabel;
     ShowTreeLinesCheckBox: TBCCheckBox;
