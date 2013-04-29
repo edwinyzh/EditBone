@@ -366,6 +366,7 @@ object MainForm: TMainForm
                     ImageIndex = 65
                   end>
                 Action = FileReopenAction
+                Caption = '&Reopen'
                 UsageCount = 1
               end
               item
@@ -648,6 +649,7 @@ object MainForm: TMainForm
                     ShortCut = 16441
                   end>
                 Action = GotoBookmarksAction
+                Caption = '&Go to Bookmarks'
                 UsageCount = 1
               end
               item
@@ -714,6 +716,7 @@ object MainForm: TMainForm
               end
               item
                 Action = SearchGotoLineAction
+                Caption = 'Go to &Line'
                 ImageIndex = 33
                 ShortCut = 16455
               end>
@@ -797,6 +800,7 @@ object MainForm: TMainForm
               end
               item
                 Action = ViewPreviousPageAction
+                Caption = 'P&revious Page'
                 ImageIndex = 30
                 ShortCut = 24585
               end>
@@ -810,6 +814,7 @@ object MainForm: TMainForm
               end
               item
                 Action = FormatXMLAction
+                Caption = '&Format XML'
                 ImageIndex = 63
               end
               item
@@ -991,7 +996,6 @@ object MainForm: TMainForm
           end
           item
             Action = EditIncreaseIndentAction
-            Caption = '&Increase Indent'
             ImageIndex = 35
             ShowCaption = False
             ShortCut = 24649
@@ -1040,7 +1044,6 @@ object MainForm: TMainForm
           end
           item
             Action = EditRedoAction
-            Caption = 'Redo'
             ImageIndex = 10
             ShowCaption = False
             ShortCut = 24666
@@ -2058,7 +2061,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C010142005C01E40610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010142005C01E80610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001001000001002000000000000010
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000131020001420300025104000251040001420300013102000000
