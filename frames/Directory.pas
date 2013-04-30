@@ -422,11 +422,16 @@ procedure TDirectoryFrame.SetOptions;
 var
   i: Integer;
   FileTreeView: TBCFileTreeView;
+  DriveComboBox: TBCDriveComboBox;
 begin
   PageControl.MultiLine := OptionsContainer.DirMultiLine;
   PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
   if OptionsContainer.DirShowImage then
-    PageControl.Images := ActiveDriveComboBox.SystemIconsImageList
+  begin
+    DriveComboBox := ActiveDriveComboBox;
+    if Assigned(DriveComboBox) then
+      PageControl.Images := ActiveDriveComboBox.SystemIconsImageList
+  end
   else
     PageControl.Images := nil;
   for i := 0 to PageControl.PageCount - 1 do
