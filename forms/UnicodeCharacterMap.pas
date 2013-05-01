@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids, Vcl.StdCtrls,
+  JvExStdCtrls, JvCombobox, JvColorCombo;
 
 type
   TUnicodeCharacterMapForm = class(TForm)
@@ -12,19 +13,26 @@ type
     Panel: TPanel;
     StringGridCharacter: TStringGrid;
     ImagePanel: TPanel;
-    Image1: TImage;
-    LabelFont: TLabel;
-    ComboBoxFonts: TComboBox;
+    Image: TImage;
     Button1: TButton;
     Button2: TButton;
+    FontComboBox: TJvFontComboBox;
     procedure StringGridCharacterDrawCell(Sender: TObject; ACol, ARow: Integer; Rect: TRect;
       State: TGridDrawState);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure StringGridCharacterClick(Sender: TObject);
+    procedure FontComboBoxChange(Sender: TObject);
+    procedure StringGridCharacterMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure StringGridCharacterMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState;
+      X, Y: Integer);
+    procedure FormResize(Sender: TObject);
   private
     { Private declarations }
+    procedure ReadIniFile;
     procedure UpdateFields;
+    procedure WriteIniFile;
   public
     { Public declarations }
     procedure Open;
@@ -46,6 +54,11 @@ begin
   Result := FUnicodeCharacterMapForm;
 end;
 
+procedure TUnicodeCharacterMapForm.FontComboBoxChange(Sender: TObject);
+begin
+  StringGridCharacter.Invalidate;
+end;
+
 procedure TUnicodeCharacterMapForm.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
@@ -54,6 +67,11 @@ end;
 procedure TUnicodeCharacterMapForm.FormDestroy(Sender: TObject);
 begin
   FUnicodeCharacterMapForm := nil;
+end;
+
+procedure TUnicodeCharacterMapForm.FormResize(Sender: TObject);
+begin
+  UpdateFields;
 end;
 
 procedure TUnicodeCharacterMapForm.Open;
@@ -67,18 +85,58 @@ begin
   UpdateFields;
 end;
 
+function GetUnicodeBitmap(const UnicodeFont: string; const w: WideChar; const BitmapSize: Integer; var Size: TSize): TBitmap;
+var
+  MaxLogPalette: TMaxLogPalette;
+begin
+  MaxLogPalette.palVersion := $300;
+  MaxLogPalette.palNumEntries := 2;
+  with MaxLogPalette.palPalEntry[0] do
+  begin
+    peRed   := 0;
+    peGreen := 0;
+    peBlue  := 0;
+    peFlags := 0
+  end;
+
+  with MaxLogPalette.palPalEntry[1] do
+  begin
+    peRed   := 255;
+    peGreen := 255;
+    peBlue  := 255;
+    peFlags := 0
+  end;
+
+  Result := TBitmap.Create;
+
+  Result.Height := BitmapSize;
+  Result.Width  := BitmapSize;
+
+  Result.Palette := CreatePalette(pLogPalette(@MaxLogPalette)^);
+
+  Result.Canvas.Brush.Color := clWhite;
+  Result.Canvas.FillRect(Result.Canvas.ClipRect);
+
+  Result.Canvas.Font.Name := UnicodeFont;
+  Result.Canvas.Font.Height := BitmapSize;
+
+  GetTextExtentPoint32W(RESULT.Canvas.Handle, @w, 1, Size);
+
+  TextOutW(Result.Canvas.Handle, (Result.Width - size.cx) DIV 2, 0, @w, 1)
+end;
+
 procedure TUnicodeCharacterMapForm.StringGridCharacterDrawCell(Sender: TObject; ACol, ARow: Integer; Rect: TRect;
   State: TGridDrawState);
 var
   WC: WideChar;
   Size: TSize;
 begin
-  if 20 * ARow + ACol > 65535 then
+  if StringGridCharacter.ColCount * ARow + ACol > 65535 then
     Exit;
 
-  WC :=  WideChar(20 * ARow + ACol);
+  WC := WideChar(StringGridCharacter.ColCount * ARow + ACol);
 
-  StringGridCharacter.Canvas.Font.Name := 'Arial';
+  StringGridCharacter.Canvas.Font.Name := FontComboBox.Text;
   StringGridCharacter.Canvas.Font.Height := StringGridCharacter.DefaultRowHeight;
 
   GetTextExtentPoint32W(StringGridCharacter.Canvas.Handle, @WC, 1, Size);
@@ -87,13 +145,51 @@ begin
     Rect.Top, @WC, 1)
 end;
 
+procedure TUnicodeCharacterMapForm.StringGridCharacterMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  WC: WideChar;
+  Size: TSize;
+  Bitmap: TBitmap;
+begin
+  WC := WideChar(StringGridCharacter.ColCount * StringGridCharacter.Row + StringGridCharacter.Col);
+  Bitmap := GetUnicodeBitmap(FontComboBox.Text, WC, Image.Height, Size);
+  try
+    Image.Picture.Graphic := Bitmap
+  finally
+    Bitmap.Free
+  end;
+
+  ImagePanel.Visible := True;
+  ImagePanel.Left := X;
+  ImagePanel.Top := Y;
+  { Adjust image panel inside string grid }
+  if ImagePanel.Left < StringGridCharacter.Left then
+    ImagePanel.Left := StringGridCharacter.Left + 10;
+  if ImagePanel.Left + ImagePanel.Width > StringGridCharacter.Width then
+    ImagePanel.Left := StringGridCharacter.Width - ImagePanel.Width - 20;
+  if ImagePanel.Top < StringGridCharacter.Top then
+    ImagePanel.Top := StringGridCharacter.Top + 10;
+  if ImagePanel.Top + ImagePanel.Height > StringGridCharacter.Top + StringGridCharacter.Height then
+    ImagePanel.Top := StringGridCharacter.Top + StringGridCharacter.Height - ImagePanel.Height - 10;
+end;
+
+procedure TUnicodeCharacterMapForm.StringGridCharacterMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  ImagePanel.Visible := False;
+end;
+
 procedure TUnicodeCharacterMapForm.UpdateFields;
 var
   i: Integer;
   s: string;
 begin
+  StringGridCharacter.ColCount := (StringGridCharacter.Width - 40)  div StringGridCharacter.DefaultColWidth;
+  StringGridCharacter.RowCount := (65535 div StringGridCharacter.ColCount) + 1;
+  StringGridCharacter.Invalidate;
   s := '';
-  i := 20 * StringGridCharacter.Row + StringGridCharacter.Col;
+  i := StringGridCharacter.ColCount * StringGridCharacter.Row + StringGridCharacter.Col;
   if i <= 65535 then
   begin
     s := IntToHex(i, 1);

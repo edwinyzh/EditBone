@@ -60,6 +60,7 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
   Position = poScreenCenter
   OnClose = FormClose
   OnDestroy = FormDestroy
+  OnResize = FormResize
   PixelsPerInch = 96
   TextHeight = 13
   object StatusBar: TStatusBar
@@ -81,37 +82,25 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
     DesignSize = (
       435
       393)
-    object LabelFont: TLabel
-      Left = 12
-      Top = 7
-      Width = 37
-      Height = 19
-      AutoSize = False
-      Caption = 'Font'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-    end
     object StringGridCharacter: TStringGrid
       Left = 8
       Top = 38
-      Width = 421
+      Width = 420
       Height = 347
-      Anchors = [akLeft, akTop, akBottom]
+      Anchors = [akLeft, akTop, akRight, akBottom]
       ColCount = 20
       DefaultColWidth = 19
       DefaultRowHeight = 19
       FixedCols = 0
       RowCount = 3277
       FixedRows = 0
-      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine]
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goDrawFocusSelected]
       ScrollBars = ssVertical
       TabOrder = 0
       OnClick = StringGridCharacterClick
       OnDrawCell = StringGridCharacterDrawCell
+      OnMouseDown = StringGridCharacterMouseDown
+      OnMouseUp = StringGridCharacterMouseUp
     end
     object ImagePanel: TPanel
       Left = 150
@@ -123,7 +112,7 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
       ParentBackground = False
       TabOrder = 1
       Visible = False
-      object Image1: TImage
+      object Image: TImage
         Left = 1
         Top = 1
         Width = 119
@@ -135,26 +124,13 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
         ExplicitHeight = 105
       end
     end
-    object ComboBoxFonts: TComboBox
-      Left = 62
-      Top = 8
-      Width = 150
-      Height = 21
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 2
-    end
     object Button1: TButton
       Left = 273
       Top = 7
       Width = 75
       Height = 25
       Caption = 'Insert'
-      TabOrder = 3
+      TabOrder = 2
     end
     object Button2: TButton
       Left = 354
@@ -162,7 +138,26 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
       Width = 75
       Height = 25
       Caption = 'Copy'
+      TabOrder = 3
+    end
+    object FontComboBox: TJvFontComboBox
+      Left = 8
+      Top = 7
+      Width = 255
+      Height = 25
+      DroppedDownWidth = 255
+      MaxMRUCount = 0
+      FontName = 'Arial'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ItemIndex = 40
+      ParentFont = False
+      Sorted = True
       TabOrder = 4
+      OnChange = FontComboBoxChange
     end
   end
 end
