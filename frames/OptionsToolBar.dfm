@@ -12,8 +12,6 @@ object ToolBarFrame: TToolBarFrame
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 320
-    ExplicitHeight = 240
     object StandardCheckBox: TBCCheckBox
       Left = 9
       Top = 6
@@ -24,6 +22,8 @@ object ToolBarFrame: TToolBarFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = ' Standard'
+      Checked = True
+      State = cbChecked
       TabOrder = 0
       ReadOnly = False
     end
@@ -37,6 +37,8 @@ object ToolBarFrame: TToolBarFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = ' Print'
+      Checked = True
+      State = cbChecked
       TabOrder = 1
       ReadOnly = False
     end
@@ -50,6 +52,8 @@ object ToolBarFrame: TToolBarFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = ' Directory'
+      Checked = True
+      State = cbChecked
       TabOrder = 2
       ReadOnly = False
     end
@@ -63,6 +67,8 @@ object ToolBarFrame: TToolBarFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = ' Indent'
+      Checked = True
+      State = cbChecked
       TabOrder = 3
       ReadOnly = False
     end
@@ -76,6 +82,8 @@ object ToolBarFrame: TToolBarFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = ' Sort'
+      Checked = True
+      State = cbChecked
       TabOrder = 4
       ReadOnly = False
     end
@@ -89,6 +97,8 @@ object ToolBarFrame: TToolBarFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = ' Case'
+      Checked = True
+      State = cbChecked
       TabOrder = 5
       ReadOnly = False
     end
@@ -102,6 +112,8 @@ object ToolBarFrame: TToolBarFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = ' Document'
+      Checked = True
+      State = cbChecked
       TabOrder = 11
       ReadOnly = False
     end
@@ -115,6 +127,8 @@ object ToolBarFrame: TToolBarFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = ' Macro'
+      Checked = True
+      State = cbChecked
       TabOrder = 10
       ReadOnly = False
     end
@@ -128,6 +142,8 @@ object ToolBarFrame: TToolBarFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = ' Tools'
+      Checked = True
+      State = cbChecked
       TabOrder = 9
       ReadOnly = False
     end
@@ -141,6 +157,8 @@ object ToolBarFrame: TToolBarFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = ' Mode'
+      Checked = True
+      State = cbChecked
       TabOrder = 8
       ReadOnly = False
     end
@@ -154,6 +172,8 @@ object ToolBarFrame: TToolBarFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = ' Search'
+      Checked = True
+      State = cbChecked
       TabOrder = 7
       ReadOnly = False
     end
@@ -167,6 +187,8 @@ object ToolBarFrame: TToolBarFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = ' Command'
+      Checked = True
+      State = cbChecked
       TabOrder = 6
       ReadOnly = False
     end

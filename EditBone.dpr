@@ -51,7 +51,8 @@ uses
   OptionsStatusBar in 'frames\OptionsStatusBar.pas' {StatusBarFrame: TFrame},
   OptionsOutput in 'frames\OptionsOutput.pas' {OptionsOutputFrame: TFrame},
   InsertTag in 'dialogs\InsertTag.pas' {InsertTagDialog},
-  OptionsToolBar in 'frames\OptionsToolBar.pas' {ToolBarFrame: TFrame};
+  OptionsToolBar in 'frames\OptionsToolBar.pas' {ToolBarFrame: TFrame},
+  UnicodeCharacterMap in 'forms\UnicodeCharacterMap.pas' {UnicodeCharacterMapForm};
 
 {$R *.res}
 

@@ -195,6 +195,7 @@ type
     EditConversionAction: TAction;
     EditConversionHexToDecAction: TAction;
     EditConversionBinToDecAction: TAction;
+    UnicodeCharacterMapAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -306,6 +307,7 @@ type
     procedure EditConversionDecToBinActionExecute(Sender: TObject);
     procedure EditConversionHexToDecActionExecute(Sender: TObject);
     procedure EditConversionBinToDecActionExecute(Sender: TObject);
+    procedure UnicodeCharacterMapActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -348,7 +350,7 @@ implementation
 uses
   About, FindInFiles, Vcl.ClipBrd, Common, VirtualTrees, BigIni, StyleHooks,
   System.IOUtils, Language, ConfirmReplace, LanguageEditor, BCSynEdit,
-  Vcl.PlatformVclStylesActnCtrls;
+  Vcl.PlatformVclStylesActnCtrls, UnicodeCharacterMap;
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
@@ -796,6 +798,11 @@ begin
   end;
 end;
 
+procedure TMainForm.UnicodeCharacterMapActionExecute(Sender: TObject);
+begin
+  UnicodeCharacterMapForm.Open;
+end;
+
 procedure TMainForm.UpdateToolBar;
 var
   i: Integer;
@@ -869,7 +876,7 @@ begin
     WriteBool('Options', 'EnableSelectionMode', ViewSelectionModeAction.Checked);
     DeleteKey('Options', 'StyleName'); { depricated }
     DeleteKey('Options', 'GutterLineNumbers'); { depricated }
-    { Toolbar action visibility }
+    { Toolbar }
     EraseSection('ActionToolBar');
     for i := 0 to ToolbarPopupMenu.Items.Count - 1 do
       WriteBool('ActionToolBar', ToolbarPopupMenu.Items[i].Caption, ToolbarPopupMenu.Items[i].Checked);
