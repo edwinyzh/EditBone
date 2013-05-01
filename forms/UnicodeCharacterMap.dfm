@@ -57,7 +57,6 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
     0000FFFF0000FE3F0000F00F0000800300000000000000000000000000008001
     00008001000080030000C0030000C0070000F0070000FC3F0000FFFF0000}
   OldCreateOrder = False
-  Position = poScreenCenter
   OnClose = FormClose
   OnDestroy = FormDestroy
   OnResize = FormResize

@@ -44,6 +44,9 @@ implementation
 
 {$R *.dfm}
 
+uses
+  Common, IniFiles;
+
 var
   FUnicodeCharacterMapForm: TUnicodeCharacterMapForm;
 
@@ -61,6 +64,7 @@ end;
 
 procedure TUnicodeCharacterMapForm.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  WriteIniFile;
   Action := caFree;
 end;
 
@@ -76,6 +80,7 @@ end;
 
 procedure TUnicodeCharacterMapForm.Open;
 begin
+  ReadIniFile;
   UpdateFields;
   Show;
 end;
@@ -185,11 +190,14 @@ var
   i: Integer;
   s: string;
 begin
-  StringGridCharacter.ColCount := (StringGridCharacter.Width - 40)  div StringGridCharacter.DefaultColWidth;
-  StringGridCharacter.RowCount := (65535 div StringGridCharacter.ColCount) + 1;
-  StringGridCharacter.Invalidate;
-  s := '';
-  i := StringGridCharacter.ColCount * StringGridCharacter.Row + StringGridCharacter.Col;
+  with StringGridCharacter do
+  begin
+    ColCount := (Width - 40)  div DefaultColWidth;
+    RowCount := (65535 div ColCount) + 1;
+    Invalidate;
+    s := '';
+    i := ColCount * Row + Col;
+  end;
   if i <= 65535 then
   begin
     s := IntToHex(i, 1);
@@ -198,6 +206,38 @@ begin
     s := 'U+' + s;
   end;
   StatusBar.SimpleText := s;
+end;
+
+procedure TUnicodeCharacterMapForm.ReadIniFile;
+begin
+  with TMemIniFile.Create(Common.GetINIFilename) do
+  try
+    { Size }
+    Width := ReadInteger('CharacterMapSize', 'Width', Width);
+    Height := ReadInteger('CharacterMapSize', 'Height', Height);
+    { Position }
+    Left := ReadInteger('CharacterMapPosition', 'Left', (Screen.Width - Width) div 2);
+    Top := ReadInteger('CharacterMapPosition', 'Top', (Screen.Height - Height) div 2);
+  finally
+    Free;
+  end;
+end;
+
+procedure TUnicodeCharacterMapForm.WriteIniFile;
+begin
+  if Windowstate = wsNormal then
+  with TMemIniFile.Create(Common.GetINIFilename) do
+  try
+    { Position }
+    WriteInteger('CharacterMapPosition', 'Left', Left);
+    WriteInteger('CharacterMapPosition', 'Top', Top);
+    { Size }
+    WriteInteger('CharacterMapSize', 'Width', Width);
+    WriteInteger('CharacterMapSize', 'Height', Height);
+  finally
+    UpdateFile;
+    Free;
+  end;
 end;
 
 end.
