@@ -5,7 +5,7 @@ object AboutDialog: TAboutDialog
   BorderStyle = bsDialog
   Caption = 'About EditBone'
   ClientHeight = 256
-  ClientWidth = 376
+  ClientWidth = 359
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,7 +23,7 @@ object AboutDialog: TAboutDialog
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 376
+    Width = 359
     Height = 137
     Align = alTop
     BevelOuter = bvNone
@@ -72,7 +72,7 @@ object AboutDialog: TAboutDialog
       Caption = 'Memory Available to Windows: %s'
     end
     object Panel6: TPanel
-      Left = 248
+      Left = 231
       Top = 0
       Width = 128
       Height = 137
@@ -485,7 +485,7 @@ object AboutDialog: TAboutDialog
   object Panel2: TPanel
     Left = 0
     Top = 137
-    Width = 376
+    Width = 359
     Height = 1
     Align = alTop
     BevelOuter = bvNone
@@ -496,7 +496,7 @@ object AboutDialog: TAboutDialog
   object Panel3: TPanel
     Left = 0
     Top = 138
-    Width = 376
+    Width = 359
     Height = 77
     Margins.Left = 2
     Margins.Top = 2
@@ -515,15 +515,16 @@ object AboutDialog: TAboutDialog
     object CopyrightLabel: TLabel
       Left = 0
       Top = 64
-      Width = 170
+      Width = 359
       Height = 13
       Align = alBottom
       Alignment = taCenter
       Caption = 'Copyright %s. All Rights Reserved.'
+      ExplicitWidth = 170
     end
     object LinkLabel2: TLinkLabel
-      Left = 11
-      Top = 40
+      Left = 19
+      Top = 41
       Width = 306
       Height = 17
       Caption = 
@@ -535,16 +536,16 @@ object AboutDialog: TAboutDialog
       OnLinkClick = LinkClick
     end
     object LinkLabel1: TLinkLabel
-      Left = 11
+      Left = 19
       Top = 25
-      Width = 343
+      Width = 322
       Height = 17
       Caption = 
         '<a href="http://www.embarcadero.com/products/rad-studio/">Embarc' +
-        'adero RAD Studio XE2</a>, <a href="http://www.delphi-jedi.org/">' +
-        'Jedi Project</a>, <a href="http://synedit.svn.sourceforge.net/vi' +
-        'ewvc/synedit/">Unicode SynEdit</a>, <a href="http://flatdev.ovh.' +
-        'org/">SynWeb</a>,'
+        'adero RAD Studio</a>, <a href="http://www.delphi-jedi.org/">Jedi' +
+        ' Project</a>, <a href="http://synedit.svn.sourceforge.net/viewvc' +
+        '/synedit/">Unicode SynEdit</a>, <a href="http://flatdev.ovh.org/' +
+        '">SynWeb</a>,'
       TabOrder = 1
       OnLinkClick = LinkClick
     end
@@ -552,7 +553,7 @@ object AboutDialog: TAboutDialog
   object Panel4: TPanel
     Left = 0
     Top = 215
-    Width = 376
+    Width = 359
     Height = 41
     Margins.Left = 2
     Margins.Top = 2
@@ -565,7 +566,7 @@ object AboutDialog: TAboutDialog
     Padding.Bottom = 8
     TabOrder = 3
     object OKButton: TButton
-      Left = 293
+      Left = 276
       Top = 8
       Width = 75
       Height = 25
