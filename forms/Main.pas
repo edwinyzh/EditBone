@@ -195,7 +195,7 @@ type
     EditConversionAction: TAction;
     EditConversionHexToDecAction: TAction;
     EditConversionBinToDecAction: TAction;
-    UnicodeCharacterMapAction: TAction;
+    ToolsUnicodeCharacterMapAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -307,7 +307,7 @@ type
     procedure EditConversionDecToBinActionExecute(Sender: TObject);
     procedure EditConversionHexToDecActionExecute(Sender: TObject);
     procedure EditConversionBinToDecActionExecute(Sender: TObject);
-    procedure UnicodeCharacterMapActionExecute(Sender: TObject);
+    procedure ToolsUnicodeCharacterMapActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -798,7 +798,7 @@ begin
   end;
 end;
 
-procedure TMainForm.UnicodeCharacterMapActionExecute(Sender: TObject);
+procedure TMainForm.ToolsUnicodeCharacterMapActionExecute(Sender: TObject);
 begin
   UnicodeCharacterMapForm.Open(FDocumentFrame);
 end;

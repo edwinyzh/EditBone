@@ -868,7 +868,7 @@ object MainForm: TMainForm
                 ImageIndex = 27
               end
               item
-                Action = UnicodeCharacterMapAction
+                Action = ToolsUnicodeCharacterMapAction
                 ImageIndex = 66
               end
               item
@@ -2060,18 +2060,21 @@ object MainForm: TMainForm
       ShortCut = 41026
       OnExecute = EditConversionBinToDecActionExecute
     end
-    object UnicodeCharacterMapAction: TAction
+    object ToolsUnicodeCharacterMapAction: TAction
       Category = '&Tools'
       Caption = '&Unicode Character Map...'
+      Hint = 
+        'Insert unicode characters to active document by double clicking ' +
+        'a character'
       ImageIndex = 66
-      OnExecute = UnicodeCharacterMapActionExecute
+      OnExecute = ToolsUnicodeCharacterMapActionExecute
     end
   end
   object ImageList: TBCImageList
     Left = 408
     Top = 224
     Bitmap = {
-      494C010143005C01000710001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010143005C01080710001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001001000001002000000000000010
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000131020001420300025104000251040001420300013102000000

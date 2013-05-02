@@ -69,29 +69,25 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
     Height = 19
     Panels = <>
     SimplePanel = True
-    ExplicitTop = 393
-    ExplicitWidth = 435
   end
   object Panel: TPanel
     Left = 0
-    Top = 34
+    Top = 31
     Width = 432
-    Height = 349
+    Height = 352
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 6
     Padding.Right = 6
     Padding.Bottom = 6
     TabOrder = 1
-    ExplicitLeft = 8
-    ExplicitTop = 56
-    ExplicitWidth = 435
-    ExplicitHeight = 393
+    ExplicitTop = 34
+    ExplicitHeight = 349
     object StringGridCharacter: TStringGrid
       Left = 6
       Top = 0
       Width = 420
-      Height = 343
+      Height = 346
       Align = alClient
       ColCount = 20
       DefaultColWidth = 19
@@ -107,9 +103,7 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
       OnDrawCell = StringGridCharacterDrawCell
       OnMouseDown = StringGridCharacterMouseDown
       OnMouseUp = StringGridCharacterMouseUp
-      ExplicitLeft = 8
-      ExplicitTop = 38
-      ExplicitHeight = 347
+      ExplicitHeight = 343
     end
     object ImagePanel: TPanel
       Left = 150
@@ -149,29 +143,28 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
     Left = 0
     Top = 0
     Width = 432
-    Height = 34
+    Height = 31
     Align = alTop
     BevelOuter = bvNone
     Padding.Left = 6
     Padding.Top = 6
     Padding.Right = 6
     TabOrder = 2
-    ExplicitWidth = 435
     DesignSize = (
       432
-      34)
+      31)
     object FontComboBox: TJvFontComboBox
       Left = 6
       Top = 5
       Width = 420
-      Height = 25
+      Height = 22
       Anchors = [akLeft, akTop, akRight]
       DroppedDownWidth = 420
       MaxMRUCount = 0
       FontName = 'Arial'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -15
+      Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = []
       ItemIndex = 40
@@ -179,7 +172,6 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
       Sorted = True
       TabOrder = 0
       OnChange = FontComboBoxChange
-      ExplicitWidth = 423
     end
   end
   object ActionList: TActionList
