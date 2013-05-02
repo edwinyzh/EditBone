@@ -800,7 +800,7 @@ end;
 
 procedure TMainForm.UnicodeCharacterMapActionExecute(Sender: TObject);
 begin
-  UnicodeCharacterMapForm.Open;
+  UnicodeCharacterMapForm.Open(FDocumentFrame);
 end;
 
 procedure TMainForm.UpdateToolBar;

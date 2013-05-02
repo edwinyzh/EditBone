@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids, Vcl.StdCtrls,
-  JvExStdCtrls, JvCombobox, JvColorCombo;
+  JvExStdCtrls, JvCombobox, JvColorCombo, Vcl.ActnList, Document;
 
 type
   TUnicodeCharacterMapForm = class(TForm)
@@ -14,8 +14,10 @@ type
     StringGridCharacter: TStringGrid;
     ImagePanel: TPanel;
     Image: TImage;
-    Button1: TButton;
-    Button2: TButton;
+    ActionList: TActionList;
+    InsertAction: TAction;
+    ImagePanelShape: TShape;
+    Panel1: TPanel;
     FontComboBox: TJvFontComboBox;
     procedure StringGridCharacterDrawCell(Sender: TObject; ACol, ARow: Integer; Rect: TRect;
       State: TGridDrawState);
@@ -28,14 +30,16 @@ type
     procedure StringGridCharacterMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState;
       X, Y: Integer);
     procedure FormResize(Sender: TObject);
+    procedure InsertActionExecute(Sender: TObject);
   private
     { Private declarations }
+    FDocumentFrame: TDocumentFrame;
     procedure ReadIniFile;
     procedure UpdateFields;
     procedure WriteIniFile;
   public
     { Public declarations }
-    procedure Open;
+    procedure Open(DocumentFrame: TDocumentFrame);
   end;
 
 function UnicodeCharacterMapForm: TUnicodeCharacterMapForm;
@@ -45,7 +49,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, IniFiles;
+  Common, IniFiles, BCSynEdit, SynEditKeyCmds;
 
 var
   FUnicodeCharacterMapForm: TUnicodeCharacterMapForm;
@@ -78,8 +82,22 @@ begin
   UpdateFields;
 end;
 
-procedure TUnicodeCharacterMapForm.Open;
+procedure TUnicodeCharacterMapForm.InsertActionExecute(Sender: TObject);
+var
+  SynEdit: TBCSynEdit;
+  WC: WideChar;
 begin
+  SynEdit := FDocumentFrame.GetActiveSynEdit;
+  if Assigned(SynEdit) then
+  begin
+    WC := WideChar(StringGridCharacter.ColCount * StringGridCharacter.Row + StringGridCharacter.Col);
+    SynEdit.ExecuteCommand(ecImeStr, #0, @WC);
+  end;
+end;
+
+procedure TUnicodeCharacterMapForm.Open(DocumentFrame: TDocumentFrame);
+begin
+  FDocumentFrame := DocumentFrame;
   ReadIniFile;
   UpdateFields;
   Show;
@@ -165,7 +183,6 @@ begin
     Bitmap.Free
   end;
 
-  ImagePanel.Visible := True;
   ImagePanel.Left := X;
   ImagePanel.Top := Y;
   { Adjust image panel inside string grid }
@@ -177,6 +194,8 @@ begin
     ImagePanel.Top := StringGridCharacter.Top + 10;
   if ImagePanel.Top + ImagePanel.Height > StringGridCharacter.Top + StringGridCharacter.Height then
     ImagePanel.Top := StringGridCharacter.Top + StringGridCharacter.Height - ImagePanel.Height - 10;
+
+   ImagePanel.Visible := True;
 end;
 
 procedure TUnicodeCharacterMapForm.StringGridCharacterMouseUp(Sender: TObject; Button: TMouseButton;

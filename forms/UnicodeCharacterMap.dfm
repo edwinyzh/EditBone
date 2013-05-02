@@ -2,8 +2,8 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
   Left = 0
   Top = 0
   Caption = 'Unicode Character Map'
-  ClientHeight = 412
-  ClientWidth = 435
+  ClientHeight = 402
+  ClientWidth = 432
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -64,29 +64,35 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
   TextHeight = 13
   object StatusBar: TStatusBar
     Left = 0
-    Top = 393
-    Width = 435
+    Top = 383
+    Width = 432
     Height = 19
     Panels = <>
     SimplePanel = True
+    ExplicitTop = 393
+    ExplicitWidth = 435
   end
   object Panel: TPanel
     Left = 0
-    Top = 0
-    Width = 435
-    Height = 393
+    Top = 34
+    Width = 432
+    Height = 349
     Align = alClient
     BevelOuter = bvNone
+    Padding.Left = 6
+    Padding.Right = 6
+    Padding.Bottom = 6
     TabOrder = 1
-    DesignSize = (
-      435
-      393)
+    ExplicitLeft = 8
+    ExplicitTop = 56
+    ExplicitWidth = 435
+    ExplicitHeight = 393
     object StringGridCharacter: TStringGrid
-      Left = 8
-      Top = 38
+      Left = 6
+      Top = 0
       Width = 420
-      Height = 347
-      Anchors = [akLeft, akTop, akRight, akBottom]
+      Height = 343
+      Align = alClient
       ColCount = 20
       DefaultColWidth = 19
       DefaultRowHeight = 19
@@ -97,54 +103,70 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
       ScrollBars = ssVertical
       TabOrder = 0
       OnClick = StringGridCharacterClick
+      OnDblClick = InsertActionExecute
       OnDrawCell = StringGridCharacterDrawCell
       OnMouseDown = StringGridCharacterMouseDown
       OnMouseUp = StringGridCharacterMouseUp
+      ExplicitLeft = 8
+      ExplicitTop = 38
+      ExplicitHeight = 347
     end
     object ImagePanel: TPanel
       Left = 150
       Top = 88
       Width = 125
       Height = 125
-      BorderStyle = bsSingle
-      Color = clWhite
+      BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 1
       Visible = False
-      object Image: TImage
-        Left = 1
-        Top = 1
-        Width = 119
-        Height = 119
+      object ImagePanelShape: TShape
+        Left = 0
+        Top = 0
+        Width = 125
+        Height = 125
         Align = alClient
+        ExplicitLeft = 32
+        ExplicitTop = 32
+        ExplicitWidth = 65
+        ExplicitHeight = 65
+      end
+      object Image: TImage
+        Left = 0
+        Top = 0
+        Width = 125
+        Height = 125
+        Align = alClient
+        Transparent = True
         ExplicitLeft = 80
         ExplicitTop = 32
         ExplicitWidth = 105
         ExplicitHeight = 105
       end
     end
-    object Button1: TButton
-      Left = 273
-      Top = 7
-      Width = 75
-      Height = 25
-      Caption = 'Insert'
-      TabOrder = 2
-    end
-    object Button2: TButton
-      Left = 354
-      Top = 7
-      Width = 75
-      Height = 25
-      Caption = 'Copy'
-      TabOrder = 3
-    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 432
+    Height = 34
+    Align = alTop
+    BevelOuter = bvNone
+    Padding.Left = 6
+    Padding.Top = 6
+    Padding.Right = 6
+    TabOrder = 2
+    ExplicitWidth = 435
+    DesignSize = (
+      432
+      34)
     object FontComboBox: TJvFontComboBox
-      Left = 8
-      Top = 7
-      Width = 255
+      Left = 6
+      Top = 5
+      Width = 420
       Height = 25
-      DroppedDownWidth = 255
+      Anchors = [akLeft, akTop, akRight]
+      DroppedDownWidth = 420
       MaxMRUCount = 0
       FontName = 'Arial'
       Font.Charset = DEFAULT_CHARSET
@@ -155,8 +177,16 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
       ItemIndex = 40
       ParentFont = False
       Sorted = True
-      TabOrder = 4
+      TabOrder = 0
       OnChange = FontComboBoxChange
+      ExplicitWidth = 423
+    end
+  end
+  object ActionList: TActionList
+    Left = 58
+    Top = 142
+    object InsertAction: TAction
+      OnExecute = InsertActionExecute
     end
   end
 end
