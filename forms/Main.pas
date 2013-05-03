@@ -1222,6 +1222,7 @@ end;
 
 procedure TMainForm.FormActivate(Sender: TObject);
 begin
+  OptionsContainer.AssignTo(ActionMainMenuBar);
   if Assigned(FDirectoryFrame) then
     FDirectoryFrame.Repaint;
   if Assigned(FDocumentFrame) then
@@ -1270,8 +1271,6 @@ begin
 
   ReadLanguageFile(Common.GetSelectedLanguage);
   ReadIniFile;
-
-  OptionsContainer.AssignTo(ActionMainMenuBar);
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
