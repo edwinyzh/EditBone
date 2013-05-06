@@ -3,7 +3,7 @@ object MainForm: TMainForm
   Top = 0
   Caption = 'EditBone'
   ClientHeight = 560
-  ClientWidth = 1031
+  ClientWidth = 1100
   Color = clBtnFace
   TransparentColorValue = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -27,7 +27,7 @@ object MainForm: TMainForm
   object StatusBar: TStatusBar
     Left = 0
     Top = 541
-    Width = 1031
+    Width = 1100
     Height = 19
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBtnText
@@ -53,7 +53,7 @@ object MainForm: TMainForm
   object MainMenuPanel: TPanel
     Left = 0
     Top = 0
-    Width = 1031
+    Width = 1100
     Height = 24
     Align = alTop
     BevelOuter = bvNone
@@ -86,13 +86,12 @@ object MainForm: TMainForm
       Spacing = 1
     end
     object HighlighterComboBox: TBCComboBox
-      Left = 899
+      Left = 968
       Top = 2
       Width = 130
-      Height = 21
+      Height = 22
       Align = alRight
       DropDownCount = 57
-      ItemHeight = 13
       ReadOnly = True
       TabOrder = 1
       Text = '<highlighter>'
@@ -161,13 +160,12 @@ object MainForm: TMainForm
       DropDownFixedWidth = 0
     end
     object EncodingComboBox: TBCComboBox
-      Left = 769
+      Left = 838
       Top = 2
       Width = 130
-      Height = 21
+      Height = 22
       Align = alRight
       DropDownCount = 57
-      ItemHeight = 13
       ReadOnly = True
       TabOrder = 2
       Text = '<encoding>'
@@ -188,7 +186,7 @@ object MainForm: TMainForm
   object ToolBarPanel: TPanel
     Left = 0
     Top = 24
-    Width = 1031
+    Width = 1100
     Height = 28
     Align = alTop
     AutoSize = True
@@ -198,10 +196,11 @@ object MainForm: TMainForm
     Padding.Right = 2
     ParentColor = True
     TabOrder = 1
+    Visible = False
     object ActionToolBar: TActionToolBar
       Left = 2
       Top = 2
-      Width = 1027
+      Width = 1096
       Height = 26
       ActionManager = ActionManager
       Color = clMenuBar
@@ -224,7 +223,7 @@ object MainForm: TMainForm
   object ContentPanel: TPanel
     Left = 0
     Top = 52
-    Width = 1031
+    Width = 1100
     Height = 489
     Align = alClient
     BevelOuter = bvNone
@@ -233,7 +232,7 @@ object MainForm: TMainForm
     object HorizontalSplitter: TSplitter
       Left = 0
       Top = 334
-      Width = 1031
+      Width = 1100
       Height = 3
       Cursor = crVSplit
       Align = alBottom
@@ -254,7 +253,7 @@ object MainForm: TMainForm
     object OutputPanel: TPanel
       Left = 0
       Top = 337
-      Width = 1031
+      Width = 1100
       Height = 152
       Align = alBottom
       BevelOuter = bvNone
@@ -283,7 +282,7 @@ object MainForm: TMainForm
     object DocumentPanel: TPanel
       Left = 260
       Top = 0
-      Width = 771
+      Width = 840
       Height = 334
       Align = alClient
       BevelOuter = bvNone
@@ -2074,7 +2073,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C010143005C01080710001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010143005C01180710001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001001000001002000000000000010
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000131020001420300025104000251040001420300013102000000

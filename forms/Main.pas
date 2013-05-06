@@ -781,7 +781,7 @@ begin
   with TBigIniFile.Create(Common.GetINIFilename) do
   try
     { Options }
-    ActionToolBar.Visible := ReadBool('Options', 'ShowToolBar', True);
+    OptionsContainer.ToolBarVisible := ReadBool('Options', 'ShowToolBar', True);
     StatusBar.Visible := ReadBool('Options', 'ShowStatusbar', True);
     DirectoryPanel.Visible := ReadBool('Options', 'ShowDirectory', True);
     HighlighterComboBox.Visible := ReadBool('Options', 'ShowHighlighterSelection', True);
@@ -838,6 +838,7 @@ begin
   PopupMenuDocumentAction.Checked := OptionsContainer.ToolBarDocument;
 
   ActionToolBar.Repaint;
+  ToolBarPanel.Visible := OptionsContainer.ToolBarVisible;
 end;
 
 procedure TMainForm.WriteIniFile;
@@ -864,7 +865,7 @@ begin
     end;
     WriteInteger('Size', 'State', State);
     { Options }
-    WriteBool('Options', 'ShowToolBar', ActionToolBar.Visible);
+    WriteBool('Options', 'ShowToolBar', ToolBarPanel.Visible);
     WriteBool('Options', 'ShowStatusbar', StatusBar.Visible);
     WriteBool('Options', 'ShowDirectory', DirectoryPanel.Visible);
     WriteBool('Options', 'ShowHighlighterSelection', HighlighterComboBox.Visible);
@@ -939,7 +940,7 @@ begin
   IsXMLDocument := FDocumentFrame.IsXMLDocument;
   BookmarkList := FDocumentFrame.GetActiveBookmarkList;
 
-  ViewToolbarAction.Checked := ActionToolBar.Visible;
+  ViewToolbarAction.Checked := ToolBarPanel.Visible;
   ViewStatusbarAction.Checked := StatusBar.Visible;
   ViewOutputAction.Checked := OutputPanel.Visible;
   ViewDirectoryAction.Enabled := FDirectoryFrame.IsAnyDirectory;
@@ -1774,8 +1775,8 @@ end;
 
 procedure TMainForm.ViewToolbarActionExecute(Sender: TObject);
 begin
-  with ActionToolBar do
-  Visible := not Visible;
+  OptionsContainer.ToolBarVisible := not OptionsContainer.ToolBarVisible;
+  ToolBarPanel.Visible := OptionsContainer.ToolBarVisible;
 end;
 
 procedure TMainForm.ViewWordWrapActionExecute(Sender: TObject);

@@ -280,6 +280,7 @@ type
     procedure GotoLineActionExecute(Sender: TObject);
     procedure GotoLineNumberEditKeyPress(Sender: TObject; var Key: Char);
     procedure PageControlCloseButtonClick(Sender: TObject);
+    procedure PageControlDblClick(Sender: TObject);
   private
     { Private declarations }
     FCaseCycle: Byte;
@@ -939,6 +940,7 @@ end;
 procedure TDocumentFrame.PageControlRepaint;
 var
   SynEdit: TBCSynEdit;
+  CompareFrame: TCompareFrame;
 begin
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
@@ -948,7 +950,12 @@ begin
     SynEdit.Repaint;
   Application.ProcessMessages;
   if Assigned(PageControl.ActivePage) then
+  begin
+    CompareFrame := GetCompareFrame(PageControl.ActivePage);
+    if Assigned(CompareFrame) then
+      CompareFrame.RepaintFrame;
     PageControl.ActivePage.Repaint;
+  end;
   PageControl.Repaint;
 end;
 
@@ -1012,10 +1019,12 @@ procedure TDocumentFrame.AddToReopenFiles(FileName: string);
 var
   i: Integer;
   Files: TStrings;
+  IniFile: string;
 begin
+  IniFile := Common.GetINIFilename;
   Files := TStringList.Create;
   { Read section }
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TBigIniFile.Create(IniFile) do
   try
     ReadSectionValues('FileReopenFiles', Files);
   finally
@@ -1031,7 +1040,7 @@ begin
   while Files.Count > 10 do
     Files.Delete(Files.Count - 1);
   { write section }
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TBigIniFile.Create(IniFile) do
   try
     EraseSection('FileReopenFiles');
     for i := 0 to Files.Count - 1 do
@@ -1039,6 +1048,10 @@ begin
   finally
     Free;
   end;
+  { if ini file is open in editor reload it because time has changed }
+  for i := 0 to PageControl.PageCount - 1 do
+    if PageControl.Pages[i].Caption = ExtractFileName(IniFile) then
+      Refresh(i);
 end;
 
 procedure TDocumentFrame.Open(FileName: string = ''; Bookmarks: TStrings = nil;
@@ -1423,6 +1436,12 @@ end;
 procedure TDocumentFrame.PageControlCloseButtonClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TDocumentFrame.PageControlDblClick(Sender: TObject);
+begin
+  if OptionsContainer.DocCloseTabByDblClick then
+    Close;
 end;
 
 procedure TDocumentFrame.Paste;
@@ -1840,14 +1859,17 @@ begin
     OptionsContainer.GutterWidth := StrToInt(ReadString('Options', 'GutterWidth', '48'));
     OptionsContainer.ExtraLineSpacing := StrToInt(ReadString('Options', 'ExtraLineSpacing', '0'));
     OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '8'));
+    OptionsContainer.DocCloseTabByDblClick := ReadBool('Options', 'DocCloseTabByDblClick', False);
     OptionsContainer.DocMultiLine := ReadBool('Options', 'DocMultiLine', False);
     OptionsContainer.DocShowCloseButton := ReadBool('Options', 'DocShowCloseButton', False);
     OptionsContainer.DocShowImage := ReadBool('Options', 'DocShowImage', True);
     OptionsContainer.DirShowTreeLines:= ReadBool('Options', 'DirShowTreeLines', False);
     OptionsContainer.DirIndent := StrToInt(ReadString('Options', 'DirIndent', '20'));
+    OptionsContainer.DirCloseTabByDblClick := ReadBool('Options', 'DirCloseTabByDblClick', False);
     OptionsContainer.DirMultiLine := ReadBool('Options', 'DirMultiLine', False);
     OptionsContainer.DirShowCloseButton := ReadBool('Options', 'DirShowCloseButton', False);
     OptionsContainer.DirShowImage := ReadBool('Options', 'DirShowImage', True);
+    OptionsContainer.OutputCloseTabByDblClick := ReadBool('Options', 'OutputCloseTabByDblClick', False);
     OptionsContainer.OutputMultiLine := ReadBool('Options', 'OutputMultiLine', False);
     OptionsContainer.OutputShowCloseButton := ReadBool('Options', 'OutputShowCloseButton', False);
     OptionsContainer.OutputShowImage := ReadBool('Options', 'OutputShowImage', True);
@@ -1971,14 +1993,17 @@ begin
     WriteString('Options', 'TabWidth', IntToStr(OptionsContainer.TabWidth));
     WriteString('Options', 'ActiveLineColorBrightness', IntToStr(OptionsContainer.ColorBrightness));
     WriteBool('Options', 'GutterVisible', OptionsContainer.GutterVisible);
+    WriteBool('Options', 'DocCloseTabByDblClick', OptionsContainer.DocCloseTabByDblClick);
     WriteBool('Options', 'DocMultiLine', OptionsContainer.DocMultiLine);
     WriteBool('Options', 'DocShowCloseButton', OptionsContainer.DocShowCloseButton);
     WriteBool('Options', 'DocShowImage', OptionsContainer.DocShowImage);
     WriteBool('Options', 'DirShowTreeLines', OptionsContainer.DirShowTreeLines);
     WriteString('Options', 'DirIndent', IntToStr(OptionsContainer.DirIndent));
+    WriteBool('Options', 'DirCloseTabByDblClick', OptionsContainer.DirCloseTabByDblClick);
     WriteBool('Options', 'DirMultiLine', OptionsContainer.DirMultiLine);
     WriteBool('Options', 'DirShowCloseButton', OptionsContainer.DirShowCloseButton);
     WriteBool('Options', 'DirShowImage', OptionsContainer.DirShowImage);
+    WriteBool('Options', 'OutputCloseTabByDblClick', OptionsContainer.OutputCloseTabByDblClick);
     WriteBool('Options', 'OutputMultiLine', OptionsContainer.OutputMultiLine);
     WriteBool('Options', 'OutputShowCloseButton', OptionsContainer.OutputShowCloseButton);
     WriteBool('Options', 'HTMLErrorChecking', OptionsContainer.HTMLErrorChecking);

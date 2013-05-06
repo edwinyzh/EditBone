@@ -12,6 +12,7 @@ type
     MultilineCheckBox: TBCCheckBox;
     ShowCloseButtonCheckBox: TBCCheckBox;
     ShowImageCheckBox: TBCCheckBox;
+    CloseTabByDblClickCheckBox: TBCCheckBox;
   private
     { Private declarations }
   public

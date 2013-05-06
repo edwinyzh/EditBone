@@ -14,7 +14,7 @@ type
   TObjectNodeRec = record
     Level: Byte;
     ValueType: array[0..3] of TValueType;
-    Value: array[0..3] of UnicodeString;
+    Value: array[0..4] of UnicodeString;
     ImageIndex: Byte;
   end;
 
@@ -59,7 +59,7 @@ type
     function GetCaption: string;
     function GetModifiedInfo: string;
     function SaveAs(FileName: string): Boolean;
-    procedure AddTreeNode(NodeText: string);
+    procedure AddTreeNode(NodeText: string; TranslationNeeded: Boolean);
     procedure LoadLanguageFile(FileName: string);
     procedure ReadIniFile;
     procedure Save;
@@ -360,7 +360,8 @@ begin
            WriteString(Data.Value[0], Format('%s:h', [ChildData.Value[0]]), ChildData.Value[2]);
          if Trim(ChildData.Value[3]) <> '' then
            WriteString(Data.Value[0], Format('%s:s', [ChildData.Value[0]]), ChildData.Value[3]);
-
+         if Trim(ChildData.Value[4]) = 'Changed' then
+           DeleteKey(Data.Value[0], Format('%s:t', [ChildData.Value[0]]));
          ChildNode := ChildNode.NextSibling;
        end;
        Node := Node.NextSibling;
@@ -439,7 +440,10 @@ begin
       LColor := LStyles.GetSystemColor(clWindowText);
     //get and set the background color
     Canvas.Brush.Color := LStyles.GetStyleColor(scEdit);
-    Canvas.Font.Color := LColor;
+    if Data.Value[4] <> '' then
+      Canvas.Font.Color := clRed
+    else
+      Canvas.Font.Color := LColor;
 
     if LStyles.Enabled and (vsSelected in PaintInfo.Node.States) then
     begin
@@ -448,13 +452,19 @@ begin
        Colors.UnfocusedSelectionColor := LStyles.GetSystemColor(clHighlight);
        Colors.UnfocusedSelectionBorderColor := LStyles.GetSystemColor(clHighlight);
        Canvas.Brush.Color := LStyles.GetSystemColor(clHighlight);
-       Canvas.Font.Color := LStyles.GetStyleFontColor(sfMenuItemTextSelected);// GetSystemColor(clHighlightText);
+       if Data.Value[4] <> '' then
+         Canvas.Font.Color := clRed
+       else
+         Canvas.Font.Color := LStyles.GetStyleFontColor(sfMenuItemTextSelected);
     end
     else
     if not LStyles.Enabled and (vsSelected in PaintInfo.Node.States) then
     begin
       Canvas.Brush.Color := clHighlight;
-      Canvas.Font.Color := clHighlightText;
+      if Data.Value[4] <> '' then
+        Canvas.Font.Color := clRed
+      else
+        Canvas.Font.Color := clHighlightText;
     end;
 
     SetBKMode(Canvas.Handle, TRANSPARENT);
@@ -483,10 +493,14 @@ end;
 
 procedure TLanguageEditorForm.VirtualDrawTreeEdited(Sender: TBaseVirtualTree; Node: PVirtualNode;
   Column: TColumnIndex);
+var
+  Data: PObjectNodeRec;
 begin
   if (VirtualDrawTree.Tag = 1) and (Pos('~', FLanguageFileName) = 0) then
   begin
     FLanguageFileName := FLanguageFileName + '~';
+    Data := VirtualDrawTree.GetNodeData(Node);
+    Data.Value[4] := 'Changed';
     Caption := GetCaption;
   end;
 end;
@@ -554,7 +568,7 @@ begin
     Include(InitialStates, ivsHasChildren);
 end;
 
-procedure TLanguageEditorForm.AddTreeNode(NodeText: string);
+procedure TLanguageEditorForm.AddTreeNode(NodeText: string; TranslationNeeded: Boolean);
 var
   RootNode: PVirtualNode;
   Data: PObjectNodeRec;
@@ -563,6 +577,11 @@ begin
   Data := VirtualDrawTree.GetNodeData(RootNode);
   Data.Value[0] := Trim(NodeText);
   Data.ValueType[0] := vtString;
+  if TranslationNeeded then
+    Data.Value[4] := 'Translation needed';
+  if Pos('About Language File', NodeText) <> 0 then
+    Data.ImageIndex := 7
+  else
   if Pos('Dialog', NodeText) <> 0 then
     Data.ImageIndex := 4
   else
@@ -578,8 +597,9 @@ end;
 
 procedure TLanguageEditorForm.LoadLanguageFile(FileName: string);
 var
-  i: Integer;
-  SectionStringList: TStringList;
+  i, j: Integer;
+  SectionStringList, StringList: TStringList;
+  TranslationNeeded: Boolean;
 begin
   if not FileExists(FileName) then
     Exit;
@@ -588,13 +608,25 @@ begin
   VirtualDrawTree.BeginUpdate;
   VirtualDrawTree.Clear;
   SectionStringList := TStringList.Create;
+  StringList := TStringList.Create;
   with TMemIniFile.Create(FileName, TEncoding.Unicode) do
   try
     ReadSections(SectionStringList);
     for i := 0 to SectionStringList.Count - 1 do
-      AddTreeNode(SectionStringList.Strings[i]);
+    begin
+      ReadSectionValues(SectionStringList.Strings[i], StringList);
+      TranslationNeeded := False;
+      for j := 0 to StringList.Count - 1 do
+        if Pos(':t', StringList.Strings[j]) <> 0 then
+        begin
+          TranslationNeeded := True;
+          Break;
+        end;
+      AddTreeNode(SectionStringList.Strings[i], TranslationNeeded);
+    end;
   finally
     SectionStringList.Free;
+    StringList.Free;
     Free;
   end;
   VirtualDrawTree.Sort(nil, 0, sdAscending, False);
@@ -622,6 +654,8 @@ var
       Result := StringReplace(Result, ':h', '', []);
       { remove shortcut }
       Result := StringReplace(Result, ':s', '', []);
+      { remove translation needed }
+      Result := StringReplace(Result, ':t', '', []);
     end;
 
   begin
@@ -643,6 +677,9 @@ var
     ChildData.ValueType[0] := vtString;
     NodeKey := Copy(NodeText, 1, Pos('=', NodeText) - 1);
     NodeValue := Copy(NodeText, Pos('=', NodeText) + 1, Length(NodeText));
+    if Pos(':t', NodeKey) <> 0 then
+      ChildData.Value[4] := NodeValue
+    else
     if (Pos(':h', NodeKey) = 0) and (Pos(':s', NodeKey) = 0) then
       ChildData.Value[1] := NodeValue
     else
@@ -668,7 +705,7 @@ begin
     StringList := TStringList.Create;
     with TMemIniFile.Create(FileName, TEncoding.Unicode) do
     try
-      ReadSectionValues(String(Data.Value[0]), StringList);
+      ReadSectionValues(Data.Value[0], StringList);
       for i := 0 to StringList.Count - 1 do
         AddChildNode(StringList.Strings[i]);
     finally

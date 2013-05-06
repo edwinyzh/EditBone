@@ -7,6 +7,9 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids, Vcl.StdCtrls,
   JvExStdCtrls, JvCombobox, JvColorCombo, Vcl.ActnList, Document;
 
+const
+  WM_AFTER_SHOW = WM_USER + 301; // custom message
+
 type
   TUnicodeCharacterMapForm = class(TForm)
     StatusBar: TStatusBar;
@@ -31,12 +34,15 @@ type
       X, Y: Integer);
     procedure FormResize(Sender: TObject);
     procedure InsertActionExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     FDocumentFrame: TDocumentFrame;
+    FOnStartUp: Boolean;
     procedure ReadIniFile;
     procedure UpdateFields;
     procedure WriteIniFile;
+    procedure WMAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
   public
     { Public declarations }
     procedure Open(DocumentFrame: TDocumentFrame);
@@ -78,8 +84,33 @@ begin
 end;
 
 procedure TUnicodeCharacterMapForm.FormResize(Sender: TObject);
+var
+  ACharPos: Integer;
 begin
-  UpdateFields;
+  ACharPos := -1;
+  with StringGridCharacter do
+  begin
+    if not FOnStartUp then
+      ACharPos := Row * ColCount + Col;
+    UpdateFields;
+    if not FOnStartUp then
+    begin
+      Row := ACharPos div ColCount;
+      Col := ACharPos - ColCount * Row;
+    end;
+  end;
+end;
+
+procedure TUnicodeCharacterMapForm.WMAfterShow(var Msg: TMessage);
+begin
+  FOnStartUp := False;
+end;
+
+procedure TUnicodeCharacterMapForm.FormShow(Sender: TObject);
+begin
+  { Post the custom message WM_AFTER_SHOW to our form }
+  if FOnStartUp then
+    PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
 end;
 
 procedure TUnicodeCharacterMapForm.InsertActionExecute(Sender: TObject);
@@ -97,6 +128,7 @@ end;
 
 procedure TUnicodeCharacterMapForm.Open(DocumentFrame: TDocumentFrame);
 begin
+  FOnStartUp := True;
   FDocumentFrame := DocumentFrame;
   ReadIniFile;
   UpdateFields;
@@ -211,7 +243,7 @@ var
 begin
   with StringGridCharacter do
   begin
-    ColCount := (Width - 40)  div DefaultColWidth;
+    ColCount := (Width - 40) div DefaultColWidth;
     RowCount := (65535 div ColCount) + 1;
     Invalidate;
     s := '';
@@ -237,6 +269,8 @@ begin
     { Position }
     Left := ReadInteger('CharacterMapPosition', 'Left', (Screen.Width - Width) div 2);
     Top := ReadInteger('CharacterMapPosition', 'Top', (Screen.Height - Height) div 2);
+    StringGridCharacter.Row := ReadInteger('CharacterMapPosition', 'Row', 0);
+    StringGridCharacter.Col := ReadInteger('CharacterMapPosition', 'Col', 0);
   finally
     Free;
   end;
@@ -250,6 +284,8 @@ begin
     { Position }
     WriteInteger('CharacterMapPosition', 'Left', Left);
     WriteInteger('CharacterMapPosition', 'Top', Top);
+    WriteInteger('CharacterMapPosition', 'Row', StringGridCharacter.Row);
+    WriteInteger('CharacterMapPosition', 'Col', StringGridCharacter.Col);
     { Size }
     WriteInteger('CharacterMapSize', 'Width', Width);
     WriteInteger('CharacterMapSize', 'Height', Height);

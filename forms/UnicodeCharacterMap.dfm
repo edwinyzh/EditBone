@@ -60,6 +60,7 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
   OnClose = FormClose
   OnDestroy = FormDestroy
   OnResize = FormResize
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object StatusBar: TStatusBar
@@ -81,8 +82,6 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
     Padding.Right = 6
     Padding.Bottom = 6
     TabOrder = 1
-    ExplicitTop = 34
-    ExplicitHeight = 349
     object StringGridCharacter: TStringGrid
       Left = 6
       Top = 0
@@ -103,7 +102,6 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
       OnDrawCell = StringGridCharacterDrawCell
       OnMouseDown = StringGridCharacterMouseDown
       OnMouseUp = StringGridCharacterMouseUp
-      ExplicitHeight = 343
     end
     object ImagePanel: TPanel
       Left = 150

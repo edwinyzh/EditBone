@@ -44,6 +44,7 @@ type
     procedure DriveComboChange(Sender: TObject);
     procedure TabsheetDblClick(Sender: TObject);
     procedure PageControlCloseButtonClick(Sender: TObject);
+    procedure PageControlDblClick(Sender: TObject);
   private
     { Private declarations }
     FTabsheetDblClick: TNotifyEvent;
@@ -119,16 +120,6 @@ begin
       ShowDrives := StrToBool(Copy(s, 1, Pos(';', s) - 1));
       s := Copy(s, Pos(';', s) + 1, Length(s));
       ExcludeOtherBranches := StrToBool(s);
-      (* end
-      else
-      begin
-        { old ini version before 1.6.2 }
-        TabName := IncludeTrailingBackslash(ExtractFileDrive(s));
-        Root := TabName;
-        LastPath := s;
-        ShowDrives := True;
-        ExcludeOtherBranches := False;
-      end; *)
       if DirectoryExists(LastPath) then
         OpenDirectory(TabName, Root, LastPath, ShowDrives, ExcludeOtherBranches);
     end;
@@ -349,6 +340,12 @@ end;
 procedure TDirectoryFrame.PageControlCloseButtonClick(Sender: TObject);
 begin
   DirectoryCloseAction.Execute;
+end;
+
+procedure TDirectoryFrame.PageControlDblClick(Sender: TObject);
+begin
+  if OptionsContainer.DirCloseTabByDblClick then
+    DirectoryCloseAction.Execute;
 end;
 
 procedure TDirectoryFrame.DriveComboChange(Sender: TObject);
