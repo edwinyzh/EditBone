@@ -15,28 +15,28 @@ object EditorOtherFrame: TEditorOtherFrame
     BevelOuter = bvNone
     TabOrder = 0
     object CPASHighlighterLabel: TLabel
-      Left = 7
+      Left = 11
       Top = 136
       Width = 142
       Height = 13
       Caption = 'Default C / Pascal Highlighter '
     end
     object SQLDialectLabel: TLabel
-      Left = 7
-      Top = 93
+      Left = 11
+      Top = 92
       Width = 57
       Height = 13
       Caption = 'SQL Dialect '
     end
     object CSSVersionLabel: TLabel
-      Left = 7
+      Left = 11
       Top = 5
       Width = 57
       Height = 13
       Caption = 'CSS Version'
     end
     object PHPVersionLabel: TLabel
-      Left = 7
+      Left = 11
       Top = 49
       Width = 57
       Height = 13

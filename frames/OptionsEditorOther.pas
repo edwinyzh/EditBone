@@ -30,20 +30,23 @@ implementation
 {$R *.dfm}
 
 uses
-  Lib, SynHighlighterSQL, SynHighlighterWebData;
+  Lib, Language, SynHighlighterSQL, SynHighlighterWebData;
 
 constructor TEditorOtherFrame.Create(AOwner: TComponent);
 var
   i: TSQLDialect;
-  j: TCPASHighlighter;
   k: TSynWebCssVersion;
   l: TSynWebPhpVersion;
 begin
   inherited;
   for i := Low(TSQLDialect) to High(TSQLDialect) do
     SQLDialectComboBox.Items.Add(TSQLDialectStr[TSQLDialect(i)]);
-  for j := Low(TCPASHighlighter) to High(TCPASHighlighter) do
-    CPASHighlighterComboBox.Items.Add(TCPASHighlighterStr[TCPASHighlighter(j)]);
+  with CPASHighlighterComboBox.Items do
+  begin
+    Add(LanguageDatamodule.GetConstant('Classic'));
+    Add(LanguageDatamodule.GetConstant('Default'));
+    Add(LanguageDatamodule.GetConstant('Twilight'));
+  end;
   for k := Low(TSynWebCssVersion) to High(TSynWebCssVersion) do
     CSSVersionComboBox.Items.Add(TSynWebCssVersionStr[TSynWebCssVersion(k)]);
   for l := Low(TSynWebPhpVersion) to High(TSynWebPhpVersion) do

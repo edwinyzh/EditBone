@@ -127,6 +127,7 @@ type
     FGutterWidth: Integer;
     FHTMLErrorChecking: Boolean;
     FHTMLVersion: TSynWebHtmlVersion;
+    FInsertCaret: TSynEditCaretType;
     FIgnoreBlanks: Boolean;
     FIgnoreCase: Boolean;
     FMainMenuFontName: string;
@@ -212,6 +213,7 @@ type
     property HTMLVersion: TSynWebHtmlVersion read FHTMLVersion write FHTMLVersion;
     property IgnoreBlanks: Boolean read FIgnoreBlanks write FIgnoreBlanks;
     property IgnoreCase: Boolean read FIgnoreCase write FIgnoreCase;
+    property InsertCaret: TSynEditCaretType read FInsertCaret write FInsertCaret;
     property MainMenuFontName: string read FMainMenuFontName write FMainMenuFontName;
     property MainMenuFontSize: Integer read FMainMenuFontSize write FMainMenuFontSize;
     property MainMenuSystemFontName: string read FMainMenuSystemFontName write FMainMenuSystemFontName;
@@ -291,6 +293,7 @@ begin
     TCustomSynEdit(Dest).Gutter.AutoSize := FGutterAutoSize;
     TCustomSynEdit(Dest).Gutter.Width := FGutterWidth;
     TCustomSynEdit(Dest).TabWidth := FTabWidth;
+    TCustomSynEdit(Dest).InsertCaret := FInsertCaret;
     if FAutoIndent then
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoAutoIndent]
     else
@@ -569,6 +572,7 @@ begin
   FGutterAutoSize := True;
   FGutterVisibleRightMargin := True;
   FGutterWidth := 48;
+  FInsertCaret := ctVerticalLine;
   FTabWidth := 8;
   FHTMLVersion := shvHtml5;
   FPersistentHotKeys := False;
@@ -813,6 +817,7 @@ begin
   FEditorOptionsFrame.ExtraLinesEdit.Text := IntToStr(FOptionsContainer.ExtraLineSpacing);
   FEditorOptionsFrame.TabWidthEdit.Text := IntToStr(FOptionsContainer.TabWidth);
   FEditorOptionsFrame.BrightnessTrackBar.Position := FOptionsContainer.ColorBrightness;
+  FEditorOptionsFrame.InsertCaretComboBox.ItemIndex := Ord(FOptionsContainer.InsertCaret);
   { Font }
   FEditorFontFrame.FontLabel.Font.Name := FOptionsContainer.FontName;
   FEditorFontFrame.FontLabel.Font.Size := FOptionsContainer.FontSize;
@@ -997,6 +1002,7 @@ begin
   FOptionsContainer.ExtraLineSpacing := StrToIntDef(FEditorOptionsFrame.ExtraLinesEdit.Text, 0);
   FOptionsContainer.TabWidth := StrToIntDef(FEditorOptionsFrame.TabWidthEdit.Text, 8);
   FOptionsContainer.ColorBrightness := FEditorOptionsFrame.BrightnessTrackBar.Position;
+  FOptionsContainer.InsertCaret := TSynEditCaretType(FEditorOptionsFrame.InsertCaretComboBox.ItemIndex);
   { Font }
   FOptionsContainer.FontName := FEditorFontFrame.FontLabel.Font.Name;
   FOptionsContainer.FontSize := FEditorFontFrame.FontLabel.Font.Size;

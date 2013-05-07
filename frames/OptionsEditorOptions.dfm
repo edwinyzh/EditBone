@@ -2,19 +2,19 @@ object EditorOptionsFrame: TEditorOptionsFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 304
+  Height = 382
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
     Width = 451
-    Height = 304
+    Height = 382
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
     object ExtraLinesLabel: TLabel
-      Left = 7
+      Left = 9
       Top = 131
       Width = 53
       Height = 13
@@ -25,7 +25,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Caption = 'Extra Lines'
     end
     object TabWidthLabel: TLabel
-      Left = 7
+      Left = 9
       Top = 175
       Width = 49
       Height = 13
@@ -36,7 +36,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Caption = 'Tab Width'
     end
     object ActiveLineColorBrightnessLabel: TLabel
-      Left = 7
+      Left = 9
       Top = 221
       Width = 133
       Height = 13
@@ -45,6 +45,13 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = 'Active Line Color Brightness'
+    end
+    object InsertCaretLabel: TLabel
+      Left = 9
+      Top = 269
+      Width = 59
+      Height = 13
+      Caption = 'Insert Caret'
     end
     object AutoIndentCheckBox: TBCCheckBox
       Left = 9
@@ -123,7 +130,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
     end
     object TabWidthEdit: TBCEdit
       Left = 7
-      Top = 192
+      Top = 190
       Width = 64
       Height = 21
       Margins.Left = 4
@@ -174,6 +181,23 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Caption = ' Auto Save'
       TabOrder = 1
       ReadOnly = False
+    end
+    object InsertCaretComboBox: TBCComboBox
+      Left = 7
+      Top = 285
+      Width = 133
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      DropDownCount = 9
+      ItemHeight = 13
+      ReadOnly = False
+      TabOrder = 9
+      EditColor = clInfoBk
+      DeniedKeyStrokes = True
+      DropDownFixedWidth = 0
     end
   end
 end

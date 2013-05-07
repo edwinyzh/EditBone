@@ -1857,6 +1857,7 @@ begin
     OptionsContainer.GutterRightMargin := StrToInt(ReadString('Options', 'RightMargin', '80'));
     OptionsContainer.GutterVisible := ReadBool('Options', 'GutterVisible', True);
     OptionsContainer.GutterWidth := StrToInt(ReadString('Options', 'GutterWidth', '48'));
+    OptionsContainer.InsertCaret := TSynEditCaretType(StrToInt(ReadString('Options', 'InsertCaret', '0')));
     OptionsContainer.ExtraLineSpacing := StrToInt(ReadString('Options', 'ExtraLineSpacing', '0'));
     OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '8'));
     OptionsContainer.DocCloseTabByDblClick := ReadBool('Options', 'DocCloseTabByDblClick', False);
@@ -1993,6 +1994,7 @@ begin
     WriteString('Options', 'TabWidth', IntToStr(OptionsContainer.TabWidth));
     WriteString('Options', 'ActiveLineColorBrightness', IntToStr(OptionsContainer.ColorBrightness));
     WriteBool('Options', 'GutterVisible', OptionsContainer.GutterVisible);
+    WriteString('Options', 'InsertCaret', IntToStr(Ord(OptionsContainer.InsertCaret)));
     WriteBool('Options', 'DocCloseTabByDblClick', OptionsContainer.DocCloseTabByDblClick);
     WriteBool('Options', 'DocMultiLine', OptionsContainer.DocMultiLine);
     WriteBool('Options', 'DocShowCloseButton', OptionsContainer.DocShowCloseButton);
