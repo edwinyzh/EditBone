@@ -29,7 +29,7 @@ object EditorTabsFrame: TEditorTabsFrame
     end
     object ShowCloseButtonCheckBox: TBCCheckBox
       Left = 9
-      Top = 48
+      Top = 50
       Width = 218
       Height = 21
       Margins.Left = 4
@@ -42,7 +42,7 @@ object EditorTabsFrame: TEditorTabsFrame
     end
     object ShowImageCheckBox: TBCCheckBox
       Left = 9
-      Top = 70
+      Top = 72
       Width = 218
       Height = 21
       Margins.Left = 4
