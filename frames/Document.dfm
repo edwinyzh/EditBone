@@ -128,9 +128,10 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 50
-        Height = 13
+        Height = 18
         Align = alLeft
         Caption = 'Search for'
+        ExplicitHeight = 13
       end
     end
     object SearchPanel3: TPanel
@@ -419,10 +420,11 @@ object DocumentFrame: TDocumentFrame
         Left = 0
         Top = 2
         Width = 70
-        Height = 13
+        Height = 19
         Align = alLeft
         Caption = 'Case Sensitive'
         Layout = tlCenter
+        ExplicitHeight = 13
       end
       object WholeWordsCheckBox: TBCCheckBox
         Left = 78
@@ -600,9 +602,10 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 48
-        Height = 13
+        Height = 20
         Align = alLeft
         Caption = 'Go to Line'
+        ExplicitHeight = 13
       end
     end
     object LineNumberPanel: TPanel
@@ -695,7 +698,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 112
     Bitmap = {
-      494C010106003800540610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106003800640610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1043,7 +1046,7 @@ object DocumentFrame: TDocumentFrame
     Left = 144
     Top = 282
     Bitmap = {
-      494C01010A003800340610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A003800440610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1627,7 +1630,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 168
     Bitmap = {
-      494C010102009C04880614001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010102009C04980614001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000A4676900A4676900A467
@@ -1847,7 +1850,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 224
     Bitmap = {
-      494C01010200BC048C0618001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010200BC049C0618001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000A467
@@ -2206,7 +2209,6 @@ object DocumentFrame: TDocumentFrame
   end
   object ClassicCppSyn: TSynCppSyn
     Tag = 6
-    DefaultFilter = 'C/C++ Files (*.c;*.cpp;*.h;*.hpp)|*.c;*.cpp;*.h;*.hpp'
     AsmAttri.Foreground = clLime
     CommentAttri.Foreground = clSilver
     DirecAttri.Foreground = clSilver
@@ -2290,12 +2292,6 @@ object DocumentFrame: TDocumentFrame
     Left = 306
     Top = 474
   end
-  object SynDWSSyn: TSynDWSSyn
-    Tag = 17
-    DefaultFilter = 'DWScript Files (*.dws)|*.dws'
-    Left = 306
-    Top = 422
-  end
   object SynIniSyn: TSynIniSyn
     Tag = 27
     Left = 382
@@ -2367,9 +2363,6 @@ object DocumentFrame: TDocumentFrame
   end
   object ClassicPasSyn: TSynPasSyn
     Tag = 37
-    DefaultFilter = 
-      'Pascal Files (*.pas;*.dfm;*.dpr;*.dproj)|*.pas;*.dfm;*.dpr;*.dro' +
-      'j'
     AsmAttri.Foreground = clLime
     CommentAttri.Foreground = clSilver
     DirectiveAttri.Foreground = clSilver
@@ -2393,9 +2386,6 @@ object DocumentFrame: TDocumentFrame
   end
   object SynWebXmlSyn: TSynWebXmlSyn
     Tag = 57
-    DefaultFilter = 
-      'XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.x' +
-      'slt;*.dtd'
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
     Options.UseEngineOptions = True
@@ -2414,8 +2404,8 @@ object DocumentFrame: TDocumentFrame
   end
   object SynVrml97Syn: TSynVrml97Syn
     Tag = 55
-    Left = 642
-    Top = 318
+    Left = 644
+    Top = 106
   end
   object SynVBScriptSyn: TSynVBScriptSyn
     Tag = 54
@@ -2703,7 +2693,7 @@ object DocumentFrame: TDocumentFrame
     Left = 746
     Top = 190
     Bitmap = {
-      494C010109001800380110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010109001800480110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3118,7 +3108,7 @@ object DocumentFrame: TDocumentFrame
     Left = 744
     Top = 316
     Bitmap = {
-      494C0101010054001C0310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101010054002C0310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3267,5 +3257,16 @@ object DocumentFrame: TDocumentFrame
       ImageIndex = 0
       OnExecute = XMLTreeRefreshActionExecute
     end
+  end
+  object SynDWSSyn: TSynDWSSyn
+    Tag = 17
+    DefaultFilter = 'DWScript Files (*.dws;*.pas;*.inc)|*.dws;*.pas;*.inc'
+    Left = 308
+    Top = 420
+  end
+  object SynYAMLSyn: TSynYAMLSyn
+    Tag = 58
+    Left = 644
+    Top = 476
   end
 end

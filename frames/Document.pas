@@ -90,7 +90,8 @@ uses
   SynHighlighterAsm, SynHighlighterSml, SynHighlighterST, SynHighlighterTclTk, SynHighlighterPas,
   SynHighlighterJava, SynHighlighterInno, SynHighlighterIni, SynHighlighterDWS,
   SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
-  SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11;
+  SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11,
+  SynHighlighterYAML;
 
 type
   TDocumentFrame = class(TFrame)
@@ -178,7 +179,6 @@ type
     SynCPMSyn: TSynCPMSyn;
     SynDmlSyn: TSynDmlSyn;
     SynDOTSyn: TSynDOTSyn;
-    SynDWSSyn: TSynDWSSyn;
     SynEditPrint: TSynEditPrint;
     SynEditRegexSearch: TSynEditRegexSearch;
     SynEditSearch: TSynEditSearch;
@@ -264,6 +264,8 @@ type
     DectoHexMenuItem: TMenuItem;
     BintoDecMenuItem: TMenuItem;
     DectoBinMenuItem: TMenuItem;
+    SynDWSSyn: TSynDWSSyn;
+    SynYAMLSyn: TSynYAMLSyn;
     procedure PageControlChange(Sender: TObject);
     procedure SearchClearActionExecute(Sender: TObject);
     procedure SearchCloseActionExecute(Sender: TObject);
@@ -804,6 +806,7 @@ begin
     end;
     UpdateVBSynColors(SynVBSyn, WhiteBackground);
     UpdateASMSynColors(SynASMSyn, WhiteBackground);
+    UpdateYAMLSynColors(SynYAMLSyn, WhiteBackground);
     UpdateWebEngineColors(SynWebEngine, WhiteBackground);
   end;
 end;
@@ -1265,6 +1268,7 @@ begin
       TabSheet.Caption := AFileName;
 
       SelectHighlighter(DocTabSheetFrame, DocumentName);
+      SetMainHighlighterCombo(DocTabSheetFrame.SynEdit);
     end;
     UpdateGutterAndControls;
   end;
@@ -3481,6 +3485,7 @@ procedure TDocumentFrame.SetActiveHighlighter(Value: Integer);
         55: Highlighter := SynVrml97Syn;
         56: Highlighter := SynAsmSyn;
         57: Highlighter := SynWebXmlSyn;
+        58: Highlighter := SynYAMLSyn;
       end;
     end;
   end;
@@ -3830,6 +3835,8 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
         Highlighter := SynAsmSyn
       else if IsExtInFileType(FileExt, ftXML) then
         Highlighter := SynWebXMLSyn
+      else if IsExtInFileType(FileExt, ftYAML) then
+        Highlighter := SynYAMLSyn
       else
         Highlighter := DocTabSheetFrame.SynURISyn;
     end;

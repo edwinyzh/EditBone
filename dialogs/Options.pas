@@ -89,7 +89,7 @@ type
     ftHP48, ftHTML, ftIni, ftInno, ftJava, ftJScript, ftKix, ftLDR, ftModelica, ftM3,
     ftMsg, ftBat, ftPas, ftPerl, ftPHP, ftProgress, ftPython, ftRC, ftRuby, ftSDD,
     ftSQL, ftSML, ftST, ftTclTk, ftTeX, ftText, ftUNIXShellScript, ftVB, ftVBScript, ftVrml97,
-    ftAsm, ftXML);
+    ftAsm, ftXML, ftYAML);
 
   TOptionsContainer = class(TComponent)
   private
@@ -530,7 +530,10 @@ begin
     Result := FFileTypes.Strings[51]
   else
   if FileType = ftXML then
-    Result := FFileTypes.Strings[52];
+    Result := FFileTypes.Strings[52]
+  else
+  if FileType = ftYAML then
+    Result := FFileTypes.Strings[53];
 
   Result := UpperCase(Common.StringBetween(Result, '(', ')'));
 end;
@@ -604,7 +607,7 @@ begin
   FToolBarDocument := True;
 
   FFileTypes := TStringList.Create;
-  for i := 0 to 52 do
+  for i := 0 to 53 do
     FFileTypes.Add(LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text);
 end;
 

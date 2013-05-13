@@ -155,7 +155,8 @@ object MainForm: TMainForm
         'VBScript'
         'Vrml97/X3D World'
         'x86 Assembly'
-        'XML')
+        'XML'
+        'YAML')
       EditColor = clWindow
       DeniedKeyStrokes = True
       DropDownFixedWidth = 0
@@ -189,7 +190,7 @@ object MainForm: TMainForm
     Left = 0
     Top = 24
     Width = 1100
-    Height = 80
+    Height = 28
     Align = alTop
     AutoSize = True
     BevelOuter = bvNone
@@ -203,7 +204,7 @@ object MainForm: TMainForm
       Left = 2
       Top = 2
       Width = 1096
-      Height = 78
+      Height = 26
       ActionManager = ActionManager
       Color = clMenuBar
       ColorMap.DisabledFontColor = 7171437
@@ -220,23 +221,20 @@ object MainForm: TMainForm
       ParentFont = False
       PopupMenu = ToolbarPopupMenu
       Spacing = 0
-      ExplicitHeight = 26
     end
   end
   object ContentPanel: TPanel
     Left = 0
-    Top = 104
+    Top = 52
     Width = 1100
-    Height = 437
+    Height = 489
     Align = alClient
     BevelOuter = bvNone
     ParentColor = True
     TabOrder = 2
-    ExplicitTop = 52
-    ExplicitHeight = 489
     object HorizontalSplitter: TSplitter
       Left = 0
-      Top = 282
+      Top = 334
       Width = 1100
       Height = 3
       Cursor = crVSplit
@@ -249,7 +247,7 @@ object MainForm: TMainForm
     object VerticalSplitter: TSplitter
       Left = 257
       Top = 0
-      Height = 282
+      Height = 334
       AutoSnap = False
       MinSize = 100
       ResizeStyle = rsUpdate
@@ -257,7 +255,7 @@ object MainForm: TMainForm
     end
     object OutputPanel: TPanel
       Left = 0
-      Top = 285
+      Top = 337
       Width = 1100
       Height = 152
       Align = alBottom
@@ -269,13 +267,12 @@ object MainForm: TMainForm
       ParentDoubleBuffered = False
       TabOrder = 0
       Visible = False
-      ExplicitTop = 337
     end
     object DirectoryPanel: TPanel
       Left = 0
       Top = 0
       Width = 257
-      Height = 282
+      Height = 334
       Align = alLeft
       BevelOuter = bvNone
       DoubleBuffered = False
@@ -284,13 +281,12 @@ object MainForm: TMainForm
       Padding.Bottom = 3
       ParentDoubleBuffered = False
       TabOrder = 1
-      ExplicitHeight = 334
     end
     object DocumentPanel: TPanel
       Left = 260
       Top = 0
       Width = 840
-      Height = 282
+      Height = 334
       Align = alClient
       BevelOuter = bvNone
       DoubleBuffered = False
@@ -300,7 +296,6 @@ object MainForm: TMainForm
       ParentColor = True
       ParentDoubleBuffered = False
       TabOrder = 2
-      ExplicitHeight = 334
     end
   end
   object ActionManager: TActionManager
@@ -2081,7 +2076,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C010143005C01400710001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010143005C01440710001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001001000001002000000000000010
       0100000000000000000000000000000000000000000000000000000000000000
       0000C2A6A400C2A6A400C2A6A400C2A6A400C2A6A400C2A6A400C2A6A400C2A6
