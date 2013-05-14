@@ -3622,7 +3622,6 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
     var
       s, FileTypes: string;
     begin
-      Result := False;
       Ext := '*' + Ext;
       FileTypes := OptionsContainer.FileType(FileType);
       if Pos(';', FileTypes) <> 0 then
