@@ -91,7 +91,7 @@ uses
   SynHighlighterJava, SynHighlighterInno, SynHighlighterIni, SynHighlighterDWS,
   SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
   SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11,
-  SynHighlighterYAML;
+  SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM;
 
 type
   TDocumentFrame = class(TFrame)
@@ -266,6 +266,8 @@ type
     DectoBinMenuItem: TMenuItem;
     SynDWSSyn: TSynDWSSyn;
     SynYAMLSyn: TSynYAMLSyn;
+    SynWebIDLSyn: TSynWebIDLSyn;
+    SynLLVMIRSyn: TSynLLVMIRSyn;
     procedure PageControlChange(Sender: TObject);
     procedure SearchClearActionExecute(Sender: TObject);
     procedure SearchCloseActionExecute(Sender: TObject);
@@ -711,7 +713,6 @@ begin
   begin
     SynEdit.Visible := False;
     Parent := TabSheet;
-
     { SynEdit }
     with SynEdit do
     begin
@@ -740,7 +741,7 @@ begin
       SelectHighlighter(DocTabSheetFrame, FileName);
     end
     else
-      SetActiveHighlighter(51);
+      SetActiveHighlighter(52); { UrlSyn }
 
     { XML Tree }
     XMLTreeVisible := OptionsContainer.ShowXMLTree {MainForm.ViewXMLTreeAction.Checked} and IsXMLDocument;
@@ -786,6 +787,7 @@ begin
     UpdateJavaSynColors(SynJavaSyn, WhiteBackground);
     UpdateJScriptSynColors(SynJScriptSyn, WhiteBackground);
     UpdateLDRSynColors(SynLDRSyn, WhiteBackground);
+    UpdateLLVMSynColors(SynLLVMIRSyn, WhiteBackground);
     UpdateMsgSynColors(SynMsgSyn, WhiteBackground);
     UpdateBatSynColors(SynBatSyn, WhiteBackground);
     UpdatePerlSynColors(SynPerlSyn, WhiteBackground);
@@ -804,6 +806,7 @@ begin
       if Assigned(DocTabSheetFrame) then
         UpdateURISynColors(DocTabSheetFrame.SynURISyn, WhiteBackground);
     end;
+    UpdateWebIDLSynColors(SynWebIDLSyn, WhiteBackground);
     UpdateVBSynColors(SynVBSyn, WhiteBackground);
     UpdateASMSynColors(SynASMSyn, WhiteBackground);
     UpdateYAMLSynColors(SynYAMLSyn, WhiteBackground);
@@ -872,7 +875,6 @@ end;
 procedure TDocumentFrame.UpdateGutterAndColors(DocTabSheetFrame: TDocTabSheetFrame);
 begin
   StyleHooks.UpdateGutterAndColors(DocTabSheetFrame.SynEdit);
-  //if DocTabSheetFrame.SplitVisible then
   StyleHooks.UpdateGutterAndColors(DocTabSheetFrame.SplitSynEdit);
 end;
 
@@ -1844,7 +1846,8 @@ end;
 
 procedure TDocumentFrame.ReadIniFile;
 var
-  i: Integer;
+  i, j: Integer;
+  s: string;
   FileTypes: TStrings;
 begin
   FileTypes := TStringList.Create;
@@ -1911,9 +1914,22 @@ begin
     { FileTypes }
     ReadSectionValues('FileTypes', FileTypes);
     for i := 0 to FileTypes.Count - 1 do
+    begin
+      j := Pos('=', FileTypes.Strings[i]);
+      s := System.Copy(FileTypes.Strings[i], j + 1, Pos('(', FileTypes.Strings[i]) - j - 2);
+      { search file type }
+      for j := 0 to OptionsContainer.FileTypes.Count - 1 do
+        if Pos(s, OptionsContainer.FileTypes.Strings[j]) <> 0 then
+        begin
+          OptionsContainer.FileTypes.Strings[j] := System.Copy(FileTypes.Strings[i],
+            Pos('=', FileTypes.Strings[i]) + 1, Length(FileTypes.Strings[i]));
+          Break;
+        end;
+    end;
+    {for i := 0 to FileTypes.Count - 1 do
       OptionsContainer.FileTypes.Strings[i] := System.Copy
         (FileTypes.Strings[i], Pos('=', FileTypes.Strings[i]) + 1, Length
-          (FileTypes.Strings[i]));
+          (FileTypes.Strings[i]));}
     OptionsContainer.SQLDialect := TSQLDialect(StrToInt(ReadString('Options', 'SQLDialect', '0')));
     OptionsContainer.CPASHighlighter := TCPASHighlighter(StrToInt(ReadString('Options', 'CPASHighlighter', '0')));
     OptionsContainer.CSSVersion := TSynWebCssVersion(StrToInt(ReadString('Options', 'CSSVersion', '2')));
@@ -3402,18 +3418,18 @@ procedure TDocumentFrame.SetActiveHighlighter(Value: Integer);
               HtmlVersion := OptionsContainer.HTMLVersion;
               SynWebEngine.Options.HtmlVersion := HtmlVersion;
             end;
-        37: begin
+        38: begin
               Color := clNavy;
               ActiveLineColor := clBlue;
               OnPaintTransient := SynEditPASPaintTransient;
             end;
-        38: ActiveLineColor := $E6FFFA;
-        39: begin
+        39: ActiveLineColor := $E6FFFA;
+        40: begin
               Color := clBlack;
               ActiveLineColor := clGray;
               OnPaintTransient := SynEditPASPaintTransient;
             end;
-        46: SynSQLSyn.SQLDialect := OptionsContainer.SQLDialect;
+        47: SynSQLSyn.SQLDialect := OptionsContainer.SQLDialect;
       end;
     end;
   end;
@@ -3460,32 +3476,34 @@ procedure TDocumentFrame.SetActiveHighlighter(Value: Integer);
         30: Highlighter := SynJScriptSyn;
         31: Highlighter := SynKixSyn;
         32: Highlighter := SynLDRSyn;
-        33: Highlighter := SynModelicaSyn;
-        34: Highlighter := SynM3Syn;
-        35: Highlighter := SynMsgSyn;
-        36: Highlighter := SynBatSyn;
-        37: Highlighter := ClassicPasSyn;
-        38: Highlighter := DefaultPasSyn;
-        39: Highlighter := TwilightPasSyn;
-        40: Highlighter := SynPerlSyn;
-        41: Highlighter := SynProgressSyn;
-        42: Highlighter := SynPythonSyn;
-        43: Highlighter := SynRCSyn;
-        44: Highlighter := SynRubySyn;
-        45: Highlighter := SynSDDSyn;
-        46: Highlighter := SynSQLSyn;
-        47: Highlighter := SynSMLSyn;
-        48: Highlighter := SynSTSyn;
-        49: Highlighter := SynTclTkSyn;
-        50: Highlighter := SynTeXSyn;
-        51: Highlighter := DocTabSheetFrame.SynURISyn;
-        52: Highlighter := SynUNIXShellScriptSyn;
-        53: Highlighter := SynVBSyn;
-        54: Highlighter := SynVBScriptSyn;
-        55: Highlighter := SynVrml97Syn;
-        56: Highlighter := SynAsmSyn;
-        57: Highlighter := SynWebXmlSyn;
-        58: Highlighter := SynYAMLSyn;
+        33: Highlighter := SynLLVMIRSyn;
+        34: Highlighter := SynModelicaSyn;
+        35: Highlighter := SynM3Syn;
+        36: Highlighter := SynMsgSyn;
+        37: Highlighter := SynBatSyn;
+        38: Highlighter := ClassicPasSyn;
+        39: Highlighter := DefaultPasSyn;
+        40: Highlighter := TwilightPasSyn;
+        41: Highlighter := SynPerlSyn;
+        42: Highlighter := SynProgressSyn;
+        43: Highlighter := SynPythonSyn;
+        44: Highlighter := SynRCSyn;
+        45: Highlighter := SynRubySyn;
+        46: Highlighter := SynSDDSyn;
+        47: Highlighter := SynSQLSyn;
+        48: Highlighter := SynSMLSyn;
+        49: Highlighter := SynSTSyn;
+        50: Highlighter := SynTclTkSyn;
+        51: Highlighter := SynTeXSyn;
+        52: Highlighter := DocTabSheetFrame.SynURISyn;
+        53: Highlighter := SynUNIXShellScriptSyn;
+        54: Highlighter := SynVBSyn;
+        55: Highlighter := SynVBScriptSyn;
+        56: Highlighter := SynVrml97Syn;
+        57: Highlighter := SynWebIDLSyn;
+        58: Highlighter := SynAsmSyn;
+        59: Highlighter := SynWebXmlSyn;
+        60: Highlighter := SynYAMLSyn;
       end;
     end;
   end;
@@ -3608,7 +3626,6 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
       Ext := '*' + Ext;
       FileTypes := OptionsContainer.FileType(FileType);
       if Pos(';', FileTypes) <> 0 then
-      begin
         while Pos(';', FileTypes) <> 0 do
         begin
           s := System.Copy(FileTypes, 1,  Pos(';', FileTypes) - 1);
@@ -3617,9 +3634,7 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
             Exit;
           FileTypes := System.Copy(FileTypes, Pos(';', FileTypes) + 1, Length(FileTypes));
         end;
-      end
-      else
-        Result := LowerCase(Ext) = LowerCase(FileTypes);
+      Result := LowerCase(Ext) = LowerCase(FileTypes);
     end;
 
   procedure SetSynEdit(SynEdit: TBCSynEdit);
@@ -3783,6 +3798,8 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
         Highlighter := SynKixSyn
       else if IsExtInFileType(FileExt, ftLDR) then
         Highlighter := SynLDRSyn
+      else if IsExtInFileType(FileExt, ftLLVM) then
+        Highlighter := SynLLVMIRSyn
       else if IsExtInFileType(FileExt, ftModelica) then
         Highlighter := SynModelicaSyn
       else if IsExtInFileType(FileExt, ftM3) then
@@ -3837,6 +3854,8 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
         Highlighter := SynWebXMLSyn
       else if IsExtInFileType(FileExt, ftYAML) then
         Highlighter := SynYAMLSyn
+      else if IsExtInFileType(FileExt, ftWebIDL) then
+        Highlighter := SynWebIDLSyn
       else
         Highlighter := DocTabSheetFrame.SynURISyn;
     end;
@@ -3844,7 +3863,6 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
 
 begin
   SetSynEdit(DocTabSheetFrame.SynEdit);
-  //if DocTabSheetFrame.SplitVisible then
   SetSynEdit(DocTabSheetFrame.SplitSynEdit);
   SetHighlighter;
 end;

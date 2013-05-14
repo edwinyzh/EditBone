@@ -131,6 +131,7 @@ object MainForm: TMainForm
         'Javascript'
         'Kixtart Scripts'
         'LEGO LDraw'
+        'LLVM'
         'Modelica'
         'Modula-3'
         'Msg'
@@ -154,6 +155,7 @@ object MainForm: TMainForm
         'Visual Basic'
         'VBScript'
         'Vrml97/X3D World'
+        'Web IDL'
         'x86 Assembly'
         'XML'
         'YAML')
@@ -2076,7 +2078,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C010143005C01440710001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010143005C01500710001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001001000001002000000000000010
       0100000000000000000000000000000000000000000000000000000000000000
       0000C2A6A400C2A6A400C2A6A400C2A6A400C2A6A400C2A6A400C2A6A400C2A6

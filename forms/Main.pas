@@ -1266,10 +1266,10 @@ procedure TMainForm.FormCreate(Sender: TObject);
 begin
   FOnStartUp := True;
   ActionManager.Style := PlatformVclStylesStyle;
+  Language.ReadLanguageFile(Common.GetSelectedLanguage);
 
   CreateFrames;
   RecreateStatusBar;
-
   ReadLanguageFile(Common.GetSelectedLanguage);
   ReadIniFile;
 end;
