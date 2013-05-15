@@ -1919,7 +1919,7 @@ begin
       s := System.Copy(FileTypes.Strings[i], j + 1, Pos('(', FileTypes.Strings[i]) - j - 2);
       { search file type }
       for j := 0 to OptionsContainer.FileTypes.Count - 1 do
-        if Pos(s, OptionsContainer.FileTypes.Strings[j]) <> 0 then
+        if Pos(s, OptionsContainer.FileTypes.Strings[j]) = 1 then
         begin
           OptionsContainer.FileTypes.Strings[j] := System.Copy(FileTypes.Strings[i],
             Pos('=', FileTypes.Strings[i]) + 1, Length(FileTypes.Strings[i]));
@@ -1997,6 +1997,7 @@ end;
 procedure TDocumentFrame.WriteIniFile;
 var
   i, j: Integer;
+  FileType: string;
   SynEdit: TBCSynEdit;
 begin
   with TBigIniFile.Create(Common.GetINIFilename) do
@@ -2074,7 +2075,12 @@ begin
     EraseSection('FileTypes');
     { FileTypes }
     for i := 0 to OptionsContainer.FileTypes.Count - 1 do
-      WriteString('FileTypes', IntToStr(i), OptionsContainer.FileTypes.Strings[i]);
+    begin
+      FileType := Trim(System.Copy(LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text, 0,
+        Pos('(', LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text) - 1));
+      WriteString('FileTypes', IntToStr(i), Format('%s (%s)', [
+        FileType, Common.StringBetween(OptionsContainer.FileTypes.Strings[i], '(', ')')]));
+    end;
     WriteString('Options', 'SQLDialect', IntToStr(Ord(OptionsContainer.SQLDialect)));
     WriteString('Options', 'CPASHighlighter', IntToStr(Ord(OptionsContainer.CPASHighlighter)));
     WriteString('Options', 'CSSVersion', IntToStr(Ord(OptionsContainer.CSSVersion)));
@@ -2128,13 +2134,16 @@ begin
       begin
         OptionsContainer.AssignTo(DocTabSheetFrame.SynEdit);
         OptionsContainer.AssignTo(DocTabSheetFrame.SplitSynEdit);
+        { file types might have changed }
         SelectHighlighter(DocTabSheetFrame, DocTabSheetFrame.SynEdit.DocumentName);
-        UpdateGutterAndControls;
-        UpdateHighlighterColors;
       end;
     end;
+    UpdateGutterAndControls;
     PageControl.MultiLine := OptionsContainer.DocMultiLine;
     PageControl.ShowCloseButton := OptionsContainer.DocShowCloseButton;
+    DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+    if Assigned(DocTabSheetFrame) then
+      SetMainHighlighterCombo(DocTabSheetFrame.SynEdit);
     WriteIniFile;
   end;
 end;
