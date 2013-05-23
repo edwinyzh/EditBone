@@ -78,15 +78,11 @@ end;
 procedure TAboutDialog.FormShow(Sender: TObject);
 var
   MemoryStatus: TMemoryStatusEx;
-  Bit: Integer;
 begin
   inherited;
-  Bit := 32;
-  {$IFDEF WIN64}
-  Bit := 64;
-  {$ENDIF}
   try
-    VersionLabel.Caption := Format(VersionLabel.Caption, [Common.GetFileVersion(Application.ExeName), Bit]);
+    VersionLabel.Caption := Format(VersionLabel.Caption, [Common.GetFileVersion(Application.ExeName),
+      {$IFDEF WIN64}64{$ELSE}32{$ENDIF}]);
   except
     { silent }
   end;
