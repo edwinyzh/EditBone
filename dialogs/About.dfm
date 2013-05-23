@@ -47,9 +47,9 @@ object AboutDialog: TAboutDialog
     object VersionLabel: TLabel
       Left = 11
       Top = 48
-      Width = 65
+      Width = 117
       Height = 16
-      Caption = 'Version %s'
+      Caption = 'Version %s (%d-bit)'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -523,7 +523,7 @@ object AboutDialog: TAboutDialog
       ExplicitWidth = 170
     end
     object LinkLabel2: TLinkLabel
-      Left = 19
+      Left = 29
       Top = 41
       Width = 306
       Height = 17
@@ -536,7 +536,7 @@ object AboutDialog: TAboutDialog
       OnLinkClick = LinkClick
     end
     object LinkLabel1: TLinkLabel
-      Left = 19
+      Left = 23
       Top = 25
       Width = 322
       Height = 17

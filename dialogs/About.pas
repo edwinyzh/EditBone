@@ -78,9 +78,18 @@ end;
 procedure TAboutDialog.FormShow(Sender: TObject);
 var
   MemoryStatus: TMemoryStatusEx;
+  Bit: Integer;
 begin
   inherited;
-  VersionLabel.Caption := Format(VersionLabel.Caption, [Common.GetFileVersion(Application.ExeName)]);
+  Bit := 32;
+  {$IFDEF WIN64}
+  Bit := 64;
+  {$ENDIF}
+  try
+    VersionLabel.Caption := Format(VersionLabel.Caption, [Common.GetFileVersion(Application.ExeName), Bit]);
+  except
+    { silent }
+  end;
   CopyrightLabel.Caption := Format(CopyrightLabel.Caption, ['© 2010-2013 Lasse Rautiainen']);
   { initialize the structure }
   FillChar(MemoryStatus, SizeOf(MemoryStatus), 0);
