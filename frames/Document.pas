@@ -91,7 +91,7 @@ uses
   SynHighlighterJava, SynHighlighterInno, SynHighlighterIni, SynHighlighterDWS,
   SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
   SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11,
-  SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM;
+  SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch;
 
 type
   TDocumentFrame = class(TFrame)
@@ -268,6 +268,7 @@ type
     SynYAMLSyn: TSynYAMLSyn;
     SynWebIDLSyn: TSynWebIDLSyn;
     SynLLVMIRSyn: TSynLLVMIRSyn;
+    SynEditWildcardSearch: TSynEditWildcardSearch;
     procedure PageControlChange(Sender: TObject);
     procedure SearchClearActionExecute(Sender: TObject);
     procedure SearchCloseActionExecute(Sender: TObject);
@@ -1225,7 +1226,6 @@ var
   AFileName, FilePath: string;
 begin
   Result := '';
-  PageControl.ActivePage := TabSheet;
   DocTabSheetFrame := GetDocTabSheetFrame(TabSheet);
   if Assigned(DocTabSheetFrame) then
   begin
@@ -1293,19 +1293,14 @@ end;
 procedure TDocumentFrame.SaveAll;
 var
   i: Integer;
-  Temp: Integer;
   SynEdit: TBCSynEdit;
 begin
-  Temp := PageControl.ActivePageIndex;
   for i := 0 to PageControl.PageCount - 1 do
   begin
-    PageControl.ActivePage := PageControl.Pages[i];
-    SynEdit := GetActiveSynEdit;
+    SynEdit := GetSynEdit(PageControl.Pages[i]);
     if Assigned(SynEdit) and SynEdit.Modified then
       Save(PageControl.Pages[i]);
   end;
-  if Assigned(PageControl.Pages[Temp]) then
-    PageControl.ActivePage := PageControl.Pages[Temp];
 end;
 
 function TDocumentFrame.GetActivePageCaption: string;
@@ -1560,6 +1555,9 @@ begin
   if RegularExpressionCheckBox.Checked then
     SynEdit.SearchEngine := SynEditRegexSearch
   else
+  if (Pos('*', SearchForEdit.Text) <> 0) or (Pos('?', SearchForEdit.Text) <> 0) then
+    SynEdit.SearchEngine := SynEditWildCardSearch
+  else
     SynEdit.SearchEngine := SynEditSearch;
   SynSearchOptions := SearchOptions(False);
   try
@@ -1568,6 +1566,7 @@ begin
       MessageBeep(MB_ICONASTERISK);
       SynEdit.BlockBegin := SynEdit.BlockEnd;
       SynEdit.CaretXY := SynEdit.BlockBegin;
+      Common.ShowMessage(Format(LanguageDataModule.GetYesOrNo('SearchStringNotFound'), [SearchForEdit.Text]))
     end;
   except
     { silent }
@@ -1619,6 +1618,7 @@ begin
     begin
       SynEdit.CaretX := 0;
       SynEdit.CaretY := 0;
+      FindNext;
     end;
   end;
 end;

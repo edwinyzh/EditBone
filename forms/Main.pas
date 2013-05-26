@@ -552,7 +552,7 @@ begin
   Action := Sender as TAction;
   ActionCaption := StringReplace(Action.Caption, '&', '', [rfReplaceAll]);
 
-  if Action.Caption = STYLENAME_WINDOWS then
+  if Action.Caption = StyleHooks.STYLENAME_WINDOWS then
     TStyleManager.TrySetStyle(ActionCaption)
   else
   if TStyleManager.IsValidStyle(ActionCaption, StyleInfo) then
@@ -658,6 +658,7 @@ var
     end;
     ActionClientItem := ActionClientItem.Items.Add;
   end;
+
 begin
   ViewStyleAction.Enabled := False;
   FilePath := IncludeTrailingPathDelimiter(Format('%s%s', [ExtractFilePath(ParamStr(0)), 'Styles']));
