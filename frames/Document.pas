@@ -775,7 +775,12 @@ begin
   begin
     WhiteBackground := (TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS) or (LStyles.GetStyleColor(scEdit) = clWhite);
 
+    UpdateHC11SynColors(SynHC11Syn, WhiteBackground);
     UpdateAWKSynColors(SynAWKSyn, WhiteBackground);
+    UpdateBaanSynColors(SynBaanSyn, WhiteBackground);
+    UpdateBatSynColors(SynBatSyn, WhiteBackground);
+    UpdateCACSynColors(SynCACSyn, WhiteBackground);
+    UpdateCacheSynColors(SynCacheSyn, WhiteBackground);
     UpdateCobolSynColors(SynCobolSyn, WhiteBackground);
     UpdateIdlSynColors(SynIdlSyn, WhiteBackground);
     UpdateCPMSynColors(SynCPMSyn, WhiteBackground);
@@ -783,20 +788,30 @@ begin
     UpdateADSP21xxSynColors(SynADSP21xxSyn, WhiteBackground);
     UpdateDWSSynColors(SynDWSSyn, WhiteBackground);
     UpdateEiffelSynColors(SynEiffelSyn, WhiteBackground);
+    UpdateFortranSynColors(SynFortranSyn, WhiteBackground);
+    UpdateFoxproSynColors(SynFoxproSyn, WhiteBackground);
+    UpdateGalaxySynColors(SynGalaxySyn, WhiteBackground);
+    UpdateGWScriptSynColors(SynGWScriptSyn, WhiteBackground);
+    UpdateHaskellSynColors(SynHaskellSyn, WhiteBackground);
     UpdateIniSynColors(SynIniSyn, WhiteBackground);
     UpdateInnoSynColors(SynInnoSyn, WhiteBackground);
     UpdateJavaSynColors(SynJavaSyn, WhiteBackground);
     UpdateJScriptSynColors(SynJScriptSyn, WhiteBackground);
+    UpdateKixSynColors(SynKixSyn, WhiteBackground);
     UpdateLDRSynColors(SynLDRSyn, WhiteBackground);
     UpdateLLVMSynColors(SynLLVMIRSyn, WhiteBackground);
+    UpdateModelicaSynColors(SynModelicaSyn, WhiteBackground);
+    UpdateM3SynColors(SynM3Syn, WhiteBackground);
     UpdateMsgSynColors(SynMsgSyn, WhiteBackground);
     UpdateBatSynColors(SynBatSyn, WhiteBackground);
     UpdatePerlSynColors(SynPerlSyn, WhiteBackground);
     UpdateProgressSynColors(SynProgressSyn, WhiteBackground);
     UpdatePythonSynColors(SynPythonSyn, WhiteBackground);
+    UpdateRCSynColors(SynRCSyn, WhiteBackground);
     UpdateRubySynColors(SynRubySyn, WhiteBackground);
     UpdateSDDSynColors(SynSDDSyn, WhiteBackground);
     UpdateSQLSynColors(SynSQLSyn, WhiteBackground);
+    UpdateSTSynColors(SynSTSyn, WhiteBackground);
     UpdateSMLSynColors(SynSMLSyn, WhiteBackground);
     UpdateTclTkSynColors(SynTclTkSyn, WhiteBackground);
     UpdateTexSynColors(SynTexSyn, WhiteBackground);
@@ -809,6 +824,7 @@ begin
     end;
     UpdateWebIDLSynColors(SynWebIDLSyn, WhiteBackground);
     UpdateVBSynColors(SynVBSyn, WhiteBackground);
+    UpdateVBScriptSynColors(SynVBScriptSyn, WhiteBackground);
     UpdateASMSynColors(SynASMSyn, WhiteBackground);
     UpdateYAMLSynColors(SynYAMLSyn, WhiteBackground);
     UpdateWebEngineColors(SynWebEngine, WhiteBackground);

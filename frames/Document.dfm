@@ -1,18 +1,16 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 889
-  Height = 680
+  Width = 892
+  Height = 690
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
   TabOrder = 0
-  ExplicitWidth = 451
-  ExplicitHeight = 304
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 889
+    Width = 892
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -20,7 +18,6 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 0
     Visible = False
-    ExplicitWidth = 451
     object WholeWordsOnlyLabel: TLabel
       Left = 465
       Top = 0
@@ -470,8 +467,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 889
-    Height = 634
+    Width = 892
+    Height = 644
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -479,13 +476,11 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentColor = True
     TabOrder = 1
-    ExplicitWidth = 451
-    ExplicitHeight = 258
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 889
-      Height = 632
+      Width = 892
+      Height = 642
       Align = alClient
       DoubleBuffered = False
       Font.Charset = DEFAULT_CHARSET
@@ -502,14 +497,12 @@ object DocumentFrame: TDocumentFrame
       ShowCloseButton = False
       OnCloseButtonClick = PageControlCloseButtonClick
       OnDblClick = PageControlDblClick
-      ExplicitWidth = 451
-      ExplicitHeight = 256
     end
   end
   object GotoLinePanel: TPanel
     Left = 0
-    Top = 655
-    Width = 889
+    Top = 665
+    Width = 892
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
@@ -518,8 +511,6 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 2
     Visible = False
-    ExplicitTop = 279
-    ExplicitWidth = 451
     object GotoLineClosePanel: TPanel
       Left = 0
       Top = 2
@@ -707,7 +698,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 112
     Bitmap = {
-      494C0101060038008C0610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106003800940610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1055,7 +1046,7 @@ object DocumentFrame: TDocumentFrame
     Left = 144
     Top = 282
     Bitmap = {
-      494C01010A0038006C0610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A003800740610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1639,7 +1630,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 168
     Bitmap = {
-      494C010102009C04C00614001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010102009C04C80614001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000A4676900A4676900A467
@@ -1859,7 +1850,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 224
     Bitmap = {
-      494C01010200BC04C40618001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010200BC04CC0618001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000A467
@@ -2168,6 +2159,10 @@ object DocumentFrame: TDocumentFrame
     Top = 44
   end
   object SynHC11Syn: TSynHC11Syn
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
     Left = 222
     Top = 46
   end
@@ -2178,6 +2173,10 @@ object DocumentFrame: TDocumentFrame
   end
   object SynBaanSyn: TSynBaanSyn
     Tag = 2
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
     Left = 222
     Top = 158
   end
@@ -2264,6 +2263,10 @@ object DocumentFrame: TDocumentFrame
   end
   object SynCACSyn: TSynCACSyn
     Tag = 9
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
     Left = 222
     Top = 530
   end
@@ -2293,6 +2296,10 @@ object DocumentFrame: TDocumentFrame
   end
   object SynFortranSyn: TSynFortranSyn
     Tag = 19
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
     Left = 306
     Top = 530
   end
@@ -2340,12 +2347,14 @@ object DocumentFrame: TDocumentFrame
   object SynTclTkSyn: TSynTclTkSyn
     Tag = 50
     CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
     KeyAttri.Style = []
     KeyWords.Strings = (
       '')
     SecondKeyWords.Strings = (
       '')
     NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
     OptionsAttri.Background = clNone
     OptionsAttri.Foreground = clNone
     PathAttri.Background = clNone
@@ -2357,6 +2366,10 @@ object DocumentFrame: TDocumentFrame
   end
   object SynSTSyn: TSynSTSyn
     Tag = 49
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
     Left = 550
     Top = 474
   end
@@ -2386,7 +2399,7 @@ object DocumentFrame: TDocumentFrame
     SymbolAttri.Foreground = clLime
     PackageSource = False
     Left = 468
-    Top = 480
+    Top = 482
   end
   object SynSMLSyn: TSynSMLSyn
     Tag = 48
@@ -2418,6 +2431,10 @@ object DocumentFrame: TDocumentFrame
   end
   object SynVBScriptSyn: TSynVBScriptSyn
     Tag = 55
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
     Left = 642
     Top = 268
   end
@@ -2445,6 +2462,10 @@ object DocumentFrame: TDocumentFrame
   end
   object SynRCSyn: TSynRCSyn
     Tag = 44
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
     Left = 550
     Top = 212
   end
@@ -2498,11 +2519,19 @@ object DocumentFrame: TDocumentFrame
   end
   object SynM3Syn: TSynM3Syn
     Tag = 35
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
     Left = 468
     Top = 326
   end
   object SynModelicaSyn: TSynModelicaSyn
     Tag = 34
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
     Left = 468
     Top = 270
   end
@@ -2544,6 +2573,10 @@ object DocumentFrame: TDocumentFrame
   end
   object SynHaskellSyn: TSynHaskellSyn
     Tag = 24
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
     Left = 382
     Top = 268
   end
@@ -2559,8 +2592,12 @@ object DocumentFrame: TDocumentFrame
   end
   object SynGWScriptSyn: TSynGWScriptSyn
     Tag = 23
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
     Left = 382
-    Top = 212
+    Top = 214
   end
   object SynDmlSyn: TSynDmlSyn
     Tag = 22
@@ -2579,6 +2616,10 @@ object DocumentFrame: TDocumentFrame
   end
   object SynCacheSyn: TSynCacheSyn
     Tag = 10
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
     Left = 306
     Top = 46
   end
@@ -2595,11 +2636,17 @@ object DocumentFrame: TDocumentFrame
   end
   object SynFoxproSyn: TSynFoxproSyn
     Tag = 20
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
     Left = 382
     Top = 46
   end
   object SynGalaxySyn: TSynGalaxySyn
     Tag = 21
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
     KeyWords.Strings = (
       '#end'
       '#galaxy'
@@ -2674,6 +2721,10 @@ object DocumentFrame: TDocumentFrame
   end
   object SynKixSyn: TSynKixSyn
     Tag = 31
+    CommentAttri.Foreground = clGreen
+    KeyAttri.Foreground = clBlue
+    NumberAttri.Foreground = clRed
+    StringAttri.Foreground = clPurple
     Left = 468
     Top = 100
   end
@@ -2702,7 +2753,7 @@ object DocumentFrame: TDocumentFrame
     Left = 746
     Top = 190
     Bitmap = {
-      494C010109001800700110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010109001800780110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3117,7 +3168,7 @@ object DocumentFrame: TDocumentFrame
     Left = 744
     Top = 316
     Bitmap = {
-      494C010101005400540310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101010054005C0310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
