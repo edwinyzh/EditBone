@@ -717,7 +717,10 @@ begin
     { SynEdit }
     with SynEdit do
     begin
-      DocumentName := FileName;
+      if FileName = '' then
+        DocumentName := TabSheet.Caption
+      else
+        DocumentName := FileName;
       FileDateTime := GetFileDateTime(FileName);
       OnChange := SynEditOnChange;
       OnSpecialLineColors := SynEditSpecialLineColors;

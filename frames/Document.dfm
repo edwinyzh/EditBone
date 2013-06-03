@@ -1,8 +1,8 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 892
-  Height = 690
+  Width = 746
+  Height = 500
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
@@ -10,7 +10,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 892
+    Width = 746
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -467,8 +467,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 892
-    Height = 644
+    Width = 746
+    Height = 454
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -479,8 +479,8 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 892
-      Height = 642
+      Width = 746
+      Height = 452
       Align = alClient
       DoubleBuffered = False
       Font.Charset = DEFAULT_CHARSET
@@ -501,8 +501,8 @@ object DocumentFrame: TDocumentFrame
   end
   object GotoLinePanel: TPanel
     Left = 0
-    Top = 665
-    Width = 892
+    Top = 475
+    Width = 746
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
@@ -698,7 +698,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 112
     Bitmap = {
-      494C010106003800940610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106003800980610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1046,7 +1046,7 @@ object DocumentFrame: TDocumentFrame
     Left = 144
     Top = 282
     Bitmap = {
-      494C01010A003800740610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A003800780610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1477,10 +1477,8 @@ object DocumentFrame: TDocumentFrame
       Caption = '-'
     end
     object ToggleBookmarkMenuItem: TMenuItem
-      Action = MainForm.ToggleBookmarkAction
     end
     object ToggleBookmarksMenuItem: TMenuItem
-      Action = MainForm.ToggleBookmarksAction
       object ToggleBookmark0MenuItem: TMenuItem
       end
       object ToggleBookmark1MenuItem: TMenuItem
@@ -1512,7 +1510,6 @@ object DocumentFrame: TDocumentFrame
       end
     end
     object GotoBookmarksMenuItem: TMenuItem
-      Action = MainForm.GotoBookmarksAction
       SubMenuImages = BookmarkImagesList
       object GotoBookmark0MenuItem: TMenuItem
       end
@@ -1566,27 +1563,19 @@ object DocumentFrame: TDocumentFrame
       Caption = '-'
     end
     object InsertMenuItem: TMenuItem
-      Action = MainForm.EditInsertAction
       object InsertTagMenuItem: TMenuItem
-        Action = MainForm.EditInsertTagAction
       end
       object DateandTimeMenuItem: TMenuItem
-        Action = MainForm.EditInsertDateTimeAction
       end
     end
     object ConversionMenuItem: TMenuItem
-      Action = MainForm.EditConversionAction
       object DectoHexMenuItem: TMenuItem
-        Action = MainForm.EditConversionDecToHexAction
       end
       object HexToDecMenuItem: TMenuItem
-        Action = MainForm.EditConversionHexToDecAction
       end
       object DectoBinMenuItem: TMenuItem
-        Action = MainForm.EditConversionDecToBinAction
       end
       object BintoDecMenuItem: TMenuItem
-        Action = MainForm.EditConversionBinToDecAction
       end
     end
     object Separator4MenuItem: TMenuItem
@@ -1630,7 +1619,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 168
     Bitmap = {
-      494C010102009C04C80614001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010102009C04CC0614001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000A4676900A4676900A467
@@ -1850,7 +1839,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 224
     Bitmap = {
-      494C01010200BC04CC0618001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010200BC04D00618001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000A467
@@ -2753,7 +2742,7 @@ object DocumentFrame: TDocumentFrame
     Left = 746
     Top = 190
     Bitmap = {
-      494C010109001800780110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101090018007C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3168,7 +3157,7 @@ object DocumentFrame: TDocumentFrame
     Left = 744
     Top = 316
     Bitmap = {
-      494C0101010054005C0310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010101005400600310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

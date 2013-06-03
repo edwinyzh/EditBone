@@ -1350,7 +1350,7 @@ begin
       for i := 0 to ErrorList.Count - 1 do
       begin
         OutputObject := ErrorList.Items[i];
-        FOutputFrame.AddTreeViewLine(Root, String(OutputObject.FileName), OutputObject.Ln, OutputObject.Ch,
+        FOutputFrame.AddTreeViewLine(Root, OutputObject.FileName, OutputObject.Ln, OutputObject.Ch,
           String(OutputObject.Text));
       end;
       OutputPanel.Visible := True;
