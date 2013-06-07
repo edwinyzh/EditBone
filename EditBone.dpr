@@ -52,7 +52,9 @@ uses
   OptionsOutput in 'frames\OptionsOutput.pas' {OptionsOutputFrame: TFrame},
   InsertTag in 'dialogs\InsertTag.pas' {InsertTagDialog},
   OptionsToolBar in 'frames\OptionsToolBar.pas' {ToolBarFrame: TFrame},
-  UnicodeCharacterMap in 'forms\UnicodeCharacterMap.pas' {UnicodeCharacterMapForm};
+  UnicodeCharacterMap in 'forms\UnicodeCharacterMap.pas' {UnicodeCharacterMapForm},
+  DuplicateChecker in '..\..\Common\units\DuplicateChecker.pas',
+  DuplicateCheckerOptions in 'dialogs\DuplicateCheckerOptions.pas' {DuplicateCheckerOptionsDialog};
 
 {$R *.res}
 

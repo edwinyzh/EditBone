@@ -285,6 +285,11 @@
 				<Form>UnicodeCharacterMapForm</Form>
 				<FormType>dfm</FormType>
 			</DCCReference>
+			<DCCReference Include="..\..\Common\units\DuplicateChecker.pas"/>
+			<DCCReference Include="dialogs\DuplicateCheckerOptions.pas">
+				<Form>DuplicateCheckerOptionsDialog</Form>
+				<FormType>dfm</FormType>
+			</DCCReference>
 			<BuildConfiguration Include="Debug">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>
