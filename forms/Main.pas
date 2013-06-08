@@ -1703,7 +1703,6 @@ end;
 
 procedure TMainForm.ToolsDuplicateCheckerActionExecute(Sender: TObject);
 var
-  FileNames: TStrings;
   DuplicateChecker: TDuplicateChecker;
 begin
   with DuplicateCheckerOptionsDialog do
