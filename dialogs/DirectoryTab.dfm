@@ -132,8 +132,6 @@ object DirectoryTabDialog: TDirectoryTabDialog
           FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
         TabOrder = 1
-        ExplicitTop = 0
-        ExplicitHeight = 26
       end
     end
     object CheckBoxPanel: TPanel

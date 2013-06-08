@@ -196,6 +196,7 @@ type
     EditConversionHexToDecAction: TAction;
     EditConversionBinToDecAction: TAction;
     ToolsUnicodeCharacterMapAction: TAction;
+    ToolsDuplicateCheckerAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -308,6 +309,7 @@ type
     procedure EditConversionHexToDecActionExecute(Sender: TObject);
     procedure EditConversionBinToDecActionExecute(Sender: TObject);
     procedure ToolsUnicodeCharacterMapActionExecute(Sender: TObject);
+    procedure ToolsDuplicateCheckerActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -349,8 +351,8 @@ implementation
 
 uses
   About, FindInFiles, Vcl.ClipBrd, Common, VirtualTrees, BigIni, StyleHooks,
-  System.IOUtils, Language, ConfirmReplace, LanguageEditor, BCSynEdit,
-  Vcl.PlatformVclStylesActnCtrls, UnicodeCharacterMap;
+  System.IOUtils, Language, ConfirmReplace, LanguageEditor, BCSynEdit, DuplicateChecker,
+  Vcl.PlatformVclStylesActnCtrls, UnicodeCharacterMap, DuplicateCheckerOptions;
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
@@ -1697,6 +1699,23 @@ end;
 procedure TMainForm.EditPasteActionExecute(Sender: TObject);
 begin
   FDocumentFrame.Paste;
+end;
+
+procedure TMainForm.ToolsDuplicateCheckerActionExecute(Sender: TObject);
+var
+  FileNames: TStrings;
+  DuplicateChecker: TDuplicateChecker;
+begin
+  with DuplicateCheckerOptionsDialog do
+  try
+    DuplicateChecker := TDuplicateChecker.Create(InputFolderName, MinBlockSize, MinChars);
+    DuplicateChecker.Run(OutputFileName);
+    if LaunchAfterCreation then
+      FDocumentFrame.Open(OutputFileName);
+  finally
+    DuplicateChecker.Free;
+    Release;
+  end;
 end;
 
 procedure TMainForm.ToolsLanguageEditorActionExecute(Sender: TObject);

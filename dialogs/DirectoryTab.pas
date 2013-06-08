@@ -66,8 +66,9 @@ implementation
 uses
   Common, StyleHooks,
 {$WARNINGS OFF}
-  Vcl.FileCtrl, Language; { warning: FileCtrl is specific to a platform }
+  Vcl.FileCtrl, { warning: FileCtrl is specific to a platform }
 {$WARNINGS ON}
+  Language;
 
 var
   FDirectoryTabDialog: TDirectoryTabDialog;
