@@ -1707,8 +1707,8 @@ var
 begin
   with DuplicateCheckerOptionsDialog do
   try
-    DuplicateChecker := TDuplicateChecker.Create(InputFolderName, MinBlockSize, MinChars);
-    DuplicateChecker.Run(OutputFileName);
+    DuplicateChecker := TDuplicateChecker.Create(InputFolderName, OutputFileName, MinBlockSize, MinChars);
+    DuplicateChecker.Run;
     if LaunchAfterCreation then
       FDocumentFrame.Open(OutputFileName);
   finally
