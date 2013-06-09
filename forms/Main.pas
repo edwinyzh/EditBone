@@ -1852,7 +1852,6 @@ begin
           FindInFiles(FindWhatText, FileTypeText, AddSlash(FolderText) + FName, SearchCaseSensitive, LookInSubfolders)
         else
         begin
-          // if IsAsciiFile(AddSlash(FolderText) + FName) then // too slow...
           if SupportedFileExt(UpperCase(ExtractFileExt(FName))) then
             if (FileTypeText = '*.*') or (Pos(UpperCase(ExtractFileExt(FName)), UpperCase(FileTypeText)) <> 0) then
             try
