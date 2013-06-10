@@ -1275,6 +1275,10 @@ begin
   RecreateStatusBar;
   ReadLanguageFile(Common.GetSelectedLanguage);
   ReadIniFile;
+
+  {$IFDEF RELEASE}
+  ToolsDuplicateCheckerAction.Visible := False;
+  {$ENDIF}
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
