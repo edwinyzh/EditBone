@@ -717,10 +717,10 @@ begin
     { SynEdit }
     with SynEdit do
     begin
-      if FileName = '' then
-        DocumentName := TabSheet.Caption
-      else
-        DocumentName := FileName;
+      //if FileName = '' then
+      //  DocumentName := Trim(TabSheet.Caption)
+      //else
+      DocumentName := FileName;
       FileDateTime := GetFileDateTime(FileName);
       OnChange := SynEditOnChange;
       OnSpecialLineColors := SynEditSpecialLineColors;
@@ -1249,8 +1249,10 @@ begin
   if Assigned(DocTabSheetFrame) then
   begin
     if (DocTabSheetFrame.SynEdit.DocumentName = '') or ShowDialog then
+   // if not FileExists(DocTabSheetFrame.SynEdit.DocumentName) {(DocTabSheetFrame.SynEdit.DocumentName = '')} or ShowDialog then
     begin
       if DocTabSheetFrame.SynEdit.DocumentName = '' then
+      //if not FileExists(DocTabSheetFrame.SynEdit.DocumentName) then
       begin
         AFileName := Trim(TabSheet.Caption);
         if Pos('~', AFileName) = Length(AFileName) then
