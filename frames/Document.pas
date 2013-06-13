@@ -91,7 +91,8 @@ uses
   SynHighlighterJava, SynHighlighterInno, SynHighlighterIni, SynHighlighterDWS,
   SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
   SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11,
-  SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch;
+  SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch,
+  System.Actions;
 
 type
   TDocumentFrame = class(TFrame)
@@ -529,13 +530,13 @@ begin
   try
     { windows font size causing problems here!
       Icon size will be smaller than PageControl.Images size }
-    try
+    //try
       { smaller }
-      ImageList.GetIcon(0, Icon);
+      {ImageList.GetIcon(0, Icon);
       FCompareImageIndex := PageControl.Images.AddIcon(Icon);
       ImageList.GetIcon(1, Icon);
-      FNewImageIndex := PageControl.Images.AddIcon(Icon);
-    except
+      FNewImageIndex := PageControl.Images.AddIcon(Icon); }
+    //except
       try
         { medium }
         ImageList25.GetIcon(0, Icon);
@@ -553,7 +554,7 @@ begin
 
         end;
       end;
-    end;
+    //end;
   finally
     Icon.Free;
   end;
@@ -849,7 +850,7 @@ begin
     PageControl.Images := FImages
   else
     PageControl.Images := nil;
-  Application.ProcessMessages;
+//  Application.ProcessMessages;
   LStyles := StyleServices;
   PanelColor := clNone;
   if LStyles.Enabled then
@@ -2356,6 +2357,7 @@ end;
 function TDocumentFrame.GetActiveTabSheetCaption: string;
 begin
   Result := '';
+  
   if Assigned(PageControl.ActivePage) then
     Result := Trim(PageControl.ActivePage.Caption);
 end;
@@ -3610,12 +3612,17 @@ end;
 procedure TDocumentFrame.UpdateLanguage(SelectedLanguage: string);
 var
   i: Integer;
+  CompareFrame: TCompareFrame;
 begin
   Common.UpdateLanguage(Self, SelectedLanguage);
   { compare frames }
   for i := 0 to PageControl.PageCount - 1 do
     if PageControl.Pages[i].ImageIndex = FCompareImageIndex then
-      GetCompareFrame(PageControl.Pages[i]).UpdateLanguage(SelectedLanguage);
+    begin
+      CompareFrame := GetCompareFrame(PageControl.Pages[i]);
+      if Assigned(CompareFrame) then
+        CompareFrame.UpdateLanguage(SelectedLanguage);
+    end;
 end;
 
 procedure TDocumentFrame.FormatXML;

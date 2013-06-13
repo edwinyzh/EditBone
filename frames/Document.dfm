@@ -1,8 +1,8 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 304
+  Width = 553
+  Height = 372
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
@@ -10,7 +10,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 553
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -19,24 +19,24 @@ object DocumentFrame: TDocumentFrame
     TabOrder = 0
     Visible = False
     object WholeWordsOnlyLabel: TLabel
-      Left = 465
+      Left = 488
       Top = 0
-      Width = 89
+      Width = 106
       Height = 21
       Align = alLeft
       Caption = 'Whole Words Only'
       Layout = tlCenter
-      ExplicitHeight = 13
+      ExplicitHeight = 16
     end
     object RegularExpressionLabel: TLabel
-      Left = 581
+      Left = 621
       Top = 0
-      Width = 92
+      Width = 109
       Height = 21
       Align = alLeft
       Caption = 'Regular Expression'
       Layout = tlCenter
-      ExplicitHeight = 13
+      ExplicitHeight = 16
     end
     object SearchPanel1: TPanel
       Left = 0
@@ -115,7 +115,7 @@ object DocumentFrame: TDocumentFrame
     object SearchPanel2: TPanel
       Left = 21
       Top = 0
-      Width = 60
+      Width = 70
       Height = 21
       Align = alLeft
       AutoSize = True
@@ -127,15 +127,14 @@ object DocumentFrame: TDocumentFrame
       object SearchForLabel: TLabel
         Left = 4
         Top = 3
-        Width = 50
-        Height = 18
+        Width = 60
+        Height = 16
         Align = alLeft
         Caption = 'Search for'
-        ExplicitHeight = 13
       end
     end
     object SearchPanel3: TPanel
-      Left = 81
+      Left = 91
       Top = 0
       Width = 185
       Height = 21
@@ -148,9 +147,10 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 0
         Width = 181
-        Height = 21
+        Height = 24
         Align = alTop
         TabOrder = 0
+        Text = ''
         OnChange = SearchForEditChange
         OnlyNumbers = False
         NumbersWithDots = False
@@ -160,7 +160,7 @@ object DocumentFrame: TDocumentFrame
       end
     end
     object SearchPanel4: TPanel
-      Left = 266
+      Left = 276
       Top = 0
       Width = 23
       Height = 21
@@ -208,7 +208,7 @@ object DocumentFrame: TDocumentFrame
       end
     end
     object SearchPanel5: TPanel
-      Left = 289
+      Left = 299
       Top = 0
       Width = 29
       Height = 21
@@ -297,7 +297,7 @@ object DocumentFrame: TDocumentFrame
       end
     end
     object SearchPanel6: TPanel
-      Left = 318
+      Left = 328
       Top = 0
       Width = 23
       Height = 21
@@ -386,7 +386,7 @@ object DocumentFrame: TDocumentFrame
       end
     end
     object SearchPanel7: TPanel
-      Left = 341
+      Left = 351
       Top = 0
       Width = 27
       Height = 21
@@ -407,9 +407,9 @@ object DocumentFrame: TDocumentFrame
       end
     end
     object SearchPanel8: TPanel
-      Left = 368
+      Left = 378
       Top = 0
-      Width = 97
+      Width = 110
       Height = 21
       Align = alLeft
       AutoSize = True
@@ -419,15 +419,14 @@ object DocumentFrame: TDocumentFrame
       object CaseSensitiveLabel: TLabel
         Left = 0
         Top = 2
-        Width = 70
-        Height = 19
+        Width = 83
+        Height = 16
         Align = alLeft
         Caption = 'Case Sensitive'
         Layout = tlCenter
-        ExplicitHeight = 13
       end
       object WholeWordsCheckBox: TBCCheckBox
-        Left = 78
+        Left = 91
         Top = 2
         Width = 19
         Height = 19
@@ -436,7 +435,7 @@ object DocumentFrame: TDocumentFrame
         ReadOnly = False
       end
       object AfterCaseSensitivePanel: TPanel
-        Left = 70
+        Left = 83
         Top = 2
         Width = 8
         Height = 19
@@ -446,7 +445,7 @@ object DocumentFrame: TDocumentFrame
       end
     end
     object AfterWholeWordsOnlyPanel: TPanel
-      Left = 554
+      Left = 594
       Top = 0
       Width = 8
       Height = 21
@@ -455,7 +454,7 @@ object DocumentFrame: TDocumentFrame
       TabOrder = 8
     end
     object RegularExpressionCheckBox: TBCCheckBox
-      Left = 562
+      Left = 602
       Top = 0
       Width = 19
       Height = 21
@@ -467,8 +466,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 451
-    Height = 258
+    Width = 553
+    Height = 326
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -479,8 +478,8 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 451
-      Height = 256
+      Width = 553
+      Height = 324
       Align = alClient
       DoubleBuffered = False
       Font.Charset = DEFAULT_CHARSET
@@ -501,8 +500,8 @@ object DocumentFrame: TDocumentFrame
   end
   object GotoLinePanel: TPanel
     Left = 0
-    Top = 279
-    Width = 451
+    Top = 347
+    Width = 553
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
@@ -589,7 +588,7 @@ object DocumentFrame: TDocumentFrame
     object GotoLineLabelPanel: TPanel
       Left = 21
       Top = 2
-      Width = 58
+      Width = 67
       Height = 23
       Align = alLeft
       AutoSize = True
@@ -601,15 +600,14 @@ object DocumentFrame: TDocumentFrame
       object GotoLineLabel: TLabel
         Left = 4
         Top = 3
-        Width = 48
-        Height = 20
+        Width = 57
+        Height = 16
         Align = alLeft
         Caption = 'Go to Line'
-        ExplicitHeight = 13
       end
     end
     object LineNumberPanel: TPanel
-      Left = 79
+      Left = 88
       Top = 2
       Width = 100
       Height = 23
@@ -622,9 +620,10 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 0
         Width = 96
-        Height = 21
+        Height = 24
         Align = alTop
         TabOrder = 0
+        Text = ''
         OnKeyPress = GotoLineNumberEditKeyPress
         OnlyNumbers = True
         NumbersWithDots = False
@@ -634,7 +633,7 @@ object DocumentFrame: TDocumentFrame
       end
     end
     object GotoLineButtonPanel: TPanel
-      Left = 179
+      Left = 188
       Top = 2
       Width = 23
       Height = 23
@@ -698,7 +697,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 112
     Bitmap = {
-      494C010106003800A00610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106003800B00610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1046,7 +1045,7 @@ object DocumentFrame: TDocumentFrame
     Left = 144
     Top = 282
     Bitmap = {
-      494C01010A003800800610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A003800900610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1619,7 +1618,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 168
     Bitmap = {
-      494C010102009C04D40614001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010102009C04E40614001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000A4676900A4676900A467
@@ -1839,7 +1838,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 224
     Bitmap = {
-      494C01010200BC04D80618001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010200BC04E80618001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000A467
@@ -2742,7 +2741,7 @@ object DocumentFrame: TDocumentFrame
     Left = 746
     Top = 190
     Bitmap = {
-      494C010109001800840110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010109001800940110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3157,7 +3156,7 @@ object DocumentFrame: TDocumentFrame
     Left = 744
     Top = 316
     Bitmap = {
-      494C010101005400680310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010101005400780310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, JvExControls,
   JvLabel, Vcl.ActnList, Vcl.ImgList, Vcl.ToolWin, Vcl.StdCtrls, JvSpeedButton, JvExComCtrls,
   JvComCtrls, Vcl.Menus, BCPopupMenu, VirtualTrees, Vcl.PlatformDefaultStyleActnCtrls,
-  Vcl.ActnPopup, BCImageList, Vcl.Themes, OutputTabSheet, BCPageControl;
+  Vcl.ActnPopup, BCImageList, Vcl.Themes, OutputTabSheet, BCPageControl,
+  System.Actions;
 
 type
   TOutputFrame = class(TFrame)
@@ -65,7 +66,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, Lib, Options, StyleHooks, Math;
+  Common, Lib, Options, StyleHooks, Math, System.UITypes;
 
 procedure TOutputFrame.OutputCloseActionExecute(Sender: TObject);
 begin

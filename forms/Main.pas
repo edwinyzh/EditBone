@@ -8,7 +8,8 @@ uses
   Vcl.ToolWin, Vcl.ComCtrls, Vcl.ImgList, Vcl.ExtCtrls, SynEdit, Directory, BCFileControl,
   Vcl.StdCtrls, Vcl.Menus, Vcl.AppEvnts, Document, Output, Options, Lib, JvAppInst,
   JvDragDrop, BCPopupMenu, Vcl.PlatformDefaultStyleActnCtrls, JvComponentBase, Vcl.ActnPopup,
-  BCImageList, JvExStdCtrls, JvCombobox, BCComboBox, Vcl.Themes;
+  BCImageList, JvExStdCtrls, JvCombobox, BCComboBox, Vcl.Themes, System.Actions,
+  JvAppEvent;
 
 const
   WM_AFTER_SHOW = WM_USER + 300; // custom message
@@ -200,7 +201,6 @@ type
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
-    procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
     procedure ClearBookmarksActionExecute(Sender: TObject);
     procedure CompareFilesActionExecute(Sender: TObject);
     procedure DragDropDrop(Sender: TObject; Pos: TPoint; Value: TStrings);
@@ -310,6 +310,7 @@ type
     procedure EditConversionBinToDecActionExecute(Sender: TObject);
     procedure ToolsUnicodeCharacterMapActionExecute(Sender: TObject);
     procedure ToolsDuplicateCheckerActionExecute(Sender: TObject);
+    procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -352,7 +353,8 @@ implementation
 uses
   About, FindInFiles, Vcl.ClipBrd, Common, VirtualTrees, BigIni, StyleHooks,
   System.IOUtils, Language, ConfirmReplace, LanguageEditor, BCSynEdit, DuplicateChecker,
-  Vcl.PlatformVclStylesActnCtrls, UnicodeCharacterMap, DuplicateCheckerOptions;
+  Vcl.PlatformVclStylesActnCtrls, UnicodeCharacterMap, DuplicateCheckerOptions,
+  System.Types;
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
@@ -918,7 +920,8 @@ begin
   StatusBar.Panels[3].Text := Application.Hint;
 end;
 
-procedure TMainForm.ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
+procedure TMainForm.ApplicationEventsMessage(var Msg: tagMSG;
+  var Handled: Boolean);
 begin
   if not Assigned(FDocumentFrame) then
     Exit;
@@ -929,8 +932,9 @@ end;
 procedure TMainForm.SetFields;
 var
   i: Integer;
+  ActiveDocumentName: string;
   ActiveDocumentFound: Boolean;
-  ActiveDocumentName, InfoText: string;
+  InfoText: string;
   KeyState: TKeyboardState;
   SelectionFound: Boolean;
   IsXMLDocument: Boolean;
@@ -957,20 +961,22 @@ begin
   if ViewXMLTreeAction.Visible then
     ViewXMLTreeAction.Checked := FDocumentFrame.XMLTreeVisible;
 
+  {
   ActiveDocumentName := FDocumentFrame.ActiveDocumentName;
-  if ActiveDocumentName <> '' then
-    Caption := Format(Application.Title + MAIN_CAPTION_DOCUMENT, [ActiveDocumentName])
+  if ActiveDocumentName = '' then
+    ActiveDocumentName := FDocumentFrame.ActiveTabSheetCaption;
+
+  if ActiveDocumentName = '' then
+    Caption := Application.Title
   else
-  if FDocumentFrame.ActiveTabSheetCaption <> '' then
-    Caption := Format(Application.Title + MAIN_CAPTION_DOCUMENT, [FDocumentFrame.ActiveTabSheetCaption])
-  else
-    Caption := Application.Title;
+    Caption := TCaption(Format(Application.Title + MAIN_CAPTION_DOCUMENT, [ActiveDocumentName]));
+  FilePropertiesAction.Enabled := ActiveDocumentFound and (ActiveDocumentName <> '');
+  }
   ReopenActionClientItem := GetActionClientItem(FILE_MENU_ITEMINDEX, FILE_REOPEN_MENU_ITEMINDEX);
   FileReopenAction.Enabled := ReopenActionClientItem.Items.Count > 0;
   FileCloseAction.Enabled := FDocumentFrame.OpenTabSheets;
   FileCloseAllAction.Enabled := FileCloseAction.Enabled;
   FileCloseAllOtherPagesAction.Enabled := FileCloseAction.Enabled;
-  FilePropertiesAction.Enabled := ActiveDocumentFound and (ActiveDocumentName <> '');
   ViewNextPageAction.Enabled := FDocumentFrame.OpenTabSheetCount > 1;
   ViewPreviousPageAction.Enabled := ViewNextPageAction.Enabled;
   ToolsOptionsAction.Enabled := FileCloseAction.Enabled;
@@ -1710,14 +1716,16 @@ var
   DuplicateChecker: TDuplicateChecker;
 begin
   with DuplicateCheckerOptionsDialog do
-  try
+  begin
     DuplicateChecker := TDuplicateChecker.Create(InputFolderName, OutputFileName, MinBlockSize, MinChars);
-    DuplicateChecker.Run;
-    if LaunchAfterCreation then
-      FDocumentFrame.Open(OutputFileName);
-  finally
-    DuplicateChecker.Free;
-    Release;
+    try
+      DuplicateChecker.Run;
+      if LaunchAfterCreation then
+        FDocumentFrame.Open(OutputFileName);
+    finally
+      DuplicateChecker.Free;
+      Release;
+    end;
   end;
 end;
 
