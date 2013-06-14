@@ -334,6 +334,8 @@ type
     procedure SetEncodingComboIndex(Value: Integer);
     procedure SetFields;
     procedure SetHighlighterComboIndex(Value: Integer);
+    procedure UpdateMainMenuBar;
+    procedure UpdateStatusBar;
     procedure UpdateToolBar;
     //procedure WMAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
     procedure WriteIniFile;
@@ -583,6 +585,7 @@ begin
   FDirectoryFrame.UpdateControls;
   FDocumentFrame.UpdateGutterAndControls;
   FOutputFrame.UpdateControls;
+  UpdateStatusBar;
   //RecreateStatusBar;
   //RecreateDragDrop;
 end;
@@ -1233,9 +1236,14 @@ begin
   Close;
 end;
 
-procedure TMainForm.FormActivate(Sender: TObject);
+procedure TMainForm.UpdateMainMenuBar;
 begin
   OptionsContainer.AssignTo(ActionMainMenuBar);
+end;
+
+procedure TMainForm.FormActivate(Sender: TObject);
+begin
+  UpdateMainMenuBar;
   if Assigned(FDirectoryFrame) then
     FDirectoryFrame.Repaint;
   if Assigned(FDocumentFrame) then
@@ -1336,6 +1344,7 @@ begin
     CreateFileReopenList;
 
     UpdateToolBar;
+    UpdateStatusBar;
 
     FDirectoryFrame.UpdateControls;
     FDocumentFrame.UpdateGutterAndControls;
@@ -1775,8 +1784,9 @@ procedure TMainForm.ToolsOptionsActionExecute(Sender: TObject);
 begin
   if FDocumentFrame.Options then
   begin
-    OptionsContainer.AssignTo(ActionMainMenuBar);
+    UpdateMainMenuBar;
     UpdateToolBar;
+    UpdateStatusBar;
     //RecreateStatusBar;
     if Assigned(FOutputFrame) then
       FOutputFrame.SetOptions;
@@ -1784,6 +1794,11 @@ begin
       FDirectoryFrame.SetOptions;
     Repaint;
   end;
+end;
+
+procedure TMainForm.UpdateStatusBar;
+begin
+  OptionsContainer.AssignTo(StatusBar);
 end;
 
 procedure TMainForm.ToolsSelectForCompareActionExecute(Sender: TObject);

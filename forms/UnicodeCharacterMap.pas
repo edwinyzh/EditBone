@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids, Vcl.StdCtrls,
-  JvExStdCtrls, JvCombobox, JvColorCombo, Vcl.ActnList, Document;
+  JvExStdCtrls, JvCombobox, JvColorCombo, Vcl.ActnList, Document, System.Actions;
 
 const
   WM_AFTER_SHOW = WM_USER + 301; // custom message

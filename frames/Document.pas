@@ -126,9 +126,9 @@ type
     GotoBookmark8MenuItem: TMenuItem;
     GotoBookmark9MenuItem: TMenuItem;
     GotoBookmarksMenuItem: TMenuItem;
-    ImageList: TBCImageList;
-    ImageList25: TBCImageList;
-    ImageList50: TBCImageList;
+    ImageList16: TBCImageList;
+    ImageList20: TBCImageList;
+    ImageList24: TBCImageList;
     IncreaseIndentMenuItem: TMenuItem;
     InsertLineMenuItem: TMenuItem;
     SearchCloseSpeedButton: TSpeedButton;
@@ -530,31 +530,30 @@ begin
   try
     { windows font size causing problems here!
       Icon size will be smaller than PageControl.Images size }
-    //try
-      { smaller }
-      {ImageList.GetIcon(0, Icon);
-      FCompareImageIndex := PageControl.Images.AddIcon(Icon);
-      ImageList.GetIcon(1, Icon);
-      FNewImageIndex := PageControl.Images.AddIcon(Icon); }
-    //except
-      try
-        { medium }
-        ImageList25.GetIcon(0, Icon);
+    case PageControl.Images.Height of
+      16:
+      begin
+        { smaller }
+        ImageList16.GetIcon(0, Icon);
         FCompareImageIndex := PageControl.Images.AddIcon(Icon);
-        ImageList25.GetIcon(1, Icon);
+        ImageList16.GetIcon(1, Icon);
         FNewImageIndex := PageControl.Images.AddIcon(Icon);
-      except
-        try
-          { larger }
-          ImageList50.GetIcon(0, Icon);
-          FCompareImageIndex := PageControl.Images.AddIcon(Icon);
-          ImageList50.GetIcon(1, Icon);
-          FNewImageIndex := PageControl.Images.AddIcon(Icon);
-        except
-
-        end;
       end;
-    //end;
+      20:
+      begin
+        ImageList20.GetIcon(0, Icon);
+        FCompareImageIndex := PageControl.Images.AddIcon(Icon);
+        ImageList20.GetIcon(1, Icon);
+        FNewImageIndex := PageControl.Images.AddIcon(Icon);
+      end;
+      24:
+      begin
+        ImageList24.GetIcon(0, Icon);
+        FCompareImageIndex := PageControl.Images.AddIcon(Icon);
+        ImageList24.GetIcon(1, Icon);
+        FNewImageIndex := PageControl.Images.AddIcon(Icon);
+      end;
+    end;
   finally
     Icon.Free;
   end;
