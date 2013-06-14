@@ -541,6 +541,7 @@ begin
       end;
       20:
       begin
+        { medium }
         ImageList20.GetIcon(0, Icon);
         FCompareImageIndex := PageControl.Images.AddIcon(Icon);
         ImageList20.GetIcon(1, Icon);
@@ -548,6 +549,7 @@ begin
       end;
       24:
       begin
+        { larger }
         ImageList24.GetIcon(0, Icon);
         FCompareImageIndex := PageControl.Images.AddIcon(Icon);
         ImageList24.GetIcon(1, Icon);

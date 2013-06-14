@@ -484,13 +484,7 @@ object DocumentFrame: TDocumentFrame
       Height = 574
       Align = alClient
       DoubleBuffered = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = []
       ParentDoubleBuffered = False
-      ParentFont = False
       TabOrder = 0
       OnChange = PageControlChange
       TabDragDrop = True

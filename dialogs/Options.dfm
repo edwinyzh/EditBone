@@ -2,12 +2,12 @@ object OptionsDialog: TOptionsDialog
   Left = 580
   Top = 154
   Caption = 'Options'
-  ClientHeight = 469
-  ClientWidth = 512
+  ClientHeight = 613
+  ClientWidth = 670
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -14
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = True
@@ -15,32 +15,42 @@ object OptionsDialog: TOptionsDialog
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  PixelsPerInch = 120
+  TextHeight = 17
   object TopPanel: TPanel
     Left = 0
     Top = 0
-    Width = 512
-    Height = 428
+    Width = 670
+    Height = 560
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alClient
     BevelOuter = bvNone
-    Padding.Left = 6
-    Padding.Top = 6
-    Padding.Right = 6
+    Padding.Left = 8
+    Padding.Top = 8
+    Padding.Right = 8
     TabOrder = 0
     object Splitter: TSplitter
-      Left = 206
-      Top = 6
-      Height = 422
-      ExplicitLeft = 262
-      ExplicitTop = 106
-      ExplicitHeight = 100
+      Left = 269
+      Top = 8
+      Width = 4
+      Height = 552
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
     end
     object OptionsVirtualStringTree: TVirtualStringTree
-      Left = 6
-      Top = 6
-      Width = 200
-      Height = 422
+      Left = 8
+      Top = 8
+      Width = 261
+      Height = 552
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Align = alLeft
       Header.AutoSizeIndex = 0
       Header.Font.Charset = DEFAULT_CHARSET
@@ -62,10 +72,14 @@ object OptionsDialog: TOptionsDialog
       Columns = <>
     end
     object OptionsPanel: TPanel
-      Left = 209
-      Top = 6
-      Width = 297
-      Height = 422
+      Left = 273
+      Top = 8
+      Width = 389
+      Height = 552
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 1
@@ -73,24 +87,28 @@ object OptionsDialog: TOptionsDialog
   end
   object ButtonPanel: TPanel
     Left = 0
-    Top = 428
-    Width = 512
-    Height = 41
+    Top = 560
+    Width = 670
+    Height = 53
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alBottom
     BevelOuter = bvNone
-    Padding.Top = 8
-    Padding.Right = 6
-    Padding.Bottom = 8
+    Padding.Top = 10
+    Padding.Right = 8
+    Padding.Bottom = 10
     TabOrder = 1
     object OKButton: TButton
-      Left = 348
-      Top = 8
-      Width = 75
-      Height = 25
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 455
+      Top = 10
+      Width = 98
+      Height = 33
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alRight
       Caption = '&OK'
       Default = True
@@ -98,24 +116,28 @@ object OptionsDialog: TOptionsDialog
       TabOrder = 0
     end
     object CancelButton: TButton
-      Left = 431
-      Top = 8
-      Width = 75
-      Height = 25
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 564
+      Top = 10
+      Width = 98
+      Height = 33
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alRight
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 1
     end
     object ButtonDividerPanel: TPanel
-      Left = 423
-      Top = 8
-      Width = 8
-      Height = 25
+      Left = 553
+      Top = 10
+      Width = 11
+      Height = 33
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 2
@@ -190,7 +212,7 @@ object OptionsDialog: TOptionsDialog
     Left = 106
     Top = 158
     Bitmap = {
-      494C01010D001001240110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010D0010014C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000004000000001002000000000000040
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

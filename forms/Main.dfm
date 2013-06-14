@@ -107,11 +107,12 @@ object MainForm: TMainForm
       Margins.Right = 4
       Margins.Bottom = 4
       Align = alRight
+      Style = csDropDownList
       DropDownCount = 57
       ItemHeight = 17
       ReadOnly = True
       TabOrder = 1
-      Text = '<highlighter>'
+      Text = ''
       OnChange = HighlighterComboBoxChange
       Items.Strings = (
         '68HC11 Assembler'
@@ -189,11 +190,12 @@ object MainForm: TMainForm
       Margins.Right = 4
       Margins.Bottom = 4
       Align = alRight
+      Style = csDropDownList
       DropDownCount = 57
       ItemHeight = 17
       ReadOnly = True
       TabOrder = 2
-      Text = '<encoding>'
+      Text = ''
       OnChange = EncodingComboBoxChange
       Items.Strings = (
         'ASCII'
@@ -2141,7 +2143,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C010144005C012C0810001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010144005C01300810001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002001000001002000000000000020
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

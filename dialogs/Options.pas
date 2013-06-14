@@ -12,7 +12,7 @@ uses
   OptionsEditorOptions, OptionsEditorFont, OptionsEditorGutter, OptionsEditorTabs, Lib,
   OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, OptionsCompare, OptionsMainMenu,
   OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, OptionsStatusBar, OptionsOutput,
-  OptionsToolBar, Vcl.ActnMenus;
+  OptionsToolBar, Vcl.ActnMenus, System.Actions;
 
 type
   POptionsRec = ^TOptionsRec;

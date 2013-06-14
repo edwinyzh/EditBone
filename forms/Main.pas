@@ -330,13 +330,13 @@ type
     procedure ReadLanguageFile(SelectedLanguage: string);
     procedure ReadWindowState;
     //procedure RecreateStatusBar;
-    //procedure RecreateDragDrop;
+    procedure RecreateDragDrop;
     procedure SetEncodingComboIndex(Value: Integer);
     procedure SetFields;
     procedure SetHighlighterComboIndex(Value: Integer);
     procedure UpdateMainMenuBar;
-    procedure UpdateStatusBar;
     procedure UpdateToolBar;
+    procedure UpdateStatusBar;
     //procedure WMAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
     procedure WriteIniFile;
   public
@@ -362,6 +362,11 @@ uses
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
 
+procedure TMainForm.UpdateStatusBar;
+begin
+  OptionsContainer.AssignTo(StatusBar);
+end;
+
 (*procedure TMainForm.RecreateStatusBar;
 var
   StatusPanel: TStatusPanel;
@@ -372,10 +377,18 @@ begin
     StatusBar := nil;
   end;
   StatusBar := TStatusBar.Create(Self);
-  OptionsContainer.AssignTo(StatusBar);
   with StatusBar do
   begin
     Parent := Self;
+    UseSystemFont := False;
+    //Height := 30;
+    with Margins do
+    begin
+      Bottom := 4;
+      Left := 4;
+      Right := 4;
+      Top := 4;
+    end;
     { 1st panel }
     StatusPanel := Panels.Add;
     StatusPanel.Width := 86;
@@ -389,10 +402,12 @@ begin
     { 4th panel }
     StatusPanel := Panels.Add;
     StatusPanel.Width := 50;
+    SyncToSystemFont;
   end;
-end; *)
+  OptionsContainer.AssignTo(StatusBar);
+end;  *)
 
-{procedure TMainForm.RecreateDragDrop;
+procedure TMainForm.RecreateDragDrop;
 begin
   if Assigned(DragDrop) then
   begin
@@ -403,7 +418,7 @@ begin
   DragDrop.DropTarget := MainForm;
   DragDrop.OnDrop := DragDropDrop;
   DragDrop.AcceptDrag := True;
-end;  }
+end;
 
 procedure TMainForm.CreateFileReopenList;
 var
@@ -586,8 +601,7 @@ begin
   FDocumentFrame.UpdateGutterAndControls;
   FOutputFrame.UpdateControls;
   UpdateStatusBar;
-  //RecreateStatusBar;
-  //RecreateDragDrop;
+  RecreateDragDrop;
 end;
 
 procedure TMainForm.ToggleBookmarks0ActionExecute(Sender: TObject);
@@ -1289,7 +1303,7 @@ begin
   Language.ReadLanguageFile(Common.GetSelectedLanguage);
 
   CreateFrames;
-  //RecreateStatusBar;
+  UpdateStatusBar;
   ReadLanguageFile(Common.GetSelectedLanguage);
   ReadIniFile;
 
@@ -1787,18 +1801,12 @@ begin
     UpdateMainMenuBar;
     UpdateToolBar;
     UpdateStatusBar;
-    //RecreateStatusBar;
     if Assigned(FOutputFrame) then
       FOutputFrame.SetOptions;
     if Assigned(FDirectoryFrame) then
       FDirectoryFrame.SetOptions;
     Repaint;
   end;
-end;
-
-procedure TMainForm.UpdateStatusBar;
-begin
-  OptionsContainer.AssignTo(StatusBar);
 end;
 
 procedure TMainForm.ToolsSelectForCompareActionExecute(Sender: TObject);
