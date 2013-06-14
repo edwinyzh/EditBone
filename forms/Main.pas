@@ -12,7 +12,7 @@ uses
   JvAppEvent;
 
 const
-  WM_AFTER_SHOW = WM_USER + 300; // custom message
+  //WM_AFTER_SHOW = WM_USER + 300; // custom message
   { Main menu item indexes }
   FILE_MENU_ITEMINDEX = 0;
   FILE_REOPEN_MENU_ITEMINDEX = 2;
@@ -317,6 +317,7 @@ type
     FDocumentFrame: TDocumentFrame;
     FOnStartUp: Boolean;
     FOutputFrame: TOutputFrame;
+    FProcessingEventHandler: Boolean;
     function GetActionClientItem(MenuItemIndex, SubMenuItemIndex: Integer): TActionClientItem;
     function SupportedFileExt(FileExt: string): Boolean;
     procedure CreateFrames;
@@ -328,13 +329,13 @@ type
     procedure ReadIniOptions;
     procedure ReadLanguageFile(SelectedLanguage: string);
     procedure ReadWindowState;
-    procedure RecreateStatusBar;
-    procedure RecreateDragDrop;
+    //procedure RecreateStatusBar;
+    //procedure RecreateDragDrop;
     procedure SetEncodingComboIndex(Value: Integer);
     procedure SetFields;
     procedure SetHighlighterComboIndex(Value: Integer);
     procedure UpdateToolBar;
-    procedure WMAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
+    //procedure WMAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
     procedure WriteIniFile;
   public
     { Public declarations }
@@ -359,7 +360,7 @@ uses
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
 
-procedure TMainForm.RecreateStatusBar;
+(*procedure TMainForm.RecreateStatusBar;
 var
   StatusPanel: TStatusPanel;
 begin
@@ -387,9 +388,9 @@ begin
     StatusPanel := Panels.Add;
     StatusPanel.Width := 50;
   end;
-end;
+end; *)
 
-procedure TMainForm.RecreateDragDrop;
+{procedure TMainForm.RecreateDragDrop;
 begin
   if Assigned(DragDrop) then
   begin
@@ -400,7 +401,7 @@ begin
   DragDrop.DropTarget := MainForm;
   DragDrop.OnDrop := DragDropDrop;
   DragDrop.AcceptDrag := True;
-end;
+end;  }
 
 procedure TMainForm.CreateFileReopenList;
 var
@@ -582,8 +583,8 @@ begin
   FDirectoryFrame.UpdateControls;
   FDocumentFrame.UpdateGutterAndControls;
   FOutputFrame.UpdateControls;
-  RecreateStatusBar;
-  RecreateDragDrop;
+  //RecreateStatusBar;
+  //RecreateDragDrop;
 end;
 
 procedure TMainForm.ToggleBookmarks0ActionExecute(Sender: TObject);
@@ -697,7 +698,7 @@ begin
   ViewStyleAction.Enabled := True;
 end;
 
-procedure TMainForm.WMAfterShow(var Msg: TMessage);
+(*procedure TMainForm.WMAfterShow(var Msg: TMessage);
 var
   i: Integer;
   SynEdit: TBCSynEdit;
@@ -731,7 +732,7 @@ begin
       if SynEdit.CanFocus then
         SynEdit.SetFocus;
   end;
-end;
+end;    *)
 
 procedure TMainForm.ToggleBookmarkActionExecute(Sender: TObject);
 begin
@@ -923,9 +924,10 @@ end;
 procedure TMainForm.ApplicationEventsMessage(var Msg: tagMSG;
   var Handled: Boolean);
 begin
+  if FProcessingEventHandler then
+    Exit;
   if not Assigned(FDocumentFrame) then
     Exit;
-
   SetFields;
 end;
 
@@ -942,6 +944,7 @@ var
   BookmarkList: TSynEditMarkList;
   GotoBookmarksAction, ToggleBookmarksAction: TAction;
 begin
+  FProcessingEventHandler := True;
   ActiveDocumentFound := FDocumentFrame.ActiveDocumentFound;
   SelectionFound := FDocumentFrame.SelectionFound;
   IsXMLDocument := FDocumentFrame.IsXMLDocument;
@@ -961,7 +964,6 @@ begin
   if ViewXMLTreeAction.Visible then
     ViewXMLTreeAction.Checked := FDocumentFrame.XMLTreeVisible;
 
-  {
   ActiveDocumentName := FDocumentFrame.ActiveDocumentName;
   if ActiveDocumentName = '' then
     ActiveDocumentName := FDocumentFrame.ActiveTabSheetCaption;
@@ -969,9 +971,9 @@ begin
   if ActiveDocumentName = '' then
     Caption := Application.Title
   else
-    Caption := TCaption(Format(Application.Title + MAIN_CAPTION_DOCUMENT, [ActiveDocumentName]));
+    Caption := Format(Application.Title + MAIN_CAPTION_DOCUMENT, [ActiveDocumentName]);
   FilePropertiesAction.Enabled := ActiveDocumentFound and (ActiveDocumentName <> '');
-  }
+
   ReopenActionClientItem := GetActionClientItem(FILE_MENU_ITEMINDEX, FILE_REOPEN_MENU_ITEMINDEX);
   FileReopenAction.Enabled := ReopenActionClientItem.Items.Count > 0;
   FileCloseAction.Enabled := FDocumentFrame.OpenTabSheets;
@@ -1105,6 +1107,7 @@ begin
     ToggleBookmarksAction.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
       BookmarkList.Items[i].BookmarkNumber, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
   end;
+  FProcessingEventHandler := False;
 end;
 
 procedure TMainForm.ViewCloseDirectoryActionExecute(Sender: TObject);
@@ -1278,7 +1281,7 @@ begin
   Language.ReadLanguageFile(Common.GetSelectedLanguage);
 
   CreateFrames;
-  RecreateStatusBar;
+  //RecreateStatusBar;
   ReadLanguageFile(Common.GetSelectedLanguage);
   ReadIniFile;
 
@@ -1307,12 +1310,45 @@ begin
 end;
 
 procedure TMainForm.FormShow(Sender: TObject);
+var
+  i: Integer;
+  SynEdit: TBCSynEdit;
 begin
   ReadIniOptions;
   { Post the custom message WM_AFTER_SHOW to our form }
+  //if FOnStartUp then
+  //  PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
+
+  { Style change will call the FormShow }
   if FOnStartUp then
-    PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
-  Repaint;
+  begin
+    //Repaint;
+    //Application.ProcessMessages;
+    { paint problem with styles if this is done before OnShow... }
+    if not FDocumentFrame.ReadIniOpenFiles then
+      FDocumentFrame.New;
+    if ParamCount > 0 then
+      for i := 1 to ParamCount do
+        FDocumentFrame.Open(ParamStr(i), nil, 0, 0, True);
+
+    CreateLanguageMenu;
+    CreateStyleMenu;
+    CreateFileReopenList;
+
+    UpdateToolBar;
+
+    FDirectoryFrame.UpdateControls;
+    FDocumentFrame.UpdateGutterAndControls;
+    FOutputFrame.UpdateControls;
+    FOnStartUp := False;
+    ReadWindowState; { because of styles this cannot be done before... }
+    //Repaint;
+    SynEdit := FDocumentFrame.GetActiveSynEdit;
+    if Assigned(SynEdit) then
+      if SynEdit.CanFocus then
+        SynEdit.SetFocus;
+  end;
+  //Repaint;
 end;
 
 procedure TMainForm.HelpAboutActionExecute(Sender: TObject);
@@ -1741,7 +1777,7 @@ begin
   begin
     OptionsContainer.AssignTo(ActionMainMenuBar);
     UpdateToolBar;
-    RecreateStatusBar;
+    //RecreateStatusBar;
     if Assigned(FOutputFrame) then
       FOutputFrame.SetOptions;
     if Assigned(FDirectoryFrame) then
