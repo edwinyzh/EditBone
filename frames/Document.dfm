@@ -1,16 +1,18 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 869
-  Height = 622
+  Width = 1068
+  Height = 638
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
   TabOrder = 0
+  ExplicitWidth = 553
+  ExplicitHeight = 372
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 869
+    Width = 1068
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -18,6 +20,7 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 0
     Visible = False
+    ExplicitWidth = 553
     object WholeWordsOnlyLabel: TLabel
       Left = 488
       Top = 0
@@ -468,8 +471,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 869
-    Height = 576
+    Width = 1068
+    Height = 592
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -477,11 +480,13 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentColor = True
     TabOrder = 1
+    ExplicitWidth = 553
+    ExplicitHeight = 326
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 869
-      Height = 574
+      Width = 1068
+      Height = 590
       Align = alClient
       DoubleBuffered = False
       ParentDoubleBuffered = False
@@ -492,12 +497,14 @@ object DocumentFrame: TDocumentFrame
       ShowCloseButton = False
       OnCloseButtonClick = PageControlCloseButtonClick
       OnDblClick = PageControlDblClick
+      ExplicitWidth = 553
+      ExplicitHeight = 324
     end
   end
   object GotoLinePanel: TPanel
     Left = 0
-    Top = 597
-    Width = 869
+    Top = 613
+    Width = 1068
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
@@ -506,6 +513,8 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 2
     Visible = False
+    ExplicitTop = 347
+    ExplicitWidth = 553
     object GotoLineClosePanel: TPanel
       Left = 0
       Top = 2
@@ -694,7 +703,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 112
     Bitmap = {
-      494C010106003800B40610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106003800B80610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1042,7 +1051,7 @@ object DocumentFrame: TDocumentFrame
     Left = 144
     Top = 282
     Bitmap = {
-      494C01010A003800940610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A003800980610001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1449,25 +1458,43 @@ object DocumentFrame: TDocumentFrame
     Left = 38
     Top = 120
     object CutMenuItem: TMenuItem
-      Action = MainForm.EditCutAction
+      Caption = '&Cut'
+      Hint = 'Cut the selection and put it on the Clipboard'
+      ImageIndex = 12
+      ShortCut = 16472
     end
     object CopyMenuItem: TMenuItem
-      Action = MainForm.EditCopyAction
+      Caption = 'C&opy'
+      Hint = 'Copy the selection and put it on the Clipboard'
+      ImageIndex = 13
+      ShortCut = 16451
     end
     object PasteMenuItem: TMenuItem
-      Action = MainForm.EditPasteAction
+      Caption = '&Paste'
+      Hint = 'Insert Clipboard contents'
+      ImageIndex = 14
+      ShortCut = 16470
     end
     object SelectAllMenuItem: TMenuItem
-      Action = MainForm.EditSelectAllAction
+      Caption = '&Select All'
+      Hint = 'Select all'
+      ImageIndex = 39
+      ShortCut = 16449
     end
     object Separator1MenuItem: TMenuItem
       Caption = '-'
     end
     object UndoMenuItem: TMenuItem
-      Action = MainForm.EditUndoAction
+      Caption = '&Undo'
+      Hint = 'Undo the last action'
+      ImageIndex = 11
+      ShortCut = 16474
     end
     object RedoMenuItem: TMenuItem
-      Action = MainForm.EditRedoAction
+      Caption = '&Redo'
+      Hint = 'Redo the previously undone action'
+      ImageIndex = 10
+      ShortCut = 24666
     end
     object Separator2MenuItem: TMenuItem
       Caption = '-'
@@ -1538,22 +1565,34 @@ object DocumentFrame: TDocumentFrame
       end
     end
     object ClearBookmarksMenuItem: TMenuItem
-      Action = MainForm.ClearBookmarksAction
+      Caption = 'Clear &Bookmarks'
+      Hint = 'Clear all bookmarks.'
+      ImageIndex = 50
     end
     object Separator3MenuItem: TMenuItem
       Caption = '-'
     end
     object InsertLineMenuItem: TMenuItem
-      Action = MainForm.EditInsertLineAction
+      Caption = '&Insert Line'
+      Hint = 'Insert line'
+      ImageIndex = 51
+      ShortCut = 16462
     end
     object DeleteWordMenuItem: TMenuItem
-      Action = MainForm.EditDeleteWordAction
+      Caption = 'D&elete Word'
+      Hint = 'Delete word'
+      ShortCut = 16468
     end
     object DeleteLineMenuItem: TMenuItem
-      Action = MainForm.EditDeleteLineAction
+      Caption = 'De&lete Line'
+      Hint = 'Delete line'
+      ImageIndex = 52
+      ShortCut = 16473
     end
     object DeleteEOLMenuItem: TMenuItem
-      Action = MainForm.EditDeleteEOLAction
+      Caption = 'Delete E&nd of Line'
+      Hint = 'Delete end of line'
+      ShortCut = 24665
     end
     object Separator7MenuItem: TMenuItem
       Caption = '-'
@@ -1578,25 +1617,40 @@ object DocumentFrame: TDocumentFrame
       Caption = '-'
     end
     object IncreaseIndentMenuItem: TMenuItem
-      Action = MainForm.EditIncreaseIndentAction
+      Caption = 'Increase Indent'
+      Hint = 'Increase indent'
+      ImageIndex = 35
+      ShortCut = 24649
     end
     object DecreaseIndentMenuItem: TMenuItem
-      Action = MainForm.EditDecreaseIndentAction
+      Caption = '&Decrease Indent'
+      Hint = 'Decrease indent'
+      ImageIndex = 34
+      ShortCut = 24661
     end
     object Separator5MenuItem: TMenuItem
       Caption = '-'
     end
     object SortAscendingMenuItem: TMenuItem
-      Action = MainForm.EditSortAscAction
+      Caption = 'Sort &Ascending'
+      Hint = 'Sort ascending'
+      ImageIndex = 37
+      ShortCut = 24641
     end
     object SortDescendingMenuItem: TMenuItem
-      Action = MainForm.EditSortDescAction
+      Caption = 'Sor&t Descending'
+      Hint = 'Sort descending'
+      ImageIndex = 38
+      ShortCut = 24644
     end
     object Separator6MenuItem: TMenuItem
       Caption = '-'
     end
     object ToggleCaseMenuItem: TMenuItem
-      Action = MainForm.EditToggleCaseAction
+      Caption = 'To&ggle Case'
+      Hint = 'Toggle case'
+      ImageIndex = 36
+      ShortCut = 24643
     end
     object RemoveWhiteSpaceMenuItem: TMenuItem
     end
@@ -1615,7 +1669,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 168
     Bitmap = {
-      494C010102009C04E80614001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010102009C04EC0614001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000A4676900A4676900A467
@@ -1835,7 +1889,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 224
     Bitmap = {
-      494C01010200BC04EC0618001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010200BC04F00618001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000A467
@@ -2738,7 +2792,7 @@ object DocumentFrame: TDocumentFrame
     Left = 746
     Top = 190
     Bitmap = {
-      494C010109001800980110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101090018009C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3153,7 +3207,7 @@ object DocumentFrame: TDocumentFrame
     Left = 744
     Top = 316
     Bitmap = {
-      494C0101010054007C0310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010101005400800310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
