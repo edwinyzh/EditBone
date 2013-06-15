@@ -12,7 +12,6 @@ uses
   JvAppEvent;
 
 const
-  //WM_AFTER_SHOW = WM_USER + 300; // custom message
   { Main menu item indexes }
   FILE_MENU_ITEMINDEX = 0;
   FILE_REOPEN_MENU_ITEMINDEX = 2;
@@ -329,7 +328,6 @@ type
     procedure ReadIniOptions;
     procedure ReadLanguageFile(SelectedLanguage: string);
     procedure ReadWindowState;
-    //procedure RecreateStatusBar;
     procedure RecreateDragDrop;
     procedure SetEncodingComboIndex(Value: Integer);
     procedure SetFields;
@@ -337,7 +335,6 @@ type
     procedure UpdateMainMenuBar;
     procedure UpdateToolBar;
     procedure UpdateStatusBar;
-    //procedure WMAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
     procedure WriteIniFile;
   public
     { Public declarations }
@@ -366,46 +363,6 @@ procedure TMainForm.UpdateStatusBar;
 begin
   OptionsContainer.AssignTo(StatusBar);
 end;
-
-(*procedure TMainForm.RecreateStatusBar;
-var
-  StatusPanel: TStatusPanel;
-begin
-  if Assigned(StatusBar) then
-  begin
-    StatusBar.Free;
-    StatusBar := nil;
-  end;
-  StatusBar := TStatusBar.Create(Self);
-  with StatusBar do
-  begin
-    Parent := Self;
-    UseSystemFont := False;
-    //Height := 30;
-    with Margins do
-    begin
-      Bottom := 4;
-      Left := 4;
-      Right := 4;
-      Top := 4;
-    end;
-    { 1st panel }
-    StatusPanel := Panels.Add;
-    StatusPanel.Width := 86;
-    StatusPanel.Alignment := taCenter;
-    { 2nd panel }
-    StatusPanel := Panels.Add;
-    StatusPanel.Width := 86;
-    { 3rd panel }
-    StatusPanel := Panels.Add;
-    StatusPanel.Width := 86;
-    { 4th panel }
-    StatusPanel := Panels.Add;
-    StatusPanel.Width := 50;
-    SyncToSystemFont;
-  end;
-  OptionsContainer.AssignTo(StatusBar);
-end;  *)
 
 procedure TMainForm.RecreateDragDrop;
 begin
@@ -714,42 +671,6 @@ begin
   ActionClientItem.Action := Action;
   ViewStyleAction.Enabled := True;
 end;
-
-(*procedure TMainForm.WMAfterShow(var Msg: TMessage);
-var
-  i: Integer;
-  SynEdit: TBCSynEdit;
-begin
-  { Style change will call the FormShow }
-  if FOnStartUp then
-  begin
-    Repaint;
-    Application.ProcessMessages;
-    { paint problem with styles if this is done before OnShow... }
-    if not FDocumentFrame.ReadIniOpenFiles then
-      FDocumentFrame.New;
-    if ParamCount > 0 then
-      for i := 1 to ParamCount do
-        FDocumentFrame.Open(ParamStr(i), nil, 0, 0, True);
-
-    CreateLanguageMenu;
-    CreateStyleMenu;
-    CreateFileReopenList;
-
-    UpdateToolBar;
-
-    FDirectoryFrame.UpdateControls;
-    FDocumentFrame.UpdateGutterAndControls;
-    FOutputFrame.UpdateControls;
-    FOnStartUp := False;
-    ReadWindowState; { because of styles this cannot be done before... }
-    Repaint;
-    SynEdit := FDocumentFrame.GetActiveSynEdit;
-    if Assigned(SynEdit) then
-      if SynEdit.CanFocus then
-        SynEdit.SetFocus;
-  end;
-end;    *)
 
 procedure TMainForm.ToggleBookmarkActionExecute(Sender: TObject);
 begin
@@ -1155,8 +1076,6 @@ end;
 
 procedure TMainForm.FileOpenActionExecute(Sender: TObject);
 begin
-  //if Assigned(FDirectoryFrame) then
-  //  FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
   FDocumentFrame.Open;
 end;
 
@@ -1177,8 +1096,6 @@ end;
 
 procedure TMainForm.FileSaveActionExecute(Sender: TObject);
 begin
-  //if Assigned(FDirectoryFrame) then
-  //  FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
   FDocumentFrame.Save;
   Repaint;
 end;
@@ -1191,10 +1108,7 @@ begin
   try
     RootDirectory := '';
     if Assigned(FDirectoryFrame) then
-    begin
       RootDirectory := FDirectoryFrame.RootDirectory;
-      //FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
-    end;
     Filename := FDocumentFrame.SaveAs;
     if Filename <> '' then
       if Assigned(FDirectoryFrame) then
@@ -1220,8 +1134,6 @@ end;
 
 procedure TMainForm.FileSaveAllActionExecute(Sender: TObject);
 begin
-  //if Assigned(FDirectoryFrame) then
-  //  FDocumentFrame.DefaultPath := FDirectoryFrame.SelectedPath;
   FDocumentFrame.SaveAll;
 end;
 
@@ -1336,23 +1248,15 @@ var
   i: Integer;
   SynEdit: TBCSynEdit;
 begin
-  ReadIniOptions;
-  { Post the custom message WM_AFTER_SHOW to our form }
-  //if FOnStartUp then
-  //  PostMessage(Self.Handle, WM_AFTER_SHOW, 0, 0);
-
   { Style change will call the FormShow }
   if FOnStartUp then
   begin
-    //Repaint;
-    //Application.ProcessMessages;
-    { paint problem with styles if this is done before OnShow... }
+    ReadIniOptions;
     if not FDocumentFrame.ReadIniOpenFiles then
       FDocumentFrame.New;
     if ParamCount > 0 then
       for i := 1 to ParamCount do
         FDocumentFrame.Open(ParamStr(i), nil, 0, 0, True);
-
     CreateLanguageMenu;
     CreateStyleMenu;
     CreateFileReopenList;
@@ -1365,13 +1269,12 @@ begin
     FOutputFrame.UpdateControls;
     FOnStartUp := False;
     ReadWindowState; { because of styles this cannot be done before... }
-    //Repaint;
+
     SynEdit := FDocumentFrame.GetActiveSynEdit;
     if Assigned(SynEdit) then
       if SynEdit.CanFocus then
         SynEdit.SetFocus;
   end;
-  //Repaint;
 end;
 
 procedure TMainForm.HelpAboutActionExecute(Sender: TObject);
@@ -1974,8 +1877,6 @@ var
   SynEdit: TBCSynEdit;
 begin
   HighlighterComboBox.ItemIndex := Value;
-  if HighlighterComboBox.CanFocus then
-    HighlighterComboBox.SetFocus; { get the combo unselected }
   SynEdit := FDocumentFrame.GetActiveSynEdit;
   if Assigned(SynEdit) then
     if SynEdit.CanFocus then

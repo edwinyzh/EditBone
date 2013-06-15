@@ -3,7 +3,7 @@
         <ProjectGuid>{E3B818CC-5E75-4FBB-9706-6F94F69C4127}</ProjectGuid>
         <ProjectVersion>14.6</ProjectVersion>
         <MainSource>EditBone.dpr</MainSource>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
         <Base>True</Base>
         <AppType>Application</AppType>
@@ -120,7 +120,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <DCC_UnitSearchPath>D:\Bonecode\Components\src\Controls;C:\Program Files (x86)\Embarcadero\RAD Studio\9.0\source\UniSynEdit\Source;C:\Program Files (x86)\Embarcadero\RAD Studio\9.0\source\SynWeb\Source;C:\Program Files (x86)\Embarcadero\RAD Studio\9.0\source\VirtualTree\Source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>C:\Program Files (x86)\Embarcadero\RAD Studio\11.0\source\UniSynEdit\Source;C:\Program Files (x86)\Embarcadero\RAD Studio\11.0\source\SynWeb\Source;C:\Program Files (x86)\Embarcadero\RAD Studio\11.0\source\VirtualTree\Source;D:\Bonecode XE4\Components\src\Controls;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
