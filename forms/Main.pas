@@ -1679,7 +1679,7 @@ var
 begin
   with DuplicateCheckerOptionsDialog do
   begin
-    DuplicateChecker := TDuplicateChecker.Create(InputFolderName, OutputFileName, MinBlockSize, MinChars);
+    DuplicateChecker := TDuplicateChecker.Create(InputFolderName, OutputFileName, MinBlockSize, MinChars, RemoveComments);
     try
       DuplicateChecker.Run;
       if LaunchAfterCreation then

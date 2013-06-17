@@ -3,7 +3,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
   Top = 0
   BorderStyle = bsDialog
   Caption = 'Duplicate Checker'
-  ClientHeight = 239
+  ClientHeight = 263
   ClientWidth = 456
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,7 +18,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
   TextHeight = 13
   object ButtonPanel: TPanel
     Left = 0
-    Top = 207
+    Top = 231
     Width = 456
     Height = 32
     Align = alBottom
@@ -27,8 +27,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
     Padding.Right = 8
     Padding.Bottom = 8
     TabOrder = 0
-    ExplicitTop = 93
-    ExplicitWidth = 488
+    ExplicitTop = 207
     object OKButton: TButton
       Left = 290
       Top = 0
@@ -38,7 +37,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
       Align = alRight
       Default = True
       TabOrder = 0
-      ExplicitLeft = 322
     end
     object CancelButton: TButton
       Left = 373
@@ -49,7 +47,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 405
     end
     object Panel1: TPanel
       Left = 365
@@ -59,21 +56,17 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 2
-      ExplicitLeft = 397
     end
   end
   object ContentPanel: TPanel
     Left = 0
     Top = 0
     Width = 456
-    Height = 207
+    Height = 231
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitLeft = -4
-    ExplicitTop = -12
-    ExplicitWidth = 387
-    ExplicitHeight = 311
+    ExplicitHeight = 207
     object Content1Panel: TPanel
       Left = 0
       Top = 0
@@ -85,7 +78,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
       Padding.Right = 6
       Padding.Bottom = 3
       TabOrder = 0
-      ExplicitWidth = 387
       object InputGroupBox: TGroupBox
         Left = 6
         Top = 0
@@ -94,8 +86,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
         Align = alClient
         Caption = ' Input '
         TabOrder = 0
-        ExplicitWidth = 345
-        ExplicitHeight = 105
         object InputLeftPanel: TPanel
           Left = 2
           Top = 15
@@ -122,10 +112,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitLeft = 132
-          ExplicitTop = 21
-          ExplicitWidth = 185
-          ExplicitHeight = 41
           DesignSize = (
             358
             33)
@@ -137,6 +123,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
             Hint = 'Folder'
             Anchors = [akLeft, akTop, akRight]
             TabOrder = 0
+            Text = ''
             OnlyNumbers = False
             NumbersWithDots = False
             NumbersWithSpots = False
@@ -185,81 +172,102 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
       Left = 0
       Top = 123
       Width = 456
-      Height = 76
+      Height = 100
       Align = alTop
       BevelOuter = bvNone
       Padding.Left = 6
       Padding.Right = 6
       Padding.Bottom = 3
       TabOrder = 2
-      ExplicitWidth = 446
       object OptionsGroupBox: TGroupBox
         Left = 6
         Top = 0
         Width = 444
-        Height = 73
+        Height = 97
         Align = alClient
         Caption = ' Options '
         TabOrder = 0
-        ExplicitWidth = 434
-        ExplicitHeight = 47
-        object OptionsLeftPanel: TPanel
+        ExplicitHeight = 73
+        DesignSize = (
+          444
+          97)
+        object Panel2: TPanel
           Left = 2
           Top = 15
-          Width = 82
-          Height = 56
-          Align = alLeft
+          Width = 440
+          Height = 50
+          Align = alTop
           BevelOuter = bvNone
-          Padding.Left = 10
-          Padding.Right = 10
           TabOrder = 0
-          object MinBlockSizeLabel: TLabel
-            Left = 10
-            Top = 7
-            Width = 65
-            Height = 13
-            Caption = 'Min Block Size'
+          object OptionsLeftPanel: TPanel
+            Left = 0
+            Top = 0
+            Width = 82
+            Height = 50
+            Align = alLeft
+            BevelOuter = bvNone
+            Padding.Left = 10
+            Padding.Right = 10
+            TabOrder = 0
+            ExplicitLeft = 2
+            ExplicitTop = 15
+            ExplicitHeight = 56
+            object MinBlockSizeLabel: TLabel
+              Left = 10
+              Top = 7
+              Width = 65
+              Height = 13
+              Caption = 'Min Block Size'
+            end
+            object MinCharsLabel: TLabel
+              Left = 10
+              Top = 30
+              Width = 47
+              Height = 13
+              Caption = 'Min Chars'
+            end
           end
-          object MinCharsLabel: TLabel
-            Left = 10
-            Top = 30
-            Width = 47
-            Height = 13
-            Caption = 'Min Chars'
+          object OptionsRightPanel: TPanel
+            Left = 82
+            Top = 0
+            Width = 358
+            Height = 50
+            Align = alClient
+            BevelOuter = bvNone
+            TabOrder = 1
+            ExplicitLeft = 84
+            ExplicitTop = 15
+            ExplicitHeight = 56
+            object MinBlockSizeSpinEdit: TJvSpinEdit
+              Left = 7
+              Top = 4
+              Width = 59
+              Height = 21
+              Decimal = 0
+              MaxValue = 255.000000000000000000
+              Value = 4.000000000000000000
+              TabOrder = 0
+            end
+            object MinCharsSpinEdit: TJvSpinEdit
+              Left = 6
+              Top = 27
+              Width = 60
+              Height = 21
+              Decimal = 0
+              MaxValue = 255.000000000000000000
+              Value = 3.000000000000000000
+              TabOrder = 1
+            end
           end
         end
-        object OptionsRightPanel: TPanel
-          Left = 84
-          Top = 15
-          Width = 358
-          Height = 56
-          Align = alClient
-          BevelOuter = bvNone
+        object RemoveCommentsCheckBox: TCheckBox
+          Left = 13
+          Top = 69
+          Width = 346
+          Height = 17
+          Anchors = [akTop, akRight]
+          Caption = ' Remove Comments'
           TabOrder = 1
-          ExplicitLeft = 132
-          ExplicitTop = 42
-          ExplicitWidth = 185
-          ExplicitHeight = 41
-          object MinBlockSizeSpinEdit: TJvSpinEdit
-            Left = 7
-            Top = 4
-            Width = 59
-            Height = 21
-            Decimal = 0
-            MaxValue = 255.000000000000000000
-            Value = 4.000000000000000000
-            TabOrder = 0
-          end
-          object MinCharsSpinEdit: TJvSpinEdit
-            Left = 6
-            Top = 27
-            Width = 59
-            Height = 21
-            Decimal = 0
-            MaxValue = 255.000000000000000000
-            Value = 3.000000000000000000
-            TabOrder = 1
-          end
         end
       end
     end
@@ -274,7 +282,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
       Padding.Right = 6
       Padding.Bottom = 3
       TabOrder = 1
-      ExplicitWidth = 446
       object OutputGroupBox: TGroupBox
         Left = 6
         Top = 0
@@ -283,7 +290,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
         Align = alClient
         Caption = ' Output '
         TabOrder = 0
-        ExplicitWidth = 434
         object OutputLeftPanel: TPanel
           Left = 2
           Top = 15
@@ -310,10 +316,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitLeft = 112
-          ExplicitTop = 40
-          ExplicitWidth = 185
-          ExplicitHeight = 41
           DesignSize = (
             358
             50)
@@ -325,6 +327,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
             Hint = 'Folder'
             Anchors = [akLeft, akTop, akRight]
             TabOrder = 0
+            Text = ''
             OnlyNumbers = False
             NumbersWithDots = False
             NumbersWithSpots = False

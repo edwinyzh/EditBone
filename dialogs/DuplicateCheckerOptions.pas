@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Dlg, Vcl.Dialogs, Vcl.ActnList, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons, JvExStdCtrls,
-  JvEdit, BCEdit, Vcl.Mask, JvExMask, JvSpin;
+  JvEdit, BCEdit, Vcl.Mask, JvExMask, JvSpin, System.Actions;
 
 type
   TDuplicateCheckerOptionsDialog = class(TDialog)
@@ -35,12 +35,14 @@ type
     FileEdit: TBCEdit;
     FileBitBtn: TBitBtn;
     LaunchAfterCreationCheckBox: TCheckBox;
+    Panel2: TPanel;
     OptionsLeftPanel: TPanel;
     MinBlockSizeLabel: TLabel;
     MinCharsLabel: TLabel;
     OptionsRightPanel: TPanel;
     MinBlockSizeSpinEdit: TJvSpinEdit;
     MinCharsSpinEdit: TJvSpinEdit;
+    RemoveCommentsCheckBox: TCheckBox;
     procedure OKActionExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -51,6 +53,7 @@ type
     function GetLaunchAfterCreation: Boolean;
     function GetMinBlockSize: Byte;
     function GetMinChars: Byte;
+    function GetRemoveComments: Boolean;
   public
     { Public declarations }
     function Open: Boolean;
@@ -59,6 +62,7 @@ type
     property LaunchAfterCreation: Boolean read GetLaunchAfterCreation;
     property MinBlockSize: Byte read GetMinBlockSize;
     property MinChars: Byte read GetMinChars;
+    property RemoveComments: Boolean read GetRemoveComments;
   end;
 
 function DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog;
@@ -169,6 +173,11 @@ end;
 function TDuplicateCheckerOptionsDialog.GetMinChars: Byte;
 begin
   Result := StrToInt(MinCharsSpinEdit.Text);
+end;
+
+function TDuplicateCheckerOptionsDialog.GetRemoveComments: Boolean;
+begin
+  Result := RemoveCommentsCheckBox.Checked;
 end;
 
 end.

@@ -2,13 +2,13 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   Caption = 'EditBone'
-  ClientHeight = 732
-  ClientWidth = 1438
+  ClientHeight = 560
+  ClientWidth = 1100
   Color = clBtnFace
   TransparentColorValue = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -14
+  Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
   KeyPreview = True
@@ -22,20 +22,16 @@ object MainForm: TMainForm
   OnKeyDown = FormKeyDown
   OnResize = FormResize
   OnShow = FormShow
-  PixelsPerInch = 120
-  TextHeight = 17
+  PixelsPerInch = 96
+  TextHeight = 13
   object StatusBar: TStatusBar
     Left = 0
-    Top = 707
-    Width = 1438
-    Height = 25
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Top = 541
+    Width = 1100
+    Height = 19
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBtnText
-    Font.Height = -15
+    Font.Height = -11
     Font.Name = 'Segoe UI'
     Font.Style = []
     Panels = <
@@ -57,16 +53,12 @@ object MainForm: TMainForm
   object MainMenuPanel: TPanel
     Left = 0
     Top = 0
-    Width = 1438
-    Height = 31
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Width = 1100
+    Height = 24
     Align = alTop
     BevelOuter = bvNone
-    Padding.Top = 3
-    Padding.Right = 3
+    Padding.Top = 2
+    Padding.Right = 2
     ParentColor = True
     ParentShowHint = False
     ShowHint = False
@@ -74,12 +66,8 @@ object MainForm: TMainForm
     object ActionMainMenuBar: TActionMainMenuBar
       Left = 0
       Top = 0
-      Width = 1089
-      Height = 39
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Width = 833
+      Height = 30
       UseSystemFont = False
       ActionManager = ActionManager
       Align = alNone
@@ -90,7 +78,7 @@ object MainForm: TMainForm
       ColorMap.UnusedColor = clWhite
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = -15
+      Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentShowHint = False
@@ -98,14 +86,10 @@ object MainForm: TMainForm
       Spacing = 1
     end
     object HighlighterComboBox: TBCComboBox
-      Left = 1265
-      Top = 3
-      Width = 170
-      Height = 25
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 968
+      Top = 2
+      Width = 130
+      Height = 21
       Align = alRight
       Style = csDropDownList
       DropDownCount = 57
@@ -179,14 +163,10 @@ object MainForm: TMainForm
       DropDownFixedWidth = 0
     end
     object EncodingComboBox: TBCComboBox
-      Left = 1095
-      Top = 3
-      Width = 170
-      Height = 25
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 838
+      Top = 2
+      Width = 130
+      Height = 21
       Align = alRight
       Style = csDropDownList
       DropDownCount = 57
@@ -208,31 +188,23 @@ object MainForm: TMainForm
   end
   object ToolBarPanel: TPanel
     Left = 0
-    Top = 31
-    Width = 1438
-    Height = 31
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Top = 24
+    Width = 1100
+    Height = 28
     Align = alTop
     AutoSize = True
     BevelOuter = bvNone
-    Padding.Left = 3
-    Padding.Top = 3
-    Padding.Right = 3
+    Padding.Left = 2
+    Padding.Top = 2
+    Padding.Right = 2
     ParentColor = True
     TabOrder = 1
     Visible = False
     object ActionToolBar: TActionToolBar
-      Left = 3
-      Top = 3
-      Width = 1432
-      Height = 28
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 2
+      Top = 2
+      Width = 1096
+      Height = 26
       ActionManager = ActionManager
       Color = clMenuBar
       ColorMap.DisabledFontColor = 7171437
@@ -242,7 +214,7 @@ object MainForm: TMainForm
       EdgeInner = esNone
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = -15
+      Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = []
       HorzSeparator = False
@@ -253,61 +225,44 @@ object MainForm: TMainForm
   end
   object ContentPanel: TPanel
     Left = 0
-    Top = 62
-    Width = 1438
-    Height = 645
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Top = 52
+    Width = 1100
+    Height = 489
     Align = alClient
     BevelOuter = bvNone
     ParentColor = True
     TabOrder = 2
     object HorizontalSplitter: TSplitter
       Left = 0
-      Top = 443
-      Width = 1438
-      Height = 4
+      Top = 335
+      Width = 1100
+      Height = 3
       Cursor = crVSplit
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
       Align = alBottom
       AutoSnap = False
       Visible = False
-      ExplicitTop = 437
+      ExplicitTop = 339
     end
     object VerticalSplitter: TSplitter
-      Left = 336
+      Left = 257
       Top = 0
-      Width = 4
-      Height = 443
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Height = 335
       AutoSnap = False
       MinSize = 100
       ResizeStyle = rsUpdate
-      ExplicitHeight = 437
+      ExplicitHeight = 339
     end
     object OutputPanel: TPanel
       Left = 0
-      Top = 447
-      Width = 1438
-      Height = 198
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Top = 338
+      Width = 1100
+      Height = 151
       Align = alBottom
       BevelOuter = bvNone
       DoubleBuffered = False
-      Padding.Left = 5
-      Padding.Right = 4
-      Padding.Bottom = 4
+      Padding.Left = 4
+      Padding.Right = 3
+      Padding.Bottom = 3
       ParentDoubleBuffered = False
       TabOrder = 0
       Visible = False
@@ -315,36 +270,28 @@ object MainForm: TMainForm
     object DirectoryPanel: TPanel
       Left = 0
       Top = 0
-      Width = 336
-      Height = 443
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Width = 257
+      Height = 335
       Align = alLeft
       BevelOuter = bvNone
       DoubleBuffered = False
-      Padding.Left = 5
-      Padding.Top = 5
-      Padding.Bottom = 4
+      Padding.Left = 4
+      Padding.Top = 4
+      Padding.Bottom = 3
       ParentDoubleBuffered = False
       TabOrder = 1
     end
     object DocumentPanel: TPanel
-      Left = 340
+      Left = 260
       Top = 0
-      Width = 1098
-      Height = 443
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Width = 840
+      Height = 335
       Align = alClient
       BevelOuter = bvNone
       DoubleBuffered = False
-      Padding.Top = 3
-      Padding.Right = 4
-      Padding.Bottom = 4
+      Padding.Top = 2
+      Padding.Right = 3
+      Padding.Bottom = 3
       ParentColor = True
       ParentDoubleBuffered = False
       TabOrder = 2
@@ -1725,7 +1672,7 @@ object MainForm: TMainForm
     object ClearBookmarksAction: TAction
       Category = '&Search'
       Caption = 'Clear &Bookmarks'
-      Hint = 'Clear all bookmarks.'
+      Hint = 'Clear all bookmarks'
       ImageIndex = 50
       OnExecute = ClearBookmarksActionExecute
     end
@@ -2139,7 +2086,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C010144005C01480810001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010144005C01540810001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002001000001002000000000000020
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
