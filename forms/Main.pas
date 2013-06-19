@@ -1678,16 +1678,20 @@ var
   DuplicateChecker: TDuplicateChecker;
 begin
   with DuplicateCheckerOptionsDialog do
-  begin
-    DuplicateChecker := TDuplicateChecker.Create(InputFolderName, OutputFileName, MinBlockSize, MinChars, RemoveComments);
-    try
-      DuplicateChecker.Run;
-      if LaunchAfterCreation then
-        FDocumentFrame.Open(OutputFileName);
-    finally
-      DuplicateChecker.Free;
-      Release;
+  try
+    if Open then
+    begin
+      DuplicateChecker := TDuplicateChecker.Create(InputFolderName, OutputFileName, MinBlockSize, MinChars, RemoveComments);
+      try
+        DuplicateChecker.Run;
+        if LaunchAfterCreation then
+          FDocumentFrame.Open(OutputFileName);
+      finally
+        DuplicateChecker.Free;
+      end;
     end;
+  finally
+    Release;
   end;
 end;
 

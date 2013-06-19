@@ -32,8 +32,6 @@ type
     OutputLeftPanel: TPanel;
     FileLabel: TLabel;
     OutputRightPanel: TPanel;
-    FileEdit: TBCEdit;
-    FileBitBtn: TBitBtn;
     LaunchAfterCreationCheckBox: TCheckBox;
     Panel2: TPanel;
     OptionsLeftPanel: TPanel;
@@ -43,8 +41,17 @@ type
     MinBlockSizeSpinEdit: TJvSpinEdit;
     MinCharsSpinEdit: TJvSpinEdit;
     RemoveCommentsCheckBox: TCheckBox;
+    Panel3: TPanel;
+    FileEdit: TBCEdit;
+    FileBitBtn: TBitBtn;
+    Panel4: TPanel;
+    Panel5: TPanel;
+    FolderButtonClickAction: TAction;
+    FileButtonClickAction: TAction;
     procedure OKActionExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FolderButtonClickActionExecute(Sender: TObject);
+    procedure FileButtonClickActionExecute(Sender: TObject);
   private
     { Private declarations }
     function CheckFields: Boolean;
@@ -72,7 +79,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, StyleHooks,
+  Common, StyleHooks, CommonDialogs,
 {$WARNINGS OFF}
   Vcl.FileCtrl, { warning: FileCtrl is specific to a platform }
 {$WARNINGS ON}
@@ -119,7 +126,7 @@ begin
     FileEdit.SetFocus;
     Exit;
   end;
-  if not System.SysUtils.DirectoryExists(FileEdit.Text) then
+  if not System.SysUtils.DirectoryExists(ExtractFilePath(FileEdit.Text)) then
   begin
     Common.ShowErrorMessage(LanguageDataModule.GetErrorMessage('FileDirectoryNotExist'));
     FileEdit.SetFocus;
@@ -131,6 +138,26 @@ end;
 function TDuplicateCheckerOptionsDialog.Open: Boolean;
 begin
   Result := ShowModal = mrOk;
+end;
+
+procedure TDuplicateCheckerOptionsDialog.FileButtonClickActionExecute(Sender: TObject);
+begin
+  if CommonDialogs.SaveFile(Handle, '', Format('%s'#0'*.*'#0#0, [LanguageDataModule.GetConstant('AllFiles')]),
+    LanguageDataModule.GetConstant('SaveAs')) then
+  begin
+    Application.ProcessMessages; { style fix }
+    FileEdit.Text := CommonDialogs.Files[0];
+  end;
+end;
+
+procedure TDuplicateCheckerOptionsDialog.FolderButtonClickActionExecute(Sender: TObject);
+var
+  Dir: string;
+begin
+  Dir := FolderEdit.Text;
+  if Vcl.FileCtrl.SelectDirectory(LanguageDataModule.GetConstant('SelectRootDirectory'), '', Dir, [sdNewFolder, sdShowShares,
+    sdNewUI, sdValidateDir], Self) then
+    FolderEdit.Text := Dir;
 end;
 
 function TDuplicateCheckerOptionsDialog.GetFolderName: string;
