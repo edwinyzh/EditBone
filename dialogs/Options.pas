@@ -162,10 +162,13 @@ type
     FMainMenuUseSystemFont: Boolean;
     function GetExtensions: string;
     function GetFilters: string;
+    function GetFilterCount: Integer;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     function FileType(FileType: TFileType): string;
+    function GetFilter(FilterIndex: Cardinal): string;
+    function GetFilterIndex(FileExt: string): Cardinal;
     procedure AssignTo(Dest: TPersistent); override;
   published
     property AnimationDuration: Integer read FAnimationDuration write FAnimationDuration;
@@ -193,6 +196,7 @@ type
     property ExtraLineSpacing: Integer read FExtraLineSpacing write FExtraLineSpacing;
     property FileTypes: TStrings read FFileTypes write FFileTypes;
     property Filters: string read GetFilters;
+    property FilterCount: Integer read GetFilterCount;
     property FontName: string read FFontName write FFontName;
     property FontSize: Integer read FFontSize write FFontSize;
     property GutterAutoSize: Boolean read FGutterAutoSize write FGutterAutoSize;
@@ -575,7 +579,7 @@ begin
   FGutterVisibleRightMargin := True;
   FGutterWidth := 48;
   FInsertCaret := ctVerticalLine;
-  FTabWidth := 8;
+  FTabWidth := 2;
   FHTMLVersion := shvHtml5;
   FPersistentHotKeys := False;
   FShadows := True;
@@ -614,6 +618,33 @@ destructor TOptionsContainer.Destroy;
 begin
   FOptionsContainer := nil;
   inherited;
+end;
+
+function TOptionsContainer.GetFilterCount: Integer;
+begin
+  Result := FFileTypes.Count;
+end;
+
+function TOptionsContainer.GetFilter(FilterIndex: Cardinal): string;
+begin
+  { -2 because filter index is not 0-based and there's all files first }
+  Result := Common.StringBetween(FFileTypes.Strings[FilterIndex - 2], '(', ')');
+  Result := StringReplace(Result, '*', '', []);
+  if Pos(';', Result) <> 0 then
+    Result := Copy(Result, 1, Pos(';', Result) - 1);
+end;
+
+function TOptionsContainer.GetFilterIndex(FileExt: string): Cardinal;
+var
+  i: Integer;
+begin
+  Result := 1;
+  for i := 0 to FFileTypes.Count - 1 do
+    if Pos(FileExt, FFileTypes.Strings[i]) <> 0 then
+    begin
+      Result := i + 2;
+      Break;
+    end;
 end;
 
 function TOptionsContainer.GetFilters: string;
@@ -1002,7 +1033,7 @@ begin
   FOptionsContainer.ScrollPastEol := FEditorOptionsFrame.ScrollPastEolCheckBox.Checked;
   FOptionsContainer.TabsToSpaces := FEditorOptionsFrame.TabsToSpacesCheckBox.Checked;
   FOptionsContainer.ExtraLineSpacing := StrToIntDef(FEditorOptionsFrame.ExtraLinesEdit.Text, 0);
-  FOptionsContainer.TabWidth := StrToIntDef(FEditorOptionsFrame.TabWidthEdit.Text, 8);
+  FOptionsContainer.TabWidth := StrToIntDef(FEditorOptionsFrame.TabWidthEdit.Text, 2);
   FOptionsContainer.ColorBrightness := FEditorOptionsFrame.BrightnessTrackBar.Position;
   FOptionsContainer.InsertCaret := TSynEditCaretType(FEditorOptionsFrame.InsertCaretComboBox.ItemIndex);
   { Font }

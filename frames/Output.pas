@@ -22,7 +22,9 @@ type
     OutputCloseAllAction: TAction;
     PageControl: TBCPageControl;
     PopupMenu: TBCPopupMenu;
-    SeparatorMenuItem: TMenuItem;
+    Separator1MenuItem: TMenuItem;
+    Separator2MenuItem: TMenuItem;
+    CopytoClipboardMenuItem: TMenuItem;
     procedure CloseAllOtherPagesActionExecute(Sender: TObject);
     procedure OutputCloseActionExecute(Sender: TObject);
     procedure OutputCloseAllActionExecute(Sender: TObject);
@@ -32,6 +34,7 @@ type
     procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
     procedure PageControlCloseButtonClick(Sender: TObject);
     procedure PageControlDblClick(Sender: TObject);
+    procedure CopytoClipboardMenuItemClick(Sender: TObject);
   private
     { Private declarations }
     FProcessingTabSheet: Boolean;
@@ -41,6 +44,9 @@ type
     function GetIsEmpty: Boolean;
     function GetOutputTabSheetFrame(TabSheet: TTabSheet): TOutputTabSheetFrame;
     function TabFound(TabCaption: string): Boolean;
+    procedure CloseAllOtherTabSheets;
+    procedure CloseAllTabSheets;
+    procedure CopyToClipboard;
     procedure SetProcessingTabSheet(Value: Boolean);
   public
     { Public declarations }
@@ -49,8 +55,6 @@ type
     procedure AddTreeViewLine(Text: WideString); overload;
     procedure AddTreeViewLine(var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongWord; Text: WideString; SearchString: WideString = '');  overload;
     procedure Clear;
-    procedure CloseAllOtherTabSheets;
-    procedure CloseAllTabSheets;
     procedure CloseTabSheet;
     procedure UpdateControls;
     procedure SetOptions;
@@ -66,7 +70,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, Lib, Options, StyleHooks, Math, System.UITypes;
+  Common, Lib, Options, StyleHooks, System.Math, System.UITypes, Vcl.Clipbrd;
 
 procedure TOutputFrame.OutputCloseActionExecute(Sender: TObject);
 begin
@@ -332,7 +336,6 @@ begin
     NodeData := OutputTreeView.GetNodeData(Root);
     NodeData.Level := 0;
     NodeData.Filename := Filename;
-
   end;
 
   Node := OutputTreeView.AddChild(Root);
@@ -424,6 +427,40 @@ begin
   Result := OutputTreeView.Tag;
 end;
 
+procedure TOutputFrame.CopyToClipboard;
+var
+  OutputTreeView: TVirtualDrawTree;
+  Node, ChildNode: PVirtualNode;
+  Data, ChildData: POutputRec;
+  StringList: TStrings;
+begin
+  OutputTreeView := GetOutputTabSheetFrame(PageControl.ActivePage).VirtualDrawTree;
+  if Assigned(OutputTreeView) then
+  begin
+    StringList := TStringList.Create;
+    try
+      Node := OutputTreeView.GetFirst;
+      while Assigned(Node) do
+      begin
+        Data := OutputTreeView.GetNodeData(Node);
+        StringList.Add(Data.FileName);
+        ChildNode := Node.FirstChild;
+         while Assigned(ChildNode) do
+         begin
+           ChildData := OutputTreeView.GetNodeData(ChildNode);
+           StringList.Add(System.SysUtils.Format('  %s (%d, %d): %s', [ExtractFilename(String(ChildData.Filename)),
+             ChildData.Ln, ChildData.Ch, ChildData.Text]));
+           ChildNode := ChildNode.NextSibling;
+         end;
+         Node := Node.NextSibling;
+      end;
+    finally
+      Clipboard.AsText := StringList.Text;
+      StringList.Free;
+    end;
+  end;
+end;
+
 function TOutputFrame.GetIsAnyOutput: Boolean;
 begin
   Result := False;
@@ -443,6 +480,11 @@ begin
     if PageControl.PageCount > 0 then
       PageControl.ActivePageIndex := Max(ActivePageIndex - 1, 0);
   end;
+end;
+
+procedure TOutputFrame.CopytoClipboardMenuItemClick(Sender: TObject);
+begin
+  CopyToClipboard;
 end;
 
 procedure TOutputFrame.CloseAllTabSheets;

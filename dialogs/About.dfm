@@ -544,8 +544,8 @@ object AboutDialog: TAboutDialog
         '<a href="http://www.embarcadero.com/products/rad-studio/">Embarc' +
         'adero RAD Studio</a>, <a href="http://www.delphi-jedi.org/">Jedi' +
         ' Project</a>, <a href="http://synedit.svn.sourceforge.net/viewvc' +
-        '/synedit/">Unicode SynEdit</a>, <a href="http://flatdev.ovh.org/' +
-        '">SynWeb</a>,'
+        '/synedit/">Unicode SynEdit</a>, <a href="http://code.google.com/' +
+        'p/synweb/">SynWeb</a>,'
       TabOrder = 1
       OnLinkClick = LinkClick
     end

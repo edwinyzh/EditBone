@@ -586,7 +586,7 @@ begin
   SynEdit.LoadFromFile(FileName);
   try
     try
-      for Ln := 0 to SynEdit.Lines.Count - 1 do
+      for Ln := 0 to 2 do
       begin
         S := SynEdit.Lines[Ln];
 
@@ -1245,16 +1245,15 @@ function TDocumentFrame.Save(TabSheet: TTabSheet; ShowDialog: Boolean): string;
 var
   DocTabSheetFrame: TDocTabSheetFrame;
   AFileName, FilePath: string;
+  FilterIndex: Cardinal;
 begin
   Result := '';
   DocTabSheetFrame := GetDocTabSheetFrame(TabSheet);
   if Assigned(DocTabSheetFrame) then
   begin
     if (DocTabSheetFrame.SynEdit.DocumentName = '') or ShowDialog then
-   // if not FileExists(DocTabSheetFrame.SynEdit.DocumentName) {(DocTabSheetFrame.SynEdit.DocumentName = '')} or ShowDialog then
     begin
       if DocTabSheetFrame.SynEdit.DocumentName = '' then
-      //if not FileExists(DocTabSheetFrame.SynEdit.DocumentName) then
       begin
         AFileName := Trim(TabSheet.Caption);
         if Pos('~', AFileName) = Length(AFileName) then
@@ -1264,13 +1263,16 @@ begin
         AFileName := ExtractFileName(DocTabSheetFrame.SynEdit.DocumentName);
 
       FilePath := ExtractFilePath(DocTabSheetFrame.SynEdit.DocumentName);
-
-      if CommonDialogs.SaveFile(Handle, FilePath, OptionsContainer.Filters, LanguageDataModule.GetConstant('SaveAs'), AFileName) then
+      FilterIndex := OptionsContainer.GetFilterIndex(ExtractFileExt(AFileName));
+      if CommonDialogs.SaveFile(Handle, FilePath, OptionsContainer.Filters, LanguageDataModule.GetConstant('SaveAs'), FilterIndex, AFileName) then
       begin
         Application.ProcessMessages; { style fix }
-        TabSheet.Caption := ExtractFileName(CommonDialogs.Files[0]);
-        DocTabSheetFrame.SynEdit.DocumentName := CommonDialogs.Files[0];
         Result := CommonDialogs.Files[0];
+        if ExtractFileExt(Result) = '' then
+          if (FilterIndex > 1) and (FilterIndex < OptionsContainer.FilterCount) then
+            Result := Format('%s%s', [Result, OptionsContainer.GetFilter(FilterIndex)]);
+        TabSheet.Caption := ExtractFileName(Result);
+        DocTabSheetFrame.SynEdit.DocumentName := Result;
       end
       else
       begin
@@ -1889,7 +1891,7 @@ begin
     OptionsContainer.GutterWidth := StrToInt(ReadString('Options', 'GutterWidth', '48'));
     OptionsContainer.InsertCaret := TSynEditCaretType(StrToInt(ReadString('Options', 'InsertCaret', '0')));
     OptionsContainer.ExtraLineSpacing := StrToInt(ReadString('Options', 'ExtraLineSpacing', '0'));
-    OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '8'));
+    OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '2'));
     OptionsContainer.DocCloseTabByDblClick := ReadBool('Options', 'DocCloseTabByDblClick', False);
     OptionsContainer.DocMultiLine := ReadBool('Options', 'DocMultiLine', False);
     OptionsContainer.DocShowCloseButton := ReadBool('Options', 'DocShowCloseButton', False);
@@ -2699,7 +2701,10 @@ var
     s := Format(S, [SynWebBase.GetToken]);
 
     System.New(OutputObject);
-    OutputObject.FileName := DocTabSheetFrame.SynEdit.DocumentName;
+    if DocTabSheetFrame.SynEdit.DocumentName <> '' then
+      OutputObject.FileName := DocTabSheetFrame.SynEdit.DocumentName
+    else
+      OutputObject.FileName := Trim(StringReplace(PageControl.ActivePage.Caption, '~', '', []));
     OutputObject.Ln := i + 1;
     OutputObject.Ch := SynWebBase.GetTokenPos + 1;
     OutputObject.Text := s;
@@ -3349,13 +3354,14 @@ end;
 procedure TDocumentFrame.SaveMacro;
 var
   SynEdit: TBCSynEdit;
+  FilterIndex: Cardinal;
 begin
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     if Assigned(SynEdit.SynMacroRecorder) then
       if CommonDialogs.SaveFile(Handle, '', Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
         , '|', #0, [rfReplaceAll])) + #0#0,
-        LanguageDataModule.GetConstant('SaveAs'), '', 'mcr') then
+        LanguageDataModule.GetConstant('SaveAs'), FilterIndex, '', 'mcr') then
       begin
         Application.ProcessMessages; { style fix }
         SynEdit.SynMacroRecorder.SaveToFile(CommonDialogs.Files[0]);

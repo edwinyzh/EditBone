@@ -141,9 +141,11 @@ begin
 end;
 
 procedure TDuplicateCheckerOptionsDialog.FileButtonClickActionExecute(Sender: TObject);
+var
+  FilterIndex: Cardinal;
 begin
   if CommonDialogs.SaveFile(Handle, '', Format('%s'#0'*.*'#0#0, [LanguageDataModule.GetConstant('AllFiles')]),
-    LanguageDataModule.GetConstant('SaveAs')) then
+    LanguageDataModule.GetConstant('SaveAs'), FilterIndex) then
   begin
     Application.ProcessMessages; { style fix }
     FileEdit.Text := CommonDialogs.Files[0];

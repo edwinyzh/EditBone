@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin, BCToolBar,
-  Vcl.ExtCtrls, Vcl.ImgList, BCImageList, VirtualTrees, Vcl.AppEvnts, BCEdit;
+  Vcl.ExtCtrls, Vcl.ImgList, BCImageList, VirtualTrees, Vcl.AppEvnts, BCEdit, System.Actions;
 
 type
   TValueType = (vtString, vtPickString);
@@ -373,10 +373,13 @@ begin
 end;
 
 function TLanguageEditorForm.SaveAs(FileName: string): Boolean;
+var
+  FilterIndex: Cardinal;
 begin
   Result := CommonDialogs.SaveFile(Handle, ExtractFilePath(FileName),
     Trim(StringReplace(LanguageDataModule.GetFileTypes('Language'),
     '|', #0, [rfReplaceAll])) + #0#0, LanguageDataModule.GetConstant('SaveAs'),
+    FilterIndex,
     ExtractFileName(FileName), 'lng')
 end;
 
