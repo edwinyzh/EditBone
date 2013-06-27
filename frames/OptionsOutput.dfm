@@ -13,7 +13,7 @@ object OptionsOutputFrame: TOptionsOutputFrame
     BevelOuter = bvNone
     TabOrder = 0
     object IndentLabel: TLabel
-      Left = 9
+      Left = 11
       Top = 31
       Width = 32
       Height = 13

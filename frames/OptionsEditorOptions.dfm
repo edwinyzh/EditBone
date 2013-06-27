@@ -1,20 +1,24 @@
 object EditorOptionsFrame: TEditorOptionsFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 304
+  Width = 463
+  Height = 379
   Align = alClient
   TabOrder = 0
+  ExplicitWidth = 451
+  ExplicitHeight = 304
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 451
-    Height = 304
+    Width = 463
+    Height = 379
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitWidth = 451
+    ExplicitHeight = 304
     object ExtraLinesLabel: TLabel
-      Left = 9
+      Left = 11
       Top = 131
       Width = 53
       Height = 13
@@ -25,7 +29,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Caption = 'Extra Lines'
     end
     object TabWidthLabel: TLabel
-      Left = 9
+      Left = 11
       Top = 175
       Width = 49
       Height = 13
@@ -36,7 +40,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Caption = 'Tab Width'
     end
     object ActiveLineColorBrightnessLabel: TLabel
-      Left = 9
+      Left = 11
       Top = 221
       Width = 133
       Height = 13
@@ -47,7 +51,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Caption = 'Active Line Color Brightness'
     end
     object InsertCaretLabel: TLabel
-      Left = 9
+      Left = 11
       Top = 269
       Width = 59
       Height = 13
@@ -112,7 +116,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       ReadOnly = False
     end
     object ExtraLinesEdit: TBCEdit
-      Left = 7
+      Left = 9
       Top = 146
       Width = 64
       Height = 21
@@ -129,7 +133,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       NumbersAllowNegative = False
     end
     object TabWidthEdit: TBCEdit
-      Left = 7
+      Left = 9
       Top = 190
       Width = 64
       Height = 21
@@ -146,7 +150,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       NumbersAllowNegative = False
     end
     object BrightnessTrackBar: TTrackBar
-      Left = 0
+      Left = 3
       Top = 236
       Width = 150
       Height = 27
@@ -183,7 +187,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       ReadOnly = False
     end
     object InsertCaretComboBox: TBCComboBox
-      Left = 7
+      Left = 9
       Top = 285
       Width = 133
       Height = 21

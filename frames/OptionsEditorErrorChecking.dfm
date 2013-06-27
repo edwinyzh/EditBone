@@ -1,21 +1,21 @@
 object EditorErrorCheckingFrame: TEditorErrorCheckingFrame
   Left = 0
   Top = 0
-  Width = 486
-  Height = 414
+  Width = 451
+  Height = 304
   Align = alClient
   TabOrder = 0
   Visible = False
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 486
-    Height = 414
+    Width = 451
+    Height = 304
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
     object HTMLVersionLabel: TLabel
-      Left = 9
+      Left = 11
       Top = 30
       Width = 188
       Height = 13
@@ -46,11 +46,10 @@ object EditorErrorCheckingFrame: TEditorErrorCheckingFrame
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      ItemHeight = 13
-      ReadOnly = False
       TabOrder = 1
       EditColor = clInfoBk
       DeniedKeyStrokes = True
+      ReadOnly = False
       DropDownFixedWidth = 0
     end
   end

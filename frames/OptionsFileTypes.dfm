@@ -1,7 +1,7 @@
 object FileTypesFrame: TFileTypesFrame
   Left = 0
   Top = 0
-  Width = 306
+  Width = 451
   Height = 304
   Align = alClient
   TabOrder = 0
@@ -9,17 +9,17 @@ object FileTypesFrame: TFileTypesFrame
   object FileTypesBottomPanel: TPanel
     Left = 0
     Top = 262
-    Width = 306
+    Width = 451
     Height = 42
     Align = alBottom
     BevelOuter = bvNone
     Padding.Left = 4
     TabOrder = 0
     DesignSize = (
-      306
+      451
       42)
     object ExtensionsLabel: TLabel
-      Left = 4
+      Left = 6
       Top = 4
       Width = 52
       Height = 13
@@ -29,12 +29,11 @@ object FileTypesFrame: TFileTypesFrame
       Margins.Bottom = 4
       Anchors = [akLeft, akBottom]
       Caption = 'Extensions'
-      ExplicitTop = 8
     end
     object ExtensionsEdit: TBCEdit
       Left = 4
       Top = 21
-      Width = 302
+      Width = 447
       Height = 21
       Margins.Left = 4
       Margins.Top = 4
@@ -42,6 +41,7 @@ object FileTypesFrame: TFileTypesFrame
       Margins.Bottom = 4
       Align = alBottom
       TabOrder = 0
+      Text = ''
       OnChange = ExtensionsEditChange
       OnlyNumbers = False
       NumbersWithDots = False
@@ -53,7 +53,7 @@ object FileTypesFrame: TFileTypesFrame
   object FileTypesTopPanel: TPanel
     Left = 0
     Top = 0
-    Width = 306
+    Width = 451
     Height = 262
     Align = alClient
     BevelOuter = bvNone
@@ -62,7 +62,7 @@ object FileTypesFrame: TFileTypesFrame
     object FileTypesListBox: TListBox
       Left = 4
       Top = 0
-      Width = 302
+      Width = 447
       Height = 262
       Margins.Left = 4
       Margins.Top = 4

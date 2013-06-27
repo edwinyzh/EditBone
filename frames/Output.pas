@@ -231,6 +231,8 @@ begin
       Format := DT_TOP or DT_LEFT or DT_VCENTER or DT_SINGLELINE;
       if (Data.Level = 0) or (Data.SearchString = '') then
       begin
+        if Data.Level = 0 then
+          S := System.SysUtils.Format('%s [%d]', [S, Node.ChildCount]);
         if Data.Level = 1 then
           S := System.SysUtils.Format('%s (%d, %d): ', [ExtractFilename(String(Data.Filename)), Data.Ln, Data.Ch]) + S;
         DrawTextW(Canvas.Handle, PWideChar(S), Length(S), R, Format)
@@ -274,7 +276,7 @@ begin
     case Data.Level of
       0: begin
            Canvas.Font.Style := Canvas.Font.Style + [fsBold];
-           NodeWidth := Canvas.TextWidth(Trim(String(Data.FileName))) + 2 * AMargin;
+           NodeWidth := Canvas.TextWidth(Trim(Format('%s [%d]', [String(Data.FileName), Node.ChildCount]))) + 2 * AMargin;
          end;
       1: begin
            S := System.SysUtils.Format('%s (%d, %d): ', [ExtractFilename(String(Data.Filename)), Data.Ln, Data.Ch]);

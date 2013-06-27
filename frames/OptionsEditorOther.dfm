@@ -43,7 +43,7 @@ object EditorOtherFrame: TEditorOtherFrame
       Caption = 'PHP Version'
     end
     object CPASHighlighterComboBox: TBCComboBox
-      Left = 7
+      Left = 9
       Top = 151
       Width = 186
       Height = 21
@@ -52,15 +52,14 @@ object EditorOtherFrame: TEditorOtherFrame
       Margins.Right = 4
       Margins.Bottom = 4
       DropDownCount = 9
-      ItemHeight = 13
-      ReadOnly = False
       TabOrder = 0
       EditColor = clInfoBk
       DeniedKeyStrokes = True
+      ReadOnly = False
       DropDownFixedWidth = 0
     end
     object SQLDialectComboBox: TBCComboBox
-      Left = 7
+      Left = 9
       Top = 108
       Width = 186
       Height = 21
@@ -69,15 +68,14 @@ object EditorOtherFrame: TEditorOtherFrame
       Margins.Right = 4
       Margins.Bottom = 4
       DropDownCount = 9
-      ItemHeight = 13
-      ReadOnly = False
       TabOrder = 1
       EditColor = clInfoBk
       DeniedKeyStrokes = True
+      ReadOnly = False
       DropDownFixedWidth = 0
     end
     object CSSVersionComboBox: TBCComboBox
-      Left = 7
+      Left = 9
       Top = 21
       Width = 186
       Height = 21
@@ -86,15 +84,14 @@ object EditorOtherFrame: TEditorOtherFrame
       Margins.Right = 4
       Margins.Bottom = 4
       DropDownCount = 9
-      ItemHeight = 13
-      ReadOnly = False
       TabOrder = 2
       EditColor = clInfoBk
       DeniedKeyStrokes = True
+      ReadOnly = False
       DropDownFixedWidth = 0
     end
     object PHPVersionComboBox: TBCComboBox
-      Left = 7
+      Left = 9
       Top = 64
       Width = 186
       Height = 21
@@ -103,11 +100,10 @@ object EditorOtherFrame: TEditorOtherFrame
       Margins.Right = 4
       Margins.Bottom = 4
       DropDownCount = 9
-      ItemHeight = 13
-      ReadOnly = False
       TabOrder = 3
       EditColor = clInfoBk
       DeniedKeyStrokes = True
+      ReadOnly = False
       DropDownFixedWidth = 0
     end
   end

@@ -65,14 +65,14 @@ object MainMenuFrame: TMainMenuFrame
       ParentFont = False
     end
     object AnimationStyleLabel: TLabel
-      Left = 9
+      Left = 11
       Top = 102
       Width = 74
       Height = 13
       Caption = 'Animation Style'
     end
     object AnimationDurationLabel: TLabel
-      Left = 9
+      Left = 11
       Top = 142
       Width = 91
       Height = 13
@@ -124,7 +124,7 @@ object MainMenuFrame: TMainMenuFrame
       ReadOnly = False
     end
     object AnimationStyleComboBox: TBCComboBox
-      Left = 8
+      Left = 9
       Top = 118
       Width = 186
       Height = 21
@@ -133,14 +133,14 @@ object MainMenuFrame: TMainMenuFrame
       Margins.Right = 4
       Margins.Bottom = 4
       DropDownCount = 9
-      ReadOnly = False
       TabOrder = 3
       EditColor = clInfoBk
       DeniedKeyStrokes = True
+      ReadOnly = False
       DropDownFixedWidth = 0
     end
     object AnimationDurationEdit: TBCEdit
-      Left = 8
+      Left = 9
       Top = 158
       Width = 64
       Height = 21
