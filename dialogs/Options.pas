@@ -162,7 +162,7 @@ type
     FMainMenuUseSystemFont: Boolean;
     function GetExtensions: string;
     function GetFilters: string;
-    function GetFilterCount: Integer;
+    function GetFilterCount: Cardinal;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -196,7 +196,7 @@ type
     property ExtraLineSpacing: Integer read FExtraLineSpacing write FExtraLineSpacing;
     property FileTypes: TStrings read FFileTypes write FFileTypes;
     property Filters: string read GetFilters;
-    property FilterCount: Integer read GetFilterCount;
+    property FilterCount: Cardinal read GetFilterCount;
     property FontName: string read FFontName write FFontName;
     property FontSize: Integer read FFontSize write FFontSize;
     property GutterAutoSize: Boolean read FGutterAutoSize write FGutterAutoSize;
@@ -620,7 +620,7 @@ begin
   inherited;
 end;
 
-function TOptionsContainer.GetFilterCount: Integer;
+function TOptionsContainer.GetFilterCount: Cardinal;
 begin
   Result := FFileTypes.Count;
 end;

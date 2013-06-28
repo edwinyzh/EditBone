@@ -9,7 +9,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.ComCtrls, BCFileControl, Vcl.StdCtrls, Vcl.ExtCtrls,
   Vcl.ImgList, Vcl.ToolWin, Vcl.ActnList, Vcl.Buttons, JvExControls, JvLabel, Vcl.Menus,
   JvSpeedButton, JvExComCtrls, JvComCtrls, BCPopupMenu, BCPageControl, Vcl.ActnPopup, Vcl.Themes,
-  Vcl.PlatformDefaultStyleActnCtrls, BCImageList, VirtualTrees, DirectoryTabSheet;
+  Vcl.PlatformDefaultStyleActnCtrls, BCImageList, VirtualTrees, DirectoryTabSheet, System.Actions;
 
 type
   TDirectoryFrame = class(TFrame)
@@ -109,8 +109,6 @@ begin
     for i := 0 to LastPaths.Count - 1 do
     begin
       s := System.Copy(LastPaths.Strings[i], Pos('=', LastPaths.Strings[i]) + 1, Length(LastPaths.Strings[i]));
-      { if Pos(';', s) <> 0 then
-      begin }
       TabName := Copy(s, 1, Pos(';', s) - 1);
       s := Copy(s, Pos(';', s) + 1, Length(s));
       Root := Copy(s, 1, Pos(';', s) - 1);

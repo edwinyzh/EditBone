@@ -326,7 +326,7 @@ type
     procedure DestroyHTMLErrorListItems;
     procedure DoSearch(SynEdit: TBCSynEdit);
     procedure InitializeSynEditPrint;
-    procedure PageControlRepaint;
+    //procedure PageControlRepaint;
     procedure SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);
     procedure SetActivePageCaptionModified;
     procedure SetBookmarks(SynEdit: TBCSynEdit; Bookmarks: TStrings);
@@ -429,7 +429,6 @@ type
     property ActiveTabSheetCaption: string read GetActiveTabSheetCaption;
     property CanRedo: Boolean read GetCanRedo;
     property CanUndo: Boolean read GetCanUndo;
-    //property DefaultPath: string read FDefaultPath write FDefaultPath;
     property OpenTabSheetCount: Integer read GetOpenTabSheetCount;
     property OpenTabSheets: Boolean read GetOpenTabSheets;
     property SelectionFound: Boolean read GetSelectionFound;
@@ -675,7 +674,7 @@ begin
         Result := DocTabSheetFrame.XMLTreeVisible;
       end;
   end;
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 function TDocumentFrame.GetXMLTreeVisible: Boolean;
@@ -707,7 +706,7 @@ begin
     TabSheet.Caption := LanguageDataModule.GetConstant('Document') + IntToStr(FNumberOfNewDocument)
   else
     TabSheet.Caption := ExtractFileName(FileName);
-  UpdateGutterAndControls; { prevent flickering }
+  //UpdateGutterAndControls; { prevent flickering }
 
   PageControl.ActivePage := TabSheet;
 
@@ -719,9 +718,6 @@ begin
     { SynEdit }
     with SynEdit do
     begin
-      //if FileName = '' then
-      //  DocumentName := Trim(TabSheet.Caption)
-      //else
       DocumentName := FileName;
       FileDateTime := GetFileDateTime(FileName);
       OnChange := SynEditOnChange;
@@ -961,10 +957,10 @@ begin
   end;
   Common.UpdateLanguage(Frame);
   UpdateGutterAndControls;
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
-procedure TDocumentFrame.PageControlRepaint;
+{procedure TDocumentFrame.PageControlRepaint;
 var
   SynEdit: TBCSynEdit;
   CompareFrame: TCompareFrame;
@@ -984,7 +980,7 @@ begin
     PageControl.ActivePage.Repaint;
   end;
   PageControl.Repaint;
-end;
+end; }
 
 procedure TDocumentFrame.SelectForCompare;
 begin
@@ -1109,7 +1105,7 @@ begin
       try
         SetMainHighlighterCombo(SynEdit);
         SetMainEncodingCombo(SynEdit);
-        PageControlRepaint;
+        //PageControlRepaint;
         if SynEdit.CanFocus then
           SynEdit.SetFocus;
         if not StartUp then
@@ -1169,7 +1165,7 @@ begin
   SetMainHighlighterCombo(SynEdit);
   SetMainEncodingCombo(SynEdit);
   CheckHTMLErrors;
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.CloseAll(CloseDocuments: Boolean);
@@ -1192,7 +1188,7 @@ begin
   end;
 
   CheckHTMLErrors;
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.CloseAllOtherPages;
@@ -1299,7 +1295,7 @@ begin
     end;
     UpdateGutterAndControls;
   end;
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.Save;
@@ -1344,10 +1340,7 @@ procedure TDocumentFrame.Undo;
       begin
         SynEdit.Undo;
         if SynEdit.UndoList.ItemCount = 0 then
-        begin
-          SynEdit.Modified := False;
           PageControl.ActivePage.Caption := GetActivePageCaption;
-        end;
       end;
   end;
 
@@ -1355,7 +1348,7 @@ begin
   Undo(GetActiveSynEdit);
   Undo(GetActiveSplitSynEdit);
   UpdateGutterAndControls;
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.Redo;
@@ -1371,7 +1364,7 @@ begin
   Redo(GetActiveSynEdit);
   Redo(GetActiveSplitSynEdit);
   UpdateGutterAndControls;
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.Cut;
@@ -1386,7 +1379,7 @@ procedure TDocumentFrame.Cut;
 begin
   Cut(GetActiveSynEdit);
   Cut(GetActiveSplitSynEdit);
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.Copy;
@@ -1401,7 +1394,7 @@ procedure TDocumentFrame.Copy;
 begin
   Copy(GetActiveSynEdit);
   Copy(GetActiveSplitSynEdit);
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.SetMainHighlighterCombo(SynEdit: TBCSynEdit);
@@ -1456,7 +1449,7 @@ begin
     SearchPanel.Visible := False;
     GotoLinePanel.Visible := False;
   end;
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.PageControlCloseButtonClick(Sender: TObject);
@@ -1483,7 +1476,7 @@ begin
     SplitSynedit.PasteFromClipboard
   else
     SearchForEdit.PasteFromClipboard;
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.InitializeSynEditPrint;
@@ -1713,7 +1706,7 @@ begin
       end;
     end;
   end;
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.ToggleBookmarks(ItemIndex: Integer);
@@ -1776,7 +1769,7 @@ begin
     if Assigned(SynEdit) then
       SynEdit.WordWrap := not SynEdit.WordWrap;
   end;
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 function TDocumentFrame.ToggleSpecialChars: Boolean;
@@ -1808,7 +1801,7 @@ begin
     if PageControl.Pages[i].Components[0] is TCompareFrame then
       Result := TCompareFrame(PageControl.Pages[i].Components[0]).ToggleSpecialChars
   end;
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 function TDocumentFrame.GetSelectionModeChecked: Boolean;
@@ -1843,7 +1836,7 @@ begin
     ToggleSelectionMode(GetSynEdit(PageControl.Pages[i]));
     ToggleSelectionMode(GetSplitSynEdit(PageControl.Pages[i]));
   end;
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 function TDocumentFrame.ToggleLineNumbers: Boolean;
@@ -1866,7 +1859,7 @@ begin
     if PageControl.Pages[i].Components[0] is TCompareFrame then
       Result := TCompareFrame(PageControl.Pages[i].Components[0]).ToggleLineNumbers
   end;
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.ReadIniFile;
@@ -2015,7 +2008,7 @@ begin
     Bookmarks.Free;
     Free;
     PageControl.Visible := True;
-    PageControlRepaint
+    //PageControlRepaint
   end;
 end;
 
@@ -2285,7 +2278,6 @@ begin
   begin
     PageControl.ActivePage.Caption := Format('%s~', [Trim(PageControl.ActivePage.Caption)]);
     PageControl.ShowCloseButton := OptionsContainer.DocShowCloseButton;
-    PageControlRepaint;
   end;
 end;
 
@@ -2299,11 +2291,8 @@ begin
   if OptionsContainer.AutoSave then
     Save
   else
-  begin
-    Application.ProcessMessages;
-    SynEdit.Modified := True;
     SetActivePageCaptionModified;
-  end;
+
   if MainForm.ViewSplitAction.Checked then
   begin
     SplitSynEdit := GetActiveSplitSynEdit;
@@ -2335,11 +2324,7 @@ begin
   if OptionsContainer.AutoSave then
     Save
   else
-  begin
-    Application.ProcessMessages;
-    SynEdit.Modified := True;
     SetActivePageCaptionModified;
-  end;
 
   SplitSynEdit := GetActiveSplitSynEdit;
   if Assigned(SplitSynEdit) then
@@ -2550,21 +2535,17 @@ var
 
 begin
   LStyles := StyleServices;
-  // if FPaintUpdating then
-  // Exit;
   Editor := TSynEdit(Sender);
   if TransientType = ttBefore then
   begin
     i := TryMatch;
     if i = 0 then
       Exit;
-    // FPaintUpdating := True;
     if i <> -1 then
       Editor.InvalidateLines(Match.OpenTokenPos.Line, Match.OpenTokenPos.Line);
     if i <> 1 then
       Editor.InvalidateLines(Match.CloseTokenPos.Line,
         Match.CloseTokenPos.Line);
-    // FPaintUpdating := False;
     Exit;
   end;
   if Editor.SelAvail then
@@ -2770,10 +2751,8 @@ begin
   if OptionsContainer.AutoSave then
     Save
   else
-  begin
-    GetActiveSynEdit.Modified := True;
     SetActivePageCaptionModified;
-  end;
+
   FHTMLDocumentChanged := True;
   CheckHTMLErrors;
 end;
@@ -2873,7 +2852,7 @@ begin
             if Common.AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('DocumentTimeChanged'), [SynEdit.DocumentName])) then
             begin
               Refresh(i);
-              PageControlRepaint;
+              //PageControlRepaint;
             end;
           end
           else
@@ -2886,7 +2865,7 @@ begin
               if Pos('~', PageControl.Pages[i].Caption) = 0 then
               begin
                 PageControl.Pages[i].Caption := Format('%s~', [Trim(PageControl.Pages[i].Caption)]);
-                PageControlRepaint;
+                //PageControlRepaint;
               end;
             end;
           end;
@@ -3136,7 +3115,7 @@ procedure TDocumentFrame.SortAsc;
 begin
   SortAsc(GetActiveSynEdit);
   SortAsc(GetActiveSplitSynEdit);
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.SortDesc;
@@ -3163,7 +3142,7 @@ procedure TDocumentFrame.SortDesc;
 begin
   SortDesc(GetActiveSynEdit);
   SortDesc(GetActiveSplitSynEdit);
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.ClearBookmarks;
@@ -3181,7 +3160,7 @@ procedure TDocumentFrame.ClearBookmarks;
 begin
   ClearBookmarks(GetActiveSynEdit);
   ClearBookmarks(GetActiveSplitSynEdit);
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.InsertLine;
@@ -3196,7 +3175,7 @@ procedure TDocumentFrame.InsertLine;
 begin
   InsertLine(GetActiveSynEdit);
   InsertLine(GetActiveSplitSynEdit);
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.DeleteWord;
@@ -3211,7 +3190,7 @@ procedure TDocumentFrame.DeleteWord;
 begin
   DeleteWord(GetActiveSynEdit);
   DeleteWord(GetActiveSplitSynEdit);
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.DeleteLine;
@@ -3226,7 +3205,7 @@ procedure TDocumentFrame.DeleteLine;
 begin
   DeleteLine(GetActiveSynEdit);
   DeleteLine(GetActiveSplitSynEdit);
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.DeleteEOL;
@@ -3241,7 +3220,7 @@ procedure TDocumentFrame.DeleteEOL;
 begin
   DeleteEOL(GetActiveSynEdit);
   DeleteEOL(GetActiveSplitSynEdit);
-  PageControlRepaint;
+  //PageControlRepaint;
 end;
 
 function LengthWithoutWhiteSpaces(Str: string): Integer;

@@ -1,22 +1,18 @@
 object EditorOptionsFrame: TEditorOptionsFrame
   Left = 0
   Top = 0
-  Width = 463
-  Height = 379
+  Width = 451
+  Height = 304
   Align = alClient
   TabOrder = 0
-  ExplicitWidth = 451
-  ExplicitHeight = 304
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 463
-    Height = 379
+    Width = 451
+    Height = 304
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 451
-    ExplicitHeight = 304
     object ExtraLinesLabel: TLabel
       Left = 11
       Top = 131
@@ -130,6 +126,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       NumbersWithDots = False
       NumbersWithSpots = False
       EditColor = clInfoBk
+      ErrorColor = 14803198
       NumbersAllowNegative = False
     end
     object TabWidthEdit: TBCEdit
@@ -147,6 +144,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       NumbersWithDots = False
       NumbersWithSpots = False
       EditColor = clInfoBk
+      ErrorColor = clBlack
       NumbersAllowNegative = False
     end
     object BrightnessTrackBar: TTrackBar
@@ -201,6 +199,56 @@ object EditorOptionsFrame: TEditorOptionsFrame
       DeniedKeyStrokes = True
       ReadOnly = False
       DropDownFixedWidth = 0
+    end
+    object JvCaptionPanel1: TJvCaptionPanel
+      Left = 176
+      Top = 74
+      Width = 121
+      Height = 129
+      Buttons = [capHelp]
+      BorderStyle = bsNone
+      Caption = 'Testi'
+      CaptionPosition = dpTop
+      CaptionFont.Charset = DEFAULT_CHARSET
+      CaptionFont.Color = clWhite
+      CaptionFont.Height = -12
+      CaptionFont.Name = 'Tahoma'
+      CaptionFont.Style = [fsBold]
+      OutlookLook = True
+      TabOrder = 10
+      object Label1: TLabel
+        Left = 1
+        Top = 23
+        Width = 119
+        Height = 13
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
+        Align = alTop
+        Caption = 'Extra Lines'
+        ExplicitTop = 21
+      end
+      object BCEdit1: TBCEdit
+        Left = 1
+        Top = 36
+        Width = 119
+        Height = 21
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
+        Align = alTop
+        TabOrder = 0
+        Text = '0'
+        OnlyNumbers = True
+        NumbersWithDots = False
+        NumbersWithSpots = False
+        EditColor = clInfoBk
+        ErrorColor = 14803198
+        NumbersAllowNegative = False
+        ExplicitTop = 38
+      end
     end
   end
 end
