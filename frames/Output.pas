@@ -6,8 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, JvExControls,
   JvLabel, Vcl.ActnList, Vcl.ImgList, Vcl.ToolWin, Vcl.StdCtrls, JvSpeedButton, JvExComCtrls,
-  JvComCtrls, Vcl.Menus, BCPopupMenu, VirtualTrees, Vcl.PlatformDefaultStyleActnCtrls,
-  Vcl.ActnPopup, BCImageList, Vcl.Themes, OutputTabSheet, BCPageControl,
+  JvComCtrls, Vcl.Menus, BCControls.BCPopupMenu, VirtualTrees, Vcl.PlatformDefaultStyleActnCtrls,
+  Vcl.ActnPopup, BCControls.BCImageList, Vcl.Themes, OutputTabSheet, BCControls.BCPageControl,
   System.Actions;
 
 type

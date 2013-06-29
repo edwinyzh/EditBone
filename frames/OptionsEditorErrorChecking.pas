@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, JvExStdCtrls, JvCombobox,
-  BCComboBox, BCCheckBox, Vcl.ExtCtrls;
+  BCControls.BCComboBox, BCControls.BCCheckBox, Vcl.ExtCtrls, BCCheckBox, BCComboBox;
 
 type
   TEditorErrorCheckingFrame = class(TFrame)

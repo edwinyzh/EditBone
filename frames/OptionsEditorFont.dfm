@@ -100,6 +100,7 @@ object EditorFontFrame: TEditorFontFrame
         Gutter.Font.Height = -11
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
+        FontSmoothing = fsmNone
       end
     end
   end

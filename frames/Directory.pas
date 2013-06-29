@@ -6,10 +6,10 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.ComCtrls, BCFileControl, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Controls, Vcl.Forms, Vcl.ComCtrls, BCControls.BCFileControl, Vcl.StdCtrls, Vcl.ExtCtrls,
   Vcl.ImgList, Vcl.ToolWin, Vcl.ActnList, Vcl.Buttons, JvExControls, JvLabel, Vcl.Menus,
-  JvSpeedButton, JvExComCtrls, JvComCtrls, BCPopupMenu, BCPageControl, Vcl.ActnPopup, Vcl.Themes,
-  Vcl.PlatformDefaultStyleActnCtrls, BCImageList, VirtualTrees, DirectoryTabSheet, System.Actions;
+  JvSpeedButton, JvExComCtrls, JvComCtrls, BCControls.BCPopupMenu, BCControls.BCPageControl, Vcl.ActnPopup, Vcl.Themes,
+  Vcl.PlatformDefaultStyleActnCtrls, BCControls.BCImageList, VirtualTrees, DirectoryTabSheet, System.Actions;
 
 type
   TDirectoryFrame = class(TFrame)

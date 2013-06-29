@@ -74,11 +74,11 @@ interface
 uses
   Winapi.Windows, Winapi.CommDlg, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, SynEdit, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.ImgList,
-  JvExComCtrls, JvComCtrls, Vcl.Menus, BCPageControl, BCButtonedEdit, Directory, Vcl.Buttons,
+  JvExComCtrls, JvComCtrls, Vcl.Menus, BCControls.BCPageControl, Directory, Vcl.Buttons,
   SynEditPrint, SynEditMiscClasses, SynEditSearch, SynEditTypes, SynEditPlugins, Vcl.StdCtrls,
-  Vcl.ActnList, BCCheckBox, JvExControls, JvExExtCtrls, JvExtComponent, JvExStdCtrls, JvEdit, BCEdit,
-  BCImageList, Vcl.ActnPopup, BCPopupMenu, SynMacroRecorder, SynEditKeyCmds, Vcl.Themes,
-  SynEditRegexSearch, BCSynEdit, DocumentTabSheet, BCFrames.Compare, Vcl.PlatformDefaultStyleActnCtrls,
+  Vcl.ActnList, BCControls.BCCheckBox, BCControls.BCEdit,
+  BCControls.BCImageList, Vcl.ActnPopup, BCControls.BCPopupMenu, SynMacroRecorder, SynEditKeyCmds, Vcl.Themes,
+  SynEditRegexSearch, BCControls.BCSynEdit, DocumentTabSheet, BCFrames.Compare, Vcl.PlatformDefaultStyleActnCtrls,
   SynHighlighterWebData, SynHighlighterURI, SynURIOpener, SynHighlighterTeX, SynHighlighterProgress,
   SynHighlighterPerl, SynHighlighterKix, SynHighlighterJScript, SynHighlighterGalaxy,
   SynHighlighterFoxpro, SynHighlighterWeb, SynHighlighterCache, SynHighlighterCobol,
@@ -92,7 +92,7 @@ uses
   SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
   SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11,
   SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch,
-  System.Actions;
+  System.Actions, BCCheckBox, JvExStdCtrls, JvEdit;
 
 type
   TDocumentFrame = class(TFrame)

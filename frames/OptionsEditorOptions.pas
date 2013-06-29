@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, JvExStdCtrls,
-  JvCombobox, BCComboBox, BCCheckBox, JvEdit, BCEdit, Vcl.ComCtrls, JvExExtCtrls, JvExtComponent, JvCaptionPanel;
+  JvCombobox, BCControls.BCComboBox, BCControls.BCCheckBox, BCControls.BCEdit, Vcl.ComCtrls,
+  JvExtComponent, JvCaptionPanel, BCCheckBox, BCComboBox, JvExExtCtrls, JvEdit;
 
 type
   TEditorOptionsFrame = class(TFrame)

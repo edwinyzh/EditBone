@@ -4,8 +4,9 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, BCDialogs.Dlg, Vcl.Mask, JvExMask, JvToolEdit, Vcl.StdCtrls, JvExStdCtrls,
-  JvEdit, BCEdit, Vcl.ActnList, Vcl.ExtCtrls, Vcl.Themes, BCCheckBox, Vcl.Buttons, System.Actions;
+  Vcl.Controls, Vcl.Forms, BCDialogs.Dlg, Vcl.Mask, Vcl.StdCtrls,
+  BCControls.BCEdit, Vcl.ActnList, Vcl.ExtCtrls, Vcl.Themes, BCControls.BCCheckBox, Vcl.Buttons, System.Actions,
+  BCCheckBox, JvExStdCtrls, JvEdit;
 
 type
   TDirectoryTabDialogType = (dtOpen, dtEdit);

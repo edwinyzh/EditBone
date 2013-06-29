@@ -1,15 +1,17 @@
 object DirTabSheetFrame: TDirTabSheetFrame
   Left = 0
   Top = 0
-  Width = 553
-  Height = 372
+  Width = 451
+  Height = 304
   Align = alClient
   TabOrder = 0
+  ExplicitWidth = 553
+  ExplicitHeight = 372
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 553
-    Height = 372
+    Width = 451
+    Height = 304
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 1
@@ -18,10 +20,12 @@ object DirTabSheetFrame: TDirTabSheetFrame
     Padding.Bottom = 2
     ParentColor = True
     TabOrder = 0
+    ExplicitWidth = 553
+    ExplicitHeight = 372
     object DriveComboBoxPanel: TPanel
       Left = 1
-      Top = 345
-      Width = 549
+      Top = 277
+      Width = 447
       Height = 25
       Align = alBottom
       AutoSize = True
@@ -29,25 +33,30 @@ object DirTabSheetFrame: TDirTabSheetFrame
       Padding.Top = 3
       ParentColor = True
       TabOrder = 0
+      ExplicitTop = 345
+      ExplicitWidth = 549
       object DriveComboBox: TBCDriveComboBox
         Left = 0
         Top = 3
-        Width = 549
+        Width = 447
         Height = 22
         Align = alClient
         FileTreeView = FileTreeView
         Drive = 'C'
         TabOrder = 0
+        ExplicitWidth = 549
       end
     end
     object FileTreeViewPanel: TPanel
       Left = 1
       Top = 1
-      Width = 549
-      Height = 344
+      Width = 447
+      Height = 276
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 1
+      ExplicitWidth = 549
+      ExplicitHeight = 344
       object FileTreeView: TBCFileTreeView
         Left = 0
         Top = 0
