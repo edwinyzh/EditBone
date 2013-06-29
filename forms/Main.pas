@@ -509,7 +509,7 @@ begin
   if SelectedLanguage = '' then
     Exit;
   { update language constants }
-  ReadLanguageFile(SelectedLanguage);
+  BCCommon.Language.ReadLanguageFile(SelectedLanguage);
   { update mainform }
   MainMenuTitleBarActions(True);
   UpdateLanguage(Self, SelectedLanguage);
