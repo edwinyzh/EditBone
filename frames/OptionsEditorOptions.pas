@@ -5,8 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, JvExStdCtrls,
-  JvCombobox, BCControls.BCComboBox, BCControls.BCCheckBox, BCControls.BCEdit, Vcl.ComCtrls,
-  JvExtComponent, JvCaptionPanel;
+  JvCombobox, BCControls.BCComboBox, BCControls.BCCheckBox, BCControls.BCEdit, Vcl.ComCtrls, JvEdit;
 
 type
   TEditorOptionsFrame = class(TFrame)
@@ -25,9 +24,6 @@ type
     AutoSaveCheckBox: TBCCheckBox;
     InsertCaretLabel: TLabel;
     InsertCaretComboBox: TBCComboBox;
-    JvCaptionPanel1: TJvCaptionPanel;
-    BCEdit1: TBCEdit;
-    Label1: TLabel;
   private
     { Private declarations }
   public

@@ -200,54 +200,5 @@ object EditorOptionsFrame: TEditorOptionsFrame
       ReadOnly = False
       DropDownFixedWidth = 0
     end
-    object JvCaptionPanel1: TJvCaptionPanel
-      Left = 176
-      Top = 74
-      Width = 121
-      Height = 129
-      Buttons = [capHelp]
-      BorderStyle = bsNone
-      Caption = 'Testi'
-      CaptionPosition = dpTop
-      CaptionFont.Charset = DEFAULT_CHARSET
-      CaptionFont.Color = clWhite
-      CaptionFont.Height = -12
-      CaptionFont.Name = 'Tahoma'
-      CaptionFont.Style = [fsBold]
-      OutlookLook = True
-      TabOrder = 10
-      object Label1: TLabel
-        Left = 1
-        Top = 23
-        Width = 119
-        Height = 13
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
-        Align = alTop
-        Caption = 'Extra Lines'
-        ExplicitWidth = 53
-      end
-      object BCEdit1: TBCEdit
-        Left = 1
-        Top = 36
-        Width = 119
-        Height = 21
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
-        Align = alTop
-        TabOrder = 0
-        Text = '0'
-        OnlyNumbers = True
-        NumbersWithDots = False
-        NumbersWithSpots = False
-        EditColor = clInfoBk
-        ErrorColor = 14803198
-        NumbersAllowNegative = False
-      end
-    end
   end
 end
