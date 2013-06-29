@@ -92,7 +92,7 @@ uses
   SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
   SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11,
   SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch,
-  System.Actions, BCCheckBox, JvExStdCtrls, JvEdit;
+  System.Actions, JvExStdCtrls, JvEdit;
 
 type
   TDocumentFrame = class(TFrame)

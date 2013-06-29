@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, BCControls.BCCheckBox, Vcl.Buttons,
-  Vcl.ExtCtrls, Vcl.ActnList, System.Actions, BCCheckBox;
+  Vcl.ExtCtrls, Vcl.ActnList, System.Actions;
 
 type
   TStatusBarFrame = class(TFrame)

@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, JvExStdCtrls,
   JvCombobox, BCControls.BCComboBox, BCControls.BCCheckBox, BCControls.BCEdit, Vcl.ComCtrls,
-  JvExtComponent, JvCaptionPanel, BCCheckBox, BCComboBox, JvExExtCtrls, JvEdit;
+  JvExtComponent, JvCaptionPanel;
 
 type
   TEditorOptionsFrame = class(TFrame)
