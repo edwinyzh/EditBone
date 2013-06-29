@@ -81,7 +81,7 @@ var
 begin
   inherited;
   try
-    VersionLabel.Caption := Format(VersionLabel.Caption, [GetFileVersion(Application.ExeName),
+    VersionLabel.Caption := Format(VersionLabel.Caption, [BCCommon.Files.GetFileVersion(Application.ExeName),
       {$IFDEF WIN64}64{$ELSE}32{$ENDIF}]);
   except
     { silent }
