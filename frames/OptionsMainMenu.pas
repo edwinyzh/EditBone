@@ -35,7 +35,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, Vcl.ActnMenus;
+  BCCommon, Vcl.ActnMenus;
 
 constructor TMainMenuFrame.Create(AOwner: TComponent);
 var

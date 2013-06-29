@@ -2,12 +2,12 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
   Left = 0
   Top = 0
   Caption = 'Unicode Character Map'
-  ClientHeight = 526
-  ClientWidth = 565
+  ClientHeight = 402
+  ClientWidth = 432
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -14
+  Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsStayOnTop
@@ -61,47 +61,35 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
   OnDestroy = FormDestroy
   OnResize = FormResize
   OnShow = FormShow
-  PixelsPerInch = 120
-  TextHeight = 17
+  PixelsPerInch = 96
+  TextHeight = 13
   object StatusBar: TStatusBar
     Left = 0
-    Top = 507
-    Width = 565
+    Top = 383
+    Width = 432
     Height = 19
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
     Panels = <>
     SimplePanel = True
-    ExplicitTop = 501
-    ExplicitWidth = 432
+    ExplicitTop = 388
+    ExplicitWidth = 565
   end
   object Panel: TPanel
     Left = 0
-    Top = 41
-    Width = 565
-    Height = 466
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Top = 31
+    Width = 432
+    Height = 352
     Align = alClient
     BevelOuter = bvNone
-    Padding.Left = 8
-    Padding.Right = 8
-    Padding.Bottom = 8
+    Padding.Left = 6
+    Padding.Right = 6
+    Padding.Bottom = 6
     TabOrder = 1
-    ExplicitHeight = 460
+    ExplicitHeight = 357
     object StringGridCharacter: TStringGrid
-      Left = 8
+      Left = 6
       Top = 0
-      Width = 549
-      Height = 452
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Width = 420
+      Height = 346
       Align = alClient
       ColCount = 20
       DefaultColWidth = 19
@@ -119,14 +107,10 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
       OnMouseUp = StringGridCharacterMouseUp
     end
     object ImagePanel: TPanel
-      Left = 196
-      Top = 115
-      Width = 164
-      Height = 164
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 150
+      Top = 88
+      Width = 125
+      Height = 125
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 1
@@ -134,23 +118,15 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
       object ImagePanelShape: TShape
         Left = 0
         Top = 0
-        Width = 163
-        Height = 163
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Width = 125
+        Height = 125
         Align = alClient
       end
       object Image: TImage
         Left = 0
         Top = 0
-        Width = 163
-        Height = 163
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Width = 125
+        Height = 125
         Align = alClient
         Transparent = True
       end
@@ -159,37 +135,29 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 565
-    Height = 41
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Width = 432
+    Height = 31
     Align = alTop
     BevelOuter = bvNone
-    Padding.Left = 8
-    Padding.Top = 8
-    Padding.Right = 8
+    Padding.Left = 6
+    Padding.Top = 6
+    Padding.Right = 6
     TabOrder = 2
     DesignSize = (
-      565
-      41)
+      432
+      31)
     object FontComboBox: TJvFontComboBox
-      Left = 8
-      Top = 7
-      Width = 549
-      Height = 25
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 6
+      Top = 5
+      Width = 420
+      Height = 22
       Anchors = [akLeft, akTop, akRight]
-      DroppedDownWidth = 549
+      DroppedDownWidth = 420
       MaxMRUCount = 0
       FontName = 'Arial'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -15
+      Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = []
       ItemIndex = 40

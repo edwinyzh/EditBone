@@ -59,6 +59,7 @@ object DirectoryTabDialog: TDirectoryTabDialog
         NumbersWithDots = False
         NumbersWithSpots = False
         EditColor = clInfoBk
+        ErrorColor = clBlack
         NumbersAllowNegative = False
       end
     end
@@ -95,6 +96,7 @@ object DirectoryTabDialog: TDirectoryTabDialog
         NumbersWithDots = False
         NumbersWithSpots = False
         EditColor = clInfoBk
+        ErrorColor = clBlack
         NumbersAllowNegative = False
       end
       object RootDrectoryBitBtn: TBitBtn
@@ -146,21 +148,19 @@ object DirectoryTabDialog: TDirectoryTabDialog
         Left = 21
         Top = 0
         Width = 59
-        Height = 26
+        Height = 13
         Align = alLeft
         Caption = '&Show Drives'
         Layout = tlCenter
-        ExplicitHeight = 13
       end
       object ExcludeOtherBranchesLabel: TLabel
         Left = 109
         Top = 0
         Width = 162
-        Height = 26
+        Height = 13
         Align = alLeft
         Caption = 'Exclude Other Directory Branches'
         Layout = tlCenter
-        ExplicitHeight = 13
       end
       object ShowDrivesCheckBox: TBCCheckBox
         Left = 0

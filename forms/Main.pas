@@ -351,10 +351,10 @@ implementation
 {$R *.dfm}
 
 uses
-  About, FindInFiles, Vcl.ClipBrd, Common, VirtualTrees, BigIni, StyleHooks,
-  System.IOUtils, Language, ConfirmReplace, LanguageEditor, BCSynEdit, DuplicateChecker,
-  Vcl.PlatformVclStylesActnCtrls, UnicodeCharacterMap, DuplicateCheckerOptions,
-  System.Types;
+  About, BCDialogs.FindInFiles, Vcl.ClipBrd, VirtualTrees, BigIni, BCCommon.StyleHooks, BCCommon.Files,
+  System.IOUtils, BCCommon.Language, BCDialogs.ConfirmReplace, LanguageEditor, BCSynEdit, BCCommon.LanguageUtils,
+  BCCommon.DuplicateChecker, Vcl.PlatformVclStylesActnCtrls, UnicodeCharacterMap, DuplicateCheckerOptions,
+  System.Types, BCCommon.Messages, BCCommon, BCCommon.StringUtils;
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
@@ -394,7 +394,7 @@ begin
   ReopenActionClientItem.Items.Clear;
 
   Files := TStringList.Create;
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TBigIniFile.Create(GetINIFilename) do
   try
     ReadSectionValues('FileReopenFiles', Files);
     { Files }
@@ -431,7 +431,7 @@ end;
 
 procedure TMainForm.FileReopenClearActionExecute(Sender: TObject);
 begin
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TBigIniFile.Create(GetINIFilename) do
   try
     EraseSection('FileReopenFiles');
   finally
@@ -456,7 +456,7 @@ begin
   Action := Sender as TAction;
   ActionCaption := StringReplace(Action.Caption, '&', '', [rfReplaceAll]);
 
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TBigIniFile.Create(GetINIFilename) do
   try
     WriteString('Options', 'Language', ActionCaption);
   finally
@@ -509,15 +509,15 @@ begin
   if SelectedLanguage = '' then
     Exit;
   { update language constants }
-  Language.ReadLanguageFile(SelectedLanguage);
+  ReadLanguageFile(SelectedLanguage);
   { update mainform }
   MainMenuTitleBarActions(True);
-  Common.UpdateLanguage(Self, SelectedLanguage);
+  UpdateLanguage(Self, SelectedLanguage);
   MainMenuTitleBarActions(False);
   { update frames }
-  Common.UpdateLanguage(FDirectoryFrame, SelectedLanguage);
+  UpdateLanguage(FDirectoryFrame, SelectedLanguage);
   FDocumentFrame.UpdateLanguage(SelectedLanguage);
-  Common.UpdateLanguage(FOutputFrame, SelectedLanguage);
+  UpdateLanguage(FOutputFrame, SelectedLanguage);
 end;
 
 procedure TMainForm.SelectStyleActionExecute(Sender: TObject);
@@ -531,7 +531,7 @@ begin
   Action := Sender as TAction;
   ActionCaption := StringReplace(Action.Caption, '&', '', [rfReplaceAll]);
 
-  if Action.Caption = StyleHooks.STYLENAME_WINDOWS then
+  if Action.Caption = STYLENAME_WINDOWS then
     TStyleManager.TrySetStyle(ActionCaption)
   else
   if TStyleManager.IsValidStyle(ActionCaption, StyleInfo) then
@@ -542,7 +542,7 @@ begin
       TStyleManager.SetStyle(TStyleManager.LoadFromFile(ActionCaption));
   end;
 
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TBigIniFile.Create(GetINIFilename) do
   try
     WriteString('Options', 'StyleFilename', ExtractFilename(ActionCaption));
   finally
@@ -588,7 +588,7 @@ begin
   if not DirectoryExists(LanguagePath) then
     Exit;
 
-  LanguageName := Common.GetSelectedLanguage('English');
+  LanguageName := GetSelectedLanguage('English');
 
   for FileName in TDirectory.GetFiles(LanguagePath, '*.lng') do
   begin
@@ -691,7 +691,7 @@ procedure TMainForm.ReadWindowState;
 var
   State: Integer;
 begin
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TBigIniFile.Create(GetINIFilename) do
   try
     State := ReadInteger('Size', 'State', 0);
     case State of
@@ -706,7 +706,7 @@ end;
 
 procedure TMainForm.ReadIniFile;
 begin
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TBigIniFile.Create(GetINIFilename) do
   try
     { Size }
     Width := ReadInteger('Size', 'Width', Round(Screen.Width * 0.8));
@@ -722,7 +722,7 @@ end;
 
 procedure TMainForm.ReadIniOptions;
 begin
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TBigIniFile.Create(GetINIFilename) do
   try
     { Options }
     OptionsContainer.ToolBarVisible := ReadBool('Options', 'ShowToolBar', True);
@@ -789,7 +789,7 @@ procedure TMainForm.WriteIniFile;
 var
   i, State: Integer;
 begin
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TBigIniFile.Create(GetINIFilename) do
   try
     WriteString(Application.Title, 'Version', AboutDialog.Version);
     if WindowState = wsNormal then
@@ -1117,7 +1117,7 @@ begin
     Repaint;
   except
     on E: Exception do
-      Common.ShowErrorMessage(E.Message);
+      ShowErrorMessage(E.Message);
   end;
 end;
 
@@ -1212,11 +1212,11 @@ procedure TMainForm.FormCreate(Sender: TObject);
 begin
   FOnStartUp := True;
   ActionManager.Style := PlatformVclStylesStyle;
-  Language.ReadLanguageFile(Common.GetSelectedLanguage);
+  BCCommon.Language.ReadLanguageFile(GetSelectedLanguage);
 
   CreateFrames;
   UpdateStatusBar;
-  ReadLanguageFile(Common.GetSelectedLanguage);
+  ReadLanguageFile(GetSelectedLanguage);
   ReadIniFile;
 
   {$IFDEF RELEASE}
@@ -1284,12 +1284,12 @@ end;
 
 procedure TMainForm.HelpCheckForUpdatesMenuActionExecute(Sender: TObject);
 begin
-  Common.CheckForUpdates(Application.Title, AboutDialog.Version);
+  CheckForUpdates(Application.Title, AboutDialog.Version);
 end;
 
 procedure TMainForm.HelpHomeActionExecute(Sender: TObject);
 begin
-  Common.BrowseURL(BONECODE_URL);
+  BrowseURL(BONECODE_URL);
 end;
 
 procedure TMainForm.HighlighterComboBoxChange(Sender: TObject);
@@ -1546,7 +1546,7 @@ begin
         end
         else
         begin
-          Common.ShowMessage(Format(LanguageDataModule.GetMessage('CannotFindString'), [FindWhatText]));
+          ShowMessage(Format(LanguageDataModule.GetMessage('CannotFindString'), [FindWhatText]));
           FOutputFrame.CloseTabSheet;
           StatusBar.Panels[3].Text := '';
         end;
@@ -1698,7 +1698,7 @@ end;
 procedure TMainForm.ToolsLanguageEditorActionExecute(Sender: TObject);
 begin
   LanguageEditorForm.Open;
-  ReadLanguageFile(Common.GetSelectedLanguage('English'));
+  ReadLanguageFile(GetSelectedLanguage('English'));
 end;
 
 procedure TMainForm.ToolsOptionsActionExecute(Sender: TObject);
@@ -1866,7 +1866,7 @@ begin
                 SynEdit.Free;
               end;
             except
-              Common.ShowWarningMessage(Format(LanguageDataModule.GetWarningMessage('FileAccessError'), [AddSlash(FolderText) + FName]));
+              ShowWarningMessage(Format(LanguageDataModule.GetWarningMessage('FileAccessError'), [AddSlash(FolderText) + FName]));
             end;
         end;
       end;

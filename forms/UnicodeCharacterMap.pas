@@ -55,7 +55,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, IniFiles, BCSynEdit, SynEditKeyCmds;
+  IniFiles, BCSynEdit, SynEditKeyCmds, BCCommon.Files;
 
 var
   FUnicodeCharacterMapForm: TUnicodeCharacterMapForm;
@@ -261,7 +261,7 @@ end;
 
 procedure TUnicodeCharacterMapForm.ReadIniFile;
 begin
-  with TMemIniFile.Create(Common.GetINIFilename) do
+  with TMemIniFile.Create(GetINIFilename) do
   try
     { Size }
     Width := ReadInteger('CharacterMapSize', 'Width', Width);
@@ -279,7 +279,7 @@ end;
 procedure TUnicodeCharacterMapForm.WriteIniFile;
 begin
   if Windowstate = wsNormal then
-  with TMemIniFile.Create(Common.GetINIFilename) do
+  with TMemIniFile.Create(GetINIFilename) do
   try
     { Position }
     WriteInteger('CharacterMapPosition', 'Left', Left);

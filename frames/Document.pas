@@ -78,7 +78,7 @@ uses
   SynEditPrint, SynEditMiscClasses, SynEditSearch, SynEditTypes, SynEditPlugins, Vcl.StdCtrls,
   Vcl.ActnList, BCCheckBox, JvExControls, JvExExtCtrls, JvExtComponent, JvExStdCtrls, JvEdit, BCEdit,
   BCImageList, Vcl.ActnPopup, BCPopupMenu, SynMacroRecorder, SynEditKeyCmds, Vcl.Themes,
-  SynEditRegexSearch, BCSynEdit, DocumentTabSheet, Compare, Vcl.PlatformDefaultStyleActnCtrls,
+  SynEditRegexSearch, BCSynEdit, DocumentTabSheet, BCFrames.Compare, Vcl.PlatformDefaultStyleActnCtrls,
   SynHighlighterWebData, SynHighlighterURI, SynURIOpener, SynHighlighterTeX, SynHighlighterProgress,
   SynHighlighterPerl, SynHighlighterKix, SynHighlighterJScript, SynHighlighterGalaxy,
   SynHighlighterFoxpro, SynHighlighterWeb, SynHighlighterCache, SynHighlighterCobol,
@@ -291,7 +291,6 @@ type
     { Private declarations }
     FCaseCycle: Byte;
     FCompareImageIndex, FNewImageIndex: Integer;
-    //FDefaultPath: string;
     FHTMLDocumentChanged: Boolean;
     FHTMLErrorList: TList;
     FNumberOfNewDocument: Integer;
@@ -326,7 +325,6 @@ type
     procedure DestroyHTMLErrorListItems;
     procedure DoSearch(SynEdit: TBCSynEdit);
     procedure InitializeSynEditPrint;
-    //procedure PageControlRepaint;
     procedure SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);
     procedure SetActivePageCaptionModified;
     procedure SetBookmarks(SynEdit: TBCSynEdit; Bookmarks: TStrings);
@@ -442,10 +440,10 @@ implementation
 {$R *.dfm}
 
 uses
-  PrintPreview, Replace, ConfirmReplace, Common, Lib, Options, StyleHooks, VirtualTrees, Vcl.ActnMenus,
-  SynTokenMatch, SynHighlighterWebMisc, System.Types, Winapi.ShellAPI, System.WideStrings, Math,
-  Main, BigIni, Vcl.GraphUtil, SynUnicode, Language, CommonDialogs, SynEditTextBuffer, Encoding,
-  InsertTag;
+  BCForms.PrintPreview, BCDialogs.Replace, BCDialogs.ConfirmReplace, Lib, Options, BCCommon.StyleHooks, VirtualTrees,
+  Vcl.ActnMenus, SynTokenMatch, SynHighlighterWebMisc, System.Types, Winapi.ShellAPI, System.WideStrings, System.Math,
+  Main, BigIni, Vcl.GraphUtil, SynUnicode, BCCommon.Language, BCCommon.Dialogs, SynEditTextBuffer, BCCommon.Encoding,
+  InsertTag, BCCommon.LanguageUtils, BCCommon.Files, BCCommon.Messages, BCCommon, BCCommon.StringUtils;
 
 { TDocumentFrame }
 
@@ -674,7 +672,6 @@ begin
         Result := DocTabSheetFrame.XMLTreeVisible;
       end;
   end;
-  //PageControlRepaint;
 end;
 
 function TDocumentFrame.GetXMLTreeVisible: Boolean;
@@ -697,7 +694,7 @@ begin
   TabSheet.PageControl := PageControl;
 
   if FileName <> '' then
-    TabSheet.ImageIndex := GetImageIndex(FileName) // SAVED_IMAGEINDEX;
+    TabSheet.ImageIndex := GetImageIndex(FileName)
   else
     TabSheet.ImageIndex := FNewImageIndex;
 
@@ -706,7 +703,6 @@ begin
     TabSheet.Caption := LanguageDataModule.GetConstant('Document') + IntToStr(FNumberOfNewDocument)
   else
     TabSheet.Caption := ExtractFileName(FileName);
-  //UpdateGutterAndControls; { prevent flickering }
 
   PageControl.ActivePage := TabSheet;
 
@@ -847,7 +843,6 @@ begin
     PageControl.Images := FImages
   else
     PageControl.Images := nil;
-//  Application.ProcessMessages;
   LStyles := StyleServices;
   PanelColor := clNone;
   if LStyles.Enabled then
@@ -892,8 +887,8 @@ end;
 
 procedure TDocumentFrame.UpdateGutterAndColors(DocTabSheetFrame: TDocTabSheetFrame);
 begin
-  StyleHooks.UpdateGutterAndColors(DocTabSheetFrame.SynEdit);
-  StyleHooks.UpdateGutterAndColors(DocTabSheetFrame.SplitSynEdit);
+  BCCommon.StyleHooks.UpdateGutterAndColors(DocTabSheetFrame.SynEdit);
+  BCCommon.StyleHooks.UpdateGutterAndColors(DocTabSheetFrame.SplitSynEdit);
 end;
 
 procedure TDocumentFrame.SynEditEnter(Sender: TObject);
@@ -955,32 +950,9 @@ begin
     SpecialChars := OptionsContainer.EnableSpecialChars;
     LineNumbers := OptionsContainer.EnableLineNumbers;
   end;
-  Common.UpdateLanguage(Frame);
+  BCCommon.LanguageUtils.UpdateLanguage(Frame);
   UpdateGutterAndControls;
-  //PageControlRepaint;
 end;
-
-{procedure TDocumentFrame.PageControlRepaint;
-var
-  SynEdit: TBCSynEdit;
-  CompareFrame: TCompareFrame;
-begin
-  SynEdit := GetActiveSynEdit;
-  if Assigned(SynEdit) then
-    SynEdit.Repaint;
-  SynEdit := GetActiveSplitSynEdit;
-  if Assigned(SynEdit) then
-    SynEdit.Repaint;
-  Application.ProcessMessages;
-  if Assigned(PageControl.ActivePage) then
-  begin
-    CompareFrame := GetCompareFrame(PageControl.ActivePage);
-    if Assigned(CompareFrame) then
-      CompareFrame.RepaintFrame;
-    PageControl.ActivePage.Repaint;
-  end;
-  PageControl.Repaint;
-end; }
 
 procedure TDocumentFrame.SelectForCompare;
 begin
@@ -1044,7 +1016,7 @@ var
   Files: TStrings;
   IniFile: string;
 begin
-  IniFile := Common.GetINIFilename;
+  IniFile := GetINIFilename;
   Files := TStringList.Create;
   { Read section }
   with TBigIniFile.Create(IniFile) do
@@ -1085,11 +1057,11 @@ var
 begin
   if FileName = '' then
   begin
-    if CommonDialogs.OpenFiles(Handle, '', OptionsContainer.Filters, LanguageDataModule.GetConstant('Open')) then
+    if BCCommon.Dialogs.OpenFiles(Handle, '', OptionsContainer.Filters, LanguageDataModule.GetConstant('Open')) then
     begin
       Application.ProcessMessages; { style fix }
-      for i := 0 to CommonDialogs.Files.Count - 1 do
-        Open(CommonDialogs.Files[i])
+      for i := 0 to BCCommon.Dialogs.Files.Count - 1 do
+        Open(BCCommon.Dialogs.Files[i])
     end;
   end
   else
@@ -1105,7 +1077,6 @@ begin
       try
         SetMainHighlighterCombo(SynEdit);
         SetMainEncodingCombo(SynEdit);
-        //PageControlRepaint;
         if SynEdit.CanFocus then
           SynEdit.SetFocus;
         if not StartUp then
@@ -1146,7 +1117,7 @@ begin
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) and SynEdit.Modified then
   begin
-    Rslt := Common.SaveChanges;
+    Rslt := SaveChanges;
     if Rslt = mrYes then
       Save;
   end;
@@ -1165,7 +1136,6 @@ begin
   SetMainHighlighterCombo(SynEdit);
   SetMainEncodingCombo(SynEdit);
   CheckHTMLErrors;
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.CloseAll(CloseDocuments: Boolean);
@@ -1176,7 +1146,7 @@ begin
 
   if ModifiedDocuments then
   begin
-    Rslt := Common.SaveChanges(CloseDocuments);
+    Rslt := SaveChanges(CloseDocuments);
     if Rslt = mrYes then
       SaveAll;
   end;
@@ -1188,7 +1158,6 @@ begin
   end;
 
   CheckHTMLErrors;
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.CloseAllOtherPages;
@@ -1205,7 +1174,7 @@ begin
 
   if ModifiedDocuments(False) then
   begin
-    Rslt := Common.SaveChanges(True);
+    Rslt := SaveChanges(True);
 
     if Rslt = mrYes then
       for i := 0 to PageControl.PageCount - 1 do
@@ -1260,10 +1229,10 @@ begin
 
       FilePath := ExtractFilePath(DocTabSheetFrame.SynEdit.DocumentName);
       FilterIndex := OptionsContainer.GetFilterIndex(ExtractFileExt(AFileName));
-      if CommonDialogs.SaveFile(Handle, FilePath, OptionsContainer.Filters, LanguageDataModule.GetConstant('SaveAs'), FilterIndex, AFileName) then
+      if BCCommon.Dialogs.SaveFile(Handle, FilePath, OptionsContainer.Filters, LanguageDataModule.GetConstant('SaveAs'), FilterIndex, AFileName) then
       begin
         Application.ProcessMessages; { style fix }
-        Result := CommonDialogs.Files[0];
+        Result := BCCommon.Dialogs.Files[0];
         if ExtractFileExt(Result) = '' then
           if (FilterIndex > 1) and (FilterIndex < OptionsContainer.FilterCount) then
             Result := Format('%s%s', [Result, OptionsContainer.GetFilter(FilterIndex)]);
@@ -1295,7 +1264,6 @@ begin
     end;
     UpdateGutterAndControls;
   end;
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.Save;
@@ -1348,7 +1316,6 @@ begin
   Undo(GetActiveSynEdit);
   Undo(GetActiveSplitSynEdit);
   UpdateGutterAndControls;
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.Redo;
@@ -1364,7 +1331,6 @@ begin
   Redo(GetActiveSynEdit);
   Redo(GetActiveSplitSynEdit);
   UpdateGutterAndControls;
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.Cut;
@@ -1379,7 +1345,6 @@ procedure TDocumentFrame.Cut;
 begin
   Cut(GetActiveSynEdit);
   Cut(GetActiveSplitSynEdit);
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.Copy;
@@ -1394,7 +1359,6 @@ procedure TDocumentFrame.Copy;
 begin
   Copy(GetActiveSynEdit);
   Copy(GetActiveSplitSynEdit);
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.SetMainHighlighterCombo(SynEdit: TBCSynEdit);
@@ -1449,7 +1413,6 @@ begin
     SearchPanel.Visible := False;
     GotoLinePanel.Visible := False;
   end;
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.PageControlCloseButtonClick(Sender: TObject);
@@ -1476,7 +1439,6 @@ begin
     SplitSynedit.PasteFromClipboard
   else
     SearchForEdit.PasteFromClipboard;
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.InitializeSynEditPrint;
@@ -1505,7 +1467,7 @@ procedure TDocumentFrame.Print;
 var
   PrintDlgRec: TPrintDlg;
 begin
-  if CommonDialogs.Print(Handle, PrintDlgRec) then
+  if BCCommon.Dialogs.Print(Handle, PrintDlgRec) then
   begin
     Application.ProcessMessages; { style fix }
     SynEditPrint.Copies := PrintDlgRec.nCopies;
@@ -1581,10 +1543,10 @@ begin
   try
     if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
     begin
-      MessageBeep(MB_ICONASTERISK);
+      MessageBeep;
       SynEdit.BlockBegin := SynEdit.BlockEnd;
       SynEdit.CaretXY := SynEdit.BlockBegin;
-      Common.ShowMessage(Format(LanguageDataModule.GetYesOrNo('SearchStringNotFound'), [SearchForEdit.Text]))
+      ShowMessage(Format(LanguageDataModule.GetYesOrNo('SearchStringNotFound'), [SearchForEdit.Text]))
     end;
   except
     { silent }
@@ -1629,10 +1591,10 @@ begin
 
   if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
   begin
-    MessageBeep(MB_ICONASTERISK);
+    MessageBeep;
     SynEdit.BlockBegin := SynEdit.BlockEnd;
     SynEdit.CaretXY := SynEdit.BlockBegin;
-    if Common.AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('SearchMatchNotFound'), [Common.CHR_DOUBLE_ENTER])) then
+    if AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('SearchMatchNotFound'), [CHR_DOUBLE_ENTER])) then
     begin
       SynEdit.CaretX := 0;
       SynEdit.CaretY := 0;
@@ -1659,7 +1621,7 @@ begin
 
   if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
   begin
-    MessageBeep(MB_ICONASTERISK);
+    MessageBeep;
     SynEdit.BlockEnd := SynEdit.BlockBegin;
     SynEdit.CaretXY := SynEdit.BlockBegin;
   end;
@@ -1706,7 +1668,6 @@ begin
       end;
     end;
   end;
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.ToggleBookmarks(ItemIndex: Integer);
@@ -1769,7 +1730,6 @@ begin
     if Assigned(SynEdit) then
       SynEdit.WordWrap := not SynEdit.WordWrap;
   end;
-  //PageControlRepaint;
 end;
 
 function TDocumentFrame.ToggleSpecialChars: Boolean;
@@ -1801,7 +1761,6 @@ begin
     if PageControl.Pages[i].Components[0] is TCompareFrame then
       Result := TCompareFrame(PageControl.Pages[i].Components[0]).ToggleSpecialChars
   end;
-  //PageControlRepaint;
 end;
 
 function TDocumentFrame.GetSelectionModeChecked: Boolean;
@@ -1836,7 +1795,6 @@ begin
     ToggleSelectionMode(GetSynEdit(PageControl.Pages[i]));
     ToggleSelectionMode(GetSplitSynEdit(PageControl.Pages[i]));
   end;
-  //PageControlRepaint;
 end;
 
 function TDocumentFrame.ToggleLineNumbers: Boolean;
@@ -1859,7 +1817,6 @@ begin
     if PageControl.Pages[i].Components[0] is TCompareFrame then
       Result := TCompareFrame(PageControl.Pages[i].Components[0]).ToggleLineNumbers
   end;
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.ReadIniFile;
@@ -1869,7 +1826,7 @@ var
   FileTypes: TStrings;
 begin
   FileTypes := TStringList.Create;
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TBigIniFile.Create(GetINIFilename) do
   try
     { Options }
     OptionsContainer.FontName := ReadString('Options', 'FontName', 'Courier New');
@@ -1980,7 +1937,7 @@ var
 begin
   FileNames := TStringList.Create;
   Bookmarks := TStringList.Create;
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TBigIniFile.Create(GetINIFilename) do
   try
     PageControl.Visible := False;
     { Open Files }
@@ -2008,7 +1965,6 @@ begin
     Bookmarks.Free;
     Free;
     PageControl.Visible := True;
-    //PageControlRepaint
   end;
 end;
 
@@ -2018,7 +1974,7 @@ var
   FileType: string;
   SynEdit: TBCSynEdit;
 begin
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TBigIniFile.Create(GetINIFilename) do
   try
     { Options }
     WriteString('Options', 'FontName', OptionsContainer.FontName);
@@ -2097,7 +2053,7 @@ begin
       FileType := Trim(System.Copy(LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text, 0,
         Pos('(', LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text) - 1));
       WriteString('FileTypes', IntToStr(i), Format('%s (%s)', [
-        FileType, Common.StringBetween(OptionsContainer.FileTypes.Strings[i], '(', ')')]));
+        FileType, StringBetween(OptionsContainer.FileTypes.Strings[i], '(', ')')]));
     end;
     WriteString('Options', 'SQLDialect', IntToStr(Ord(OptionsContainer.SQLDialect)));
     WriteString('Options', 'CPASHighlighter', IntToStr(Ord(OptionsContainer.CPASHighlighter)));
@@ -2849,11 +2805,8 @@ begin
         begin
           if FileExists(SynEdit.DocumentName) then
           begin
-            if Common.AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('DocumentTimeChanged'), [SynEdit.DocumentName])) then
-            begin
+            if AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('DocumentTimeChanged'), [SynEdit.DocumentName])) then
               Refresh(i);
-              //PageControlRepaint;
-            end;
           end
           else
           begin
@@ -2863,10 +2816,7 @@ begin
             begin
               SynEdit.Modified := True;
               if Pos('~', PageControl.Pages[i].Caption) = 0 then
-              begin
                 PageControl.Pages[i].Caption := Format('%s~', [Trim(PageControl.Pages[i].Caption)]);
-                //PageControlRepaint;
-              end;
             end;
           end;
         end;
@@ -3040,7 +2990,7 @@ procedure TDocumentFrame.DecToBin;
     begin
       SynEdit.BeginUpdate;
       try
-        SynEdit.SelText := Common.IntToBin(StrToInt(SynEdit.SelText), Length(SynEdit.SelText) * 4);
+        SynEdit.SelText := IntToBin(StrToInt(SynEdit.SelText), Length(SynEdit.SelText) * 4);
       except
         { silent }
       end;
@@ -3061,7 +3011,7 @@ procedure TDocumentFrame.BinToDec;
     begin
       SynEdit.BeginUpdate;
       try
-        SynEdit.SelText := IntToStr(Common.BinToInt(SynEdit.SelText));
+        SynEdit.SelText := IntToStr(BinToInt(SynEdit.SelText));
       except
         { silent }
       end;
@@ -3085,7 +3035,7 @@ procedure TDocumentFrame.RemoveWhiteSpace;
       begin
         Strings := TWideStringList.Create;
         Strings.Text := SynEdit.SelText;
-        SynEdit.SelText := Common.RemoveWhiteSpace(Strings.Text);
+        SynEdit.SelText := BCCommon.StringUtils.RemoveWhiteSpace(Strings.Text);
         Strings.Free;
       end;
   end;
@@ -3115,7 +3065,6 @@ procedure TDocumentFrame.SortAsc;
 begin
   SortAsc(GetActiveSynEdit);
   SortAsc(GetActiveSplitSynEdit);
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.SortDesc;
@@ -3142,7 +3091,6 @@ procedure TDocumentFrame.SortDesc;
 begin
   SortDesc(GetActiveSynEdit);
   SortDesc(GetActiveSplitSynEdit);
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.ClearBookmarks;
@@ -3160,7 +3108,6 @@ procedure TDocumentFrame.ClearBookmarks;
 begin
   ClearBookmarks(GetActiveSynEdit);
   ClearBookmarks(GetActiveSplitSynEdit);
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.InsertLine;
@@ -3175,7 +3122,6 @@ procedure TDocumentFrame.InsertLine;
 begin
   InsertLine(GetActiveSynEdit);
   InsertLine(GetActiveSplitSynEdit);
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.DeleteWord;
@@ -3190,7 +3136,6 @@ procedure TDocumentFrame.DeleteWord;
 begin
   DeleteWord(GetActiveSynEdit);
   DeleteWord(GetActiveSplitSynEdit);
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.DeleteLine;
@@ -3205,7 +3150,6 @@ procedure TDocumentFrame.DeleteLine;
 begin
   DeleteLine(GetActiveSynEdit);
   DeleteLine(GetActiveSplitSynEdit);
-  //PageControlRepaint;
 end;
 
 procedure TDocumentFrame.DeleteEOL;
@@ -3220,7 +3164,6 @@ procedure TDocumentFrame.DeleteEOL;
 begin
   DeleteEOL(GetActiveSynEdit);
   DeleteEOL(GetActiveSplitSynEdit);
-  //PageControlRepaint;
 end;
 
 function LengthWithoutWhiteSpaces(Str: string): Integer;
@@ -3239,7 +3182,7 @@ var
 begin
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
-    Common.ShowMessage(Format(LanguageDataModule.GetMessage('DocumentStatistics'), [SynEdit.Lines.Count, CHR_ENTER, Common.WordCount(SynEdit.Text), CHR_ENTER, LengthWithoutWhiteSpaces(SynEdit.Text)]));
+    ShowMessage(Format(LanguageDataModule.GetMessage('DocumentStatistics'), [SynEdit.Lines.Count, CHR_ENTER, WordCount(SynEdit.Text), CHR_ENTER, LengthWithoutWhiteSpaces(SynEdit.Text)]));
 end;
 
 function TDocumentFrame.GetMacroRecordPauseImageIndex: Integer;
@@ -3291,7 +3234,7 @@ begin
     else
     if SynEdit.SynMacroRecorder.State = msStopped then
     begin
-      if Common.AskYesOrNo(LanguageDataModule.GetYesOrNo('RecordMacro')) then
+      if AskYesOrNo(LanguageDataModule.GetYesOrNo('RecordMacro')) then
       begin
         SynEdit.SynMacroRecorder.Clear;
         SynEdit.SynMacroRecorder.RecordMacro(SynEdit);
@@ -3338,12 +3281,12 @@ begin
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     if Assigned(SynEdit.SynMacroRecorder) then
-      if CommonDialogs.SaveFile(Handle, '', Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
+      if BCCommon.Dialogs.SaveFile(Handle, '', Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
         , '|', #0, [rfReplaceAll])) + #0#0,
         LanguageDataModule.GetConstant('SaveAs'), FilterIndex, '', 'mcr') then
       begin
         Application.ProcessMessages; { style fix }
-        SynEdit.SynMacroRecorder.SaveToFile(CommonDialogs.Files[0]);
+        SynEdit.SynMacroRecorder.SaveToFile(BCCommon.Dialogs.Files[0]);
       end;
 end;
 
@@ -3354,14 +3297,14 @@ begin
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
   begin
-    if CommonDialogs.OpenFile(Handle, '', Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
+    if BCCommon.Dialogs.OpenFile(Handle, '', Trim(StringReplace(LanguageDataModule.GetFileTypes('Macro')
       , '|', #0, [rfReplaceAll])) + #0#0,
       LanguageDataModule.GetConstant('Open'), 'mcr') then
     begin
       Application.ProcessMessages; { style fix }
       if not Assigned(SynEdit.SynMacroRecorder) then
         SynEdit.SynMacroRecorder := TSynMacroRecorder.Create(SynEdit);
-      SynEdit.SynMacroRecorder.LoadFromFile(CommonDialogs.Files[0]);
+      SynEdit.SynMacroRecorder.LoadFromFile(BCCommon.Dialogs.Files[0]);
     end;
   end;
 end;
@@ -3372,7 +3315,7 @@ var
 begin
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
-    Common.PropertiesDialog(SynEdit.DocumentName);
+    PropertiesDialog(SynEdit.DocumentName);
 end;
 
 procedure TDocumentFrame.SetActiveEncoding(Value: Integer);
@@ -3600,7 +3543,7 @@ var
   i: Integer;
   CompareFrame: TCompareFrame;
 begin
-  Common.UpdateLanguage(Self, SelectedLanguage);
+  BCCommon.LanguageUtils.UpdateLanguage(Self, SelectedLanguage);
   { compare frames }
   for i := 0 to PageControl.PageCount - 1 do
     if PageControl.Pages[i].ImageIndex = FCompareImageIndex then
@@ -3621,7 +3564,7 @@ begin
     SynEdit.BeginUndoBlock;
     try
       SynEdit.SelectAll;
-      SynEdit.SelText := Common.FormatXML(SynEdit.Text);
+      SynEdit.SelText := BCCommon.StringUtils.FormatXML(SynEdit.Text);
     finally
       SynEdit.EndUndoBlock;
       SynEdit.SetFocus;

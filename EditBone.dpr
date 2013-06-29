@@ -8,31 +8,31 @@ uses
   Vcl.Themes,
   Vcl.ComCtrls,
   Vcl.Styles,
-  Language in '..\..\Common\units\Language.pas' {LanguageDataModule: TDataModule},
+  BCCommon.Language in '..\..\Common\units\BCCommon.Language.pas' {LanguageDataModule: TDataModule},
   Directory in 'frames\Directory.pas' {DirectoryFrame: TFrame},
   Output in 'frames\Output.pas' {OutputFrame: TFrame},
   Document in 'frames\Document.pas' {DocumentFrame: TFrame},
   About in 'dialogs\About.pas' {AboutDialog},
   Lib in 'units\Lib.pas',
   Options in 'dialogs\Options.pas' {OptionsDialog},
-  PrintPreview in '..\..\Common\forms\PrintPreview.pas' {PrintPreviewDialog},
-  ConfirmReplace in '..\..\Common\dialogs\ConfirmReplace.pas' {ConfirmReplaceDialog},
-  FindInFiles in '..\..\Common\dialogs\FindInFiles.pas' {FindInFilesDialog},
-  Replace in '..\..\Common\dialogs\Replace.pas' {ReplaceDialog},
+  BCForms.PrintPreview in '..\..\Common\forms\BCForms.PrintPreview.pas' {PrintPreviewDialog},
+  BCDialogs.ConfirmReplace in '..\..\Common\dialogs\BCDialogs.ConfirmReplace.pas' {ConfirmReplaceDialog},
+  BCDialogs.FindInFiles in '..\..\Common\dialogs\BCDialogs.FindInFiles.pas' {FindInFilesDialog},
+  BCDialogs.Replace in '..\..\Common\dialogs\BCDialogs.Replace.pas' {ReplaceDialog},
   Diff in '..\..\Common\units\Diff.pas',
-  Hash in '..\..\Common\units\Hash.pas',
+  BCCommon.Hash in '..\..\Common\units\BCCommon.Hash.pas',
   DirectoryTab in 'dialogs\DirectoryTab.pas' {DirectoryTabDialog},
   Main in 'forms\Main.pas' {MainForm},
-  StyleHooks in '..\..\Common\units\StyleHooks.pas',
-  DownloadURL in '..\..\Common\dialogs\DownloadURL.pas' {DownloadURLDialog},
-  Compare in '..\..\Common\frames\Compare.pas' {CompareFrame: TFrame},
+  BCCommon.StyleHooks in '..\..\Common\units\BCCommon.StyleHooks.pas',
+  BCDialogs.DownloadURL in '..\..\Common\dialogs\BCDialogs.DownloadURL.pas' {DownloadURLDialog},
+  BCFrames.Compare in '..\..\Common\frames\BCFrames.Compare.pas' {CompareFrame: TFrame},
   BigIni in '..\..\Common\units\BigIni.pas',
-  Dlg in '..\..\Common\dialogs\Dlg.pas' {Dialog},
-  Common in '..\..\Common\units\Common.pas',
-  CommonDialogs in '..\..\Common\units\CommonDialogs.pas',
+  BCDialogs.Dlg in '..\..\Common\dialogs\BCDialogs.Dlg.pas' {Dialog},
+  BCCommon in '..\..\Common\units\BCCommon.pas',
+  BCCommon.Dialogs in '..\..\Common\units\BCCommon.Dialogs.pas',
   LanguageEditor in 'forms\LanguageEditor.pas' {LanguageEditorForm},
   DocumentTabSheet in 'frames\DocumentTabSheet.pas' {DocTabSheetFrame: TFrame},
-  Encoding in '..\..\Common\units\Encoding.pas',
+  BCCommon.Encoding in '..\..\Common\units\BCCommon.Encoding.pas',
   DirectoryTabSheet in 'frames\DirectoryTabSheet.pas' {DirTabSheetFrame: TFrame},
   OutputTabSheet in 'frames\OutputTabSheet.pas' {OutputTabSheetFrame: TFrame},
   OptionsEditorOptions in 'frames\OptionsEditorOptions.pas' {EditorOptionsFrame: TFrame},
@@ -53,15 +53,19 @@ uses
   InsertTag in 'dialogs\InsertTag.pas' {InsertTagDialog},
   OptionsToolBar in 'frames\OptionsToolBar.pas' {ToolBarFrame: TFrame},
   UnicodeCharacterMap in 'forms\UnicodeCharacterMap.pas' {UnicodeCharacterMapForm},
-  DuplicateChecker in '..\..\Common\units\DuplicateChecker.pas',
-  DuplicateCheckerOptions in 'dialogs\DuplicateCheckerOptions.pas' {DuplicateCheckerOptionsDialog};
+  BCCommon.DuplicateChecker in '..\..\Common\units\BCCommon.DuplicateChecker.pas',
+  DuplicateCheckerOptions in 'dialogs\DuplicateCheckerOptions.pas' {DuplicateCheckerOptionsDialog},
+  BCCommon.Files in '..\..\Common\units\BCCommon.Files.pas',
+  BCCommon.StringUtils in '..\..\Common\units\BCCommon.StringUtils.pas',
+  BCCommon.LanguageUtils in '..\..\Common\units\BCCommon.LanguageUtils.pas',
+  BCCommon.Messages in '..\..\Common\units\BCCommon.Messages.pas';
 
 {$R *.res}
 
 var
   StyleFilename: string;
 begin
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TBigIniFile.Create(GetINIFilename) do
   try
     StyleFilename := ReadString('Options', 'StyleFilename', STYLENAME_WINDOWS);
   finally

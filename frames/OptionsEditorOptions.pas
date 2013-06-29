@@ -39,7 +39,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Language;
+  BCCommon.Language;
 
 constructor TEditorOptionsFrame.Create(AOwner: TComponent);
 begin

@@ -30,7 +30,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Lib, Language, SynHighlighterSQL, SynHighlighterWebData;
+  Lib, BCCommon.Language, SynHighlighterSQL, SynHighlighterWebData;
 
 constructor TEditorOtherFrame.Create(AOwner: TComponent);
 var

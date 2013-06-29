@@ -96,8 +96,8 @@ implementation
 {$R *.dfm}
 
 uses
-  System.IniFiles, Common, Language, CommonDialogs, Vcl.Themes, Vcl.StdCtrls, Vcl.Menus;
-
+  System.IniFiles, BCCommon.Language, BCCommon.LanguageUtils, BCCommon.Dialogs, Vcl.Themes, Vcl.StdCtrls, Vcl.Menus,
+  BCCommon.Messages, BCCommon.Files;
 
 const
   ShortCuts: array[0..108] of TShortCut = (
@@ -250,7 +250,7 @@ procedure TLanguageEditorForm.FileNewActionExecute(Sender: TObject);
 var
   SelectedLanguage, LanguagePath: string;
 begin
-  SelectedLanguage := Common.GetSelectedLanguage('English');
+  SelectedLanguage := GetSelectedLanguage('English');
   LanguagePath := IncludeTrailingPathDelimiter(Format('%s%s', [ExtractFilePath(ParamStr(0)), 'Languages']));
   if not DirectoryExists(LanguagePath) then
     Exit;
@@ -258,8 +258,8 @@ begin
   begin
     Application.ProcessMessages; { style fix }
     FLanguageFileName := Format('%s%s.%s', [LanguagePath, SelectedLanguage, 'lng']);
-    Winapi.Windows.CopyFile(PWideChar(FLanguageFileName), PWideChar(CommonDialogs.Files[0]), False);
-    LoadLanguageFile(CommonDialogs.Files[0]);
+    Winapi.Windows.CopyFile(PWideChar(FLanguageFileName), PWideChar(BCCommon.Dialogs.Files[0]), False);
+    LoadLanguageFile(BCCommon.Dialogs.Files[0]);
   end;
 end;
 
@@ -268,11 +268,11 @@ var
   DefaultPath: string;
 begin
   DefaultPath := IncludeTrailingPathDelimiter(Format('%s%s', [ExtractFilePath(ParamStr(0)), 'Languages']));
-  if CommonDialogs.OpenFiles(Handle, DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Language')
+  if BCCommon.Dialogs.OpenFiles(Handle, DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Language')
     , '|', #0, [rfReplaceAll])) + #0#0, LanguageDataModule.GetConstant('Open')) then
   begin
     Application.ProcessMessages; { style fix }
-    LoadLanguageFile(CommonDialogs.Files[0]);
+    LoadLanguageFile(BCCommon.Dialogs.Files[0]);
   end;
 end;
 
@@ -287,7 +287,7 @@ begin
   WriteIniFile;
 
   if VirtualDrawTree.Tag = 1 then
-    if Common.SaveChanges(False) = mrYes then
+    if BCCommon.Messages.SaveChanges(False) = mrYes then
       Save;
 
   Action := caFree;
@@ -307,7 +307,7 @@ end;
 
 procedure TLanguageEditorForm.ReadIniFile;
 begin
-  with TMemIniFile.Create(Common.GetINIFilename) do
+  with TMemIniFile.Create(GetINIFilename) do
   try
     { Size }
     Width := ReadInteger('LanguageEditorSize', 'Width', Round(Screen.Width * 0.5));
@@ -323,7 +323,7 @@ end;
 procedure TLanguageEditorForm.WriteIniFile;
 begin
   if Windowstate = wsNormal then
-  with TMemIniFile.Create(Common.GetINIFilename) do
+  with TMemIniFile.Create(GetINIFilename) do
   try
     { Position }
     WriteInteger('LanguageEditorPosition', 'Left', Left);
@@ -376,7 +376,7 @@ function TLanguageEditorForm.SaveAs(FileName: string): Boolean;
 var
   FilterIndex: Cardinal;
 begin
-  Result := CommonDialogs.SaveFile(Handle, ExtractFilePath(FileName),
+  Result := BCCommon.Dialogs.SaveFile(Handle, ExtractFilePath(FileName),
     Trim(StringReplace(LanguageDataModule.GetFileTypes('Language'),
     '|', #0, [rfReplaceAll])) + #0#0, LanguageDataModule.GetConstant('SaveAs'),
     FilterIndex,
@@ -725,8 +725,8 @@ var
 begin
   ReadIniFile;
 
-  SelectedLanguage := Common.GetSelectedLanguage('English');
-  Common.UpdateLanguage(Self, SelectedLanguage);
+  SelectedLanguage := GetSelectedLanguage('English');
+  UpdateLanguage(Self, SelectedLanguage);
   LanguagePath := IncludeTrailingPathDelimiter(Format('%s%s', [ExtractFilePath(ParamStr(0)), 'Languages']));
   if not DirectoryExists(LanguagePath) then
     Exit;

@@ -4,8 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Dlg, Vcl.Mask, JvExMask, JvToolEdit, Vcl.StdCtrls, JvExStdCtrls,
-  JvEdit, BCEdit, Vcl.ActnList, Vcl.ExtCtrls, Vcl.Themes, BCCheckBox, Vcl.Buttons;
+  Vcl.Controls, Vcl.Forms, BCDialogs.Dlg, Vcl.Mask, JvExMask, JvToolEdit, Vcl.StdCtrls, JvExStdCtrls,
+  JvEdit, BCEdit, Vcl.ActnList, Vcl.ExtCtrls, Vcl.Themes, BCCheckBox, Vcl.Buttons, System.Actions;
 
 type
   TDirectoryTabDialogType = (dtOpen, dtEdit);
@@ -64,11 +64,11 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, StyleHooks,
+  BCCommon.StyleHooks,
 {$WARNINGS OFF}
   Vcl.FileCtrl, { warning: FileCtrl is specific to a platform }
 {$WARNINGS ON}
-  Language;
+  BCCommon.Language, BCCommon.Messages;
 
 var
   FDirectoryTabDialog: TDirectoryTabDialog;
@@ -78,7 +78,7 @@ begin
   if FDirectoryTabDialog = nil then
     Application.CreateForm(TDirectoryTabDialog, FDirectoryTabDialog);
   Result := FDirectoryTabDialog;
-  StyleHooks.SetStyledFormSize(Result);
+  SetStyledFormSize(Result);
 end;
 
 procedure TDirectoryTabDialog.OKActionExecute(Sender: TObject);
@@ -169,13 +169,13 @@ begin
   Result := False;
   if Trim(TabNameEdit.Text) = '' then
   begin
-    Common.ShowErrorMessage(LanguageDataModule.GetErrorMessage('EnterTabName'));
+    ShowErrorMessage(LanguageDataModule.GetErrorMessage('EnterTabName'));
     TabNameEdit.SetFocus;
     Exit;
   end;
   if not System.SysUtils.DirectoryExists(RootDirectoryEdit.Text) then
   begin
-    Common.ShowErrorMessage(LanguageDataModule.GetErrorMessage('RootDirectoryNotExist'));
+    ShowErrorMessage(LanguageDataModule.GetErrorMessage('RootDirectoryNotExist'));
     RootDirectoryEdit.SetFocus;
     Exit;
   end;

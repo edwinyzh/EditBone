@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Dlg, Vcl.StdCtrls, JvExStdCtrls, JvEdit, BCEdit, Vcl.ExtCtrls;
+  Vcl.Controls, BCDialogs.Dlg, Vcl.StdCtrls, JvExStdCtrls, JvEdit, BCEdit, Vcl.ExtCtrls;
 
 type
   TInsertTagDialog = class(TDialog)
@@ -30,7 +30,8 @@ implementation
 
 {$R *.dfm}
 
-uses StyleHooks;
+uses
+  BCCommon.StyleHooks;
 
 var
   FInsertTagDialog: TInsertTagDialog;
@@ -40,7 +41,7 @@ begin
   if FInsertTagDialog = nil then
     FInsertTagDialog := TInsertTagDialog.Create(Sender);
   Result := FInsertTagDialog;
-  StyleHooks.SetStyledFormSize(Result);
+  SetStyledFormSize(Result);
 end;
 
 procedure TInsertTagDialog.FormDestroy(Sender: TObject);

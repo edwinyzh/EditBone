@@ -70,7 +70,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, Lib, Options, StyleHooks, System.Math, System.UITypes, Vcl.Clipbrd;
+  Lib, Options, BCCommon.StyleHooks, System.Math, System.UITypes, Vcl.Clipbrd;
 
 procedure TOutputFrame.OutputCloseActionExecute(Sender: TObject);
 begin

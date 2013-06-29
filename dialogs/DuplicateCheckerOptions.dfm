@@ -126,6 +126,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
             NumbersWithDots = False
             NumbersWithSpots = False
             EditColor = clInfoBk
+            ErrorColor = 14803198
             NumbersAllowNegative = False
           end
           object FolderBitBtn: TBitBtn
@@ -347,6 +348,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               NumbersWithDots = False
               NumbersWithSpots = False
               EditColor = clInfoBk
+              ErrorColor = 14803198
               NumbersAllowNegative = False
             end
             object FileBitBtn: TBitBtn

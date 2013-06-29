@@ -47,6 +47,7 @@ object FileTypesFrame: TFileTypesFrame
       NumbersWithDots = False
       NumbersWithSpots = False
       EditColor = clInfoBk
+      ErrorColor = 14803198
       NumbersAllowNegative = False
     end
   end

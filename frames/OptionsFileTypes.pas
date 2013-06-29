@@ -27,7 +27,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Common;
+  BCCommon.StringUtils;
 
 procedure TFileTypesFrame.ExtensionsEditChange(Sender: TObject);
 var

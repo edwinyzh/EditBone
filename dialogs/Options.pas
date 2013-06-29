@@ -3,12 +3,12 @@ unit Options;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Common,
+  Winapi.Windows, Winapi.Messages, Vcl.Graphics, Vcl.Controls, Vcl.Forms, BCCommon.Files,
   Vcl.StdCtrls, Vcl.ComCtrls, Winapi.CommCtrl, System.Win.Registry, Vcl.ExtCtrls, Vcl.Buttons,
   Vcl.Menus, SynEdit, SynEditHighlighter, SynEditMiscClasses, SynHighlighterWebData, SynEditKeyCmds,
   System.Classes, System.SysUtils, Vcl.ImgList, SynHighlighterWeb, Vcl.Grids, SynHighlighterSQL,
   BCCheckBox, Document, JvExStdCtrls, JvEdit, BCEdit, JvCombobox, BCComboBox, Vcl.ActnList,
-  Vcl.Themes, Dlg, Vcl.CheckLst, BCPageControl, JvExComCtrls, JvComCtrls, VirtualTrees,
+  Vcl.Themes, BCDialogs.Dlg, Vcl.CheckLst, BCPageControl, JvExComCtrls, JvComCtrls, VirtualTrees,
   OptionsEditorOptions, OptionsEditorFont, OptionsEditorGutter, OptionsEditorTabs, Lib,
   OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, OptionsCompare, OptionsMainMenu,
   OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, OptionsStatusBar, OptionsOutput,
@@ -258,7 +258,8 @@ implementation
 {$R *.dfm}
 
 uses
-  StyleHooks, Language, SynHighlighterMulti, System.IniFiles, SynEditTypes;
+  BCCommon.StyleHooks, BCCommon.Language, SynHighlighterMulti, System.IniFiles, SynEditTypes, BCCommon.StringUtils,
+  BCCommon.LanguageUtils;
 
 { TOptionsContainer }
 
@@ -538,7 +539,7 @@ begin
   if FileType = ftYAML then
     Result := FFileTypes.Strings[55];
 
-  Result := UpperCase(Common.StringBetween(Result, '(', ')'));
+  Result := UpperCase(StringBetween(Result, '(', ')'));
 end;
 
 constructor TOptionsContainer.Create(AOwner: TComponent);
@@ -628,7 +629,7 @@ end;
 function TOptionsContainer.GetFilter(FilterIndex: Cardinal): string;
 begin
   { -2 because filter index is not 0-based and there's all files first }
-  Result := Common.StringBetween(FFileTypes.Strings[FilterIndex - 2], '(', ')');
+  Result := StringBetween(FFileTypes.Strings[FilterIndex - 2], '(', ')');
   Result := StringReplace(Result, '*', '', []);
   if Pos(';', Result) <> 0 then
     Result := Copy(Result, 1, Pos(';', Result) - 1);
@@ -655,7 +656,7 @@ begin
   i := 0;
   while i < FFileTypes.Count do
   begin
-    Result := Format('%s%s'#0'%s', [Result, LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text {FFileTypes.Strings[i]}, Common.StringBetween(FFileTypes.Strings[i], '(', ')')]);
+    Result := Format('%s%s'#0'%s', [Result, LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text {FFileTypes.Strings[i]}, StringBetween(FFileTypes.Strings[i], '(', ')')]);
     Inc(i);
     if i < FFileTypes.Count then
       Result := Format('%s'#0, [Result]);
@@ -669,7 +670,7 @@ var
 begin
   Result := '*.*|';
   for i := 0 to FFileTypes.Count - 1 do
-    Result := Format('%s%s|', [Result, Common.StringBetween(FFileTypes.Strings[i], '(', ')')]);
+    Result := Format('%s%s|', [Result, StringBetween(FFileTypes.Strings[i], '(', ')')]);
 end;
 
 { TOptionsDialog }
@@ -679,7 +680,7 @@ begin
   if FOptionsDialog = nil then
     FOptionsDialog := TOptionsDialog.Create(Sender);
   Result := FOptionsDialog;
-  StyleHooks.SetStyledFormSize(Result);
+  SetStyledFormSize(Result);
 end;
 
 procedure TOptionsDialog.FormDestroy(Sender: TObject);
@@ -810,22 +811,22 @@ begin
     Result:= False;
     Exit;
   end;
-  SelectedLanguage := Common.GetSelectedLanguage;
-  Common.UpdateLanguage(FEditorOptionsFrame, SelectedLanguage);
-  Common.UpdateLanguage(FEditorFontFrame, SelectedLanguage);
-  Common.UpdateLanguage(FEditorGutterFrame, SelectedLanguage);
-  Common.UpdateLanguage(FEditorTabsFrame, SelectedLanguage);
-  Common.UpdateLanguage(FEditorErrorCheckingFrame, SelectedLanguage);
-  Common.UpdateLanguage(FEditorOtherFrame, SelectedLanguage);
-  Common.UpdateLanguage(FFileTypesFrame, SelectedLanguage);
-  Common.UpdateLanguage(FOptionsCompareFrame, SelectedLanguage);
-  Common.UpdateLanguage(FMainMenuFrame, SelectedLanguage);
-  Common.UpdateLanguage(FToolBarFrame, SelectedLanguage);
-  Common.UpdateLanguage(FStatusBarFrame, SelectedLanguage);
-  Common.UpdateLanguage(FOptionsDirectoryFrame, SelectedLanguage);
-  Common.UpdateLanguage(FDirectoryTabsFrame, SelectedLanguage);
-  Common.UpdateLanguage(FOptionsOutputFrame, SelectedLanguage);
-  Common.UpdateLanguage(FOutputTabsFrame, SelectedLanguage);
+  SelectedLanguage := GetSelectedLanguage;
+  UpdateLanguage(FEditorOptionsFrame, SelectedLanguage);
+  UpdateLanguage(FEditorFontFrame, SelectedLanguage);
+  UpdateLanguage(FEditorGutterFrame, SelectedLanguage);
+  UpdateLanguage(FEditorTabsFrame, SelectedLanguage);
+  UpdateLanguage(FEditorErrorCheckingFrame, SelectedLanguage);
+  UpdateLanguage(FEditorOtherFrame, SelectedLanguage);
+  UpdateLanguage(FFileTypesFrame, SelectedLanguage);
+  UpdateLanguage(FOptionsCompareFrame, SelectedLanguage);
+  UpdateLanguage(FMainMenuFrame, SelectedLanguage);
+  UpdateLanguage(FToolBarFrame, SelectedLanguage);
+  UpdateLanguage(FStatusBarFrame, SelectedLanguage);
+  UpdateLanguage(FOptionsDirectoryFrame, SelectedLanguage);
+  UpdateLanguage(FDirectoryTabsFrame, SelectedLanguage);
+  UpdateLanguage(FOptionsOutputFrame, SelectedLanguage);
+  UpdateLanguage(FOutputTabsFrame, SelectedLanguage);
 
   FOptionsContainer := EditOptions;
   GetData;
@@ -899,7 +900,7 @@ begin
     FileType := Trim(Copy(LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text, 0,
       Pos('(', LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text) - 1));
     FFileTypesFrame.FileTypesListBox.Items.Add(Format('%s (%s)', [
-      FileType, Common.StringBetween(FOptionsContainer.FileTypes.Strings[i], '(', ')')]));
+      FileType, StringBetween(FOptionsContainer.FileTypes.Strings[i], '(', ')')]));
   end;
   FFileTypesFrame.FileTypesListBox.ItemIndex := 0;
   FFileTypesFrame.FileTypesListBoxClick(nil);
@@ -964,7 +965,7 @@ begin
     if FEditorFontFrame.Visible then
     begin
       FOptionsContainer.AssignTo(FEditorFontFrame.SynEdit);
-      StyleHooks.UpdateGutterAndColors(FEditorFontFrame.SynEdit);
+      UpdateGutterAndColors(FEditorFontFrame.SynEdit);
     end;
     FEditorGutterFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 1);
     FEditorTabsFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 2);
@@ -1081,7 +1082,7 @@ begin
     FileType := Trim(Copy(LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text, 0,
       Pos('(', LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text) - 1));
     FOptionsContainer.FileTypes.Add(Format('%s (%s)', [
-      FileType, Common.StringBetween(FFileTypesFrame.FileTypesListBox.Items.Strings[i], '(', ')')]));
+      FileType, StringBetween(FFileTypesFrame.FileTypesListBox.Items.Strings[i], '(', ')')]));
   end;
   { Other }
   FOptionsContainer.SQLDialect := TSQLDialect(FEditorOtherFrame.SQLDialectComboBox.ItemIndex);
@@ -1123,7 +1124,7 @@ end;
 
 procedure TOptionsDialog.ReadIniFile;
 begin
-  with TMemIniFile.Create(Common.GetINIFilename) do
+  with TMemIniFile.Create(GetINIFilename) do
   try
     { Size }
     Width := ReadInteger('OptionsSize', 'Width', Width);
@@ -1141,7 +1142,7 @@ end;
 procedure TOptionsDialog.WriteIniFile;
 begin
   if Windowstate = wsNormal then
-  with TMemIniFile.Create(Common.GetINIFilename) do
+  with TMemIniFile.Create(GetINIFilename) do
   try
     { Position }
     WriteInteger('OptionsPosition', 'Left', Left);

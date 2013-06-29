@@ -82,15 +82,13 @@ implementation
 {$R *.dfm}
 
 uses
-  System.Types, DirectoryTab, Winapi.ShellAPI, StyleHooks, Common, BigIni, Language, Options,
-  Math;
+  System.Types, DirectoryTab, Winapi.ShellAPI, BCCommon.StyleHooks, BigIni, BCCommon.Language, Options,
+  System.Math, BCCommon.Files, BCCommon.Messages, BCCommon.Dialogs;
 
 constructor TDirectoryFrame.Create(AOwner: TComponent);
 begin
   inherited;
   ReadIniFile;
-  //if not ReadIniFile then
-  //  OpenDirectory;
 end;
 
 function TDirectoryFrame.ReadIniFile: Boolean;
@@ -102,7 +100,7 @@ var
   ShowDrives, ExcludeOtherBranches: Boolean;
 begin
   LastPaths := TStringList.Create;
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TBigIniFile.Create(GetINIFilename) do
   try
     { Options }
     ReadSectionValues('LastPaths', LastPaths);
@@ -170,7 +168,7 @@ procedure TDirectoryFrame.WriteIniFile;
 var
   i: Integer;
 begin
-  with TBigIniFile.Create(Common.GetINIFilename) do
+  with TBigIniFile.Create(GetINIFilename) do
   try
     WriteInteger('Options', 'ActiveDirectoryIndex', PageControl.ActivePageIndex);
     { Options }
@@ -218,7 +216,7 @@ procedure TDirectoryFrame.CloseDirectory;
 var
   ActivePageIndex: Integer;
 begin
-  if not Common.AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('CloseDirectory'), [Trim(PageControl.ActivePage.Caption)])) then
+  if not AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('CloseDirectory'), [Trim(PageControl.ActivePage.Caption)])) then
     Exit;
   if PageControl.PageCount > 0 then
   begin
@@ -302,7 +300,7 @@ end;
 procedure TDirectoryFrame.DirectoryPropertiesActionExecute(Sender: TObject);
 begin
   if ActiveFileTreeView.SelectedCount > 0 then
-    Common.PropertiesDialog(ActiveFileTreeView.SelectedFile);
+    PropertiesDialog(ActiveFileTreeView.SelectedFile);
 end;
 
 function TDirectoryFrame.GetRootDirectory: string;

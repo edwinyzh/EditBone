@@ -89,10 +89,12 @@ object InsertTagDialog: TInsertTagDialog
       Margins.Bottom = 4
       Align = alTop
       TabOrder = 0
+      Text = ''
       OnlyNumbers = False
       NumbersWithDots = False
       NumbersWithSpots = False
       EditColor = clInfoBk
+      ErrorColor = 14803198
       NumbersAllowNegative = False
     end
   end

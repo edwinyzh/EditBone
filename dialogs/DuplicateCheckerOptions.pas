@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Dlg, Vcl.Dialogs, Vcl.ActnList, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons, JvExStdCtrls,
+  Vcl.Controls, Vcl.Forms, BCDialogs.Dlg, Vcl.Dialogs, Vcl.ActnList, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons, JvExStdCtrls,
   JvEdit, BCEdit, Vcl.Mask, JvExMask, JvSpin, System.Actions;
 
 type
@@ -79,11 +79,11 @@ implementation
 {$R *.dfm}
 
 uses
-  Common, StyleHooks, CommonDialogs,
+  BCCommon.StyleHooks, BCCommon.Dialogs, BCCommon.Messages,
 {$WARNINGS OFF}
   Vcl.FileCtrl, { warning: FileCtrl is specific to a platform }
 {$WARNINGS ON}
-  Language, Math;
+  BCCommon.Language, System.Math;
 
 var
   FDuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog;
@@ -93,7 +93,7 @@ begin
   if FDuplicateCheckerOptionsDialog = nil then
     Application.CreateForm(TDuplicateCheckerOptionsDialog, FDuplicateCheckerOptionsDialog);
   Result := FDuplicateCheckerOptionsDialog;
-  StyleHooks.SetStyledFormSize(Result);
+  SetStyledFormSize(Result);
 end;
 
 procedure TDuplicateCheckerOptionsDialog.OKActionExecute(Sender: TObject);
@@ -109,26 +109,26 @@ begin
   { Input }
   if Trim(FolderEdit.Text) = '' then
   begin
-    Common.ShowErrorMessage(LanguageDataModule.GetErrorMessage('EnterFolderName'));
+    ShowErrorMessage(LanguageDataModule.GetErrorMessage('EnterFolderName'));
     FolderEdit.SetFocus;
     Exit;
   end;
   if not System.SysUtils.DirectoryExists(FolderEdit.Text) then
   begin
-    Common.ShowErrorMessage(LanguageDataModule.GetErrorMessage('FolderDirectoryNotExist'));
+    ShowErrorMessage(LanguageDataModule.GetErrorMessage('FolderDirectoryNotExist'));
     FolderEdit.SetFocus;
     Exit;
   end;
   { Output }
   if Trim(FileEdit.Text) = '' then
   begin
-    Common.ShowErrorMessage(LanguageDataModule.GetErrorMessage('EnterFileName'));
+    ShowErrorMessage(LanguageDataModule.GetErrorMessage('EnterFileName'));
     FileEdit.SetFocus;
     Exit;
   end;
   if not System.SysUtils.DirectoryExists(ExtractFilePath(FileEdit.Text)) then
   begin
-    Common.ShowErrorMessage(LanguageDataModule.GetErrorMessage('FileDirectoryNotExist'));
+    ShowErrorMessage(LanguageDataModule.GetErrorMessage('FileDirectoryNotExist'));
     FileEdit.SetFocus;
     Exit;
   end;
@@ -144,11 +144,11 @@ procedure TDuplicateCheckerOptionsDialog.FileButtonClickActionExecute(Sender: TO
 var
   FilterIndex: Cardinal;
 begin
-  if CommonDialogs.SaveFile(Handle, '', Format('%s'#0'*.*'#0#0, [LanguageDataModule.GetConstant('AllFiles')]),
+  if BCCommon.Dialogs.SaveFile(Handle, '', Format('%s'#0'*.*'#0#0, [LanguageDataModule.GetConstant('AllFiles')]),
     LanguageDataModule.GetConstant('SaveAs'), FilterIndex) then
   begin
     Application.ProcessMessages; { style fix }
-    FileEdit.Text := CommonDialogs.Files[0];
+    FileEdit.Text := BCCommon.Dialogs.Files[0];
   end;
 end;
 

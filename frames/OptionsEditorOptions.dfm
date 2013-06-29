@@ -227,7 +227,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
         Margins.Bottom = 4
         Align = alTop
         Caption = 'Extra Lines'
-        ExplicitTop = 21
+        ExplicitWidth = 53
       end
       object BCEdit1: TBCEdit
         Left = 1
@@ -247,7 +247,6 @@ object EditorOptionsFrame: TEditorOptionsFrame
         EditColor = clInfoBk
         ErrorColor = 14803198
         NumbersAllowNegative = False
-        ExplicitTop = 38
       end
     end
   end
