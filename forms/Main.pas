@@ -351,7 +351,7 @@ implementation
 {$R *.dfm}
 
 uses
-  About, BCDialogs.FindInFiles, Vcl.ClipBrd, VirtualTrees, BigIni, BCCommon.StyleHooks, BCCommon.Files,
+  About, BCDialogs.FindInFiles, Vcl.ClipBrd, VirtualTrees, BigIni, BCCommon.StyleHooks, BCCommon.FileUtils,
   System.IOUtils, BCCommon.Language, BCDialogs.ConfirmReplace, LanguageEditor, BCControls.BCSynEdit, BCCommon.LanguageUtils,
   BCCommon.DuplicateChecker, Vcl.PlatformVclStylesActnCtrls, UnicodeCharacterMap, DuplicateCheckerOptions,
   System.Types, BCCommon.Messages, BCCommon, BCCommon.StringUtils;

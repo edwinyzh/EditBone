@@ -55,7 +55,7 @@ uses
   UnicodeCharacterMap in 'forms\UnicodeCharacterMap.pas' {UnicodeCharacterMapForm},
   BCCommon.DuplicateChecker in '..\..\Common\units\BCCommon.DuplicateChecker.pas',
   DuplicateCheckerOptions in 'dialogs\DuplicateCheckerOptions.pas' {DuplicateCheckerOptionsDialog},
-  BCCommon.Files in '..\..\Common\units\BCCommon.Files.pas',
+  BCCommon.FileUtils in '..\..\Common\units\BCCommon.FileUtils.pas',
   BCCommon.StringUtils in '..\..\Common\units\BCCommon.StringUtils.pas',
   BCCommon.LanguageUtils in '..\..\Common\units\BCCommon.LanguageUtils.pas',
   BCCommon.Messages in '..\..\Common\units\BCCommon.Messages.pas';

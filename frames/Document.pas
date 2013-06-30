@@ -443,7 +443,7 @@ uses
   BCForms.PrintPreview, BCDialogs.Replace, BCDialogs.ConfirmReplace, Lib, Options, BCCommon.StyleHooks, VirtualTrees,
   Vcl.ActnMenus, SynTokenMatch, SynHighlighterWebMisc, System.Types, Winapi.ShellAPI, System.WideStrings, System.Math,
   Main, BigIni, Vcl.GraphUtil, SynUnicode, BCCommon.Language, BCCommon.Dialogs, SynEditTextBuffer, BCCommon.Encoding,
-  InsertTag, BCCommon.LanguageUtils, BCCommon.Files, BCCommon.Messages, BCCommon, BCCommon.StringUtils;
+  InsertTag, BCCommon.LanguageUtils, BCCommon.FileUtils, BCCommon.Messages, BCCommon, BCCommon.StringUtils;
 
 { TDocumentFrame }
 

@@ -97,7 +97,7 @@ implementation
 
 uses
   System.IniFiles, BCCommon.Language, BCCommon.LanguageUtils, BCCommon.Dialogs, Vcl.Themes, Vcl.StdCtrls, Vcl.Menus,
-  BCCommon.Messages, BCCommon.Files;
+  BCCommon.Messages, BCCommon.FileUtils;
 
 const
   ShortCuts: array[0..108] of TShortCut = (

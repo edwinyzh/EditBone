@@ -41,7 +41,7 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon, BCCommon.StyleHooks, BCCommon.Files;
+  BCCommon, BCCommon.StyleHooks, BCCommon.FileUtils;
 
 var
   FAboutDialog: TAboutDialog;
@@ -81,7 +81,7 @@ var
 begin
   inherited;
   try
-    VersionLabel.Caption := Format(VersionLabel.Caption, [BCCommon.Files.GetFileVersion(Application.ExeName),
+    VersionLabel.Caption := Format(VersionLabel.Caption, [BCCommon.FileUtils.GetFileVersion(Application.ExeName),
       {$IFDEF WIN64}64{$ELSE}32{$ENDIF}]);
   except
     { silent }

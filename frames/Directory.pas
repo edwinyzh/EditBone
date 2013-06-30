@@ -83,7 +83,7 @@ implementation
 
 uses
   System.Types, DirectoryTab, Winapi.ShellAPI, BCCommon.StyleHooks, BigIni, BCCommon.Language, Options,
-  System.Math, BCCommon.Files, BCCommon.Messages, BCCommon.Dialogs;
+  System.Math, BCCommon.FileUtils, BCCommon.Messages, BCCommon.Dialogs;
 
 constructor TDirectoryFrame.Create(AOwner: TComponent);
 begin

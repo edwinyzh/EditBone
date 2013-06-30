@@ -2,14 +2,14 @@ object DirectoryFrame: TDirectoryFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 304
+  Height = 302
   Align = alClient
   TabOrder = 0
   object PageControl: TBCPageControl
     Left = 0
     Top = 0
     Width = 451
-    Height = 304
+    Height = 302
     Align = alClient
     DoubleBuffered = False
     ParentDoubleBuffered = False
@@ -20,6 +20,7 @@ object DirectoryFrame: TDirectoryFrame
     ShowCloseButton = False
     OnCloseButtonClick = PageControlCloseButtonClick
     OnDblClick = PageControlDblClick
+    ExplicitHeight = 304
   end
   object DirectoryActionList: TActionList
     Images = ImagesList
@@ -108,7 +109,7 @@ object DirectoryFrame: TDirectoryFrame
     Left = 264
     Top = 96
     Bitmap = {
-      494C010106005400600210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106005400800210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
