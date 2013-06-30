@@ -25,6 +25,7 @@ type
     Separator1MenuItem: TMenuItem;
     Separator2MenuItem: TMenuItem;
     CopytoClipboardMenuItem: TMenuItem;
+    CopyToClipboardAction: TAction;
     procedure CloseAllOtherPagesActionExecute(Sender: TObject);
     procedure OutputCloseActionExecute(Sender: TObject);
     procedure OutputCloseAllActionExecute(Sender: TObject);
@@ -34,7 +35,7 @@ type
     procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
     procedure PageControlCloseButtonClick(Sender: TObject);
     procedure PageControlDblClick(Sender: TObject);
-    procedure CopytoClipboardMenuItemClick(Sender: TObject);
+    procedure CopyToClipboardActionExecute(Sender: TObject);
   private
     { Private declarations }
     FProcessingTabSheet: Boolean;
@@ -463,6 +464,11 @@ begin
   end;
 end;
 
+procedure TOutputFrame.CopyToClipboardActionExecute(Sender: TObject);
+begin
+  CopyToClipboard;
+end;
+
 function TOutputFrame.GetIsAnyOutput: Boolean;
 begin
   Result := False;
@@ -482,11 +488,6 @@ begin
     if PageControl.PageCount > 0 then
       PageControl.ActivePageIndex := Max(ActivePageIndex - 1, 0);
   end;
-end;
-
-procedure TOutputFrame.CopytoClipboardMenuItemClick(Sender: TObject);
-begin
-  CopyToClipboard;
 end;
 
 procedure TOutputFrame.CloseAllTabSheets;

@@ -2,14 +2,14 @@ object OutputFrame: TOutputFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 304
+  Height = 302
   Align = alClient
   TabOrder = 0
   object PageControl: TBCPageControl
     Left = 0
     Top = 0
     Width = 451
-    Height = 304
+    Height = 302
     Align = alClient
     DoubleBuffered = False
     Images = ImageList
@@ -42,12 +42,17 @@ object OutputFrame: TOutputFrame
       Hint = 'Close all other pages'
       OnExecute = CloseAllOtherPagesActionExecute
     end
+    object CopyToClipboardAction: TAction
+      Caption = 'C&opy to Clipboard'
+      ImageIndex = 3
+      OnExecute = CopyToClipboardActionExecute
+    end
   end
   object ImageList: TBCImageList
     Left = 192
     Top = 48
     Bitmap = {
-      494C010104000800380210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101040008004C0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -338,9 +343,7 @@ object OutputFrame: TOutputFrame
       Caption = '-'
     end
     object CopytoClipboardMenuItem: TMenuItem
-      Caption = 'C&opy to Clipboard'
-      ImageIndex = 3
-      OnClick = CopytoClipboardMenuItemClick
+      Action = CopyToClipboardAction
     end
   end
 end
