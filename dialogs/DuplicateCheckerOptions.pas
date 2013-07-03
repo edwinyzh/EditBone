@@ -5,14 +5,14 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, BCDialogs.Dlg, Vcl.Dialogs, Vcl.ActnList, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons, JvExStdCtrls,
-  JvEdit, BCControls.BCEdit, Vcl.Mask, JvExMask, JvSpin, System.Actions;
+  JvEdit, BCControls.BCEdit, Vcl.Mask, JvExMask, JvSpin, System.Actions, BCControls.BCComboBox;
 
 type
   TDuplicateCheckerOptionsDialog = class(TDialog)
     ButtonPanel: TPanel;
     OKButton: TButton;
     CancelButton: TButton;
-    Panel1: TPanel;
+    ButtonDividerPanel: TPanel;
     ActionList: TActionList;
     OKAction: TAction;
     ExcludeOtherBranchesAction: TAction;
@@ -25,15 +25,12 @@ type
     Content2Panel: TPanel;
     OutputGroupBox: TGroupBox;
     InputLeftPanel: TPanel;
-    FolderLabel: TLabel;
     InputRightPanel: TPanel;
-    FolderEdit: TBCEdit;
-    FolderBitBtn: TBitBtn;
     OutputLeftPanel: TPanel;
     FileLabel: TLabel;
     OutputRightPanel: TPanel;
     LaunchAfterCreationCheckBox: TCheckBox;
-    Panel2: TPanel;
+    OptionsPanel: TPanel;
     OptionsLeftPanel: TPanel;
     MinBlockSizeLabel: TLabel;
     MinCharsLabel: TLabel;
@@ -41,13 +38,22 @@ type
     MinBlockSizeSpinEdit: TJvSpinEdit;
     MinCharsSpinEdit: TJvSpinEdit;
     RemoveCommentsCheckBox: TCheckBox;
-    Panel3: TPanel;
+    FileEditPanel: TPanel;
     FileEdit: TBCEdit;
     FileBitBtn: TBitBtn;
-    Panel4: TPanel;
-    Panel5: TPanel;
+    FileEditDividerPanel: TPanel;
     FolderButtonClickAction: TAction;
     FileButtonClickAction: TAction;
+    FilderEditPanel: TPanel;
+    FolderEdit: TBCEdit;
+    FolderBitBtn: TBitBtn;
+    FolderEditDividerPanel: TPanel;
+    FolderPanel: TPanel;
+    FolderLabel: TLabel;
+    FileTypePanel: TPanel;
+    FileTypeLabel: TLabel;
+    FileTypeComboPanel: TPanel;
+    FileTypeComboBox: TBCComboBox;
     procedure OKActionExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FolderButtonClickActionExecute(Sender: TObject);
@@ -55,15 +61,19 @@ type
   private
     { Private declarations }
     function CheckFields: Boolean;
+    function GetFileTypeText: string;
     function GetFolderName: string;
     function GetFileName: string;
     function GetLaunchAfterCreation: Boolean;
     function GetMinBlockSize: Byte;
     function GetMinChars: Byte;
     function GetRemoveComments: Boolean;
+    procedure SetExtensions(Value: string);
   public
     { Public declarations }
     function Open: Boolean;
+    property Extensions: string write SetExtensions;
+    property FileTypeText: string read GetFileTypeText;
     property InputFolderName: string read GetFolderName;
     property OutputFileName: string read GetFileName;
     property LaunchAfterCreation: Boolean read GetLaunchAfterCreation;
@@ -207,6 +217,27 @@ end;
 function TDuplicateCheckerOptionsDialog.GetRemoveComments: Boolean;
 begin
   Result := RemoveCommentsCheckBox.Checked;
+end;
+
+function TDuplicateCheckerOptionsDialog.GetFileTypeText: string;
+begin
+  Result := FileTypeComboBox.Text;
+end;
+
+procedure TDuplicateCheckerOptionsDialog.SetExtensions(Value: string);
+var
+  Temp: string;
+begin
+  Temp := Value;
+  with FileTypeComboBox.Items do
+  begin
+    Clear;
+    while Pos('|', Temp) <> 0 do
+    begin
+      Add(Copy(Temp, 1, Pos('|', Temp) - 1));
+      Temp := Copy(Temp, Pos('|', Temp) + 1, Length(Temp));
+    end;
+  end;
 end;
 
 end.
