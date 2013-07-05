@@ -1831,8 +1831,8 @@ begin
           FindInFiles(FindWhatText, FileTypeText, AddSlash(FolderText) + FName, SearchCaseSensitive, LookInSubfolders)
         else
         begin
-          if SupportedFileExt(UpperCase(ExtractFileExt(FName))) then
-            if (FileTypeText = '*.*') or (Pos(UpperCase(ExtractFileExt(FName)), UpperCase(FileTypeText)) <> 0) then
+          if IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) then
+            if (FileTypeText = '*.*') or IsExtInFileType(ExtractFileExt(FName), FileTypeText) then
             try
               SynEdit := TBCSynEdit.Create(nil);
               SynEdit.LoadFromFile(AddSlash(String(FolderText)) + FName);

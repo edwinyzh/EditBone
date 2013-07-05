@@ -143,6 +143,7 @@ type
     FShadows: Boolean;
     FShowXMLTree: Boolean;
     FSQLDialect: TSQLDialect;
+    FSupportedFileExts: string;
     FTabsToSpaces: Boolean;
     FTabWidth: Integer;
     FToolBarVisible: Boolean;
@@ -167,8 +168,9 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     function FileType(FileType: TFileType): string;
-    function GetFilter(FilterIndex: Cardinal): string;
+    function GetFilterExt(FilterIndex: Cardinal): string;
     function GetFilterIndex(FileExt: string): Cardinal;
+    function SupportedFileExts(Refresh: Boolean = False): string;
     procedure AssignTo(Dest: TPersistent); override;
   published
     property AnimationDuration: Integer read FAnimationDuration write FAnimationDuration;
@@ -626,9 +628,9 @@ begin
   Result := FFileTypes.Count;
 end;
 
-function TOptionsContainer.GetFilter(FilterIndex: Cardinal): string;
+function TOptionsContainer.GetFilterExt(FilterIndex: Cardinal): string;
 begin
-  { -2 because filter index is not 0-based and there's all files first }
+  { -2 because filter index is not 0-based and there's all files (in save dialog) first }
   Result := StringBetween(FFileTypes.Strings[FilterIndex - 2], '(', ')');
   Result := StringReplace(Result, '*', '', []);
   if Pos(';', Result) <> 0 then
@@ -641,7 +643,7 @@ var
 begin
   Result := 1;
   for i := 0 to FFileTypes.Count - 1 do
-    if Pos(FileExt, FFileTypes.Strings[i]) <> 0 then
+    if IsExtInFileType(FileExt, FFileTypes.Strings[i]) then
     begin
       Result := i + 2;
       Break;
@@ -656,7 +658,8 @@ begin
   i := 0;
   while i < FFileTypes.Count do
   begin
-    Result := Format('%s%s'#0'%s', [Result, LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text {FFileTypes.Strings[i]}, StringBetween(FFileTypes.Strings[i], '(', ')')]);
+    Result := Format('%s%s'#0'%s', [Result, LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text,
+      StringBetween(FFileTypes.Strings[i], '(', ')')]);
     Inc(i);
     if i < FFileTypes.Count then
       Result := Format('%s'#0, [Result]);
@@ -671,6 +674,16 @@ begin
   Result := '*.*|';
   for i := 0 to FFileTypes.Count - 1 do
     Result := Format('%s%s|', [Result, StringBetween(FFileTypes.Strings[i], '(', ')')]);
+end;
+
+function TOptionsContainer.SupportedFileExts(Refresh: Boolean): string;
+var
+  i: Integer;
+begin
+  if (FSupportedFileExts = '') or Refresh then
+    for i := 0 to FFileTypes.Count - 1 do
+      FSupportedFileExts := Format('%s%s;', [FSupportedFileExts, StringBetween(FFileTypes.Strings[i], '(', ')')]);
+  Result := FSupportedFileExts;
 end;
 
 { TOptionsDialog }
@@ -1119,6 +1132,7 @@ end;
 procedure TOptionsDialog.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
+  OptionsContainer.SupportedFileExts(True);
   WriteIniFile;
 end;
 

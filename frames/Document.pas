@@ -1235,7 +1235,7 @@ begin
         Result := BCCommon.Dialogs.Files[0];
         if ExtractFileExt(Result) = '' then
           if (FilterIndex > 1) and (FilterIndex < OptionsContainer.FilterCount) then
-            Result := Format('%s%s', [Result, OptionsContainer.GetFilter(FilterIndex)]);
+            Result := Format('%s%s', [Result, OptionsContainer.GetFilterExt(FilterIndex)]);
         TabSheet.Caption := ExtractFileName(Result);
         DocTabSheetFrame.SynEdit.DocumentName := Result;
       end
@@ -3585,22 +3585,22 @@ end;
 procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);
 
   function IsExtInFileType(Ext: string; FileType: TFileType): Boolean;
-    var
-      s, FileTypes: string;
-    begin
-      Ext := '*' + Ext;
-      FileTypes := OptionsContainer.FileType(FileType);
-      if Pos(';', FileTypes) <> 0 then
-        while Pos(';', FileTypes) <> 0 do
-        begin
-          s := System.Copy(FileTypes, 1,  Pos(';', FileTypes) - 1);
-          Result := LowerCase(Ext) = LowerCase(s);
-          if Result then
-            Exit;
-          FileTypes := System.Copy(FileTypes, Pos(';', FileTypes) + 1, Length(FileTypes));
-        end;
-      Result := LowerCase(Ext) = LowerCase(FileTypes);
-    end;
+  var
+    s, FileTypes: string;
+  begin
+    Ext := '*' + Ext;
+    FileTypes := OptionsContainer.FileType(FileType);
+    if Pos(';', FileTypes) <> 0 then
+      while Pos(';', FileTypes) <> 0 do
+      begin
+        s := System.Copy(FileTypes, 1,  Pos(';', FileTypes) - 1);
+        Result := LowerCase(Ext) = LowerCase(s);
+        if Result then
+          Exit;
+        FileTypes := System.Copy(FileTypes, Pos(';', FileTypes) + 1, Length(FileTypes));
+      end;
+    Result := LowerCase(Ext) = LowerCase(FileTypes);
+  end;
 
   procedure SetSynEdit(SynEdit: TBCSynEdit);
   var
