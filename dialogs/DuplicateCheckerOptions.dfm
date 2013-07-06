@@ -86,7 +86,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
         Align = alClient
         Caption = ' Input '
         TabOrder = 0
-        ExplicitHeight = 50
         object InputLeftPanel: TPanel
           Left = 2
           Top = 15
@@ -113,12 +112,9 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               Left = 0
               Top = 2
               Width = 30
-              Height = 22
+              Height = 13
               Align = alLeft
               Caption = 'Folder'
-              ExplicitLeft = 11
-              ExplicitTop = 6
-              ExplicitHeight = 13
             end
           end
           object FileTypePanel: TPanel
@@ -142,10 +138,9 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               Left = 0
               Top = 2
               Width = 41
-              Height = 23
+              Height = 13
               Align = alLeft
               Caption = 'File type'
-              ExplicitHeight = 13
             end
           end
         end
@@ -160,7 +155,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
           Padding.Right = 8
           Padding.Bottom = 9
           TabOrder = 1
-          ExplicitHeight = 33
           object FilderEditPanel: TPanel
             Left = 0
             Top = 3
@@ -185,7 +179,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               EditColor = clInfoBk
               ErrorColor = 14803198
               NumbersAllowNegative = False
-              ExplicitWidth = 281
             end
             object FolderBitBtn: TBitBtn
               Left = 329
@@ -373,7 +366,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
       Padding.Right = 6
       Padding.Bottom = 3
       TabOrder = 1
-      ExplicitTop = 53
       object OutputGroupBox: TGroupBox
         Left = 6
         Top = 0

@@ -126,7 +126,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="..\..\Common\units\BCCommon.Language.pas">
+        <DCCReference Include="..\..\Common\units\BCCommon.LanguageStrings.pas">
             <Form>LanguageDataModule</Form>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>

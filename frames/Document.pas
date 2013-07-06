@@ -442,7 +442,7 @@ implementation
 uses
   BCForms.PrintPreview, BCDialogs.Replace, BCDialogs.ConfirmReplace, Lib, Options, BCCommon.StyleHooks, VirtualTrees,
   Vcl.ActnMenus, SynTokenMatch, SynHighlighterWebMisc, System.Types, Winapi.ShellAPI, System.WideStrings, System.Math,
-  Main, BigIni, Vcl.GraphUtil, SynUnicode, BCCommon.Language, BCCommon.Dialogs, SynEditTextBuffer, BCCommon.Encoding,
+  Main, BigIni, Vcl.GraphUtil, SynUnicode, BCCommon.LanguageStrings, BCCommon.Dialogs, SynEditTextBuffer, BCCommon.Encoding,
   InsertTag, BCCommon.LanguageUtils, BCCommon.FileUtils, BCCommon.Messages, BCCommon, BCCommon.StringUtils;
 
 { TDocumentFrame }
@@ -950,7 +950,7 @@ begin
     SpecialChars := OptionsContainer.EnableSpecialChars;
     LineNumbers := OptionsContainer.EnableLineNumbers;
   end;
-  BCCommon.LanguageUtils.UpdateLanguage(Frame);
+  BCCommon.LanguageUtils.UpdateLanguage(TForm(Frame));
   UpdateGutterAndControls;
 end;
 
@@ -3543,7 +3543,7 @@ var
   i: Integer;
   CompareFrame: TCompareFrame;
 begin
-  BCCommon.LanguageUtils.UpdateLanguage(Self, SelectedLanguage);
+  BCCommon.LanguageUtils.UpdateLanguage(TForm(Self), SelectedLanguage);
   { compare frames }
   for i := 0 to PageControl.PageCount - 1 do
     if PageControl.Pages[i].ImageIndex = FCompareImageIndex then

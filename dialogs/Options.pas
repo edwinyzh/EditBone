@@ -260,7 +260,7 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.StyleHooks, BCCommon.Language, SynHighlighterMulti, System.IniFiles, SynEditTypes, BCCommon.StringUtils,
+  BCCommon.StyleHooks, BCCommon.LanguageStrings, SynHighlighterMulti, System.IniFiles, SynEditTypes, BCCommon.StringUtils,
   BCCommon.LanguageUtils;
 
 { TOptionsContainer }
@@ -825,21 +825,21 @@ begin
     Exit;
   end;
   SelectedLanguage := GetSelectedLanguage;
-  UpdateLanguage(FEditorOptionsFrame, SelectedLanguage);
-  UpdateLanguage(FEditorFontFrame, SelectedLanguage);
-  UpdateLanguage(FEditorGutterFrame, SelectedLanguage);
-  UpdateLanguage(FEditorTabsFrame, SelectedLanguage);
-  UpdateLanguage(FEditorErrorCheckingFrame, SelectedLanguage);
-  UpdateLanguage(FEditorOtherFrame, SelectedLanguage);
-  UpdateLanguage(FFileTypesFrame, SelectedLanguage);
-  UpdateLanguage(FOptionsCompareFrame, SelectedLanguage);
-  UpdateLanguage(FMainMenuFrame, SelectedLanguage);
-  UpdateLanguage(FToolBarFrame, SelectedLanguage);
-  UpdateLanguage(FStatusBarFrame, SelectedLanguage);
-  UpdateLanguage(FOptionsDirectoryFrame, SelectedLanguage);
-  UpdateLanguage(FDirectoryTabsFrame, SelectedLanguage);
-  UpdateLanguage(FOptionsOutputFrame, SelectedLanguage);
-  UpdateLanguage(FOutputTabsFrame, SelectedLanguage);
+  UpdateLanguage(TForm(FEditorOptionsFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FEditorFontFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FEditorGutterFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FEditorTabsFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FEditorErrorCheckingFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FEditorOtherFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FFileTypesFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FOptionsCompareFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FMainMenuFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FToolBarFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FStatusBarFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FOptionsDirectoryFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FDirectoryTabsFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FOptionsOutputFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FOutputTabsFrame), SelectedLanguage);
 
   FOptionsContainer := EditOptions;
   GetData;

@@ -318,7 +318,6 @@ type
     FOutputFrame: TOutputFrame;
     FProcessingEventHandler: Boolean;
     function GetActionClientItem(MenuItemIndex, SubMenuItemIndex: Integer): TActionClientItem;
-    function SupportedFileExt(FileExt: string): Boolean;
     procedure CreateFrames;
     procedure CreateLanguageMenu;
     procedure CreateStyleMenu;
@@ -352,7 +351,7 @@ implementation
 
 uses
   About, BCDialogs.FindInFiles, Vcl.ClipBrd, VirtualTrees, BigIni, BCCommon.StyleHooks, BCCommon.FileUtils,
-  System.IOUtils, BCCommon.Language, BCDialogs.ConfirmReplace, LanguageEditor, BCControls.BCSynEdit, BCCommon.LanguageUtils,
+  System.IOUtils, BCCommon.LanguageStrings, BCDialogs.ConfirmReplace, LanguageEditor, BCControls.BCSynEdit, BCCommon.LanguageUtils,
   BCCommon.DuplicateChecker, Vcl.PlatformVclStylesActnCtrls, UnicodeCharacterMap, DuplicateCheckerOptions,
   System.Types, BCCommon.Messages, BCCommon, BCCommon.StringUtils;
 
@@ -509,15 +508,15 @@ begin
   if SelectedLanguage = '' then
     Exit;
   { update language constants }
-  BCCommon.Language.ReadLanguageFile(SelectedLanguage);
+  BCCommon.LanguageStrings.ReadLanguageFile(SelectedLanguage);
   { update mainform }
   MainMenuTitleBarActions(True);
   UpdateLanguage(Self, SelectedLanguage);
   MainMenuTitleBarActions(False);
   { update frames }
-  UpdateLanguage(FDirectoryFrame, SelectedLanguage);
+  UpdateLanguage(TForm(FDirectoryFrame), SelectedLanguage);
   FDocumentFrame.UpdateLanguage(SelectedLanguage);
-  UpdateLanguage(FOutputFrame, SelectedLanguage);
+  UpdateLanguage(TForm(FOutputFrame), SelectedLanguage);
 end;
 
 procedure TMainForm.SelectStyleActionExecute(Sender: TObject);
@@ -1212,7 +1211,7 @@ procedure TMainForm.FormCreate(Sender: TObject);
 begin
   FOnStartUp := True;
   ActionManager.Style := PlatformVclStylesStyle;
-  BCCommon.Language.ReadLanguageFile(GetSelectedLanguage);
+  BCCommon.LanguageStrings.ReadLanguageFile(GetSelectedLanguage);
 
   CreateFrames;
   UpdateStatusBar;
@@ -1787,11 +1786,6 @@ procedure TMainForm.ViewXMLTreeActionExecute(Sender: TObject);
 begin
   ViewXMLTreeAction.Checked := FDocumentFrame.ToggleXMLTree;
   Repaint;
-end;
-
-function TMainForm.SupportedFileExt(FileExt: string): Boolean;
-begin
-  Result := Pos(FileExt, UpperCase(OptionsContainer.FileTypes.Text)) <> 0
 end;
 
 { Recursive method to find files. }

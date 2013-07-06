@@ -68,7 +68,7 @@ uses
 {$WARNINGS OFF}
   Vcl.FileCtrl, { warning: FileCtrl is specific to a platform }
 {$WARNINGS ON}
-  BCCommon.Language, BCCommon.Messages;
+  BCCommon.LanguageStrings, BCCommon.Messages;
 
 var
   FDirectoryTabDialog: TDirectoryTabDialog;

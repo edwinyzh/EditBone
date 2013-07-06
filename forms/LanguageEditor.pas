@@ -96,7 +96,7 @@ implementation
 {$R *.dfm}
 
 uses
-  System.IniFiles, BCCommon.Language, BCCommon.LanguageUtils, BCCommon.Dialogs, Vcl.Themes, Vcl.StdCtrls, Vcl.Menus,
+  System.IniFiles, BCCommon.LanguageStrings, BCCommon.LanguageUtils, BCCommon.Dialogs, Vcl.Themes, Vcl.StdCtrls, Vcl.Menus,
   BCCommon.Messages, BCCommon.FileUtils;
 
 const

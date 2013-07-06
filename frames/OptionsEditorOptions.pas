@@ -36,7 +36,7 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.Language;
+  BCCommon.LanguageStrings;
 
 constructor TEditorOptionsFrame.Create(AOwner: TComponent);
 begin

@@ -8,7 +8,7 @@ uses
   Vcl.Themes,
   Vcl.ComCtrls,
   Vcl.Styles,
-  BCCommon.Language in '..\..\Common\units\BCCommon.Language.pas' {LanguageDataModule: TDataModule},
+  BCCommon.LanguageStrings in '..\..\Common\units\BCCommon.LanguageStrings.pas' {LanguageDataModule: TDataModule},
   Directory in 'frames\Directory.pas' {DirectoryFrame: TFrame},
   Output in 'frames\Output.pas' {OutputFrame: TFrame},
   Document in 'frames\Document.pas' {DocumentFrame: TFrame},
