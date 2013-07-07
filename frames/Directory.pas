@@ -58,7 +58,6 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
-    destructor Destroy; override;
     function ActiveDrivesPanel: TPanel;
     function ActiveFileTreeView: TBCFileTreeView;
     function SelectedFile: string;
@@ -129,12 +128,6 @@ begin
   end;
 end;
 
-destructor TDirectoryFrame.Destroy;
-begin
-
-  inherited;
-end;
-
 function TDirectoryFrame.GetDirTabSheetFrame(TabSheet: TTabSheet): TDirTabSheetFrame;
 begin
   Result := nil;
@@ -151,7 +144,7 @@ begin
   Result := nil;
   DirTabSheetFrame := GetDirTabSheetFrame(PageControl.ActivePage);
   if Assigned(DirTabSheetFrame) then
-      Result := DirTabSheetFrame.DriveComboBoxPanel;
+    Result := DirTabSheetFrame.DriveComboBoxPanel;
 end;
 
 function TDirectoryFrame.GetExcludeOtherBranches: Boolean;
@@ -372,10 +365,9 @@ begin
     Exit;
 
   TabSheet := TTabSheet.Create(PageControl);
-  TabSheet.Visible := False;
   TabSheet.PageControl := PageControl;
+  TabSheet.Visible := False;
   TabSheet.ImageIndex := -1;
-
   PageControl.ActivePage := TabSheet;
 
   DirTabSheetFrame := TDirTabSheetFrame.Create(TabSheet);

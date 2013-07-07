@@ -128,8 +128,8 @@ begin
   end;
 
   TabSheet := TTabSheet.Create(PageControl);
-  TabSheet.TabVisible := False;
   TabSheet.PageControl := PageControl;
+  TabSheet.TabVisible := False;
   if TabCaption = Lib.CAPTION_ERRORS then
     TabSheet.ImageIndex := 1 { errors }
   else
