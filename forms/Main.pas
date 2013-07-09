@@ -1191,11 +1191,20 @@ begin
   WriteIniFile;
 end;
 
+procedure OutputOpenAllEvent(var FileNames: TStrings);
+var
+  i: Integer;
+begin
+  for i := 0 to FileNames.Count - 1 do
+    MainForm.FDocumentFrame.Open(FileNames.Strings[i]);
+end;
+
 procedure TMainForm.CreateFrames;
 begin
   FOutputFrame := TOutputFrame.Create(OutputPanel);
   FOutputFrame.Parent := OutputPanel;
   FOutputFrame.OnTabsheetDblClick := OutputDblClickActionExecute;
+  FOutputFrame.OnOpenAll := OutputOpenAllEvent;
 
   FDirectoryFrame := TDirectoryFrame.Create(DirectoryPanel);
   FDirectoryFrame.Parent := DirectoryPanel;

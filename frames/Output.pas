@@ -11,6 +11,8 @@ uses
   System.Actions;
 
 type
+  TOpenAllEvent = procedure(var FileNames: TStrings);
+
   TOutputFrame = class(TFrame)
     CloseAllMenuItem: TMenuItem;
     CloseAllOtherPagesAction: TAction;
@@ -26,6 +28,8 @@ type
     Separator2MenuItem: TMenuItem;
     CopytoClipboardMenuItem: TMenuItem;
     CopyToClipboardAction: TAction;
+    OpenAllMenuItem: TMenuItem;
+    OpenAllAction: TAction;
     procedure CloseAllOtherPagesActionExecute(Sender: TObject);
     procedure OutputCloseActionExecute(Sender: TObject);
     procedure OutputCloseAllActionExecute(Sender: TObject);
@@ -36,10 +40,12 @@ type
     procedure PageControlCloseButtonClick(Sender: TObject);
     procedure PageControlDblClick(Sender: TObject);
     procedure CopyToClipboardActionExecute(Sender: TObject);
+    procedure OpenAllActionExecute(Sender: TObject);
   private
     { Private declarations }
     FProcessingTabSheet: Boolean;
     FTabsheetDblClick: TNotifyEvent;
+    FOpenAll: TOpenAllEvent;
     function GetCount: Integer;
     function GetIsAnyOutput: Boolean;
     function GetIsEmpty: Boolean;
@@ -49,6 +55,7 @@ type
     procedure CloseAllTabSheets;
     procedure CopyToClipboard;
     procedure SetProcessingTabSheet(Value: Boolean);
+    procedure OpenAllFiles;
   public
     { Public declarations }
     function SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
@@ -63,6 +70,7 @@ type
     property IsAnyOutput: Boolean read GetIsAnyOutput;
     property IsEmpty: Boolean read GetIsEmpty;
     property OnTabsheetDblClick: TNotifyEvent read FTabsheetDblClick write FTabsheetDblClick;
+    property OnOpenAll: TOpenAllEvent read FOpenAll write FOpenAll;
     property ProcessingTabSheet: Boolean read FProcessingTabSheet write SetProcessingTabSheet;
   end;
 
@@ -72,6 +80,11 @@ implementation
 
 uses
   Lib, Options, BCCommon.StyleHooks, System.Math, System.UITypes, Vcl.Clipbrd;
+
+procedure TOutputFrame.OpenAllActionExecute(Sender: TObject);
+begin
+  OpenAllFiles;
+end;
 
 procedure TOutputFrame.OutputCloseActionExecute(Sender: TObject);
 begin
@@ -98,6 +111,39 @@ procedure TOutputFrame.TabsheetDblClick(Sender: TObject);
 begin
   if Assigned(FTabsheetDblClick) then
     FTabsheetDblClick(Sender);
+end;
+
+procedure TOutputFrame.OpenAllFiles;
+var
+  FileNames: TStrings;
+
+  procedure GetFileNames;
+  var
+    OutputTreeView: TVirtualDrawTree;
+    Node: PVirtualNode;
+    Data: POutputRec;
+  begin
+    OutputTreeView := GetOutputTabSheetFrame(PageControl.ActivePage).VirtualDrawTree;
+    Node := OutputTreeView.GetFirst;
+    while Assigned(Node) do
+    begin
+      Data := OutputTreeView.GetNodeData(Node);
+      FileNames.Add(Data.FileName);
+      Node := Node.NextSibling;
+    end;
+  end;
+
+begin
+  if Assigned(FOpenAll) then
+  begin
+    FileNames := TStringList.Create;
+    try
+      GetFileNames;
+      FOpenAll(FileNames);
+    finally
+      FileNames.Free;
+    end;
+  end;
 end;
 
 function TOutputFrame.TabFound(TabCaption: string): Boolean;
