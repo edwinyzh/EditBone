@@ -58,6 +58,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure FolderButtonClickActionExecute(Sender: TObject);
     procedure FileButtonClickActionExecute(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
     function CheckFields: Boolean;
@@ -175,6 +177,18 @@ end;
 function TDuplicateCheckerOptionsDialog.GetFolderName: string;
 begin
   Result := FolderEdit.Text;
+end;
+
+procedure TDuplicateCheckerOptionsDialog.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+  Action := caFree;
+end;
+
+procedure TDuplicateCheckerOptionsDialog.FormDestroy(Sender: TObject);
+begin
+  inherited;
+  FDuplicateCheckerOptionsDialog := nil;
 end;
 
 procedure TDuplicateCheckerOptionsDialog.FormShow(Sender: TObject);

@@ -260,7 +260,7 @@ begin
     if Open(dtEdit) then
     begin
       PageControl.ActivePage.Caption := TabName;
-      PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
+      PageControl.Invalidate;
       ActiveDrivesPanel.Visible := ShowDrives;
       ActiveFileTreeView.OpenPath(RootDirectory, SelectedPath, ExcludeOtherBranches);
     end;
@@ -349,7 +349,7 @@ begin
       (Pos(':\', PageControl.ActivePage.Caption) = 2) then
     begin
       PageControl.ActivePage.Caption := Format('%s:\', [DriveComboBox.Drive]);
-      PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
+      PageControl.Invalidate;
     end;
   end;
 end;
@@ -390,6 +390,7 @@ begin
     TabSheet.ImageIndex := DriveComboBox.IconIndex;
   end;
   PageControl.ActivePage.Caption := TabName;
+  PageControl.Invalidate;
   SetOptions;
   OpenPath(RootDirectory, LastPath, ExcludeOtherBranches);
   DirTabSheetFrame.Panel.Visible := True;

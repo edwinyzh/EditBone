@@ -1308,7 +1308,10 @@ procedure TDocumentFrame.Undo;
       begin
         SynEdit.Undo;
         if SynEdit.UndoList.ItemCount = 0 then
+        begin
           PageControl.ActivePage.Caption := GetActivePageCaption;
+          PageControl.Invalidate;
+        end;
       end;
   end;
 
@@ -2113,8 +2116,6 @@ begin
       end;
     end;
     UpdateGutterAndControls;
-    PageControl.MultiLine := OptionsContainer.DocMultiLine;
-    PageControl.ShowCloseButton := OptionsContainer.DocShowCloseButton;
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
     if Assigned(DocTabSheetFrame) then
       SetMainHighlighterCombo(DocTabSheetFrame.SynEdit);
@@ -2233,7 +2234,7 @@ begin
   if Pos('~', PageControl.ActivePage.Caption) = 0 then
   begin
     PageControl.ActivePage.Caption := Format('%s~', [Trim(PageControl.ActivePage.Caption)]);
-    PageControl.ShowCloseButton := OptionsContainer.DocShowCloseButton;
+    PageControl.Invalidate;
   end;
 end;
 
@@ -2817,6 +2818,7 @@ begin
               SynEdit.Modified := True;
               if Pos('~', PageControl.Pages[i].Caption) = 0 then
                 PageControl.Pages[i].Caption := Format('%s~', [Trim(PageControl.Pages[i].Caption)]);
+              PageControl.Invalidate;
             end;
           end;
         end;

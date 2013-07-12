@@ -13,6 +13,8 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
+  OnClose = FormClose
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -27,7 +29,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
     Padding.Right = 8
     Padding.Bottom = 8
     TabOrder = 0
-    ExplicitTop = 231
     object OKButton: TButton
       Left = 290
       Top = 0
@@ -66,7 +67,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitHeight = 231
     object Content1Panel: TPanel
       Left = 0
       Top = 0
@@ -97,7 +97,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
           Padding.Top = 3
           Padding.Right = 10
           TabOrder = 0
-          ExplicitHeight = 33
           object FolderPanel: TPanel
             Left = 10
             Top = 3
@@ -107,14 +106,14 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
             BevelOuter = bvNone
             Padding.Top = 2
             TabOrder = 0
-            ExplicitTop = 0
             object FolderLabel: TLabel
               Left = 0
               Top = 2
               Width = 30
-              Height = 13
+              Height = 22
               Align = alLeft
               Caption = 'Folder'
+              ExplicitHeight = 13
             end
           end
           object FileTypePanel: TPanel
@@ -131,16 +130,14 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
             BevelOuter = bvNone
             Padding.Top = 2
             TabOrder = 1
-            ExplicitLeft = 0
-            ExplicitTop = 24
-            ExplicitWidth = 50
             object FileTypeLabel: TLabel
               Left = 0
               Top = 2
               Width = 41
-              Height = 13
+              Height = 23
               Align = alLeft
               Caption = 'File type'
+              ExplicitHeight = 13
             end
           end
         end
@@ -215,7 +212,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
                 FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
                 00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
               TabOrder = 1
-              ExplicitTop = 3
             end
             object FolderEditDividerPanel: TPanel
               Left = 325
@@ -225,7 +221,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 2
-              ExplicitLeft = 333
             end
           end
           object FileTypeComboPanel: TPanel
@@ -240,8 +235,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitTop = 24
-            ExplicitWidth = 333
             object FileTypeComboBox: TBCComboBox
               Left = 0
               Top = 0
@@ -271,7 +264,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
       Padding.Right = 6
       Padding.Bottom = 3
       TabOrder = 2
-      ExplicitTop = 123
       object OptionsGroupBox: TGroupBox
         Left = 6
         Top = 0
