@@ -1686,7 +1686,7 @@ var
   DuplicateChecker: TDuplicateChecker;
 begin
   with DuplicateCheckerOptionsDialog do
-  try
+  begin
     Extensions := OptionsContainer.Extensions;
     if Open then
     begin
@@ -1699,8 +1699,6 @@ begin
         DuplicateChecker.Free;
       end;
     end;
-  finally
-    Release;
   end;
 end;
 

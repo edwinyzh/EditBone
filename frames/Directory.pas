@@ -170,7 +170,7 @@ begin
     for i := 0 to PageControl.PageCount - 1 do
     begin
       PageControl.ActivePageIndex := i;
-      WriteString('LastPaths', IntToStr(i), Format('%s;%s;%s;%s;%s', [Trim(PageControl.ActivePage.Caption),
+      WriteString('LastPaths', IntToStr(i), Format('%s;%s;%s;%s;%s', [PageControl.ActivePageCaption,
         ActiveFileTreeView.RootDirectory, SelectedPath, BoolToStr(ActiveDrivesPanel.Visible),
         BoolToStr(GetExcludeOtherBranches)]));
     end;
@@ -209,7 +209,7 @@ procedure TDirectoryFrame.CloseDirectory;
 var
   ActivePageIndex: Integer;
 begin
-  if not AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('CloseDirectory'), [Trim(PageControl.ActivePage.Caption)])) then
+  if not AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('CloseDirectory'), [PageControl.ActivePageCaption])) then
     Exit;
   if PageControl.PageCount > 0 then
   begin
@@ -253,14 +253,13 @@ procedure TDirectoryFrame.EditDirectory;
 begin
   with DirectoryTabDialog do
   begin
-    TabName := Trim(PageControl.ActivePage.Caption);
+    TabName := PageControl.ActivePageCaption;
     RootDirectory := ActiveFileTreeView.RootDirectory;
     ShowDrives := ActiveDrivesPanel.Visible;
     ExcludeOtherBranches := GetExcludeOtherBranches;
     if Open(dtEdit) then
     begin
-      PageControl.ActivePage.Caption := TabName;
-      PageControl.Invalidate;
+      PageControl.ActivePageCaption := TabName;
       ActiveDrivesPanel.Visible := ShowDrives;
       ActiveFileTreeView.OpenPath(RootDirectory, SelectedPath, ExcludeOtherBranches);
     end;
@@ -345,12 +344,9 @@ begin
   if Assigned(DriveComboBox) then
   begin
     PageControl.ActivePage.ImageIndex := DriveComboBox.IconIndex;
-    if (Length(Trim(PageControl.ActivePage.Caption)) = 3) and
-      (Pos(':\', PageControl.ActivePage.Caption) = 2) then
-    begin
-      PageControl.ActivePage.Caption := Format('%s:\', [DriveComboBox.Drive]);
-      PageControl.Invalidate;
-    end;
+    if (Length(PageControl.ActivePageCaption) = 3) and
+      (Pos(':\', PageControl.ActivePageCaption) = 2) then
+      PageControl.ActivePageCaption := Format('%s:\', [DriveComboBox.Drive]);
   end;
 end;
 
@@ -389,8 +385,7 @@ begin
     PageControl.Images := DriveComboBox.SystemIconsImageList;
     TabSheet.ImageIndex := DriveComboBox.IconIndex;
   end;
-  PageControl.ActivePage.Caption := TabName;
-  PageControl.Invalidate;
+  PageControl.ActivePageCaption := TabName;
   SetOptions;
   OpenPath(RootDirectory, LastPath, ExcludeOtherBranches);
   DirTabSheetFrame.Panel.Visible := True;

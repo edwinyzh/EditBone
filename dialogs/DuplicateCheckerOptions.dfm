@@ -13,7 +13,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
-  OnClose = FormClose
   OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96

@@ -1294,7 +1294,7 @@ end;
 
 function TDocumentFrame.GetActivePageCaption: string;
 begin
-  Result := Trim(PageControl.ActivePage.Caption);
+  Result := PageControl.ActivePageCaption;
   if Pos('~', Result) = Length(Result) then
     Result := System.Copy(Result, 0, Length(Result) - 1);
 end;
@@ -1308,10 +1308,7 @@ procedure TDocumentFrame.Undo;
       begin
         SynEdit.Undo;
         if SynEdit.UndoList.ItemCount = 0 then
-        begin
-          PageControl.ActivePage.Caption := GetActivePageCaption;
-          PageControl.Invalidate;
-        end;
+          PageControl.ActivePageCaption := GetActivePageCaption;
       end;
   end;
 
@@ -2231,11 +2228,8 @@ end;
 
 procedure TDocumentFrame.SetActivePageCaptionModified;
 begin
-  if Pos('~', PageControl.ActivePage.Caption) = 0 then
-  begin
-    PageControl.ActivePage.Caption := Format('%s~', [Trim(PageControl.ActivePage.Caption)]);
-    PageControl.Invalidate;
-  end;
+  if Pos('~', PageControl.ActivePageCaption) = 0 then
+    PageControl.ActivePageCaption := Format('%s~', [PageControl.ActivePageCaption]);
 end;
 
 procedure TDocumentFrame.SynEditOnChange(Sender: TObject);
@@ -2304,7 +2298,7 @@ begin
   Result := '';
   
   if Assigned(PageControl.ActivePage) then
-    Result := Trim(PageControl.ActivePage.Caption);
+    Result := PageControl.ActivePageCaption;
 end;
 
 function TDocumentFrame.GetActiveDocumentFound: Boolean;
@@ -2642,7 +2636,7 @@ var
     if DocTabSheetFrame.SynEdit.DocumentName <> '' then
       OutputObject.FileName := DocTabSheetFrame.SynEdit.DocumentName
     else
-      OutputObject.FileName := Trim(StringReplace(PageControl.ActivePage.Caption, '~', '', []));
+      OutputObject.FileName := StringReplace(PageControl.ActivePageCaption, '~', '', []);
     OutputObject.Ln := i + 1;
     OutputObject.Ch := SynWebBase.GetTokenPos + 1;
     OutputObject.Text := s;
