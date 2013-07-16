@@ -2086,7 +2086,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C010144005C01A00810001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010144005C01A80810001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002001000001002000000000000020
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -4486,7 +4486,7 @@ object MainForm: TMainForm
     object FileCloseAllMenuItem: TMenuItem
       Action = FileCloseAllAction
     end
-    object N1: TMenuItem
+    object Separator3MenuItem: TMenuItem
       Caption = '-'
     end
     object CloseAllOtherPages1: TMenuItem
@@ -4510,16 +4510,16 @@ object MainForm: TMainForm
     object PrintPreviewMenuItem: TMenuItem
       Action = FilePrintPreviewAction
     end
-    object N2: TMenuItem
+    object Separator4MenuItem: TMenuItem
       Caption = '-'
     end
     object SelectforCompareMenuItem: TMenuItem
       Action = ToolsSelectForCompareAction
     end
-    object N3: TMenuItem
+    object Separator5MenuItem: TMenuItem
       Caption = '-'
     end
-    object Properties1: TMenuItem
+    object PropertiesMenuItem: TMenuItem
       Action = FilePropertiesAction
     end
   end
@@ -4542,40 +4542,40 @@ object MainForm: TMainForm
   object ToolbarPopupMenu: TBCPopupMenu
     Left = 302
     Top = 76
-    object NewOpen1: TMenuItem
+    object NewOpenMenuItem: TMenuItem
       Action = PopupMenuStandardAction
     end
-    object Print1: TMenuItem
+    object Print2MenuItem: TMenuItem
       Action = PopupMenuPrintAction
     end
-    object Directory1: TMenuItem
+    object DirectoryMenuItem: TMenuItem
       Action = PopupMenuDirectoryAction
     end
-    object Indent1: TMenuItem
+    object IndentMenuItem: TMenuItem
       Action = PopupMenuIndentAction
     end
-    object Sort1: TMenuItem
+    object SortMenuItem: TMenuItem
       Action = PopupMenuSortAction
     end
-    object Case1: TMenuItem
+    object CaseMenuItem: TMenuItem
       Action = PopupMenuCaseAction
     end
-    object UndoandRedo1: TMenuItem
+    object UndoandRedoMenuItem: TMenuItem
       Action = PopupMenuCommandAction
     end
-    object Search1: TMenuItem
+    object SearchMenuItem: TMenuItem
       Action = PopupMenuSearchAction
     end
-    object Mode1: TMenuItem
+    object ModeMenuItem: TMenuItem
       Action = PopupMenuModeAction
     end
-    object ools1: TMenuItem
+    object ToolsMenuItem: TMenuItem
       Action = PopupMenuToolsAction
     end
-    object Macro1: TMenuItem
+    object MacroMenuItem: TMenuItem
       Action = PopupMenuMacroAction
     end
-    object Document1: TMenuItem
+    object DocumentMenuItem: TMenuItem
       Action = PopupMenuDocumentAction
     end
   end

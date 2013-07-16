@@ -59,9 +59,9 @@ type
   public
     { Public declarations }
     function SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
-    procedure AddTreeView(TabCaption: string; AutoExpand: Boolean = False);
-    procedure AddTreeViewLine(Text: WideString); overload;
-    procedure AddTreeViewLine(var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongWord; Text: WideString; SearchString: WideString = '');  overload;
+    function AddTreeView(TabCaption: string; AutoExpand: Boolean = False): TVirtualDrawTree;
+    //procedure AddTreeViewLine(OutputTreeView: TVirtualDrawTree; Text: WideString); overload;
+    procedure AddTreeViewLine(OutputTreeView: TVirtualDrawTree; var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongWord; Text: WideString; SearchString: WideString = ''); // overload;
     procedure Clear;
     procedure CloseTabSheet;
     procedure UpdateControls;
@@ -161,7 +161,7 @@ begin
     end;
 end;
 
-procedure TOutputFrame.AddTreeView(TabCaption: string; AutoExpand: Boolean);
+function TOutputFrame.AddTreeView(TabCaption: string; AutoExpand: Boolean): TVirtualDrawTree;
 var
   TabSheet: TTabSheet;
   OutputTabSheetFrame: TOutputTabSheetFrame;
@@ -170,6 +170,7 @@ begin
   if TabFound(TabCaption) then
   begin
     Self.Clear;
+    Result := GetOutputTabSheetFrame(PageControl.ActivePage).VirtualDrawTree;
     Exit;
   end;
 
@@ -187,25 +188,29 @@ begin
   with OutputTabSheetFrame do
   begin
     Parent := TabSheet;
-    if AutoExpand then
-      VirtualDrawTree.TreeOptions.AutoOptions := VirtualDrawTree.TreeOptions.AutoOptions + [toAutoExpand];
-    VirtualDrawTree.OnDrawNode := VirtualDrawTreeDrawNode;
-    VirtualDrawTree.OnFreeNode := VirtualDrawTreeFreeNode;
-    VirtualDrawTree.OnGetNodeWidth := VirtualDrawTreeGetNodeWidth;
-    VirtualDrawTree.OnDblClick := TabsheetDblClick;
-    VirtualDrawTree.NodeDataSize := SizeOf(TOutputRec);
+    with VirtualDrawTree do
+    begin
+      if AutoExpand then
+        TreeOptions.AutoOptions := VirtualDrawTree.TreeOptions.AutoOptions + [toAutoExpand];
+      OnDrawNode := VirtualDrawTreeDrawNode;
+      OnFreeNode := VirtualDrawTreeFreeNode;
+      OnGetNodeWidth := VirtualDrawTreeGetNodeWidth;
+      OnDblClick := TabsheetDblClick;
+      NodeDataSize := SizeOf(TOutputRec);
+    end;
+    Result := VirtualDrawTree;
   end;
   UpdateControls;
   TabSheet.TabVisible := True;
   Self.Clear;
 end;
 
-procedure TOutputFrame.AddTreeViewLine(Text: WideString);
+{procedure TOutputFrame.AddTreeViewLine(OutputTreeView: TVirtualDrawTree; Text: WideString);
 var
   Root: PVirtualNode;
 begin
-  AddTreeViewLine(Root, '', 0, 0, Text);
-end;
+  AddTreeViewLine(OutputTreeView, Root, '', 0, 0, Text);
+end; }
 
 procedure TOutputFrame.VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree;
   const PaintInfo: TVTPaintInfo);
@@ -356,14 +361,12 @@ begin
   end;
 end;
 
-procedure TOutputFrame.AddTreeViewLine(var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongWord; Text: WideString; SearchString: WideString);
+procedure TOutputFrame.AddTreeViewLine(OutputTreeView: TVirtualDrawTree; var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongWord; Text: WideString; SearchString: WideString);
 var
   Node: PVirtualNode;
   NodeData: POutputRec;
-  OutputTreeView: TVirtualDrawTree;
   s: WideString;
 begin
-  OutputTreeView := GetOutputTabSheetFrame(PageControl.ActivePage).VirtualDrawTree;
   if not Assigned(OutputTreeView) then
     Exit;
 

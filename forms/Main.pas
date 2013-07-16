@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.ActnCtrls, Vcl.ActnList, Vcl.ActnMan, Vcl.ActnMenus,
   Vcl.ToolWin, Vcl.ComCtrls, Vcl.ImgList, Vcl.ExtCtrls, SynEdit, Directory, BCControls.BCFileControl,
-  Vcl.StdCtrls, Vcl.Menus, Vcl.AppEvnts, Document, Output, Options, Lib, JvAppInst,
+  Vcl.StdCtrls, Vcl.Menus, Vcl.AppEvnts, Document, Output, Options, Lib, JvAppInst, VirtualTrees,
   JvDragDrop, BCControls.BCPopupMenu, Vcl.PlatformDefaultStyleActnCtrls, JvComponentBase, Vcl.ActnPopup,
   BCControls.BCImageList, JvExStdCtrls, JvCombobox, BCControls.BCComboBox, Vcl.Themes, System.Actions,
   JvAppEvent;
@@ -26,14 +26,14 @@ type
     ActionToolBar: TActionToolBar;
     AppInstances: TJvAppInstances;
     ApplicationEvents: TApplicationEvents;
-    Case1: TMenuItem;
+    CaseMenuItem: TMenuItem;
     ClearBookmarksAction: TAction;
     CloseAllOtherPages1: TMenuItem;
     CompareFilesAction: TAction;
     ContentPanel: TPanel;
-    Directory1: TMenuItem;
+    DirectoryMenuItem: TMenuItem;
     DirectoryPanel: TPanel;
-    Document1: TMenuItem;
+    DocumentMenuItem: TMenuItem;
     DocumentMenuAction: TAction;
     DocumentPanel: TPanel;
     DocumentPopupMenu: TBCPopupMenu;
@@ -92,8 +92,8 @@ type
     HorizontalSplitter: TSplitter;
     HTMLErrorTimer: TTimer;
     ImageList: TBCImageList;
-    Indent1: TMenuItem;
-    Macro1: TMenuItem;
+    IndentMenuItem: TMenuItem;
+    MacroMenuItem: TMenuItem;
     MacroMenuAction: TAction;
     MacroOpenAction: TAction;
     MacroPlaybackAction: TAction;
@@ -101,12 +101,12 @@ type
     MacroSaveAsAction: TAction;
     MacroStopAction: TAction;
     MainMenuPanel: TPanel;
-    Mode1: TMenuItem;
-    N1: TMenuItem;
-    N2: TMenuItem;
-    N3: TMenuItem;
-    NewOpen1: TMenuItem;
-    ools1: TMenuItem;
+    ModeMenuItem: TMenuItem;
+    Separator3MenuItem: TMenuItem;
+    Separator4MenuItem: TMenuItem;
+    Separator5MenuItem: TMenuItem;
+    NewOpenMenuItem: TMenuItem;
+    ToolsMenuItem: TMenuItem;
     OutputDblClickAction: TAction;
     OutputPanel: TPanel;
     PopupMenuCaseAction: TAction;
@@ -121,13 +121,13 @@ type
     PopupMenuSortAction: TAction;
     PopupMenuStandardAction: TAction;
     PopupMenuToolsAction: TAction;
-    Print1: TMenuItem;
+    Print2MenuItem: TMenuItem;
     PrintMenuItem: TMenuItem;
     PrintPreviewMenuItem: TMenuItem;
-    Properties1: TMenuItem;
+    PropertiesMenuItem: TMenuItem;
     SaveAsMenuItem: TMenuItem;
     SaveMenuItem: TMenuItem;
-    Search1: TMenuItem;
+    SearchMenuItem: TMenuItem;
     SearchAction: TAction;
     SearchFindInFilesAction: TAction;
     SearchFindNextAction: TAction;
@@ -139,7 +139,7 @@ type
     SelectStyleAction: TAction;
     Separator1MenuItem: TMenuItem;
     Separator2MenuItem: TMenuItem;
-    Sort1: TMenuItem;
+    SortMenuItem: TMenuItem;
     StatusBar: TStatusBar;
     ToggleBookmarkAction: TAction;
     ToggleBookmarks0Action: TAction;
@@ -160,7 +160,7 @@ type
     ToolsOptionsAction: TAction;
     ToolsSelectForCompareAction: TAction;
     ToolsWordCountAction: TAction;
-    UndoandRedo1: TMenuItem;
+    UndoandRedoMenuItem: TMenuItem;
     VerticalSplitter: TSplitter;
     ViewCloseDirectoryAction: TAction;
     ViewDirectoryAction: TAction;
@@ -321,7 +321,7 @@ type
     procedure CreateFrames;
     procedure CreateLanguageMenu;
     procedure CreateStyleMenu;
-    procedure FindInFiles(FindWhatText, FileTypeText, FolderText: string; SearchCaseSensitive, LookInSubfolders: Boolean);
+    procedure FindInFiles(OutputTreeView: TVirtualDrawTree; FindWhatText, FileTypeText, FolderText: string; SearchCaseSensitive, LookInSubfolders: Boolean);
     procedure MainMenuTitleBarActions(Enabled: Boolean);
     procedure ReadIniFile;
     procedure ReadIniOptions;
@@ -350,7 +350,7 @@ implementation
 {$R *.dfm}
 
 uses
-  About, BCDialogs.FindInFiles, Vcl.ClipBrd, VirtualTrees, BigIni, BCCommon.StyleHooks, BCCommon.FileUtils,
+  About, BCDialogs.FindInFiles, Vcl.ClipBrd, BigIni, BCCommon.StyleHooks, BCCommon.FileUtils,
   System.IOUtils, BCCommon.LanguageStrings, BCDialogs.ConfirmReplace, LanguageEditor, BCControls.BCSynEdit, BCCommon.LanguageUtils,
   BCCommon.DuplicateChecker, Vcl.PlatformVclStylesActnCtrls, UnicodeCharacterMap, DuplicateCheckerOptions,
   System.Types, BCCommon.Messages, BCCommon, BCCommon.StringUtils;
@@ -1315,6 +1315,7 @@ var
   ErrorList: TList;
   OutputObject: POutputRec;
   Root: PVirtualNode;
+  OutputTreeView: TVirtualDrawTree;
 begin
   if not OptionsContainer.HTMLErrorChecking then
     Exit;
@@ -1323,7 +1324,7 @@ begin
   ErrorList := FDocumentFrame.GetHTMLErrors;
   if Assigned(ErrorList) then
   begin
-    FOutputFrame.AddTreeView(CAPTION_ERRORS, True);
+    OutputTreeView := FOutputFrame.AddTreeView(CAPTION_ERRORS, True);
     FOutputFrame.ProcessingTabSheet := True;
     FOutputFrame.Clear;
     if ErrorList.Count > 0 then
@@ -1332,7 +1333,7 @@ begin
       for i := 0 to ErrorList.Count - 1 do
       begin
         OutputObject := ErrorList.Items[i];
-        FOutputFrame.AddTreeViewLine(Root, OutputObject.FileName, OutputObject.Ln, OutputObject.Ch,
+        FOutputFrame.AddTreeViewLine(OutputTreeView, Root, OutputObject.FileName, OutputObject.Ln, OutputObject.Ch,
           String(OutputObject.Text));
       end;
       OutputPanel.Visible := True;
@@ -1519,6 +1520,7 @@ var
   SynEdit: TBCSynEdit;
   Min, Secs: Integer;
   TimeDifference: string;
+  OutputTreeView: TVirtualDrawTree;
 begin
   with FindInFilesDialog do
   begin
@@ -1536,10 +1538,10 @@ begin
       Screen.Cursor := crHourGlass;
       try
         OutputPanel.Visible := True;
-        FOutputFrame.AddTreeView(Format(LanguageDataModule.GetConstant('SearchFor'), [FindWhatText]));
+        OutputTreeView := FOutputFrame.AddTreeView(Format(LanguageDataModule.GetConstant('SearchFor'), [FindWhatText]));
         FOutputFrame.ProcessingTabSheet := True;
         Application.ProcessMessages;
-        FindInFiles(FindWhatText, FileTypeText, FolderText, SearchCaseSensitive, LookInSubfolders);
+        FindInFiles(OutputTreeView, FindWhatText, FileTypeText, FolderText, SearchCaseSensitive, LookInSubfolders);
       finally
         T2 := Now;
         if not FOutputFrame.IsEmpty then
@@ -1796,7 +1798,7 @@ begin
 end;
 
 { Recursive method to find files. }
-procedure TMainForm.FindInFiles(FindWhatText, FileTypeText, FolderText: String; SearchCaseSensitive, LookInSubfolders: Boolean);
+procedure TMainForm.FindInFiles(OutputTreeView: TVirtualDrawTree; FindWhatText, FileTypeText, FolderText: String; SearchCaseSensitive, LookInSubfolders: Boolean);
 var
   shFindFile: THandle;
   sWin32FD: TWin32FindData;
@@ -1829,7 +1831,7 @@ begin
       if (FName <> '.') and (FName <> '..') then
       begin
         if LookInSubfolders and IsDirectory(sWin32FD) then
-          FindInFiles(FindWhatText, FileTypeText, AddSlash(FolderText) + FName, SearchCaseSensitive, LookInSubfolders)
+          FindInFiles(OutputTreeView, FindWhatText, FileTypeText, AddSlash(FolderText) + FName, SearchCaseSensitive, LookInSubfolders)
         else
         begin
           if IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) then
@@ -1856,7 +1858,7 @@ begin
                     begin
                       Found := True;
                       ChPos := ChPos + Ch;
-                      FOutputFrame.AddTreeViewLine(Root, AddSlash(FolderText) + FName, Ln + 1, ChPos, Line, FindWhatText);
+                      FOutputFrame.AddTreeViewLine(OutputTreeView, Root, AddSlash(FolderText) + FName, Ln + 1, ChPos, Line, FindWhatText);
                       S := Copy(S, Ch + LongWord(Length(FindWhatText)), Length(S));
                       ChPos := ChPos + LongWord(Length(FindWhatText)) - 1;
                     end
