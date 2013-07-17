@@ -4,8 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin, BCControls.BCToolBar,
-  Vcl.ExtCtrls, Vcl.ImgList, BCControls.BCImageList, VirtualTrees, Vcl.AppEvnts, BCControls.BCEdit, System.Actions;
+  Vcl.Controls, Vcl.Forms, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin, BCControls.ToolBar,
+  Vcl.ExtCtrls, Vcl.ImgList, BCControls.ImageList, VirtualTrees, Vcl.AppEvnts, BCControls.Edit, System.Actions;
 
 type
   TValueType = (vtString, vtPickString);

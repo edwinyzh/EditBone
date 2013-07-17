@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, BCDialogs.Dlg, Vcl.Dialogs, Vcl.ActnList, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons, JvExStdCtrls,
-  JvEdit, BCControls.BCEdit, Vcl.Mask, JvExMask, JvSpin, System.Actions, BCControls.BCComboBox;
+  JvEdit, BCControls.Edit, Vcl.Mask, JvExMask, JvSpin, System.Actions, BCControls.ComboBox;
 
 type
   TDuplicateCheckerOptionsDialog = class(TDialog)

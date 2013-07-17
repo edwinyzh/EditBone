@@ -55,7 +55,7 @@ implementation
 {$R *.dfm}
 
 uses
-  IniFiles, BCControls.BCSynEdit, SynEditKeyCmds, BCCommon.FileUtils;
+  IniFiles, BCControls.SynEdit, SynEditKeyCmds, BCCommon.FileUtils;
 
 var
   FUnicodeCharacterMapForm: TUnicodeCharacterMapForm;

@@ -5,10 +5,10 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.ActnCtrls, Vcl.ActnList, Vcl.ActnMan, Vcl.ActnMenus,
-  Vcl.ToolWin, Vcl.ComCtrls, Vcl.ImgList, Vcl.ExtCtrls, SynEdit, Directory, BCControls.BCFileControl,
+  Vcl.ToolWin, Vcl.ComCtrls, Vcl.ImgList, Vcl.ExtCtrls, SynEdit, Directory, BCControls.FileControl,
   Vcl.StdCtrls, Vcl.Menus, Vcl.AppEvnts, Document, Output, Options, Lib, JvAppInst, VirtualTrees,
-  JvDragDrop, BCControls.BCPopupMenu, Vcl.PlatformDefaultStyleActnCtrls, JvComponentBase, Vcl.ActnPopup,
-  BCControls.BCImageList, JvExStdCtrls, JvCombobox, BCControls.BCComboBox, Vcl.Themes, System.Actions,
+  JvDragDrop, BCControls.PopupMenu, Vcl.PlatformDefaultStyleActnCtrls, JvComponentBase, Vcl.ActnPopup,
+  BCControls.ImageList, JvExStdCtrls, JvCombobox, BCControls.ComboBox, Vcl.Themes, System.Actions,
   JvAppEvent;
 
 const
@@ -351,7 +351,7 @@ implementation
 
 uses
   About, BCDialogs.FindInFiles, Vcl.ClipBrd, BigIni, BCCommon.StyleHooks, BCCommon.FileUtils,
-  System.IOUtils, BCCommon.LanguageStrings, BCDialogs.ConfirmReplace, LanguageEditor, BCControls.BCSynEdit, BCCommon.LanguageUtils,
+  System.IOUtils, BCCommon.LanguageStrings, BCDialogs.ConfirmReplace, LanguageEditor, BCControls.SynEdit, BCCommon.LanguageUtils,
   BCCommon.DuplicateChecker, Vcl.PlatformVclStylesActnCtrls, UnicodeCharacterMap, DuplicateCheckerOptions,
   System.Types, BCCommon.Messages, BCCommon, BCCommon.StringUtils;
 

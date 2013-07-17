@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, BCDialogs.Dlg, Vcl.StdCtrls, JvExStdCtrls, JvEdit, BCControls.BCEdit, Vcl.ExtCtrls;
+  Vcl.Controls, BCDialogs.Dlg, Vcl.StdCtrls, JvExStdCtrls, JvEdit, BCControls.Edit, Vcl.ExtCtrls;
 
 type
   TInsertTagDialog = class(TDialog)
