@@ -214,14 +214,13 @@ begin
   if PageControl.PageCount > 0 then
   begin
     ActivePageIndex := PageControl.ActivePageIndex;
-    PageControl.ActivePage.Destroy;
+    PageControl.ActivePage.Free;
     if PageControl.PageCount > 0 then
       PageControl.ActivePageIndex := Max(ActivePageIndex - 1, 0);
   end;
   { for some reason Destroy method will lose the Images property even there are still pages... }
   if PageControl.PageCount > 0 then
     PageControl.Images := ActiveDriveComboBox.SystemIconsImageList;
-  Application.ProcessMessages;
 end;
 
 function TDirectoryFrame.SelectedFile: string;

@@ -698,13 +698,13 @@ begin
   else
     TabSheet.ImageIndex := FNewImageIndex;
 
+  PageControl.ActivePage := TabSheet;
+
   { set the Caption property }
   if FileName = '' then
-    TabSheet.Caption := LanguageDataModule.GetConstant('Document') + IntToStr(FNumberOfNewDocument)
+    PageControl.ActivePageCaption := LanguageDataModule.GetConstant('Document') + IntToStr(FNumberOfNewDocument)
   else
-    TabSheet.Caption := ExtractFileName(FileName);
-
-  PageControl.ActivePage := TabSheet;
+    PageControl.ActivePageCaption := ExtractFileName(FileName);
 
   DocTabSheetFrame := TDocTabSheetFrame.Create(TabSheet);
   with DocTabSheetFrame do
@@ -746,7 +746,6 @@ begin
     if XMLTreeVisible then
       LoadFromXML(SynEdit.Text);
 
-    UpdateGutterAndControls;
     { reduce flickering by setting width & height }
     SynEdit.Width := 0;
     SynEdit.Height := 0;
@@ -758,6 +757,7 @@ begin
     SetMainEncodingCombo(SynEdit);
     Result := SynEdit;
   end;
+  UpdateGutterAndColors(DocTabSheetFrame);
 end;
 
 procedure TDocumentFrame.UpdateHighlighterColors;
@@ -951,7 +951,6 @@ begin
     LineNumbers := OptionsContainer.EnableLineNumbers;
   end;
   BCCommon.LanguageUtils.UpdateLanguage(TForm(Frame));
-  UpdateGutterAndControls;
 end;
 
 procedure TDocumentFrame.SelectForCompare;
@@ -1126,7 +1125,7 @@ begin
   begin
     ActivePageIndex := PageControl.ActivePageIndex;
     if PageControl.PageCount > 0 then
-      PageControl.ActivePage.Destroy;
+      PageControl.ActivePage.Free;
     if PageControl.PageCount > 0 then
       PageControl.ActivePageIndex := Max(ActivePageIndex - 1, 0);
     if PageControl.PageCount = 0 then
@@ -1153,7 +1152,7 @@ begin
   if CloseDocuments and (Rslt <> mrCancel) then
   begin
     while PageControl.PageCount > 0 do
-      PageControl.ActivePage.Destroy;
+      PageControl.ActivePage.Free;
     FNumberOfNewDocument := 0;
   end;
 
@@ -1193,7 +1192,7 @@ begin
       if PageControl.ActivePage.Tag = 1 then
         PageControl.ActivePage := PageControl.Pages[PageControl.ActivePageIndex + 1]
       else
-        PageControl.ActivePage.Destroy;
+        PageControl.ActivePage.Free;
 
     PageControl.ActivePage.Tag := 0; { important! }
 
@@ -1258,11 +1257,10 @@ begin
       if Pos('~', AFileName) = Length(AFileName) then
         AFileName := System.Copy(AFileName, 0, Length(AFileName) - 1);
       TabSheet.Caption := AFileName;
-
+      PageControl.UpdatePageCaption(TabSheet);
       SelectHighlighter(DocTabSheetFrame, DocumentName);
       SetMainHighlighterCombo(DocTabSheetFrame.SynEdit);
     end;
-    UpdateGutterAndControls;
   end;
 end;
 
@@ -1315,7 +1313,6 @@ procedure TDocumentFrame.Undo;
 begin
   Undo(GetActiveSynEdit);
   Undo(GetActiveSplitSynEdit);
-  UpdateGutterAndControls;
 end;
 
 procedure TDocumentFrame.Redo;
@@ -1330,7 +1327,6 @@ procedure TDocumentFrame.Redo;
 begin
   Redo(GetActiveSynEdit);
   Redo(GetActiveSplitSynEdit);
-  UpdateGutterAndControls;
 end;
 
 procedure TDocumentFrame.Cut;
@@ -3522,8 +3518,6 @@ begin
         DocTabSheetFrame.SplitSynEdit.Text := ASynEdit.Text;
         SelectHighlighter(DocTabSheetFrame, FileName);
       end;
-      UpdateGutterAndControls;
-      Application.ProcessMessages;
     end;
     DocTabSheetFrame.SplitVisible := SplitVisible;
   end;

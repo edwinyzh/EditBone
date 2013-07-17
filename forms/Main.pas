@@ -1234,8 +1234,8 @@ end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
 begin
-  FDocumentFrame.Destroy;
-  FDirectoryFrame.Destroy;
+  FDocumentFrame.Free;
+  FDirectoryFrame.Free;
 end;
 
 procedure TMainForm.FormKeyDown(Sender: TObject; var Key: Word;
