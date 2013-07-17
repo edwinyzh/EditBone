@@ -41,6 +41,7 @@ type
     procedure SetXMLTreeVisible(Value: Boolean);
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent); override;
     procedure LoadFromXML(XML: string);
     property SplitVisible: Boolean read GetSplitVisible write SetSplitVisible;
     property XMLTreeVisible: Boolean read GetXMLTreeVisible write SetXMLTreeVisible;
@@ -51,7 +52,13 @@ implementation
 {$R *.dfm}
 
 uses
-  Vcl.Themes, Options;
+  Vcl.Themes, Options, BCCommon.StyleHooks;
+
+constructor TDocTabSheetFrame.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Panel.Padding.Right := GetRightPadding;
+end;
 
 function TDocTabSheetFrame.GetXMLTreeVisible: Boolean;
 begin

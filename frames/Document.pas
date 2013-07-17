@@ -833,8 +833,6 @@ var
   i, Right: Integer;
   DocTabSheetFrame: TDocTabSheetFrame;
   CompareFrame: TCompareFrame;
-  LStyles: TCustomStyleServices;
-  PanelColor: TColor;
 begin
   PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
   PageControl.MultiLine := OptionsContainer.DocMultiLine;
@@ -843,18 +841,8 @@ begin
     PageControl.Images := FImages
   else
     PageControl.Images := nil;
-  LStyles := StyleServices;
-  PanelColor := clNone;
-  if LStyles.Enabled then
-    PanelColor := LStyles.GetStyleColor(scPanel);
-  if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
-    Right := 3
-  else
-  if LStyles.Enabled and
-    (GetRValue(PanelColor) + GetGValue(PanelColor) + GetBValue(PanelColor) > 500) then
-    Right := 2
-  else
-    Right := 1;
+
+  Right := GetRightPadding;
   for i := 0 to PageControl.PageCount - 1 do
   begin
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
@@ -938,6 +926,7 @@ begin
   TabSheet.PageControl := PageControl;
   TabSheet.ImageIndex := FCompareImageIndex;
   TabSheet.Caption := LanguageDataModule.GetConstant('CompareFiles');
+  PageControl.UpdatePageCaption(TabSheet);
   PageControl.ActivePage := TabSheet;
   { create a compare frame }
   Frame := TCompareFrame.Create(TabSheet);
