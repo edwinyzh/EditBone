@@ -702,8 +702,7 @@ begin
     Data := VirtualDrawTree.GetNodeData(Node);
 
     FileName := FLanguageFileName;
-    if Pos('~', FileName) = Length(FileName) then
-      FileName := System.Copy(FileName, 0, Length(FileName) - 1);
+    FileName := FormatFileName(FileName);
 
     StringList := TStringList.Create;
     with TMemIniFile.Create(FileName, TEncoding.Unicode) do

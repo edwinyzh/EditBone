@@ -296,6 +296,7 @@ type
     FNumberOfNewDocument: Integer;
     FSelectedText: UnicodeString;
     FImages: TBCImageList;
+    FProcessing: Boolean;
     function CanFindNextPrevious: Boolean;
     function CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
     function FindHtmlVersion(FileName: string): TSynWebHtmlVersion;
@@ -429,6 +430,7 @@ type
     property CanUndo: Boolean read GetCanUndo;
     property OpenTabSheetCount: Integer read GetOpenTabSheetCount;
     property OpenTabSheets: Boolean read GetOpenTabSheets;
+    property Processing: Boolean read FProcessing;
     property SelectionFound: Boolean read GetSelectionFound;
     property SelectionModeChecked: Boolean read GetSelectionModeChecked;
     property SplitChecked: Boolean read GetSplitChecked;
@@ -458,6 +460,7 @@ begin
   FNumberOfNewDocument := 0;
   FCaseCycle := 0;
   FSelectedText := '';
+  FProcessing := False;
   FHTMLErrorList := TList.Create;
 
   { IDE can lose these, if the main form is not open }
@@ -1043,6 +1046,7 @@ var
   i: Integer;
   SynEdit: TBCSynEdit;
 begin
+  FProcessing := True;
   if FileName = '' then
   begin
     if BCCommon.Dialogs.OpenFiles(Handle, '', OptionsContainer.Filters, LanguageDataModule.GetConstant('Open')) then
@@ -1077,6 +1081,7 @@ begin
       end;
     end;
   end;
+  FProcessing := False;
 end;
 
 Function enumchildproc( ctrl: HWND; list: TStrings ): Bool; stdcall;
@@ -1209,8 +1214,7 @@ begin
       if DocTabSheetFrame.SynEdit.DocumentName = '' then
       begin
         AFileName := Trim(TabSheet.Caption);
-        if Pos('~', AFileName) = Length(AFileName) then
-          AFileName := System.Copy(AFileName, 0, Length(AFileName) - 1);
+        AFileName := FormatFileName(AFileName);
       end
       else
         AFileName := ExtractFileName(DocTabSheetFrame.SynEdit.DocumentName);
@@ -1243,8 +1247,7 @@ begin
       TabSheet.ImageIndex := GetImageIndex(DocumentName);
 
       AFileName := Trim(TabSheet.Caption);
-      if Pos('~', AFileName) = Length(AFileName) then
-        AFileName := System.Copy(AFileName, 0, Length(AFileName) - 1);
+      AFileName := FormatFileName(AFileName);
       TabSheet.Caption := AFileName;
       PageControl.UpdatePageCaption(TabSheet);
       SelectHighlighter(DocTabSheetFrame, DocumentName);
@@ -1281,9 +1284,7 @@ end;
 
 function TDocumentFrame.GetActivePageCaption: string;
 begin
-  Result := PageControl.ActivePageCaption;
-  if Pos('~', Result) = Length(Result) then
-    Result := System.Copy(Result, 0, Length(Result) - 1);
+  Result := FormatFileName(PageControl.ActivePageCaption);
 end;
 
 procedure TDocumentFrame.Undo;
@@ -1616,7 +1617,7 @@ procedure TDocumentFrame.Replace;
 var
   SynSearchOptions: TSynSearchOptions;
   SynEdit: TBCSynEdit;
-  i, page, MResult: Integer;
+  i, MResult: Integer;
 begin
   with ReplaceDialog do
   begin
@@ -1638,18 +1639,22 @@ begin
       end
       else
       begin
-        page := PageControl.ActivePageIndex;
+        FProcessing := True;
+        Screen.Cursor := crHourGlass;
         for i := 0 to PageControl.PageCount - 1 do
         begin
-          PageControl.ActivePageIndex := i;
-          SynEdit := GetActiveSynEdit;
+          SynEdit := GetSynEdit(PageControl.Pages[i]);
           if Assigned(SynEdit) then
           begin
             SynEdit.CaretXY := BufferCoord(0, 0);
             SynEdit.SearchReplace(SearchText, ReplaceText, SynSearchOptions);
+
+            PageControl.Pages[i].Caption := FormatFileName(PageControl.Pages[i].Caption, SynEdit.Modified);
+            PageControl.UpdatePageCaption(PageControl.Pages[i]);
           end;
         end;
-        PageControl.ActivePageIndex := page;
+        Screen.Cursor := crDefault;
+        FProcessing := False;
       end;
     end;
   end;
@@ -2213,8 +2218,7 @@ end;
 
 procedure TDocumentFrame.SetActivePageCaptionModified;
 begin
-  if Pos('~', PageControl.ActivePageCaption) = 0 then
-    PageControl.ActivePageCaption := Format('%s~', [PageControl.ActivePageCaption]);
+  PageControl.ActivePageCaption := FormatFileName(PageControl.ActivePageCaption, True);
 end;
 
 procedure TDocumentFrame.SynEditOnChange(Sender: TObject);
@@ -2227,6 +2231,7 @@ begin
   if OptionsContainer.AutoSave then
     Save
   else
+  if not FProcessing then
     SetActivePageCaptionModified;
 
   if MainForm.ViewSplitAction.Checked then
@@ -2310,11 +2315,7 @@ begin
     SynEdit := GetActiveSynEdit;
     if Assigned(SynEdit) then
       if SynEdit.DocumentName <> '' then
-      begin
-        Result := SynEdit.DocumentName;
-        if SynEdit.Modified then
-          Result := Format('%s~', [Result]);
-      end
+        Result := FormatFileName(SynEdit.DocumentName, SynEdit.Modified);
   end;
 end;
 
@@ -2621,7 +2622,7 @@ var
     if DocTabSheetFrame.SynEdit.DocumentName <> '' then
       OutputObject.FileName := DocTabSheetFrame.SynEdit.DocumentName
     else
-      OutputObject.FileName := StringReplace(PageControl.ActivePageCaption, '~', '', []);
+      OutputObject.FileName := FormatFileName(PageControl.ActivePageCaption);
     OutputObject.Ln := i + 1;
     OutputObject.Ch := SynWebBase.GetTokenPos + 1;
     OutputObject.Text := s;
@@ -2687,6 +2688,7 @@ begin
   if OptionsContainer.AutoSave then
     Save
   else
+  if not FProcessing then
     SetActivePageCaptionModified;
 
   FHTMLDocumentChanged := True;
@@ -2795,8 +2797,7 @@ begin
             else
             begin
               SynEdit.Modified := True;
-              if Pos('~', PageControl.Pages[i].Caption) = 0 then
-                PageControl.Pages[i].Caption := Format('%s~', [Trim(PageControl.Pages[i].Caption)]);
+              PageControl.Pages[i].Caption := FormatFileName(PageControl.Pages[i].Caption, SynEdit.Modified);
               PageControl.Invalidate;
             end;
           end;

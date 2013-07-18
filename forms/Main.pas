@@ -865,6 +865,8 @@ begin
     Exit;
   if not Assigned(FDocumentFrame) then
     Exit;
+  if FDocumentFrame.Processing then
+    Exit;
   SetFields;
 end;
 
