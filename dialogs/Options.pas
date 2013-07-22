@@ -1208,13 +1208,9 @@ begin
 end;
 
 procedure TOptionsDialog.FormShow(Sender: TObject);
-var
-  Node: PVirtualNode;
 begin
   inherited;
-  Node := OptionsVirtualStringTree.GetFirstSelected;
   CreateTree;
-  OptionsVirtualStringTree.Selected[Node] := True;
   SetVisibleFrame;
 end;
 
