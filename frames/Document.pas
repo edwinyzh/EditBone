@@ -1084,20 +1084,6 @@ begin
   FProcessing := False;
 end;
 
-Function enumchildproc( ctrl: HWND; list: TStrings ): Bool; stdcall;
-Var
-  buf: Array [0..80] of Char;
-  id : Integer;
-  caption: array [0..80] of Char;
-Begin
-  result := True;
-  getClassname( ctrl, buf, 80 );
-  id := getdlgCtrlid( ctrl );
-  getwindowtext( ctrl, caption, 80 );
-  list.add( format('Class: <%s>, id: <%d>, caption: <%s>',
-                   [buf, id, caption] ));
-end;
-
 procedure TDocumentFrame.Close;
 var
   ActivePageIndex: Integer;
