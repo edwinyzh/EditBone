@@ -90,6 +90,7 @@ type
     FAnimationStyle: TAnimationStyle;
     FAutoIndent: Boolean;
     FAutoSave: Boolean;
+    FUndoAfterSave: Boolean;
     FColorBrightness: Integer;
     FCPASHighlighter: TCPASHighlighter;
     FCSSVersion: TSynWebCssVersion;
@@ -177,6 +178,7 @@ type
     property AnimationStyle: TAnimationStyle read FAnimationStyle write FAnimationStyle;
     property AutoIndent: Boolean read FAutoIndent write FAutoIndent;
     property AutoSave: Boolean read FAutoSave write FAutoSave;
+    property UndoAfterSave: Boolean read FUndoAfterSave write FUndoAfterSave;
     property ColorBrightness: Integer read FColorBrightness write FColorBrightness;
     property CPASHighlighter: TCPASHighlighter read FCPASHighlighter write FCPASHighlighter;
     property CSSVersion: TSynWebCssVersion read FCSSVersion write FCSSVersion;
@@ -550,7 +552,8 @@ var
 begin
   inherited;
   FAutoIndent := True;
-  FAutoSave := True;
+  FAutoSave := False;
+  FUndoAfterSave := False;
   FTrimTrailingSpaces := True;
   FScrollPastEof := False;
   FScrollPastEol := True;
@@ -857,6 +860,7 @@ begin
   { Options }
   FEditorOptionsFrame.AutoIndentCheckBox.Checked := FOptionsContainer.AutoIndent;
   FEditorOptionsFrame.AutoSaveCheckBox.Checked := FOptionsContainer.AutoSave;
+  FEditorOptionsFrame.UndoAfterSaveCheckBox.Checked := FOptionsContainer.UndoAfterSave;
   FEditorOptionsFrame.TrimTrailingSpacesCheckBox.Checked := FOptionsContainer.TrimTrailingSpaces;
   FEditorOptionsFrame.ScrollPastEofCheckBox.Checked := FOptionsContainer.ScrollPastEof;
   FEditorOptionsFrame.ScrollPastEolCheckBox.Checked := FOptionsContainer.ScrollPastEol;
@@ -1042,6 +1046,7 @@ begin
   { Options }
   FOptionsContainer.AutoIndent := FEditorOptionsFrame.AutoIndentCheckBox.Checked;
   FOptionsContainer.AutoSave := FEditorOptionsFrame.AutoSaveCheckBox.Checked;
+  FOptionsContainer.UndoAfterSave := FEditorOptionsFrame.UndoAfterSaveCheckBox.Checked;
   FOptionsContainer.TrimTrailingSpaces := FEditorOptionsFrame.TrimTrailingSpacesCheckBox.Checked;
   FOptionsContainer.ScrollPastEof := FEditorOptionsFrame.ScrollPastEofCheckBox.Checked;
   FOptionsContainer.ScrollPastEol := FEditorOptionsFrame.ScrollPastEolCheckBox.Checked;

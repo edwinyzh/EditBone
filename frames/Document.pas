@@ -1227,7 +1227,8 @@ begin
     with DocTabSheetFrame.SynEdit do
     begin
       SaveToFile(DocumentName);
-      UndoList.Clear;
+      if not OptionsContainer.UndoAfterSave then
+        UndoList.Clear;
       FileDateTime := GetFileDateTime(DocumentName);
       Modified := False;
       TabSheet.ImageIndex := GetImageIndex(DocumentName);
@@ -1836,6 +1837,7 @@ begin
     OptionsContainer.HtmlVersion := TSynWebHtmlVersion(StrToInt(ReadString('Options', 'HTMLVersion', '4'))); { default: HTML5 }
     OptionsContainer.AutoIndent := ReadBool('Options', 'AutoIndent', True);
     OptionsContainer.AutoSave := ReadBool('Options', 'AutoSave', False);
+    OptionsContainer.UndoAfterSave := ReadBool('Options', 'UnfoAfterSave', False);
     OptionsContainer.TrimTrailingSpaces := ReadBool('Options', 'TrimTrailingSpaces', True);
     OptionsContainer.ScrollPastEof := ReadBool('Options', 'ScrollPastEof', False);
     OptionsContainer.ScrollPastEol := ReadBool('Options', 'ScrollPastEol', True);
@@ -1983,6 +1985,7 @@ begin
     WriteString('Options', 'HTMLVersion', IntToStr(Ord(OptionsContainer.HtmlVersion)));
     WriteBool('Options', 'AutoIndent', OptionsContainer.AutoIndent);
     WriteBool('Options', 'AutoSave', OptionsContainer.AutoSave);
+    WriteBool('Options', 'UndoAfterSave', OptionsContainer.UndoAfterSave);
     WriteBool('Options', 'TrimTrailingSpaces', OptionsContainer.TrimTrailingSpaces);
     WriteBool('Options', 'ScrollPastEof', OptionsContainer.ScrollPastEof);
     WriteBool('Options', 'ScrollPastEol', OptionsContainer.ScrollPastEol);

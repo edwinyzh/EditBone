@@ -3,12 +3,12 @@
         <ProjectGuid>{E3B818CC-5E75-4FBB-9706-6F94F69C4127}</ProjectGuid>
         <ProjectVersion>14.6</ProjectVersion>
         <MainSource>EditBone.dpr</MainSource>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
         <Base>True</Base>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>
-        <Platform Condition="'$(Platform)'==''">Win64</Platform>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -203,92 +203,74 @@
         </DCCReference>
         <DCCReference Include="frames\OptionsEditorOptions.pas">
             <Form>EditorOptionsFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsEditorErrorChecking.pas">
             <Form>EditorErrorCheckingFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsEditorOther.pas">
             <Form>EditorOtherFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsEditorFont.pas">
             <Form>EditorFontFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsEditorGutter.pas">
             <Form>EditorGutterFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsEditorTabs.pas">
             <Form>EditorTabsFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsFileTypes.pas">
             <Form>FileTypesFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsMainMenu.pas">
             <Form>MainMenuFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsCompare.pas">
             <Form>OptionsCompareFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsDirectoryTabs.pas">
             <Form>DirectoryTabsFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsOutputTabs.pas">
             <Form>OutputTabsFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\units\Vcl.PlatformVclStylesActnCtrls.pas"/>
         <DCCReference Include="frames\OptionsDirectory.pas">
             <Form>OptionsDirectoryFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsStatusBar.pas">
             <Form>StatusBarFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsOutput.pas">
             <Form>OptionsOutputFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="dialogs\InsertTag.pas">
             <Form>InsertTagDialog</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="frames\OptionsToolBar.pas">
             <Form>ToolBarFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="forms\UnicodeCharacterMap.pas">
             <Form>UnicodeCharacterMapForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\..\Common\units\BCCommon.DuplicateChecker.pas"/>
         <DCCReference Include="dialogs\DuplicateCheckerOptions.pas">
             <Form>DuplicateCheckerOptionsDialog</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\..\Common\units\BCCommon.FileUtils.pas"/>
         <DCCReference Include="..\..\Common\units\BCCommon.StringUtils.pas"/>

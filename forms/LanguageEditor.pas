@@ -620,7 +620,7 @@ begin
       ReadSectionValues(SectionStringList.Strings[i], StringList);
       TranslationNeeded := False;
       for j := 0 to StringList.Count - 1 do
-        if Pos(':t', StringList.Strings[j]) <> 0 then
+        if Pos(':t', Copy(StringList.Strings[j], 1, Pos('=', StringList.Strings[j]) - 1)) <> 0 then
         begin
           TranslationNeeded := True;
           Break;

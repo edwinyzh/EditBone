@@ -24,6 +24,7 @@ type
     AutoSaveCheckBox: TBCCheckBox;
     InsertCaretLabel: TLabel;
     InsertCaretComboBox: TBCComboBox;
+    UndoAfterSaveCheckBox: TBCCheckBox;
   private
     { Private declarations }
   public
