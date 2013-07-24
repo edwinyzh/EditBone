@@ -45,6 +45,7 @@ type
     procedure TabsheetDblClick(Sender: TObject);
     procedure PageControlCloseButtonClick(Sender: TObject);
     procedure PageControlDblClick(Sender: TObject);
+    procedure FrameMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
     FTabsheetDblClick: TNotifyEvent;
@@ -263,6 +264,12 @@ begin
       ActiveFileTreeView.OpenPath(RootDirectory, SelectedPath, ExcludeOtherBranches);
     end;
   end;
+end;
+
+procedure TDirectoryFrame.FrameMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  if (Button = mbMiddle) and OptionsContainer.DirCloseTabByMiddleClick then
+    DirectoryCloseAction.Execute;
 end;
 
 procedure TDirectoryFrame.DirectoryEditActionExecute(Sender: TObject);

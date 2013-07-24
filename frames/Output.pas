@@ -41,6 +41,7 @@ type
     procedure PageControlDblClick(Sender: TObject);
     procedure CopyToClipboardActionExecute(Sender: TObject);
     procedure OpenAllActionExecute(Sender: TObject);
+    procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
     FProcessingTabSheet: Boolean;
@@ -105,6 +106,11 @@ procedure TOutputFrame.PageControlDblClick(Sender: TObject);
 begin
   if OptionsContainer.OutputCloseTabByDblClick then
     OutputCloseAction.Execute;
+end;
+
+procedure TOutputFrame.PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  if (Button = mbMiddle) and OptionsContainer.OutputCloseTabByMiddleClick then
 end;
 
 procedure TOutputFrame.TabsheetDblClick(Sender: TObject);

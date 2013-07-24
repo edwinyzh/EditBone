@@ -100,10 +100,12 @@ type
     FDirShowCloseButton: Boolean;
     FDirShowImage: Boolean;
     FDirCloseTabByDblClick: Boolean;
+    FDirCloseTabByMiddleClick: Boolean;
     FDocMultiLine: Boolean;
     FDocShowCloseButton: Boolean;
     FDocShowImage: Boolean;
     FDocCloseTabByDblClick: Boolean;
+    FDocCloseTabByMiddleClick: Boolean;
     FEnableLineNumbers: Boolean;
     FEnableSelectionMode: Boolean;
     FEnableSpecialChars: Boolean;
@@ -132,6 +134,7 @@ type
     FStatusBarFontName: string;
     FStatusBarFontSize: Integer;
     FOutputCloseTabByDblClick: Boolean;
+    FOutputCloseTabByMiddleClick: Boolean;
     FOutputMultiLine: Boolean;
     FOutputShowCloseButton: Boolean;
     FOutputShowImage: Boolean;
@@ -183,12 +186,14 @@ type
     property CPASHighlighter: TCPASHighlighter read FCPASHighlighter write FCPASHighlighter;
     property CSSVersion: TSynWebCssVersion read FCSSVersion write FCSSVersion;
     property DirCloseTabByDblClick: Boolean read FDirCloseTabByDblClick write FDirCloseTabByDblClick;
+    property DirCloseTabByMiddleClick: Boolean read FDirCloseTabByMiddleClick write FDirCloseTabByMiddleClick;
     property DirShowTreeLines: Boolean read FDirShowTreeLines write FDirShowTreeLines;
     property DirIndent: Integer read FDirIndent write FDirIndent;
     property DirMultiLine: Boolean read FDirMultiLine write FDirMultiLine;
     property DirShowCloseButton: Boolean read FDirShowCloseButton write FDirShowCloseButton;
     property DirShowImage: Boolean read FDirShowImage write FDirShowImage;
     property DocCloseTabByDblClick: Boolean read FDocCloseTabByDblClick write FDocCloseTabByDblClick;
+    property DocCloseTabByMiddleClick: Boolean read FDocCloseTabByMiddleClick write FDocCloseTabByMiddleClick;
     property DocMultiLine: Boolean read FDocMultiLine write FDocMultiLine;
     property DocShowCloseButton: Boolean read FDocShowCloseButton write FDocShowCloseButton;
     property DocShowImage: Boolean read FDocShowImage write FDocShowImage;
@@ -225,6 +230,7 @@ type
     property OutputShowTreeLines: Boolean read FOutputShowTreeLines write FOutputShowTreeLines;
     property OutputIndent: Integer read FOutputIndent write FOutputIndent;
     property OutputCloseTabByDblClick: Boolean read FOutputCloseTabByDblClick write FOutputCloseTabByDblClick;
+    property OutputCloseTabByMiddleClick: Boolean read FOutputCloseTabByMiddleClick write FOutputCloseTabByMiddleClick;
     property OutputMultiLine: Boolean read FOutputMultiLine write FOutputMultiLine;
     property OutputShowCloseButton: Boolean read FOutputShowCloseButton write FOutputShowCloseButton;
     property OutputShowImage: Boolean read FOutputShowImage write FOutputShowImage;
@@ -560,16 +566,19 @@ begin
   FTabsToSpaces := True;
   FGutterVisible := True;
   FDocCloseTabByDblClick := False;
+  FDocCloseTabByMiddleClick := False;
   FDocMultiLine := False;
   FDocShowCloseButton := False;
   FDocShowImage := True;
   FDirShowtreeLines := False;
   FDirIndent := 20;
   FDirCloseTabByDblClick := False;
+  FDirCloseTabByMiddleClick := False;
   FDirMultiLine := False;
   FDirShowCloseButton := False;
   FDirShowImage := True;
   FOutputCloseTabByDblClick := False;
+  FOutputCloseTabByMiddleClick := False;
   FOutputMultiLine := False;
   FOutputShowCloseButton := False;
   FIgnoreCase := True;
@@ -884,6 +893,7 @@ begin
   FEditorGutterFrame.WidthEdit.Text := IntToStr(FOptionsContainer.GutterWidth);
   { Document tabs }
   FEditorTabsFrame.CloseTabByDblClickCheckBox.Checked := FOptionsContainer.DocCloseTabByDblClick;
+  FEditorTabsFrame.CloseTabByMiddleClickCheckBox.Checked := FOptionsContainer.DocCloseTabByMiddleClick;
   FEditorTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.DocMultiLine;
   FEditorTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DocShowCloseButton;
   FEditorTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.DocShowImage;
@@ -892,6 +902,7 @@ begin
   FOptionsDirectoryFrame.IndentEdit.Text := IntToStr(FOptionsContainer.DirIndent);
   { Directory tabs }
   FDirectoryTabsFrame.CloseTabByDblClickCheckBox.Checked := FOptionsContainer.DirCloseTabByDblClick;
+  FDirectoryTabsFrame.CloseTabByMiddleClickCheckBox.Checked := FOptionsContainer.DirCloseTabByMiddleClick;
   FDirectoryTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.DirMultiLine;
   FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DirShowCloseButton;
   FDirectoryTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.DirShowImage;
@@ -900,6 +911,7 @@ begin
   FOptionsOutputFrame.IndentEdit.Text := IntToStr(FOptionsContainer.OutputIndent);
   { Output tabs }
   FOutputTabsFrame.CloseTabByDblClickCheckBox.Checked := FOptionsContainer.OutputCloseTabByDblClick;
+  FOutputTabsFrame.CloseTabByMiddleClickCheckBox.Checked := FOptionsContainer.OutputCloseTabByMiddleClick;
   FOutputTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.OutputMultiLine;
   FOutputTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.OutputShowCloseButton;
   FOutputTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.OutputShowImage;
@@ -1068,6 +1080,7 @@ begin
   FOptionsContainer.GutterWidth := StrToIntDef(FEditorGutterFrame.WidthEdit.Text, 48);
   { Document tabs }
   FOptionsContainer.DocCloseTabByDblClick := FEditorTabsFrame.CloseTabByDblClickCheckBox.Checked;
+  FOptionsContainer.DocCloseTabByMiddleClick := FEditorTabsFrame.CloseTabByMiddleClickCheckBox.Checked;
   FOptionsContainer.DocMultiLine := FEditorTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.DocShowCloseButton := FEditorTabsFrame.ShowCloseButtonCheckBox.Checked;
   FOptionsContainer.DocShowImage := FEditorTabsFrame.ShowImageCheckBox.Checked;
@@ -1076,6 +1089,7 @@ begin
   FOptionsContainer.DirIndent := StrToIntDef(FOptionsDirectoryFrame.IndentEdit.Text, 20);
   { Directory tabs }
   FOptionsContainer.DirCloseTabByDblClick := FDirectoryTabsFrame.CloseTabByDblClickCheckBox.Checked;
+  FOptionsContainer.DirCloseTabByMiddleClick := FDirectoryTabsFrame.CloseTabByMiddleClickCheckBox.Checked;
   FOptionsContainer.DirMultiLine := FDirectoryTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.DirShowCloseButton := FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked;
   FOptionsContainer.DirShowImage := FDirectoryTabsFrame.ShowImageCheckBox.Checked;
@@ -1084,6 +1098,7 @@ begin
   FOptionsContainer.OutputIndent := StrToIntDef(FOptionsOutputFrame.IndentEdit.Text, 20);
   { Output tabs }
   FOptionsContainer.OutputCloseTabByDblClick := FOutputTabsFrame.CloseTabByDblClickCheckBox.Checked;
+  FOptionsContainer.OutputCloseTabByMiddleClick := FOutputTabsFrame.CloseTabByMiddleClickCheckBox.Checked;
   FOptionsContainer.OutputMultiLine := FOutputTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.OutputShowCloseButton := FOutputTabsFrame.ShowCloseButtonCheckBox.Checked;
   FOptionsContainer.OutputShowImage := FOutputTabsFrame.ShowImageCheckBox.Checked;

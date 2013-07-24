@@ -13,6 +13,7 @@ type
     ShowCloseButtonCheckBox: TBCCheckBox;
     ShowImageCheckBox: TBCCheckBox;
     CloseTabByDblClickCheckBox: TBCCheckBox;
+    CloseTabByMiddleClickCheckBox: TBCCheckBox;
   private
     { Private declarations }
   public
