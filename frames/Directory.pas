@@ -390,6 +390,7 @@ begin
     DriveComboBoxPanel.Visible := ShowDrives;
     PageControl.Images := DriveComboBox.SystemIconsImageList;
     TabSheet.ImageIndex := DriveComboBox.IconIndex;
+    FileTypeComboBox.Extensions := OptionsContainer.Extensions;
   end;
   PageControl.ActivePageCaption := TabName;
   SetOptions;
