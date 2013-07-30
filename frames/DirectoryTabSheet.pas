@@ -14,7 +14,7 @@ type
     FileTreeView: TBCFileTreeView;
     FileTreeViewPanel: TPanel;
     Panel: TPanel;
-    FileTypePanel: TPanel;
+    FileTypeComboBoxPanel: TPanel;
     FileTypeComboBox: TBCFileTypeComboBox;
   private
     { Private declarations }

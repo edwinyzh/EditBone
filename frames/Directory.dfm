@@ -5,7 +5,6 @@ object DirectoryFrame: TDirectoryFrame
   Height = 302
   Align = alClient
   TabOrder = 0
-  OnMouseDown = FrameMouseDown
   object PageControl: TBCPageControl
     Left = 0
     Top = 0
@@ -16,6 +15,7 @@ object DirectoryFrame: TDirectoryFrame
     ParentDoubleBuffered = False
     PopupMenu = PopupMenu
     TabOrder = 0
+    OnMouseDown = PageControlMouseDown
     TabDragDrop = True
     HoldShiftToDragDrop = False
     ShowCloseButton = False
@@ -109,7 +109,7 @@ object DirectoryFrame: TDirectoryFrame
     Left = 264
     Top = 96
     Bitmap = {
-      494C010106005400940210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106005400A40210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

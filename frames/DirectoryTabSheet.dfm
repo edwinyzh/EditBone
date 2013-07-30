@@ -79,7 +79,7 @@ object DirTabSheetFrame: TDirTabSheetFrame
         Columns = <>
       end
     end
-    object FileTypePanel: TPanel
+    object FileTypeComboBoxPanel: TPanel
       Left = 1
       Top = 276
       Width = 447
@@ -96,7 +96,7 @@ object DirTabSheetFrame: TDirTabSheetFrame
         Width = 447
         Height = 21
         Align = alClient
-        FileTypeChangeNotifyDelay = 100
+        FileTreeViewUpdateDelay = 500
         FileTreeView = FileTreeView
         TabOrder = 0
         Text = '*.*'

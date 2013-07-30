@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, BCDialogs.Dlg, Vcl.Mask, Vcl.StdCtrls, BCControls.Edit, Vcl.ActnList, Vcl.ExtCtrls,
-  Vcl.Themes, BCControls.CheckBox, Vcl.Buttons, System.Actions, JvExStdCtrls, JvEdit;
+  Vcl.Themes, BCControls.CheckBox, Vcl.Buttons, System.Actions, JvExStdCtrls, JvEdit, BCControls.ComboBox;
 
 type
   TDirectoryTabDialogType = (dtOpen, dtEdit);
@@ -14,25 +14,26 @@ type
     ActionList: TActionList;
     ButtonPanel: TPanel;
     CancelButton: TButton;
-    CheckBoxPanel: TPanel;
+    ShowFileTypePanel: TPanel;
     ExcludeOtherBranchesAction: TAction;
-    ExcludeOtherBranchesCheckBox: TBCCheckBox;
     OKAction: TAction;
     OKButton: TButton;
-    Panel1: TPanel;
+    ButtonDividerPanel: TPanel;
     RootDirectoryClickAction: TAction;
     RootDirectoryEdit: TBCEdit;
     RootDirectoryLabel: TLabel;
     RootDirectoryPanel: TPanel;
     RootDrectoryBitBtn: TBitBtn;
-    ShowDrivesCheckBox: TBCCheckBox;
-    ShowDrivesLabel: TLabel;
     TabNameEdit: TBCEdit;
     TabNameLabel: TLabel;
     TabNamePanel: TPanel;
     TopPanel: TPanel;
-    Divider1Panel: TPanel;
-    ExcludeOtherBranchesLabel: TLabel;
+    ShowDrivesPanel: TPanel;
+    ShowDrivesLabel: TLabel;
+    ExcludeOtherBranchesCheckBox: TBCCheckBox;
+    ShowDrivesComboBox: TBCComboBox;
+    ShowFileTypeLabel: TLabel;
+    ShowFileTypeComboBox: TBCComboBox;
     procedure ExcludeOtherBranchesActionExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure OKActionExecute(Sender: TObject);
@@ -42,18 +43,21 @@ type
     function CheckFields: Boolean;
     function GetExcludeOtherBranches: Boolean;
     function GetRootDirectory: string;
-    function GetShowDrives: Boolean;
+    function GetShowDrives: Byte;
+    function GetShowFileType: Byte;
     function GetTabName: string;
     procedure SetExcludeOtherBranches(Value: Boolean);
     procedure SetRootDirectory(Value: string);
-    procedure SetShowDrives(Value: Boolean);
+    procedure SetShowDrives(Value: Byte);
+    procedure SetShowFileType(Value: Byte);
     procedure SetTabName(Value: string);
   public
     { Public declarations }
     function Open(DialogType: TDirectoryTabDialogType): Boolean;
     property ExcludeOtherBranches: Boolean read GetExcludeOtherBranches write SetExcludeOtherBranches;
     property RootDirectory: string read GetRootDirectory write SetRootDirectory;
-    property ShowDrives: Boolean read GetShowDrives write SetShowDrives;
+    property ShowDrives: Byte read GetShowDrives write SetShowDrives;
+    property ShowFileType: Byte read GetShowFileType write SetShowFileType;
     property TabName: string read GetTabName write SetTabName;
   end;
 
@@ -64,7 +68,7 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.StyleHooks,
+  BCCommon.StyleHooks, Math,
 {$WARNINGS OFF}
   Vcl.FileCtrl, { warning: FileCtrl is specific to a platform }
 {$WARNINGS ON}
@@ -121,17 +125,25 @@ end;
 procedure TDirectoryTabDialog.ExcludeOtherBranchesActionExecute(Sender: TObject);
 begin
   if ExcludeOtherBranchesCheckBox.Checked then
-    ShowDrivesCheckBox.Checked := False;
-  ShowDrivesCheckBox.ReadOnly := ExcludeOtherBranchesCheckBox.Checked;
+    ShowDrivesComboBox.ItemIndex := 0;
+  ShowDrivesComboBox.ReadOnly := ExcludeOtherBranchesCheckBox.Checked;
 end;
 
 procedure TDirectoryTabDialog.FormShow(Sender: TObject);
+var
+  LeftMaxWidth: Integer;
 begin
   inherited;
-  TabNameEdit.Left := ExcludeOtherBranchesCheckBox.Left;
+  LeftMaxWidth := Max(Max(Max(TabNameLabel.Width, RootDirectoryLabel.Width), ShowDrivesLabel.Width), ShowFileTypeLabel.Width) + 10;
+
+  TabNameEdit.Left := LeftMaxWidth;
   TabNameEdit.Width := TabNamePanel.Width - TabNameEdit.Left;
-  RootDirectoryEdit.Left := ExcludeOtherBranchesCheckBox.Left;
+  RootDirectoryEdit.Left := LeftMaxWidth;
   RootDirectoryEdit.Width := TabNamePanel.Width - RootDirectoryEdit.Left - RootDrectoryBitBtn.Width - 4;
+  ShowDrivesComboBox.Left := LeftMaxWidth;
+  ShowDrivesComboBox.Width := ExcludeOtherBranchesCheckBox.Left - ShowDrivesComboBox.Left - 7;
+  ShowFileTypeComboBox.Left := LeftMaxWidth;
+  ShowFileTypeComboBox.Width := ShowDrivesComboBox.Width;
 end;
 
 function TDirectoryTabDialog.GetRootDirectory: string;
@@ -144,14 +156,24 @@ begin
   RootDirectoryEdit.Text := Value;
 end;
 
-function TDirectoryTabDialog.GetShowDrives: Boolean;
+function TDirectoryTabDialog.GetShowDrives: Byte;
 begin
-  Result := ShowDrivesCheckBox.Checked;
+  Result := ShowDrivesComboBox.ItemIndex;
 end;
 
-procedure TDirectoryTabDialog.SetShowDrives(Value: Boolean);
+procedure TDirectoryTabDialog.SetShowDrives(Value: Byte);
 begin
-  ShowDrivesCheckBox.Checked := Value;
+  ShowDrivesComboBox.ItemIndex := Value;
+end;
+
+function TDirectoryTabDialog.GetShowFileType: Byte;
+begin
+  Result := ShowFileTypeComboBox.ItemIndex;
+end;
+
+procedure TDirectoryTabDialog.SetShowFileType(Value: Byte);
+begin
+  ShowFileTypeComboBox.ItemIndex := Value;
 end;
 
 function TDirectoryTabDialog.GetExcludeOtherBranches: Boolean;
