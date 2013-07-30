@@ -93,11 +93,30 @@ begin
 end;
 
 function TDirectoryTabDialog.Open(DialogType: TDirectoryTabDialogType): Boolean;
+
+  procedure AddConstants(ComboBox: TBCComboBox);
+  var
+    Index: Integer;
+  begin
+    with ComboBox do
+    begin
+      Index := ItemIndex;
+      Clear;
+      Items.Add(LanguageDataModule.GetConstant('Hide'));
+      Items.Add(LanguageDataModule.GetConstant('Bottom'));
+      Items.Add(LanguageDataModule.GetConstant('Top'));
+      ItemIndex := Index;
+    end;
+  end;
+
 begin
   if DialogType = dtOpen then
     Caption := LanguageDataModule.GetConstant('OpenDirectory')
   else
     Caption := LanguageDataModule.GetConstant('EditDirectory');
+
+  AddConstants(ShowDrivesComboBox);
+  AddConstants(ShowFileTypeComboBox);
 
   Result := ShowModal = mrOk;
 end;
@@ -141,9 +160,8 @@ begin
   RootDirectoryEdit.Left := LeftMaxWidth;
   RootDirectoryEdit.Width := TabNamePanel.Width - RootDirectoryEdit.Left - RootDrectoryBitBtn.Width - 4;
   ShowDrivesComboBox.Left := LeftMaxWidth;
-  ShowDrivesComboBox.Width := ExcludeOtherBranchesCheckBox.Left - ShowDrivesComboBox.Left - 7;
   ShowFileTypeComboBox.Left := LeftMaxWidth;
-  ShowFileTypeComboBox.Width := ShowDrivesComboBox.Width;
+  ExcludeOtherBranchesCheckBox.Left := LeftMaxWidth + ShowDrivesComboBox.Width + 6;
 end;
 
 function TDirectoryTabDialog.GetRootDirectory: string;
