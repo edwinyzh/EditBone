@@ -16,7 +16,7 @@ object EditorTabsFrame: TEditorTabsFrame
     TabOrder = 0
     object MultilineCheckBox: TBCCheckBox
       Left = 9
-      Top = 48
+      Top = 50
       Width = 232
       Height = 21
       Margins.Left = 4
@@ -29,7 +29,7 @@ object EditorTabsFrame: TEditorTabsFrame
     end
     object ShowCloseButtonCheckBox: TBCCheckBox
       Left = 9
-      Top = 70
+      Top = 72
       Width = 218
       Height = 21
       Margins.Left = 4
@@ -42,7 +42,7 @@ object EditorTabsFrame: TEditorTabsFrame
     end
     object ShowImageCheckBox: TBCCheckBox
       Left = 9
-      Top = 92
+      Top = 94
       Width = 218
       Height = 21
       Margins.Left = 4
@@ -62,20 +62,20 @@ object EditorTabsFrame: TEditorTabsFrame
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Close Tab by Double Click'
+      Caption = ' Close Tab by Double-Click'
       TabOrder = 0
       ReadOnly = False
     end
     object CloseTabByMiddleClickCheckBox: TBCCheckBox
       Left = 9
-      Top = 26
+      Top = 28
       Width = 218
       Height = 21
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Close Tab by Middle Click'
+      Caption = ' Close Tab by Middle-Click'
       TabOrder = 1
       ReadOnly = False
     end

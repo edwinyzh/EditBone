@@ -16,7 +16,7 @@ object DirectoryTabsFrame: TDirectoryTabsFrame
     TabOrder = 0
     object MultilineCheckBox: TBCCheckBox
       Left = 9
-      Top = 52
+      Top = 50
       Width = 232
       Height = 21
       Margins.Left = 4
@@ -29,7 +29,7 @@ object DirectoryTabsFrame: TDirectoryTabsFrame
     end
     object ShowCloseButtonCheckBox: TBCCheckBox
       Left = 9
-      Top = 74
+      Top = 72
       Width = 218
       Height = 21
       Margins.Left = 4
@@ -42,7 +42,7 @@ object DirectoryTabsFrame: TDirectoryTabsFrame
     end
     object ShowImageCheckBox: TBCCheckBox
       Left = 9
-      Top = 96
+      Top = 94
       Width = 218
       Height = 21
       Margins.Left = 4
@@ -62,7 +62,7 @@ object DirectoryTabsFrame: TDirectoryTabsFrame
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Close Tab by Double Click'
+      Caption = ' Close Tab by Double-Click'
       TabOrder = 0
       ReadOnly = False
     end
@@ -75,7 +75,7 @@ object DirectoryTabsFrame: TDirectoryTabsFrame
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Close Tab by Middle Click'
+      Caption = ' Close Tab by Middle-Click'
       TabOrder = 1
       ReadOnly = False
     end
