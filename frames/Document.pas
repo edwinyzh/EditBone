@@ -1243,6 +1243,7 @@ begin
       PageControl.UpdatePageCaption(TabSheet);
       SelectHighlighter(DocTabSheetFrame, DocumentName);
       SetMainHighlighterCombo(DocTabSheetFrame.SynEdit);
+      UpdateGutterAndColors(DocTabSheetFrame);
     end;
   end;
 end;
