@@ -5,7 +5,7 @@ object AboutDialog: TAboutDialog
   BorderStyle = bsDialog
   Caption = 'About EditBone'
   ClientHeight = 256
-  ClientWidth = 359
+  ClientWidth = 365
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,7 +23,7 @@ object AboutDialog: TAboutDialog
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 359
+    Width = 365
     Height = 137
     Align = alTop
     BevelOuter = bvNone
@@ -72,7 +72,7 @@ object AboutDialog: TAboutDialog
       Caption = 'Memory Available to Windows: %s'
     end
     object Panel6: TPanel
-      Left = 231
+      Left = 237
       Top = 0
       Width = 128
       Height = 137
@@ -485,7 +485,7 @@ object AboutDialog: TAboutDialog
   object Panel2: TPanel
     Left = 0
     Top = 137
-    Width = 359
+    Width = 365
     Height = 1
     Align = alTop
     BevelOuter = bvNone
@@ -496,7 +496,7 @@ object AboutDialog: TAboutDialog
   object Panel3: TPanel
     Left = 0
     Top = 138
-    Width = 359
+    Width = 365
     Height = 77
     Margins.Left = 2
     Margins.Top = 2
@@ -505,6 +505,9 @@ object AboutDialog: TAboutDialog
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
+    DesignSize = (
+      365
+      77)
     object ThanksToLabel: TLabel
       Left = 11
       Top = 6
@@ -515,36 +518,39 @@ object AboutDialog: TAboutDialog
     object CopyrightLabel: TLabel
       Left = 0
       Top = 64
-      Width = 170
+      Width = 365
       Height = 13
       Align = alBottom
       Alignment = taCenter
       Caption = 'Copyright %s. All Rights Reserved.'
+      ExplicitWidth = 170
     end
     object LinkLabel2: TLinkLabel
-      Left = 29
-      Top = 41
-      Width = 306
+      Left = 22
+      Top = 42
+      Width = 321
       Height = 17
+      Anchors = [akTop]
       Caption = 
         '<a href="http://www.customicondesign.com/">Custom Icon Design</a' +
-        '>, <a href="http://www.glyfx.com/">glyFX Icons</a>, <a href="htt' +
-        'p://angusj.com/delphi/">Angus Johnson</a>, <a href="http://www.s' +
-        'oft-gems.net">Mike Lischke</a>'
+        '>, <a href="http://angusj.com/delphi/">Angus Johnson</a>, <a hre' +
+        'f="http://www.soft-gems.net">Mike Lischke</a>, <a href="http://w' +
+        'ww.delphigeist.com">Dorin Duminica</a>'
       TabOrder = 0
       OnLinkClick = LinkClick
     end
     object LinkLabel1: TLinkLabel
-      Left = 23
+      Left = 11
       Top = 25
-      Width = 322
+      Width = 343
       Height = 17
+      Anchors = [akTop]
       Caption = 
         '<a href="http://www.embarcadero.com/products/rad-studio/">Embarc' +
         'adero RAD Studio</a>, <a href="http://www.delphi-jedi.org/">Jedi' +
         ' Project</a>, <a href="http://synedit.svn.sourceforge.net/viewvc' +
-        '/synedit/">Unicode SynEdit</a>, <a href="http://code.google.com/' +
-        'p/synweb/">SynWeb</a>,'
+        '/synedit/">SynEdit</a>, <a href="http://code.google.com/p/synweb' +
+        '/">SynWeb</a>, <a href="http://www.glyfx.com/">glyFX Icons</a>,'
       TabOrder = 1
       OnLinkClick = LinkClick
     end
@@ -552,7 +558,7 @@ object AboutDialog: TAboutDialog
   object Panel4: TPanel
     Left = 0
     Top = 215
-    Width = 359
+    Width = 365
     Height = 41
     Margins.Left = 2
     Margins.Top = 2
@@ -565,7 +571,7 @@ object AboutDialog: TAboutDialog
     Padding.Bottom = 8
     TabOrder = 3
     object OKButton: TButton
-      Left = 276
+      Left = 282
       Top = 8
       Width = 75
       Height = 25

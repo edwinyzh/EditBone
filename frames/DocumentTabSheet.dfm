@@ -206,6 +206,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
     Top = 88
   end
   object SynURIOpener: TSynURIOpener
+    Editor = SynEdit
     URIHighlighter = SynURISyn
     Left = 298
     Top = 148
