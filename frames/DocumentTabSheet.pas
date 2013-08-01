@@ -19,13 +19,16 @@ type
     HorizontalSplitter: TSplitter;
     Panel: TPanel;
     SplitSynEdit: TBCSynEdit;
-    SynEdit: TBCSynEdit;
     SynURIOpener: TSynURIOpener;
     SynURISyn: TSynURISyn;
     VerticalSplitter: TSplitter;
     VirtualDrawTree: TVirtualDrawTree;
     XMLDocument: TXMLDocument;
+    MinimapPanel: TPanel;
     SynMiniMap1: TSynMiniMap;
+    Splitter1: TSplitter;
+    Panel1: TPanel;
+    SynEdit: TBCSynEdit;
     procedure RefreshActionExecute(Sender: TObject);
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
@@ -43,6 +46,9 @@ type
     procedure SetXMLTreeVisible(Value: Boolean);
   public
     { Public declarations }
+    {$if CompilerVersion >= 23 }
+    class constructor Create;
+    {$endif}
     constructor Create(AOwner: TComponent); override;
     procedure LoadFromXML(XML: string);
     property SplitVisible: Boolean read GetSplitVisible write SetSplitVisible;
@@ -61,6 +67,15 @@ begin
   inherited Create(AOwner);
   Panel.Padding.Right := GetRightPadding;
 end;
+
+{$if CompilerVersion >= 23 }
+class constructor TDocTabSheetFrame.Create;
+begin
+  inherited;
+  if Assigned(TStyleManager.Engine) then
+    TStyleManager.Engine.RegisterStyleHook(TSynMiniMap, TSynEditStyleHook);
+end;
+{$endif}
 
 function TDocTabSheetFrame.GetXMLTreeVisible: Boolean;
 begin

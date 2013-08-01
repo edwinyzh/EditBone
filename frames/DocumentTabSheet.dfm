@@ -21,6 +21,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 201
       Top = 1
       Height = 299
+      Color = clBtnFace
+      ParentColor = False
       Visible = False
       ExplicitLeft = 216
       ExplicitTop = 90
@@ -69,29 +71,14 @@ object DocTabSheetFrame: TDocTabSheetFrame
         ExplicitTop = 0
         ExplicitWidth = 232
       end
-      object SynEdit: TBCSynEdit
-        Left = 0
+      object Splitter1: TSplitter
+        Left = 38
         Top = 0
-        Width = 47
         Height = 118
-        Align = alClient
-        ActiveLineColor = clSkyBlue
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'Courier New'
-        Font.Style = []
-        TabOrder = 0
-        Gutter.AutoSize = True
-        Gutter.Font.Charset = DEFAULT_CHARSET
-        Gutter.Font.Color = clWindowText
-        Gutter.Font.Height = -11
-        Gutter.Font.Name = 'Courier New'
-        Gutter.Font.Style = []
-        Gutter.ShowLineNumbers = True
-        Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
-        WantTabs = True
-        FontSmoothing = fsmNone
+        Align = alRight
+        ExplicitLeft = 720
+        ExplicitTop = -6
+        ExplicitHeight = 256
       end
       object SplitSynEdit: TBCSynEdit
         Left = 0
@@ -105,7 +92,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = []
-        TabOrder = 1
+        TabOrder = 0
         Visible = False
         Gutter.AutoSize = True
         Gutter.Font.Charset = DEFAULT_CHARSET
@@ -118,26 +105,69 @@ object DocTabSheetFrame: TDocTabSheetFrame
         WantTabs = True
         FontSmoothing = fsmNone
       end
-      object SynMiniMap1: TSynMiniMap
-        Left = 47
+      object MinimapPanel: TPanel
+        Left = 41
         Top = 0
-        Width = 200
+        Width = 206
         Height = 118
-        Colors.Background = clWhite
-        Colors.Highlight = clWhite
-        Colors.PreviousLine = clNone
-        Colors.PreviousLineText = clNone
-        Colors.Text = clGray
-        Colors.TextHighlight = clGray
-        Editor = SynEdit
-        FontFactor = 2.000000000000000000
-        Options.AllowScroll = True
-        Options.ReverseScroll = False
-        Options.TabWidthOverride = False
-        Options.TabWidth = 4
-        PixelFormat = pf32bit
-        OnClick = SynMiniMap1Click
         Align = alRight
+        BevelOuter = bvNone
+        TabOrder = 1
+        object SynMiniMap1: TSynMiniMap
+          Left = 0
+          Top = 0
+          Width = 206
+          Height = 118
+          Colors.Background = clWhite
+          Colors.Highlight = clWhite
+          Colors.PreviousLine = clNone
+          Colors.PreviousLineText = clNone
+          Colors.Text = clGray
+          Colors.TextHighlight = clGray
+          Editor = SynEdit
+          FontFactor = 2.000000000000000000
+          Options.AllowScroll = True
+          Options.ReverseScroll = False
+          Options.TabWidthOverride = False
+          Options.TabWidth = 4
+          PixelFormat = pf32bit
+          OnClick = SynMiniMap1Click
+          Ctl3D = True
+          Align = alClient
+        end
+      end
+      object Panel1: TPanel
+        Left = 0
+        Top = 0
+        Width = 38
+        Height = 118
+        Align = alClient
+        BevelOuter = bvNone
+        TabOrder = 2
+        object SynEdit: TBCSynEdit
+          Left = 0
+          Top = 0
+          Width = 38
+          Height = 118
+          Align = alClient
+          ActiveLineColor = clSkyBlue
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Courier New'
+          Font.Style = []
+          TabOrder = 0
+          Gutter.AutoSize = True
+          Gutter.Font.Charset = DEFAULT_CHARSET
+          Gutter.Font.Color = clWindowText
+          Gutter.Font.Height = -11
+          Gutter.Font.Name = 'Courier New'
+          Gutter.Font.Style = []
+          Gutter.ShowLineNumbers = True
+          Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
+          WantTabs = True
+          FontSmoothing = fsmNone
+        end
       end
     end
   end
@@ -154,7 +184,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
     Top = 88
   end
   object SynURIOpener: TSynURIOpener
-    Editor = SynEdit
     URIHighlighter = SynURISyn
     Left = 298
     Top = 148
