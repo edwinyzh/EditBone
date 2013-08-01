@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, VirtualTrees, SynEdit, BCControls.SynEdit,
   Xml.XMLIntf, Xml.xmldom, Xml.Win.msxmldom, Xml.XMLDoc, Vcl.ImgList, BCControls.ImageList, Vcl.Menus,
-  Vcl.ActnList, SynEditHighlighter, SynHighlighterMulti, SynURIOpener, SynHighlighterURI, SynMiniMap;
+  Vcl.ActnList, SynEditHighlighter, SynHighlighterMulti, SynURIOpener, SynHighlighterURI, SynMinimap;
 
 type
   PXMLTreeRec = ^TXMLTreeRec;
@@ -24,10 +24,11 @@ type
     VerticalSplitter: TSplitter;
     VirtualDrawTree: TVirtualDrawTree;
     XMLDocument: TXMLDocument;
-    MinimapPanel: TPanel;
-    SynMiniMap1: TSynMiniMap;
-    Splitter1: TSplitter;
-    Panel1: TPanel;
+    SynEditSplitter: TSplitter;
+    SplitSynEditPanel: TPanel;
+    SplitSynEditMinimap: TSynMinimap;
+    SplitSynEditSplitter: TSplitter;
+    SynEditMinimap: TSynMinimap;
     SynEdit: TBCSynEdit;
     procedure RefreshActionExecute(Sender: TObject);
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
@@ -36,22 +37,23 @@ type
     procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
     procedure VirtualDrawTreeInitChildren(Sender: TBaseVirtualTree; Node: PVirtualNode; var ChildCount: Cardinal);
     procedure VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
-    procedure SynMiniMap1Click(Sender: TObject; Data: PSynMiniMapEventData);
+    procedure SynEditMinimapClick(Sender: TObject; Data: PSynMinimapEventData);
+    procedure SplitSynEditMinimapClick(Sender: TObject; Data: PSynMinimapEventData);
   private
     { Private declarations }
     function GetSplitVisible: Boolean;
+    function GetMinimapVisible: Boolean;
     function GetXMLTreeVisible: Boolean;
     procedure ProcessNode(Node: IXMLNode; TreeNode: PVirtualNode);
     procedure SetSplitVisible(Value: Boolean);
+    procedure SetMinimapVisible(Value: Boolean);
     procedure SetXMLTreeVisible(Value: Boolean);
   public
     { Public declarations }
-    {$if CompilerVersion >= 23 }
-    class constructor Create;
-    {$endif}
     constructor Create(AOwner: TComponent); override;
     procedure LoadFromXML(XML: string);
     property SplitVisible: Boolean read GetSplitVisible write SetSplitVisible;
+    property MinimapVisible: Boolean read GetMinimapVisible write SetMinimapVisible;
     property XMLTreeVisible: Boolean read GetXMLTreeVisible write SetXMLTreeVisible;
   end;
 
@@ -66,16 +68,10 @@ constructor TDocTabSheetFrame.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   Panel.Padding.Right := GetRightPadding;
+  VerticalSplitter.Width := GetSplitterSize;
+  HorizontalSplitter.Height := VerticalSplitter.Width;
+  SynEditSplitter.Width := VerticalSplitter.Width;
 end;
-
-{$if CompilerVersion >= 23 }
-class constructor TDocTabSheetFrame.Create;
-begin
-  inherited;
-  if Assigned(TStyleManager.Engine) then
-    TStyleManager.Engine.RegisterStyleHook(TSynMiniMap, TSynEditStyleHook);
-end;
-{$endif}
 
 function TDocTabSheetFrame.GetXMLTreeVisible: Boolean;
 begin
@@ -86,16 +82,25 @@ procedure TDocTabSheetFrame.SetXMLTreeVisible(Value: Boolean);
 begin
   VerticalSplitter.Visible := Value;
   VirtualDrawTree.Visible := Value;
-  //VerticalSplitter.Visible := Value;
 end;
 
-procedure TDocTabSheetFrame.SynMiniMap1Click(Sender: TObject; Data: PSynMiniMapEventData);
+procedure GotoLine(SynEdit: TSynEdit; Data: PSynMinimapEventData);
 begin
-  if Assigned(SynMiniMap1.Editor) then
+  if Assigned(SynEdit) then
   begin
-    SynMiniMap1.Editor.GotoLineAndCenter(Data.Coord.Line);
-    SynMiniMap1.Editor.CaretX := Data.Coord.Char;
+    SynEdit.GotoLineAndCenter(Data.Coord.Line);
+    SynEdit.CaretX := Data.Coord.Char;
   end;
+end;
+
+procedure TDocTabSheetFrame.SynEditMinimapClick(Sender: TObject; Data: PSynMinimapEventData);
+begin
+  GotoLine(SynEditMinimap.Editor, Data);
+end;
+
+procedure TDocTabSheetFrame.SplitSynEditMinimapClick(Sender: TObject; Data: PSynMinimapEventData);
+begin
+  GotoLine(SplitSynEditMinimap.Editor, Data);
 end;
 
 function IsNameNodeType(NodeType: TNodeType): Boolean;
@@ -259,13 +264,26 @@ end;
 
 function TDocTabSheetFrame.GetSplitVisible: Boolean;
 begin
-  Result := SplitSynEdit.Visible;
+  Result := SplitSynEditPanel.Visible;
 end;
 
 procedure TDocTabSheetFrame.SetSplitVisible(Value: Boolean);
 begin
-  SplitSynEdit.Visible := Value;
+  SplitSynEditPanel.Visible := Value;
   HorizontalSplitter.Visible := Value;
+end;
+
+function TDocTabSheetFrame.GetMinimapVisible: Boolean;
+begin
+  Result := SynEditMinimap.Visible;
+end;
+
+procedure TDocTabSheetFrame.SetMinimapVisible(Value: Boolean);
+begin
+  SynEditMinimap.Visible := Value;
+  SynEditSplitter.Visible := Value;
+  SplitSynEditMinimap.Visible := Value;
+  SplitSynEditSplitter.Visible := Value;
 end;
 
 procedure TDocTabSheetFrame.LoadFromXML(XML: string);

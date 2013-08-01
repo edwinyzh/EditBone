@@ -16,8 +16,8 @@ const
   FILE_MENU_ITEMINDEX = 0;
   FILE_REOPEN_MENU_ITEMINDEX = 2;
   VIEW_MENU_ITEMINDEX = 3;
-  VIEW_LANGUAGE_MENU_ITEMINDEX = 13;
-  VIEW_STYLE_MENU_ITEMINDEX = 14;
+  VIEW_LANGUAGE_MENU_ITEMINDEX = 14;
+  VIEW_STYLE_MENU_ITEMINDEX = 15;
 
 type
   TMainForm = class(TForm)
@@ -197,6 +197,7 @@ type
     EditConversionBinToDecAction: TAction;
     ToolsUnicodeCharacterMapAction: TAction;
     ToolsDuplicateCheckerAction: TAction;
+    ViewMiniMapAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -310,6 +311,7 @@ type
     procedure ToolsUnicodeCharacterMapActionExecute(Sender: TObject);
     procedure ToolsDuplicateCheckerActionExecute(Sender: TObject);
     procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
+    procedure ViewMiniMapActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -920,7 +922,7 @@ begin
   FileCloseAllOtherPagesAction.Enabled := FileCloseAction.Enabled;
   ViewNextPageAction.Enabled := FDocumentFrame.OpenTabSheetCount > 1;
   ViewPreviousPageAction.Enabled := ViewNextPageAction.Enabled;
-  ToolsOptionsAction.Enabled := FileCloseAction.Enabled;
+  //ToolsOptionsAction.Enabled := FileCloseAction.Enabled;
   FileSaveAsAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
   FileSaveAction.Enabled := FDocumentFrame.ActiveDocumentModified and ActiveDocumentFound;
   FileSaveAllAction.Enabled := FDocumentFrame.ModifiedDocuments and ActiveDocumentFound;
@@ -956,6 +958,8 @@ begin
   ViewSelectionModeAction.Checked := FDocumentFrame.SelectionModeChecked;
   ViewSplitAction.Enabled := ActiveDocumentFound;
   ViewSplitAction.Checked := FDocumentFrame.SplitChecked;
+  ViewMinimapAction.Enabled := ActiveDocumentFound;
+  ViewMinimapAction.Checked := FDocumentFrame.MinimapChecked;
   SearchAction.Enabled := ActiveDocumentFound;
   SearchGotoLineAction.Enabled := ActiveDocumentFound;
   SearchReplaceAction.Enabled := ActiveDocumentFound;
@@ -1768,6 +1772,11 @@ end;
 procedure TMainForm.ViewLineNumbersActionExecute(Sender: TObject);
 begin
   ViewLineNumbersAction.Checked := FDocumentFrame.ToggleLineNumbers;
+end;
+
+procedure TMainForm.ViewMiniMapActionExecute(Sender: TObject);
+begin
+  FDocumentFrame.ToggleMiniMap;
 end;
 
 procedure TMainForm.ViewNextPageActionExecute(Sender: TObject);

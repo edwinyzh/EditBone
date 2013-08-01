@@ -317,6 +317,7 @@ type
     function GetSelectionFound: Boolean;
     function GetSelectionModeChecked: Boolean;
     function GetSplitChecked: Boolean;
+    function GetMinimapChecked: Boolean;
     function GetSplitSynEdit(TabSheet: TTabSheet): TBCSynEdit;
     function GetSynEdit(TabSheet: TTabSheet): TBCSynEdit;
     function GetXMLTreeVisible: Boolean;
@@ -417,6 +418,7 @@ type
     procedure ToggleBookMark;
     procedure ToggleBookmarks(ItemIndex: Integer);
     procedure ToggleCase;
+    procedure ToggleMiniMap;
     procedure ToggleSelectionMode;
     procedure ToggleSplit;
     procedure Undo;
@@ -429,6 +431,7 @@ type
     property ActiveTabSheetCaption: string read GetActiveTabSheetCaption;
     property CanRedo: Boolean read GetCanRedo;
     property CanUndo: Boolean read GetCanUndo;
+    property MinimapChecked: Boolean read GetMinimapChecked;
     property OpenTabSheetCount: Integer read GetOpenTabSheetCount;
     property OpenTabSheets: Boolean read GetOpenTabSheets;
     property Processing: Boolean read FProcessing;
@@ -3467,6 +3470,16 @@ begin
     Result := DocTabSheetFrame.SplitVisible;
 end;
 
+function TDocumentFrame.GetMinimapChecked: Boolean;
+var
+  DocTabSheetFrame: TDocTabSheetFrame;
+begin
+  Result := False;
+  DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+  if Assigned(DocTabSheetFrame) then
+    Result := DocTabSheetFrame.MinimapVisible;
+end;
+
 procedure TDocumentFrame.ToggleSplit;
 var
   FileName: string;
@@ -3513,6 +3526,15 @@ begin
     end;
     DocTabSheetFrame.SplitVisible := SplitVisible;
   end;
+end;
+
+procedure TDocumentFrame.ToggleMiniMap;
+var
+  DocTabSheetFrame: TDocTabSheetFrame;
+begin
+  DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+  if Assigned(DocTabSheetFrame) then
+    DocTabSheetFrame.MinimapVisible := not DocTabSheetFrame.MinimapVisible;
 end;
 
 function TDocumentFrame.IsCompareFilesActivePage: Boolean;

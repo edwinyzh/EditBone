@@ -744,25 +744,28 @@ object MainForm: TMainForm
                 Caption = '-'
               end
               item
-                Action = ViewToolbarAction
-              end
-              item
-                Action = ViewStatusBarAction
-              end
-              item
                 Action = ViewDirectoryAction
               end
               item
-                Action = ViewSplitAction
-              end
-              item
-                Action = ViewOutputAction
+                Action = ViewEncodingSelectionAction
               end
               item
                 Action = ViewHighlighterSelectionAction
               end
               item
-                Action = ViewEncodingSelectionAction
+                Action = ViewMiniMapAction
+              end
+              item
+                Action = ViewSplitAction
+              end
+              item
+                Action = ViewStatusBarAction
+              end
+              item
+                Action = ViewToolbarAction
+              end
+              item
+                Action = ViewOutputAction
               end
               item
                 Action = ViewXMLTreeAction
@@ -1395,20 +1398,6 @@ object MainForm: TMainForm
       ShortCut = 24645
       OnExecute = ViewEditDirectoryActionExecute
     end
-    object ViewToolbarAction: TAction
-      Category = '&View'
-      Caption = '&Toolbar'
-      Checked = True
-      Hint = 'Show or hide the toolbar'
-      OnExecute = ViewToolbarActionExecute
-    end
-    object ViewStatusBarAction: TAction
-      Category = '&View'
-      Caption = '&Status Bar'
-      Checked = True
-      Hint = 'Show or hide the status bar'
-      OnExecute = ViewStatusBarActionExecute
-    end
     object ViewDirectoryAction: TAction
       Category = '&View'
       Caption = '&Directory'
@@ -1416,17 +1405,11 @@ object MainForm: TMainForm
       Hint = 'Show or hide the directory'
       OnExecute = ViewDirectoryActionExecute
     end
-    object ViewSplitAction: TAction
+    object ViewEncodingSelectionAction: TAction
       Category = '&View'
-      Caption = 'S&plit'
-      Hint = 'Split the document'
-      OnExecute = ViewSplitActionExecute
-    end
-    object ViewOutputAction: TAction
-      Category = '&View'
-      Caption = 'O&utput'
-      Hint = 'Show or hide the output'
-      OnExecute = ViewOutputActionExecute
+      Caption = 'Encodin&g'
+      Hint = 'Show or hide the encoding selection'
+      OnExecute = ViewEncodingSelectionActionExecute
     end
     object ViewHighlighterSelectionAction: TAction
       Category = '&View'
@@ -1435,11 +1418,37 @@ object MainForm: TMainForm
       Hint = 'Show or hide the highlighter selection'
       OnExecute = ViewHighlighterSelectionActionExecute
     end
-    object ViewEncodingSelectionAction: TAction
+    object ViewMiniMapAction: TAction
       Category = '&View'
-      Caption = 'Encodin&g'
-      Hint = 'Show or hide the encoding selection'
-      OnExecute = ViewEncodingSelectionActionExecute
+      Caption = 'Minimap'
+      Hint = 'Show or hide the minimap'
+      OnExecute = ViewMiniMapActionExecute
+    end
+    object ViewSplitAction: TAction
+      Category = '&View'
+      Caption = 'S&plit'
+      Hint = 'Split the document'
+      OnExecute = ViewSplitActionExecute
+    end
+    object ViewStatusBarAction: TAction
+      Category = '&View'
+      Caption = '&Status Bar'
+      Checked = True
+      Hint = 'Show or hide the status bar'
+      OnExecute = ViewStatusBarActionExecute
+    end
+    object ViewToolbarAction: TAction
+      Category = '&View'
+      Caption = '&Toolbar'
+      Checked = True
+      Hint = 'Show or hide the toolbar'
+      OnExecute = ViewToolbarActionExecute
+    end
+    object ViewOutputAction: TAction
+      Category = '&View'
+      Caption = 'O&utput'
+      Hint = 'Show or hide the output'
+      OnExecute = ViewOutputActionExecute
     end
     object ViewXMLTreeAction: TAction
       Category = '&View'
@@ -1624,6 +1633,8 @@ object MainForm: TMainForm
       Caption = 'Increase Indent'
       Hint = 'Increase indent'
       ImageIndex = 35
+      SecondaryShortCuts.Strings = (
+        'Tab')
       ShortCut = 24649
       OnExecute = EditIncreaseIndentActionExecute
     end
@@ -1632,6 +1643,8 @@ object MainForm: TMainForm
       Caption = '&Decrease Indent'
       Hint = 'Decrease indent'
       ImageIndex = 34
+      SecondaryShortCuts.Strings = (
+        'Shift+Tab')
       ShortCut = 24661
       OnExecute = EditDecreaseIndentActionExecute
     end
@@ -2086,7 +2099,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 224
     Bitmap = {
-      494C010144005C01F40810001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010144004900040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002001000001002000000000000020
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

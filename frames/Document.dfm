@@ -479,8 +479,8 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 870
-      Height = 565
+      Width = 451
+      Height = 254
       Align = alClient
       DoubleBuffered = False
       ParentDoubleBuffered = False
@@ -492,8 +492,6 @@ object DocumentFrame: TDocumentFrame
       ShowCloseButton = False
       OnCloseButtonClick = PageControlCloseButtonClick
       OnDblClick = PageControlDblClick
-      ExplicitWidth = 451
-      ExplicitHeight = 254
     end
   end
   object GotoLinePanel: TPanel
