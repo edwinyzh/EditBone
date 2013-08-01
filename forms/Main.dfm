@@ -754,6 +754,10 @@ object MainForm: TMainForm
               end
               item
                 Action = ViewMiniMapAction
+                Caption = 'Minim&ap'
+              end
+              item
+                Action = ViewOutputAction
               end
               item
                 Action = ViewSplitAction
@@ -763,9 +767,6 @@ object MainForm: TMainForm
               end
               item
                 Action = ViewToolbarAction
-              end
-              item
-                Action = ViewOutputAction
               end
               item
                 Action = ViewXMLTreeAction
@@ -1424,6 +1425,12 @@ object MainForm: TMainForm
       Hint = 'Show or hide the minimap'
       OnExecute = ViewMiniMapActionExecute
     end
+    object ViewOutputAction: TAction
+      Category = '&View'
+      Caption = 'O&utput'
+      Hint = 'Show or hide the output'
+      OnExecute = ViewOutputActionExecute
+    end
     object ViewSplitAction: TAction
       Category = '&View'
       Caption = 'S&plit'
@@ -1443,12 +1450,6 @@ object MainForm: TMainForm
       Checked = True
       Hint = 'Show or hide the toolbar'
       OnExecute = ViewToolbarActionExecute
-    end
-    object ViewOutputAction: TAction
-      Category = '&View'
-      Caption = 'O&utput'
-      Hint = 'Show or hide the output'
-      OnExecute = ViewOutputActionExecute
     end
     object ViewXMLTreeAction: TAction
       Category = '&View'
