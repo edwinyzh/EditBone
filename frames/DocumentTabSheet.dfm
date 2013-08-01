@@ -2,14 +2,14 @@ object DocTabSheetFrame: TDocTabSheetFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 304
+  Height = 302
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
     Width = 451
-    Height = 304
+    Height = 302
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 1
@@ -20,7 +20,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
     object VerticalSplitter: TSplitter
       Left = 201
       Top = 1
-      Height = 301
+      Height = 299
       Visible = False
       ExplicitLeft = 216
       ExplicitTop = 90
@@ -30,7 +30,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 1
       Top = 1
       Width = 200
-      Height = 301
+      Height = 299
       Align = alLeft
       DragOperations = []
       Header.AutoSizeIndex = 0
@@ -54,13 +54,13 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 204
       Top = 1
       Width = 247
-      Height = 301
+      Height = 299
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 1
       object HorizontalSplitter: TSplitter
         Left = 0
-        Top = 120
+        Top = 118
         Width = 247
         Height = 3
         Cursor = crVSplit
@@ -72,8 +72,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       object SynEdit: TBCSynEdit
         Left = 0
         Top = 0
-        Width = 247
-        Height = 120
+        Width = 47
+        Height = 118
         Align = alClient
         ActiveLineColor = clSkyBlue
         Font.Charset = DEFAULT_CHARSET
@@ -95,7 +95,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
       end
       object SplitSynEdit: TBCSynEdit
         Left = 0
-        Top = 123
+        Top = 121
         Width = 247
         Height = 178
         Align = alBottom
@@ -117,6 +117,27 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
         WantTabs = True
         FontSmoothing = fsmNone
+      end
+      object SynMiniMap1: TSynMiniMap
+        Left = 47
+        Top = 0
+        Width = 200
+        Height = 118
+        Colors.Background = clWhite
+        Colors.Highlight = clWhite
+        Colors.PreviousLine = clNone
+        Colors.PreviousLineText = clNone
+        Colors.Text = clGray
+        Colors.TextHighlight = clGray
+        Editor = SynEdit
+        FontFactor = 2.000000000000000000
+        Options.AllowScroll = True
+        Options.ReverseScroll = False
+        Options.TabWidthOverride = False
+        Options.TabWidth = 4
+        PixelFormat = pf32bit
+        OnClick = SynMiniMap1Click
+        Align = alRight
       end
     end
   end

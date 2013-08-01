@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, VirtualTrees, SynEdit, BCControls.SynEdit,
   Xml.XMLIntf, Xml.xmldom, Xml.Win.msxmldom, Xml.XMLDoc, Vcl.ImgList, BCControls.ImageList, Vcl.Menus,
-  Vcl.ActnList, SynEditHighlighter, SynHighlighterMulti, SynURIOpener, SynHighlighterURI;
+  Vcl.ActnList, SynEditHighlighter, SynHighlighterMulti, SynURIOpener, SynHighlighterURI, SynMiniMap;
 
 type
   PXMLTreeRec = ^TXMLTreeRec;
@@ -25,6 +25,7 @@ type
     VerticalSplitter: TSplitter;
     VirtualDrawTree: TVirtualDrawTree;
     XMLDocument: TXMLDocument;
+    SynMiniMap1: TSynMiniMap;
     procedure RefreshActionExecute(Sender: TObject);
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
@@ -32,6 +33,7 @@ type
     procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
     procedure VirtualDrawTreeInitChildren(Sender: TBaseVirtualTree; Node: PVirtualNode; var ChildCount: Cardinal);
     procedure VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
+    procedure SynMiniMap1Click(Sender: TObject; Data: PSynMiniMapEventData);
   private
     { Private declarations }
     function GetSplitVisible: Boolean;
@@ -70,6 +72,15 @@ begin
   VerticalSplitter.Visible := Value;
   VirtualDrawTree.Visible := Value;
   //VerticalSplitter.Visible := Value;
+end;
+
+procedure TDocTabSheetFrame.SynMiniMap1Click(Sender: TObject; Data: PSynMiniMapEventData);
+begin
+  if Assigned(SynMiniMap1.Editor) then
+  begin
+    SynMiniMap1.Editor.GotoLineAndCenter(Data.Coord.Line);
+    SynMiniMap1.Editor.CaretX := Data.Coord.Char;
+  end;
 end;
 
 function IsNameNodeType(NodeType: TNodeType): Boolean;

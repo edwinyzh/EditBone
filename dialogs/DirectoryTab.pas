@@ -161,7 +161,7 @@ begin
   RootDirectoryEdit.Width := TabNamePanel.Width - RootDirectoryEdit.Left - RootDrectoryBitBtn.Width - 4;
   ShowDrivesComboBox.Left := LeftMaxWidth;
   ShowFileTypeComboBox.Left := LeftMaxWidth;
-  ExcludeOtherBranchesCheckBox.Left := LeftMaxWidth + ShowDrivesComboBox.Width + 6;
+  ExcludeOtherBranchesCheckBox.Left := LeftMaxWidth + ShowDrivesComboBox.Width + 4;
 end;
 
 function TDirectoryTabDialog.GetRootDirectory: string;
