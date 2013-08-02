@@ -1856,6 +1856,8 @@ begin
     OptionsContainer.ScrollPastEof := ReadBool('Options', 'ScrollPastEof', False);
     OptionsContainer.ScrollPastEol := ReadBool('Options', 'ScrollPastEol', True);
     OptionsContainer.TabsToSpaces := ReadBool('Options', 'TabsToSpaces', True);
+    OptionsContainer.SmartTabs := ReadBool('Options', 'SmartTabs', False);
+    OptionsContainer.SmartTabDelete := ReadBool('Options', 'SmartTabDelete', False);
     OptionsContainer.IgnoreCase := ReadBool('Options', 'IgnoreCase', True);
     OptionsContainer.IgnoreBlanks := ReadBool('Options', 'IgnoreBlanks', True);
     OptionsContainer.PersistentHotKeys := ReadBool('Options', 'PersistentHotKeys', False);
@@ -2007,6 +2009,8 @@ begin
     WriteBool('Options', 'ScrollPastEof', OptionsContainer.ScrollPastEof);
     WriteBool('Options', 'ScrollPastEol', OptionsContainer.ScrollPastEol);
     WriteBool('Options', 'TabsToSpaces', OptionsContainer.TabsToSpaces);
+    WriteBool('Options', 'SmartTabs', OptionsContainer.SmartTabs);
+    WriteBool('Options', 'SmartTabDelete', OptionsContainer.SmartTabDelete);
     WriteBool('Options', 'IgnoreCase', OptionsContainer.IgnoreCase);
     WriteBool('Options', 'IgnoreBlanks', OptionsContainer.IgnoreBlanks);
     WriteBool('Options', 'PersistentHotKeys', OptionsContainer.PersistentHotKeys);

@@ -16,7 +16,7 @@ object OutputTabsFrame: TOutputTabsFrame
     TabOrder = 0
     object MultilineCheckBox: TBCCheckBox
       Left = 9
-      Top = 50
+      Top = 46
       Width = 232
       Height = 21
       Margins.Left = 4
@@ -29,7 +29,7 @@ object OutputTabsFrame: TOutputTabsFrame
     end
     object ShowCloseButtonCheckBox: TBCCheckBox
       Left = 9
-      Top = 72
+      Top = 66
       Width = 218
       Height = 21
       Margins.Left = 4
@@ -42,7 +42,7 @@ object OutputTabsFrame: TOutputTabsFrame
     end
     object ShowImageCheckBox: TBCCheckBox
       Left = 9
-      Top = 94
+      Top = 86
       Width = 218
       Height = 21
       Margins.Left = 4
@@ -68,7 +68,7 @@ object OutputTabsFrame: TOutputTabsFrame
     end
     object CloseTabByMiddleClickCheckBox: TBCCheckBox
       Left = 9
-      Top = 28
+      Top = 26
       Width = 218
       Height = 21
       Margins.Left = 4

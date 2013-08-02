@@ -149,6 +149,8 @@ type
     FSQLDialect: TSQLDialect;
     FSupportedFileExts: string;
     FTabsToSpaces: Boolean;
+    FSmartTabs: Boolean;
+    FSmartTabDelete: Boolean;
     FTabWidth: Integer;
     FToolBarVisible: Boolean;
     FToolBarStandard: Boolean;
@@ -242,6 +244,8 @@ type
     property ShowXMLTree: Boolean read FShowXMLTree write FShowXMLTree;
     property SQLDialect: TSQLDialect read FSQLDialect write FSQLDialect;
     property TabsToSpaces: Boolean read FTabsToSpaces write FTabsToSpaces;
+    property SmartTabs: Boolean read FSmartTabs write FSmartTabs;
+    property SmartTabDelete: Boolean read FSmartTabDelete write FSmartTabDelete;
     property TabWidth: Integer read FTabWidth write FTabWidth;
     property ToolBarVisible: Boolean read FToolBarVisible write FToolBarVisible;
     property ToolBarStandard: Boolean read FToolBarStandard write FToolBarStandard;
@@ -318,6 +322,14 @@ begin
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoTabsToSpaces]
     else
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoTabsToSpaces];
+    if FSmartTabs then
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoSmartTabs]
+    else
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoSmartTabs];
+    if FSmartTabDelete then
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoSmartTabDelete]
+    else
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoSmartTabDelete];
     if FTrimTrailingSpaces then
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoTrimTrailingSpaces]
     else
@@ -564,6 +576,8 @@ begin
   FScrollPastEof := False;
   FScrollPastEol := True;
   FTabsToSpaces := True;
+  FSmartTabs := False;
+  FSmartTabDelete := False;
   FGutterVisible := True;
   FDocCloseTabByDblClick := False;
   FDocCloseTabByMiddleClick := False;
@@ -874,6 +888,8 @@ begin
   FEditorOptionsFrame.ScrollPastEofCheckBox.Checked := FOptionsContainer.ScrollPastEof;
   FEditorOptionsFrame.ScrollPastEolCheckBox.Checked := FOptionsContainer.ScrollPastEol;
   FEditorOptionsFrame.TabsToSpacesCheckBox.Checked := FOptionsContainer.TabsToSpaces;
+  FEditorOptionsFrame.SmartTabsCheckBox.Checked := FOptionsContainer.SmartTabs;
+  FEditorOptionsFrame.SmartTabDeleteCheckBox.Checked := FOptionsContainer.SmartTabDelete;
   FEditorOptionsFrame.ExtraLinesEdit.Text := IntToStr(FOptionsContainer.ExtraLineSpacing);
   FEditorOptionsFrame.TabWidthEdit.Text := IntToStr(FOptionsContainer.TabWidth);
   FEditorOptionsFrame.BrightnessTrackBar.Position := FOptionsContainer.ColorBrightness;
@@ -1063,6 +1079,8 @@ begin
   FOptionsContainer.ScrollPastEof := FEditorOptionsFrame.ScrollPastEofCheckBox.Checked;
   FOptionsContainer.ScrollPastEol := FEditorOptionsFrame.ScrollPastEolCheckBox.Checked;
   FOptionsContainer.TabsToSpaces := FEditorOptionsFrame.TabsToSpacesCheckBox.Checked;
+  FOptionsContainer.SmartTabs := FEditorOptionsFrame.SmartTabsCheckBox.Checked;
+  FOptionsContainer.SmartTabDelete := FEditorOptionsFrame.SmartTabDeleteCheckBox.Checked;
   FOptionsContainer.ExtraLineSpacing := StrToIntDef(FEditorOptionsFrame.ExtraLinesEdit.Text, 0);
   FOptionsContainer.TabWidth := StrToIntDef(FEditorOptionsFrame.TabWidthEdit.Text, 2);
   FOptionsContainer.ColorBrightness := FEditorOptionsFrame.BrightnessTrackBar.Position;
