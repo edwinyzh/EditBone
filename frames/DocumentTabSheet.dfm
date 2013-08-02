@@ -1,15 +1,15 @@
 object DocTabSheetFrame: TDocTabSheetFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 302
+  Width = 865
+  Height = 561
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 451
-    Height = 302
+    Width = 865
+    Height = 561
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 1
@@ -21,7 +21,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 201
       Top = 1
       Width = 4
-      Height = 299
+      Height = 558
       Color = clBtnFace
       ParentColor = False
       Visible = False
@@ -31,7 +31,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 1
       Top = 1
       Width = 200
-      Height = 299
+      Height = 558
       Align = alLeft
       DragOperations = []
       Header.AutoSizeIndex = 0
@@ -54,8 +54,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
     object DocumentPanel: TPanel
       Left = 205
       Top = 1
-      Width = 246
-      Height = 299
+      Width = 660
+      Height = 558
       Align = alClient
       BevelOuter = bvNone
       Color = clWindow
@@ -63,8 +63,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       TabOrder = 1
       object HorizontalSplitter: TSplitter
         Left = 0
-        Top = 18
-        Width = 246
+        Top = 277
+        Width = 660
         Height = 4
         Cursor = crVSplit
         Align = alBottom
@@ -75,10 +75,10 @@ object DocTabSheetFrame: TDocTabSheetFrame
         ExplicitWidth = 665
       end
       object SynEditSplitter: TSplitter
-        Left = 42
+        Left = 456
         Top = 0
         Width = 4
-        Height = 18
+        Height = 277
         Align = alRight
         ParentColor = False
         Visible = False
@@ -88,8 +88,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       end
       object SplitSynEditPanel: TPanel
         Left = 0
-        Top = 22
-        Width = 246
+        Top = 281
+        Width = 660
         Height = 277
         Align = alBottom
         BevelOuter = bvNone
@@ -97,7 +97,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         TabOrder = 0
         Visible = False
         object SplitSynEditSplitter: TSplitter
-          Left = 42
+          Left = 456
           Top = 0
           Width = 4
           Height = 277
@@ -111,7 +111,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         object SplitSynEdit: TBCSynEdit
           Left = 0
           Top = 0
-          Width = 42
+          Width = 456
           Height = 277
           Align = alClient
           ActiveLineColor = clSkyBlue
@@ -128,12 +128,12 @@ object DocTabSheetFrame: TDocTabSheetFrame
           Gutter.Font.Name = 'Courier New'
           Gutter.Font.Style = []
           Gutter.ShowLineNumbers = True
-          Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
+          Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
           WantTabs = True
           FontSmoothing = fsmNone
         end
         object SplitSynEditMinimap: TSynMiniMap
-          Left = 46
+          Left = 460
           Top = 0
           Width = 200
           Height = 277
@@ -151,10 +151,10 @@ object DocTabSheetFrame: TDocTabSheetFrame
         end
       end
       object SynEditMinimap: TSynMiniMap
-        Left = 46
+        Left = 460
         Top = 0
         Width = 200
-        Height = 18
+        Height = 277
         Editor = SynEdit
         FontFactor = 2.000000000000000000
         Options.AllowScroll = True
@@ -170,8 +170,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       object SynEdit: TBCSynEdit
         Left = 0
         Top = 0
-        Width = 42
-        Height = 18
+        Width = 456
+        Height = 277
         Align = alClient
         ActiveLineColor = clSkyBlue
         Font.Charset = DEFAULT_CHARSET
@@ -187,7 +187,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
         Gutter.ShowLineNumbers = True
-        Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
+        Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
         WantTabs = True
         FontSmoothing = fsmNone
       end

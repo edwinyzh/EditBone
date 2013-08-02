@@ -1368,7 +1368,7 @@ begin
     if SynEdit.Encoding = TEncoding.UTF8 then
       MainForm.EncodingComboIndex := 5
     else
-    if SynEdit.Encoding = GetUTF8WithoutBOM then
+    if SynEdit.Encoding = TEncoding.UTF8WithoutBOM then
       MainForm.EncodingComboIndex := 6
     else
       MainForm.EncodingComboIndex := 1; { ANSI }
@@ -3321,7 +3321,7 @@ begin
       3: Encoding := TEncoding.Unicode;
       4: Encoding := TEncoding.UTF7;
       5: Encoding := TEncoding.UTF8;
-      6: Encoding := GetUTF8WithoutBOM;
+      6: Encoding := TEncoding.UTF8WithoutBOM;
     end;
   end;
 end;

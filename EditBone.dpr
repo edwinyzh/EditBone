@@ -1,6 +1,9 @@
 program EditBone;
 
 uses
+  {$ifdef debug}
+  //FastMM4,
+  {$endif}
   Forms,
   Windows,
   System.SysUtils,
