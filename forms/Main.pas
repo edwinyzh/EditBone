@@ -9,7 +9,7 @@ uses
   Vcl.StdCtrls, Vcl.Menus, Vcl.AppEvnts, Document, Output, Options, Lib, JvAppInst, VirtualTrees,
   JvDragDrop, BCControls.PopupMenu, Vcl.PlatformDefaultStyleActnCtrls, JvComponentBase, Vcl.ActnPopup,
   BCControls.ImageList, JvExStdCtrls, JvCombobox, BCControls.ComboBox, Vcl.Themes, System.Actions,
-  JvAppEvent;
+  JvAppEvent, JvProgressBar;
 
 const
   { Main menu item indexes }
@@ -20,6 +20,11 @@ const
   VIEW_STYLE_MENU_ITEMINDEX = 15;
 
 type
+  TStatusBar = class(Vcl.ComCtrls.TStatusBar)
+  public
+    constructor Create(AOwner: TComponent); override;
+  end;
+
   TMainForm = class(TForm)
     ActionMainMenuBar: TActionMainMenuBar;
     ActionManager: TActionManager;
@@ -319,9 +324,11 @@ type
     FOnStartUp: Boolean;
     FOutputFrame: TOutputFrame;
     FProcessingEventHandler: Boolean;
+    FProgressBar: TJvProgressBar;
     function GetActionClientItem(MenuItemIndex, SubMenuItemIndex: Integer): TActionClientItem;
     procedure CreateFrames;
     procedure CreateLanguageMenu;
+    procedure CreateProgressBar;
     procedure CreateStyleMenu;
     procedure FindInFiles(OutputTreeView: TVirtualDrawTree; FindWhatText, FileTypeText, FolderText: string; SearchCaseSensitive, LookInSubfolders: Boolean);
     procedure MainMenuTitleBarActions(Enabled: Boolean);
@@ -342,6 +349,7 @@ type
     procedure CreateFileReopenList;
     property EncodingComboIndex: Integer write SetEncodingComboIndex;
     property HighlighterComboIndex: Integer write SetHighlighterComboIndex;
+    property ProgressBar: TJvProgressBar read FProgressBar write FProgressBar;
   end;
 
 var
@@ -355,10 +363,20 @@ uses
   About, BCDialogs.FindInFiles, Vcl.ClipBrd, BigIni, BCCommon.StyleHooks, BCCommon.FileUtils,
   System.IOUtils, BCCommon.LanguageStrings, BCDialogs.ConfirmReplace, LanguageEditor, BCControls.SynEdit, BCCommon.LanguageUtils,
   BCCommon.DuplicateChecker, Vcl.PlatformVclStylesActnCtrls, UnicodeCharacterMap, DuplicateCheckerOptions,
-  System.Types, BCCommon.Messages, BCCommon, BCCommon.StringUtils;
+  System.Types, BCCommon.Messages, BCCommon, BCCommon.StringUtils, Winapi.CommCtrl;
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
+
+{ TStatusBar }
+
+constructor TStatusBar.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  ControlStyle := ControlStyle + [csAcceptsControls]; { allow progress bar }
+end;
+
+{ TMainForm }
 
 procedure TMainForm.UpdateStatusBar;
 begin
@@ -1201,8 +1219,20 @@ procedure OutputOpenAllEvent(var FileNames: TStrings);
 var
   i: Integer;
 begin
-  for i := 0 to FileNames.Count - 1 do
-    MainForm.FDocumentFrame.Open(FileNames.Strings[i]);
+  Screen.Cursor := crHourGlass;
+  try
+    MainForm.ProgressBar.Min := 0;
+    MainForm.ProgressBar.Max := FileNames.Count - 1;
+    MainForm.ProgressBar.Visible := True;
+    for i := 0 to FileNames.Count - 1 do
+    begin
+      MainForm.ProgressBar.Position := i;
+      MainForm.FDocumentFrame.Open(FileNames.Strings[i]);
+    end;
+    MainForm.ProgressBar.Visible := False;
+  finally
+    Screen.Cursor := crDefault;
+  end;
 end;
 
 procedure TMainForm.CreateFrames;
@@ -1240,6 +1270,7 @@ end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
 begin
+  FProgressBar.Free;
   FDocumentFrame.Free;
   FDirectoryFrame.Free;
 end;
@@ -1274,6 +1305,7 @@ begin
     CreateLanguageMenu;
     CreateStyleMenu;
     CreateFileReopenList;
+    CreateProgressBar;
 
     UpdateToolBar;
     UpdateStatusBar;
@@ -1289,6 +1321,21 @@ begin
       if SynEdit.CanFocus then
         SynEdit.SetFocus;
   end;
+end;
+
+procedure TMainForm.CreateProgressBar;
+var
+  R: TRect;
+begin
+  FProgressBar := TJvProgressBar.Create(StatusBar);
+  FProgressBar.Visible := False;
+  Statusbar.Perform(SB_GETRECT, 3, Integer(@R));
+  FProgressBar.Parent := Statusbar;
+  FProgressBar.Top    := R.Top;
+  FProgressBar.Left   := R.Left;
+  FProgressBar.Width  := R.Right - R.Left;
+  FProgressBar.Height := R.Bottom - R.Top;
+  FDocumentFrame.ProgressBar := FProgressBar;
 end;
 
 procedure TMainForm.HelpAboutActionExecute(Sender: TObject);

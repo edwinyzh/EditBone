@@ -92,7 +92,7 @@ uses
   SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
   SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11,
   SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch,
-  System.Actions, JvExStdCtrls, JvEdit;
+  System.Actions, JvExStdCtrls, JvEdit, JvProgressBar;
 
 type
   TDocumentFrame = class(TFrame)
@@ -298,6 +298,7 @@ type
     FSelectedText: UnicodeString;
     FImages: TBCImageList;
     FProcessing: Boolean;
+    FProgressBar: TJvProgressBar;
     function CanFindNextPrevious: Boolean;
     function CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
     function FindHtmlVersion(FileName: string): TSynWebHtmlVersion;
@@ -435,6 +436,7 @@ type
     property OpenTabSheetCount: Integer read GetOpenTabSheetCount;
     property OpenTabSheets: Boolean read GetOpenTabSheets;
     property Processing: Boolean read FProcessing;
+    property ProgressBar: TJvProgressBar read FProgressBar write FProgressBar;
     property SelectionFound: Boolean read GetSelectionFound;
     property SelectionModeChecked: Boolean read GetSelectionModeChecked;
     property SplitChecked: Boolean read GetSplitChecked;
@@ -749,22 +751,26 @@ begin
       SetActiveHighlighter(52); { UrlSyn }
 
     { XML Tree }
-    XMLTreeVisible := OptionsContainer.ShowXMLTree {MainForm.ViewXMLTreeAction.Checked} and IsXMLDocument;
+    XMLTreeVisible := OptionsContainer.ShowXMLTree and IsXMLDocument;
     if XMLTreeVisible then
       LoadFromXML(SynEdit.Text);
+
+    UpdateGutterAndColors(DocTabSheetFrame);
 
     { reduce flickering by setting width & height }
     SynEdit.Width := 0;
     SynEdit.Height := 0;
-    SynEdit.Visible := True;
 
     if SynEdit.CanFocus then
       SynEdit.SetFocus;
     SetMainHighlighterCombo(SynEdit);
     SetMainEncodingCombo(SynEdit);
+    Application.ProcessMessages;
+
+    SynEdit.Visible := True;
+
     Result := SynEdit;
   end;
-  UpdateGutterAndColors(DocTabSheetFrame);
 end;
 
 procedure TDocumentFrame.UpdateHighlighterColors;
@@ -1123,7 +1129,7 @@ end;
 
 procedure TDocumentFrame.CloseAll(CloseDocuments: Boolean);
 var
-  Rslt: Integer;
+  Rslt, i: Integer;
 begin
   Rslt := mrNone;
 
@@ -1135,8 +1141,24 @@ begin
   end;
   if CloseDocuments and (Rslt <> mrCancel) then
   begin
-    while PageControl.PageCount > 0 do
-      PageControl.ActivePage.Free;
+    FProcessing := True;
+    Screen.Cursor := crHourGlass;
+    try
+      FProgressBar.Min := 0;
+      i := 0;
+      FProgressBar.Max := PageControl.PageCount - 1;
+      FProgressBar.Visible := True;
+      while PageControl.PageCount > 0 do
+      begin
+        FProgressBar.Position := i;
+        PageControl.ActivePage.Free;
+        Inc(i);
+      end;
+      FProgressBar.Visible := False;
+    finally
+      Screen.Cursor := crDefault;
+      FProcessing := False;
+    end;
     FNumberOfNewDocument := 0;
   end;
 
@@ -1266,11 +1288,23 @@ var
   i: Integer;
   SynEdit: TBCSynEdit;
 begin
-  for i := 0 to PageControl.PageCount - 1 do
-  begin
-    SynEdit := GetSynEdit(PageControl.Pages[i]);
-    if Assigned(SynEdit) and SynEdit.Modified then
-      Save(PageControl.Pages[i]);
+  Screen.Cursor := crHourGlass;
+  try
+    FProcessing := True;
+    FProgressBar.Min := 0;
+    FProgressBar.Max := PageControl.PageCount - 1;
+    FProgressBar.Visible := True;
+    for i := 0 to PageControl.PageCount - 1 do
+    begin
+      FProgressBar.Position := i;
+      SynEdit := GetSynEdit(PageControl.Pages[i]);
+      if Assigned(SynEdit) and SynEdit.Modified then
+        Save(PageControl.Pages[i]);
+    end;
+    FProgressBar.Visible := False;
+  finally
+    Screen.Cursor := crDefault;
+    FProcessing := False;
   end;
 end;
 
@@ -1639,19 +1673,27 @@ begin
       begin
         FProcessing := True;
         Screen.Cursor := crHourGlass;
-        for i := 0 to PageControl.PageCount - 1 do
-        begin
-          SynEdit := GetSynEdit(PageControl.Pages[i]);
-          if Assigned(SynEdit) then
+        try
+          FProgressBar.Min := 0;
+          FProgressBar.Max := PageControl.PageCount - 1;
+          FProgressBar.Visible := True;
+          for i := 0 to PageControl.PageCount - 1 do
           begin
-            SynEdit.CaretXY := BufferCoord(0, 0);
-            SynEdit.SearchReplace(SearchText, ReplaceText, SynSearchOptions);
+            FProgressBar.Position := i;
+            SynEdit := GetSynEdit(PageControl.Pages[i]);
+            if Assigned(SynEdit) then
+            begin
+              SynEdit.CaretXY := BufferCoord(0, 0);
+              SynEdit.SearchReplace(SearchText, ReplaceText, SynSearchOptions);
 
-            PageControl.Pages[i].Caption := FormatFileName(PageControl.Pages[i].Caption, SynEdit.Modified);
-            PageControl.UpdatePageCaption(PageControl.Pages[i]);
+              PageControl.Pages[i].Caption := FormatFileName(PageControl.Pages[i].Caption, SynEdit.Modified);
+              PageControl.UpdatePageCaption(PageControl.Pages[i]);
+            end;
           end;
+          FProgressBar.Visible := False;
+        finally
+          Screen.Cursor := crDefault;
         end;
-        Screen.Cursor := crDefault;
         FProcessing := False;
       end;
     end;

@@ -211,13 +211,6 @@ begin
   Self.Clear;
 end;
 
-{procedure TOutputFrame.AddTreeViewLine(OutputTreeView: TVirtualDrawTree; Text: WideString);
-var
-  Root: PVirtualNode;
-begin
-  AddTreeViewLine(OutputTreeView, Root, '', 0, 0, Text);
-end; }
-
 procedure TOutputFrame.VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree;
   const PaintInfo: TVTPaintInfo);
 var
@@ -425,6 +418,7 @@ begin
 
   NodeData.Text := s;
   OutputTreeView.Tag := OutputTreeView.Tag + 1;
+
   Application.ProcessMessages;
 end;
 
