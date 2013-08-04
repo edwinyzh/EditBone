@@ -111,6 +111,7 @@ end;
 procedure TOutputFrame.PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   if (Button = mbMiddle) and OptionsContainer.OutputCloseTabByMiddleClick then
+    OutputCloseAction.Execute;
 end;
 
 procedure TOutputFrame.TabsheetDblClick(Sender: TObject);
