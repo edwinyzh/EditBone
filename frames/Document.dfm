@@ -128,9 +128,10 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 50
-        Height = 13
+        Height = 18
         Align = alLeft
         Caption = 'Search for'
+        ExplicitHeight = 13
       end
     end
     object SearchPanel3: TPanel
@@ -421,10 +422,11 @@ object DocumentFrame: TDocumentFrame
         Left = 0
         Top = 2
         Width = 70
-        Height = 13
+        Height = 19
         Align = alLeft
         Caption = 'Case Sensitive'
         Layout = tlCenter
+        ExplicitHeight = 13
       end
       object WholeWordsCheckBox: TBCCheckBox
         Left = 78
@@ -597,9 +599,10 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 48
-        Height = 13
+        Height = 20
         Align = alLeft
         Caption = 'Go to Line'
+        ExplicitHeight = 13
       end
     end
     object LineNumberPanel: TPanel

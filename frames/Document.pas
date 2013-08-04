@@ -299,6 +299,7 @@ type
     FImages: TBCImageList;
     FProcessing: Boolean;
     FProgressBar: TBCProgressBar;
+    FModifiedDocuments: Boolean;
     function CanFindNextPrevious: Boolean;
     function CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
     function FindHtmlVersion(FileName: string): TSynWebHtmlVersion;
@@ -313,6 +314,7 @@ type
     function GetCompareFrame(TabSheet: TTabSheet): TCompareFrame;
     function GetDocTabSheetFrame(TabSheet: TTabSheet): TDocTabSheetFrame;
     function GetFileDateTime(FileName: string): TDateTime;
+    function GetModifiedDocuments(CheckActive: Boolean = True): Boolean;
     function GetOpenTabSheetCount: Integer;
     function GetOpenTabSheets: Boolean;
     function GetSelectionFound: Boolean;
@@ -326,6 +328,7 @@ type
     function SearchOptions(IncludeBackwards: Boolean): TSynSearchOptions;
     procedure AddToReopenFiles(FileName: string);
     procedure CheckHTMLErrors;
+    procedure CheckModifiedDocuments;
     procedure DestroyHTMLErrorListItems;
     procedure DoSearch(SynEdit: TBCSynEdit);
     procedure InitializeSynEditPrint;
@@ -355,7 +358,6 @@ type
     function IsMacroStopped: Boolean;
     function IsRecordingMacro: Boolean;
     function IsXMLDocument: Boolean;
-    function ModifiedDocuments(CheckActive: Boolean = True): Boolean;
     function Options: Boolean;
     function ReadIniOpenFiles: Boolean;
     function SaveAs: string;
@@ -433,6 +435,7 @@ type
     property CanRedo: Boolean read GetCanRedo;
     property CanUndo: Boolean read GetCanUndo;
     property MinimapChecked: Boolean read GetMinimapChecked;
+    property ModifiedDocuments: Boolean Read FModifiedDocuments write FModifiedDocuments;
     property OpenTabSheetCount: Integer read GetOpenTabSheetCount;
     property OpenTabSheets: Boolean read GetOpenTabSheets;
     property Processing: Boolean read FProcessing;
@@ -467,6 +470,7 @@ begin
   FCaseCycle := 0;
   FSelectedText := '';
   FProcessing := False;
+  FModifiedDocuments := False;
   FHTMLErrorList := TList.Create;
 
   { IDE can lose these, if the main form is not open }
@@ -1124,16 +1128,17 @@ begin
   SynEdit := GetActiveSynEdit;
   SetMainHighlighterCombo(SynEdit);
   SetMainEncodingCombo(SynEdit);
+  CheckModifiedDocuments;
   CheckHTMLErrors;
 end;
 
 procedure TDocumentFrame.CloseAll(CloseDocuments: Boolean);
 var
-  Rslt, i: Integer;
+  Rslt, i, j: Integer;
 begin
   Rslt := mrNone;
 
-  if ModifiedDocuments then
+  if FModifiedDocuments then
   begin
     Rslt := SaveChanges(CloseDocuments);
     if Rslt = mrYes then
@@ -1148,11 +1153,11 @@ begin
       i := 0;
       FProgressBar.Max := PageControl.PageCount - 1;
       FProgressBar.Visible := True;
-      while PageControl.PageCount > 0 do
+      j := FProgressBar.Max;
+      for i := j downto 0 do
       begin
-        FProgressBar.Position := i;
-        PageControl.ActivePage.Free;
-        Inc(i);
+        FProgressBar.Position := j - i;
+        PageControl.Pages[i].Free;
       end;
       FProgressBar.Visible := False;
     finally
@@ -1161,7 +1166,7 @@ begin
     end;
     FNumberOfNewDocument := 0;
   end;
-
+  CheckModifiedDocuments;
   CheckHTMLErrors;
 end;
 
@@ -1177,7 +1182,7 @@ begin
 
   Rslt := mrNone;
 
-  if ModifiedDocuments(False) then
+  if GetModifiedDocuments(False) then
   begin
     Rslt := SaveChanges(True);
 
@@ -1207,8 +1212,13 @@ begin
     else
       FNumberOfNewDocument := 0
   end;
-
+  CheckModifiedDocuments;
   CheckHTMLErrors;
+end;
+
+procedure TDocumentFrame.CheckModifiedDocuments;
+begin
+  FModifiedDocuments := GetModifiedDocuments;
 end;
 
 function TDocumentFrame.Save(TabSheet: TTabSheet; ShowDialog: Boolean): string;
@@ -1267,6 +1277,7 @@ begin
       SetMainHighlighterCombo(DocTabSheetFrame.SynEdit);
       UpdateGutterAndColors(DocTabSheetFrame);
     end;
+    CheckModifiedDocuments;
   end;
 end;
 
@@ -1413,6 +1424,8 @@ procedure TDocumentFrame.PageControlChange(Sender: TObject);
 var
   SynEdit: TBCSynEdit;
 begin
+  if FProcessing then
+    Exit;
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
   begin
@@ -2279,6 +2292,7 @@ var
   SynEdit, SplitSynEdit: TBCSynEdit;
 begin
   inherited;
+  FModifiedDocuments := True;
   SynEdit := GetActiveSynEdit;
   if OptionsContainer.AutoSave then
     Save
@@ -2381,7 +2395,7 @@ begin
   Result := PageControl.PageCount;
 end;
 
-function TDocumentFrame.ModifiedDocuments(CheckActive: Boolean): Boolean;
+function TDocumentFrame.GetModifiedDocuments(CheckActive: Boolean): Boolean;
 var
   i: Integer;
   SynEdit: TBCSynEdit;
@@ -2742,7 +2756,7 @@ begin
   else
   if not FProcessing then
     SetActivePageCaptionModified;
-
+  FModifiedDocuments := True;
   FHTMLDocumentChanged := True;
   CheckHTMLErrors;
 end;
@@ -2828,6 +2842,8 @@ var
   SynEdit: TBCSynEdit;
   FileDateTime: TDateTime;
 begin
+  if FProcessing then
+    Exit;
   for i := 0 to PageControl.PageCount - 1 do
   begin
     SynEdit := GetSynEdit(PageControl.Pages[i]);
