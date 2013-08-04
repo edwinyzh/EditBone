@@ -9,7 +9,7 @@ uses
   Vcl.StdCtrls, Vcl.Menus, Vcl.AppEvnts, Document, Output, Options, Lib, JvAppInst, VirtualTrees,
   JvDragDrop, BCControls.PopupMenu, Vcl.PlatformDefaultStyleActnCtrls, JvComponentBase, Vcl.ActnPopup,
   BCControls.ImageList, JvExStdCtrls, JvCombobox, BCControls.ComboBox, Vcl.Themes, System.Actions,
-  JvAppEvent, JvProgressBar;
+  JvAppEvent, BCControls.ProgressBar;
 
 const
   { Main menu item indexes }
@@ -324,7 +324,7 @@ type
     FOnStartUp: Boolean;
     FOutputFrame: TOutputFrame;
     FProcessingEventHandler: Boolean;
-    FProgressBar: TJvProgressBar;
+    FProgressBar: TBCProgressBar;
     function GetActionClientItem(MenuItemIndex, SubMenuItemIndex: Integer): TActionClientItem;
     procedure CreateFrames;
     procedure CreateLanguageMenu;
@@ -349,7 +349,7 @@ type
     procedure CreateFileReopenList;
     property EncodingComboIndex: Integer write SetEncodingComboIndex;
     property HighlighterComboIndex: Integer write SetHighlighterComboIndex;
-    property ProgressBar: TJvProgressBar read FProgressBar write FProgressBar;
+    property ProgressBar: TBCProgressBar read FProgressBar write FProgressBar;
   end;
 
 var
@@ -360,7 +360,7 @@ implementation
 {$R *.dfm}
 
 uses
-  About, BCDialogs.FindInFiles, Vcl.ClipBrd, BigIni, BCCommon.StyleHooks, BCCommon.FileUtils,
+  About, BCDialogs.FindInFiles, Vcl.ClipBrd, BigIni, BCCommon.StyleUtils, BCCommon.FileUtils,
   System.IOUtils, BCCommon.LanguageStrings, BCDialogs.ConfirmReplace, LanguageEditor, BCControls.SynEdit, BCCommon.LanguageUtils,
   BCCommon.DuplicateChecker, Vcl.PlatformVclStylesActnCtrls, UnicodeCharacterMap, DuplicateCheckerOptions,
   System.Types, BCCommon.Messages, BCCommon, BCCommon.StringUtils, Winapi.CommCtrl;
@@ -1327,7 +1327,7 @@ procedure TMainForm.CreateProgressBar;
 var
   R: TRect;
 begin
-  FProgressBar := TJvProgressBar.Create(StatusBar);
+  FProgressBar := TBCProgressBar.Create(StatusBar);
   FProgressBar.Visible := False;
   Statusbar.Perform(SB_GETRECT, 3, Integer(@R));
   FProgressBar.Parent := Statusbar;

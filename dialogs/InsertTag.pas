@@ -31,7 +31,7 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.StyleHooks;
+  BCCommon.StyleUtils;
 
 var
   FInsertTagDialog: TInsertTagDialog;

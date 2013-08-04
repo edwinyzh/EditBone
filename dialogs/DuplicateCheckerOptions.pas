@@ -90,7 +90,7 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.StyleHooks, BCCommon.Dialogs, BCCommon.Messages,
+  BCCommon.StyleUtils, BCCommon.Dialogs, BCCommon.Messages,
 {$WARNINGS OFF}
   Vcl.FileCtrl, { warning: FileCtrl is specific to a platform }
 {$WARNINGS ON}

@@ -87,7 +87,7 @@ implementation
 {$R *.dfm}
 
 uses
-  System.Types, DirectoryTab, Winapi.ShellAPI, BCCommon.StyleHooks, BigIni, BCCommon.LanguageStrings, Options,
+  System.Types, DirectoryTab, Winapi.ShellAPI, BCCommon.StyleUtils, BigIni, BCCommon.LanguageStrings, Options,
   System.Math, BCCommon.FileUtils, BCCommon.Messages, BCCommon.Dialogs, BCCommon.StringUtils;
 
 constructor TDirectoryFrame.Create(AOwner: TComponent);

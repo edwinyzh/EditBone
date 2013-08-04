@@ -92,7 +92,7 @@ uses
   SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
   SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11,
   SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch,
-  System.Actions, JvExStdCtrls, JvEdit, JvProgressBar;
+  System.Actions, JvExStdCtrls, JvEdit, BCControls.ProgressBar;
 
 type
   TDocumentFrame = class(TFrame)
@@ -298,7 +298,7 @@ type
     FSelectedText: UnicodeString;
     FImages: TBCImageList;
     FProcessing: Boolean;
-    FProgressBar: TJvProgressBar;
+    FProgressBar: TBCProgressBar;
     function CanFindNextPrevious: Boolean;
     function CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
     function FindHtmlVersion(FileName: string): TSynWebHtmlVersion;
@@ -436,7 +436,7 @@ type
     property OpenTabSheetCount: Integer read GetOpenTabSheetCount;
     property OpenTabSheets: Boolean read GetOpenTabSheets;
     property Processing: Boolean read FProcessing;
-    property ProgressBar: TJvProgressBar read FProgressBar write FProgressBar;
+    property ProgressBar: TBCProgressBar read FProgressBar write FProgressBar;
     property SelectionFound: Boolean read GetSelectionFound;
     property SelectionModeChecked: Boolean read GetSelectionModeChecked;
     property SplitChecked: Boolean read GetSplitChecked;
@@ -448,7 +448,7 @@ implementation
 {$R *.dfm}
 
 uses
-  BCForms.PrintPreview, BCDialogs.Replace, BCDialogs.ConfirmReplace, Lib, Options, BCCommon.StyleHooks, VirtualTrees,
+  BCForms.PrintPreview, BCDialogs.Replace, BCDialogs.ConfirmReplace, Lib, Options, BCCommon.StyleUtils, VirtualTrees,
   Vcl.ActnMenus, SynTokenMatch, SynHighlighterWebMisc, System.Types, Winapi.ShellAPI, System.WideStrings, System.Math,
   Main, BigIni, Vcl.GraphUtil, SynUnicode, BCCommon.LanguageStrings, BCCommon.Dialogs, SynEditTextBuffer, BCCommon.Encoding,
   InsertTag, BCCommon.LanguageUtils, BCCommon.FileUtils, BCCommon.Messages, BCCommon, BCCommon.StringUtils;
@@ -888,8 +888,8 @@ end;
 
 procedure TDocumentFrame.UpdateGutterAndColors(DocTabSheetFrame: TDocTabSheetFrame);
 begin
-  BCCommon.StyleHooks.UpdateGutterAndColors(DocTabSheetFrame.SynEdit);
-  BCCommon.StyleHooks.UpdateGutterAndColors(DocTabSheetFrame.SplitSynEdit);
+  BCCommon.StyleUtils.UpdateGutterAndColors(DocTabSheetFrame.SynEdit);
+  BCCommon.StyleUtils.UpdateGutterAndColors(DocTabSheetFrame.SplitSynEdit);
 end;
 
 procedure TDocumentFrame.SynEditEnter(Sender: TObject);

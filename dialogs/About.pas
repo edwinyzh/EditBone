@@ -41,7 +41,7 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon, BCCommon.StyleHooks, BCCommon.FileUtils;
+  BCCommon, BCCommon.StyleUtils, BCCommon.FileUtils;
 
 var
   FAboutDialog: TAboutDialog;

@@ -62,7 +62,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Vcl.Themes, Options, BCCommon.StyleHooks;
+  Vcl.Themes, Options, BCCommon.StyleUtils;
 
 constructor TDocTabSheetFrame.Create(AOwner: TComponent);
 begin

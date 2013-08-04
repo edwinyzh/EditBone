@@ -2,8 +2,7 @@ program EditBone;
 
 uses
   {$ifdef debug}
-  //FastMM4,
-  {$endif}
+  {$endif }
   Forms,
   Windows,
   System.SysUtils,
@@ -26,7 +25,7 @@ uses
   BCCommon.Hash in '..\..\Common\units\BCCommon.Hash.pas',
   DirectoryTab in 'dialogs\DirectoryTab.pas' {DirectoryTabDialog},
   Main in 'forms\Main.pas' {MainForm},
-  BCCommon.StyleHooks in '..\..\Common\units\BCCommon.StyleHooks.pas',
+  BCCommon.StyleUtils in '..\..\Common\units\BCCommon.StyleUtils.pas',
   BCDialogs.DownloadURL in '..\..\Common\dialogs\BCDialogs.DownloadURL.pas' {DownloadURLDialog},
   BCFrames.Compare in '..\..\Common\frames\BCFrames.Compare.pas' {CompareFrame: TFrame},
   BigIni in '..\..\Common\units\BigIni.pas',

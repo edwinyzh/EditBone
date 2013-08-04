@@ -272,7 +272,7 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.StyleHooks, BCCommon.LanguageStrings, SynHighlighterMulti, System.IniFiles, SynEditTypes, BCCommon.StringUtils,
+  BCCommon.StyleUtils, BCCommon.LanguageStrings, SynHighlighterMulti, System.IniFiles, SynEditTypes, BCCommon.StringUtils,
   BCCommon.LanguageUtils;
 
 { TOptionsContainer }

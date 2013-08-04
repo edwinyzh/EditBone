@@ -80,7 +80,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Lib, Options, BCCommon.StyleHooks, System.Math, System.UITypes, Vcl.Clipbrd;
+  Lib, Options, BCCommon.StyleUtils, System.Math, System.UITypes, Vcl.Clipbrd;
 
 procedure TOutputFrame.OpenAllActionExecute(Sender: TObject);
 begin

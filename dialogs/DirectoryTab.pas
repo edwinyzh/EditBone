@@ -68,7 +68,7 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.StyleHooks, Math,
+  BCCommon.StyleUtils, Math,
 {$WARNINGS OFF}
   Vcl.FileCtrl, { warning: FileCtrl is specific to a platform }
 {$WARNINGS ON}
