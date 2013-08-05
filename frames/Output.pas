@@ -541,14 +541,12 @@ begin
 end;
 
 procedure TOutputFrame.CloseAllTabSheets;
+var
+  i, j: Integer;
 begin
-  while PageControl.PageCount > 0 do
-  begin
-    Self.Clear;
-    PageControl.ActivePage.Free;
-    if PageControl.PageCount > 0 then
-      PageControl.ActivePageIndex := PageControl.PageCount - 1;
-  end;
+  j := PageControl.PageCount - 1;
+  for i := j downto 0 do
+    PageControl.Pages[i].Free;
 end;
 
 procedure TOutputFrame.CloseAllOtherPagesActionExecute(Sender: TObject);
@@ -558,21 +556,12 @@ end;
 
 procedure TOutputFrame.CloseAllOtherTabSheets;
 var
-  i: Integer;
+  i, j: Integer;
 begin
-  PageControl.ActivePage.Tag := 1; { not destroyed }
-
-  for i := PageControl.PageCount - 1 downto 0 do
-  begin
-    PageControl.ActivePageIndex := i;
-    if PageControl.ActivePage.Tag = 0 then
-    begin
-      Self.Clear;
-      PageControl.ActivePage.Free;
-    end;
-  end;
-
-  PageControl.ActivePage.Tag := 0;
+  PageControl.ActivePage.PageIndex := 0;
+  j := PageControl.PageCount - 1;
+  for i := j downto 1 do
+    PageControl.Pages[i].Free;
 end;
 
 procedure TOutputFrame.SetProcessingTabSheet(Value: Boolean);

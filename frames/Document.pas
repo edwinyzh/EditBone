@@ -1150,7 +1150,6 @@ begin
     Screen.Cursor := crHourGlass;
     try
       FProgressBar.Min := 0;
-      i := 0;
       FProgressBar.Max := PageControl.PageCount - 1;
       FProgressBar.Visible := True;
       j := FProgressBar.Max;
@@ -1172,40 +1171,44 @@ end;
 
 procedure TDocumentFrame.CloseAllOtherPages;
 var
-  i: Integer;
-  Temp: Integer;
+  i, j: Integer;
   Rslt: Integer;
   SynEdit: TBCSynEdit;
 begin
-  Temp := PageControl.ActivePageIndex;
-  PageControl.ActivePage.Tag := 1;
-
   Rslt := mrNone;
-
+  PageControl.ActivePage.PageIndex := 0; { move the page first }
   if GetModifiedDocuments(False) then
   begin
     Rslt := SaveChanges(True);
 
     if Rslt = mrYes then
-      for i := 0 to PageControl.PageCount - 1 do
+      for i := 1 to PageControl.PageCount - 1 do
       begin
-        PageControl.ActivePage := PageControl.Pages[i];
-        SynEdit := GetActiveSynEdit;
-        if Assigned(SynEdit) and (SynEdit.Modified) and (i <> Temp) then
+        SynEdit := GetSynEdit(PageControl.Pages[i]);
+        if Assigned(SynEdit) and SynEdit.Modified then
           Save(PageControl.Pages[i]);
       end;
   end;
 
   if Rslt <> mrCancel then
   begin
-    PageControl.ActivePageIndex := 0;
-    while PageControl.PageCount > 1 do
-      if PageControl.ActivePage.Tag = 1 then
-        PageControl.ActivePage := PageControl.Pages[PageControl.ActivePageIndex + 1]
-      else
-        PageControl.ActivePage.Free;
-
-    PageControl.ActivePage.Tag := 0; { important! }
+    FProcessing := True;
+    Screen.Cursor := crHourGlass;
+    try
+      FProgressBar.Min := 1;
+      FProgressBar.Max := PageControl.PageCount - 1;
+      FProgressBar.Visible := True;
+      j := FProgressBar.Max;
+      for i := j downto 1 do
+      begin
+        FProgressBar.Position := j - i;
+        PageControl.Pages[i].Free;
+      end;
+      FProgressBar.Visible := False;
+    finally
+      Screen.Cursor := crDefault;
+      FProcessing := False;
+    end;
 
     if GetActiveSynEdit.DocumentName = '' then
       FNumberOfNewDocument := 1
