@@ -302,7 +302,7 @@ type
     FModifiedDocuments: Boolean;
     function CanFindNextPrevious: Boolean;
     function CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
-    function FindHtmlVersion(FileName: string): TSynWebHtmlVersion;
+    function FindHtmlVersion(Lines: TStrings): TSynWebHtmlVersion;
     function FindOpenFile(FileName: string): TBCSynEdit;
     function GetActiveDocumentFound: Boolean;
     function GetActiveDocumentModified: Boolean;
@@ -584,55 +584,48 @@ begin
   inherited Destroy;
 end;
 
-function TDocumentFrame.FindHtmlVersion(FileName: string): TSynWebHtmlVersion;
+function TDocumentFrame.FindHtmlVersion(Lines: TStrings): TSynWebHtmlVersion;
 var
   Ln: Integer;
-  SynEdit: TBCSynEdit;
   S: string;
 begin
   Result := OptionsContainer.HtmlVersion; { Default }
 
-  SynEdit := TBCSynEdit.Create(nil);
-  SynEdit.LoadFromFile(FileName);
   try
-    try
-      for Ln := 0 to 2 do
-      begin
-        S := SynEdit.Lines[Ln];
+    for Ln := 0 to 10 do
+    begin
+      S := Lines[Ln];
 
-        if Pos(UpperCase('<!DOCTYPE html>'), UpperCase(S)) <> 0 then
-        begin
-          Result := shvHtml5;
-          Exit;
-        end;
-        if Pos(UpperCase('DTD HTML 4.01 Transitional'), UpperCase(S)) <> 0 then
-        begin
-          Result := shvHtml401Transitional;
-          Exit;
-        end;
-        if Pos(UpperCase('DTD HTML 4.01 Frameset'), UpperCase(S)) <> 0 then
-        begin
-          Result := shvHtml401Frameset;
-          Exit;
-        end;
-        if Pos(UpperCase('DTD XHTML 1.0 Strict'), UpperCase(S)) <> 0 then
-        begin
-          Result := shvXHtml10Strict;
-          Exit;
-        end;
-        if Pos(UpperCase('DTD XHTML 1.0 Transitional'), UpperCase(S)) <> 0 then
-        begin
-          Result := shvXHtml10Transitional;
-          Exit;
-        end;
-        if Pos(UpperCase('DTD XHTML 1.0 Frameset'), UpperCase(S)) <> 0 then
-        begin
-          Result := shvXHtml10Frameset;
-          Exit;
-        end;
+      if Pos(UpperCase('<!DOCTYPE html'), UpperCase(S)) <> 0 then
+      begin
+        Result := shvHtml5;
+        Exit;
       end;
-    finally
-      SynEdit.Free;
+      if Pos(UpperCase('DTD HTML 4.01 Transitional'), UpperCase(S)) <> 0 then
+      begin
+        Result := shvHtml401Transitional;
+        Exit;
+      end;
+      if Pos(UpperCase('DTD HTML 4.01 Frameset'), UpperCase(S)) <> 0 then
+      begin
+        Result := shvHtml401Frameset;
+        Exit;
+      end;
+      if Pos(UpperCase('DTD XHTML 1.0 Strict'), UpperCase(S)) <> 0 then
+      begin
+        Result := shvXHtml10Strict;
+        Exit;
+      end;
+      if Pos(UpperCase('DTD XHTML 1.0 Transitional'), UpperCase(S)) <> 0 then
+      begin
+        Result := shvXHtml10Transitional;
+        Exit;
+      end;
+      if Pos(UpperCase('DTD XHTML 1.0 Frameset'), UpperCase(S)) <> 0 then
+      begin
+        Result := shvXHtml10Frameset;
+        Exit;
+      end;
     end;
   except
 
@@ -1271,10 +1264,7 @@ begin
       FileDateTime := GetFileDateTime(DocumentName);
       Modified := False;
       TabSheet.ImageIndex := GetImageIndex(DocumentName);
-
-      AFileName := Trim(TabSheet.Caption);
-      AFileName := FormatFileName(AFileName);
-      TabSheet.Caption := AFileName;
+      TabSheet.Caption := FormatFileName(TabSheet.Caption);
       PageControl.UpdatePageCaption(TabSheet);
       SelectHighlighter(DocTabSheetFrame, DocumentName);
       SetMainHighlighterCombo(DocTabSheetFrame.SynEdit);
@@ -3723,7 +3713,7 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
         OnPaintTransient := SynEditHTMLPaintTransient;
         OnChange := SynEditHTMLOnChange;
         FHTMLDocumentChanged := True;
-        HtmlVersion := FindHtmlVersion(FileName);
+        HtmlVersion := FindHtmlVersion(Lines);
         SynWebEngine.Options.HtmlVersion := HtmlVersion;
       end
       else if IsExtInFileType(FileExt, ftPas) then
@@ -3744,9 +3734,19 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
           OnPaintTransient := SynEditPASPaintTransient;
         end
       end
-      else if IsExtInFileType(FileExt, ftSQL) then
+      else
+      if IsExtInFileType(FileExt, ftSQL) then
         SynSQLSyn.SQLDialect := OptionsContainer.SQLDialect
     end;
+  end;
+
+  procedure SetSplitSynEdit(SynEdit, SplitSynEdit: TBCSynEdit);
+  begin
+    SplitSynEdit.Color := SynEdit.Color;
+    SplitSynEdit.ActiveLineColor := SynEdit.ActiveLineColor;
+    SplitSynEdit.OnPaintTransient := SynEdit.OnPaintTransient;
+    SplitSynEdit.HtmlVersion := SynEdit.HtmlVersion;
+    SplitSynEdit.Highlighter := SynEdit.Highlighter;
   end;
 
   procedure SetHighlighter;
@@ -3898,8 +3898,8 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
 
 begin
   SetSynEdit(DocTabSheetFrame.SynEdit);
-  SetSynEdit(DocTabSheetFrame.SplitSynEdit);
   SetHighlighter;
+  SetSplitSynEdit(DocTabSheetFrame.SynEdit, DocTabSheetFrame.SplitSynEdit);
 end;
 
 function TDocumentFrame.GetActiveBookmarkList: TSynEditMarkList;
