@@ -24,7 +24,6 @@ type
   TOptionsContainer = class;
 
   TOptionsDialog = class(TDialog)
-    ActionList: TActionList;
     ButtonDividerPanel: TPanel;
     ButtonPanel: TPanel;
     CancelButton: TButton;
@@ -46,9 +45,10 @@ type
     OutputAction: TAction;
     OutputTabsAction: TAction;
     Splitter: TSplitter;
-    TopPanel: TPanel;
     StatusBarAction: TAction;
     ToolBarAction: TAction;
+    TopPanel: TPanel;
+    ActionList: TActionList;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -58,7 +58,6 @@ type
     procedure OptionsVirtualStringTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
     procedure OptionsVirtualStringTreeGetText(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
   private
-    FOptionsDirectoryFrame: TOptionsDirectoryFrame;
     FDirectoryTabsFrame: TDirectoryTabsFrame;
     FEditorErrorCheckingFrame: TEditorErrorCheckingFrame;
     FEditorFontFrame: TEditorFontFrame;
@@ -68,12 +67,13 @@ type
     FEditorTabsFrame: TEditorTabsFrame;
     FFileTypesFrame: TFileTypesFrame;
     FMainMenuFrame: TMainMenuFrame;
-    FToolBarFrame: TToolBarFrame;
-    FStatusBarFrame: TStatusBarFrame;
     FOptionsCompareFrame: TOptionsCompareFrame;
     FOptionsContainer: TOptionsContainer;
-    FOutputTabsFrame: TOutputTabsFrame;
+    FOptionsDirectoryFrame: TOptionsDirectoryFrame;
     FOptionsOutputFrame: TOptionsOutputFrame;
+    FOutputTabsFrame: TOutputTabsFrame;
+    FStatusBarFrame: TStatusBarFrame;
+    FToolBarFrame: TToolBarFrame;
     procedure CreateTree;
     procedure GetData;
     procedure PutData;
@@ -90,22 +90,23 @@ type
     FAnimationStyle: TAnimationStyle;
     FAutoIndent: Boolean;
     FAutoSave: Boolean;
-    FUndoAfterSave: Boolean;
     FColorBrightness: Integer;
     FCPASHighlighter: TCPASHighlighter;
     FCSSVersion: TSynWebCssVersion;
-    FDirShowTreeLines: Boolean;
+    FDirCloseTabByDblClick: Boolean;
+    FDirCloseTabByMiddleClick: Boolean;
+    FDirDoubleBuffered: Boolean;
     FDirIndent: Integer;
     FDirMultiLine: Boolean;
     FDirShowCloseButton: Boolean;
     FDirShowImage: Boolean;
-    FDirCloseTabByDblClick: Boolean;
-    FDirCloseTabByMiddleClick: Boolean;
+    FDirShowTreeLines: Boolean;
+    FDocCloseTabByDblClick: Boolean;
+    FDocCloseTabByMiddleClick: Boolean;
+    FDocDoubleBuffered: Boolean;
     FDocMultiLine: Boolean;
     FDocShowCloseButton: Boolean;
     FDocShowImage: Boolean;
-    FDocCloseTabByDblClick: Boolean;
-    FDocCloseTabByMiddleClick: Boolean;
     FEnableLineNumbers: Boolean;
     FEnableSelectionMode: Boolean;
     FEnableSpecialChars: Boolean;
@@ -118,58 +119,60 @@ type
     FGutterFontName: string;
     FGutterFontSize: Integer;
     FGutterRightMargin: Integer;
+    FGutterWidth: Integer;
     FGutterVisible: Boolean;
     FGutterVisibleRightMargin: Boolean;
-    FGutterWidth: Integer;
     FHTMLErrorChecking: Boolean;
     FHTMLVersion: TSynWebHtmlVersion;
-    FInsertCaret: TSynEditCaretType;
     FIgnoreBlanks: Boolean;
     FIgnoreCase: Boolean;
+    FInsertCaret: TSynEditCaretType;
     FMainMenuFontName: string;
     FMainMenuFontSize: Integer;
     FMainMenuSystemFontName: string;
     FMainMenuSystemFontSize: Integer;
-    FStatusBarUseSystemFont: Boolean;
-    FStatusBarFontName: string;
-    FStatusBarFontSize: Integer;
+    FMainMenuUseSystemFont: Boolean;
     FOutputCloseTabByDblClick: Boolean;
     FOutputCloseTabByMiddleClick: Boolean;
+    FOutputDoubleBuffered: Boolean;
+    FOutputIndent: Integer;
     FOutputMultiLine: Boolean;
     FOutputShowCloseButton: Boolean;
     FOutputShowImage: Boolean;
     FOutputShowTreeLines: Boolean;
-    FOutputIndent: Integer;
     FPersistentHotKeys: Boolean;
     FPHPVersion: TSynWebPhpVersion;
     FScrollPastEof: Boolean;
     FScrollPastEol: Boolean;
     FShadows: Boolean;
     FShowXMLTree: Boolean;
+    FSmartTabDelete: Boolean;
+    FSmartTabs: Boolean;
     FSQLDialect: TSQLDialect;
+    FStatusBarFontName: string;
+    FStatusBarFontSize: Integer;
+    FStatusBarUseSystemFont: Boolean;
     FSupportedFileExts: string;
     FTabsToSpaces: Boolean;
-    FSmartTabs: Boolean;
-    FSmartTabDelete: Boolean;
     FTabWidth: Integer;
-    FToolBarVisible: Boolean;
-    FToolBarStandard: Boolean;
-    FToolBarPrint: Boolean;
-    FToolBarDirectory: Boolean;
-    FToolBarIndent: Boolean;
-    FToolBarSort: Boolean;
     FToolBarCase: Boolean;
     FToolBarCommand: Boolean;
-    FToolBarSearch: Boolean;
-    FToolBarMode: Boolean;
-    FToolBarTools: Boolean;
-    FToolBarMacro: Boolean;
+    FToolBarDirectory: Boolean;
     FToolBarDocument: Boolean;
+    FToolBarIndent: Boolean;
+    FToolBarMacro: Boolean;
+    FToolBarMode: Boolean;
+    FToolBarPrint: Boolean;
+    FToolBarSearch: Boolean;
+    FToolBarSort: Boolean;
+    FToolBarStandard: Boolean;
+    FToolBarTools: Boolean;
+    FToolBarVisible: Boolean;
     FTrimTrailingSpaces: Boolean;
-    FMainMenuUseSystemFont: Boolean;
+    FUndoAfterSave: Boolean;
     function GetExtensions: string;
-    function GetFilters: string;
     function GetFilterCount: Cardinal;
+    function GetFilters: string;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -183,19 +186,20 @@ type
     property AnimationStyle: TAnimationStyle read FAnimationStyle write FAnimationStyle;
     property AutoIndent: Boolean read FAutoIndent write FAutoIndent;
     property AutoSave: Boolean read FAutoSave write FAutoSave;
-    property UndoAfterSave: Boolean read FUndoAfterSave write FUndoAfterSave;
     property ColorBrightness: Integer read FColorBrightness write FColorBrightness;
     property CPASHighlighter: TCPASHighlighter read FCPASHighlighter write FCPASHighlighter;
     property CSSVersion: TSynWebCssVersion read FCSSVersion write FCSSVersion;
     property DirCloseTabByDblClick: Boolean read FDirCloseTabByDblClick write FDirCloseTabByDblClick;
     property DirCloseTabByMiddleClick: Boolean read FDirCloseTabByMiddleClick write FDirCloseTabByMiddleClick;
-    property DirShowTreeLines: Boolean read FDirShowTreeLines write FDirShowTreeLines;
+    property DirDoubleBuffered: Boolean read FDirDoubleBuffered write FDirDoubleBuffered;
     property DirIndent: Integer read FDirIndent write FDirIndent;
     property DirMultiLine: Boolean read FDirMultiLine write FDirMultiLine;
     property DirShowCloseButton: Boolean read FDirShowCloseButton write FDirShowCloseButton;
     property DirShowImage: Boolean read FDirShowImage write FDirShowImage;
+    property DirShowTreeLines: Boolean read FDirShowTreeLines write FDirShowTreeLines;
     property DocCloseTabByDblClick: Boolean read FDocCloseTabByDblClick write FDocCloseTabByDblClick;
     property DocCloseTabByMiddleClick: Boolean read FDocCloseTabByMiddleClick write FDocCloseTabByMiddleClick;
+    property DocDoubleBuffered: Boolean read FDocDoubleBuffered write FDocDoubleBuffered;
     property DocMultiLine: Boolean read FDocMultiLine write FDocMultiLine;
     property DocShowCloseButton: Boolean read FDocShowCloseButton write FDocShowCloseButton;
     property DocShowImage: Boolean read FDocShowImage write FDocShowImage;
@@ -206,17 +210,17 @@ type
     property Extensions: string read GetExtensions;
     property ExtraLineSpacing: Integer read FExtraLineSpacing write FExtraLineSpacing;
     property FileTypes: TStrings read FFileTypes write FFileTypes;
-    property Filters: string read GetFilters;
     property FilterCount: Cardinal read GetFilterCount;
+    property Filters: string read GetFilters;
     property FontName: string read FFontName write FFontName;
     property FontSize: Integer read FFontSize write FFontSize;
     property GutterAutoSize: Boolean read FGutterAutoSize write FGutterAutoSize;
     property GutterFontName: string read FGutterFontName write FGutterFontName;
     property GutterFontSize: Integer read FGutterFontSize write FGutterFontSize;
     property GutterRightMargin: Integer read FGutterRightMargin write FGutterRightMargin;
+    property GutterWidth: Integer read FGutterWidth write FGutterWidth;
     property GutterVisible: Boolean read FGutterVisible write FGutterVisible;
     property GutterVisibleRightMargin: Boolean read FGutterVisibleRightMargin write FGutterVisibleRightMargin;
-    property GutterWidth: Integer read FGutterWidth write FGutterWidth;
     property HTMLErrorChecking: Boolean read FHTMLErrorChecking write FHTMLErrorChecking;
     property HTMLVersion: TSynWebHtmlVersion read FHTMLVersion write FHTMLVersion;
     property IgnoreBlanks: Boolean read FIgnoreBlanks write FIgnoreBlanks;
@@ -226,42 +230,44 @@ type
     property MainMenuFontSize: Integer read FMainMenuFontSize write FMainMenuFontSize;
     property MainMenuSystemFontName: string read FMainMenuSystemFontName write FMainMenuSystemFontName;
     property MainMenuSystemFontSize: Integer read FMainMenuSystemFontSize write FMainMenuSystemFontSize;
-    property StatusBarUseSystemFont: Boolean read FStatusBarUseSystemFont write FStatusBarUseSystemFont;
-    property StatusBarFontName: string read FStatusBarFontName write FStatusBarFontName;
-    property StatusBarFontSize: Integer read FStatusBarFontSize write FStatusBarFontSize;
-    property OutputShowTreeLines: Boolean read FOutputShowTreeLines write FOutputShowTreeLines;
-    property OutputIndent: Integer read FOutputIndent write FOutputIndent;
+    property MainMenuUseSystemFont: Boolean read FMainMenuUseSystemFont write FMainMenuUseSystemFont;
     property OutputCloseTabByDblClick: Boolean read FOutputCloseTabByDblClick write FOutputCloseTabByDblClick;
     property OutputCloseTabByMiddleClick: Boolean read FOutputCloseTabByMiddleClick write FOutputCloseTabByMiddleClick;
+    property OutputDoubleBuffered: Boolean read FOutputDoubleBuffered write FOutputDoubleBuffered;
+    property OutputIndent: Integer read FOutputIndent write FOutputIndent;
     property OutputMultiLine: Boolean read FOutputMultiLine write FOutputMultiLine;
     property OutputShowCloseButton: Boolean read FOutputShowCloseButton write FOutputShowCloseButton;
     property OutputShowImage: Boolean read FOutputShowImage write FOutputShowImage;
+    property OutputShowTreeLines: Boolean read FOutputShowTreeLines write FOutputShowTreeLines;
     property PersistentHotKeys: Boolean read FPersistentHotKeys write FPersistentHotKeys;
     property PHPVersion: TSynWebPhpVersion read FPHPVersion write FPHPVersion;
     property ScrollPastEof: Boolean read FScrollPastEof write FScrollPastEof;
     property ScrollPastEol: Boolean read FScrollPastEol write FScrollPastEol;
     property Shadows: Boolean read FShadows write FShadows;
     property ShowXMLTree: Boolean read FShowXMLTree write FShowXMLTree;
-    property SQLDialect: TSQLDialect read FSQLDialect write FSQLDialect;
-    property TabsToSpaces: Boolean read FTabsToSpaces write FTabsToSpaces;
-    property SmartTabs: Boolean read FSmartTabs write FSmartTabs;
     property SmartTabDelete: Boolean read FSmartTabDelete write FSmartTabDelete;
+    property SmartTabs: Boolean read FSmartTabs write FSmartTabs;
+    property SQLDialect: TSQLDialect read FSQLDialect write FSQLDialect;
+    property StatusBarFontName: string read FStatusBarFontName write FStatusBarFontName;
+    property StatusBarFontSize: Integer read FStatusBarFontSize write FStatusBarFontSize;
+    property StatusBarUseSystemFont: Boolean read FStatusBarUseSystemFont write FStatusBarUseSystemFont;
+    property TabsToSpaces: Boolean read FTabsToSpaces write FTabsToSpaces;
     property TabWidth: Integer read FTabWidth write FTabWidth;
-    property ToolBarVisible: Boolean read FToolBarVisible write FToolBarVisible;
-    property ToolBarStandard: Boolean read FToolBarStandard write FToolBarStandard;
-    property ToolBarPrint: Boolean read FToolBarPrint write FToolBarPrint;
-    property ToolBarDirectory: Boolean read FToolBarDirectory write FToolBarDirectory;
-    property ToolBarIndent: Boolean read FToolBarIndent write FToolBarIndent;
-    property ToolBarSort: Boolean read FToolBarSort write FToolBarSort;
     property ToolBarCase: Boolean read FToolBarCase write FToolBarCase;
     property ToolBarCommand: Boolean read FToolBarCommand write FToolBarCommand;
-    property ToolBarSearch: Boolean read FToolBarSearch write FToolBarSearch;
-    property ToolBarMode: Boolean read FToolBarMode write FToolBarMode;
-    property ToolBarTools: Boolean read FToolBarTools write FToolBarTools;
-    property ToolBarMacro: Boolean read FToolBarMacro write FToolBarMacro;
+    property ToolBarDirectory: Boolean read FToolBarDirectory write FToolBarDirectory;
     property ToolBarDocument: Boolean read FToolBarDocument write FToolBarDocument;
+    property ToolBarIndent: Boolean read FToolBarIndent write FToolBarIndent;
+    property ToolBarMacro: Boolean read FToolBarMacro write FToolBarMacro;
+    property ToolBarMode: Boolean read FToolBarMode write FToolBarMode;
+    property ToolBarPrint: Boolean read FToolBarPrint write FToolBarPrint;
+    property ToolBarSearch: Boolean read FToolBarSearch write FToolBarSearch;
+    property ToolBarSort: Boolean read FToolBarSort write FToolBarSort;
+    property ToolBarStandard: Boolean read FToolBarStandard write FToolBarStandard;
+    property ToolBarTools: Boolean read FToolBarTools write FToolBarTools;
+    property ToolBarVisible: Boolean read FToolBarVisible write FToolBarVisible;
     property TrimTrailingSpaces: Boolean read FTrimTrailingSpaces write FTrimTrailingSpaces;
-    property MainMenuUseSystemFont: Boolean read FMainMenuUseSystemFont write FMainMenuUseSystemFont;
+    property UndoAfterSave: Boolean read FUndoAfterSave write FUndoAfterSave;
   end;
 
 function OptionsDialog(Sender: TComponent): TOptionsDialog;
@@ -386,6 +392,13 @@ begin
       TStatusBar(Dest).Font.Size := FStatusBarFontSize;
       TStatusBar(Dest).Height := FStatusBarFontSize + 11;
     end;
+  end
+  else
+  if Assigned(Dest) and (Dest is TBCPageControl) then
+  begin
+    TBCPageControl(Dest).DoubleBuffered := FDirDoubleBuffered;
+    TBCPageControl(Dest).MultiLine := FDirMultiLine;
+    TBCPageControl(Dest).ShowCloseButton := FDirShowCloseButton;
   end
   else
     inherited;
@@ -581,6 +594,7 @@ begin
   FGutterVisible := True;
   FDocCloseTabByDblClick := False;
   FDocCloseTabByMiddleClick := False;
+  FDocDoubleBuffered := True;
   FDocMultiLine := False;
   FDocShowCloseButton := False;
   FDocShowImage := True;
@@ -588,11 +602,13 @@ begin
   FDirIndent := 20;
   FDirCloseTabByDblClick := False;
   FDirCloseTabByMiddleClick := False;
+  FDirDoubleBuffered := True;
   FDirMultiLine := False;
   FDirShowCloseButton := False;
   FDirShowImage := True;
   FOutputCloseTabByDblClick := False;
   FOutputCloseTabByMiddleClick := False;
+  FOutputDoubleBuffered := True;
   FOutputMultiLine := False;
   FOutputShowCloseButton := False;
   FIgnoreCase := True;
@@ -910,6 +926,7 @@ begin
   { Document tabs }
   FEditorTabsFrame.CloseTabByDblClickCheckBox.Checked := FOptionsContainer.DocCloseTabByDblClick;
   FEditorTabsFrame.CloseTabByMiddleClickCheckBox.Checked := FOptionsContainer.DocCloseTabByMiddleClick;
+  FEditorTabsFrame.DoubleBufferedCheckBox.Checked := FOptionsContainer.DocDoubleBuffered;
   FEditorTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.DocMultiLine;
   FEditorTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DocShowCloseButton;
   FEditorTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.DocShowImage;
@@ -919,6 +936,7 @@ begin
   { Directory tabs }
   FDirectoryTabsFrame.CloseTabByDblClickCheckBox.Checked := FOptionsContainer.DirCloseTabByDblClick;
   FDirectoryTabsFrame.CloseTabByMiddleClickCheckBox.Checked := FOptionsContainer.DirCloseTabByMiddleClick;
+  FDirectoryTabsFrame.DoubleBufferedCheckBox.Checked := FOptionsContainer.DirDoubleBuffered;
   FDirectoryTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.DirMultiLine;
   FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DirShowCloseButton;
   FDirectoryTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.DirShowImage;
@@ -928,6 +946,7 @@ begin
   { Output tabs }
   FOutputTabsFrame.CloseTabByDblClickCheckBox.Checked := FOptionsContainer.OutputCloseTabByDblClick;
   FOutputTabsFrame.CloseTabByMiddleClickCheckBox.Checked := FOptionsContainer.OutputCloseTabByMiddleClick;
+  FOutputTabsFrame.DoubleBufferedCheckBox.Checked := FOptionsContainer.OutputDoubleBuffered;
   FOutputTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.OutputMultiLine;
   FOutputTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.OutputShowCloseButton;
   FOutputTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.OutputShowImage;
@@ -1099,6 +1118,7 @@ begin
   { Document tabs }
   FOptionsContainer.DocCloseTabByDblClick := FEditorTabsFrame.CloseTabByDblClickCheckBox.Checked;
   FOptionsContainer.DocCloseTabByMiddleClick := FEditorTabsFrame.CloseTabByMiddleClickCheckBox.Checked;
+  FOptionsContainer.DocDoubleBuffered := FEditorTabsFrame.DoubleBufferedCheckBox.Checked;
   FOptionsContainer.DocMultiLine := FEditorTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.DocShowCloseButton := FEditorTabsFrame.ShowCloseButtonCheckBox.Checked;
   FOptionsContainer.DocShowImage := FEditorTabsFrame.ShowImageCheckBox.Checked;
@@ -1108,6 +1128,7 @@ begin
   { Directory tabs }
   FOptionsContainer.DirCloseTabByDblClick := FDirectoryTabsFrame.CloseTabByDblClickCheckBox.Checked;
   FOptionsContainer.DirCloseTabByMiddleClick := FDirectoryTabsFrame.CloseTabByMiddleClickCheckBox.Checked;
+  FOptionsContainer.DirDoubleBuffered := FDirectoryTabsFrame.DoubleBufferedCheckBox.Checked;
   FOptionsContainer.DirMultiLine := FDirectoryTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.DirShowCloseButton := FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked;
   FOptionsContainer.DirShowImage := FDirectoryTabsFrame.ShowImageCheckBox.Checked;
@@ -1117,6 +1138,7 @@ begin
   { Output tabs }
   FOptionsContainer.OutputCloseTabByDblClick := FOutputTabsFrame.CloseTabByDblClickCheckBox.Checked;
   FOptionsContainer.OutputCloseTabByMiddleClick := FOutputTabsFrame.CloseTabByMiddleClickCheckBox.Checked;
+  FOptionsContainer.OutputDoubleBuffered := FOutputTabsFrame.DoubleBufferedCheckBox.Checked;
   FOptionsContainer.OutputMultiLine := FOutputTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.OutputShowCloseButton := FOutputTabsFrame.ShowCloseButtonCheckBox.Checked;
   FOptionsContainer.OutputShowImage := FOutputTabsFrame.ShowImageCheckBox.Checked;

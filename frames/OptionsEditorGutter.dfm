@@ -120,8 +120,7 @@ object EditorGutterFrame: TEditorGutterFrame
       NumbersWithSpots = False
       ErrorColor = 14803198
       NumbersAllowNegative = False
-      FocusOnColor = clInfoBk
-      FocusOffColor = clWindow
+      EditColor = clInfoBk
       UseColoring = True
     end
     object AutoSizeCheckBox: TBCCheckBox
@@ -158,8 +157,7 @@ object EditorGutterFrame: TEditorGutterFrame
       NumbersWithSpots = False
       ErrorColor = 14803198
       NumbersAllowNegative = False
-      FocusOnColor = clInfoBk
-      FocusOffColor = clWindow
+      EditColor = clInfoBk
       UseColoring = True
     end
     object VisibleRightMarginCheckBox: TBCCheckBox

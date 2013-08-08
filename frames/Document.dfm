@@ -159,8 +159,7 @@ object DocumentFrame: TDocumentFrame
         NumbersWithSpots = False
         ErrorColor = clBlack
         NumbersAllowNegative = False
-        FocusOnColor = clInfoBk
-        FocusOffColor = clWindow
+        EditColor = clInfoBk
         UseColoring = True
       end
     end
@@ -633,8 +632,7 @@ object DocumentFrame: TDocumentFrame
         NumbersWithSpots = False
         ErrorColor = clBlack
         NumbersAllowNegative = False
-        FocusOnColor = clInfoBk
-        FocusOffColor = clWindow
+        EditColor = clInfoBk
         UseColoring = True
       end
     end

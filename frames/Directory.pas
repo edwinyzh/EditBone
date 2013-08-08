@@ -556,8 +556,7 @@ var
   FileTreeView: TBCFileTreeView;
   DriveComboBox: TBCDriveComboBox;
 begin
-  PageControl.MultiLine := OptionsContainer.DirMultiLine;
-  PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
+  OptionsContainer.AssignTo(PageControl);
   if OptionsContainer.DirShowImage then
   begin
     DriveComboBox := GetActiveDriveComboBox;
@@ -584,7 +583,6 @@ var
   LStyles: TCustomStyleServices;
   PanelColor: TColor;
 begin
-  PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
   SetOptions;
   Application.ProcessMessages; { Important! }
   LStyles := StyleServices;

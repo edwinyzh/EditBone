@@ -128,8 +128,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       NumbersWithSpots = False
       ErrorColor = 14803198
       NumbersAllowNegative = False
-      FocusOnColor = clInfoBk
-      FocusOffColor = clWindow
+      EditColor = clInfoBk
       UseColoring = True
     end
     object TabWidthEdit: TBCEdit
@@ -149,8 +148,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       NumbersWithSpots = False
       ErrorColor = clBlack
       NumbersAllowNegative = False
-      FocusOnColor = clInfoBk
-      FocusOffColor = clWindow
+      EditColor = clInfoBk
       UseColoring = True
     end
     object BrightnessTrackBar: TTrackBar
@@ -201,10 +199,10 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Margins.Bottom = 4
       DropDownCount = 9
       TabOrder = 12
+      StyleElements = [seFont, seBorder]
       DeniedKeyStrokes = True
       ReadOnly = False
-      FocusOnColor = clInfoBk
-      FocusOffColor = clWindow
+      EditColor = clInfoBk
       UseColoring = True
       DropDownFixedWidth = 0
     end

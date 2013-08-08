@@ -94,6 +94,7 @@ object MainForm: TMainForm
       Style = csDropDownList
       DropDownCount = 57
       TabOrder = 1
+      StyleElements = [seFont, seBorder]
       OnChange = HighlighterComboBoxChange
       Items.Strings = (
         '68HC11 Assembler'
@@ -158,9 +159,8 @@ object MainForm: TMainForm
         'XML'
         'YAML')
       DeniedKeyStrokes = True
-      ReadOnly = True
-      FocusOnColor = clInfoBk
-      FocusOffColor = clWindow
+      ReadOnly = False
+      EditColor = clInfoBk
       UseColoring = True
       DropDownFixedWidth = 0
     end
@@ -173,6 +173,7 @@ object MainForm: TMainForm
       Style = csDropDownList
       DropDownCount = 57
       TabOrder = 2
+      StyleElements = [seFont, seBorder]
       OnChange = EncodingComboBoxChange
       Items.Strings = (
         'ASCII'
@@ -183,9 +184,8 @@ object MainForm: TMainForm
         'UTF-8'
         'UTF-8 Without BOM')
       DeniedKeyStrokes = True
-      ReadOnly = True
-      FocusOnColor = clInfoBk
-      FocusOffColor = clWindow
+      ReadOnly = False
+      EditColor = clInfoBk
       UseColoring = True
       DropDownFixedWidth = 0
     end

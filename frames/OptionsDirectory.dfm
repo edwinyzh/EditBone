@@ -53,8 +53,7 @@ object OptionsDirectoryFrame: TOptionsDirectoryFrame
       NumbersWithSpots = False
       ErrorColor = 14803198
       NumbersAllowNegative = False
-      FocusOnColor = clInfoBk
-      FocusOffColor = clWindow
+      EditColor = clInfoBk
       UseColoring = True
     end
   end

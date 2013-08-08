@@ -53,10 +53,10 @@ object EditorOtherFrame: TEditorOtherFrame
       Margins.Bottom = 4
       DropDownCount = 9
       TabOrder = 0
+      StyleElements = [seFont, seBorder]
       DeniedKeyStrokes = True
       ReadOnly = False
-      FocusOnColor = clInfoBk
-      FocusOffColor = clWindow
+      EditColor = clInfoBk
       UseColoring = True
       DropDownFixedWidth = 0
     end
@@ -71,10 +71,10 @@ object EditorOtherFrame: TEditorOtherFrame
       Margins.Bottom = 4
       DropDownCount = 9
       TabOrder = 1
+      StyleElements = [seFont, seBorder]
       DeniedKeyStrokes = True
       ReadOnly = False
-      FocusOnColor = clInfoBk
-      FocusOffColor = clWindow
+      EditColor = clInfoBk
       UseColoring = True
       DropDownFixedWidth = 0
     end
@@ -89,10 +89,10 @@ object EditorOtherFrame: TEditorOtherFrame
       Margins.Bottom = 4
       DropDownCount = 9
       TabOrder = 2
+      StyleElements = [seFont, seBorder]
       DeniedKeyStrokes = True
       ReadOnly = False
-      FocusOnColor = clInfoBk
-      FocusOffColor = clWindow
+      EditColor = clInfoBk
       UseColoring = True
       DropDownFixedWidth = 0
     end
@@ -107,10 +107,10 @@ object EditorOtherFrame: TEditorOtherFrame
       Margins.Bottom = 4
       DropDownCount = 9
       TabOrder = 3
+      StyleElements = [seFont, seBorder]
       DeniedKeyStrokes = True
       ReadOnly = False
-      FocusOnColor = clInfoBk
-      FocusOffColor = clWindow
+      EditColor = clInfoBk
       UseColoring = True
       DropDownFixedWidth = 0
     end

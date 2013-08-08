@@ -9,7 +9,7 @@ uses
   Vcl.StdCtrls, Vcl.Menus, Vcl.AppEvnts, Document, Output, Options, Lib, JvAppInst, VirtualTrees,
   JvDragDrop, BCControls.PopupMenu, Vcl.PlatformDefaultStyleActnCtrls, JvComponentBase, Vcl.ActnPopup,
   BCControls.ImageList, JvExStdCtrls, JvCombobox, BCControls.ComboBox, Vcl.Themes, System.Actions,
-  JvAppEvent, BCControls.ProgressBar;
+  JvAppEvent, BCControls.ProgressBar, Vcl.PlatformVclStylesActnCtrls, Vcl.Styles.OwnerDrawFix;
 
 const
   { Main menu item indexes }
@@ -363,7 +363,7 @@ implementation
 uses
   About, BCDialogs.FindInFiles, Vcl.ClipBrd, BigIni, BCCommon.StyleUtils, BCCommon.FileUtils,
   System.IOUtils, BCCommon.LanguageStrings, BCDialogs.ConfirmReplace, LanguageEditor, BCControls.SynEdit, BCCommon.LanguageUtils,
-  BCCommon.DuplicateChecker, Vcl.PlatformVclStylesActnCtrls, UnicodeCharacterMap, DuplicateCheckerOptions,
+  BCCommon.DuplicateChecker, UnicodeCharacterMap, DuplicateCheckerOptions,
   System.Types, BCCommon.Messages, BCCommon, BCCommon.StringUtils, Winapi.CommCtrl;
 
 const

@@ -14,6 +14,7 @@ type
     ShowImageCheckBox: TBCCheckBox;
     CloseTabByDblClickCheckBox: TBCCheckBox;
     CloseTabByMiddleClickCheckBox: TBCCheckBox;
+    DoubleBufferedCheckBox: TBCCheckBox;
   private
     { Private declarations }
   public

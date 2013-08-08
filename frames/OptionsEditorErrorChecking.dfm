@@ -47,10 +47,10 @@ object EditorErrorCheckingFrame: TEditorErrorCheckingFrame
       Margins.Right = 4
       Margins.Bottom = 4
       TabOrder = 1
+      StyleElements = [seFont, seBorder]
       DeniedKeyStrokes = True
       ReadOnly = False
-      FocusOnColor = clInfoBk
-      FocusOffColor = clWindow
+      EditColor = clInfoBk
       UseColoring = True
       DropDownFixedWidth = 0
     end

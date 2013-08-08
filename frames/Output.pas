@@ -584,8 +584,7 @@ var
   i: Integer;
   VirtualDrawTree: TVirtualDrawTree;
 begin
-  PageControl.MultiLine := OptionsContainer.OutputMultiLine;
-  PageControl.ShowCloseButton := OptionsContainer.OutputShowCloseButton;
+  OptionsContainer.AssignTo(PageControl);
   if OptionsContainer.OutputShowImage then
     PageControl.Images := ImageList
   else
@@ -608,9 +607,8 @@ var
   PanelColor: TColor;
   OutputTabSheetFrame: TOutputTabSheetFrame;
 begin
-  PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
   SetOptions;
-
+  Application.ProcessMessages; { Important! }
   LStyles := StyleServices;
   PanelColor := clNone;
   if LStyles.Enabled then

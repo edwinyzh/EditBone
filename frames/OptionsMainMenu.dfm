@@ -134,10 +134,10 @@ object MainMenuFrame: TMainMenuFrame
       Margins.Bottom = 4
       DropDownCount = 9
       TabOrder = 3
+      StyleElements = [seFont, seBorder]
       DeniedKeyStrokes = True
       ReadOnly = False
-      FocusOnColor = clInfoBk
-      FocusOffColor = clWindow
+      EditColor = clInfoBk
       UseColoring = True
       DropDownFixedWidth = 0
     end
@@ -160,8 +160,7 @@ object MainMenuFrame: TMainMenuFrame
       NumbersWithSpots = False
       ErrorColor = 14803198
       NumbersAllowNegative = False
-      FocusOnColor = clInfoBk
-      FocusOffColor = clWindow
+      EditColor = clInfoBk
       UseColoring = True
     end
   end

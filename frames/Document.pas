@@ -844,9 +844,7 @@ var
   DocTabSheetFrame: TDocTabSheetFrame;
   CompareFrame: TCompareFrame;
 begin
-  PageControl.DoubleBuffered := TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS;
-  PageControl.MultiLine := OptionsContainer.DocMultiLine;
-  PageControl.ShowCloseButton := OptionsContainer.DocShowCloseButton;
+  OptionsContainer.AssignTo(PageControl);
   if OptionsContainer.DocShowImage then
     PageControl.Images := FImages
   else
@@ -1879,6 +1877,7 @@ begin
     OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '2'));
     OptionsContainer.DocCloseTabByDblClick := ReadBool('Options', 'DocCloseTabByDblClick', False);
     OptionsContainer.DocCloseTabByMiddleClick := ReadBool('Options', 'DocCloseTabByMiddleClick', False);
+    OptionsContainer.DocDoubleBuffered := ReadBool('Options', 'DocDoubleBuffered', True);
     OptionsContainer.DocMultiLine := ReadBool('Options', 'DocMultiLine', False);
     OptionsContainer.DocShowCloseButton := ReadBool('Options', 'DocShowCloseButton', False);
     OptionsContainer.DocShowImage := ReadBool('Options', 'DocShowImage', True);
@@ -1886,11 +1885,13 @@ begin
     OptionsContainer.DirIndent := StrToInt(ReadString('Options', 'DirIndent', '20'));
     OptionsContainer.DirCloseTabByDblClick := ReadBool('Options', 'DirCloseTabByDblClick', False);
     OptionsContainer.DirCloseTabByMiddleClick := ReadBool('Options', 'DirCloseTabByMiddleClick', False);
+    OptionsContainer.DirDoubleBuffered := ReadBool('Options', 'DirDoubleBuffered', True);
     OptionsContainer.DirMultiLine := ReadBool('Options', 'DirMultiLine', False);
     OptionsContainer.DirShowCloseButton := ReadBool('Options', 'DirShowCloseButton', False);
     OptionsContainer.DirShowImage := ReadBool('Options', 'DirShowImage', True);
     OptionsContainer.OutputCloseTabByDblClick := ReadBool('Options', 'OutputCloseTabByDblClick', False);
     OptionsContainer.OutputCloseTabByMiddleClick := ReadBool('Options', 'OutputCloseTabByMiddleClick', False);
+    OptionsContainer.OutputDoubleBuffered := ReadBool('Options', 'OutputDoubleBuffered', True);
     OptionsContainer.OutputMultiLine := ReadBool('Options', 'OutputMultiLine', False);
     OptionsContainer.OutputShowCloseButton := ReadBool('Options', 'OutputShowCloseButton', False);
     OptionsContainer.OutputShowImage := ReadBool('Options', 'OutputShowImage', True);
@@ -2033,6 +2034,7 @@ begin
     WriteString('Options', 'InsertCaret', IntToStr(Ord(OptionsContainer.InsertCaret)));
     WriteBool('Options', 'DocCloseTabByDblClick', OptionsContainer.DocCloseTabByDblClick);
     WriteBool('Options', 'DocCloseTabByMiddleClick', OptionsContainer.DocCloseTabByMiddleClick);
+    WriteBool('Options', 'DocDoubleBuffered', OptionsContainer.DocDoubleBuffered);
     WriteBool('Options', 'DocMultiLine', OptionsContainer.DocMultiLine);
     WriteBool('Options', 'DocShowCloseButton', OptionsContainer.DocShowCloseButton);
     WriteBool('Options', 'DocShowImage', OptionsContainer.DocShowImage);
@@ -2040,11 +2042,13 @@ begin
     WriteString('Options', 'DirIndent', IntToStr(OptionsContainer.DirIndent));
     WriteBool('Options', 'DirCloseTabByDblClick', OptionsContainer.DirCloseTabByDblClick);
     WriteBool('Options', 'DirCloseTabByMiddleClick', OptionsContainer.DirCloseTabByMiddleClick);
+    WriteBool('Options', 'DirDoubleBuffered', OptionsContainer.DirDoubleBuffered);
     WriteBool('Options', 'DirMultiLine', OptionsContainer.DirMultiLine);
     WriteBool('Options', 'DirShowCloseButton', OptionsContainer.DirShowCloseButton);
     WriteBool('Options', 'DirShowImage', OptionsContainer.DirShowImage);
     WriteBool('Options', 'OutputCloseTabByDblClick', OptionsContainer.OutputCloseTabByDblClick);
     WriteBool('Options', 'OutputCloseTabByMiddleClick', OptionsContainer.OutputCloseTabByMiddleClick);
+    WriteBool('Options', 'OutputDoubleBuffered', OptionsContainer.OutputDoubleBuffered);
     WriteBool('Options', 'OutputMultiLine', OptionsContainer.OutputMultiLine);
     WriteBool('Options', 'OutputShowCloseButton', OptionsContainer.OutputShowCloseButton);
     WriteBool('Options', 'HTMLErrorChecking', OptionsContainer.HTMLErrorChecking);
