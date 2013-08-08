@@ -6,12 +6,11 @@ object EditorOtherFrame: TEditorOtherFrame
   Align = alClient
   TabOrder = 0
   Visible = False
-  ExplicitHeight = 304
   object Panel: TPanel
     Left = 0
     Top = 0
     Width = 451
-    Height = 304
+    Height = 302
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
@@ -54,9 +53,11 @@ object EditorOtherFrame: TEditorOtherFrame
       Margins.Bottom = 4
       DropDownCount = 9
       TabOrder = 0
-      EditColor = clInfoBk
       DeniedKeyStrokes = True
       ReadOnly = False
+      FocusOnColor = clInfoBk
+      FocusOffColor = clWindow
+      UseColoring = True
       DropDownFixedWidth = 0
     end
     object SQLDialectComboBox: TBCComboBox
@@ -70,9 +71,11 @@ object EditorOtherFrame: TEditorOtherFrame
       Margins.Bottom = 4
       DropDownCount = 9
       TabOrder = 1
-      EditColor = clInfoBk
       DeniedKeyStrokes = True
       ReadOnly = False
+      FocusOnColor = clInfoBk
+      FocusOffColor = clWindow
+      UseColoring = True
       DropDownFixedWidth = 0
     end
     object CSSVersionComboBox: TBCComboBox
@@ -86,9 +89,11 @@ object EditorOtherFrame: TEditorOtherFrame
       Margins.Bottom = 4
       DropDownCount = 9
       TabOrder = 2
-      EditColor = clInfoBk
       DeniedKeyStrokes = True
       ReadOnly = False
+      FocusOnColor = clInfoBk
+      FocusOffColor = clWindow
+      UseColoring = True
       DropDownFixedWidth = 0
     end
     object PHPVersionComboBox: TBCComboBox
@@ -102,9 +107,11 @@ object EditorOtherFrame: TEditorOtherFrame
       Margins.Bottom = 4
       DropDownCount = 9
       TabOrder = 3
-      EditColor = clInfoBk
       DeniedKeyStrokes = True
       ReadOnly = False
+      FocusOnColor = clInfoBk
+      FocusOffColor = clWindow
+      UseColoring = True
       DropDownFixedWidth = 0
     end
   end

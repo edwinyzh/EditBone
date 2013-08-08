@@ -47,12 +47,15 @@ object OptionsOutputFrame: TOptionsOutputFrame
       Margins.Bottom = 4
       TabOrder = 1
       Text = '20'
+      EnterToTab = False
       OnlyNumbers = True
       NumbersWithDots = False
       NumbersWithSpots = False
-      EditColor = clInfoBk
       ErrorColor = 14803198
       NumbersAllowNegative = False
+      FocusOnColor = clInfoBk
+      FocusOffColor = clWindow
+      UseColoring = True
     end
   end
 end

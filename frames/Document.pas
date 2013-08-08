@@ -1097,7 +1097,6 @@ var
   Rslt: Integer;
   SynEdit: TBCSynEdit;
 begin
-  Application.ProcessMessages;
   Rslt := mrNone;
 
   SynEdit := GetActiveSynEdit;

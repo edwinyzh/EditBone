@@ -55,12 +55,15 @@ object DirectoryTabDialog: TDirectoryTabDialog
         Anchors = [akLeft, akTop, akRight]
         TabOrder = 0
         Text = 'C:\'
+        EnterToTab = False
         OnlyNumbers = False
         NumbersWithDots = False
         NumbersWithSpots = False
-        EditColor = clInfoBk
         ErrorColor = clBlack
         NumbersAllowNegative = False
+        FocusOnColor = clInfoBk
+        FocusOffColor = clWindow
+        UseColoring = True
       end
     end
     object RootDirectoryPanel: TPanel
@@ -92,12 +95,15 @@ object DirectoryTabDialog: TDirectoryTabDialog
         Anchors = [akLeft, akTop, akRight]
         TabOrder = 0
         Text = 'C:\'
+        EnterToTab = False
         OnlyNumbers = False
         NumbersWithDots = False
         NumbersWithSpots = False
-        EditColor = clInfoBk
         ErrorColor = clBlack
         NumbersAllowNegative = False
+        FocusOnColor = clInfoBk
+        FocusOffColor = clWindow
+        UseColoring = True
       end
       object RootDrectoryBitBtn: TBitBtn
         Left = 443
@@ -164,9 +170,11 @@ object DirectoryTabDialog: TDirectoryTabDialog
           'Hide'
           'Bottom'
           'Top')
-        EditColor = clInfoBk
         DeniedKeyStrokes = False
         ReadOnly = False
+        FocusOnColor = clInfoBk
+        FocusOffColor = clWindow
+        UseColoring = True
         DropDownFixedWidth = 0
       end
     end
@@ -213,9 +221,11 @@ object DirectoryTabDialog: TDirectoryTabDialog
           'Hide'
           'Bottom'
           'Top')
-        EditColor = clInfoBk
         DeniedKeyStrokes = False
         ReadOnly = False
+        FocusOnColor = clInfoBk
+        FocusOffColor = clWindow
+        UseColoring = True
         DropDownFixedWidth = 0
       end
     end

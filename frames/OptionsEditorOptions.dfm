@@ -1,22 +1,18 @@
 object EditorOptionsFrame: TEditorOptionsFrame
   Left = 0
   Top = 0
-  Width = 521
-  Height = 476
+  Width = 451
+  Height = 302
   Align = alClient
   TabOrder = 0
-  ExplicitWidth = 451
-  ExplicitHeight = 302
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 521
-    Height = 476
+    Width = 451
+    Height = 302
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 451
-    ExplicitHeight = 302
     object ExtraLinesLabel: TLabel
       Left = 11
       Top = 195
@@ -126,12 +122,15 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Margins.Bottom = 4
       TabOrder = 9
       Text = '0'
+      EnterToTab = False
       OnlyNumbers = True
       NumbersWithDots = False
       NumbersWithSpots = False
-      EditColor = clInfoBk
       ErrorColor = 14803198
       NumbersAllowNegative = False
+      FocusOnColor = clInfoBk
+      FocusOffColor = clWindow
+      UseColoring = True
     end
     object TabWidthEdit: TBCEdit
       Left = 9
@@ -144,12 +143,15 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Margins.Bottom = 4
       TabOrder = 10
       Text = '2'
+      EnterToTab = False
       OnlyNumbers = True
       NumbersWithDots = False
       NumbersWithSpots = False
-      EditColor = clInfoBk
       ErrorColor = clBlack
       NumbersAllowNegative = False
+      FocusOnColor = clInfoBk
+      FocusOffColor = clWindow
+      UseColoring = True
     end
     object BrightnessTrackBar: TTrackBar
       Left = 2
@@ -199,9 +201,11 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Margins.Bottom = 4
       DropDownCount = 9
       TabOrder = 12
-      EditColor = clInfoBk
       DeniedKeyStrokes = True
       ReadOnly = False
+      FocusOnColor = clInfoBk
+      FocusOffColor = clWindow
+      UseColoring = True
       DropDownFixedWidth = 0
     end
     object UndoAfterSaveCheckBox: TBCCheckBox

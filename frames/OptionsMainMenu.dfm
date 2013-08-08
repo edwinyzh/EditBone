@@ -2,7 +2,7 @@ object MainMenuFrame: TMainMenuFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 304
+  Height = 302
   Align = alClient
   TabOrder = 0
   Visible = False
@@ -10,7 +10,7 @@ object MainMenuFrame: TMainMenuFrame
     Left = 0
     Top = 0
     Width = 451
-    Height = 304
+    Height = 302
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
@@ -134,9 +134,11 @@ object MainMenuFrame: TMainMenuFrame
       Margins.Bottom = 4
       DropDownCount = 9
       TabOrder = 3
-      EditColor = clInfoBk
       DeniedKeyStrokes = True
       ReadOnly = False
+      FocusOnColor = clInfoBk
+      FocusOffColor = clWindow
+      UseColoring = True
       DropDownFixedWidth = 0
     end
     object AnimationDurationEdit: TBCEdit
@@ -152,12 +154,15 @@ object MainMenuFrame: TMainMenuFrame
       ParentFlat = False
       TabOrder = 4
       Text = '150'
+      EnterToTab = False
       OnlyNumbers = True
       NumbersWithDots = False
       NumbersWithSpots = False
-      EditColor = clInfoBk
       ErrorColor = 14803198
       NumbersAllowNegative = False
+      FocusOnColor = clInfoBk
+      FocusOffColor = clWindow
+      UseColoring = True
     end
   end
   object FontDialog: TFontDialog

@@ -2,7 +2,7 @@ object EditorGutterFrame: TEditorGutterFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 304
+  Height = 302
   Align = alClient
   TabOrder = 0
   Visible = False
@@ -10,7 +10,7 @@ object EditorGutterFrame: TEditorGutterFrame
     Left = 0
     Top = 0
     Width = 451
-    Height = 304
+    Height = 302
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
@@ -114,12 +114,15 @@ object EditorGutterFrame: TEditorGutterFrame
       ParentFlat = False
       TabOrder = 1
       Text = '80'
+      EnterToTab = False
       OnlyNumbers = True
       NumbersWithDots = False
       NumbersWithSpots = False
-      EditColor = clInfoBk
       ErrorColor = 14803198
       NumbersAllowNegative = False
+      FocusOnColor = clInfoBk
+      FocusOffColor = clWindow
+      UseColoring = True
     end
     object AutoSizeCheckBox: TBCCheckBox
       Left = 9
@@ -149,12 +152,15 @@ object EditorGutterFrame: TEditorGutterFrame
       ParentFlat = False
       TabOrder = 3
       Text = '48'
+      EnterToTab = False
       OnlyNumbers = True
       NumbersWithDots = False
       NumbersWithSpots = False
-      EditColor = clInfoBk
       ErrorColor = 14803198
       NumbersAllowNegative = False
+      FocusOnColor = clInfoBk
+      FocusOffColor = clWindow
+      UseColoring = True
     end
     object VisibleRightMarginCheckBox: TBCCheckBox
       Left = 9

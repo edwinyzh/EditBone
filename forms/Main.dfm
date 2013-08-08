@@ -157,9 +157,11 @@ object MainForm: TMainForm
         'x86 Assembly'
         'XML'
         'YAML')
-      EditColor = clWindow
       DeniedKeyStrokes = True
       ReadOnly = True
+      FocusOnColor = clInfoBk
+      FocusOffColor = clWindow
+      UseColoring = True
       DropDownFixedWidth = 0
     end
     object EncodingComboBox: TBCComboBox
@@ -180,9 +182,11 @@ object MainForm: TMainForm
         'UTF-7'
         'UTF-8'
         'UTF-8 Without BOM')
-      EditColor = clWindow
       DeniedKeyStrokes = True
       ReadOnly = True
+      FocusOnColor = clInfoBk
+      FocusOffColor = clWindow
+      UseColoring = True
       DropDownFixedWidth = 0
     end
   end

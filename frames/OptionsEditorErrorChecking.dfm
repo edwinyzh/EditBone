@@ -2,7 +2,7 @@ object EditorErrorCheckingFrame: TEditorErrorCheckingFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 304
+  Height = 302
   Align = alClient
   TabOrder = 0
   Visible = False
@@ -10,7 +10,7 @@ object EditorErrorCheckingFrame: TEditorErrorCheckingFrame
     Left = 0
     Top = 0
     Width = 451
-    Height = 304
+    Height = 302
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
@@ -47,9 +47,11 @@ object EditorErrorCheckingFrame: TEditorErrorCheckingFrame
       Margins.Right = 4
       Margins.Bottom = 4
       TabOrder = 1
-      EditColor = clInfoBk
       DeniedKeyStrokes = True
       ReadOnly = False
+      FocusOnColor = clInfoBk
+      FocusOffColor = clWindow
+      UseColoring = True
       DropDownFixedWidth = 0
     end
   end

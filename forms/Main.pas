@@ -337,6 +337,7 @@ type
     procedure ReadLanguageFile(SelectedLanguage: string);
     procedure ReadWindowState;
     procedure RecreateDragDrop;
+    procedure ResizeProgressBar;
     procedure SetEncodingComboIndex(Value: Integer);
     procedure SetFields;
     procedure SetHighlighterComboIndex(Value: Integer);
@@ -1284,6 +1285,7 @@ end;
 
 procedure TMainForm.FormResize(Sender: TObject);
 begin
+  ResizeProgressBar;
   ActionMainMenuBar.Width := Width;
   Repaint;
 end;
@@ -1323,18 +1325,26 @@ begin
   end;
 end;
 
-procedure TMainForm.CreateProgressBar;
+procedure TMainForm.ResizeProgressBar;
 var
   R: TRect;
 begin
+  if Assigned(FProgressBar) then
+  begin
+    Statusbar.Perform(SB_GETRECT, 3, Integer(@R));
+    FProgressBar.Top    := R.Top;
+    FProgressBar.Left   := R.Left;
+    FProgressBar.Width  := R.Right - R.Left;
+    FProgressBar.Height := R.Bottom - R.Top;
+  end;
+end;
+
+procedure TMainForm.CreateProgressBar;
+begin
   FProgressBar := TBCProgressBar.Create(StatusBar);
   FProgressBar.Visible := False;
-  Statusbar.Perform(SB_GETRECT, 3, Integer(@R));
+  ResizeProgressBar;
   FProgressBar.Parent := Statusbar;
-  FProgressBar.Top    := R.Top;
-  FProgressBar.Left   := R.Left;
-  FProgressBar.Width  := R.Right - R.Left;
-  FProgressBar.Height := R.Bottom - R.Top;
   FDocumentFrame.ProgressBar := FProgressBar;
 end;
 
@@ -1939,14 +1949,14 @@ begin
 end;
 
 procedure TMainForm.SetHighlighterComboIndex(Value: Integer);
-var
-  SynEdit: TBCSynEdit;
+//var
+//  SynEdit: TBCSynEdit;
 begin
   HighlighterComboBox.ItemIndex := Value;
-  SynEdit := FDocumentFrame.GetActiveSynEdit;
+  {SynEdit := FDocumentFrame.GetActiveSynEdit;
   if Assigned(SynEdit) then
     if SynEdit.CanFocus then
-      SynEdit.SetFocus
+      SynEdit.SetFocus}
 end;
 
 procedure TMainForm.SetEncodingComboIndex(Value: Integer);

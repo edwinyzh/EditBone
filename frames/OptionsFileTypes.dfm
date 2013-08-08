@@ -2,13 +2,13 @@ object FileTypesFrame: TFileTypesFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 304
+  Height = 302
   Align = alClient
   TabOrder = 0
   Visible = False
   object FileTypesBottomPanel: TPanel
     Left = 0
-    Top = 262
+    Top = 260
     Width = 451
     Height = 42
     Align = alBottom
@@ -43,19 +43,22 @@ object FileTypesFrame: TFileTypesFrame
       TabOrder = 0
       Text = ''
       OnChange = ExtensionsEditChange
+      EnterToTab = False
       OnlyNumbers = False
       NumbersWithDots = False
       NumbersWithSpots = False
-      EditColor = clInfoBk
       ErrorColor = 14803198
       NumbersAllowNegative = False
+      FocusOnColor = clInfoBk
+      FocusOffColor = clWindow
+      UseColoring = True
     end
   end
   object FileTypesTopPanel: TPanel
     Left = 0
     Top = 0
     Width = 451
-    Height = 262
+    Height = 260
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 4
@@ -64,7 +67,7 @@ object FileTypesFrame: TFileTypesFrame
       Left = 4
       Top = 0
       Width = 447
-      Height = 262
+      Height = 260
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
