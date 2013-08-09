@@ -1,18 +1,22 @@
 object EditorOptionsFrame: TEditorOptionsFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 302
+  Width = 552
+  Height = 524
   Align = alClient
   TabOrder = 0
+  ExplicitWidth = 451
+  ExplicitHeight = 302
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 451
-    Height = 302
+    Width = 552
+    Height = 524
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitWidth = 451
+    ExplicitHeight = 302
     object ExtraLinesLabel: TLabel
       Left = 11
       Top = 195
