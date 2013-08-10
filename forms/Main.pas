@@ -203,6 +203,9 @@ type
     ToolsUnicodeCharacterMapAction: TAction;
     ToolsDuplicateCheckerAction: TAction;
     ViewMiniMapAction: TAction;
+    EditDeleteAction: TAction;
+    EditIndentAction: TAction;
+    EditSortAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);

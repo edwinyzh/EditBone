@@ -132,7 +132,6 @@ type
     IncreaseIndentMenuItem: TMenuItem;
     InsertLineMenuItem: TMenuItem;
     SearchCloseSpeedButton: TSpeedButton;
-    SearchClearSpeedButton: TSpeedButton;
     PageControl: TBCPageControl;
     AfterCaseSensitivePanel: TPanel;
     AfterWholeWordsOnlyPanel: TPanel;
@@ -143,7 +142,6 @@ type
     RegularExpressionLabel: TLabel;
     RemoveWhiteSpaceMenuItem: TMenuItem;
     SearchActionList: TActionList;
-    SearchClearAction: TAction;
     SearchCloseAction: TAction;
     SearchFindNextAction: TAction;
     SearchFindPreviousAction: TAction;
@@ -153,7 +151,6 @@ type
     SearchPanel1: TPanel;
     SearchPanel2: TPanel;
     SearchPanel3: TPanel;
-    SearchPanel4: TPanel;
     SearchPanel5: TPanel;
     SearchPanel6: TPanel;
     SearchPanel7: TPanel;
@@ -271,7 +268,6 @@ type
     SynLLVMIRSyn: TSynLLVMIRSyn;
     SynEditWildcardSearch: TSynEditWildcardSearch;
     procedure PageControlChange(Sender: TObject);
-    procedure SearchClearActionExecute(Sender: TObject);
     procedure SearchCloseActionExecute(Sender: TObject);
     procedure SearchFindNextActionExecute(Sender: TObject);
     procedure SearchFindPreviousActionExecute(Sender: TObject);
@@ -1572,11 +1568,6 @@ begin
   except
     { silent }
   end;
-end;
-
-procedure TDocumentFrame.SearchClearActionExecute(Sender: TObject);
-begin
-  SearchForEdit.Clear;
 end;
 
 procedure TDocumentFrame.SearchCloseActionExecute(Sender: TObject);
