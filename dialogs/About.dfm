@@ -526,23 +526,23 @@ object AboutDialog: TAboutDialog
       ExplicitWidth = 170
     end
     object LinkLabel2: TLinkLabel
-      Left = 22
+      Left = 18
       Top = 42
-      Width = 321
+      Width = 329
       Height = 17
       Anchors = [akTop]
       Caption = 
-        '<a href="http://www.customicondesign.com/">Custom Icon Design</a' +
-        '>, <a href="http://angusj.com/delphi/">Angus Johnson</a>, <a hre' +
-        'f="http://www.soft-gems.net">Mike Lischke</a>, <a href="http://w' +
-        'ww.delphigeist.com">Dorin Duminica</a>'
+        '<a href="http://www.fatcow.com/free-icons">FatCow Icons</a>, <a ' +
+        'href="http://www.customicondesign.com/">Custom Icon Design</a>, ' +
+        '<a href="http://angusj.com/delphi/">Angus Johnson</a>, <a href="' +
+        'http://www.delphigeist.com">Dorin Duminica</a>'
       TabOrder = 0
       OnLinkClick = LinkClick
     end
     object LinkLabel1: TLinkLabel
       Left = 11
       Top = 25
-      Width = 343
+      Width = 349
       Height = 17
       Anchors = [akTop]
       Caption = 
@@ -550,7 +550,8 @@ object AboutDialog: TAboutDialog
         'adero RAD Studio</a>, <a href="http://www.delphi-jedi.org/">Jedi' +
         ' Project</a>, <a href="http://synedit.svn.sourceforge.net/viewvc' +
         '/synedit/">SynEdit</a>, <a href="http://code.google.com/p/synweb' +
-        '/">SynWeb</a>, <a href="http://www.glyfx.com/">glyFX Icons</a>,'
+        '/">SynWeb</a>, <a href="http://www.soft-gems.net">Mike Lischke</' +
+        'a>, '
       TabOrder = 1
       OnLinkClick = LinkClick
     end

@@ -328,6 +328,7 @@ type
     FOutputFrame: TOutputFrame;
     FProcessingEventHandler: Boolean;
     FProgressBar: TBCProgressBar;
+    FImageListCount: Integer;
     function GetActionClientItem(MenuItemIndex, SubMenuItemIndex: Integer): TActionClientItem;
     procedure CreateFrames;
     procedure CreateLanguageMenu;
@@ -365,8 +366,8 @@ implementation
 
 uses
   About, BCDialogs.FindInFiles, Vcl.ClipBrd, BigIni, BCCommon.StyleUtils, BCCommon.FileUtils,
-  System.IOUtils, BCCommon.LanguageStrings, BCDialogs.ConfirmReplace, LanguageEditor, BCControls.SynEdit, BCCommon.LanguageUtils,
-  BCCommon.DuplicateChecker, UnicodeCharacterMap, DuplicateCheckerOptions,
+  System.IOUtils, BCCommon.LanguageStrings, BCDialogs.ConfirmReplace, LanguageEditor, BCControls.SynEdit,
+  BCCommon.LanguageUtils, BCCommon.DuplicateChecker, UnicodeCharacterMap, DuplicateCheckerOptions, Winapi.ShellAPI,
   System.Types, BCCommon.Messages, BCCommon, BCCommon.StringUtils, Winapi.CommCtrl;
 
 const
@@ -402,53 +403,82 @@ end;
 
 procedure TMainForm.CreateFileReopenList;
 var
-  i, j: Integer;
+  i, j, ImageIndex: Integer;
   s: string;
   ReopenActionClientItem, ActionClientItem: TActionClientItem;
   Files: TStrings;
   Action: TAction;
+  SystemImageList: TBCImageList;
+  SysImageList: THandle;
+  SHFileInfo: TSHFileInfo;
+  PathInfo: String;
+  //Icon: TIcon;
+  Icon: TIcon;
 begin
-  ReopenActionClientItem := GetActionClientItem(FILE_MENU_ITEMINDEX, FILE_REOPEN_MENU_ITEMINDEX);
-  { Destroy actions }
-  for i := ReopenActionClientItem.Items.Count - 1 downto 0 do
-    if Assigned(ReopenActionClientItem.Items[i].Action) then
-      if ReopenActionClientItem.Items[i].Action.Tag = 1 then
-        ReopenActionClientItem.Items[i].Action.Free;
-  ReopenActionClientItem.Items.Clear;
-
-  Files := TStringList.Create;
-  with TBigIniFile.Create(GetINIFilename) do
+  FileIconInit(True);
+  SystemImageList := TBCImageList.Create(nil);
   try
-    ReadSectionValues('FileReopenFiles', Files);
-    { Files }
-    j := 0;
-    for i := 0 to Files.Count - 1 do
-    begin
-      s := System.Copy(Files.Strings[i], Pos('=', Files.Strings[i]) + 1, Length(Files.Strings[i]));
-      if FileExists(s) then
+    SysImageList := SHGetFileInfo(PChar(PathInfo), 0, SHFileInfo, SizeOf(SHFileInfo), SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
+    if SysImageList <> 0 then
+      SystemImageList.Handle := SysImageList;
+    { Remove added images from imagelist }
+    while FImageListCount < ImageList.Count do
+      ImageList_Remove(ImageList.Handle, FImageListCount);
+
+    ReopenActionClientItem := GetActionClientItem(FILE_MENU_ITEMINDEX, FILE_REOPEN_MENU_ITEMINDEX);
+    { Destroy actions }
+    for i := ReopenActionClientItem.Items.Count - 1 downto 0 do
+      if Assigned(ReopenActionClientItem.Items[i].Action) then
+        if ReopenActionClientItem.Items[i].Action.Tag = 1 then
+          ReopenActionClientItem.Items[i].Action.Free;
+    ReopenActionClientItem.Items.Clear;
+
+    Files := TStringList.Create;
+    with TBigIniFile.Create(GetINIFilename) do
+    try
+      ReadSectionValues('FileReopenFiles', Files);
+      { Files }
+      j := 0;
+      for i := 0 to Files.Count - 1 do
+      begin
+        s := System.Copy(Files.Strings[i], Pos('=', Files.Strings[i]) + 1, Length(Files.Strings[i]));
+        if FileExists(s) then
+        begin
+          ActionClientItem := ReopenActionClientItem.Items.Add;
+          Action := TAction.Create(ActionManager);
+          Action.Name := Format('ReopenFile%dSelectAction', [j]);
+          Action.Caption := Format('%d %s', [j, s]);
+          Action.OnExecute := SelectReopenFileActionExecute;
+          Action.Tag := 1;
+          { Add image to imagelist }
+          Icon := TIcon.Create;
+          try
+            ImageIndex := GetIconIndex(s);
+            SystemImageList.GetIcon(ImageIndex, Icon);
+            ImageIndex := ImageList_AddIcon(ImageList.Handle, Icon.Handle);
+          finally
+            Icon.Free;
+          end;
+          Action.ImageIndex := ImageIndex;
+          ActionClientItem.Action := Action;
+          Inc(j);
+        end;
+      end;
+      { Divider }
+      if Files.Count > 0 then
       begin
         ActionClientItem := ReopenActionClientItem.Items.Add;
-        Action := TAction.Create(ActionManager);
-        Action.Name := Format('ReopenFile%dSelectAction', [j]);
-        Action.Caption := Format('%d %s', [j, s]);
-        Action.OnExecute := SelectReopenFileActionExecute;
-        Action.Tag := 1;
-        ActionClientItem.Action := Action;
-        Inc(j);
+        ActionClientItem.Caption := '-';
+        { Clear }
+        ActionClientItem := ReopenActionClientItem.Items.Add;
+        ActionClientItem.Action := FileReopenClearAction;
       end;
-    end;
-    { Divider }
-    if Files.Count > 0 then
-    begin
-      ActionClientItem := ReopenActionClientItem.Items.Add;
-      ActionClientItem.Caption := '-';
-      { Clear }
-      ActionClientItem := ReopenActionClientItem.Items.Add;
-      ActionClientItem.Action := FileReopenClearAction;
+    finally
+      Free;
+      Files.Free;
     end;
   finally
-    Free;
-    Files.Free;
+    SystemImageList.Free;
   end;
 end;
 
@@ -1261,7 +1291,7 @@ begin
   FOnStartUp := True;
   ActionManager.Style := PlatformVclStylesStyle;
   BCCommon.LanguageStrings.ReadLanguageFile(GetSelectedLanguage);
-
+  FImageListCount := ImageList.Count; { System images are inserted after }
   CreateFrames;
   UpdateStatusBar;
   ReadLanguageFile(GetSelectedLanguage);
