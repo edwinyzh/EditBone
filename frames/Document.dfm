@@ -1,16 +1,18 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 302
+  Width = 679
+  Height = 508
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
   TabOrder = 0
+  ExplicitWidth = 451
+  ExplicitHeight = 302
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 679
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -18,6 +20,7 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 0
     Visible = False
+    ExplicitWidth = 451
     object WholeWordsOnlyLabel: TLabel
       Left = 434
       Top = 0
@@ -422,8 +425,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 451
-    Height = 256
+    Width = 679
+    Height = 462
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -431,11 +434,13 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentColor = True
     TabOrder = 1
+    ExplicitWidth = 451
+    ExplicitHeight = 256
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 451
-      Height = 254
+      Width = 679
+      Height = 460
       Align = alClient
       DoubleBuffered = False
       ParentDoubleBuffered = False
@@ -447,12 +452,14 @@ object DocumentFrame: TDocumentFrame
       ShowCloseButton = False
       OnCloseButtonClick = PageControlCloseButtonClick
       OnDblClick = PageControlDblClick
+      ExplicitWidth = 451
+      ExplicitHeight = 254
     end
   end
   object GotoLinePanel: TPanel
     Left = 0
-    Top = 277
-    Width = 451
+    Top = 483
+    Width = 679
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
@@ -461,6 +468,8 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 2
     Visible = False
+    ExplicitTop = 277
+    ExplicitWidth = 451
     object GotoLineClosePanel: TPanel
       Left = 0
       Top = 2
@@ -1395,51 +1404,36 @@ object DocumentFrame: TDocumentFrame
     Left = 38
     Top = 120
     object CutMenuItem: TMenuItem
-      Caption = '&Cut'
-      Hint = 'Cut the selection and put it on the Clipboard'
-      ImageIndex = 12
-      ShortCut = 16472
+      Action = MainForm.EditCutAction
     end
     object CopyMenuItem: TMenuItem
-      Caption = 'C&opy'
-      Hint = 'Copy the selection and put it on the Clipboard'
-      ImageIndex = 13
-      ShortCut = 16451
+      Action = MainForm.EditCopyAction
     end
     object PasteMenuItem: TMenuItem
-      Caption = '&Paste'
-      Hint = 'Insert Clipboard contents'
-      ImageIndex = 14
-      ShortCut = 16470
+      Action = MainForm.EditPasteAction
     end
     object SelectAllMenuItem: TMenuItem
-      Caption = '&Select All'
-      Hint = 'Select all'
-      ImageIndex = 39
-      ShortCut = 16449
+      Action = MainForm.EditSelectAllAction
     end
     object Separator1MenuItem: TMenuItem
       Caption = '-'
     end
     object UndoMenuItem: TMenuItem
-      Caption = '&Undo'
-      Hint = 'Undo the last action'
-      ImageIndex = 11
-      ShortCut = 16474
+      Action = MainForm.EditUndoAction
     end
     object RedoMenuItem: TMenuItem
-      Caption = '&Redo'
-      Hint = 'Redo the previously undone action'
-      ImageIndex = 10
-      ShortCut = 24666
+      Action = MainForm.EditRedoAction
     end
     object Separator2MenuItem: TMenuItem
       Caption = '-'
     end
     object ToggleBookmarkMenuItem: TMenuItem
+      Action = MainForm.ToggleBookmarkAction
     end
     object ToggleBookmarksMenuItem: TMenuItem
+      Action = MainForm.ToggleBookmarksAction
       object ToggleBookmark0MenuItem: TMenuItem
+        Action = MainForm.ToggleBookmarks0Action
       end
       object ToggleBookmark1MenuItem: TMenuItem
         Tag = 1
@@ -1470,8 +1464,10 @@ object DocumentFrame: TDocumentFrame
       end
     end
     object GotoBookmarksMenuItem: TMenuItem
+      Action = MainForm.GotoBookmarksAction
       SubMenuImages = BookmarkImagesList
       object GotoBookmark0MenuItem: TMenuItem
+        Action = MainForm.GotoBookmarks0Action
       end
       object GotoBookmark1MenuItem: TMenuItem
         Tag = 1
@@ -1502,86 +1498,70 @@ object DocumentFrame: TDocumentFrame
       end
     end
     object ClearBookmarksMenuItem: TMenuItem
-      Caption = 'Clear &Bookmarks'
-      Hint = 'Clear all bookmarks.'
-      ImageIndex = 50
-    end
-    object Separator3MenuItem: TMenuItem
-      Caption = '-'
-    end
-    object InsertLineMenuItem: TMenuItem
-      Caption = '&Insert Line'
-      Hint = 'Insert line'
-      ImageIndex = 51
-      ShortCut = 16462
-    end
-    object DeleteWordMenuItem: TMenuItem
-      Caption = 'D&elete Word'
-      Hint = 'Delete word'
-      ShortCut = 16468
-    end
-    object DeleteLineMenuItem: TMenuItem
-      Caption = 'De&lete Line'
-      Hint = 'Delete line'
-      ImageIndex = 52
-      ShortCut = 16473
-    end
-    object DeleteEOLMenuItem: TMenuItem
-      Caption = 'Delete E&nd of Line'
-      Hint = 'Delete end of line'
-      ShortCut = 24665
+      Action = MainForm.ClearBookmarksAction
     end
     object Separator7MenuItem: TMenuItem
       Caption = '-'
     end
     object InsertMenuItem: TMenuItem
+      Action = MainForm.EditInsertAction
+      object InsertLineMenuItem: TMenuItem
+        Action = MainForm.EditInsertLineAction
+      end
       object InsertTagMenuItem: TMenuItem
+        Action = MainForm.EditInsertTagAction
       end
       object DateandTimeMenuItem: TMenuItem
+        Action = MainForm.EditInsertDateTimeAction
+      end
+    end
+    object DeleteMenuItem: TMenuItem
+      Action = MainForm.EditDeleteAction
+      object DeleteLineMenuItem: TMenuItem
+        Action = MainForm.EditDeleteLineAction
+      end
+      object DeleteEOLMenuItem: TMenuItem
+        Action = MainForm.EditDeleteEOLAction
+      end
+      object DeleteWordMenuItem: TMenuItem
+        Action = MainForm.EditDeleteWordAction
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object RemoveWhiteSpaceMenuItem: TMenuItem
+        Action = MainForm.EditRemoveWhiteSpaceAction
       end
     end
     object Separator4MenuItem: TMenuItem
       Caption = '-'
     end
-    object IncreaseIndentMenuItem: TMenuItem
-      Caption = 'Increase Indent'
-      Hint = 'Increase indent'
-      ImageIndex = 35
-      ShortCut = 24649
+    object IndentMenuItem: TMenuItem
+      Action = MainForm.EditIndentAction
+      object IncreaseIndentMenuItem: TMenuItem
+        Action = MainForm.EditIncreaseIndentAction
+      end
+      object DecreaseIndentMenuItem: TMenuItem
+        Action = MainForm.EditDecreaseIndentAction
+      end
     end
-    object DecreaseIndentMenuItem: TMenuItem
-      Caption = '&Decrease Indent'
-      Hint = 'Decrease indent'
-      ImageIndex = 34
-      ShortCut = 24661
-    end
-    object Separator5MenuItem: TMenuItem
-      Caption = '-'
-    end
-    object SortAscendingMenuItem: TMenuItem
-      Caption = 'Sort &Ascending'
-      Hint = 'Sort ascending'
-      ImageIndex = 37
-      ShortCut = 24641
-    end
-    object SortDescendingMenuItem: TMenuItem
-      Caption = 'Sor&t Descending'
-      Hint = 'Sort descending'
-      ImageIndex = 38
-      ShortCut = 24644
+    object SortMenuItem: TMenuItem
+      Action = MainForm.EditSortAction
+      object SortAscendingMenuItem: TMenuItem
+        Action = MainForm.EditSortAscAction
+      end
+      object SortDescendingMenuItem: TMenuItem
+        Action = MainForm.EditSortDescAction
+      end
     end
     object Separator6MenuItem: TMenuItem
       Caption = '-'
     end
     object ToggleCaseMenuItem: TMenuItem
-      Caption = 'To&ggle Case'
-      Hint = 'Toggle case'
-      ImageIndex = 36
-      ShortCut = 24643
-    end
-    object RemoveWhiteSpaceMenuItem: TMenuItem
+      Action = MainForm.EditToggleCaseAction
     end
     object FormatXMLMenuItem: TMenuItem
+      Action = MainForm.FormatXMLAction
     end
   end
   object SynMacroRecorder: TSynMacroRecorder

@@ -398,6 +398,7 @@ object MainForm: TMainForm
               end
               item
                 Action = FileCloseAllOtherPagesAction
+                Caption = 'Clos&e All Other'
                 ImageIndex = 82
                 ShortCut = 24691
               end
@@ -479,8 +480,8 @@ object MainForm: TMainForm
                     ImageIndex = 71
                     ShortCut = 41028
                   end>
-                Action = EditInsertAction
-                ImageIndex = 75
+                Action = EditDeleteAction
+                ImageIndex = 74
                 UsageCount = 1
               end
               item
@@ -1260,7 +1261,7 @@ object MainForm: TMainForm
     end
     object FileCloseAllOtherPagesAction: TAction
       Category = '&File'
-      Caption = 'Close All Other Pages'
+      Caption = 'Close All Other'
       Hint = 'Close all other pages'
       ImageIndex = 82
       ShortCut = 24691
