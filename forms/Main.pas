@@ -194,12 +194,7 @@ type
     ViewStatusBarAction: TAction;
     EditInsertTagAction: TAction;
     EditInsertDateTimeAction: TAction;
-    EditConversionDecToHexAction: TAction;
-    EditConversionDecToBinAction: TAction;
     EditInsertAction: TAction;
-    EditConversionAction: TAction;
-    EditConversionHexToDecAction: TAction;
-    EditConversionBinToDecAction: TAction;
     ToolsUnicodeCharacterMapAction: TAction;
     ToolsDuplicateCheckerAction: TAction;
     ViewMiniMapAction: TAction;
@@ -312,10 +307,6 @@ type
     procedure ViewStatusBarActionExecute(Sender: TObject);
     procedure EditInsertTagActionExecute(Sender: TObject);
     procedure EditInsertDateTimeActionExecute(Sender: TObject);
-    procedure EditConversionDecToHexActionExecute(Sender: TObject);
-    procedure EditConversionDecToBinActionExecute(Sender: TObject);
-    procedure EditConversionHexToDecActionExecute(Sender: TObject);
-    procedure EditConversionBinToDecActionExecute(Sender: TObject);
     procedure ToolsUnicodeCharacterMapActionExecute(Sender: TObject);
     procedure ToolsDuplicateCheckerActionExecute(Sender: TObject);
     procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
@@ -992,10 +983,10 @@ begin
   EditToggleCaseAction.Enabled := SelectionFound;
   EditInsertTagAction.Enabled := ActiveDocumentFound;
   EditInsertDateTimeAction.Enabled := ActiveDocumentFound;
-  EditConversionDecToHexAction.Enabled := SelectionFound;
+  {EditConversionDecToHexAction.Enabled := SelectionFound;
   EditConversionHexToDecAction.Enabled := SelectionFound;
   EditConversionDecToBinAction.Enabled := SelectionFound;
-  EditConversionBinToDecAction.Enabled := SelectionFound;
+  EditConversionBinToDecAction.Enabled := SelectionFound;}
   EditRemoveWhiteSpaceAction.Enabled := SelectionFound;
   EditInsertLineAction.Enabled := ActiveDocumentFound;
   EditDeleteWordAction.Enabled := ActiveDocumentFound;
@@ -1747,26 +1738,6 @@ end;
 procedure TMainForm.EditInsertTagActionExecute(Sender: TObject);
 begin
   FDocumentFrame.InsertTag;
-end;
-
-procedure TMainForm.EditConversionBinToDecActionExecute(Sender: TObject);
-begin
-  FDocumentFrame.BinToDec;
-end;
-
-procedure TMainForm.EditConversionDecToBinActionExecute(Sender: TObject);
-begin
-  FDocumentFrame.DecToBin;
-end;
-
-procedure TMainForm.EditConversionDecToHexActionExecute(Sender: TObject);
-begin
-  FDocumentFrame.DecToHex;
-end;
-
-procedure TMainForm.EditConversionHexToDecActionExecute(Sender: TObject);
-begin
-  FDocumentFrame.HexToDec;
 end;
 
 procedure TMainForm.EditCopyActionExecute(Sender: TObject);

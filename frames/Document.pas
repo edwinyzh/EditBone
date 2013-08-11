@@ -256,12 +256,7 @@ type
     Separator7MenuItem: TMenuItem;
     InsertMenuItem: TMenuItem;
     InsertTagMenuItem: TMenuItem;
-    ConversionMenuItem: TMenuItem;
-    HexToDecMenuItem: TMenuItem;
     DateandTimeMenuItem: TMenuItem;
-    DectoHexMenuItem: TMenuItem;
-    BintoDecMenuItem: TMenuItem;
-    DectoBinMenuItem: TMenuItem;
     SynDWSSyn: TSynDWSSyn;
     SynYAMLSyn: TSynYAMLSyn;
     SynWebIDLSyn: TSynWebIDLSyn;
@@ -369,10 +364,10 @@ type
     procedure CompareFiles(FileName: string = ''; AFileDragDrop: Boolean = False);
     procedure Copy;
     procedure Cut;
-    procedure DecToHex;
+    {procedure DecToHex;
     procedure HexToDec;
     procedure DecToBin;
-    procedure BinToDec;
+    procedure BinToDec; }
     procedure DecreaseIndent;
     procedure DeleteEOL;
     procedure DeleteLine;
@@ -484,11 +479,11 @@ begin
   InsertMenuItem.Action := MainForm.EditInsertAction;
   InsertTagMenuItem.Action := MainForm.EditInsertTagAction;
   DateandTimeMenuItem.Action := MainForm.EditInsertDateTimeAction;
-  ConversionMenuItem.Action := MainForm.EditConversionAction;
+  {ConversionMenuItem.Action := MainForm.EditConversionAction;
   DectoHexMenuItem.Action := MainForm.EditConversionDecToHexAction;
   HexToDecMenuItem.Action := MainForm.EditConversionHexToDecAction;
   DectoBinMenuItem.Action := MainForm.EditConversionDecToBinAction;
-  BintoDecMenuItem.Action := MainForm.EditConversionBinToDecAction;
+  BintoDecMenuItem.Action := MainForm.EditConversionBinToDecAction;}
   IncreaseIndentMenuItem.Action := MainForm.EditIncreaseIndentAction;
   DecreaseIndentMenuItem.Action := MainForm.EditDecreaseIndentAction;
   SortAscendingMenuItem.Action := MainForm.EditSortAscAction;
@@ -2976,7 +2971,7 @@ begin
   ToggleCase(GetActiveSynEdit);
   ToggleCase(GetActiveSplitSynEdit);
 end;
-
+(*
 procedure TDocumentFrame.DecToHex;
 
   procedure DecToHex(SynEdit: TBCSynEdit);
@@ -3018,7 +3013,7 @@ begin
   HexToDec(GetActiveSynEdit);
   HexToDec(GetActiveSplitSynEdit);
 end;
-
+(*
 procedure TDocumentFrame.DecToBin;
 
   procedure DecToBin(SynEdit: TBCSynEdit);
@@ -3040,7 +3035,7 @@ begin
   DecToBin(GetActiveSplitSynEdit);
 end;
 
-procedure TDocumentFrame.BinToDec;
+(*procedure TDocumentFrame.BinToDec;
 
   procedure BinToDec(SynEdit: TBCSynEdit);
   begin
@@ -3059,7 +3054,7 @@ procedure TDocumentFrame.BinToDec;
 begin
   BinToDec(GetActiveSynEdit);
   BinToDec(GetActiveSplitSynEdit);
-end;
+end; *)
 
 procedure TDocumentFrame.RemoveWhiteSpace;
 
