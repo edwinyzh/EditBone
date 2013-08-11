@@ -94,7 +94,6 @@ object MainForm: TMainForm
       Style = csDropDownList
       DropDownCount = 57
       TabOrder = 1
-      StyleElements = [seFont, seBorder]
       OnChange = HighlighterComboBoxChange
       Items.Strings = (
         '68HC11 Assembler'
@@ -160,8 +159,6 @@ object MainForm: TMainForm
         'YAML')
       DeniedKeyStrokes = True
       ReadOnly = False
-      EditColor = clInfoBk
-      UseColoring = True
       DropDownFixedWidth = 0
     end
     object EncodingComboBox: TBCComboBox
@@ -173,7 +170,6 @@ object MainForm: TMainForm
       Style = csDropDownList
       DropDownCount = 57
       TabOrder = 2
-      StyleElements = [seFont, seBorder]
       OnChange = EncodingComboBoxChange
       Items.Strings = (
         'ASCII'
@@ -185,8 +181,6 @@ object MainForm: TMainForm
         'UTF-8 Without BOM')
       DeniedKeyStrokes = True
       ReadOnly = False
-      EditColor = clInfoBk
-      UseColoring = True
       DropDownFixedWidth = 0
     end
   end
@@ -509,6 +503,7 @@ object MainForm: TMainForm
                     ImageIndex = 65
                   end>
                 Action = EditDeleteAction
+                Caption = 'D&elete'
                 ImageIndex = 74
                 UsageCount = 1
               end
@@ -1659,6 +1654,7 @@ object MainForm: TMainForm
       Category = '&Indent'
       Caption = '&Indent'
       ImageIndex = 76
+      OnExecute = DummyActionExecute
     end
     object EditIncreaseIndentAction: TAction
       Category = '&Indent'
@@ -1684,6 +1680,7 @@ object MainForm: TMainForm
       Category = '&Sort'
       Caption = '&Sort'
       ImageIndex = 77
+      OnExecute = DummyActionExecute
     end
     object EditSortAscAction: TAction
       Category = '&Sort'

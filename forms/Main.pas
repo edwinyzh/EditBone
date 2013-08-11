@@ -9,7 +9,7 @@ uses
   Vcl.StdCtrls, Vcl.Menus, Vcl.AppEvnts, Document, Output, Options, Lib, JvAppInst, VirtualTrees,
   JvDragDrop, BCControls.PopupMenu, Vcl.PlatformDefaultStyleActnCtrls, JvComponentBase, Vcl.ActnPopup,
   BCControls.ImageList, JvExStdCtrls, JvCombobox, BCControls.ComboBox, Vcl.Themes, System.Actions,
-  JvAppEvent, BCControls.ProgressBar, Vcl.PlatformVclStylesActnCtrls, Vcl.Styles.OwnerDrawFix;
+  JvAppEvent, BCControls.ProgressBar, Vcl.PlatformVclStylesActnCtrls;
 
 const
   { Main menu item indexes }

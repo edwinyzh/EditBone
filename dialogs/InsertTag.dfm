@@ -96,8 +96,6 @@ object InsertTagDialog: TInsertTagDialog
       NumbersWithSpots = False
       ErrorColor = 14803198
       NumbersAllowNegative = False
-      EditColor = clInfoBk
-      UseColoring = True
     end
   end
 end

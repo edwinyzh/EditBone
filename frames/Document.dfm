@@ -1,18 +1,16 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 679
-  Height = 508
+  Width = 451
+  Height = 302
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
   TabOrder = 0
-  ExplicitWidth = 451
-  ExplicitHeight = 302
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 679
+    Width = 451
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -20,7 +18,6 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 0
     Visible = False
-    ExplicitWidth = 451
     object WholeWordsOnlyLabel: TLabel
       Left = 434
       Top = 0
@@ -162,8 +159,6 @@ object DocumentFrame: TDocumentFrame
         NumbersWithSpots = False
         ErrorColor = clBlack
         NumbersAllowNegative = False
-        EditColor = clInfoBk
-        UseColoring = True
       end
     end
     object SearchPanel5: TPanel
@@ -425,8 +420,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 679
-    Height = 462
+    Width = 451
+    Height = 256
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -434,13 +429,11 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentColor = True
     TabOrder = 1
-    ExplicitWidth = 451
-    ExplicitHeight = 256
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 679
-      Height = 460
+      Width = 451
+      Height = 254
       Align = alClient
       DoubleBuffered = False
       ParentDoubleBuffered = False
@@ -452,14 +445,12 @@ object DocumentFrame: TDocumentFrame
       ShowCloseButton = False
       OnCloseButtonClick = PageControlCloseButtonClick
       OnDblClick = PageControlDblClick
-      ExplicitWidth = 451
-      ExplicitHeight = 254
     end
   end
   object GotoLinePanel: TPanel
     Left = 0
-    Top = 483
-    Width = 679
+    Top = 277
+    Width = 451
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
@@ -468,8 +459,6 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 2
     Visible = False
-    ExplicitTop = 277
-    ExplicitWidth = 451
     object GotoLineClosePanel: TPanel
       Left = 0
       Top = 2
@@ -592,8 +581,6 @@ object DocumentFrame: TDocumentFrame
         NumbersWithSpots = False
         ErrorColor = clBlack
         NumbersAllowNegative = False
-        EditColor = clInfoBk
-        UseColoring = True
       end
     end
     object GotoLineButtonPanel: TPanel

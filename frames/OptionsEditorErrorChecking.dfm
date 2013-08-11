@@ -46,12 +46,10 @@ object EditorErrorCheckingFrame: TEditorErrorCheckingFrame
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
+      Style = csDropDownList
       TabOrder = 1
-      StyleElements = [seFont, seBorder]
       DeniedKeyStrokes = True
       ReadOnly = False
-      EditColor = clInfoBk
-      UseColoring = True
       DropDownFixedWidth = 0
     end
   end

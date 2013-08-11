@@ -61,8 +61,6 @@ object DirectoryTabDialog: TDirectoryTabDialog
         NumbersWithSpots = False
         ErrorColor = clBlack
         NumbersAllowNegative = False
-        EditColor = clInfoBk
-        UseColoring = True
       end
     end
     object RootDirectoryPanel: TPanel
@@ -100,8 +98,6 @@ object DirectoryTabDialog: TDirectoryTabDialog
         NumbersWithSpots = False
         ErrorColor = clBlack
         NumbersAllowNegative = False
-        EditColor = clInfoBk
-        UseColoring = True
       end
       object RootDrectoryBitBtn: TBitBtn
         Left = 443
@@ -164,15 +160,12 @@ object DirectoryTabDialog: TDirectoryTabDialog
         ItemIndex = 0
         TabOrder = 0
         Text = 'Hide'
-        StyleElements = [seFont, seBorder]
         Items.Strings = (
           'Hide'
           'Bottom'
           'Top')
         DeniedKeyStrokes = False
         ReadOnly = False
-        EditColor = clInfoBk
-        UseColoring = True
         DropDownFixedWidth = 0
       end
     end
@@ -215,15 +208,12 @@ object DirectoryTabDialog: TDirectoryTabDialog
         ItemIndex = 1
         TabOrder = 1
         Text = 'Bottom'
-        StyleElements = [seFont, seBorder]
         Items.Strings = (
           'Hide'
           'Bottom'
           'Top')
         DeniedKeyStrokes = False
         ReadOnly = False
-        EditColor = clInfoBk
-        UseColoring = True
         DropDownFixedWidth = 0
       end
     end

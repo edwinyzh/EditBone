@@ -175,8 +175,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               NumbersWithSpots = False
               ErrorColor = 14803198
               NumbersAllowNegative = False
-              EditColor = clInfoBk
-              UseColoring = True
             end
             object FolderBitBtn: TBitBtn
               Left = 329
@@ -245,11 +243,8 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               DropDownCount = 20
               TabOrder = 0
               Text = '*.*'
-              StyleElements = [seFont, seBorder]
               DeniedKeyStrokes = False
               ReadOnly = False
-              EditColor = clInfoBk
-              UseColoring = True
               DropDownFixedWidth = 0
             end
           end
@@ -429,8 +424,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               NumbersWithSpots = False
               ErrorColor = 14803198
               NumbersAllowNegative = False
-              EditColor = clInfoBk
-              UseColoring = True
             end
             object FileBitBtn: TBitBtn
               Left = 329
