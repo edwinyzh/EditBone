@@ -447,7 +447,8 @@ uses
   BCForms.PrintPreview, BCDialogs.Replace, BCDialogs.ConfirmReplace, Lib, Options, BCCommon.StyleUtils, VirtualTrees,
   Vcl.ActnMenus, SynTokenMatch, SynHighlighterWebMisc, System.Types, Winapi.ShellAPI, System.WideStrings, System.Math,
   Main, BigIni, Vcl.GraphUtil, SynUnicode, BCCommon.LanguageStrings, BCCommon.Dialogs, SynEditTextBuffer, BCCommon.Encoding,
-  InsertTag, BCCommon.LanguageUtils, BCCommon.FileUtils, BCCommon.Messages, BCCommon, BCCommon.StringUtils;
+  InsertTag, BCCommon.LanguageUtils, BCCommon.FileUtils, BCCommon.Messages, BCCommon, BCCommon.StringUtils,
+  Winapi.CommCtrl;
 
 { TDocumentFrame }
 
@@ -536,25 +537,25 @@ begin
       begin
         { smaller }
         ImageList16.GetIcon(0, Icon);
-        FCompareImageIndex := PageControl.Images.AddIcon(Icon);
+        FCompareImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle); //PageControl.Images.AddIcon(Icon);
         ImageList16.GetIcon(1, Icon);
-        FNewImageIndex := PageControl.Images.AddIcon(Icon);
+        FNewImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle); //PageControl.Images.AddIcon(Icon);
       end;
       20:
       begin
         { medium }
         ImageList20.GetIcon(0, Icon);
-        FCompareImageIndex := PageControl.Images.AddIcon(Icon);
+        FCompareImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle); //PageControl.Images.AddIcon(Icon);
         ImageList20.GetIcon(1, Icon);
-        FNewImageIndex := PageControl.Images.AddIcon(Icon);
+        FNewImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle); //PageControl.Images.AddIcon(Icon);
       end;
       24:
       begin
         { larger }
         ImageList24.GetIcon(0, Icon);
-        FCompareImageIndex := PageControl.Images.AddIcon(Icon);
+        FCompareImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle); //PageControl.Images.AddIcon(Icon);
         ImageList24.GetIcon(1, Icon);
-        FNewImageIndex := PageControl.Images.AddIcon(Icon);
+        FNewImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle); //PageControl.Images.AddIcon(Icon);
       end;
     end;
   finally
@@ -2275,7 +2276,7 @@ var
 begin
   inherited;
   FModifiedDocuments := True;
-  SynEdit := GetActiveSynEdit;
+
   if OptionsContainer.AutoSave then
     Save
   else
@@ -2284,6 +2285,7 @@ begin
 
   if MainForm.ViewSplitAction.Checked then
   begin
+    SynEdit := GetActiveSynEdit;
     SplitSynEdit := GetActiveSplitSynEdit;
     if Assigned(SplitSynEdit) then
     begin

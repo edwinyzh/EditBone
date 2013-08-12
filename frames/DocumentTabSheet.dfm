@@ -1,15 +1,15 @@
 object DocTabSheetFrame: TDocTabSheetFrame
   Left = 0
   Top = 0
-  Width = 865
-  Height = 561
+  Width = 451
+  Height = 302
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 865
-    Height = 561
+    Width = 451
+    Height = 302
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 1
@@ -21,7 +21,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 201
       Top = 1
       Width = 4
-      Height = 558
+      Height = 299
       Color = clBtnFace
       ParentColor = False
       Visible = False
@@ -31,7 +31,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 1
       Top = 1
       Width = 200
-      Height = 558
+      Height = 299
       Align = alLeft
       DragOperations = []
       Header.AutoSizeIndex = 0
@@ -54,8 +54,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
     object DocumentPanel: TPanel
       Left = 205
       Top = 1
-      Width = 660
-      Height = 558
+      Width = 246
+      Height = 299
       Align = alClient
       BevelOuter = bvNone
       Color = clWindow
@@ -63,8 +63,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       TabOrder = 1
       object HorizontalSplitter: TSplitter
         Left = 0
-        Top = 277
-        Width = 660
+        Top = 18
+        Width = 246
         Height = 4
         Cursor = crVSplit
         Align = alBottom
@@ -75,10 +75,10 @@ object DocTabSheetFrame: TDocTabSheetFrame
         ExplicitWidth = 665
       end
       object SynEditSplitter: TSplitter
-        Left = 456
+        Left = 42
         Top = 0
         Width = 4
-        Height = 277
+        Height = 18
         Align = alRight
         ParentColor = False
         Visible = False
@@ -88,8 +88,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       end
       object SplitSynEditPanel: TPanel
         Left = 0
-        Top = 281
-        Width = 660
+        Top = 22
+        Width = 246
         Height = 277
         Align = alBottom
         BevelOuter = bvNone
@@ -97,7 +97,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         TabOrder = 0
         Visible = False
         object SplitSynEditSplitter: TSplitter
-          Left = 456
+          Left = 42
           Top = 0
           Width = 4
           Height = 277
@@ -111,7 +111,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         object SplitSynEdit: TBCSynEdit
           Left = 0
           Top = 0
-          Width = 456
+          Width = 42
           Height = 277
           Align = alClient
           ActiveLineColor = clSkyBlue
@@ -133,7 +133,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
           FontSmoothing = fsmNone
         end
         object SplitSynEditMinimap: TSynMiniMap
-          Left = 460
+          Left = 46
           Top = 0
           Width = 200
           Height = 277
@@ -151,10 +151,10 @@ object DocTabSheetFrame: TDocTabSheetFrame
         end
       end
       object SynEditMinimap: TSynMiniMap
-        Left = 460
+        Left = 46
         Top = 0
         Width = 200
-        Height = 277
+        Height = 18
         Editor = SynEdit
         FontFactor = 2.000000000000000000
         Options.AllowScroll = True
@@ -170,8 +170,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       object SynEdit: TBCSynEdit
         Left = 0
         Top = 0
-        Width = 456
-        Height = 277
+        Width = 42
+        Height = 18
         Align = alClient
         ActiveLineColor = clSkyBlue
         Font.Charset = DEFAULT_CHARSET
@@ -210,5 +210,24 @@ object DocTabSheetFrame: TDocTabSheetFrame
     URIHighlighter = SynURISyn
     Left = 298
     Top = 148
+  end
+  object SynCompletionProposal1: TSynCompletionProposal
+    EndOfTokenChr = '()[]. '
+    TriggerChars = '.'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clBtnText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = [fsBold]
+    Columns = <>
+    ShortCut = 16416
+    Editor = SynEdit
+    Left = 104
+    Top = 84
   end
 end

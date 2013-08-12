@@ -27,14 +27,18 @@ type
     FileOpenAction: TAction;
     FileSaveAction: TAction;
     ImageList: TBCImageList;
-    PrintToolBar: TBCToolBar;
     SaveToolBar: TBCToolBar;
+    StandardToolBar: TBCToolBar;
     StatusBar: TStatusBar;
     ToolButton1: TToolButton;
     ToolButton2: TToolButton;
     VirtualDrawTree: TVirtualDrawTree;
     VirtualTreePanel: TPanel;
     ZoomToolButton: TToolButton;
+    Bevel2: TBevel;
+    CloseToolBar: TBCToolBar;
+    CloseToolButton: TToolButton;
+    CloseAction: TAction;
     procedure ApplicationEventsHint(Sender: TObject);
     procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
     procedure FileNewActionExecute(Sender: TObject);
@@ -53,6 +57,7 @@ type
     procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
     procedure VirtualDrawTreeInitChildren(Sender: TBaseVirtualTree; Node: PVirtualNode; var ChildCount: Cardinal);
     procedure VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
+    procedure CloseActionExecute(Sender: TObject);
   private
     { Private declarations }
     FLanguageFileName: string;
@@ -244,6 +249,11 @@ begin
   if KeyState[VK_INSERT] = 1 then
     if StatusBar.Panels[0].Text <> LanguageDataModule.GetConstant('Overwrite') then
       StatusBar.Panels[0].Text := ' ' + LanguageDataModule.GetConstant('Overwrite');
+end;
+
+procedure TLanguageEditorForm.CloseActionExecute(Sender: TObject);
+begin
+  Close;
 end;
 
 procedure TLanguageEditorForm.FileNewActionExecute(Sender: TObject);

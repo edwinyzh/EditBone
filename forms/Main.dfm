@@ -167,7 +167,6 @@ object MainForm: TMainForm
       Width = 130
       Height = 21
       Align = alRight
-      Style = csDropDownList
       DropDownCount = 57
       TabOrder = 2
       OnChange = EncodingComboBoxChange

@@ -60,7 +60,8 @@ uses
   BCCommon.FileUtils in '..\..\Common\units\BCCommon.FileUtils.pas',
   BCCommon.StringUtils in '..\..\Common\units\BCCommon.StringUtils.pas',
   BCCommon.LanguageUtils in '..\..\Common\units\BCCommon.LanguageUtils.pas',
-  BCCommon.Messages in '..\..\Common\units\BCCommon.Messages.pas';
+  BCCommon.Messages in '..\..\Common\units\BCCommon.Messages.pas',
+  Convert in 'forms\Convert.pas' {Form1};
 
 {$R *.res}
 
@@ -79,5 +80,6 @@ begin
     TStyleManager.SetStyle(TStyleManager.LoadFromFile(Format('%sStyles\%s', [ExtractFilePath(ParamStr(0)), StyleFilename])));
   Application.Title := 'EditBone';
   Application.CreateForm(TMainForm, MainForm);
+  Application.CreateForm(TForm1, Form1);
   Application.Run;
 end.

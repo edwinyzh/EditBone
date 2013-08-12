@@ -57,6 +57,8 @@ type
     procedure OptionsVirtualStringTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure OptionsVirtualStringTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
     procedure OptionsVirtualStringTreeGetText(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
+    procedure OptionsVirtualStringTreePaintText(Sender: TBaseVirtualTree; const TargetCanvas: TCanvas;
+      Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType);
   private
     FDirectoryTabsFrame: TDirectoryTabsFrame;
     FEditorErrorCheckingFrame: TEditorErrorCheckingFrame;
@@ -1083,6 +1085,21 @@ begin
   Data := Sender.GetNodeData(Node);
   if Assigned(Data) then
     CellText := Data.Caption;
+end;
+
+procedure TOptionsDialog.OptionsVirtualStringTreePaintText(Sender: TBaseVirtualTree; const TargetCanvas: TCanvas;
+  Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType);
+var
+  LStyles: TCustomStyleServices;
+begin
+  if vsSelected in Node.States then
+  begin
+    LStyles := StyleServices;
+    if LStyles.Enabled then
+      TargetCanvas.Font.Color := LStyles.GetSystemColor(clHighlightText)
+    else
+      TargetCanvas.Font.Color := clHighlightText;
+  end;
 end;
 
 procedure TOptionsDialog.PutData;
