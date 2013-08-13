@@ -212,7 +212,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
     Top = 148
   end
   object SynCompletionProposal: TSynCompletionProposal
-    Options = [scoCaseSensitive, scoLimitToMatchedText, scoCompleteWithTab, scoCompleteWithEnter]
+    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUsePrettyText, scoCompleteWithTab, scoCompleteWithEnter]
     ItemList.Strings = (
       'Test'
       'Char'

@@ -104,25 +104,33 @@ end;
 procedure SplitTextIntoWords(SynCompletionProposal: TSynCompletionProposal; SynEdit: TBCSynEdit);
 var
   S, Word: string;
+  StringList: TStringList;
   startpos, endpos: Integer;
 begin
   S := SynEdit.Text;
   SynCompletionProposal.ItemList.Clear;
   startpos := 1;
-  while startpos <= Length(S) do
-  begin
-    while (startpos <= Length(S)) and not IsCharAlpha(S[startpos]) do
-      Inc(startpos);
-    if startpos <= Length(S) then
+  StringList := TStringList.Create;
+  try
+    while startpos <= Length(S) do
     begin
-      endpos := startpos + 1;
-      while (endpos <= Length(S)) and IsCharAlpha(S[endpos]) do
-        Inc(endpos);
-      Word := Copy(S, startpos, endpos - startpos);
-      if SynCompletionProposal.ItemList.IndexOf(Word) = -1 then
-        SynCompletionProposal.ItemList.Add(Word);
-      startpos := endpos + 1;
+      while (startpos <= Length(S)) and not IsCharAlpha(S[startpos]) do
+        Inc(startpos);
+      if startpos <= Length(S) then
+      begin
+        endpos := startpos + 1;
+        while (endpos <= Length(S)) and IsCharAlpha(S[endpos]) do
+          Inc(endpos);
+        Word := Copy(S, startpos, endpos - startpos);
+        if StringList.IndexOf(Word) = -1 then { no duplicates }
+          StringList.Add(Word);
+        startpos := endpos + 1;
+      end;
     end;
+  finally
+    StringList.Sort;
+    SynCompletionProposal.ItemList.Assign(StringList);
+    StringList.Free;
   end;
 end;
 
