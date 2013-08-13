@@ -238,4 +238,31 @@ object DocTabSheetFrame: TDocTabSheetFrame
     Left = 64
     Top = 64
   end
+  object SplitSynCompletionProposal: TSynCompletionProposal
+    Options = [scoCaseSensitive, scoLimitToMatchedText, scoCompleteWithTab, scoCompleteWithEnter]
+    ItemList.Strings = (
+      'Test'
+      'Char'
+      'Character')
+    EndOfTokenChr = '()[]. '
+    TriggerChars = '.'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clBtnText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = [fsBold]
+    Columns = <>
+    Resizeable = False
+    Margin = 4
+    OnExecute = SplitSynCompletionProposalExecute
+    ShortCut = 16416
+    Editor = SplitSynEdit
+    Left = 64
+    Top = 124
+  end
 end

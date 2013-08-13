@@ -32,6 +32,7 @@ type
     SynEditMinimap: TSynMinimap;
     SynEdit: TBCSynEdit;
     SynCompletionProposal: TSynCompletionProposal;
+    SplitSynCompletionProposal: TSynCompletionProposal;
     procedure RefreshActionExecute(Sender: TObject);
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
@@ -43,6 +44,8 @@ type
     procedure SplitSynEditMinimapClick(Sender: TObject; Data: PSynMinimapEventData);
     procedure SynCompletionProposalExecute(Kind: SynCompletionType; Sender: TObject; var CurrentInput: string; var x,
       y: Integer; var CanExecute: Boolean);
+    procedure SplitSynCompletionProposalExecute(Kind: SynCompletionType; Sender: TObject; var CurrentInput: string;
+      var x, y: Integer; var CanExecute: Boolean);
   private
     { Private declarations }
     function GetSplitVisible: Boolean;
@@ -98,20 +101,50 @@ begin
   end;
 end;
 
+procedure SplitTextIntoWords(SynCompletionProposal: TSynCompletionProposal; SynEdit: TBCSynEdit);
+var
+  S, Word: string;
+  startpos, endpos: Integer;
+begin
+  S := SynEdit.Text;
+  SynCompletionProposal.ItemList.Clear;
+  startpos := 1;
+  while startpos <= Length(S) do
+  begin
+    while (startpos <= Length(S)) and not IsCharAlpha(S[startpos]) do
+      Inc(startpos);
+    if startpos <= Length(S) then
+    begin
+      endpos := startpos + 1;
+      while (endpos <= Length(S)) and IsCharAlpha(S[endpos]) do
+        Inc(endpos);
+      Word := Copy(S, startpos, endpos - startpos);
+      if SynCompletionProposal.ItemList.IndexOf(Word) = -1 then
+        SynCompletionProposal.ItemList.Add(Word);
+      startpos := endpos + 1;
+    end;
+  end;
+end;
+
 procedure TDocTabSheetFrame.SynCompletionProposalExecute(Kind: SynCompletionType; Sender: TObject;
   var CurrentInput: string; var x, y: Integer; var CanExecute: Boolean);
 begin
   SynCompletionProposal.NbLinesInWindow := 8; { Bug fix }
-  { parse document to item list }
-  //xxx
-  //tee optio auto completion
-  SynCompletionProposal.ItemList.Add(SynEdit.Text)
-  //canexecute, jos on listassa jotain
+  SplitTextIntoWords(SynCompletionProposal, SynEdit);
+  CanExecute := SynCompletionProposal.ItemList.Count > 0;
 end;
 
 procedure TDocTabSheetFrame.SynEditMinimapClick(Sender: TObject; Data: PSynMinimapEventData);
 begin
   GotoLine(SynEditMinimap.Editor, Data);
+end;
+
+procedure TDocTabSheetFrame.SplitSynCompletionProposalExecute(Kind: SynCompletionType; Sender: TObject;
+  var CurrentInput: string; var x, y: Integer; var CanExecute: Boolean);
+begin
+  SplitSynCompletionProposal.NbLinesInWindow := 8; { Bug fix }
+  SplitTextIntoWords(SplitSynCompletionProposal, SplitSynEdit);
+  CanExecute := SplitSynCompletionProposal.ItemList.Count > 0;
 end;
 
 procedure TDocTabSheetFrame.SplitSynEditMinimapClick(Sender: TObject; Data: PSynMinimapEventData);
@@ -328,11 +361,13 @@ procedure TDocTabSheetFrame.UpdateMinimapAndStyles(Right: Integer);
 var
   LStyles: TCustomStyleServices;
 begin
+  Panel.Padding.Right := Right;
+  {  SynEditMinimap }
   SynEditMinimap.FontFactor := OptionsContainer.MinimapFontFactor;
   SynEditMinimap.Invalidate;
   SplitSynEditMinimap.FontFactor := OptionsContainer.MinimapFontFactor;
   SplitSynEditMinimap.Invalidate;
-  Panel.Padding.Right := Right;
+  { SynCompletionProposal }
   LStyles := StyleServices;
   SynCompletionProposal.Font.Name := SynEdit.Font.Name;
   SynCompletionProposal.Font.Color := LStyles.GetStyleFontColor(sfEditBoxTextNormal);
