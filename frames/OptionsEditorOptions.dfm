@@ -1,15 +1,15 @@
 object EditorOptionsFrame: TEditorOptionsFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 302
+  Width = 515
+  Height = 473
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 451
-    Height = 302
+    Width = 515
+    Height = 473
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
@@ -52,6 +52,17 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Width = 59
       Height = 13
       Caption = 'Insert Caret'
+    end
+    object MinimapFontFactorLabel: TLabel
+      Left = 11
+      Top = 377
+      Width = 97
+      Height = 13
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = 'Minimap Font Factor'
     end
     object AutoIndentCheckBox: TBCCheckBox
       Left = 9
@@ -238,6 +249,16 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Caption = ' Smart Tab Delete'
       TabOrder = 5
       ReadOnly = False
+    end
+    object MinimapFontFactorTrackBar: TTrackBar
+      Left = 2
+      Top = 392
+      Width = 150
+      Height = 27
+      Max = 4
+      Min = 2
+      Position = 2
+      TabOrder = 13
     end
   end
 end

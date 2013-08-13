@@ -93,6 +93,7 @@ type
     FAutoIndent: Boolean;
     FAutoSave: Boolean;
     FColorBrightness: Integer;
+    FMinimapFontFactor: Integer;
     FCPASHighlighter: TCPASHighlighter;
     FCSSVersion: TSynWebCssVersion;
     FDirCloseTabByDblClick: Boolean;
@@ -233,6 +234,7 @@ type
     property MainMenuSystemFontName: string read FMainMenuSystemFontName write FMainMenuSystemFontName;
     property MainMenuSystemFontSize: Integer read FMainMenuSystemFontSize write FMainMenuSystemFontSize;
     property MainMenuUseSystemFont: Boolean read FMainMenuUseSystemFont write FMainMenuUseSystemFont;
+    property MinimapFontFactor: Integer read FMinimapFontFactor write FMinimapFontFactor;
     property OutputCloseTabByDblClick: Boolean read FOutputCloseTabByDblClick write FOutputCloseTabByDblClick;
     property OutputCloseTabByMiddleClick: Boolean read FOutputCloseTabByMiddleClick write FOutputCloseTabByMiddleClick;
     property OutputDoubleBuffered: Boolean read FOutputDoubleBuffered write FOutputDoubleBuffered;
@@ -912,6 +914,7 @@ begin
   FEditorOptionsFrame.TabWidthEdit.Text := IntToStr(FOptionsContainer.TabWidth);
   FEditorOptionsFrame.BrightnessTrackBar.Position := FOptionsContainer.ColorBrightness;
   FEditorOptionsFrame.InsertCaretComboBox.ItemIndex := Ord(FOptionsContainer.InsertCaret);
+  FEditorOptionsFrame.MinimapFontFactorTrackBar.Position := FOptionsContainer.MinimapFontFactor;
   { Font }
   FEditorFontFrame.FontLabel.Font.Name := FOptionsContainer.FontName;
   FEditorFontFrame.FontLabel.Font.Size := FOptionsContainer.FontSize;
@@ -1121,6 +1124,7 @@ begin
   FOptionsContainer.TabWidth := StrToIntDef(FEditorOptionsFrame.TabWidthEdit.Text, 2);
   FOptionsContainer.ColorBrightness := FEditorOptionsFrame.BrightnessTrackBar.Position;
   FOptionsContainer.InsertCaret := TSynEditCaretType(FEditorOptionsFrame.InsertCaretComboBox.ItemIndex);
+  FOptionsContainer.MinimapFontFactor := FEditorOptionsFrame.MinimapFontFactorTrackBar.Position;
   { Font }
   FOptionsContainer.FontName := FEditorFontFrame.FontLabel.Font.Name;
   FOptionsContainer.FontSize := FEditorFontFrame.FontLabel.Font.Size;

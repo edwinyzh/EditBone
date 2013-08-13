@@ -167,6 +167,7 @@ object MainForm: TMainForm
       Width = 130
       Height = 21
       Align = alRight
+      Style = csDropDownList
       DropDownCount = 57
       TabOrder = 2
       OnChange = EncodingComboBoxChange
@@ -473,8 +474,8 @@ object MainForm: TMainForm
                     ImageIndex = 71
                     ShortCut = 41028
                   end>
-                Action = EditDeleteAction
-                ImageIndex = 74
+                Action = EditInsertAction
+                ImageIndex = 75
                 UsageCount = 1
               end
               item

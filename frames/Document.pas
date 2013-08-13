@@ -849,11 +849,11 @@ begin
     if Assigned(DocTabSheetFrame) then
     begin
       UpdateGutterAndColors(DocTabSheetFrame);
-      DocTabSheetFrame.Panel.Padding.Right := Right
+      DocTabSheetFrame.UpdateMinimapAndStyles(Right);
     end;
     CompareFrame := GetCompareFrame(PageControl.Pages[i]);
     if Assigned(CompareFrame) then
-      CompareFrame.Panel.Padding.Right := Right
+      CompareFrame.Panel.Padding.Right := Right  // TODO: Fix UpdateStyles
   end;
   UpdateHighlighterColors;
 end;
@@ -1860,6 +1860,7 @@ begin
     OptionsContainer.GutterVisible := ReadBool('Options', 'GutterVisible', True);
     OptionsContainer.GutterWidth := StrToInt(ReadString('Options', 'GutterWidth', '48'));
     OptionsContainer.InsertCaret := TSynEditCaretType(StrToInt(ReadString('Options', 'InsertCaret', '0')));
+    OptionsContainer.MinimapFontFactor :=  StrToInt(ReadString('Options', 'MinimapFontFactor', '2'));
     OptionsContainer.ExtraLineSpacing := StrToInt(ReadString('Options', 'ExtraLineSpacing', '0'));
     OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '2'));
     OptionsContainer.DocCloseTabByDblClick := ReadBool('Options', 'DocCloseTabByDblClick', False);
@@ -2019,6 +2020,7 @@ begin
     WriteString('Options', 'ActiveLineColorBrightness', IntToStr(OptionsContainer.ColorBrightness));
     WriteBool('Options', 'GutterVisible', OptionsContainer.GutterVisible);
     WriteString('Options', 'InsertCaret', IntToStr(Ord(OptionsContainer.InsertCaret)));
+    WriteString('Options', 'MinimapFontFactor', IntToStr(OptionsContainer.MinimapFontFactor));
     WriteBool('Options', 'DocCloseTabByDblClick', OptionsContainer.DocCloseTabByDblClick);
     WriteBool('Options', 'DocCloseTabByMiddleClick', OptionsContainer.DocCloseTabByMiddleClick);
     WriteBool('Options', 'DocDoubleBuffered', OptionsContainer.DocDoubleBuffered);

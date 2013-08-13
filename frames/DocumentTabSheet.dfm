@@ -211,7 +211,12 @@ object DocTabSheetFrame: TDocTabSheetFrame
     Left = 298
     Top = 148
   end
-  object SynCompletionProposal1: TSynCompletionProposal
+  object SynCompletionProposal: TSynCompletionProposal
+    Options = [scoCaseSensitive, scoLimitToMatchedText, scoCompleteWithTab, scoCompleteWithEnter]
+    ItemList.Strings = (
+      'Test'
+      'Char'
+      'Character')
     EndOfTokenChr = '()[]. '
     TriggerChars = '.'
     Font.Charset = DEFAULT_CHARSET
@@ -225,9 +230,12 @@ object DocTabSheetFrame: TDocTabSheetFrame
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = [fsBold]
     Columns = <>
+    Resizeable = False
+    Margin = 4
+    OnExecute = SynCompletionProposalExecute
     ShortCut = 16416
     Editor = SynEdit
-    Left = 104
-    Top = 84
+    Left = 64
+    Top = 64
   end
 end
