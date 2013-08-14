@@ -101,17 +101,22 @@ begin
   end;
 end;
 
-procedure SplitTextIntoWords(SynCompletionProposal: TSynCompletionProposal; SynEdit: TBCSynEdit);
+function SplitTextIntoWords(SynCompletionProposal: TSynCompletionProposal; SynEdit: TBCSynEdit): string;
 var
+  i: Integer;
   S, Word: string;
   StringList: TStringList;
   startpos, endpos: Integer;
+  KeywordStringList: TStrings;
 begin
+  Result := '';
   S := SynEdit.Text;
   SynCompletionProposal.ItemList.Clear;
   startpos := 1;
+  KeywordStringList := TStringList.Create;
   StringList := TStringList.Create;
   try
+    { add document words }
     while startpos <= Length(S) do
     begin
       while (startpos <= Length(S)) and not IsCharAlpha(S[startpos]) do
@@ -122,23 +127,40 @@ begin
         while (endpos <= Length(S)) and IsCharAlpha(S[endpos]) do
           Inc(endpos);
         Word := Copy(S, startpos, endpos - startpos);
+        if endpos - startpos > Length(Result) then
+          Result := Word;
         if StringList.IndexOf(Word) = -1 then { no duplicates }
           StringList.Add(Word);
         startpos := endpos + 1;
       end;
     end;
+    { add highlighter keywords }
+    SynEdit.Highlighter.AddKeywords(KeywordStringList);
+    for i := 0 to KeywordStringList.Count - 1 do
+    begin
+      Word := KeywordStringList.Strings[i];
+      if Length(Word) > Length(Result) then
+        Result := Word;
+      if StringList.IndexOf(Word) = -1 then { no duplicates }
+        StringList.Add(Word);
+    end;
   finally
     StringList.Sort;
     SynCompletionProposal.ItemList.Assign(StringList);
     StringList.Free;
+    if Assigned(KeywordStringList) then
+      KeywordStringList.Free;
   end;
 end;
 
 procedure TDocTabSheetFrame.SynCompletionProposalExecute(Kind: SynCompletionType; Sender: TObject;
   var CurrentInput: string; var x, y: Integer; var CanExecute: Boolean);
+var
+  MaxLengthWord: string;
 begin
   SynCompletionProposal.NbLinesInWindow := 8; { Bug fix }
-  SplitTextIntoWords(SynCompletionProposal, SynEdit);
+  MaxLengthWord := SplitTextIntoWords(SynCompletionProposal, SynEdit);
+  SynCompletionProposal.Width := SynEdit.Canvas.TextWidth(MaxLengthWord) + 40;
   CanExecute := SynCompletionProposal.ItemList.Count > 0;
 end;
 
@@ -149,9 +171,12 @@ end;
 
 procedure TDocTabSheetFrame.SplitSynCompletionProposalExecute(Kind: SynCompletionType; Sender: TObject;
   var CurrentInput: string; var x, y: Integer; var CanExecute: Boolean);
+var
+  MaxLengthWord: string;
 begin
   SplitSynCompletionProposal.NbLinesInWindow := 8; { Bug fix }
-  SplitTextIntoWords(SplitSynCompletionProposal, SplitSynEdit);
+  MaxLengthWord := SplitTextIntoWords(SplitSynCompletionProposal, SplitSynEdit);
+  SynCompletionProposal.Width := SplitSynEdit.Canvas.TextWidth(MaxLengthWord);
   CanExecute := SplitSynCompletionProposal.ItemList.Count > 0;
 end;
 
@@ -368,6 +393,34 @@ end;
 procedure TDocTabSheetFrame.UpdateMinimapAndStyles(Right: Integer);
 var
   LStyles: TCustomStyleServices;
+
+  procedure SetFontAndColors(SynCompletionProposal: TSynCompletionProposal);
+  begin
+    SynCompletionProposal.Font.Name := SynEdit.Font.Name;
+    SynCompletionProposal.Font.Color := LStyles.GetStyleFontColor(sfEditBoxTextNormal);
+    SynCompletionProposal.Font.Size := SynEdit.Font.Size;
+    if LStyles.Enabled then
+    begin
+      with SynCompletionProposal do
+      begin
+        ClBackground := LStyles.GetStyleColor(scEdit);
+        ClSelect := LStyles.GetSystemColor(clHighlight);
+        ClSelectedText := LStyles.GetSystemColor(clHighlightText);
+        ClTitleBackground := LStyles.GetStyleColor(scEdit);
+      end;
+    end
+    else
+    begin
+      with SynCompletionProposal do
+      begin
+        ClBackground := clWindow;
+        ClSelect := clHighlight;
+        ClSelectedText := clHighlightText;
+        ClTitleBackground := clBtnFace;
+      end;
+    end;
+  end;
+
 begin
   Panel.Padding.Right := Right;
   {  SynEditMinimap }
@@ -377,28 +430,8 @@ begin
   SplitSynEditMinimap.Invalidate;
   { SynCompletionProposal }
   LStyles := StyleServices;
-  SynCompletionProposal.Font.Name := SynEdit.Font.Name;
-  SynCompletionProposal.Font.Color := LStyles.GetStyleFontColor(sfEditBoxTextNormal);
-  if LStyles.Enabled then
-  begin
-    with SynCompletionProposal do
-    begin
-      ClBackground := LStyles.GetStyleColor(scEdit);
-      ClSelect := LStyles.GetSystemColor(clHighlight);
-      ClSelectedText := LStyles.GetSystemColor(clHighlightText);
-      ClTitleBackground := LStyles.GetStyleColor(scEdit);
-    end;
-  end
-  else
-  begin
-    with SynCompletionProposal do
-    begin
-      ClBackground := clWindow;
-      ClSelect := clHighlight;
-      ClSelectedText := clHighlightText;
-      ClTitleBackground := clBtnFace;
-    end;
-  end;
+  SetFontAndColors(SynCompletionProposal);
+  SetFontAndColors(SplitSynCompletionProposal);
 end;
 
 end.

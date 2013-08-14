@@ -750,13 +750,13 @@ begin
     SynEdit.Width := 0;
     SynEdit.Height := 0;
 
-    if SynEdit.CanFocus then
-      SynEdit.SetFocus;
     SetMainHighlighterCombo(SynEdit);
     SetMainEncodingCombo(SynEdit);
-    Application.ProcessMessages;
 
     SynEdit.Visible := True;
+
+    if SynEdit.CanFocus then
+      SynEdit.SetFocus;
 
     Result := SynEdit;
   end;

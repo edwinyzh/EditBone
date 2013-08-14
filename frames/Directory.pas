@@ -158,9 +158,9 @@ begin
     TabSheet := PageControl.ActivePage;
   DirTabSheetFrame := GetDirTabSheetFrame(TabSheet);
   if Assigned(DirTabSheetFrame) then
-    if DirTabSheetFrame.DriveComboBoxPanel.Visible then
+    if DirTabSheetFrame.DriveComboBox.Visible then
     begin
-      if DirTabSheetFrame.DriveComboBoxPanel.Align = alBottom then
+      if DirTabSheetFrame.DriveComboBox.Align = alBottom then
         Result := 1
       else
         Result := 2;
@@ -187,20 +187,20 @@ begin
     DirTabSheetFrame := TabSheetFrame;
   if Assigned(DirTabSheetFrame) then
   begin
-    DirTabSheetFrame.DriveComboBoxPanel.Visible := ShowDrives <> 0;
+    DirTabSheetFrame.DriveComboBox.Visible := ShowDrives <> 0;
     if ShowDrives = 1 then
-    with DirTabSheetFrame.DriveComboBoxPanel do
+    with DirTabSheetFrame.DriveComboBox do
     begin
-      Padding.Top := 3;
-      Padding.Bottom := 0;
+      Margins.Top := 3;
+      Margins.Bottom := 0;
       Align := alBottom
     end
     else
     if ShowDrives = 2 then
-    with DirTabSheetFrame.DriveComboBoxPanel do
+    with DirTabSheetFrame.DriveComboBox do
     begin
-      Padding.Top := 0;
-      Padding.Bottom := 3;
+      Margins.Top := 0;
+      Margins.Bottom := 3;
       Align := alTop
     end;
   end;
@@ -216,22 +216,22 @@ begin
     DirTabSheetFrame := TabSheetFrame;
   if Assigned(DirTabSheetFrame) then
   begin
-    DirTabSheetFrame.FileTypeComboBoxPanel.Visible := ShowFileType <> 0;
+    DirTabSheetFrame.FileTypeComboBox.Visible := ShowFileType <> 0;
     if FileType <> '' then
       DirTabSheetFrame.FileTypeComboBox.Text := FileType;
     if ShowFileType = 1 then
-    with DirTabSheetFrame.FileTypeComboBoxPanel do
+    with DirTabSheetFrame.FileTypeComboBox do
     begin
-      Padding.Top := 3;
-      Padding.Bottom := 0;
+      Margins.Top := 3;
+      Margins.Bottom := 0;
       Align := alBottom
     end
     else
     if ShowFileType = 2 then
-    with DirTabSheetFrame.FileTypeComboBoxPanel do
+    with DirTabSheetFrame.FileTypeComboBox do
     begin
-      Padding.Top := 0;
-      Padding.Bottom := 3;
+      Margins.Top := 0;
+      Margins.Bottom := 3;
       Align := alTop
     end;
   end;
@@ -246,9 +246,9 @@ begin
     TabSheet := PageControl.ActivePage;
   DirTabSheetFrame := GetDirTabSheetFrame(TabSheet);
   if Assigned(DirTabSheetFrame) then
-    if DirTabSheetFrame.FileTypeComboBoxPanel.Visible then
+    if DirTabSheetFrame.FileTypeComboBox.Visible then
     begin
-      if DirTabSheetFrame.FileTypeComboBoxPanel.Align = alBottom then
+      if DirTabSheetFrame.FileTypeComboBox.Align = alBottom then
         Result := 1
       else
         Result := 2;

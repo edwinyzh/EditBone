@@ -217,6 +217,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
       'Test'
       'Char'
       'Character')
+    Width = 160
     EndOfTokenChr = '()[]. '
     TriggerChars = '.'
     Font.Charset = DEFAULT_CHARSET
@@ -239,7 +240,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
     Top = 64
   end
   object SplitSynCompletionProposal: TSynCompletionProposal
-    Options = [scoCaseSensitive, scoLimitToMatchedText, scoCompleteWithTab, scoCompleteWithEnter]
+    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUsePrettyText, scoCompleteWithTab, scoCompleteWithEnter]
     ItemList.Strings = (
       'Test'
       'Char'

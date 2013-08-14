@@ -9,12 +9,9 @@ uses
 
 type
   TDirTabSheetFrame = class(TFrame)
-    DriveComboBox: TBCDriveComboBox;
-    DriveComboBoxPanel: TPanel;
-    FileTreeView: TBCFileTreeView;
-    FileTreeViewPanel: TPanel;
     Panel: TPanel;
-    FileTypeComboBoxPanel: TPanel;
+    FileTreeView: TBCFileTreeView;
+    DriveComboBox: TBCDriveComboBox;
     FileTypeComboBox: TBCFileTypeComboBox;
   private
     { Private declarations }
