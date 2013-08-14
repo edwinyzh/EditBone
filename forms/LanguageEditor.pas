@@ -868,7 +868,7 @@ begin
         begin
           Visible := False;
           Parent := Tree;
-          Flat := True;
+          //Flat := True;
           Text := Data.Value[FColumn];
           OnKeyPress := EditKeyPress;
         end;

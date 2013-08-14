@@ -115,6 +115,7 @@ begin
   startpos := 1;
   KeywordStringList := TStringList.Create;
   StringList := TStringList.Create;
+  StringList.CaseSensitive := True; // TODO: tähän optio!!!
   try
     { add document words }
     while startpos <= Length(S) do

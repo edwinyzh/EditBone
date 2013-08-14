@@ -151,7 +151,6 @@ object DocumentFrame: TDocumentFrame
         Height = 21
         Align = alTop
         TabOrder = 0
-        Text = ''
         OnChange = SearchForEditChange
         EnterToTab = False
         OnlyNumbers = False
@@ -573,7 +572,6 @@ object DocumentFrame: TDocumentFrame
         Height = 21
         Align = alTop
         TabOrder = 0
-        Text = ''
         OnKeyPress = GotoLineNumberEditKeyPress
         EnterToTab = False
         OnlyNumbers = True

@@ -79,15 +79,17 @@ uses
   Vcl.ActnList, BCControls.CheckBox, BCControls.Edit,
   BCControls.ImageList, Vcl.ActnPopup, BCControls.PopupMenu, SynMacroRecorder, SynEditKeyCmds, Vcl.Themes,
   SynEditRegexSearch, BCControls.SynEdit, DocumentTabSheet, BCFrames.Compare, Vcl.PlatformDefaultStyleActnCtrls,
-  SynHighlighterWebData, SynHighlighterURI, SynURIOpener, SynHighlighterTeX, SynHighlighterProgress,
+  SynHighlighterPas, SynHighlighterCobol, SynHighlighterWebData, SynHighlighterURI, SynURIOpener, SynHighlighterTeX,
+
+  SynHighlighterProgress,
   SynHighlighterPerl, SynHighlighterKix, SynHighlighterJScript, SynHighlighterGalaxy,
-  SynHighlighterFoxpro, SynHighlighterWeb, SynHighlighterCache, SynHighlighterCobol,
+  SynHighlighterFoxpro, SynHighlighterWeb, SynHighlighterCache,
   SynHighlighterDml, SynHighlighterGWS, SynHighlighterIDL, SynHighlighterCPM, SynHighlighterHaskell,
   SynHighlighterHP48, SynHighlighterDOT, SynHighlighterADSP21xx, SynHighlighterLDraw,
   SynHighlighterModelica, SynHighlighterM3, SynHighlighterMsg, SynHighlighterBat, SynHighlighterSQL,
   SynHighlighterSDD, SynHighlighterRuby, SynHighlighterRC, SynHighlighterPython,
   SynHighlighterUNIXShellScript, SynHighlighterVB, SynHighlighterVBScript, SynHighlighterVrml97,
-  SynHighlighterAsm, SynHighlighterSml, SynHighlighterST, SynHighlighterTclTk, SynHighlighterPas,
+  SynHighlighterAsm, SynHighlighterSml, SynHighlighterST, SynHighlighterTclTk,
   SynHighlighterJava, SynHighlighterInno, SynHighlighterIni, SynHighlighterDWS,
   SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
   SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11,
@@ -1362,6 +1364,7 @@ procedure TDocumentFrame.Copy;
   end;
 
 begin
+
   Copy(GetActiveSynEdit);
   Copy(GetActiveSplitSynEdit);
 end;
@@ -1451,6 +1454,7 @@ begin
   if Assigned(SplitSynedit) and SplitSynedit.Focused then
     SplitSynedit.PasteFromClipboard
   else
+  if SearchPanel.Visible then
     SearchForEdit.PasteFromClipboard;
 end;
 
@@ -2917,8 +2921,16 @@ procedure TDocumentFrame.SelectAll;
   end;
 
 begin
-  SelectAll(GetActiveSynEdit);
-  SelectAll(GetActiveSplitSynEdit);
+  if SearchForEdit.Focused then
+    SearchForEdit.SelectAll
+  else
+  if GotoLineNumberEdit.Focused then
+    GotoLineNumberEdit.SelectAll
+  else
+  begin
+    SelectAll(GetActiveSynEdit);
+    SelectAll(GetActiveSplitSynEdit);
+  end;
 end;
 
 procedure TDocumentFrame.ToggleCase;
