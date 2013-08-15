@@ -1,16 +1,18 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 302
+  Width = 786
+  Height = 681
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
   TabOrder = 0
+  ExplicitWidth = 451
+  ExplicitHeight = 302
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 786
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -18,6 +20,7 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 0
     Visible = False
+    ExplicitWidth = 451
     object WholeWordsOnlyLabel: TLabel
       Left = 434
       Top = 0
@@ -419,8 +422,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 451
-    Height = 256
+    Width = 786
+    Height = 635
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -428,11 +431,13 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentColor = True
     TabOrder = 1
+    ExplicitWidth = 451
+    ExplicitHeight = 256
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 451
-      Height = 254
+      Width = 786
+      Height = 633
       Align = alClient
       DoubleBuffered = False
       ParentDoubleBuffered = False
@@ -444,12 +449,14 @@ object DocumentFrame: TDocumentFrame
       ShowCloseButton = False
       OnCloseButtonClick = PageControlCloseButtonClick
       OnDblClick = PageControlDblClick
+      ExplicitWidth = 451
+      ExplicitHeight = 254
     end
   end
   object GotoLinePanel: TPanel
     Left = 0
-    Top = 277
-    Width = 451
+    Top = 656
+    Width = 786
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
@@ -458,6 +465,8 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 2
     Visible = False
+    ExplicitTop = 277
+    ExplicitWidth = 451
     object GotoLineClosePanel: TPanel
       Left = 0
       Top = 2
@@ -1417,9 +1426,6 @@ object DocumentFrame: TDocumentFrame
     end
     object ToggleBookmarksMenuItem: TMenuItem
       Action = MainForm.ToggleBookmarksAction
-      object ToggleBookmark0MenuItem: TMenuItem
-        Action = MainForm.ToggleBookmarks0Action
-      end
       object ToggleBookmark1MenuItem: TMenuItem
         Tag = 1
       end
@@ -1451,9 +1457,6 @@ object DocumentFrame: TDocumentFrame
     object GotoBookmarksMenuItem: TMenuItem
       Action = MainForm.GotoBookmarksAction
       SubMenuImages = BookmarkImagesList
-      object GotoBookmark0MenuItem: TMenuItem
-        Action = MainForm.GotoBookmarks0Action
-      end
       object GotoBookmark1MenuItem: TMenuItem
         Tag = 1
       end

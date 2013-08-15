@@ -78,7 +78,6 @@ type
     FileSaveAsAction: TAction;
     FileTreeViewDblClickAction: TAction;
     FormatXMLAction: TAction;
-    GotoBookmarks0Action: TAction;
     GotoBookmarks1Action: TAction;
     GotoBookmarks2Action: TAction;
     GotoBookmarks3Action: TAction;
@@ -147,7 +146,6 @@ type
     SortMenuItem: TMenuItem;
     StatusBar: TStatusBar;
     ToggleBookmarkAction: TAction;
-    ToggleBookmarks0Action: TAction;
     ToggleBookmarks1Action: TAction;
     ToggleBookmarks2Action: TAction;
     ToggleBookmarks3Action: TAction;
@@ -201,6 +199,7 @@ type
     EditDeleteAction: TAction;
     EditIndentAction: TAction;
     EditSortAction: TAction;
+    ToolsConvertAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -245,7 +244,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure GotoBookmarks0ActionExecute(Sender: TObject);
+    procedure GotoBookmarksActionExecute(Sender: TObject);
     procedure HelpAboutActionExecute(Sender: TObject);
     procedure HelpCheckForUpdatesMenuActionExecute(Sender: TObject);
     procedure HelpHomeActionExecute(Sender: TObject);
@@ -277,7 +276,7 @@ type
     procedure SelectLanguageActionExecute(Sender: TObject);
     procedure SelectStyleActionExecute(Sender: TObject);
     procedure ToggleBookmarkActionExecute(Sender: TObject);
-    procedure ToggleBookmarks0ActionExecute(Sender: TObject);
+    procedure ToggleBookmarksActionExecute(Sender: TObject);
     procedure ToolsLanguageEditorActionExecute(Sender: TObject);
     procedure ToolsOptionsActionExecute(Sender: TObject);
     procedure ToolsSelectForCompareActionExecute(Sender: TObject);
@@ -605,7 +604,7 @@ begin
   RecreateDragDrop;
 end;
 
-procedure TMainForm.ToggleBookmarks0ActionExecute(Sender: TObject);
+procedure TMainForm.ToggleBookmarksActionExecute(Sender: TObject);
 var
   Action: TAction;
 begin
@@ -613,7 +612,7 @@ begin
   FDocumentFrame.ToggleBookMarks(Action.Tag);
 end;
 
-procedure TMainForm.GotoBookmarks0ActionExecute(Sender: TObject);
+procedure TMainForm.GotoBookmarksActionExecute(Sender: TObject);
 var
   Action: TAction;
 begin
@@ -1074,7 +1073,7 @@ begin
   MacroOpenAction.Enabled := ActiveDocumentFound;
   MacroSaveAsAction.Enabled := MacroPlaybackAction.Enabled;
   { Bookmarks }
-  for i := 0 to 9 do
+  for i := 1 to 9 do
   begin
     GotoBookmarksAction := TAction(FindComponent(Format('GotoBookmarks%dAction', [i])));
     GotoBookmarksAction.Enabled := False;
@@ -1083,7 +1082,7 @@ begin
     ToggleBookmarksAction.Caption := Format('%s &%d', [LanguageDataModule.GetConstant('Bookmark'), i]);
   end;
   if Assigned(BookmarkList) then
-  for i := 0 to BookmarkList.Count - 1 do
+  for i := 1 to BookmarkList.Count - 1 do
   begin
     GotoBookmarksAction := TAction(FindComponent(Format('GotoBookmarks%dAction', [BookmarkList.Items[i].BookmarkNumber])));
     GotoBookmarksAction.Enabled := True;

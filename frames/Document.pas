@@ -76,25 +76,20 @@ uses
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, SynEdit, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.ImgList,
   JvExComCtrls, JvComCtrls, Vcl.Menus, BCControls.PageControl, Directory, Vcl.Buttons,
   SynEditPrint, SynEditMiscClasses, SynEditSearch, SynEditTypes, SynEditPlugins, Vcl.StdCtrls,
-  Vcl.ActnList, BCControls.CheckBox, BCControls.Edit,
+  Vcl.ActnList, BCControls.CheckBox, BCControls.Edit, System.Actions, BCControls.ProgressBar,
   BCControls.ImageList, Vcl.ActnPopup, BCControls.PopupMenu, SynMacroRecorder, SynEditKeyCmds, Vcl.Themes,
   SynEditRegexSearch, BCControls.SynEdit, DocumentTabSheet, BCFrames.Compare, Vcl.PlatformDefaultStyleActnCtrls,
   SynHighlighterPas, SynHighlighterCobol, SynHighlighterWebData, SynHighlighterURI, SynURIOpener, SynHighlighterTeX,
-
-  SynHighlighterProgress,
-  SynHighlighterPerl, SynHighlighterKix, SynHighlighterJScript, SynHighlighterGalaxy,
-  SynHighlighterFoxpro, SynHighlighterWeb, SynHighlighterCache,
-  SynHighlighterDml, SynHighlighterGWS, SynHighlighterIDL, SynHighlighterCPM, SynHighlighterHaskell,
-  SynHighlighterHP48, SynHighlighterDOT, SynHighlighterADSP21xx, SynHighlighterLDraw,
-  SynHighlighterModelica, SynHighlighterM3, SynHighlighterMsg, SynHighlighterBat, SynHighlighterSQL,
-  SynHighlighterSDD, SynHighlighterRuby, SynHighlighterRC, SynHighlighterPython,
-  SynHighlighterUNIXShellScript, SynHighlighterVB, SynHighlighterVBScript, SynHighlighterVrml97,
-  SynHighlighterAsm, SynHighlighterSml, SynHighlighterST, SynHighlighterTclTk,
-  SynHighlighterJava, SynHighlighterInno, SynHighlighterIni, SynHighlighterDWS,
-  SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
+  SynHighlighterProgress, SynHighlighterPerl, SynHighlighterKix, SynHighlighterJScript, SynHighlighterGalaxy,
+  SynHighlighterFoxpro, SynHighlighterWeb, SynHighlighterCache, SynHighlighterDml, SynHighlighterGWS, SynHighlighterIDL,
+  SynHighlighterCPM, SynHighlighterHaskell, SynHighlighterHP48, SynHighlighterDOT, SynHighlighterADSP21xx,
+  SynHighlighterLDraw, SynHighlighterModelica, SynHighlighterM3, SynHighlighterMsg, SynHighlighterBat,
+  SynHighlighterSQL, SynHighlighterSDD, SynHighlighterRuby, SynHighlighterRC, SynHighlighterPython,
+  SynHighlighterUNIXShellScript, SynHighlighterVB, SynHighlighterVBScript, SynHighlighterVrml97, SynHighlighterAsm,
+  SynHighlighterSml, SynHighlighterST, SynHighlighterTclTk, SynHighlighterJava, SynHighlighterInno, SynHighlighterIni,
+  SynHighlighterDWS, SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
   SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11,
-  SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch,
-  System.Actions, JvExStdCtrls, JvEdit, BCControls.ProgressBar;
+  SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch;
 
 type
   TDocumentFrame = class(TFrame)
@@ -117,7 +112,6 @@ type
     DocumentPanel: TPanel;
     EditorPopupMenu: TBCPopupMenu;
     FormatXMLMenuItem: TMenuItem;
-    GotoBookmark0MenuItem: TMenuItem;
     GotoBookmark1MenuItem: TMenuItem;
     GotoBookmark2MenuItem: TMenuItem;
     GotoBookmark3MenuItem: TMenuItem;
@@ -218,7 +212,6 @@ type
     SynWebHtmlSyn: TSynWebHtmlSyn;
     SynWebXmlSyn: TSynWebXmlSyn;
     SynVrml97Syn: TSynVrml97Syn;
-    ToggleBookmark0MenuItem: TMenuItem;
     ToggleBookmark1MenuItem: TMenuItem;
     ToggleBookmark2MenuItem: TMenuItem;
     ToggleBookmark3MenuItem: TMenuItem;
@@ -479,7 +472,6 @@ begin
   RedoMenuItem.Action := MainForm.EditRedoAction;
   ToggleBookmarkMenuItem.Action := MainForm.ToggleBookmarkAction;
   ToggleBookmarksMenuItem.Action := MainForm.ToggleBookmarksAction;
-  ToggleBookmark0MenuItem.Action := MainForm.ToggleBookmarks0Action;
   ToggleBookmark1MenuItem.Action := MainForm.ToggleBookmarks1Action;
   ToggleBookmark2MenuItem.Action := MainForm.ToggleBookmarks2Action;
   ToggleBookmark3MenuItem.Action := MainForm.ToggleBookmarks3Action;
@@ -490,7 +482,6 @@ begin
   ToggleBookmark8MenuItem.Action := MainForm.ToggleBookmarks8Action;
   ToggleBookmark9MenuItem.Action := MainForm.ToggleBookmarks9Action;
   GotoBookmarksMenuItem.Action := MainForm.GotoBookmarksAction;
-  GotoBookmark0MenuItem.Action := MainForm.GotoBookmarks0Action;
   GotoBookmark1MenuItem.Action := MainForm.GotoBookmarks1Action;
   GotoBookmark2MenuItem.Action := MainForm.GotoBookmarks2Action;
   GotoBookmark3MenuItem.Action := MainForm.GotoBookmarks3Action;

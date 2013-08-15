@@ -20,8 +20,8 @@ type
   end;
 
 const
-  IMAGEINDEX_RECORD = 54;
-  IMAGEINDEX_PAUSE = 55;
+  IMAGEINDEX_RECORD = 68;
+  IMAGEINDEX_PAUSE = 69;
   CAPTION_ERRORS = 'Errors';
 
   TSQLDialectStr: array[Low(TSQLDialect)..High(TSQLDialect)] of String =
