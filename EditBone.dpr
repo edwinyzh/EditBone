@@ -61,7 +61,8 @@ uses
   BCCommon.StringUtils in '..\..\Common\units\BCCommon.StringUtils.pas',
   BCCommon.LanguageUtils in '..\..\Common\units\BCCommon.LanguageUtils.pas',
   BCCommon.Messages in '..\..\Common\units\BCCommon.Messages.pas',
-  BCForms.Convert in '..\..\Common\forms\BCForms.Convert.pas' {ConvertForm};
+  BCForms.Convert in '..\..\Common\forms\BCForms.Convert.pas' {ConvertForm},
+  OptionsCompletionProposal in 'frames\OptionsCompletionProposal.pas' {OptionsCompletionProposalFrame: TFrame};
 
 {$R *.res}
 

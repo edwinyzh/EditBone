@@ -361,10 +361,6 @@ type
     procedure CompareFiles(FileName: string = ''; AFileDragDrop: Boolean = False);
     procedure Copy;
     procedure Cut;
-    {procedure DecToHex;
-    procedure HexToDec;
-    procedure DecToBin;
-    procedure BinToDec; }
     procedure DecreaseIndent;
     procedure DeleteEOL;
     procedure DeleteLine;
@@ -2978,90 +2974,6 @@ begin
   ToggleCase(GetActiveSynEdit);
   ToggleCase(GetActiveSplitSynEdit);
 end;
-(*
-procedure TDocumentFrame.DecToHex;
-
-  procedure DecToHex(SynEdit: TBCSynEdit);
-  begin
-    if Assigned(SynEdit) then
-    begin
-      SynEdit.BeginUpdate;
-      try
-        SynEdit.SelText := IntToHex(StrToInt(SynEdit.SelText), 2);
-      except
-        { silent }
-      end;
-      SynEdit.EndUpdate;
-    end;
-  end;
-
-begin
-  DecToHex(GetActiveSynEdit);
-  DecToHex(GetActiveSplitSynEdit);
-end;
-
-procedure TDocumentFrame.HexToDec;
-
-  procedure HexToDec(SynEdit: TBCSynEdit);
-  begin
-    if Assigned(SynEdit) then
-    begin
-      SynEdit.BeginUpdate;
-      try
-        SynEdit.SelText := IntToStr(StrToInt('$' + SynEdit.SelText));
-      except
-        { silent }
-      end;
-      SynEdit.EndUpdate;
-    end;
-  end;
-
-begin
-  HexToDec(GetActiveSynEdit);
-  HexToDec(GetActiveSplitSynEdit);
-end;
-(*
-procedure TDocumentFrame.DecToBin;
-
-  procedure DecToBin(SynEdit: TBCSynEdit);
-  begin
-    if Assigned(SynEdit) then
-    begin
-      SynEdit.BeginUpdate;
-      try
-        SynEdit.SelText := IntToBin(StrToInt(SynEdit.SelText), Length(SynEdit.SelText) * 4);
-      except
-        { silent }
-      end;
-      SynEdit.EndUpdate;
-    end;
-  end;
-
-begin
-  DecToBin(GetActiveSynEdit);
-  DecToBin(GetActiveSplitSynEdit);
-end;
-
-(*procedure TDocumentFrame.BinToDec;
-
-  procedure BinToDec(SynEdit: TBCSynEdit);
-  begin
-    if Assigned(SynEdit) then
-    begin
-      SynEdit.BeginUpdate;
-      try
-        SynEdit.SelText := IntToStr(BinToInt(SynEdit.SelText));
-      except
-        { silent }
-      end;
-      SynEdit.EndUpdate;
-    end;
-  end;
-
-begin
-  BinToDec(GetActiveSynEdit);
-  BinToDec(GetActiveSplitSynEdit);
-end; *)
 
 procedure TDocumentFrame.RemoveWhiteSpace;
 
