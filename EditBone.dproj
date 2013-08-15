@@ -272,8 +272,8 @@
         <DCCReference Include="..\..\Common\units\BCCommon.StringUtils.pas"/>
         <DCCReference Include="..\..\Common\units\BCCommon.LanguageUtils.pas"/>
         <DCCReference Include="..\..\Common\units\BCCommon.Messages.pas"/>
-        <DCCReference Include="forms\Convert.pas">
-            <Form>Form1</Form>
+        <DCCReference Include="..\..\Common\forms\BCForms.Convert.pas">
+            <Form>ConvertForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Debug">

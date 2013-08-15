@@ -310,6 +310,7 @@ type
     procedure ToolsDuplicateCheckerActionExecute(Sender: TObject);
     procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
     procedure ViewMiniMapActionExecute(Sender: TObject);
+    procedure ToolsConvertActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -358,7 +359,7 @@ uses
   About, BCDialogs.FindInFiles, Vcl.ClipBrd, BigIni, BCCommon.StyleUtils, BCCommon.FileUtils,
   System.IOUtils, BCCommon.LanguageStrings, BCDialogs.ConfirmReplace, LanguageEditor, BCControls.SynEdit,
   BCCommon.LanguageUtils, BCCommon.DuplicateChecker, UnicodeCharacterMap, DuplicateCheckerOptions, Winapi.ShellAPI,
-  System.Types, BCCommon.Messages, BCCommon, BCCommon.StringUtils, Winapi.CommCtrl;
+  System.Types, BCCommon.Messages, BCCommon, BCCommon.StringUtils, Winapi.CommCtrl, BCForms.Convert;
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
@@ -1747,6 +1748,11 @@ end;
 procedure TMainForm.EditPasteActionExecute(Sender: TObject);
 begin
   FDocumentFrame.Paste;
+end;
+
+procedure TMainForm.ToolsConvertActionExecute(Sender: TObject);
+begin
+  ConvertForm.Open;
 end;
 
 procedure TMainForm.ToolsDuplicateCheckerActionExecute(Sender: TObject);
