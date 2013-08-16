@@ -838,7 +838,7 @@ begin
     if Assigned(DocTabSheetFrame) then
     begin
       UpdateGutterAndColors(DocTabSheetFrame);
-      DocTabSheetFrame.UpdateMinimapAndStyles(Right);
+      DocTabSheetFrame.UpdateOptionsAndStyles(Right);
     end;
     CompareFrame := GetCompareFrame(PageControl.Pages[i]);
     if Assigned(CompareFrame) then
@@ -1867,6 +1867,7 @@ begin
     OptionsContainer.DocCloseTabByMiddleClick := ReadBool('Options', 'DocCloseTabByMiddleClick', False);
     OptionsContainer.DocDoubleBuffered := ReadBool('Options', 'DocDoubleBuffered', True);
     OptionsContainer.DocMultiLine := ReadBool('Options', 'DocMultiLine', False);
+    OptionsContainer.DocSaveTabs:= ReadBool('Options', 'DocSaveTabs', True);
     OptionsContainer.DocShowCloseButton := ReadBool('Options', 'DocShowCloseButton', False);
     OptionsContainer.DocShowImage := ReadBool('Options', 'DocShowImage', True);
     OptionsContainer.DirShowTreeLines:= ReadBool('Options', 'DirShowTreeLines', False);
@@ -2028,6 +2029,7 @@ begin
     WriteBool('Options', 'DocCloseTabByMiddleClick', OptionsContainer.DocCloseTabByMiddleClick);
     WriteBool('Options', 'DocDoubleBuffered', OptionsContainer.DocDoubleBuffered);
     WriteBool('Options', 'DocMultiLine', OptionsContainer.DocMultiLine);
+    WriteBool('Options', 'DocSaveTabs', OptionsContainer.DocSaveTabs);
     WriteBool('Options', 'DocShowCloseButton', OptionsContainer.DocShowCloseButton);
     WriteBool('Options', 'DocShowImage', OptionsContainer.DocShowImage);
     WriteBool('Options', 'DirShowTreeLines', OptionsContainer.DirShowTreeLines);
@@ -2074,6 +2076,7 @@ begin
     EraseSection('OpenFiles');
     EraseSection('Bookmarks');
     { Open documents }
+    if OptionsContainer.DocSaveTabs then
     for i := 0 to PageControl.PageCount - 1 do
     begin
       SynEdit := GetSynEdit(PageControl.Pages[i]);

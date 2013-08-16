@@ -29,19 +29,6 @@ object EditorTabsFrame: TEditorTabsFrame
     end
     object ShowCloseButtonCheckBox: TBCCheckBox
       Left = 9
-      Top = 86
-      Width = 218
-      Height = 21
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = ' Show Close Button'
-      TabOrder = 4
-      ReadOnly = False
-    end
-    object ShowImageCheckBox: TBCCheckBox
-      Left = 9
       Top = 106
       Width = 218
       Height = 21
@@ -49,8 +36,21 @@ object EditorTabsFrame: TEditorTabsFrame
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Show Image'
+      Caption = ' Show Close Button'
       TabOrder = 5
+      ReadOnly = False
+    end
+    object ShowImageCheckBox: TBCCheckBox
+      Left = 9
+      Top = 126
+      Width = 218
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Show Image'
+      TabOrder = 6
       ReadOnly = False
     end
     object CloseTabByDblClickCheckBox: TBCCheckBox
@@ -92,6 +92,21 @@ object EditorTabsFrame: TEditorTabsFrame
       Checked = True
       State = cbChecked
       TabOrder = 2
+      ReadOnly = False
+    end
+    object SaveTabsCheckBox: TBCCheckBox
+      Left = 9
+      Top = 86
+      Width = 218
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Save Tabs'
+      Checked = True
+      State = cbChecked
+      TabOrder = 4
       ReadOnly = False
     end
   end

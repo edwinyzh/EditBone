@@ -111,6 +111,7 @@ type
     FDocCloseTabByDblClick: Boolean;
     FDocCloseTabByMiddleClick: Boolean;
     FDocDoubleBuffered: Boolean;
+    FDocSaveTabs: Boolean;
     FDocMultiLine: Boolean;
     FDocShowCloseButton: Boolean;
     FDocShowImage: Boolean;
@@ -210,6 +211,7 @@ type
     property DocCloseTabByDblClick: Boolean read FDocCloseTabByDblClick write FDocCloseTabByDblClick;
     property DocCloseTabByMiddleClick: Boolean read FDocCloseTabByMiddleClick write FDocCloseTabByMiddleClick;
     property DocDoubleBuffered: Boolean read FDocDoubleBuffered write FDocDoubleBuffered;
+    property DocSaveTabs: Boolean read FDocSaveTabs write FDocSaveTabs;
     property DocMultiLine: Boolean read FDocMultiLine write FDocMultiLine;
     property DocShowCloseButton: Boolean read FDocShowCloseButton write FDocShowCloseButton;
     property DocShowImage: Boolean read FDocShowImage write FDocShowImage;
@@ -621,6 +623,7 @@ begin
   FDocCloseTabByDblClick := False;
   FDocCloseTabByMiddleClick := False;
   FDocDoubleBuffered := True;
+  FDocSaveTabs := True;
   FDocMultiLine := False;
   FDocShowCloseButton := False;
   FDocShowImage := True;
@@ -967,6 +970,7 @@ begin
   FEditorTabsFrame.CloseTabByMiddleClickCheckBox.Checked := FOptionsContainer.DocCloseTabByMiddleClick;
   FEditorTabsFrame.DoubleBufferedCheckBox.Checked := FOptionsContainer.DocDoubleBuffered;
   FEditorTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.DocMultiLine;
+  FEditorTabsFrame.SaveTabsCheckBox.Checked := FOptionsContainer.DocSaveTabs;
   FEditorTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DocShowCloseButton;
   FEditorTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.DocShowImage;
   { Completion proposal }
@@ -1180,6 +1184,7 @@ begin
   FOptionsContainer.DocCloseTabByMiddleClick := FEditorTabsFrame.CloseTabByMiddleClickCheckBox.Checked;
   FOptionsContainer.DocDoubleBuffered := FEditorTabsFrame.DoubleBufferedCheckBox.Checked;
   FOptionsContainer.DocMultiLine := FEditorTabsFrame.MultiLineCheckBox.Checked;
+  FOptionsContainer.DocSaveTabs := FEditorTabsFrame.SaveTabsCheckBox.Checked;
   FOptionsContainer.DocShowCloseButton := FEditorTabsFrame.ShowCloseButtonCheckBox.Checked;
   FOptionsContainer.DocShowImage := FEditorTabsFrame.ShowImageCheckBox.Checked;
   { Completion proposal }

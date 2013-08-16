@@ -59,7 +59,7 @@ type
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
     procedure LoadFromXML(XML: string);
-    procedure UpdateMinimapAndStyles(Right: Integer);
+    procedure UpdateOptionsAndStyles(Right: Integer);
     property SplitVisible: Boolean read GetSplitVisible write SetSplitVisible;
     property MinimapVisible: Boolean read GetMinimapVisible write SetMinimapVisible;
     property XMLTreeVisible: Boolean read GetXMLTreeVisible write SetXMLTreeVisible;
@@ -79,7 +79,7 @@ begin
   VerticalSplitter.Width := GetSplitterSize;
   HorizontalSplitter.Height := VerticalSplitter.Width;
   SynEditSplitter.Width := VerticalSplitter.Width;
-  UpdateMinimapAndStyles(Panel.Padding.Right);
+  UpdateOptionsAndStyles(Panel.Padding.Right);
 end;
 
 function TDocTabSheetFrame.GetXMLTreeVisible: Boolean;
@@ -116,7 +116,7 @@ begin
   startpos := 1;
   KeywordStringList := TStringList.Create;
   StringList := TStringList.Create;
-  StringList.CaseSensitive := True; // TODO: tähän optio!!!
+  StringList.CaseSensitive := OptionsContainer.CompletionProposalCaseSensitive;
   try
     { add document words }
     while startpos <= Length(S) do
@@ -392,7 +392,7 @@ begin
   end;
 end;
 
-procedure TDocTabSheetFrame.UpdateMinimapAndStyles(Right: Integer);
+procedure TDocTabSheetFrame.UpdateOptionsAndStyles(Right: Integer);
 var
   LStyles: TCustomStyleServices;
 
