@@ -1324,7 +1324,7 @@ begin
   if FOnStartUp then
   begin
     ReadIniOptions;
-    if not FDocumentFrame.ReadIniOpenFiles then
+    if not FDocumentFrame.ReadIniOpenFiles and (ParamCount = 0) then
       FDocumentFrame.New;
     if ParamCount > 0 then
       for i := 1 to ParamCount do
