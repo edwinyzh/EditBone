@@ -12,7 +12,6 @@ type
     Panel: TPanel;
     EnabledCheckBox: TBCCheckBox;
     CaseSensitiveCheckBox: TBCCheckBox;
-    ResizeableCheckBox: TBCCheckBox;
     ShortcutLabel: TLabel;
     ShortcutComboBox: TBCComboBox;
   private

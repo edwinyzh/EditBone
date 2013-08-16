@@ -1862,7 +1862,6 @@ begin
     OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '2'));
     OptionsContainer.CompletionProposalEnabled := ReadBool('Options', 'CompletionProposalEnabled', True);
     OptionsContainer.CompletionProposalCaseSensitive := ReadBool('Options', 'CompletionProposalCaseSensitive', True);
-    OptionsContainer.CompletionProposalResizeable := ReadBool('Options', 'CompletionProposalResizeable', True);
     OptionsContainer.CompletionProposalShortcut := ReadString('Options', 'CompletionProposalShortcut', 'Ctrl+Space');
     OptionsContainer.DocCloseTabByDblClick := ReadBool('Options', 'DocCloseTabByDblClick', False);
     OptionsContainer.DocCloseTabByMiddleClick := ReadBool('Options', 'DocCloseTabByMiddleClick', False);
@@ -2024,7 +2023,6 @@ begin
     WriteString('Options', 'MinimapFontFactor', IntToStr(OptionsContainer.MinimapFontFactor));
     WriteBool('Options', 'CompletionProposalEnabled', OptionsContainer.CompletionProposalEnabled);
     WriteBool('Options', 'CompletionProposalCaseSensitive', OptionsContainer.CompletionProposalCaseSensitive);
-    WriteBool('Options', 'CompletionProposalResizeable', OptionsContainer.CompletionProposalResizeable);
     WriteString('Options', 'CompletionProposalShortcut', OptionsContainer.CompletionProposalShortcut);
     WriteBool('Options', 'DocCloseTabByDblClick', OptionsContainer.DocCloseTabByDblClick);
     WriteBool('Options', 'DocCloseTabByMiddleClick', OptionsContainer.DocCloseTabByMiddleClick);

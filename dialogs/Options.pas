@@ -96,7 +96,6 @@ type
     FColorBrightness: Integer;
     FCompletionProposalEnabled: Boolean;
     FCompletionProposalCaseSensitive: Boolean;
-    FCompletionProposalResizeable: Boolean;
     FCompletionProposalShortcut: string;
     FMinimapFontFactor: Integer;
     FCPASHighlighter: TCPASHighlighter;
@@ -197,7 +196,6 @@ type
     property ColorBrightness: Integer read FColorBrightness write FColorBrightness;
     property CompletionProposalEnabled: Boolean read FCompletionProposalEnabled write FCompletionProposalEnabled;
     property CompletionProposalCaseSensitive: Boolean read FCompletionProposalCaseSensitive write FCompletionProposalCaseSensitive;
-    property CompletionProposalResizeable: Boolean read FCompletionProposalResizeable write FCompletionProposalResizeable;
     property CompletionProposalShortcut: string read FCompletionProposalShortcut write FCompletionProposalShortcut;
     property CPASHighlighter: TCPASHighlighter read FCPASHighlighter write FCPASHighlighter;
     property CSSVersion: TSynWebCssVersion read FCSSVersion write FCSSVersion;
@@ -424,7 +422,6 @@ begin
       TSynCompletionProposal(Dest).Options := TSynCompletionProposal(Dest).Options + [scoCaseSensitive]
     else
       TSynCompletionProposal(Dest).Options := TSynCompletionProposal(Dest).Options - [scoCaseSensitive];
-    TSynCompletionProposal(Dest).Resizeable := FCompletionProposalResizeable;
   end
   else
     inherited;
@@ -612,7 +609,6 @@ begin
   FAutoSave := False;
   FCompletionProposalEnabled := True;
   FCompletionProposalCaseSensitive := True;
-  FCompletionProposalResizeable := True;
   FCompletionProposalShortcut := 'Ctrl+Space';
   FUndoAfterSave := False;
   FTrimTrailingSpaces := True;
@@ -976,7 +972,6 @@ begin
   { Completion proposal }
   FEditorCompletionProposalFrame.EnabledCheckBox.Checked := FOptionsContainer.CompletionProposalEnabled;
   FEditorCompletionProposalFrame.CaseSensitiveCheckBox.Checked := FOptionsContainer.CompletionProposalCaseSensitive;
-  FEditorCompletionProposalFrame.ResizeableCheckBox.Checked := FOptionsContainer.CompletionProposalResizeable;
   FEditorCompletionProposalFrame.ShortcutComboBox.Text := FOptionsContainer.CompletionProposalShortcut;
   { Directory }
   FOptionsDirectoryFrame.ShowTreeLinesCheckBox.Checked := FOptionsContainer.DirShowTreeLines;
@@ -1190,7 +1185,6 @@ begin
   { Completion proposal }
   FOptionsContainer.CompletionProposalEnabled := FEditorCompletionProposalFrame.EnabledCheckBox.Checked;
   FOptionsContainer.CompletionProposalCaseSensitive := FEditorCompletionProposalFrame.CaseSensitiveCheckBox.Checked;
-  FOptionsContainer.CompletionProposalResizeable := FEditorCompletionProposalFrame.ResizeableCheckBox.Checked;
   FOptionsContainer.CompletionProposalShortcut := FEditorCompletionProposalFrame.ShortcutComboBox.Text;
   { Directory }
   FOptionsContainer.DirShowTreeLines := FOptionsDirectoryFrame.ShowTreeLinesCheckBox.Checked;

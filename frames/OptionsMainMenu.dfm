@@ -149,8 +149,6 @@ object MainMenuFrame: TMainMenuFrame
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Flat = False
-      ParentFlat = False
       TabOrder = 4
       Text = '150'
       EnterToTab = False

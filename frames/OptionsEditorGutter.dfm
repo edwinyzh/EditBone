@@ -111,8 +111,6 @@ object EditorGutterFrame: TEditorGutterFrame
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Flat = False
-      ParentFlat = False
       TabOrder = 1
       Text = '80'
       EnterToTab = False
@@ -146,8 +144,6 @@ object EditorGutterFrame: TEditorGutterFrame
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Flat = False
-      ParentFlat = False
       TabOrder = 3
       Text = '48'
       EnterToTab = False

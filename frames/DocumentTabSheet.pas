@@ -79,6 +79,7 @@ begin
   VerticalSplitter.Width := GetSplitterSize;
   HorizontalSplitter.Height := VerticalSplitter.Width;
   SynEditSplitter.Width := VerticalSplitter.Width;
+  UpdateMinimapAndStyles(Panel.Padding.Right);
 end;
 
 function TDocTabSheetFrame.GetXMLTreeVisible: Boolean;
@@ -408,6 +409,7 @@ var
         ClSelect := LStyles.GetSystemColor(clHighlight);
         ClSelectedText := LStyles.GetSystemColor(clHighlightText);
         ClTitleBackground := LStyles.GetStyleColor(scEdit);
+        ClBorder := LStyles.GetStyleColor(scPanel);
       end;
     end
     else
@@ -418,6 +420,7 @@ var
         ClSelect := clHighlight;
         ClSelectedText := clHighlightText;
         ClTitleBackground := clBtnFace;
+        ClBorder := clBtnFace;
       end;
     end;
   end;
@@ -433,6 +436,8 @@ begin
   LStyles := StyleServices;
   SetFontAndColors(SynCompletionProposal);
   SetFontAndColors(SplitSynCompletionProposal);
+  OptionsContainer.AssignTo(SynCompletionProposal);
+  OptionsContainer.AssignTo(SplitSynCompletionProposal);
 end;
 
 end.
