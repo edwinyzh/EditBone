@@ -1177,7 +1177,10 @@ begin
   if Assigned(FDirectoryFrame) then
     Filename := FDirectoryFrame.SelectedFile;
   if Filename <> '' then
-    FDocumentFrame.Open(Filename);
+    //if CheckFileAccess(Filename, FILE_ALL_ACCESS) = FILE_ALL_ACCESS then
+      FDocumentFrame.Open(Filename)
+    else
+      ShowErrorMessage('Access denied');
 end;
 
 procedure TMainForm.FileSaveAllActionExecute(Sender: TObject);

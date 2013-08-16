@@ -407,13 +407,6 @@ begin
     end;
   end
   else
-  if Assigned(Dest) and (Dest is TBCPageControl) then
-  begin
-    TBCPageControl(Dest).DoubleBuffered := FDirDoubleBuffered;
-    TBCPageControl(Dest).MultiLine := FDirMultiLine;
-    TBCPageControl(Dest).ShowCloseButton := FDirShowCloseButton;
-  end
-  else
   if Assigned(Dest) and (Dest is TSynCompletionProposal) then
   begin
     if not FCompletionProposalEnabled then

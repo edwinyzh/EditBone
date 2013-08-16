@@ -584,7 +584,10 @@ var
   i: Integer;
   VirtualDrawTree: TVirtualDrawTree;
 begin
-  OptionsContainer.AssignTo(PageControl);
+  PageControl.DoubleBuffered := OptionsContainer.OutputDoubleBuffered;
+  PageControl.MultiLine := OptionsContainer.OutputMultiLine;
+  PageControl.ShowCloseButton := OptionsContainer.OutputShowCloseButton;
+
   if OptionsContainer.OutputShowImage then
     PageControl.Images := ImageList
   else

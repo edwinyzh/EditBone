@@ -825,7 +825,9 @@ var
   DocTabSheetFrame: TDocTabSheetFrame;
   CompareFrame: TCompareFrame;
 begin
-  OptionsContainer.AssignTo(PageControl);
+  PageControl.DoubleBuffered := OptionsContainer.DocDoubleBuffered;
+  PageControl.MultiLine := OptionsContainer.DocMultiLine;
+  PageControl.ShowCloseButton := OptionsContainer.DocShowCloseButton;
   if OptionsContainer.DocShowImage then
     PageControl.Images := FImages
   else

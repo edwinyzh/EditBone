@@ -1384,34 +1384,26 @@ object DocumentFrame: TDocumentFrame
     Left = 38
     Top = 120
     object CutMenuItem: TMenuItem
-      Action = MainForm.EditCutAction
     end
     object CopyMenuItem: TMenuItem
-      Action = MainForm.EditCopyAction
     end
     object PasteMenuItem: TMenuItem
-      Action = MainForm.EditPasteAction
     end
     object SelectAllMenuItem: TMenuItem
-      Action = MainForm.EditSelectAllAction
     end
     object Separator1MenuItem: TMenuItem
       Caption = '-'
     end
     object UndoMenuItem: TMenuItem
-      Action = MainForm.EditUndoAction
     end
     object RedoMenuItem: TMenuItem
-      Action = MainForm.EditRedoAction
     end
     object Separator2MenuItem: TMenuItem
       Caption = '-'
     end
     object ToggleBookmarkMenuItem: TMenuItem
-      Action = MainForm.ToggleBookmarkAction
     end
     object ToggleBookmarksMenuItem: TMenuItem
-      Action = MainForm.ToggleBookmarksAction
       object ToggleBookmark1MenuItem: TMenuItem
         Tag = 1
       end
@@ -1441,7 +1433,6 @@ object DocumentFrame: TDocumentFrame
       end
     end
     object GotoBookmarksMenuItem: TMenuItem
-      Action = MainForm.GotoBookmarksAction
       SubMenuImages = BookmarkImagesList
       object GotoBookmark1MenuItem: TMenuItem
         Tag = 1
@@ -1472,70 +1463,52 @@ object DocumentFrame: TDocumentFrame
       end
     end
     object ClearBookmarksMenuItem: TMenuItem
-      Action = MainForm.ClearBookmarksAction
     end
     object Separator7MenuItem: TMenuItem
       Caption = '-'
     end
     object InsertMenuItem: TMenuItem
-      Action = MainForm.EditInsertAction
       object InsertLineMenuItem: TMenuItem
-        Action = MainForm.EditInsertLineAction
       end
       object InsertTagMenuItem: TMenuItem
-        Action = MainForm.EditInsertTagAction
       end
       object DateandTimeMenuItem: TMenuItem
-        Action = MainForm.EditInsertDateTimeAction
       end
     end
     object DeleteMenuItem: TMenuItem
-      Action = MainForm.EditDeleteAction
       object DeleteLineMenuItem: TMenuItem
-        Action = MainForm.EditDeleteLineAction
       end
       object DeleteEOLMenuItem: TMenuItem
-        Action = MainForm.EditDeleteEOLAction
       end
       object DeleteWordMenuItem: TMenuItem
-        Action = MainForm.EditDeleteWordAction
       end
       object N1: TMenuItem
         Caption = '-'
       end
       object RemoveWhiteSpaceMenuItem: TMenuItem
-        Action = MainForm.EditRemoveWhiteSpaceAction
       end
     end
     object Separator4MenuItem: TMenuItem
       Caption = '-'
     end
     object IndentMenuItem: TMenuItem
-      Action = MainForm.EditIndentAction
       object IncreaseIndentMenuItem: TMenuItem
-        Action = MainForm.EditIncreaseIndentAction
       end
       object DecreaseIndentMenuItem: TMenuItem
-        Action = MainForm.EditDecreaseIndentAction
       end
     end
     object SortMenuItem: TMenuItem
-      Action = MainForm.EditSortAction
       object SortAscendingMenuItem: TMenuItem
-        Action = MainForm.EditSortAscAction
       end
       object SortDescendingMenuItem: TMenuItem
-        Action = MainForm.EditSortDescAction
       end
     end
     object Separator6MenuItem: TMenuItem
       Caption = '-'
     end
     object ToggleCaseMenuItem: TMenuItem
-      Action = MainForm.EditToggleCaseAction
     end
     object FormatXMLMenuItem: TMenuItem
-      Action = MainForm.FormatXMLAction
     end
   end
   object SynMacroRecorder: TSynMacroRecorder

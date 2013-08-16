@@ -556,7 +556,9 @@ var
   FileTreeView: TBCFileTreeView;
   DriveComboBox: TBCDriveComboBox;
 begin
-  OptionsContainer.AssignTo(PageControl);
+  PageControl.DoubleBuffered := OptionsContainer.DirDoubleBuffered;
+  PageControl.MultiLine := OptionsContainer.DirMultiLine;
+  PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
   if OptionsContainer.DirShowImage then
   begin
     DriveComboBox := GetActiveDriveComboBox;
