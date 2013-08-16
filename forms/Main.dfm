@@ -204,6 +204,7 @@ object MainForm: TMainForm
       Width = 1096
       Height = 26
       ActionManager = ActionManager
+      Align = alClient
       Color = clMenuBar
       ColorMap.DisabledFontColor = 7171437
       ColorMap.HighlightColor = clWhite
@@ -886,6 +887,7 @@ object MainForm: TMainForm
               end
               item
                 Action = ToolsOptionsAction
+                Caption = 'O&ptions...'
                 ImageIndex = 79
               end>
             Caption = '&Tools'
@@ -1852,6 +1854,7 @@ object MainForm: TMainForm
     object ToolsConvertAction: TAction
       Category = '&Tools'
       Caption = 'C&onvert...'
+      Hint = 'Convert between numerical units'
       ImageIndex = 76
       OnExecute = ToolsConvertActionExecute
     end

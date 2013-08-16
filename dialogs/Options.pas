@@ -3,16 +3,15 @@ unit Options;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, Vcl.Graphics, Vcl.Controls, Vcl.Forms, BCCommon.FileUtils,
-  Vcl.StdCtrls, Vcl.ComCtrls, Winapi.CommCtrl, System.Win.Registry, Vcl.ExtCtrls, Vcl.Buttons,
-  Vcl.Menus, SynEdit, SynEditHighlighter, SynEditMiscClasses, SynHighlighterWebData, SynEditKeyCmds,
-  System.Classes, System.SysUtils, Vcl.ImgList, SynHighlighterWeb, Vcl.Grids, SynHighlighterSQL,
-  BCControls.CheckBox, Document, BCControls.Edit, JvCombobox, BCControls.ComboBox,
-  Vcl.ActnList, Vcl.Themes, BCDialogs.Dlg, Vcl.CheckLst, BCControls.PageControl, JvExComCtrls, JvComCtrls, VirtualTrees,
-  OptionsEditorOptions, OptionsEditorFont, OptionsEditorGutter, OptionsEditorTabs, Lib,
+  Winapi.Windows, Winapi.Messages, Vcl.Graphics, Vcl.Controls, Vcl.Forms, BCCommon.FileUtils, Vcl.StdCtrls,
+  Vcl.ComCtrls, Winapi.CommCtrl, System.Win.Registry, Vcl.ExtCtrls, Vcl.Buttons, Vcl.Menus, SynEdit, SynEditHighlighter,
+  SynEditMiscClasses, SynHighlighterWebData, SynEditKeyCmds, System.Classes, System.SysUtils, Vcl.ImgList,
+  SynHighlighterWeb, Vcl.Grids, SynHighlighterSQL, BCControls.CheckBox, Document, BCControls.Edit, JvCombobox,
+  BCControls.ComboBox, Vcl.ActnList, Vcl.Themes, BCDialogs.Dlg, Vcl.CheckLst, BCControls.PageControl, JvExComCtrls,
+  JvComCtrls, VirtualTrees, OptionsEditorOptions, OptionsEditorFont, OptionsEditorGutter, OptionsEditorTabs, Lib,
   OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, OptionsCompare, OptionsMainMenu,
-  OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, OptionsStatusBar, OptionsOutput,
-  OptionsToolBar, Vcl.ActnMenus, System.Actions;
+  OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, OptionsStatusBar, OptionsOutput, OptionsToolBar,
+  Vcl.ActnMenus, System.Actions, OptionsEditorCompletionProposal;
 
 type
   POptionsRec = ^TOptionsRec;
@@ -93,6 +92,10 @@ type
     FAutoIndent: Boolean;
     FAutoSave: Boolean;
     FColorBrightness: Integer;
+    FCompletionProposalEnabled: Boolean;
+    FCompletionProposalCaseSensitive: Boolean;
+    FCompletionProposalResizeable: Boolean;
+    FCompletionProposalShortcut: string;
     FMinimapFontFactor: Integer;
     FCPASHighlighter: TCPASHighlighter;
     FCSSVersion: TSynWebCssVersion;
@@ -190,6 +193,10 @@ type
     property AutoIndent: Boolean read FAutoIndent write FAutoIndent;
     property AutoSave: Boolean read FAutoSave write FAutoSave;
     property ColorBrightness: Integer read FColorBrightness write FColorBrightness;
+    property CompletionProposalEnabled: Boolean read FCompletionProposalEnabled write FCompletionProposalEnabled;
+    property CompletionProposalCaseSensitive: Boolean read FCompletionProposalCaseSensitive write FCompletionProposalCaseSensitive;
+    property CompletionProposalResizeable: Boolean read FCompletionProposalResizeable write FCompletionProposalResizeable;
+    property CompletionProposalShortcut: string read FCompletionProposalShortcut write FCompletionProposalShortcut;
     property CPASHighlighter: TCPASHighlighter read FCPASHighlighter write FCPASHighlighter;
     property CSSVersion: TSynWebCssVersion read FCSSVersion write FCSSVersion;
     property DirCloseTabByDblClick: Boolean read FDirCloseTabByDblClick write FDirCloseTabByDblClick;
@@ -283,7 +290,7 @@ implementation
 
 uses
   BCCommon.StyleUtils, BCCommon.LanguageStrings, SynHighlighterMulti, System.IniFiles, SynEditTypes, BCCommon.StringUtils,
-  BCCommon.LanguageUtils;
+  BCCommon.LanguageUtils, SynCompletionProposal;
 
 { TOptionsContainer }
 
@@ -403,6 +410,19 @@ begin
     TBCPageControl(Dest).DoubleBuffered := FDirDoubleBuffered;
     TBCPageControl(Dest).MultiLine := FDirMultiLine;
     TBCPageControl(Dest).ShowCloseButton := FDirShowCloseButton;
+  end
+  else
+  if Assigned(Dest) and (Dest is TSynCompletionProposal) then
+  begin
+    if not FCompletionProposalEnabled then
+      TSynCompletionProposal(Dest).ShortCut := TextToShortCut('')
+    else
+      TSynCompletionProposal(Dest).ShortCut := TextToShortCut(FCompletionProposalShortcut);
+    if FCompletionProposalCaseSensitive then
+      TSynCompletionProposal(Dest).Options := TSynCompletionProposal(Dest).Options + [scoCaseSensitive]
+    else
+      TSynCompletionProposal(Dest).Options := TSynCompletionProposal(Dest).Options - [scoCaseSensitive];
+    TSynCompletionProposal(Dest).Resizeable := FCompletionProposalResizeable;
   end
   else
     inherited;
@@ -588,6 +608,10 @@ begin
   inherited;
   FAutoIndent := True;
   FAutoSave := False;
+  FCompletionProposalEnabled := True;
+  FCompletionProposalCaseSensitive := True;
+  FCompletionProposalResizeable := True;
+  FCompletionProposalShortcut := 'Ctrl+Space';
   FUndoAfterSave := False;
   FTrimTrailingSpaces := True;
   FScrollPastEof := False;

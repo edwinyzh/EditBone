@@ -1311,6 +1311,7 @@ procedure TMainForm.FormResize(Sender: TObject);
 begin
   ResizeProgressBar;
   ActionMainMenuBar.Width := Width;
+  ActionMainMenuBar.Refresh;
   Repaint;
 end;
 

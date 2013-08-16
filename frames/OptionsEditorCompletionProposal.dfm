@@ -1,4 +1,4 @@
-object OptionsCompletionProposalFrame: TOptionsCompletionProposalFrame
+object OptionsEditorCompletionProposalFrame: TOptionsEditorCompletionProposalFrame
   Left = 0
   Top = 0
   Width = 320
@@ -75,6 +75,7 @@ object OptionsCompletionProposalFrame: TOptionsCompletionProposalFrame
       Margins.Bottom = 4
       DropDownCount = 9
       TabOrder = 3
+      Text = 'Ctrl+Space'
       DeniedKeyStrokes = True
       ReadOnly = False
       DropDownFixedWidth = 0

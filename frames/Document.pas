@@ -1794,9 +1794,15 @@ var
       if SynEdit.Focused then
       begin
         if SynEdit.SelectionMode = smColumn then
+        begin
+          SynEdit.Options := SynEdit.Options + [eoAltSetsColumnMode];
           SynEdit.SelectionMode := smNormal
+        end
         else
+        begin
+          SynEdit.Options := SynEdit.Options - [eoAltSetsColumnMode];
           SynEdit.SelectionMode := smColumn;
+        end;
       end;
   end;
 
