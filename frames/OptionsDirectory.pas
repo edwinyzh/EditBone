@@ -13,6 +13,9 @@ type
     IndentLabel: TLabel;
     ShowTreeLinesCheckBox: TBCCheckBox;
     IndentEdit: TBCEdit;
+    ShowHiddenFilesCheckBox: TBCCheckBox;
+    ShowSystemFilesCheckBox: TBCCheckBox;
+    ShowArchiveFilesCheckBox: TBCCheckBox;
   private
     { Private declarations }
   public

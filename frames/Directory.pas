@@ -523,9 +523,6 @@ begin
     with FileTreeView do
     begin
       PopupMenu := Self.PopupMenu;
-      ShowHiddenFiles := False;
-      ShowSystemFiles := False;
-      ShowArchiveFiles := True;
       OnDblClick := TabsheetDblClick;
       DefaultNodeHeight := Images.Height + 2;
     end;
@@ -571,6 +568,9 @@ begin
   begin
     FileTreeView := TDirTabSheetFrame(PageControl.Pages[i].Components[0]).FileTreeView;
     FileTreeView.Indent := OptionsContainer.DirIndent;
+    FileTreeView.ShowHiddenFiles := OptionsContainer.DirShowHiddenFiles;
+    FileTreeView.ShowSystemFiles := OptionsContainer.DirShowSystemFiles;
+    FileTreeView.ShowArchiveFiles := OptionsContainer.DirShowArchiveFiles;
     if OptionsContainer.DirShowTreeLines then
       FileTreeView.TreeOptions.PaintOptions := FileTreeView.TreeOptions.PaintOptions + [toShowTreeLines]
     else

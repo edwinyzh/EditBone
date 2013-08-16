@@ -14,7 +14,7 @@ object OptionsDirectoryFrame: TOptionsDirectoryFrame
     TabOrder = 0
     object IndentLabel: TLabel
       Left = 11
-      Top = 31
+      Top = 93
       Width = 32
       Height = 13
       Margins.Left = 4
@@ -38,14 +38,14 @@ object OptionsDirectoryFrame: TOptionsDirectoryFrame
     end
     object IndentEdit: TBCEdit
       Left = 9
-      Top = 48
+      Top = 110
       Width = 64
       Height = 21
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      TabOrder = 1
+      TabOrder = 4
       Text = '20'
       EnterToTab = False
       OnlyNumbers = True
@@ -53,6 +53,47 @@ object OptionsDirectoryFrame: TOptionsDirectoryFrame
       NumbersWithSpots = False
       ErrorColor = 14803198
       NumbersAllowNegative = False
+    end
+    object ShowHiddenFilesCheckBox: TBCCheckBox
+      Left = 9
+      Top = 26
+      Width = 201
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Show Hidden Files'
+      TabOrder = 1
+      ReadOnly = False
+    end
+    object ShowSystemFilesCheckBox: TBCCheckBox
+      Left = 9
+      Top = 46
+      Width = 201
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Show System Files'
+      TabOrder = 2
+      ReadOnly = False
+    end
+    object ShowArchiveFilesCheckBox: TBCCheckBox
+      Left = 9
+      Top = 66
+      Width = 201
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Show Archive Files'
+      Checked = True
+      State = cbChecked
+      TabOrder = 3
+      ReadOnly = False
     end
   end
 end

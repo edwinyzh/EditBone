@@ -1873,6 +1873,9 @@ begin
     OptionsContainer.DocShowCloseButton := ReadBool('Options', 'DocShowCloseButton', False);
     OptionsContainer.DocShowImage := ReadBool('Options', 'DocShowImage', True);
     OptionsContainer.DirShowTreeLines:= ReadBool('Options', 'DirShowTreeLines', False);
+    OptionsContainer.DirShowHiddenFiles:= ReadBool('Options', 'DirShowHiddenFiles', False);
+    OptionsContainer.DirShowSystemFiles:= ReadBool('Options', 'DirShowSystemFiles', False);
+    OptionsContainer.DirShowArchiveFiles:= ReadBool('Options', 'DirShowArchiveFiles', True);
     OptionsContainer.DirIndent := StrToInt(ReadString('Options', 'DirIndent', '20'));
     OptionsContainer.DirCloseTabByDblClick := ReadBool('Options', 'DirCloseTabByDblClick', False);
     OptionsContainer.DirCloseTabByMiddleClick := ReadBool('Options', 'DirCloseTabByMiddleClick', False);
@@ -2035,6 +2038,9 @@ begin
     WriteBool('Options', 'DocShowCloseButton', OptionsContainer.DocShowCloseButton);
     WriteBool('Options', 'DocShowImage', OptionsContainer.DocShowImage);
     WriteBool('Options', 'DirShowTreeLines', OptionsContainer.DirShowTreeLines);
+    WriteBool('Options', 'DirShowHiddenFiles', OptionsContainer.DirShowHiddenFiles);
+    WriteBool('Options', 'DirShowSystemFiles', OptionsContainer.DirShowSystemFiles);
+    WriteBool('Options', 'DirShowArchiveFiles', OptionsContainer.DirShowArchiveFiles);
     WriteString('Options', 'DirIndent', IntToStr(OptionsContainer.DirIndent));
     WriteBool('Options', 'DirCloseTabByDblClick', OptionsContainer.DirCloseTabByDblClick);
     WriteBool('Options', 'DirCloseTabByMiddleClick', OptionsContainer.DirCloseTabByMiddleClick);

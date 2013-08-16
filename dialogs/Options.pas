@@ -108,6 +108,9 @@ type
     FDirShowCloseButton: Boolean;
     FDirShowImage: Boolean;
     FDirShowTreeLines: Boolean;
+    FDirShowHiddenFiles: Boolean;
+    FDirShowSystemFiles: Boolean;
+    FDirShowArchiveFiles: Boolean;
     FDocCloseTabByDblClick: Boolean;
     FDocCloseTabByMiddleClick: Boolean;
     FDocDoubleBuffered: Boolean;
@@ -208,6 +211,9 @@ type
     property DirShowCloseButton: Boolean read FDirShowCloseButton write FDirShowCloseButton;
     property DirShowImage: Boolean read FDirShowImage write FDirShowImage;
     property DirShowTreeLines: Boolean read FDirShowTreeLines write FDirShowTreeLines;
+    property DirShowHiddenFiles: Boolean read FDirShowHiddenFiles write FDirShowHiddenFiles;
+    property DirShowSystemFiles: Boolean read FDirShowSystemFiles write FDirShowSystemFiles;
+    property DirShowArchiveFiles: Boolean read FDirShowArchiveFiles write FDirShowArchiveFiles;
     property DocCloseTabByDblClick: Boolean read FDocCloseTabByDblClick write FDocCloseTabByDblClick;
     property DocCloseTabByMiddleClick: Boolean read FDocCloseTabByMiddleClick write FDocCloseTabByMiddleClick;
     property DocDoubleBuffered: Boolean read FDocDoubleBuffered write FDocDoubleBuffered;
@@ -621,6 +627,9 @@ begin
   FDocShowCloseButton := False;
   FDocShowImage := True;
   FDirShowtreeLines := False;
+  FDirShowHiddenFiles := False;
+  FDirShowSystemFiles := False;
+  FDirShowArchiveFiles := True;
   FDirIndent := 20;
   FDirCloseTabByDblClick := False;
   FDirCloseTabByMiddleClick := False;
@@ -973,6 +982,9 @@ begin
   { Directory }
   FOptionsDirectoryFrame.ShowTreeLinesCheckBox.Checked := FOptionsContainer.DirShowTreeLines;
   FOptionsDirectoryFrame.IndentEdit.Text := IntToStr(FOptionsContainer.DirIndent);
+  FOptionsDirectoryFrame.ShowHiddenFilesCheckBox.Checked := FOptionsContainer.DirShowHiddenFiles;
+  FOptionsDirectoryFrame.ShowSystemFilesCheckBox.Checked := FOptionsContainer.DirShowSystemFiles;
+  FOptionsDirectoryFrame.ShowArchiveFilesCheckBox.Checked := FOptionsContainer.DirShowArchiveFiles;
   { Directory tabs }
   FDirectoryTabsFrame.CloseTabByDblClickCheckBox.Checked := FOptionsContainer.DirCloseTabByDblClick;
   FDirectoryTabsFrame.CloseTabByMiddleClickCheckBox.Checked := FOptionsContainer.DirCloseTabByMiddleClick;
@@ -1186,6 +1198,9 @@ begin
   FOptionsContainer.CompletionProposalShortcut := FEditorCompletionProposalFrame.ShortcutComboBox.Text;
   { Directory }
   FOptionsContainer.DirShowTreeLines := FOptionsDirectoryFrame.ShowTreeLinesCheckBox.Checked;
+  FOptionsContainer.DirShowHiddenFiles := FOptionsDirectoryFrame.ShowHiddenFilesCheckBox.Checked;
+  FOptionsContainer.DirShowSystemFiles := FOptionsDirectoryFrame.ShowSystemFilesCheckBox.Checked;
+  FOptionsContainer.DirShowArchiveFiles := FOptionsDirectoryFrame.ShowArchiveFilesCheckBox.Checked;
   FOptionsContainer.DirIndent := StrToIntDef(FOptionsDirectoryFrame.IndentEdit.Text, 20);
   { Directory tabs }
   FOptionsContainer.DirCloseTabByDblClick := FDirectoryTabsFrame.CloseTabByDblClickCheckBox.Checked;
