@@ -139,9 +139,17 @@ object OptionsDialog: TOptionsDialog
       Caption = 'Tabs'
       ImageIndex = 6
     end
+    object EditorCompletionProposalAction: TAction
+      Caption = 'Completion Proposal'
+      ImageIndex = 13
+    end
     object EditorErrorCheckingAction: TAction
       Caption = 'HTML Error Checking'
       ImageIndex = 7
+    end
+    object EditorOtherAction: TAction
+      Caption = 'Other'
+      ImageIndex = 8
     end
     object DirectoryAction: TAction
       Caption = 'Directory'
@@ -150,10 +158,6 @@ object OptionsDialog: TOptionsDialog
     object DirectoryTabsAction: TAction
       Caption = 'Tabs'
       ImageIndex = 6
-    end
-    object EditorOtherAction: TAction
-      Caption = 'Other'
-      ImageIndex = 8
     end
     object OutputAction: TAction
       Caption = 'Output'

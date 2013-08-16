@@ -48,6 +48,7 @@ type
     ToolBarAction: TAction;
     TopPanel: TPanel;
     ActionList: TActionList;
+    EditorCompletionProposalAction: TAction;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -66,6 +67,7 @@ type
     FEditorOptionsFrame: TEditorOptionsFrame;
     FEditorOtherFrame: TEditorOtherFrame;
     FEditorTabsFrame: TEditorTabsFrame;
+    FEditorCompletionProposalFrame: TEditorCompletionProposalFrame;
     FFileTypesFrame: TFileTypesFrame;
     FMainMenuFrame: TMainMenuFrame;
     FOptionsCompareFrame: TOptionsCompareFrame;
@@ -774,6 +776,7 @@ begin
   FEditorTabsFrame.Free;
   FEditorErrorCheckingFrame.Free;
   FEditorOtherFrame.Free;
+  FEditorCompletionProposalFrame.Free;
   FFileTypesFrame.Free;
   FOptionsCompareFrame.Free;
   FMainMenuFrame.Free;
@@ -816,6 +819,11 @@ begin
     Data := GetNodeData(ChildNode);
     Data.ImageIndex := EditorTabsAction.ImageIndex;
     Data.Caption := EditorTabsAction.Caption;
+    { Completion proposal }
+    ChildNode := AddChild(Node);
+    Data := GetNodeData(ChildNode);
+    Data.ImageIndex := EditorCompletionProposalAction.ImageIndex;
+    Data.Caption := EditorCompletionProposalAction.Caption;
     { Error checking }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
@@ -885,6 +893,7 @@ end;
 
 function TOptionsDialog.Execute(EditOptions: TOptionsContainer): Boolean;
 var
+  i: Integer;
   SelectedLanguage: string;
 begin
   ReadIniFile;
@@ -895,10 +904,15 @@ begin
     Exit;
   end;
   SelectedLanguage := GetSelectedLanguage;
-  UpdateLanguage(TForm(FEditorOptionsFrame), SelectedLanguage);
+  for i := 0 to ComponentCount - 1 do
+    if Components[i] is TFrame then
+      UpdateLanguage(TForm(Components[i]), SelectedLanguage);
+
+  {UpdateLanguage(TForm(FEditorOptionsFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorFontFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorGutterFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorTabsFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FEditorCompletionProposalFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorErrorCheckingFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorOtherFrame), SelectedLanguage);
   UpdateLanguage(TForm(FFileTypesFrame), SelectedLanguage);
@@ -909,7 +923,7 @@ begin
   UpdateLanguage(TForm(FOptionsDirectoryFrame), SelectedLanguage);
   UpdateLanguage(TForm(FDirectoryTabsFrame), SelectedLanguage);
   UpdateLanguage(TForm(FOptionsOutputFrame), SelectedLanguage);
-  UpdateLanguage(TForm(FOutputTabsFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FOutputTabsFrame), SelectedLanguage);}
 
   FOptionsContainer := EditOptions;
   GetData;
@@ -959,6 +973,11 @@ begin
   FEditorTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.DocMultiLine;
   FEditorTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DocShowCloseButton;
   FEditorTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.DocShowImage;
+  { Completion proposal }
+  FEditorCompletionProposalFrame.EnabledCheckBox.Checked := FOptionsContainer.CompletionProposalEnabled;
+  FEditorCompletionProposalFrame.CaseSensitiveCheckBox.Checked := FOptionsContainer.CompletionProposalCaseSensitive;
+  FEditorCompletionProposalFrame.ResizeableCheckBox.Checked := FOptionsContainer.CompletionProposalResizeable;
+  FEditorCompletionProposalFrame.ShortcutComboBox.Text := FOptionsContainer.CompletionProposalShortcut;
   { Directory }
   FOptionsDirectoryFrame.ShowTreeLinesCheckBox.Checked := FOptionsContainer.DirShowTreeLines;
   FOptionsDirectoryFrame.IndentEdit.Text := IntToStr(FOptionsContainer.DirIndent);
@@ -1062,8 +1081,9 @@ begin
     end;
     FEditorGutterFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 1);
     FEditorTabsFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 2);
-    FEditorErrorCheckingFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 3);
-    FEditorOtherFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 4);
+    FEditorCompletionProposalFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 3);
+    FEditorErrorCheckingFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 4);
+    FEditorOtherFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 5);
     FOptionsDirectoryFrame.Visible := (Level = 0) and (TreeNode.Index = 1);
     FDirectoryTabsFrame.Visible := (ParentIndex = 1) and (Level = 1) and (TreeNode.Index = 0);
     FOptionsOutputFrame.Visible := (Level = 0) and (TreeNode.Index = 2);
@@ -1167,6 +1187,11 @@ begin
   FOptionsContainer.DocMultiLine := FEditorTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.DocShowCloseButton := FEditorTabsFrame.ShowCloseButtonCheckBox.Checked;
   FOptionsContainer.DocShowImage := FEditorTabsFrame.ShowImageCheckBox.Checked;
+  { Completion proposal }
+  FOptionsContainer.CompletionProposalEnabled := FEditorCompletionProposalFrame.EnabledCheckBox.Checked;
+  FOptionsContainer.CompletionProposalCaseSensitive := FEditorCompletionProposalFrame.CaseSensitiveCheckBox.Checked;
+  FOptionsContainer.CompletionProposalResizeable := FEditorCompletionProposalFrame.ResizeableCheckBox.Checked;
+  FOptionsContainer.CompletionProposalShortcut := FEditorCompletionProposalFrame.ShortcutComboBox.Text;
   { Directory }
   FOptionsContainer.DirShowTreeLines := FOptionsDirectoryFrame.ShowTreeLinesCheckBox.Checked;
   FOptionsContainer.DirIndent := StrToIntDef(FOptionsDirectoryFrame.IndentEdit.Text, 20);
@@ -1288,6 +1313,8 @@ begin
   FEditorGutterFrame.Parent := OptionsPanel;
   FEditorTabsFrame := TEditorTabsFrame.Create(OptionsPanel);
   FEditorTabsFrame.Parent := OptionsPanel;
+  FEditorCompletionProposalFrame := TEditorCompletionProposalFrame.Create(OptionsPanel);
+  FEditorCompletionProposalFrame.Parent := OptionsPanel;
   FEditorErrorCheckingFrame := TEditorErrorCheckingFrame.Create(OptionsPanel);
   FEditorErrorCheckingFrame.Parent := OptionsPanel;
   FEditorOtherFrame := TEditorOtherFrame.Create(OptionsPanel);

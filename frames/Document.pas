@@ -1860,6 +1860,10 @@ begin
     OptionsContainer.MinimapFontFactor :=  StrToInt(ReadString('Options', 'MinimapFontFactor', '2'));
     OptionsContainer.ExtraLineSpacing := StrToInt(ReadString('Options', 'ExtraLineSpacing', '0'));
     OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '2'));
+    OptionsContainer.CompletionProposalEnabled := ReadBool('Options', 'CompletionProposalEnabled', True);
+    OptionsContainer.CompletionProposalCaseSensitive := ReadBool('Options', 'CompletionProposalCaseSensitive', True);
+    OptionsContainer.CompletionProposalResizeable := ReadBool('Options', 'CompletionProposalResizeable', True);
+    OptionsContainer.CompletionProposalShortcut := ReadString('Options', 'CompletionProposalShortcut', 'Ctrl+Space');
     OptionsContainer.DocCloseTabByDblClick := ReadBool('Options', 'DocCloseTabByDblClick', False);
     OptionsContainer.DocCloseTabByMiddleClick := ReadBool('Options', 'DocCloseTabByMiddleClick', False);
     OptionsContainer.DocDoubleBuffered := ReadBool('Options', 'DocDoubleBuffered', True);
@@ -2018,6 +2022,10 @@ begin
     WriteBool('Options', 'GutterVisible', OptionsContainer.GutterVisible);
     WriteString('Options', 'InsertCaret', IntToStr(Ord(OptionsContainer.InsertCaret)));
     WriteString('Options', 'MinimapFontFactor', IntToStr(OptionsContainer.MinimapFontFactor));
+    WriteBool('Options', 'CompletionProposalEnabled', OptionsContainer.CompletionProposalEnabled);
+    WriteBool('Options', 'CompletionProposalCaseSensitive', OptionsContainer.CompletionProposalCaseSensitive);
+    WriteBool('Options', 'CompletionProposalResizeable', OptionsContainer.CompletionProposalResizeable);
+    WriteString('Options', 'CompletionProposalShortcut', OptionsContainer.CompletionProposalShortcut);
     WriteBool('Options', 'DocCloseTabByDblClick', OptionsContainer.DocCloseTabByDblClick);
     WriteBool('Options', 'DocCloseTabByMiddleClick', OptionsContainer.DocCloseTabByMiddleClick);
     WriteBool('Options', 'DocDoubleBuffered', OptionsContainer.DocDoubleBuffered);

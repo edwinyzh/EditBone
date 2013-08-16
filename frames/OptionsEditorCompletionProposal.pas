@@ -8,7 +8,7 @@ uses
   BCControls.ComboBox;
 
 type
-  TOptionsEditorCompletionProposalFrame = class(TFrame)
+  TEditorCompletionProposalFrame = class(TFrame)
     Panel: TPanel;
     EnabledCheckBox: TBCCheckBox;
     CaseSensitiveCheckBox: TBCCheckBox;
@@ -29,7 +29,7 @@ implementation
 uses
   Vcl.Menus, BCCommon;
 
-constructor TOptionsEditorCompletionProposalFrame.Create(AOwner: TComponent);
+constructor TEditorCompletionProposalFrame.Create(AOwner: TComponent);
 var
   i: Integer;
 begin

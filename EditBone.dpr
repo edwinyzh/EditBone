@@ -62,7 +62,7 @@ uses
   BCCommon.LanguageUtils in '..\..\Common\units\BCCommon.LanguageUtils.pas',
   BCCommon.Messages in '..\..\Common\units\BCCommon.Messages.pas',
   BCForms.Convert in '..\..\Common\forms\BCForms.Convert.pas' {ConvertForm},
-  OptionsEditorCompletionProposal in 'frames\OptionsEditorCompletionProposal.pas' {OptionsEditorCompletionProposalFrame: TFrame};
+  OptionsEditorCompletionProposal in 'frames\OptionsEditorCompletionProposal.pas' {EditorCompletionProposalFrame: TFrame};
 
 {$R *.res}
 
