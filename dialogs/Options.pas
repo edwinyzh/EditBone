@@ -894,7 +894,6 @@ end;
 
 function TOptionsDialog.Execute(EditOptions: TOptionsContainer): Boolean;
 var
-  i: Integer;
   SelectedLanguage: string;
 begin
   ReadIniFile;
@@ -905,11 +904,8 @@ begin
     Exit;
   end;
   SelectedLanguage := GetSelectedLanguage;
-  for i := 0 to ComponentCount - 1 do
-    if Components[i] is TFrame then
-      UpdateLanguage(TForm(Components[i]), SelectedLanguage);
 
-  {UpdateLanguage(TForm(FEditorOptionsFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FEditorOptionsFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorFontFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorGutterFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorTabsFrame), SelectedLanguage);
@@ -924,7 +920,7 @@ begin
   UpdateLanguage(TForm(FOptionsDirectoryFrame), SelectedLanguage);
   UpdateLanguage(TForm(FDirectoryTabsFrame), SelectedLanguage);
   UpdateLanguage(TForm(FOptionsOutputFrame), SelectedLanguage);
-  UpdateLanguage(TForm(FOutputTabsFrame), SelectedLanguage);}
+  UpdateLanguage(TForm(FOutputTabsFrame), SelectedLanguage);
 
   FOptionsContainer := EditOptions;
   GetData;

@@ -504,7 +504,6 @@ object MainForm: TMainForm
                     ImageIndex = 27
                   end>
                 Action = EditDeleteAction
-                Caption = 'D&elete'
                 ImageIndex = 23
                 UsageCount = 1
               end
@@ -524,7 +523,7 @@ object MainForm: TMainForm
                     ImageIndex = 30
                     ShortCut = 24661
                   end>
-                Caption = 'I&ndent'
+                Action = EditIndentAction
                 ImageIndex = 28
                 UsageCount = 1
               end
@@ -541,7 +540,7 @@ object MainForm: TMainForm
                     ImageIndex = 33
                     ShortCut = 24644
                   end>
-                Caption = 'Sor&t'
+                Action = EditSortAction
                 ImageIndex = 31
                 UsageCount = 1
               end
@@ -795,7 +794,6 @@ object MainForm: TMainForm
               end
               item
                 Action = ViewPreviousPageAction
-                Caption = 'P&revious Page'
                 ImageIndex = 60
                 ShortCut = 24585
               end>
@@ -887,7 +885,6 @@ object MainForm: TMainForm
               end
               item
                 Action = ToolsOptionsAction
-                Caption = 'O&ptions...'
                 ImageIndex = 79
               end>
             Caption = '&Tools'
@@ -1477,7 +1474,7 @@ object MainForm: TMainForm
     end
     object ViewPreviousPageAction: TAction
       Category = '&View'
-      Caption = '&Previous Page'
+      Caption = 'P&revious Page'
       Hint = 'Go to previous page'
       ImageIndex = 60
       ShortCut = 24585
@@ -1622,7 +1619,7 @@ object MainForm: TMainForm
     end
     object EditDeleteAction: TAction
       Category = '&Delete'
-      Caption = '&Delete'
+      Caption = 'D&elete'
       ImageIndex = 23
       OnExecute = DummyActionExecute
     end
@@ -1652,7 +1649,7 @@ object MainForm: TMainForm
     end
     object EditIndentAction: TAction
       Category = '&Indent'
-      Caption = '&Indent'
+      Caption = 'I&ndent'
       ImageIndex = 28
       OnExecute = DummyActionExecute
     end
@@ -1678,7 +1675,7 @@ object MainForm: TMainForm
     end
     object EditSortAction: TAction
       Category = '&Sort'
-      Caption = '&Sort'
+      Caption = 'Sor&t'
       ImageIndex = 31
       OnExecute = DummyActionExecute
     end
@@ -1883,7 +1880,7 @@ object MainForm: TMainForm
     end
     object ToolsOptionsAction: TAction
       Category = '&Tools'
-      Caption = '&Options...'
+      Caption = 'O&ptions...'
       Hint = 'Set options'
       ImageIndex = 79
       OnExecute = ToolsOptionsActionExecute

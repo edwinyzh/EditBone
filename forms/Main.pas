@@ -1084,7 +1084,7 @@ begin
     ToggleBookmarksAction.Caption := Format('%s &%d', [LanguageDataModule.GetConstant('Bookmark'), i]);
   end;
   if Assigned(BookmarkList) then
-  for i := 1 to BookmarkList.Count - 1 do
+  for i := 0 to BookmarkList.Count - 1 do
   begin
     GotoBookmarksAction := TAction(FindComponent(Format('GotoBookmarks%dAction', [BookmarkList.Items[i].BookmarkNumber])));
     GotoBookmarksAction.Enabled := True;
