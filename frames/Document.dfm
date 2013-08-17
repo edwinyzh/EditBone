@@ -1,8 +1,8 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 302
+  Width = 599
+  Height = 407
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
@@ -10,7 +10,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 599
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -22,19 +22,21 @@ object DocumentFrame: TDocumentFrame
       Left = 434
       Top = 0
       Width = 89
-      Height = 13
+      Height = 21
       Align = alLeft
       Caption = 'Whole Words Only'
       Layout = tlCenter
+      ExplicitHeight = 13
     end
     object RegularExpressionLabel: TLabel
       Left = 550
       Top = 0
       Width = 92
-      Height = 13
+      Height = 21
       Align = alLeft
       Caption = 'Regular Expression'
       Layout = tlCenter
+      ExplicitHeight = 13
     end
     object SearchPanel1: TPanel
       Left = 0
@@ -126,9 +128,10 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 50
-        Height = 13
+        Height = 18
         Align = alLeft
         Caption = 'Search for'
+        ExplicitHeight = 13
       end
     end
     object SearchPanel3: TPanel
@@ -141,20 +144,20 @@ object DocumentFrame: TDocumentFrame
       Caption = 'SearchPanel3'
       Padding.Left = 4
       TabOrder = 2
-      object SearchForEdit: TBCEdit
+      object SearchForEdit: TButtonedEdit
         Left = 4
         Top = 0
         Width = 181
         Height = 21
         Align = alTop
+        Images = ImageList16
+        LeftButton.Enabled = False
+        RightButton.HotImageIndex = 3
+        RightButton.ImageIndex = 2
+        RightButton.PressedImageIndex = 4
         TabOrder = 0
         OnChange = SearchForEditChange
-        EnterToTab = False
-        OnlyNumbers = False
-        NumbersWithDots = False
-        NumbersWithSpots = False
-        ErrorColor = clBlack
-        NumbersAllowNegative = False
+        OnRightButtonClick = SearchClearActionExecute
       end
     end
     object SearchPanel5: TPanel
@@ -369,10 +372,11 @@ object DocumentFrame: TDocumentFrame
         Left = 0
         Top = 2
         Width = 70
-        Height = 13
+        Height = 19
         Align = alLeft
         Caption = 'Case Sensitive'
         Layout = tlCenter
+        ExplicitHeight = 13
       end
       object WholeWordsCheckBox: TBCCheckBox
         Left = 78
@@ -415,8 +419,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 451
-    Height = 256
+    Width = 599
+    Height = 361
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -427,8 +431,8 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 451
-      Height = 254
+      Width = 599
+      Height = 359
       Align = alClient
       DoubleBuffered = False
       ParentDoubleBuffered = False
@@ -444,8 +448,8 @@ object DocumentFrame: TDocumentFrame
   end
   object GotoLinePanel: TPanel
     Left = 0
-    Top = 277
-    Width = 451
+    Top = 382
+    Width = 599
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
@@ -545,9 +549,10 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 48
-        Height = 13
+        Height = 20
         Align = alLeft
         Caption = 'Go to Line'
+        ExplicitHeight = 13
       end
     end
     object LineNumberPanel: TPanel
@@ -560,20 +565,20 @@ object DocumentFrame: TDocumentFrame
       Caption = 'SearchPanel3'
       Padding.Left = 4
       TabOrder = 2
-      object GotoLineNumberEdit: TBCEdit
+      object GotoLineNumberEdit: TButtonedEdit
         Left = 4
         Top = 0
         Width = 96
         Height = 21
         Align = alTop
+        Images = ImageList16
+        RightButton.HotImageIndex = 3
+        RightButton.ImageIndex = 2
+        RightButton.PressedImageIndex = 4
         TabOrder = 0
+        OnChange = GotoLineNumberEditChange
         OnKeyPress = GotoLineNumberEditKeyPress
-        EnterToTab = False
-        OnlyNumbers = True
-        NumbersWithDots = False
-        NumbersWithSpots = False
-        ErrorColor = clBlack
-        NumbersAllowNegative = False
+        OnRightButtonClick = GotoLineClearActionExecute
       end
     end
     object GotoLineButtonPanel: TPanel
@@ -970,6 +975,12 @@ object DocumentFrame: TDocumentFrame
     object GotoLineCloseAction: TAction
       Hint = 'Close'
       OnExecute = GotoLineCloseActionExecute
+    end
+    object SearchClearAction: TAction
+      OnExecute = SearchClearActionExecute
+    end
+    object GotoLineClearAction: TAction
+      OnExecute = GotoLineClearActionExecute
     end
   end
   object BookmarkImagesList: TBCImageList

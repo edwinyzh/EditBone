@@ -44,6 +44,7 @@ type
     procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
+    FCancelSearch: Boolean;
     FProcessingTabSheet: Boolean;
     FTabsheetDblClick: TNotifyEvent;
     FOpenAll: TOpenAllEvent;
@@ -57,6 +58,7 @@ type
     procedure CopyToClipboard;
     procedure SetProcessingTabSheet(Value: Boolean);
     procedure OpenAllFiles;
+    function CheckCancel: Boolean;
   public
     { Public declarations }
     function SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
@@ -73,6 +75,7 @@ type
     property OnTabsheetDblClick: TNotifyEvent read FTabsheetDblClick write FTabsheetDblClick;
     property OnOpenAll: TOpenAllEvent read FOpenAll write FOpenAll;
     property ProcessingTabSheet: Boolean read FProcessingTabSheet write SetProcessingTabSheet;
+    property CancelSearch: Boolean read FCancelSearch write FCancelSearch;
   end;
 
 implementation
@@ -80,7 +83,8 @@ implementation
 {$R *.dfm}
 
 uses
-  Lib, Options, BCCommon.StyleUtils, System.Math, System.UITypes, Vcl.Clipbrd;
+  Lib, Options, BCCommon.StyleUtils, System.Math, System.UITypes, Vcl.Clipbrd, BCCommon.Messages,
+  BCCommon.LanguageStrings;
 
 procedure TOutputFrame.OpenAllActionExecute(Sender: TObject);
 begin
@@ -367,6 +371,10 @@ var
   NodeData: POutputRec;
   s: WideString;
 begin
+  if not FProcessingTabSheet then
+    Exit;
+  if FCancelSearch then
+    Exit;
   if not Assigned(OutputTreeView) then
     Exit;
 
@@ -462,7 +470,9 @@ function TOutputFrame.GetIsEmpty: Boolean;
 var
   OutputTreeView: TVirtualDrawTree;
 begin
-  Result := False;
+  Result := True;
+  if FCancelSearch then
+    Exit;
   OutputTreeView := GetOutputTabSheetFrame(PageControl.ActivePage).VirtualDrawTree;
   if not Assigned(OutputTreeView) then
     Exit;
@@ -474,6 +484,8 @@ var
   OutputTreeView: TVirtualDrawTree;
 begin
   Result := 0;
+  if FCancelSearch then
+    Exit;
   OutputTreeView := GetOutputTabSheetFrame(PageControl.ActivePage).VirtualDrawTree;
   if not Assigned(OutputTreeView) then
     Exit;
@@ -526,10 +538,25 @@ begin
     Result := PageControl.PageCount <> 0;
 end;
 
+function TOutputFrame.CheckCancel: Boolean;
+begin
+  Result := False;
+  Application.ProcessMessages;
+  if FProcessingTabSheet then
+  begin
+    if AskYesOrNo(LanguageDataModule.GetYesOrNoMessage('CancelSearch')) then
+      FCancelSearch := True
+    else
+      Result := True;
+  end;
+end;
+
 procedure TOutputFrame.CloseTabSheet;
 var
   ActivePageIndex: Integer;
 begin
+  if CheckCancel then
+    Exit;
   if PageControl.PageCount > 0 then
   begin
     Self.Clear;
@@ -544,6 +571,8 @@ procedure TOutputFrame.CloseAllTabSheets;
 var
   i, j: Integer;
 begin
+  if CheckCancel then
+    Exit;
   j := PageControl.PageCount - 1;
   for i := j downto 0 do
     PageControl.Pages[i].Free;
@@ -558,6 +587,8 @@ procedure TOutputFrame.CloseAllOtherTabSheets;
 var
   i, j: Integer;
 begin
+  if CheckCancel then
+    Exit;
   PageControl.ActivePage.PageIndex := 0;
   j := PageControl.PageCount - 1;
   for i := j downto 1 do
@@ -567,7 +598,8 @@ end;
 procedure TOutputFrame.SetProcessingTabSheet(Value: Boolean);
 begin
   FProcessingTabSheet := Value;
-  OutputCloseAction.Enabled := not Value;
+  FCancelSearch := False;
+  //OutputCloseAction.Enabled := not Value;
 end;
 
 function TOutputFrame.GetOutputTabSheetFrame(TabSheet: TTabSheet): TOutputTabSheetFrame;

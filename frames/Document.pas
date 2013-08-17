@@ -141,7 +141,7 @@ type
     SearchCloseAction: TAction;
     SearchFindNextAction: TAction;
     SearchFindPreviousAction: TAction;
-    SearchForEdit: TBCEdit;
+    SearchForEdit: TButtonedEdit;
     SearchForLabel: TLabel;
     SearchPanel: TPanel;
     SearchPanel1: TPanel;
@@ -241,7 +241,7 @@ type
     GotoLineLabelPanel: TPanel;
     GotoLineLabel: TLabel;
     LineNumberPanel: TPanel;
-    GotoLineNumberEdit: TBCEdit;
+    GotoLineNumberEdit: TButtonedEdit;
     GotoLineButtonPanel: TPanel;
     GotoLineGoSpeedButton: TSpeedButton;
     GotoLineAction: TAction;
@@ -259,6 +259,8 @@ type
     N1: TMenuItem;
     IndentMenuItem: TMenuItem;
     SortMenuItem: TMenuItem;
+    SearchClearAction: TAction;
+    GotoLineClearAction: TAction;
     procedure PageControlChange(Sender: TObject);
     procedure SearchCloseActionExecute(Sender: TObject);
     procedure SearchFindNextActionExecute(Sender: TObject);
@@ -276,6 +278,9 @@ type
     procedure PageControlCloseButtonClick(Sender: TObject);
     procedure PageControlDblClick(Sender: TObject);
     procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure GotoLineNumberEditChange(Sender: TObject);
+    procedure SearchClearActionExecute(Sender: TObject);
+    procedure GotoLineClearActionExecute(Sender: TObject);
   private
     { Private declarations }
     FCaseCycle: Byte;
@@ -1552,11 +1557,16 @@ begin
       MessageBeep;
       SynEdit.BlockBegin := SynEdit.BlockEnd;
       SynEdit.CaretXY := SynEdit.BlockBegin;
-      ShowMessage(Format(LanguageDataModule.GetYesOrNo('SearchStringNotFound'), [SearchForEdit.Text]))
+      ShowMessage(Format(LanguageDataModule.GetYesOrNoMessage('SearchStringNotFound'), [SearchForEdit.Text]))
     end;
   except
     { silent }
   end;
+end;
+
+procedure TDocumentFrame.SearchClearActionExecute(Sender: TObject);
+begin
+  SearchForEdit.Text := '';
 end;
 
 procedure TDocumentFrame.SearchCloseActionExecute(Sender: TObject);
@@ -1595,7 +1605,7 @@ begin
     MessageBeep;
     SynEdit.BlockBegin := SynEdit.BlockEnd;
     SynEdit.CaretXY := SynEdit.BlockBegin;
-    if AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('SearchMatchNotFound'), [CHR_DOUBLE_ENTER])) then
+    if AskYesOrNo(Format(LanguageDataModule.GetYesOrNoMessage('SearchMatchNotFound'), [CHR_DOUBLE_ENTER])) then
     begin
       SynEdit.CaretX := 0;
       SynEdit.CaretY := 0;
@@ -1710,6 +1720,7 @@ procedure TDocumentFrame.SearchForEditChange(Sender: TObject);
 var
   SynEdit: TBCSynEdit;
 begin
+  SearchForEdit.RightButton.Visible := Trim(SearchForEdit.Text) <> '';
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
   begin
@@ -2253,9 +2264,19 @@ begin
       GotoLineNumberEdit.SetFocus;
 end;
 
+procedure TDocumentFrame.GotoLineClearActionExecute(Sender: TObject);
+begin
+  GotoLineNumberEdit.Text := '';
+end;
+
 procedure TDocumentFrame.GotoLineCloseActionExecute(Sender: TObject);
 begin
   GotoLinePanel.Hide;
+end;
+
+procedure TDocumentFrame.GotoLineNumberEditChange(Sender: TObject);
+begin
+  GotoLineNumberEdit.RightButton.Visible := Trim(GotoLineNumberEdit.Text) <> '';
 end;
 
 procedure TDocumentFrame.GotoLineNumberEditKeyPress(Sender: TObject; var Key: Char);
@@ -2855,7 +2876,7 @@ begin
         begin
           if FileExists(SynEdit.DocumentName) then
           begin
-            if AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('DocumentTimeChanged'), [SynEdit.DocumentName])) then
+            if AskYesOrNo(Format(LanguageDataModule.GetYesOrNoMessage('DocumentTimeChanged'), [SynEdit.DocumentName])) then
               Refresh(i);
           end
           else
@@ -3208,7 +3229,7 @@ begin
     else
     if SynEdit.SynMacroRecorder.State = msStopped then
     begin
-      if AskYesOrNo(LanguageDataModule.GetYesOrNo('RecordMacro')) then
+      if AskYesOrNo(LanguageDataModule.GetYesOrNoMessage('RecordMacro')) then
       begin
         SynEdit.SynMacroRecorder.Clear;
         SynEdit.SynMacroRecorder.RecordMacro(SynEdit);

@@ -323,7 +323,7 @@ procedure TDirectoryFrame.CloseDirectory;
 var
   ActivePageIndex: Integer;
 begin
-  if not AskYesOrNo(Format(LanguageDataModule.GetYesOrNo('CloseDirectory'), [PageControl.ActivePageCaption])) then
+  if not AskYesOrNo(Format(LanguageDataModule.GetYesOrNoMessage('CloseDirectory'), [PageControl.ActivePageCaption])) then
     Exit;
   if PageControl.PageCount > 0 then
   begin

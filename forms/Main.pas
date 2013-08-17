@@ -1006,6 +1006,7 @@ begin
   SearchAction.Enabled := ActiveDocumentFound;
   SearchGotoLineAction.Enabled := ActiveDocumentFound;
   SearchReplaceAction.Enabled := ActiveDocumentFound;
+  SearchFindInFilesAction.Enabled := Assigned(FOutputFrame) and not FOutputFrame.ProcessingTabSheet;
   SearchFindNextAction.Enabled := ActiveDocumentFound;
   SearchFindPreviousAction.Enabled := ActiveDocumentFound;
   ToggleBookmarkAction.Enabled := ActiveDocumentFound;
@@ -1409,6 +1410,9 @@ begin
     Exit;
   if not Assigned(FOutputFrame) then
     Exit;
+  if FOutputFrame.ProcessingTabSheet then
+    Exit;
+
   ErrorList := FDocumentFrame.GetHTMLErrors;
   if Assigned(ErrorList) then
   begin
@@ -1623,7 +1627,7 @@ begin
     if ShowModal = mrOk then
     begin
       T1 := Now;
-      Screen.Cursor := crHourGlass;
+      //Screen.Cursor := crHourGlass;
       try
         OutputPanel.Visible := True;
         OutputTreeView := FOutputFrame.AddTreeView(Format(LanguageDataModule.GetConstant('SearchFor'), [FindWhatText]));
@@ -1644,12 +1648,15 @@ begin
         end
         else
         begin
-          ShowMessage(Format(LanguageDataModule.GetMessage('CannotFindString'), [FindWhatText]));
-          FOutputFrame.CloseTabSheet;
+          if not FOutputFrame.CancelSearch then
+          begin
+            ShowMessage(Format(LanguageDataModule.GetMessage('CannotFindString'), [FindWhatText]));
+            FOutputFrame.CloseTabSheet;
+          end;
           StatusBar.Panels[3].Text := '';
         end;
         FOutputFrame.ProcessingTabSheet := False;
-        Screen.Cursor := crDefault;
+        FOutputFrame.PageControl.EndDrag(False); { if close button pressed and search canceled, dragging will stay... }
       end;
     end;
   end;
@@ -1936,6 +1943,8 @@ begin
                     begin
                       Found := True;
                       ChPos := ChPos + Ch;
+                      if FOutputFrame.CancelSearch then
+                        Break;
                       FOutputFrame.AddTreeViewLine(OutputTreeView, Root, AddSlash(FolderText) + FName, Ln + 1, ChPos, Line, FindWhatText);
                       S := Copy(S, Ch + LongWord(Length(FindWhatText)), Length(S));
                       ChPos := ChPos + LongWord(Length(FindWhatText)) - 1;
