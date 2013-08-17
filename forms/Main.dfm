@@ -2057,7 +2057,7 @@ object MainForm: TMainForm
     object FileReopenClearAction: TAction
       Category = '&Reopen'
       Caption = '&Clear'
-      ImageIndex = 74
+      ImageIndex = 23
       OnExecute = FileReopenClearActionExecute
     end
     object SelectReopenFileAction: TAction
