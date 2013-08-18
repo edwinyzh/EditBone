@@ -16,6 +16,7 @@ object DirectoryFrame: TDirectoryFrame
     PopupMenu = PopupMenu
     TabOrder = 0
     OnMouseDown = PageControlMouseDown
+    RightClickSelect = True
     TabDragDrop = True
     HoldShiftToDragDrop = False
     ShowCloseButton = False

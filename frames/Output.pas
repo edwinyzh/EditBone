@@ -619,6 +619,7 @@ begin
   PageControl.DoubleBuffered := OptionsContainer.OutputDoubleBuffered;
   PageControl.MultiLine := OptionsContainer.OutputMultiLine;
   PageControl.ShowCloseButton := OptionsContainer.OutputShowCloseButton;
+  PageControl.RightClickSelect := OptionsContainer.OutputRightClickSelect;
 
   if OptionsContainer.OutputShowImage then
     PageControl.Images := ImageList

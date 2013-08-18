@@ -833,6 +833,7 @@ begin
   PageControl.DoubleBuffered := OptionsContainer.DocDoubleBuffered;
   PageControl.MultiLine := OptionsContainer.DocMultiLine;
   PageControl.ShowCloseButton := OptionsContainer.DocShowCloseButton;
+  PageControl.RightClickSelect := OptionsContainer.DocRightClickSelect;
   if OptionsContainer.DocShowImage then
     PageControl.Images := FImages
   else
@@ -1882,6 +1883,7 @@ begin
     OptionsContainer.DocMultiLine := ReadBool('Options', 'DocMultiLine', False);
     OptionsContainer.DocSaveTabs:= ReadBool('Options', 'DocSaveTabs', True);
     OptionsContainer.DocShowCloseButton := ReadBool('Options', 'DocShowCloseButton', False);
+    OptionsContainer.DocRightClickSelect := ReadBool('Options', 'DocRightClickSelect', True);
     OptionsContainer.DocShowImage := ReadBool('Options', 'DocShowImage', True);
     OptionsContainer.DirShowTreeLines:= ReadBool('Options', 'DirShowTreeLines', False);
     OptionsContainer.DirShowHiddenFiles:= ReadBool('Options', 'DirShowHiddenFiles', False);
@@ -1893,12 +1895,14 @@ begin
     OptionsContainer.DirDoubleBuffered := ReadBool('Options', 'DirDoubleBuffered', True);
     OptionsContainer.DirMultiLine := ReadBool('Options', 'DirMultiLine', False);
     OptionsContainer.DirShowCloseButton := ReadBool('Options', 'DirShowCloseButton', False);
+    OptionsContainer.DirRightClickSelect := ReadBool('Options', 'DirRightClickSelect', True);
     OptionsContainer.DirShowImage := ReadBool('Options', 'DirShowImage', True);
     OptionsContainer.OutputCloseTabByDblClick := ReadBool('Options', 'OutputCloseTabByDblClick', False);
     OptionsContainer.OutputCloseTabByMiddleClick := ReadBool('Options', 'OutputCloseTabByMiddleClick', False);
     OptionsContainer.OutputDoubleBuffered := ReadBool('Options', 'OutputDoubleBuffered', True);
     OptionsContainer.OutputMultiLine := ReadBool('Options', 'OutputMultiLine', False);
     OptionsContainer.OutputShowCloseButton := ReadBool('Options', 'OutputShowCloseButton', False);
+    OptionsContainer.OutputRightClickSelect := ReadBool('Options', 'OutputRightClickSelect', True);
     OptionsContainer.OutputShowImage := ReadBool('Options', 'OutputShowImage', True);
     OptionsContainer.HTMLErrorChecking := ReadBool('Options', 'HTMLErrorChecking', True);
     OptionsContainer.HtmlVersion := TSynWebHtmlVersion(StrToInt(ReadString('Options', 'HTMLVersion', '4'))); { default: HTML5 }
@@ -2047,6 +2051,7 @@ begin
     WriteBool('Options', 'DocMultiLine', OptionsContainer.DocMultiLine);
     WriteBool('Options', 'DocSaveTabs', OptionsContainer.DocSaveTabs);
     WriteBool('Options', 'DocShowCloseButton', OptionsContainer.DocShowCloseButton);
+    WriteBool('Options', 'DocRightClickSelect', OptionsContainer.DocRightClickSelect);
     WriteBool('Options', 'DocShowImage', OptionsContainer.DocShowImage);
     WriteBool('Options', 'DirShowTreeLines', OptionsContainer.DirShowTreeLines);
     WriteBool('Options', 'DirShowHiddenFiles', OptionsContainer.DirShowHiddenFiles);
@@ -2058,12 +2063,14 @@ begin
     WriteBool('Options', 'DirDoubleBuffered', OptionsContainer.DirDoubleBuffered);
     WriteBool('Options', 'DirMultiLine', OptionsContainer.DirMultiLine);
     WriteBool('Options', 'DirShowCloseButton', OptionsContainer.DirShowCloseButton);
+    WriteBool('Options', 'DirRightClickSelect', OptionsContainer.DirRightClickSelect);
     WriteBool('Options', 'DirShowImage', OptionsContainer.DirShowImage);
     WriteBool('Options', 'OutputCloseTabByDblClick', OptionsContainer.OutputCloseTabByDblClick);
     WriteBool('Options', 'OutputCloseTabByMiddleClick', OptionsContainer.OutputCloseTabByMiddleClick);
     WriteBool('Options', 'OutputDoubleBuffered', OptionsContainer.OutputDoubleBuffered);
     WriteBool('Options', 'OutputMultiLine', OptionsContainer.OutputMultiLine);
     WriteBool('Options', 'OutputShowCloseButton', OptionsContainer.OutputShowCloseButton);
+    WriteBool('Options', 'OutputRightClickSelect', OptionsContainer.OutputRightClickSelect);
     WriteBool('Options', 'HTMLErrorChecking', OptionsContainer.HTMLErrorChecking);
     WriteString('Options', 'HTMLVersion', IntToStr(Ord(OptionsContainer.HtmlVersion)));
     WriteBool('Options', 'AutoIndent', OptionsContainer.AutoIndent);

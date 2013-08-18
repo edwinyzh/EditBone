@@ -556,6 +556,7 @@ begin
   PageControl.DoubleBuffered := OptionsContainer.DirDoubleBuffered;
   PageControl.MultiLine := OptionsContainer.DirMultiLine;
   PageControl.ShowCloseButton := OptionsContainer.DirShowCloseButton;
+  PageControl.RightClickSelect := OptionsContainer.DirRightClickSelect;
   if OptionsContainer.DirShowImage then
   begin
     DriveComboBox := GetActiveDriveComboBox;

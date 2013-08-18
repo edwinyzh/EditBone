@@ -7,7 +7,7 @@ uses
   Vcl.ComCtrls, Winapi.CommCtrl, System.Win.Registry, Vcl.ExtCtrls, Vcl.Buttons, Vcl.Menus, SynEdit, SynEditHighlighter,
   SynEditMiscClasses, SynHighlighterWebData, SynEditKeyCmds, System.Classes, System.SysUtils, Vcl.ImgList,
   SynHighlighterWeb, Vcl.Grids, SynHighlighterSQL, BCControls.CheckBox, Document, BCControls.Edit, JvCombobox,
-  BCControls.ComboBox, Vcl.ActnList, Vcl.Themes, BCDialogs.Dlg, Vcl.CheckLst, BCControls.PageControl, JvExComCtrls,
+  BCControls.ComboBox, Vcl.ActnList, Vcl.Themes, BCDialogs.Dlg, Vcl.CheckLst, JvExComCtrls,
   JvComCtrls, VirtualTrees, OptionsEditorOptions, OptionsEditorFont, OptionsEditorGutter, OptionsEditorTabs, Lib,
   OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, OptionsCompare, OptionsMainMenu,
   OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, OptionsStatusBar, OptionsOutput, OptionsToolBar,
@@ -106,6 +106,7 @@ type
     FDirIndent: Integer;
     FDirMultiLine: Boolean;
     FDirShowCloseButton: Boolean;
+    FDirRightClickSelect: Boolean;
     FDirShowImage: Boolean;
     FDirShowTreeLines: Boolean;
     FDirShowHiddenFiles: Boolean;
@@ -117,6 +118,7 @@ type
     FDocSaveTabs: Boolean;
     FDocMultiLine: Boolean;
     FDocShowCloseButton: Boolean;
+    FDocRightClickSelect: Boolean;
     FDocShowImage: Boolean;
     FEnableLineNumbers: Boolean;
     FEnableSelectionMode: Boolean;
@@ -149,6 +151,7 @@ type
     FOutputIndent: Integer;
     FOutputMultiLine: Boolean;
     FOutputShowCloseButton: Boolean;
+    FOutputRightClickSelect: Boolean;
     FOutputShowImage: Boolean;
     FOutputShowTreeLines: Boolean;
     FPersistentHotKeys: Boolean;
@@ -209,6 +212,7 @@ type
     property DirIndent: Integer read FDirIndent write FDirIndent;
     property DirMultiLine: Boolean read FDirMultiLine write FDirMultiLine;
     property DirShowCloseButton: Boolean read FDirShowCloseButton write FDirShowCloseButton;
+    property DirRightClickSelect: Boolean read FDirRightClickSelect write FDirRightClickSelect;
     property DirShowImage: Boolean read FDirShowImage write FDirShowImage;
     property DirShowTreeLines: Boolean read FDirShowTreeLines write FDirShowTreeLines;
     property DirShowHiddenFiles: Boolean read FDirShowHiddenFiles write FDirShowHiddenFiles;
@@ -220,6 +224,7 @@ type
     property DocSaveTabs: Boolean read FDocSaveTabs write FDocSaveTabs;
     property DocMultiLine: Boolean read FDocMultiLine write FDocMultiLine;
     property DocShowCloseButton: Boolean read FDocShowCloseButton write FDocShowCloseButton;
+    property DocRightClickSelect: Boolean read FDocRightClickSelect write FDocRightClickSelect;
     property DocShowImage: Boolean read FDocShowImage write FDocShowImage;
     property EnableLineNumbers: Boolean read FEnableLineNumbers write FEnableLineNumbers;
     property EnableSelectionMode: Boolean read FEnableSelectionMode write FEnableSelectionMode;
@@ -256,6 +261,7 @@ type
     property OutputIndent: Integer read FOutputIndent write FOutputIndent;
     property OutputMultiLine: Boolean read FOutputMultiLine write FOutputMultiLine;
     property OutputShowCloseButton: Boolean read FOutputShowCloseButton write FOutputShowCloseButton;
+    property OutputRightClickSelect: Boolean read FOutputRightClickSelect write FOutputRightClickSelect;
     property OutputShowImage: Boolean read FOutputShowImage write FOutputShowImage;
     property OutputShowTreeLines: Boolean read FOutputShowTreeLines write FOutputShowTreeLines;
     property PersistentHotKeys: Boolean read FPersistentHotKeys write FPersistentHotKeys;
@@ -625,6 +631,7 @@ begin
   FDocSaveTabs := True;
   FDocMultiLine := False;
   FDocShowCloseButton := False;
+  FDocRightClickSelect := True;
   FDocShowImage := True;
   FDirShowtreeLines := False;
   FDirShowHiddenFiles := False;
@@ -636,12 +643,14 @@ begin
   FDirDoubleBuffered := True;
   FDirMultiLine := False;
   FDirShowCloseButton := False;
+  FDirRightClickSelect := True;
   FDirShowImage := True;
   FOutputCloseTabByDblClick := False;
   FOutputCloseTabByMiddleClick := False;
   FOutputDoubleBuffered := True;
   FOutputMultiLine := False;
   FOutputShowCloseButton := False;
+  FOutputRightClickSelect := True;
   FIgnoreCase := True;
   FIgnoreBlanks := True;
   FHTMLErrorChecking := True;
@@ -971,6 +980,7 @@ begin
   FEditorTabsFrame.SaveTabsCheckBox.Checked := FOptionsContainer.DocSaveTabs;
   FEditorTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DocShowCloseButton;
   FEditorTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.DocShowImage;
+  FEditorTabsFrame.RightClickSelectCheckBox.Checked := FOptionsContainer.DocRightClickSelect;
   { Completion proposal }
   FEditorCompletionProposalFrame.EnabledCheckBox.Checked := FOptionsContainer.CompletionProposalEnabled;
   FEditorCompletionProposalFrame.CaseSensitiveCheckBox.Checked := FOptionsContainer.CompletionProposalCaseSensitive;
@@ -988,6 +998,7 @@ begin
   FDirectoryTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.DirMultiLine;
   FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DirShowCloseButton;
   FDirectoryTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.DirShowImage;
+  FDirectoryTabsFrame.RightClickSelectCheckBox.Checked := FOptionsContainer.DirRightClickSelect;
   { Output }
   FOptionsOutputFrame.ShowTreeLinesCheckBox.Checked := FOptionsContainer.OutputShowTreeLines;
   FOptionsOutputFrame.IndentEdit.Text := IntToStr(FOptionsContainer.OutputIndent);
@@ -998,6 +1009,7 @@ begin
   FOutputTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.OutputMultiLine;
   FOutputTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.OutputShowCloseButton;
   FOutputTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.OutputShowImage;
+  FOutputTabsFrame.RightClickSelectCheckBox.Checked := FOptionsContainer.OutputRightClickSelect;
   { Error checking }
   FEditorErrorCheckingFrame.HTMLErrorCheckingCheckBox.Checked := FOptionsContainer.HTMLErrorChecking;
   FEditorErrorCheckingFrame.HTMLVersionComboBox.ItemIndex := Ord(FOptionsContainer.HTMLVersion);
@@ -1188,6 +1200,7 @@ begin
   FOptionsContainer.DocSaveTabs := FEditorTabsFrame.SaveTabsCheckBox.Checked;
   FOptionsContainer.DocShowCloseButton := FEditorTabsFrame.ShowCloseButtonCheckBox.Checked;
   FOptionsContainer.DocShowImage := FEditorTabsFrame.ShowImageCheckBox.Checked;
+  FOptionsContainer.DocRightClickSelect := FEditorTabsFrame.RightClickSelectCheckBox.Checked;
   { Completion proposal }
   FOptionsContainer.CompletionProposalEnabled := FEditorCompletionProposalFrame.EnabledCheckBox.Checked;
   FOptionsContainer.CompletionProposalCaseSensitive := FEditorCompletionProposalFrame.CaseSensitiveCheckBox.Checked;
@@ -1205,6 +1218,7 @@ begin
   FOptionsContainer.DirMultiLine := FDirectoryTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.DirShowCloseButton := FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked;
   FOptionsContainer.DirShowImage := FDirectoryTabsFrame.ShowImageCheckBox.Checked;
+  FOptionsContainer.DirRightClickSelect := FDirectoryTabsFrame.RightClickSelectCheckBox.Checked;
   { Output }
   FOptionsContainer.OutputShowTreeLines := FOptionsOutputFrame.ShowTreeLinesCheckBox.Checked;
   FOptionsContainer.OutputIndent := StrToIntDef(FOptionsOutputFrame.IndentEdit.Text, 20);
@@ -1215,6 +1229,7 @@ begin
   FOptionsContainer.OutputMultiLine := FOutputTabsFrame.MultiLineCheckBox.Checked;
   FOptionsContainer.OutputShowCloseButton := FOutputTabsFrame.ShowCloseButtonCheckBox.Checked;
   FOptionsContainer.OutputShowImage := FOutputTabsFrame.ShowImageCheckBox.Checked;
+  FOptionsContainer.OutputRightClickSelect := FOutputTabsFrame.RightClickSelectCheckBox.Checked;
   { Compare }
   FOptionsContainer.IgnoreCase := FOptionsCompareFrame.IgnoreCaseCheckBox.Checked;
   FOptionsContainer.IgnoreBlanks := FOptionsCompareFrame.IgnoreBlanksCheckBox.Checked;

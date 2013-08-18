@@ -16,6 +16,7 @@ type
     CloseTabByMiddleClickCheckBox: TBCCheckBox;
     DoubleBufferedCheckBox: TBCCheckBox;
     SaveTabsCheckBox: TBCCheckBox;
+    RightClickSelectCheckBox: TBCCheckBox;
   private
     { Private declarations }
   public

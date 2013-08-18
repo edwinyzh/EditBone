@@ -94,5 +94,20 @@ object OutputTabsFrame: TOutputTabsFrame
       TabOrder = 2
       ReadOnly = False
     end
+    object RightClickSelectCheckBox: TBCCheckBox
+      Left = 9
+      Top = 126
+      Width = 218
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Right Click Select'
+      Checked = True
+      State = cbChecked
+      TabOrder = 6
+      ReadOnly = False
+    end
   end
 end
