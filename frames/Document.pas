@@ -1418,6 +1418,7 @@ begin
     SearchPanel.Visible := False;
     GotoLinePanel.Visible := False;
   end;
+  PageControl.Repaint;
 end;
 
 procedure TDocumentFrame.PageControlCloseButtonClick(Sender: TObject);
@@ -3637,35 +3638,45 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
 
       if IsExtInFileType(FileExt, ftCS) then
       begin
-        if OptionsContainer.CPASHighlighter = hClassic then
+        if (Highlighter <> ClassicCSSyn) and
+          (Highlighter <> DefaultCSSyn) and
+          (Highlighter <> TwilightCSSyn) then
         begin
-          Color := clNavy;
-          ActiveLineColor := clBlue;
-        end
-        else
-        if OptionsContainer.CPASHighlighter = hDefault then
-          ActiveLineColor := $E6FFFA
-        else
-        begin
-          Color := clBlack;
-          ActiveLineColor := clGray;
-        end
+          if OptionsContainer.CPASHighlighter = hClassic then
+          begin
+            Color := clNavy;
+            ActiveLineColor := clBlue;
+          end
+          else
+          if OptionsContainer.CPASHighlighter = hDefault then
+            ActiveLineColor := $E6FFFA
+          else
+          begin
+            Color := clBlack;
+            ActiveLineColor := clGray;
+          end
+        end;
       end
       else if IsExtInFileType(FileExt, ftCPP) then
       begin
-        if OptionsContainer.CPASHighlighter = hClassic then
+        if (Highlighter <> ClassicCPPSyn) and
+          (Highlighter <> DefaultCPPSyn) and
+          (Highlighter <> TwilightCPPSyn) then
         begin
-          Color := clNavy;
-          ActiveLineColor := clBlue;
-        end
-        else
-        if OptionsContainer.CPASHighlighter = hDefault then
-          ActiveLineColor := $E6FFFA
-        else
-        begin
-          Color := clBlack;
-          ActiveLineColor := clGray;
-        end
+          if OptionsContainer.CPASHighlighter = hClassic then
+          begin
+            Color := clNavy;
+            ActiveLineColor := clBlue;
+          end
+          else
+          if OptionsContainer.CPASHighlighter = hDefault then
+            ActiveLineColor := $E6FFFA
+          else
+          begin
+            Color := clBlack;
+            ActiveLineColor := clGray;
+          end
+        end;
       end
       else if IsExtInFileType(FileExt, ftHTML) or IsExtInFileType(FileExt, ftPHP) then
       begin
@@ -3677,21 +3688,26 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
       end
       else if IsExtInFileType(FileExt, ftPas) then
       begin
-        if OptionsContainer.CPASHighlighter = hClassic then
+        if (Highlighter <> ClassicPasSyn) and
+          (Highlighter <> DefaultPasSyn) and
+          (Highlighter <> TwilightPasSyn) then
         begin
-          Color := clNavy;
-          ActiveLineColor := clBlue;
-          OnPaintTransient := SynEditPASPaintTransient;
-        end
-        else
-        if OptionsContainer.CPASHighlighter = hDefault then
-          ActiveLineColor := $E6FFFA
-        else
-        begin
-          Color := clBlack;
-          ActiveLineColor := clGray;
-          OnPaintTransient := SynEditPASPaintTransient;
-        end
+          if OptionsContainer.CPASHighlighter = hClassic then
+          begin
+            Color := clNavy;
+            ActiveLineColor := clBlue;
+            OnPaintTransient := SynEditPASPaintTransient;
+          end
+          else
+          if OptionsContainer.CPASHighlighter = hDefault then
+            ActiveLineColor := $E6FFFA
+          else
+          begin
+            Color := clBlack;
+            ActiveLineColor := clGray;
+            OnPaintTransient := SynEditPASPaintTransient;
+          end
+        end;
       end
       else
       if IsExtInFileType(FileExt, ftSQL) then
@@ -3726,23 +3742,33 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
       else
       if IsExtInFileType(FileExt, ftCS) then
       begin
-        if OptionsContainer.CPASHighlighter = hClassic then
-          Highlighter := ClassicCSSyn
-        else
-        if OptionsContainer.CPASHighlighter = hDefault then
-          Highlighter := DefaultCSSyn
-        else
-          Highlighter := TwilightCSSyn;
+        if (Highlighter <> ClassicCSSyn) and
+          (Highlighter <> DefaultCSSyn) and
+          (Highlighter <> TwilightCSSyn) then
+        begin
+          if OptionsContainer.CPASHighlighter = hClassic then
+            Highlighter := ClassicCSSyn
+          else
+          if OptionsContainer.CPASHighlighter = hDefault then
+            Highlighter := DefaultCSSyn
+          else
+            Highlighter := TwilightCSSyn;
+        end;
       end
       else if IsExtInFileType(FileExt, ftCPP) then
       begin
-        if OptionsContainer.CPASHighlighter = hClassic then
-          Highlighter := ClassicCppSyn
-        else
-        if OptionsContainer.CPASHighlighter = hDefault then
-          Highlighter := DefaultCppSyn
-        else
-          Highlighter := TwilightCppSyn;
+        if (Highlighter <> ClassicCPPSyn) and
+          (Highlighter <> DefaultCPPSyn) and
+          (Highlighter <> TwilightCPPSyn) then
+        begin
+          if OptionsContainer.CPASHighlighter = hClassic then
+            Highlighter := ClassicCppSyn
+          else
+          if OptionsContainer.CPASHighlighter = hDefault then
+            Highlighter := DefaultCppSyn
+          else
+            Highlighter := TwilightCppSyn;
+        end;
       end
       else if IsExtInFileType(FileExt, ftCAC) then
         Highlighter := SynCACSyn
@@ -3804,13 +3830,18 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
         Highlighter := SynBatSyn
       else if IsExtInFileType(FileExt, ftPas) then
       begin
-        if OptionsContainer.CPASHighlighter = hClassic then
-          Highlighter := ClassicPasSyn
-        else
-        if OptionsContainer.CPASHighlighter = hDefault then
-          Highlighter := DefaultPasSyn
-        else
-          Highlighter := TwilightPasSyn
+        if (Highlighter <> ClassicPasSyn) and
+          (Highlighter <> DefaultPasSyn) and
+          (Highlighter <> TwilightPasSyn) then
+        begin
+          if OptionsContainer.CPASHighlighter = hClassic then
+            Highlighter := ClassicPasSyn
+          else
+          if OptionsContainer.CPASHighlighter = hDefault then
+            Highlighter := DefaultPasSyn
+          else
+            Highlighter := TwilightPasSyn
+        end;
       end
       else if IsExtInFileType(FileExt, ftPerl) then
         Highlighter := SynPerlSyn
