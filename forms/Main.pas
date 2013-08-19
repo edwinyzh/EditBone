@@ -403,7 +403,6 @@ var
   SysImageList: THandle;
   SHFileInfo: TSHFileInfo;
   PathInfo: String;
-  //Icon: TIcon;
   Icon: TIcon;
 begin
   FileIconInit(True);
@@ -445,6 +444,7 @@ begin
           Icon := TIcon.Create;
           try
             ImageIndex := GetIconIndex(s);
+
             SystemImageList.GetIcon(ImageIndex, Icon);
             ImageIndex := ImageList_AddIcon(ImageList.Handle, Icon.Handle);
           finally

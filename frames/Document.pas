@@ -1473,7 +1473,7 @@ begin
     Add('$DATE$ $TIME$', nil, taRightJustify, 1);
   end;
   SynEditPrint.SynEdit := SynEdit;
-  SynEditPrint.Title := ExtractFileName(SynEdit.DocumentName);
+  SynEditPrint.Title := SynEdit.DocumentName;
 end;
 
 procedure TDocumentFrame.Print;
