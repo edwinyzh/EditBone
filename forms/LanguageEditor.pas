@@ -253,13 +253,22 @@ begin
          ChildData := VirtualDrawTree.GetNodeData(ChildNode);
 
          if Trim(ChildData.Value[1]) <> '' then
-           WriteString(Data.Value[0], ChildData.Value[0], ChildData.Value[1]);
+           WriteString(Data.Value[0], ChildData.Value[0], ChildData.Value[1])
+         else
+           DeleteKey(Data.Value[0], ChildData.Value[0]);
          if Trim(ChildData.Value[2]) <> '' then
-           WriteString(Data.Value[0], Format('%s:h', [ChildData.Value[0]]), ChildData.Value[2]);
+           WriteString(Data.Value[0], Format('%s:h', [ChildData.Value[0]]), ChildData.Value[2])
+         else
+           DeleteKey(Data.Value[0], Format('%s:h', [ChildData.Value[0]]));
          if Trim(ChildData.Value[3]) <> '' then
-           WriteString(Data.Value[0], Format('%s:s', [ChildData.Value[0]]), ChildData.Value[3]);
+           WriteString(Data.Value[0], Format('%s:s', [ChildData.Value[0]]), ChildData.Value[3])
+         else
+           DeleteKey(Data.Value[0], Format('%s:s', [ChildData.Value[0]]));
          if Trim(ChildData.Value[4]) = 'Changed' then
+         begin
            DeleteKey(Data.Value[0], Format('%s:t', [ChildData.Value[0]]));
+           ChildData.Value[4] := '';
+         end;
          ChildNode := ChildNode.NextSibling;
        end;
        Node := Node.NextSibling;
@@ -267,6 +276,7 @@ begin
   finally
     UpdateFile;
     Free;
+    VirtualDrawTree.Repaint;
   end;
 end;
 
