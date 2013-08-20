@@ -46,6 +46,7 @@ type
     { Private declarations }
     FCancelSearch: Boolean;
     FProcessingTabSheet: Boolean;
+    FProcessingPage: TTabSheet;
     FTabsheetDblClick: TNotifyEvent;
     FOpenAll: TOpenAllEvent;
     function GetCount: Integer;
@@ -543,12 +544,13 @@ begin
   Result := False;
   Application.ProcessMessages;
   if FProcessingTabSheet then
-  begin
-    if AskYesOrNo(LanguageDataModule.GetYesOrNoMessage('CancelSearch')) then
-      FCancelSearch := True
-    else
-      Result := True;
-  end;
+    if FProcessingPage = PageControl.ActivePage then
+    begin
+      if AskYesOrNo(LanguageDataModule.GetYesOrNoMessage('CancelSearch')) then
+        FCancelSearch := True
+      else
+        Result := True;
+    end;
 end;
 
 procedure TOutputFrame.CloseTabSheet;
@@ -598,6 +600,7 @@ end;
 procedure TOutputFrame.SetProcessingTabSheet(Value: Boolean);
 begin
   FProcessingTabSheet := Value;
+  FProcessingPage := PageControl.ActivePage;
   FCancelSearch := False;
   //OutputCloseAction.Enabled := not Value;
 end;
