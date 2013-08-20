@@ -92,7 +92,6 @@ type
     HelpCheckForUpdatesMenuAction: TAction;
     HelpHomeAction: TAction;
     HelpMenuAction: TAction;
-    HighlighterComboBox: TBCComboBox;
     HorizontalSplitter: TSplitter;
     HTMLErrorTimer: TTimer;
     ImageList: TBCImageList;
@@ -200,6 +199,8 @@ type
     EditIndentAction: TAction;
     EditSortAction: TAction;
     ToolsConvertAction: TAction;
+    HighlighterPanel: TPanel;
+    HighlighterComboBox: TBCComboBox;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -336,6 +337,7 @@ type
     procedure SetEncodingComboIndex(Value: Integer);
     procedure SetFields;
     procedure SetHighlighterComboIndex(Value: Integer);
+    procedure UpdateControls;
     procedure UpdateMainMenuBar;
     procedure UpdateToolBar;
     procedure UpdateStatusBar;
@@ -598,11 +600,21 @@ begin
     for j := 0 to ActionClientItem.Items[i].Items.Count - 1 do
       TAction(ActionClientItem.Items[i].Items[j].Action).Checked := False;
   Action.Checked := True;
+  UpdateControls;
+end;
+
+procedure TMainForm.UpdateControls;
+begin
   FDirectoryFrame.UpdateControls;
   FDocumentFrame.UpdateGutterAndControls;
   FOutputFrame.UpdateControls;
+  UpdateToolBar;
   UpdateStatusBar;
   RecreateDragDrop;
+  if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
+    HighlighterPanel.Padding.Left := 4
+  else
+    HighlighterPanel.Padding.Left := 0;
 end;
 
 procedure TMainForm.ToggleBookmarksActionExecute(Sender: TObject);
@@ -1335,12 +1347,8 @@ begin
     CreateFileReopenList;
     CreateProgressBar;
 
-    UpdateToolBar;
-    UpdateStatusBar;
+    UpdateControls;
 
-    FDirectoryFrame.UpdateControls;
-    FDocumentFrame.UpdateGutterAndControls;
-    FOutputFrame.UpdateControls;
     FOnStartUp := False;
     ReadWindowState; { because of styles this cannot be done before... }
 

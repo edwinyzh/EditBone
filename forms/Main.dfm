@@ -66,7 +66,7 @@ object MainForm: TMainForm
     object ActionMainMenuBar: TActionMainMenuBar
       Left = 0
       Top = 0
-      Width = 833
+      Width = 529
       Height = 30
       UseSystemFont = False
       ActionManager = ActionManager
@@ -85,8 +85,8 @@ object MainForm: TMainForm
       ShowHint = True
       Spacing = 1
     end
-    object HighlighterComboBox: TBCComboBox
-      Left = 968
+    object EncodingComboBox: TBCComboBox
+      Left = 834
       Top = 2
       Width = 130
       Height = 21
@@ -94,82 +94,6 @@ object MainForm: TMainForm
       Style = csDropDownList
       DropDownCount = 57
       TabOrder = 1
-      OnChange = HighlighterComboBoxChange
-      Items.Strings = (
-        '68HC11 Assembler'
-        'AWK Scripts'
-        'Baan 4GL'
-        'C# (classic)'
-        'C# (default)'
-        'C# (twilight)'
-        'C/C++ (classic)'
-        'C/C++ (default)'
-        'C/C++ (twilight)'
-        'CA-Clipper'
-        'Cache'
-        'Cascading Stylesheets'
-        'COBOL'
-        'CORBA IDL'
-        'CPM Reports'
-        'DOT Graph Drawing'
-        'DSP'
-        'DWScript'
-        'Eiffel'
-        'Fortran'
-        'Foxpro'
-        'Galaxy'
-        'GEMBASE'
-        'GW-TEL'
-        'Haskell'
-        'HP48'
-        'HTML & PHP'
-        'INI'
-        'Inno Setup Scripts'
-        'Java'
-        'Javascript'
-        'Kixtart Scripts'
-        'LEGO LDraw'
-        'LLVM'
-        'Modelica'
-        'Modula-3'
-        'Msg'
-        'MS-DOS Batch'
-        'Pascal (classic)'
-        'Pascal (default)'
-        'Pascal (twilight)'
-        'Perl'
-        'Progress'
-        'Python'
-        'Resource'
-        'Ruby'
-        'Semanta DD'
-        'SQL'
-        'Standard ML'
-        'Structured Text'
-        'Tcl/Tk'
-        'TeX'
-        'Text'
-        'UNIX Shell'
-        'Visual Basic'
-        'VBScript'
-        'Vrml97/X3D World'
-        'Web IDL'
-        'x86 Assembly'
-        'XML'
-        'YAML')
-      DeniedKeyStrokes = True
-      ReadOnly = False
-      DropDownFixedWidth = 0
-    end
-    object EncodingComboBox: TBCComboBox
-      Left = 838
-      Top = 2
-      Width = 130
-      Height = 21
-      Align = alRight
-      Style = csDropDownList
-      DropDownCount = 57
-      TabOrder = 2
       OnChange = EncodingComboBoxChange
       Items.Strings = (
         'ASCII'
@@ -182,6 +106,93 @@ object MainForm: TMainForm
       DeniedKeyStrokes = True
       ReadOnly = False
       DropDownFixedWidth = 0
+    end
+    object HighlighterPanel: TPanel
+      Left = 964
+      Top = 2
+      Width = 134
+      Height = 22
+      Align = alRight
+      AutoSize = True
+      BevelOuter = bvNone
+      Padding.Left = 4
+      TabOrder = 2
+      object HighlighterComboBox: TBCComboBox
+        Left = 4
+        Top = 0
+        Width = 130
+        Height = 21
+        Align = alRight
+        Style = csDropDownList
+        DropDownCount = 57
+        TabOrder = 0
+        OnChange = HighlighterComboBoxChange
+        Items.Strings = (
+          '68HC11 Assembler'
+          'AWK Scripts'
+          'Baan 4GL'
+          'C# (classic)'
+          'C# (default)'
+          'C# (twilight)'
+          'C/C++ (classic)'
+          'C/C++ (default)'
+          'C/C++ (twilight)'
+          'CA-Clipper'
+          'Cache'
+          'Cascading Stylesheets'
+          'COBOL'
+          'CORBA IDL'
+          'CPM Reports'
+          'DOT Graph Drawing'
+          'DSP'
+          'DWScript'
+          'Eiffel'
+          'Fortran'
+          'Foxpro'
+          'Galaxy'
+          'GEMBASE'
+          'GW-TEL'
+          'Haskell'
+          'HP48'
+          'HTML & PHP'
+          'INI'
+          'Inno Setup Scripts'
+          'Java'
+          'Javascript'
+          'Kixtart Scripts'
+          'LEGO LDraw'
+          'LLVM'
+          'Modelica'
+          'Modula-3'
+          'Msg'
+          'MS-DOS Batch'
+          'Pascal (classic)'
+          'Pascal (default)'
+          'Pascal (twilight)'
+          'Perl'
+          'Progress'
+          'Python'
+          'Resource'
+          'Ruby'
+          'Semanta DD'
+          'SQL'
+          'Standard ML'
+          'Structured Text'
+          'Tcl/Tk'
+          'TeX'
+          'Text'
+          'UNIX Shell'
+          'Visual Basic'
+          'VBScript'
+          'Vrml97/X3D World'
+          'Web IDL'
+          'x86 Assembly'
+          'XML'
+          'YAML')
+        DeniedKeyStrokes = True
+        ReadOnly = False
+        DropDownFixedWidth = 0
+      end
     end
   end
   object ToolBarPanel: TPanel
