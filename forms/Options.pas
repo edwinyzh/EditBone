@@ -7,11 +7,11 @@ uses
   Vcl.ComCtrls, Winapi.CommCtrl, System.Win.Registry, Vcl.ExtCtrls, Vcl.Buttons, Vcl.Menus, SynEdit, SynEditHighlighter,
   SynEditMiscClasses, SynHighlighterWebData, SynEditKeyCmds, System.Classes, System.SysUtils, Vcl.ImgList,
   SynHighlighterWeb, Vcl.Grids, SynHighlighterSQL, BCControls.CheckBox, Document, BCControls.Edit, JvCombobox,
-  BCControls.ComboBox, Vcl.ActnList, Vcl.Themes, BCDialogs.Dlg, Vcl.CheckLst, JvExComCtrls,
+  BCControls.ComboBox, Vcl.ActnList, Vcl.Themes, Vcl.CheckLst, JvExComCtrls,
   JvComCtrls, VirtualTrees, OptionsEditorOptions, OptionsEditorFont, OptionsEditorGutter, OptionsEditorTabs, Lib,
   OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, OptionsCompare, OptionsMainMenu,
   OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, OptionsStatusBar, OptionsOutput, OptionsToolBar,
-  Vcl.ActnMenus, System.Actions, OptionsEditorCompletionProposal;
+  Vcl.ActnMenus, System.Actions, OptionsEditorCompletionProposal, BCDialogs.Dlg;
 
 type
   POptionsRec = ^TOptionsRec;
@@ -22,7 +22,7 @@ type
 
   TOptionsContainer = class;
 
-  TOptionsDialog = class(TDialog)
+  TOptionsDialog = class(TForm)
     ButtonDividerPanel: TPanel;
     ButtonPanel: TPanel;
     CancelButton: TButton;
@@ -775,7 +775,6 @@ begin
   if FOptionsDialog = nil then
     FOptionsDialog := TOptionsDialog.Create(Sender);
   Result := FOptionsDialog;
-  SetStyledFormSize(Result);
 end;
 
 procedure TOptionsDialog.FormDestroy(Sender: TObject);

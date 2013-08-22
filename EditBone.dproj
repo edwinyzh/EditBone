@@ -148,7 +148,7 @@
             <Form>AboutDialog</Form>
         </DCCReference>
         <DCCReference Include="units\Lib.pas"/>
-        <DCCReference Include="dialogs\Options.pas">
+        <DCCReference Include="forms\Options.pas">
             <Form>OptionsDialog</Form>
         </DCCReference>
         <DCCReference Include="..\..\Common\forms\BCForms.PrintPreview.pas">

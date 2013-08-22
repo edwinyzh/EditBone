@@ -64,8 +64,7 @@ type
     { Public declarations }
     function SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
     function AddTreeView(TabCaption: string; AutoExpand: Boolean = False): TVirtualDrawTree;
-    //procedure AddTreeViewLine(OutputTreeView: TVirtualDrawTree; Text: WideString); overload;
-    procedure AddTreeViewLine(OutputTreeView: TVirtualDrawTree; var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongWord; Text: WideString; SearchString: WideString = ''); // overload;
+    procedure AddTreeViewLine(OutputTreeView: TVirtualDrawTree; var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongWord; Text: WideString; SearchString: WideString = '');
     procedure Clear;
     procedure CloseTabSheet;
     procedure UpdateControls;

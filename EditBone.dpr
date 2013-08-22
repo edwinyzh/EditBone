@@ -16,7 +16,7 @@ uses
   Document in 'frames\Document.pas' {DocumentFrame: TFrame},
   About in 'dialogs\About.pas' {AboutDialog},
   Lib in 'units\Lib.pas',
-  Options in 'dialogs\Options.pas' {OptionsDialog},
+  Options in 'forms\Options.pas' {OptionsDialog},
   BCForms.PrintPreview in '..\..\Common\forms\BCForms.PrintPreview.pas' {PrintPreviewDialog},
   BCDialogs.ConfirmReplace in '..\..\Common\dialogs\BCDialogs.ConfirmReplace.pas' {ConfirmReplaceDialog},
   BCDialogs.FindInFiles in '..\..\Common\dialogs\BCDialogs.FindInFiles.pas' {FindInFilesDialog},
