@@ -1643,6 +1643,7 @@ begin
         Application.ProcessMessages;
         FindInFiles(OutputTreeView, FindWhatText, FileTypeText, FolderText, SearchCaseSensitive, LookInSubfolders);
       finally
+        FOutputFrame.ProcessingTabSheet := False;
         T2 := Now;
         if not FOutputFrame.IsEmpty then
         begin
@@ -1663,7 +1664,6 @@ begin
           end;
           StatusBar.Panels[3].Text := '';
         end;
-        FOutputFrame.ProcessingTabSheet := False;
         FOutputFrame.PageControl.EndDrag(False); { if close button pressed and search canceled, dragging will stay... }
       end;
     end;
