@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, BCDialogs.Dlg, Vcl.Mask, Vcl.StdCtrls, BCControls.Edit, Vcl.ActnList, Vcl.ExtCtrls,
-  Vcl.Themes, BCControls.CheckBox, Vcl.Buttons, System.Actions, JvExStdCtrls, JvEdit, BCControls.ComboBox;
+  Vcl.Themes, BCControls.CheckBox, Vcl.Buttons, System.Actions, JvExStdCtrls, JvEdit, BCControls.ComboBox, JvExControls,
+  JvSpeedButton;
 
 type
   TDirectoryTabDialogType = (dtOpen, dtEdit);
@@ -23,7 +24,6 @@ type
     RootDirectoryEdit: TBCEdit;
     RootDirectoryLabel: TLabel;
     RootDirectoryPanel: TPanel;
-    RootDrectoryBitBtn: TBitBtn;
     TabNameEdit: TBCEdit;
     TabNameLabel: TLabel;
     TabNamePanel: TPanel;
@@ -34,6 +34,7 @@ type
     ShowDrivesComboBox: TBCComboBox;
     ShowFileTypeLabel: TLabel;
     ShowFileTypeComboBox: TBCComboBox;
+    BitBtn1: TJvSpeedButton;
     procedure ExcludeOtherBranchesActionExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure OKActionExecute(Sender: TObject);
