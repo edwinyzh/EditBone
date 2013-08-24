@@ -1,4 +1,4 @@
-unit OptionsPrint;
+unit OptionsPrintPreview;
 
 interface
 
@@ -8,7 +8,7 @@ uses
   BCControls.CheckBox;
 
 type
-  TOptionsPrintFrame = class(TFrame)
+  TOptionsPrintPreviewFrame = class(TFrame)
     Panel: TPanel;
     DateTimeLabel: TLabel;
     PrintedByLabel: TLabel;
@@ -26,10 +26,30 @@ type
     { Private declarations }
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent); override;
   end;
 
 implementation
 
 {$R *.dfm}
+
+uses
+  BCCommon.LanguageStrings;
+
+constructor TOptionsPrintPreviewFrame.Create(AOwner: TComponent);
+begin
+  inherited;
+  with DocumentNameComboBox.Items do
+  begin
+    Add(LanguageDatamodule.GetConstant('FooterLeft'));
+    Add(LanguageDatamodule.GetConstant('FooterRight'));
+    Add(LanguageDatamodule.GetConstant('HeaderLeft'));
+    Add(LanguageDatamodule.GetConstant('HeaderRight'));
+    Add(LanguageDatamodule.GetConstant('Hide'));
+  end;
+  PageNumberComboBox.Items.Text := DocumentNameComboBox.Items.Text;
+  PrintedByComboBox.Items.Text := DocumentNameComboBox.Items.Text;
+  DateTimeComboBox.Items.Text := DocumentNameComboBox.Items.Text;
+end;
 
 end.

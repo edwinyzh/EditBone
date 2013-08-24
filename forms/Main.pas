@@ -1295,8 +1295,8 @@ begin
   FImageListCount := ImageList.Count; { System images are inserted after }
   CreateFrames;
   UpdateStatusBar;
-  ReadLanguageFile(GetSelectedLanguage);
   ReadIniFile;
+  //ReadLanguageFile(GetSelectedLanguage);
 
   {$IFDEF RELEASE}
   ToolsDuplicateCheckerAction.Visible := False;
@@ -1339,6 +1339,7 @@ begin
     if ParamCount > 0 then
       for i := 1 to ParamCount do
         FDocumentFrame.Open(ParamStr(i), nil, 0, 0, True);
+    ReadLanguageFile(GetSelectedLanguage);
     CreateLanguageMenu;
     CreateStyleMenu;
     CreateFileReopenList;

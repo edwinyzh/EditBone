@@ -444,7 +444,7 @@ uses
   Vcl.ActnMenus, SynTokenMatch, SynHighlighterWebMisc, System.Types, Winapi.ShellAPI, System.WideStrings, System.Math,
   Main, BigIni, Vcl.GraphUtil, SynUnicode, BCCommon.LanguageStrings, BCCommon.Dialogs, SynEditTextBuffer, BCCommon.Encoding,
   InsertTag, BCCommon.LanguageUtils, BCCommon.FileUtils, BCCommon.Messages, BCCommon, BCCommon.StringUtils,
-  Winapi.CommCtrl;
+  Winapi.CommCtrl, SynEditPrintTypes;
 
 { TDocumentFrame }
 
@@ -1457,21 +1457,54 @@ end;
 procedure TDocumentFrame.InitializeSynEditPrint;
 var
   SynEdit: TBCSynEdit;
+  Alignment: TAlignment;
+
+  procedure SetHeaderFooter(Option: Integer; Value: string);
+  begin
+    case Option of
+    0, 1:
+      with SynEditPrint.Footer do
+      begin
+        case Option of
+          0: Alignment := taLeftJustify;
+          1: Alignment := taRightJustify;
+        end;
+        Add(Value, nil, Alignment, 1);
+      end;
+    2, 3:
+      with SynEditPrint.Header do
+      begin
+        case Option of
+          2: Alignment := taLeftJustify;
+          3: Alignment := taRightJustify;
+        end;
+        Add(Value, nil, Alignment, 1);
+      end;
+    end;
+  end;
+
 begin
   SynEdit := GetActiveSynEdit;
+  SynEditPrint.Header.Clear;
+  SynEditPrint.Footer.Clear;
 
-  with SynEditPrint.Header do
-  begin
-    Clear;
-    Add(SynEdit.DocumentName, nil, taLeftJustify, 1);
-    Add(LanguageDataModule.GetConstant('PreviewDocumentPage'), nil, taRightJustify, 1);
-  end;
-  with SynEditPrint.Footer do
-  begin
-    Clear;
-    Add(Format(LanguageDataModule.GetConstant('PrintedBy'), [Application.Title]), nil, taLeftJustify, 1);
-    Add('$DATE$ $TIME$', nil, taRightJustify, 1);
-  end;
+  SetHeaderFooter(OptionsContainer.PrintDocumentName, SynEdit.DocumentName);
+  SetHeaderFooter(OptionsContainer.PrintPageNumber, LanguageDataModule.GetConstant('PreviewDocumentPage'));
+  SetHeaderFooter(OptionsContainer.PrintPrintedBy, Format(LanguageDataModule.GetConstant('PrintedBy'), [Application.Title]));
+  SetHeaderFooter(OptionsContainer.PrintDateTime, '$DATE$ $TIME$');
+
+  if OptionsContainer.PrintShowHeaderLine then
+    SynEditPrint.Header.FrameTypes := [ftLine]
+  else
+    SynEditPrint.Header.FrameTypes := [];
+
+  if OptionsContainer.PrintShowFooterLine then
+    SynEditPrint.Footer.FrameTypes := [ftLine]
+  else
+    SynEditPrint.Footer.FrameTypes := [];
+  SynEditPrint.LineNumbers := OptionsContainer.PrintShowLineNumbers;
+  SynEditPrint.Wrap := OptionsContainer.PrintWordWrapLine;
+
   SynEditPrint.SynEdit := SynEdit;
   SynEditPrint.Title := SynEdit.DocumentName;
 end;
@@ -1928,6 +1961,14 @@ begin
     OptionsContainer.MainMenuFontSize := StrToInt(ReadString('Options', 'MainMenuFontSize', '8'));
     OptionsContainer.MainMenuSystemFontName := ReadString('Options', 'MainMenuSystemFontName', Screen.MenuFont.Name);
     OptionsContainer.MainMenuSystemFontSize := StrToInt(ReadString('Options', 'MainMenuSystemFontSize', IntToStr(Screen.MenuFont.Size)));
+    OptionsContainer.PrintDocumentName := StrToInt(ReadString('Options', 'PrintDocumentName', '2'));
+    OptionsContainer.PrintPageNumber := StrToInt(ReadString('Options', 'PrintPageNumber', '3'));
+    OptionsContainer.PrintPrintedBy := StrToInt(ReadString('Options', 'PrintPrintedBy', '0'));
+    OptionsContainer.PrintDateTime :=  StrToInt(ReadString('Options', 'PrintDateTime', '1'));
+    OptionsContainer.PrintShowHeaderLine := ReadBool('Options', 'PrintShowHeaderLine', True);
+    OptionsContainer.PrintShowFooterLine := ReadBool('Options', 'PrintShowFooterLine', True);
+    OptionsContainer.PrintShowLineNumbers := ReadBool('Options', 'PrintShowLineNumbers', False);
+    OptionsContainer.PrintWordWrapLine := ReadBool('Options', 'PrintWordWrapLine', False);
     OptionsContainer.AnimationStyle := TAnimationStyle(StrToInt(ReadString('Options', 'AnimationStyle', '1')));
     OptionsContainer.AnimationDuration := StrToInt(ReadString('Options', 'AnimationDuration', '150'));
     OptionsContainer.StatusBarUseSystemFont := ReadBool('Options', 'StatusBarUseSystemFont', False);
@@ -2096,6 +2137,14 @@ begin
     WriteString('Options', 'MainMenuFontSize', IntToStr(OptionsContainer.MainMenuFontSize));
     WriteString('Options', 'MainMenuSystemFontName', OptionsContainer.MainMenuSystemFontName);
     WriteString('Options', 'MainMenuSystemFontSize', IntToStr(OptionsContainer.MainMenuSystemFontSize));
+    WriteString('Options', 'PrintDocumentName', IntToStr(OptionsContainer.PrintDocumentName));
+    WriteString('Options', 'PrintPageNumber', IntToStr(OptionsContainer.PrintPageNumber));
+    WriteString('Options', 'PrintPrintedBy', IntToStr(OptionsContainer.PrintPrintedBy));
+    WriteString('Options', 'PrintDateTime', IntToStr(OptionsContainer.PrintDateTime));
+    WriteBool('Options', 'PrintShowHeaderLine', OptionsContainer.PrintShowHeaderLine);
+    WriteBool('Options', 'PrintShowFooterLine', OptionsContainer.PrintShowFooterLine);
+    WriteBool('Options', 'PrintShowLineNumbers', OptionsContainer.PrintShowLineNumbers);
+    WriteBool('Options', 'PrintWordWrapLine', OptionsContainer.PrintWordWrapLine);
     WriteString('Options', 'AnimationStyle', IntToStr(Ord(OptionsContainer.AnimationStyle)));
     WriteString('Options', 'AnimationDuration', IntToStr(OptionsContainer.AnimationDuration));
     WriteBool('Options', 'StatusBarUseSystemFont', OptionsContainer.StatusBarUseSystemFont);
@@ -3566,16 +3615,26 @@ procedure TDocumentFrame.UpdateLanguage(SelectedLanguage: string);
 var
   i: Integer;
   CompareFrame: TCompareFrame;
+  DocTabSheetFrame: TDocTabSheetFrame;
 begin
   BCCommon.LanguageUtils.UpdateLanguage(TForm(Self), SelectedLanguage);
+
   { compare frames }
   for i := 0 to PageControl.PageCount - 1 do
+  begin
+    DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
+    if Assigned(DocTabSheetFrame) then
+    begin
+      DocTabSheetFrame.SynEdit.ScrollInfoFmtTop := LanguageDataModule.GetConstant('TopLine');
+      DocTabSheetFrame.SplitSynEdit.ScrollInfoFmtTop := LanguageDataModule.GetConstant('TopLine')
+    end;
     if PageControl.Pages[i].ImageIndex = FCompareImageIndex then
     begin
       CompareFrame := GetCompareFrame(PageControl.Pages[i]);
       if Assigned(CompareFrame) then
         CompareFrame.UpdateLanguage(SelectedLanguage);
     end;
+  end;
 end;
 
 procedure TDocumentFrame.FormatXML;

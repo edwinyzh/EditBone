@@ -285,8 +285,8 @@
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="frames\OptionsPrint.pas">
-            <Form>OptionsPrintFrame</Form>
+        <DCCReference Include="frames\OptionsPrintPreview.pas">
+            <Form>OptionsPrintPreviewFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
