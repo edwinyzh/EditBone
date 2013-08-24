@@ -1895,6 +1895,7 @@ begin
     OptionsContainer.DirCloseTabByMiddleClick := ReadBool('Options', 'DirCloseTabByMiddleClick', False);
     OptionsContainer.DirDoubleBuffered := ReadBool('Options', 'DirDoubleBuffered', True);
     OptionsContainer.DirMultiLine := ReadBool('Options', 'DirMultiLine', False);
+    OptionsContainer.DirSaveTabs:= ReadBool('Options', 'DirSaveTabs', True);
     OptionsContainer.DirShowCloseButton := ReadBool('Options', 'DirShowCloseButton', False);
     OptionsContainer.DirRightClickSelect := ReadBool('Options', 'DirRightClickSelect', True);
     OptionsContainer.DirShowImage := ReadBool('Options', 'DirShowImage', True);
@@ -1902,6 +1903,7 @@ begin
     OptionsContainer.OutputCloseTabByMiddleClick := ReadBool('Options', 'OutputCloseTabByMiddleClick', False);
     OptionsContainer.OutputDoubleBuffered := ReadBool('Options', 'OutputDoubleBuffered', True);
     OptionsContainer.OutputMultiLine := ReadBool('Options', 'OutputMultiLine', False);
+    OptionsContainer.OutputSaveTabs:= ReadBool('Options', 'OutputSaveTabs', True);
     OptionsContainer.OutputShowCloseButton := ReadBool('Options', 'OutputShowCloseButton', False);
     OptionsContainer.OutputRightClickSelect := ReadBool('Options', 'OutputRightClickSelect', True);
     OptionsContainer.OutputShowImage := ReadBool('Options', 'OutputShowImage', True);
@@ -2063,6 +2065,7 @@ begin
     WriteBool('Options', 'DirCloseTabByMiddleClick', OptionsContainer.DirCloseTabByMiddleClick);
     WriteBool('Options', 'DirDoubleBuffered', OptionsContainer.DirDoubleBuffered);
     WriteBool('Options', 'DirMultiLine', OptionsContainer.DirMultiLine);
+    WriteBool('Options', 'DirSaveTabs', OptionsContainer.DirSaveTabs);
     WriteBool('Options', 'DirShowCloseButton', OptionsContainer.DirShowCloseButton);
     WriteBool('Options', 'DirRightClickSelect', OptionsContainer.DirRightClickSelect);
     WriteBool('Options', 'DirShowImage', OptionsContainer.DirShowImage);
@@ -2070,6 +2073,7 @@ begin
     WriteBool('Options', 'OutputCloseTabByMiddleClick', OptionsContainer.OutputCloseTabByMiddleClick);
     WriteBool('Options', 'OutputDoubleBuffered', OptionsContainer.OutputDoubleBuffered);
     WriteBool('Options', 'OutputMultiLine', OptionsContainer.OutputMultiLine);
+    WriteBool('Options', 'OutputSaveTabs', OptionsContainer.OutputSaveTabs);
     WriteBool('Options', 'OutputShowCloseButton', OptionsContainer.OutputShowCloseButton);
     WriteBool('Options', 'OutputRightClickSelect', OptionsContainer.OutputRightClickSelect);
     WriteBool('Options', 'HTMLErrorChecking', OptionsContainer.HTMLErrorChecking);

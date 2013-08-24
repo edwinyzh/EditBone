@@ -728,7 +728,7 @@ end;
 procedure TOutputFrame.WriteOutFile;
 var
   i: Integer;
-  Filename, S: string;
+  Filename: string;
   OutputFile: TextFile;
   Node: PVirtualNode;
   NodeData: POutputRec;
@@ -738,37 +738,38 @@ begin
   Filename := GetOutFilename;
   if FileExists(Filename) then
     DeleteFile(Filename);
-  if PageControl.PageCount > 0 then
-  begin
-    AssignFile(OutputFile, Filename);
-    ReWrite(OutputFile);
-    for i := 0 to PageControl.PageCount - 1 do
-    if Pos(LanguageDataModule.GetConstant('Errors'), PageControl.Pages[i].Caption) <> -1  then
+  if OptionsContainer.OutputSaveTabs then
+    if PageControl.PageCount > 0 then
     begin
-      VirtualDrawTree := TOutputTabSheetFrame(PageControl.Pages[i].Components[0]).VirtualDrawTree;
-      if Assigned(VirtualDrawTree) then
+      AssignFile(OutputFile, Filename);
+      ReWrite(OutputFile);
+      for i := 0 to PageControl.PageCount - 1 do
+      if Pos(LanguageDataModule.GetConstant('Errors'), PageControl.Pages[i].Caption) <> -1  then
       begin
-        { tab sheet }
-        Node := VirtualDrawTree.GetFirst;
-        Node := VirtualDrawTree.GetFirstChild(Node);
-        if Assigned(Node) then
+        VirtualDrawTree := TOutputTabSheetFrame(PageControl.Pages[i].Components[0]).VirtualDrawTree;
+        if Assigned(VirtualDrawTree) then
         begin
-          NodeData := VirtualDrawTree.GetNodeData(Node);
-          Writeln(OutputFile, Format('s:%s', [NodeData.SearchString]));
-        end;
-        { data }
-        while Assigned(Node) do
-        begin
-          NodeData := VirtualDrawTree.GetNodeData(Node);
-          if NodeData.SearchString <> '' then
-            WriteLn(OutputFile, Format('%s%s%d%s%d%s%s%s%s', [NodeData.Filename, OUTPUT_FILE_SEPARATOR, NodeData.Ln,
-              OUTPUT_FILE_SEPARATOR, NodeData.Ch, OUTPUT_FILE_SEPARATOR, NodeData.Text, OUTPUT_FILE_SEPARATOR, NodeData.SearchString]));
-          Node := VirtualDrawTree.GetNext(Node);
+          { tab sheet }
+          Node := VirtualDrawTree.GetFirst;
+          Node := VirtualDrawTree.GetFirstChild(Node);
+          if Assigned(Node) then
+          begin
+            NodeData := VirtualDrawTree.GetNodeData(Node);
+            Writeln(OutputFile, Format('s:%s', [NodeData.SearchString]));
+          end;
+          { data }
+          while Assigned(Node) do
+          begin
+            NodeData := VirtualDrawTree.GetNodeData(Node);
+            if NodeData.SearchString <> '' then
+              WriteLn(OutputFile, Format('%s%s%d%s%d%s%s%s%s', [NodeData.Filename, OUTPUT_FILE_SEPARATOR, NodeData.Ln,
+                OUTPUT_FILE_SEPARATOR, NodeData.Ch, OUTPUT_FILE_SEPARATOR, NodeData.Text, OUTPUT_FILE_SEPARATOR, NodeData.SearchString]));
+            Node := VirtualDrawTree.GetNext(Node);
+          end;
         end;
       end;
+      CloseFile(OutputFile);
     end;
-    CloseFile(OutputFile);
-  end;
   FProcessingTabSheet := False;
 end;
 

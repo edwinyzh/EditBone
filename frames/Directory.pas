@@ -277,6 +277,7 @@ begin
     { Options }
     EraseSection('LastPaths');
     { Open directories }
+    if OptionsContainer.DirSaveTabs then
     for i := 0 to PageControl.PageCount - 1 do
     begin
       DirTabSheetFrame := GetDirTabSheetFrame(PageControl.Pages[i]);

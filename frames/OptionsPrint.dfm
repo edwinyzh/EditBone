@@ -12,10 +12,6 @@ object OptionsPrintFrame: TOptionsPrintFrame
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitLeft = -131
-    ExplicitTop = -62
-    ExplicitWidth = 451
-    ExplicitHeight = 302
     object DateTimeLabel: TLabel
       Left = 11
       Top = 136
@@ -138,7 +134,7 @@ object OptionsPrintFrame: TOptionsPrintFrame
       TabOrder = 5
       ReadOnly = False
     end
-    object ShowLinenumbersCheckBox: TBCCheckBox
+    object ShowLineNumbersCheckBox: TBCCheckBox
       Left = 9
       Top = 220
       Width = 201
@@ -147,7 +143,7 @@ object OptionsPrintFrame: TOptionsPrintFrame
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Show Linenumbers'
+      Caption = ' Show Line Numbers'
       TabOrder = 6
       ReadOnly = False
     end

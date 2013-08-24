@@ -105,6 +105,7 @@ type
     FDirDoubleBuffered: Boolean;
     FDirIndent: Integer;
     FDirMultiLine: Boolean;
+    FDirSaveTabs: Boolean;
     FDirShowCloseButton: Boolean;
     FDirRightClickSelect: Boolean;
     FDirShowImage: Boolean;
@@ -150,6 +151,7 @@ type
     FOutputDoubleBuffered: Boolean;
     FOutputIndent: Integer;
     FOutputMultiLine: Boolean;
+    FOutputSaveTabs: Boolean;
     FOutputShowCloseButton: Boolean;
     FOutputRightClickSelect: Boolean;
     FOutputShowImage: Boolean;
@@ -211,6 +213,7 @@ type
     property DirDoubleBuffered: Boolean read FDirDoubleBuffered write FDirDoubleBuffered;
     property DirIndent: Integer read FDirIndent write FDirIndent;
     property DirMultiLine: Boolean read FDirMultiLine write FDirMultiLine;
+    property DirSaveTabs: Boolean read FDirSaveTabs write FDirSaveTabs;
     property DirShowCloseButton: Boolean read FDirShowCloseButton write FDirShowCloseButton;
     property DirRightClickSelect: Boolean read FDirRightClickSelect write FDirRightClickSelect;
     property DirShowImage: Boolean read FDirShowImage write FDirShowImage;
@@ -260,6 +263,7 @@ type
     property OutputDoubleBuffered: Boolean read FOutputDoubleBuffered write FOutputDoubleBuffered;
     property OutputIndent: Integer read FOutputIndent write FOutputIndent;
     property OutputMultiLine: Boolean read FOutputMultiLine write FOutputMultiLine;
+    property OutputSaveTabs: Boolean read FOutputSaveTabs write FOutputSaveTabs;
     property OutputShowCloseButton: Boolean read FOutputShowCloseButton write FOutputShowCloseButton;
     property OutputRightClickSelect: Boolean read FOutputRightClickSelect write FOutputRightClickSelect;
     property OutputShowImage: Boolean read FOutputShowImage write FOutputShowImage;
@@ -642,6 +646,7 @@ begin
   FDirCloseTabByMiddleClick := False;
   FDirDoubleBuffered := True;
   FDirMultiLine := False;
+  FDirSaveTabs := True;
   FDirShowCloseButton := False;
   FDirRightClickSelect := True;
   FDirShowImage := True;
@@ -649,6 +654,7 @@ begin
   FOutputCloseTabByMiddleClick := False;
   FOutputDoubleBuffered := True;
   FOutputMultiLine := False;
+  FOutputSaveTabs := True;
   FOutputShowCloseButton := False;
   FOutputRightClickSelect := True;
   FIgnoreCase := True;
@@ -995,6 +1001,7 @@ begin
   FDirectoryTabsFrame.CloseTabByMiddleClickCheckBox.Checked := FOptionsContainer.DirCloseTabByMiddleClick;
   FDirectoryTabsFrame.DoubleBufferedCheckBox.Checked := FOptionsContainer.DirDoubleBuffered;
   FDirectoryTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.DirMultiLine;
+  FDirectoryTabsFrame.SaveTabsCheckBox.Checked := FOptionsContainer.DirSaveTabs;
   FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.DirShowCloseButton;
   FDirectoryTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.DirShowImage;
   FDirectoryTabsFrame.RightClickSelectCheckBox.Checked := FOptionsContainer.DirRightClickSelect;
@@ -1006,6 +1013,7 @@ begin
   FOutputTabsFrame.CloseTabByMiddleClickCheckBox.Checked := FOptionsContainer.OutputCloseTabByMiddleClick;
   FOutputTabsFrame.DoubleBufferedCheckBox.Checked := FOptionsContainer.OutputDoubleBuffered;
   FOutputTabsFrame.MultiLineCheckBox.Checked := FOptionsContainer.OutputMultiLine;
+  FOutputTabsFrame.SaveTabsCheckBox.Checked := FOptionsContainer.OutputSaveTabs;
   FOutputTabsFrame.ShowCloseButtonCheckBox.Checked := FOptionsContainer.OutputShowCloseButton;
   FOutputTabsFrame.ShowImageCheckBox.Checked := FOptionsContainer.OutputShowImage;
   FOutputTabsFrame.RightClickSelectCheckBox.Checked := FOptionsContainer.OutputRightClickSelect;
@@ -1215,6 +1223,7 @@ begin
   FOptionsContainer.DirCloseTabByMiddleClick := FDirectoryTabsFrame.CloseTabByMiddleClickCheckBox.Checked;
   FOptionsContainer.DirDoubleBuffered := FDirectoryTabsFrame.DoubleBufferedCheckBox.Checked;
   FOptionsContainer.DirMultiLine := FDirectoryTabsFrame.MultiLineCheckBox.Checked;
+  FOptionsContainer.DirSaveTabs := FDirectoryTabsFrame.SaveTabsCheckBox.Checked;
   FOptionsContainer.DirShowCloseButton := FDirectoryTabsFrame.ShowCloseButtonCheckBox.Checked;
   FOptionsContainer.DirShowImage := FDirectoryTabsFrame.ShowImageCheckBox.Checked;
   FOptionsContainer.DirRightClickSelect := FDirectoryTabsFrame.RightClickSelectCheckBox.Checked;
@@ -1226,6 +1235,7 @@ begin
   FOptionsContainer.OutputCloseTabByMiddleClick := FOutputTabsFrame.CloseTabByMiddleClickCheckBox.Checked;
   FOptionsContainer.OutputDoubleBuffered := FOutputTabsFrame.DoubleBufferedCheckBox.Checked;
   FOptionsContainer.OutputMultiLine := FOutputTabsFrame.MultiLineCheckBox.Checked;
+  FOptionsContainer.OutputSaveTabs := FOutputTabsFrame.SaveTabsCheckBox.Checked;
   FOptionsContainer.OutputShowCloseButton := FOutputTabsFrame.ShowCloseButtonCheckBox.Checked;
   FOptionsContainer.OutputShowImage := FOutputTabsFrame.ShowImageCheckBox.Checked;
   FOptionsContainer.OutputRightClickSelect := FOutputTabsFrame.RightClickSelectCheckBox.Checked;

@@ -29,19 +29,6 @@ object OutputTabsFrame: TOutputTabsFrame
     end
     object ShowCloseButtonCheckBox: TBCCheckBox
       Left = 9
-      Top = 86
-      Width = 218
-      Height = 21
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = ' Show Close Button'
-      TabOrder = 4
-      ReadOnly = False
-    end
-    object ShowImageCheckBox: TBCCheckBox
-      Left = 9
       Top = 106
       Width = 218
       Height = 21
@@ -49,8 +36,21 @@ object OutputTabsFrame: TOutputTabsFrame
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Show Image'
+      Caption = ' Show Close Button'
       TabOrder = 5
+      ReadOnly = False
+    end
+    object ShowImageCheckBox: TBCCheckBox
+      Left = 9
+      Top = 126
+      Width = 218
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Show Image'
+      TabOrder = 6
       ReadOnly = False
     end
     object CloseTabByDblClickCheckBox: TBCCheckBox
@@ -96,7 +96,7 @@ object OutputTabsFrame: TOutputTabsFrame
     end
     object RightClickSelectCheckBox: TBCCheckBox
       Left = 9
-      Top = 126
+      Top = 146
       Width = 218
       Height = 21
       Margins.Left = 4
@@ -106,7 +106,22 @@ object OutputTabsFrame: TOutputTabsFrame
       Caption = ' Right Click Select'
       Checked = True
       State = cbChecked
-      TabOrder = 6
+      TabOrder = 7
+      ReadOnly = False
+    end
+    object SaveTabsCheckBox: TBCCheckBox
+      Left = 9
+      Top = 86
+      Width = 218
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Save Tabs'
+      Checked = True
+      State = cbChecked
+      TabOrder = 4
       ReadOnly = False
     end
   end

@@ -20,7 +20,7 @@ type
     PageNumberComboBox: TBCComboBox;
     ShowHeaderLineCheckBox: TBCCheckBox;
     ShowFooterLineCheckBox: TBCCheckBox;
-    ShowLinenumbersCheckBox: TBCCheckBox;
+    ShowLineNumbersCheckBox: TBCCheckBox;
     WordWrapCheckBox: TBCCheckBox;
   private
     { Private declarations }
