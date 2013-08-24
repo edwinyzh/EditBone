@@ -205,7 +205,7 @@ end;
 
 procedure TLanguageEditorForm.ReadIniFile;
 begin
-  with TMemIniFile.Create(GetINIFilename) do
+  with TMemIniFile.Create(GetIniFilename) do
   try
     { Size }
     Width := ReadInteger('LanguageEditorSize', 'Width', Round(Screen.Width * 0.5));
@@ -221,7 +221,7 @@ end;
 procedure TLanguageEditorForm.WriteIniFile;
 begin
   if Windowstate = wsNormal then
-  with TMemIniFile.Create(GetINIFilename) do
+  with TMemIniFile.Create(GetIniFilename) do
   try
     { Position }
     WriteInteger('LanguageEditorPosition', 'Left', Left);

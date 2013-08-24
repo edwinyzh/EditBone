@@ -1285,7 +1285,7 @@ end;
 
 procedure TOptionsDialog.ReadIniFile;
 begin
-  with TMemIniFile.Create(GetINIFilename) do
+  with TMemIniFile.Create(GetIniFilename) do
   try
     { Size }
     Width := ReadInteger('OptionsSize', 'Width', Width);
@@ -1303,7 +1303,7 @@ end;
 procedure TOptionsDialog.WriteIniFile;
 begin
   if Windowstate = wsNormal then
-  with TMemIniFile.Create(GetINIFilename) do
+  with TMemIniFile.Create(GetIniFilename) do
   try
     { Position }
     WriteInteger('OptionsPosition', 'Left', Left);

@@ -22,7 +22,6 @@ type
 const
   IMAGEINDEX_RECORD = 68;
   IMAGEINDEX_PAUSE = 69;
-  CAPTION_ERRORS = 'Errors';
 
   TSQLDialectStr: array[Low(TSQLDialect)..High(TSQLDialect)] of String =
     ('Standard', 'Interbase 6', 'MSSQL 7', 'MySQL', 'Oracle', 'Sybase', 'Ingres', 'MSSQL 2K', 'Postgres', 'Nexus');

@@ -261,7 +261,7 @@ end;
 
 procedure TUnicodeCharacterMapForm.ReadIniFile;
 begin
-  with TMemIniFile.Create(GetINIFilename) do
+  with TMemIniFile.Create(GetIniFilename) do
   try
     { Size }
     Width := ReadInteger('CharacterMapSize', 'Width', Width);
@@ -279,7 +279,7 @@ end;
 procedure TUnicodeCharacterMapForm.WriteIniFile;
 begin
   if Windowstate = wsNormal then
-  with TMemIniFile.Create(GetINIFilename) do
+  with TMemIniFile.Create(GetIniFilename) do
   try
     { Position }
     WriteInteger('CharacterMapPosition', 'Left', Left);

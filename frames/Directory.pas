@@ -106,7 +106,7 @@ var
   ExcludeOtherBranches: Boolean;
 begin
   LastPaths := TStringList.Create;
-  with TBigIniFile.Create(GetINIFilename) do
+  with TBigIniFile.Create(GetIniFilename) do
   try
     { Options }
     ReadSectionValues('LastPaths', LastPaths);
@@ -271,7 +271,7 @@ var
   DirTabSheetFrame: TDirTabSheetFrame;
   FileTreeView: TBCFileTreeView;
 begin
-  with TBigIniFile.Create(GetINIFilename) do
+  with TBigIniFile.Create(GetIniFilename) do
   try
     WriteInteger('Options', 'ActiveDirectoryIndex', PageControl.ActivePageIndex);
     { Options }

@@ -426,7 +426,7 @@ begin
     ReopenActionClientItem.Items.Clear;
 
     Files := TStringList.Create;
-    with TBigIniFile.Create(GetINIFilename) do
+    with TBigIniFile.Create(GetIniFilename) do
     try
       ReadSectionValues('FileReopenFiles', Files);
       { Files }
@@ -446,7 +446,6 @@ begin
           Icon := TIcon.Create;
           try
             ImageIndex := GetIconIndex(s);
-
             SystemImageList.GetIcon(ImageIndex, Icon);
             ImageIndex := ImageList_AddIcon(ImageList.Handle, Icon.Handle);
           finally
@@ -477,7 +476,7 @@ end;
 
 procedure TMainForm.FileReopenClearActionExecute(Sender: TObject);
 begin
-  with TBigIniFile.Create(GetINIFilename) do
+  with TBigIniFile.Create(GetIniFilename) do
   try
     EraseSection('FileReopenFiles');
   finally
@@ -502,7 +501,7 @@ begin
   Action := Sender as TAction;
   ActionCaption := StringReplace(Action.Caption, '&', '', [rfReplaceAll]);
 
-  with TBigIniFile.Create(GetINIFilename) do
+  with TBigIniFile.Create(GetIniFilename) do
   try
     WriteString('Options', 'Language', ActionCaption);
   finally
@@ -588,7 +587,7 @@ begin
       TStyleManager.SetStyle(TStyleManager.LoadFromFile(ActionCaption));
   end;
 
-  with TBigIniFile.Create(GetINIFilename) do
+  with TBigIniFile.Create(GetIniFilename) do
   try
     WriteString('Options', 'StyleFilename', ExtractFilename(ActionCaption));
   finally
@@ -747,7 +746,7 @@ procedure TMainForm.ReadWindowState;
 var
   State: Integer;
 begin
-  with TBigIniFile.Create(GetINIFilename) do
+  with TBigIniFile.Create(GetIniFilename) do
   try
     State := ReadInteger('Size', 'State', 0);
     case State of
@@ -762,7 +761,7 @@ end;
 
 procedure TMainForm.ReadIniFile;
 begin
-  with TBigIniFile.Create(GetINIFilename) do
+  with TBigIniFile.Create(GetIniFilename) do
   try
     { Size }
     Width := ReadInteger('Size', 'Width', Round(Screen.Width * 0.8));
@@ -778,7 +777,7 @@ end;
 
 procedure TMainForm.ReadIniOptions;
 begin
-  with TBigIniFile.Create(GetINIFilename) do
+  with TBigIniFile.Create(GetIniFilename) do
   try
     { Options }
     OptionsContainer.ToolBarVisible := ReadBool('Options', 'ShowToolBar', True);
@@ -845,7 +844,7 @@ procedure TMainForm.WriteIniFile;
 var
   i, State: Integer;
 begin
-  with TBigIniFile.Create(GetINIFilename) do
+  with TBigIniFile.Create(GetIniFilename) do
   try
     WriteString(Application.Title, 'Version', AboutDialog.Version);
     if WindowState = wsNormal then
@@ -977,7 +976,6 @@ begin
   FileCloseAllOtherPagesAction.Enabled := FileCloseAction.Enabled;
   ViewNextPageAction.Enabled := FDocumentFrame.OpenTabSheetCount > 1;
   ViewPreviousPageAction.Enabled := ViewNextPageAction.Enabled;
-  //ToolsOptionsAction.Enabled := FileCloseAction.Enabled;
   FileSaveAsAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
   FileSaveAction.Enabled := FDocumentFrame.ActiveDocumentModified and ActiveDocumentFound;
   FileSaveAllAction.Enabled := FDocumentFrame.ModifiedDocuments and ActiveDocumentFound;
@@ -995,10 +993,6 @@ begin
   EditToggleCaseAction.Enabled := SelectionFound;
   EditInsertTagAction.Enabled := ActiveDocumentFound;
   EditInsertDateTimeAction.Enabled := ActiveDocumentFound;
-  {EditConversionDecToHexAction.Enabled := SelectionFound;
-  EditConversionHexToDecAction.Enabled := SelectionFound;
-  EditConversionDecToBinAction.Enabled := SelectionFound;
-  EditConversionBinToDecAction.Enabled := SelectionFound;}
   EditRemoveWhiteSpaceAction.Enabled := SelectionFound;
   EditInsertLineAction.Enabled := ActiveDocumentFound;
   EditDeleteWordAction.Enabled := ActiveDocumentFound;
@@ -1007,7 +1001,7 @@ begin
   try
     EditPasteAction.Enabled := Clipboard.HasFormat(CF_TEXT) and ActiveDocumentFound;
   except
-    // silent
+    { silent }
   end;
   ViewSelectionModeAction.Enabled := ActiveDocumentFound;
   ViewSelectionModeAction.Checked := FDocumentFrame.SelectionModeChecked;
@@ -1215,7 +1209,7 @@ end;
 
 procedure TMainForm.FileReopenActionExecute(Sender: TObject);
 begin
-  { dummy action for language algorithm }
+  { dummy action }
 end;
 
 procedure TMainForm.FileExitActionExecute(Sender: TObject);
@@ -1250,6 +1244,7 @@ begin
   FDocumentFrame.CloseAll(False);
   FDocumentFrame.WriteIniFile;
   FDirectoryFrame.WriteIniFile;
+  FOutputFrame.WriteOutFile;
   WriteIniFile;
 end;
 
@@ -1279,6 +1274,8 @@ begin
   FOutputFrame.Parent := OutputPanel;
   FOutputFrame.OnTabsheetDblClick := OutputDblClickActionExecute;
   FOutputFrame.OnOpenAll := OutputOpenAllEvent;
+  FOutputFrame.ReadOutFile;
+  OutputPanel.Visible := FOutputFrame.IsAnyOutput;
 
   FDirectoryFrame := TDirectoryFrame.Create(DirectoryPanel);
   FDirectoryFrame.Parent := DirectoryPanel;
@@ -1424,7 +1421,7 @@ begin
   ErrorList := FDocumentFrame.GetHTMLErrors;
   if Assigned(ErrorList) then
   begin
-    OutputTreeView := FOutputFrame.AddTreeView(CAPTION_ERRORS, True);
+    OutputTreeView := FOutputFrame.AddTreeView(LanguageDataModule.GetConstant('Errors'), True);
     FOutputFrame.ProcessingTabSheet := True;
     FOutputFrame.Clear;
     if ErrorList.Count > 0 then

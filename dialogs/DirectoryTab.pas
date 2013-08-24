@@ -34,7 +34,7 @@ type
     ShowDrivesComboBox: TBCComboBox;
     ShowFileTypeLabel: TLabel;
     ShowFileTypeComboBox: TBCComboBox;
-    BitBtn1: TJvSpeedButton;
+    RootDrectoryBitBtn: TJvSpeedButton;
     procedure ExcludeOtherBranchesActionExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure OKActionExecute(Sender: TObject);

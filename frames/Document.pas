@@ -1001,7 +1001,7 @@ var
   Files: TStrings;
   IniFile: string;
 begin
-  IniFile := GetINIFilename;
+  IniFile := GetIniFilename;
   Files := TStringList.Create;
   { Read section }
   with TBigIniFile.Create(IniFile) do
@@ -1858,7 +1858,7 @@ var
   FileTypes: TStrings;
 begin
   FileTypes := TStringList.Create;
-  with TBigIniFile.Create(GetINIFilename) do
+  with TBigIniFile.Create(GetIniFilename) do
   try
     { Options }
     OptionsContainer.FontName := ReadString('Options', 'FontName', 'Courier New');
@@ -1989,7 +1989,7 @@ var
 begin
   FileNames := TStringList.Create;
   Bookmarks := TStringList.Create;
-  with TBigIniFile.Create(GetINIFilename) do
+  with TBigIniFile.Create(GetIniFilename) do
   try
     PageControl.Visible := False;
     { Open Files }
@@ -2026,7 +2026,7 @@ var
   FileType: string;
   SynEdit: TBCSynEdit;
 begin
-  with TBigIniFile.Create(GetINIFilename) do
+  with TBigIniFile.Create(GetIniFilename) do
   try
     { Options }
     WriteString('Options', 'FontName', OptionsContainer.FontName);

@@ -83,7 +83,7 @@ object DirectoryTabDialog: TDirectoryTabDialog
         Height = 13
         Caption = 'Root Directory'
       end
-      object BitBtn1: TJvSpeedButton
+      object RootDrectoryBitBtn: TJvSpeedButton
         Left = 443
         Top = 4
         Width = 21

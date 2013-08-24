@@ -70,7 +70,7 @@ uses
 var
   StyleFilename: string;
 begin
-  with TBigIniFile.Create(GetINIFilename) do
+  with TBigIniFile.Create(GetIniFilename) do
   try
     StyleFilename := ReadString('Options', 'StyleFilename', STYLENAME_WINDOWS);
   finally
