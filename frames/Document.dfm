@@ -909,6 +909,7 @@ object DocumentFrame: TDocumentFrame
     Font.Style = []
     Highlight = False
     Colors = True
+    LineNumbersInMargin = True
     TabWidth = 8
     Color = clWhite
     Left = 36
