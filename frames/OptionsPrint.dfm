@@ -1,4 +1,4 @@
-object OptionsPrintPreviewFrame: TOptionsPrintPreviewFrame
+object OptionsPrintFrame: TOptionsPrintFrame
   Left = 0
   Top = 0
   Width = 487

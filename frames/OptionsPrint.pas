@@ -1,4 +1,4 @@
-unit OptionsPrintPreview;
+unit OptionsPrint;
 
 interface
 
@@ -8,7 +8,7 @@ uses
   BCControls.CheckBox;
 
 type
-  TOptionsPrintPreviewFrame = class(TFrame)
+  TOptionsPrintFrame = class(TFrame)
     Panel: TPanel;
     DateTimeLabel: TLabel;
     PrintedByLabel: TLabel;
@@ -36,7 +36,7 @@ implementation
 uses
   BCCommon.LanguageStrings;
 
-constructor TOptionsPrintPreviewFrame.Create(AOwner: TComponent);
+constructor TOptionsPrintFrame.Create(AOwner: TComponent);
 begin
   inherited;
   with DocumentNameComboBox.Items do

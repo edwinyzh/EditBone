@@ -63,7 +63,7 @@ uses
   BCCommon.Messages in '..\..\Common\units\BCCommon.Messages.pas',
   BCForms.Convert in '..\..\Common\forms\BCForms.Convert.pas' {ConvertForm},
   OptionsEditorCompletionProposal in 'frames\OptionsEditorCompletionProposal.pas' {EditorCompletionProposalFrame: TFrame},
-  OptionsPrintPreview in 'frames\OptionsPrintPreview.pas' {OptionsPrintPreviewFrame: TFrame};
+  OptionsPrint in 'frames\OptionsPrint.pas' {OptionsPrintFrame: TFrame};
 
 {$R *.res}
 

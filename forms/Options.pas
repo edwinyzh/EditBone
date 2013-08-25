@@ -7,7 +7,7 @@ uses
   Vcl.ComCtrls, Winapi.CommCtrl, System.Win.Registry, Vcl.ExtCtrls, Vcl.Buttons, Vcl.Menus, SynEdit, SynEditHighlighter,
   SynEditMiscClasses, SynHighlighterWebData, SynEditKeyCmds, System.Classes, System.SysUtils, Vcl.ImgList,
   SynHighlighterWeb, Vcl.Grids, SynHighlighterSQL, BCControls.CheckBox, Document, BCControls.Edit, JvCombobox,
-  BCControls.ComboBox, Vcl.ActnList, Vcl.Themes, Vcl.CheckLst, JvExComCtrls, OptionsPrintPreview,
+  BCControls.ComboBox, Vcl.ActnList, Vcl.Themes, Vcl.CheckLst, JvExComCtrls, OptionsPrint,
   JvComCtrls, VirtualTrees, OptionsEditorOptions, OptionsEditorFont, OptionsEditorGutter, OptionsEditorTabs, Lib,
   OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, OptionsCompare, OptionsMainMenu,
   OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, OptionsStatusBar, OptionsOutput, OptionsToolBar,
@@ -49,7 +49,7 @@ type
     TopPanel: TPanel;
     ActionList: TActionList;
     EditorCompletionProposalAction: TAction;
-    PrintPreviewAction: TAction;
+    PrintAction: TAction;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -77,7 +77,7 @@ type
     FOptionsOutputFrame: TOptionsOutputFrame;
     FOutputTabsFrame: TOutputTabsFrame;
     FStatusBarFrame: TStatusBarFrame;
-    FOptionsPrintPreviewFrame: TOptionsPrintPreviewFrame;
+    FOptionsPrintFrame: TOptionsPrintFrame;
     FToolBarFrame: TToolBarFrame;
     procedure CreateTree;
     procedure GetData;
@@ -827,7 +827,7 @@ begin
   FOptionsOutputFrame.Free;
   FStatusBarFrame.Free;
   FToolBarFrame.Free;
-  FOptionsPrintPreviewFrame.Free;
+  FOptionsPrintFrame.Free;
 
   FOptionsDialog := nil;
 end;
@@ -911,8 +911,8 @@ begin
     { Print }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
-    Data.ImageIndex := PrintPreviewAction.ImageIndex;
-    Data.Caption := PrintPreviewAction.Caption;
+    Data.ImageIndex := PrintAction.ImageIndex;
+    Data.Caption := PrintAction.Caption;
     { Main menu }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
@@ -968,7 +968,7 @@ begin
   UpdateLanguage(TForm(FDirectoryTabsFrame), SelectedLanguage);
   UpdateLanguage(TForm(FOptionsOutputFrame), SelectedLanguage);
   UpdateLanguage(TForm(FOutputTabsFrame), SelectedLanguage);
-  UpdateLanguage(TForm(FOptionsPrintPreviewFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FOptionsPrintFrame), SelectedLanguage);
 
   FOptionsContainer := EditOptions;
   GetData;
@@ -1075,14 +1075,14 @@ begin
   FEditorOtherFrame.CSSVersionComboBox.ItemIndex := Ord(FOptionsContainer.CSSVersion);
   FEditorOtherFrame.PHPVersionComboBox.ItemIndex := Ord(FOptionsContainer.PHPVersion);
   { Print preview }
-  FOptionsPrintPreviewFrame.DocumentNameComboBox.ItemIndex := FOptionsContainer.PrintDocumentName;
-  FOptionsPrintPreviewFrame.PageNumberComboBox.ItemIndex := FOptionsContainer.PrintPageNumber;
-  FOptionsPrintPreviewFrame.PrintedByComboBox.ItemIndex := FOptionsContainer.PrintPrintedBy;
-  FOptionsPrintPreviewFrame.DateTimeComboBox.ItemIndex := FOptionsContainer.PrintDateTime;
-  FOptionsPrintPreviewFrame.ShowHeaderLineCheckBox.Checked := FOptionsContainer.PrintShowHeaderLine;
-  FOptionsPrintPreviewFrame.ShowFooterLineCheckBox.Checked := FOptionsContainer.PrintShowFooterLine;
-  FOptionsPrintPreviewFrame.ShowLineNumbersCheckBox.Checked := FOptionsContainer.PrintShowLineNumbers;
-  FOptionsPrintPreviewFrame.WordWrapCheckBox.Checked := FOptionsContainer.PrintWordWrapLine;
+  FOptionsPrintFrame.DocumentNameComboBox.ItemIndex := FOptionsContainer.PrintDocumentName;
+  FOptionsPrintFrame.PageNumberComboBox.ItemIndex := FOptionsContainer.PrintPageNumber;
+  FOptionsPrintFrame.PrintedByComboBox.ItemIndex := FOptionsContainer.PrintPrintedBy;
+  FOptionsPrintFrame.DateTimeComboBox.ItemIndex := FOptionsContainer.PrintDateTime;
+  FOptionsPrintFrame.ShowHeaderLineCheckBox.Checked := FOptionsContainer.PrintShowHeaderLine;
+  FOptionsPrintFrame.ShowFooterLineCheckBox.Checked := FOptionsContainer.PrintShowFooterLine;
+  FOptionsPrintFrame.ShowLineNumbersCheckBox.Checked := FOptionsContainer.PrintShowLineNumbers;
+  FOptionsPrintFrame.WordWrapCheckBox.Checked := FOptionsContainer.PrintWordWrapLine;
   { Main menu }
   FMainMenuFrame.PersistentHotKeysCheckBox.Checked := FOptionsContainer.PersistentHotKeys;
   FMainMenuFrame.ShadowsCheckBox.Checked := FOptionsContainer.Shadows;
@@ -1151,7 +1151,7 @@ begin
     FOptionsOutputFrame.Visible := (Level = 0) and (TreeNode.Index = 2);
     FOutputTabsFrame.Visible := (ParentIndex = 2) and (Level = 1) and (TreeNode.Index = 0);
     FOptionsCompareFrame.Visible := (Level = 0) and (TreeNode.Index = 3);
-    FOptionsPrintPreviewFrame.Visible := (Level = 0) and (TreeNode.Index = 4);
+    FOptionsPrintFrame.Visible := (Level = 0) and (TreeNode.Index = 4);
     FMainMenuFrame.Visible := (Level = 0) and (TreeNode.Index = 5);
     FToolBarFrame.Visible := (Level = 0) and (TreeNode.Index = 6);
     FStatusBarFrame.Visible := (Level = 0) and (TreeNode.Index = 7);
@@ -1304,14 +1304,14 @@ begin
   FOptionsContainer.CSSVersion := TSynWebCssVersion(FEditorOtherFrame.CSSVersionComboBox.ItemIndex);
   FOptionsContainer.PHPVersion := TSynWebPhpVersion(FEditorOtherFrame.PHPVersionComboBox.ItemIndex);
   { Print preview }
-  FOptionsContainer.PrintDocumentName := FOptionsPrintPreviewFrame.DocumentNameComboBox.ItemIndex;
-  FOptionsContainer.PrintPageNumber := FOptionsPrintPreviewFrame.PageNumberComboBox.ItemIndex;
-  FOptionsContainer.PrintPrintedBy := FOptionsPrintPreviewFrame.PrintedByComboBox.ItemIndex;
-  FOptionsContainer.PrintDateTime := FOptionsPrintPreviewFrame.DateTimeComboBox.ItemIndex;
-  FOptionsContainer.PrintShowHeaderLine := FOptionsPrintPreviewFrame.ShowHeaderLineCheckBox.Checked;
-  FOptionsContainer.PrintShowFooterLine := FOptionsPrintPreviewFrame.ShowFooterLineCheckBox.Checked;
-  FOptionsContainer.PrintShowLineNumbers := FOptionsPrintPreviewFrame.ShowLineNumbersCheckBox.Checked;
-  FOptionsContainer.PrintWordWrapLine := FOptionsPrintPreviewFrame.WordWrapCheckBox.Checked;
+  FOptionsContainer.PrintDocumentName := FOptionsPrintFrame.DocumentNameComboBox.ItemIndex;
+  FOptionsContainer.PrintPageNumber := FOptionsPrintFrame.PageNumberComboBox.ItemIndex;
+  FOptionsContainer.PrintPrintedBy := FOptionsPrintFrame.PrintedByComboBox.ItemIndex;
+  FOptionsContainer.PrintDateTime := FOptionsPrintFrame.DateTimeComboBox.ItemIndex;
+  FOptionsContainer.PrintShowHeaderLine := FOptionsPrintFrame.ShowHeaderLineCheckBox.Checked;
+  FOptionsContainer.PrintShowFooterLine := FOptionsPrintFrame.ShowFooterLineCheckBox.Checked;
+  FOptionsContainer.PrintShowLineNumbers := FOptionsPrintFrame.ShowLineNumbersCheckBox.Checked;
+  FOptionsContainer.PrintWordWrapLine := FOptionsPrintFrame.WordWrapCheckBox.Checked;
   { Main menu }
   FOptionsContainer.PersistentHotKeys := FMainMenuFrame.PersistentHotKeysCheckBox.Checked;
   FOptionsContainer.Shadows := FMainMenuFrame.ShadowsCheckBox.Checked;
@@ -1403,8 +1403,8 @@ begin
   FFileTypesFrame.Parent := OptionsPanel;
   FOptionsCompareFrame := TOptionsCompareFrame.Create(OptionsPanel);
   FOptionsCompareFrame.Parent := OptionsPanel;
-  FOptionsPrintPreviewFrame := TOptionsPrintPreviewFrame.Create(OptionsPanel);
-  FOptionsPrintPreviewFrame.Parent := OptionsPanel;
+  FOptionsPrintFrame := TOptionsPrintFrame.Create(OptionsPanel);
+  FOptionsPrintFrame.Parent := OptionsPanel;
   FMainMenuFrame := TMainMenuFrame.Create(OptionsPanel);
   FMainMenuFrame.Parent := OptionsPanel;
   FToolBarFrame := TToolBarFrame.Create(OptionsPanel);
