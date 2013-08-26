@@ -1949,6 +1949,7 @@ begin
     OptionsContainer.AutoSave := ReadBool('Options', 'AutoSave', False);
     OptionsContainer.UndoAfterSave := ReadBool('Options', 'UnfoAfterSave', False);
     OptionsContainer.TrimTrailingSpaces := ReadBool('Options', 'TrimTrailingSpaces', True);
+    OptionsContainer.TripleClickRowSelect := ReadBool('Options', 'TripleClickRowSelect', True);
     OptionsContainer.ScrollPastEof := ReadBool('Options', 'ScrollPastEof', False);
     OptionsContainer.ScrollPastEol := ReadBool('Options', 'ScrollPastEol', True);
     OptionsContainer.TabsToSpaces := ReadBool('Options', 'TabsToSpaces', True);
@@ -2128,6 +2129,7 @@ begin
     WriteBool('Options', 'AutoSave', OptionsContainer.AutoSave);
     WriteBool('Options', 'UndoAfterSave', OptionsContainer.UndoAfterSave);
     WriteBool('Options', 'TrimTrailingSpaces', OptionsContainer.TrimTrailingSpaces);
+    WriteBool('Options', 'TripleClickRowSelect', OptionsContainer.TripleClickRowSelect);
     WriteBool('Options', 'ScrollPastEof', OptionsContainer.ScrollPastEof);
     WriteBool('Options', 'ScrollPastEol', OptionsContainer.ScrollPastEol);
     WriteBool('Options', 'TabsToSpaces', OptionsContainer.TabsToSpaces);
@@ -2229,7 +2231,7 @@ var
   i: Integer;
   DocTabSheetFrame: TDocTabSheetFrame;
 begin
-  Result := OptionsDialog(Self).Execute(OptionsContainer);
+  Result := OptionsDialog.Execute(OptionsContainer);
 
   if Result then
   begin

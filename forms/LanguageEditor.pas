@@ -109,7 +109,7 @@ var
 
 function LanguageEditorForm: TLanguageEditorForm;
 begin
-  if FLanguageEditorForm = nil then
+  if not Assigned(FLanguageEditorForm) then
     Application.CreateForm(TLanguageEditorForm, FLanguageEditorForm);
   Result := FLanguageEditorForm;
 end;

@@ -29,6 +29,7 @@ type
     SmartTabDeleteCheckBox: TBCCheckBox;
     MinimapFontFactorLabel: TLabel;
     MinimapFontFactorTrackBar: TTrackBar;
+    TripleClickRowSelectCheckBox: TBCCheckBox;
   private
     { Private declarations }
   public

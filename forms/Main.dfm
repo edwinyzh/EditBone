@@ -425,7 +425,6 @@ object MainForm: TMainForm
               end
               item
                 Action = FileExitAction
-                Caption = 'E&xit'
                 ImageIndex = 11
                 ShortCut = 32883
               end>
@@ -1280,7 +1279,7 @@ object MainForm: TMainForm
     end
     object FileExitAction: TAction
       Category = '&File'
-      Caption = '&Exit'
+      Caption = 'E&xit'
       Hint = 'Quit the application'
       ImageIndex = 11
       ShortCut = 32883

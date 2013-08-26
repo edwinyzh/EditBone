@@ -1,25 +1,21 @@
 object EditorOptionsFrame: TEditorOptionsFrame
   Left = 0
   Top = 0
-  Width = 478
-  Height = 455
+  Width = 451
+  Height = 464
   Align = alClient
   TabOrder = 0
-  ExplicitWidth = 451
-  ExplicitHeight = 302
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 478
-    Height = 455
+    Width = 451
+    Height = 464
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 451
-    ExplicitHeight = 302
     object ExtraLinesLabel: TLabel
-      Left = 11
-      Top = 195
+      Left = 9
+      Top = 207
       Width = 53
       Height = 13
       Margins.Left = 4
@@ -29,8 +25,8 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Caption = 'Extra Lines'
     end
     object TabWidthLabel: TLabel
-      Left = 11
-      Top = 239
+      Left = 9
+      Top = 247
       Width = 49
       Height = 13
       Margins.Left = 4
@@ -40,8 +36,8 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Caption = 'Tab Width'
     end
     object ActiveLineColorBrightnessLabel: TLabel
-      Left = 11
-      Top = 285
+      Left = 9
+      Top = 289
       Width = 133
       Height = 13
       Margins.Left = 4
@@ -51,15 +47,15 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Caption = 'Active Line Color Brightness'
     end
     object InsertCaretLabel: TLabel
-      Left = 11
-      Top = 333
+      Left = 9
+      Top = 337
       Width = 59
       Height = 13
       Caption = 'Insert Caret'
     end
     object MinimapFontFactorLabel: TLabel
-      Left = 11
-      Top = 377
+      Left = 9
+      Top = 381
       Width = 97
       Height = 13
       Margins.Left = 4
@@ -127,8 +123,8 @@ object EditorOptionsFrame: TEditorOptionsFrame
       ReadOnly = False
     end
     object ExtraLinesEdit: TBCEdit
-      Left = 9
-      Top = 210
+      Left = 7
+      Top = 222
       Width = 64
       Height = 21
       Margins.Left = 4
@@ -145,8 +141,8 @@ object EditorOptionsFrame: TEditorOptionsFrame
       NumbersAllowNegative = False
     end
     object TabWidthEdit: TBCEdit
-      Left = 9
-      Top = 254
+      Left = 7
+      Top = 262
       Width = 64
       Height = 21
       Margins.Left = 4
@@ -163,8 +159,8 @@ object EditorOptionsFrame: TEditorOptionsFrame
       NumbersAllowNegative = False
     end
     object BrightnessTrackBar: TTrackBar
-      Left = 2
-      Top = 300
+      Left = 0
+      Top = 304
       Width = 150
       Height = 27
       Min = 1
@@ -200,8 +196,8 @@ object EditorOptionsFrame: TEditorOptionsFrame
       ReadOnly = False
     end
     object InsertCaretComboBox: TBCComboBox
-      Left = 9
-      Top = 349
+      Left = 7
+      Top = 353
       Width = 133
       Height = 21
       Margins.Left = 4
@@ -217,7 +213,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
     end
     object UndoAfterSaveCheckBox: TBCCheckBox
       Left = 9
-      Top = 166
+      Top = 186
       Width = 201
       Height = 21
       Margins.Left = 4
@@ -255,14 +251,29 @@ object EditorOptionsFrame: TEditorOptionsFrame
       ReadOnly = False
     end
     object MinimapFontFactorTrackBar: TTrackBar
-      Left = 2
-      Top = 392
+      Left = 0
+      Top = 396
       Width = 150
       Height = 27
       Max = 4
       Min = 2
       Position = 2
       TabOrder = 13
+    end
+    object TripleClickRowSelectCheckBox: TBCCheckBox
+      Left = 9
+      Top = 166
+      Width = 201
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Triple-Click Row Select'
+      Checked = True
+      State = cbChecked
+      TabOrder = 14
+      ReadOnly = False
     end
   end
 end

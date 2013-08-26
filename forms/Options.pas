@@ -197,6 +197,7 @@ type
     FToolBarTools: Boolean;
     FToolBarVisible: Boolean;
     FTrimTrailingSpaces: Boolean;
+    FTripleClickRowSelect: Boolean;
     FUndoAfterSave: Boolean;
     function GetExtensions: string;
     function GetFilterCount: Cardinal;
@@ -318,10 +319,11 @@ type
     property ToolBarTools: Boolean read FToolBarTools write FToolBarTools;
     property ToolBarVisible: Boolean read FToolBarVisible write FToolBarVisible;
     property TrimTrailingSpaces: Boolean read FTrimTrailingSpaces write FTrimTrailingSpaces;
+    property TripleClickRowSelect: Boolean read FTripleClickRowSelect write FTripleClickRowSelect;
     property UndoAfterSave: Boolean read FUndoAfterSave write FUndoAfterSave;
   end;
 
-function OptionsDialog(Sender: TComponent): TOptionsDialog;
+function OptionsDialog: TOptionsDialog;
 function OptionsContainer: TOptionsContainer;
 
 implementation
@@ -391,6 +393,10 @@ begin
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoTrimTrailingSpaces]
     else
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoTrimTrailingSpaces];
+    if FTripleClickRowSelect then
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoTripleClicks]
+    else
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoTripleClicks];
 
     TCustomSynEdit(Dest).WordWrap := FEnableWordWrap;
     TCustomSynEdit(Dest).Gutter.ShowLineNumbers := FEnableLineNumbers;
@@ -645,6 +651,7 @@ begin
   FCompletionProposalShortcut := 'Ctrl+Space';
   FUndoAfterSave := False;
   FTrimTrailingSpaces := True;
+  FTripleClickRowSelect := True;
   FScrollPastEof := False;
   FScrollPastEol := True;
   FTabsToSpaces := True;
@@ -806,10 +813,10 @@ end;
 
 { TOptionsDialog }
 
-function OptionsDialog(Sender: TComponent): TOptionsDialog;
+function OptionsDialog: TOptionsDialog;
 begin
-  if FOptionsDialog = nil then
-    FOptionsDialog := TOptionsDialog.Create(Sender);
+  if not Assigned(FOptionsDialog) then
+    Application.CreateForm(TOptionsDialog, FOptionsDialog);
   Result := FOptionsDialog;
 end;
 
@@ -992,6 +999,7 @@ begin
   FEditorOptionsFrame.AutoSaveCheckBox.Checked := FOptionsContainer.AutoSave;
   FEditorOptionsFrame.UndoAfterSaveCheckBox.Checked := FOptionsContainer.UndoAfterSave;
   FEditorOptionsFrame.TrimTrailingSpacesCheckBox.Checked := FOptionsContainer.TrimTrailingSpaces;
+  FEditorOptionsFrame.TripleClickRowSelectCheckBox.Checked := FOptionsContainer.TripleClickRowSelect;
   FEditorOptionsFrame.ScrollPastEofCheckBox.Checked := FOptionsContainer.ScrollPastEof;
   FEditorOptionsFrame.ScrollPastEolCheckBox.Checked := FOptionsContainer.ScrollPastEol;
   FEditorOptionsFrame.TabsToSpacesCheckBox.Checked := FOptionsContainer.TabsToSpaces;
@@ -1228,6 +1236,7 @@ begin
   FOptionsContainer.AutoSave := FEditorOptionsFrame.AutoSaveCheckBox.Checked;
   FOptionsContainer.UndoAfterSave := FEditorOptionsFrame.UndoAfterSaveCheckBox.Checked;
   FOptionsContainer.TrimTrailingSpaces := FEditorOptionsFrame.TrimTrailingSpacesCheckBox.Checked;
+  FOptionsContainer.TripleClickRowSelect := FEditorOptionsFrame.TripleClickRowSelectCheckBox.Checked;
   FOptionsContainer.ScrollPastEof := FEditorOptionsFrame.ScrollPastEofCheckBox.Checked;
   FOptionsContainer.ScrollPastEol := FEditorOptionsFrame.ScrollPastEolCheckBox.Checked;
   FOptionsContainer.TabsToSpaces := FEditorOptionsFrame.TabsToSpacesCheckBox.Checked;
