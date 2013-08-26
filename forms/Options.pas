@@ -102,6 +102,8 @@ type
     FMinimapFontFactor: Integer;
     FCPASHighlighter: TCPASHighlighter;
     FCSSVersion: TSynWebCssVersion;
+    FDefaultEncoding: Integer;
+    FDefaultHighlighter: Integer;
     FDirCloseTabByDblClick: Boolean;
     FDirCloseTabByMiddleClick: Boolean;
     FDirDoubleBuffered: Boolean;
@@ -218,6 +220,8 @@ type
     property CompletionProposalShortcut: string read FCompletionProposalShortcut write FCompletionProposalShortcut;
     property CPASHighlighter: TCPASHighlighter read FCPASHighlighter write FCPASHighlighter;
     property CSSVersion: TSynWebCssVersion read FCSSVersion write FCSSVersion;
+    property DefaultEncoding: Integer read FDefaultEncoding write FDefaultEncoding;
+    property DefaultHighlighter: Integer read FDefaultHighlighter write FDefaultHighlighter;
     property DirCloseTabByDblClick: Boolean read FDirCloseTabByDblClick write FDirCloseTabByDblClick;
     property DirCloseTabByMiddleClick: Boolean read FDirCloseTabByMiddleClick write FDirCloseTabByMiddleClick;
     property DirDoubleBuffered: Boolean read FDirDoubleBuffered write FDirDoubleBuffered;
@@ -876,7 +880,7 @@ begin
     Data := GetNodeData(ChildNode);
     Data.ImageIndex := EditorOtherAction.ImageIndex;
     Data.Caption := EditorOtherAction.Caption;
-    Node.ChildCount := 5;
+    Node.ChildCount := 6;
     OptionsVirtualStringTree.Selected[Node] := True;
     OptionsVirtualStringTree.Expanded[Node] := True;
     { Directory }
@@ -1074,6 +1078,8 @@ begin
   FEditorOtherFrame.CPASHighlighterComboBox.ItemIndex := Ord(FOptionsContainer.CPASHighlighter);
   FEditorOtherFrame.CSSVersionComboBox.ItemIndex := Ord(FOptionsContainer.CSSVersion);
   FEditorOtherFrame.PHPVersionComboBox.ItemIndex := Ord(FOptionsContainer.PHPVersion);
+  FEditorOtherFrame.DefaultEncodingComboBox.ItemIndex := FOptionsContainer.DefaultEncoding;
+  FEditorOtherFrame.DefaultHighlighterComboBox.ItemIndex := FOptionsContainer.DefaultHighlighter;
   { Print preview }
   FOptionsPrintFrame.DocumentNameComboBox.ItemIndex := FOptionsContainer.PrintDocumentName;
   FOptionsPrintFrame.PageNumberComboBox.ItemIndex := FOptionsContainer.PrintPageNumber;
@@ -1303,6 +1309,8 @@ begin
   FOptionsContainer.CPASHighlighter := TCPASHighlighter(FEditorOtherFrame.CPASHighlighterComboBox.ItemIndex);
   FOptionsContainer.CSSVersion := TSynWebCssVersion(FEditorOtherFrame.CSSVersionComboBox.ItemIndex);
   FOptionsContainer.PHPVersion := TSynWebPhpVersion(FEditorOtherFrame.PHPVersionComboBox.ItemIndex);
+  FOptionsContainer.DefaultEncoding := FEditorOtherFrame.DefaultEncodingComboBox.ItemIndex;
+  FOptionsContainer.DefaultHighlighter := FEditorOtherFrame.DefaultHighlighterComboBox.ItemIndex;
   { Print preview }
   FOptionsContainer.PrintDocumentName := FOptionsPrintFrame.DocumentNameComboBox.ItemIndex;
   FOptionsContainer.PrintPageNumber := FOptionsPrintFrame.PageNumberComboBox.ItemIndex;

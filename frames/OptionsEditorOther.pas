@@ -18,6 +18,10 @@ type
     CSSVersionComboBox: TBCComboBox;
     PHPVersionLabel: TLabel;
     PHPVersionComboBox: TBCComboBox;
+    DefaultEncodingLabel: TLabel;
+    DefaultEncodingComboBox: TBCComboBox;
+    DefaultHighlighterLabel: TLabel;
+    DefaultHighlighterComboBox: TBCComboBox;
   private
     { Private declarations }
   public

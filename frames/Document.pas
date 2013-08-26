@@ -731,7 +731,10 @@ begin
       SelectHighlighter(DocTabSheetFrame, FileName);
     end
     else
-      SetActiveHighlighter(52); { UrlSyn }
+    begin
+      SetActiveEncoding(OptionsContainer.DefaultEncoding);
+      SetActiveHighlighter(OptionsContainer.DefaultHighlighter); { UrlSyn }
+    end;
 
     { XML Tree }
     XMLTreeVisible := OptionsContainer.ShowXMLTree and IsXMLDocument;
@@ -2004,6 +2007,8 @@ begin
     OptionsContainer.CPASHighlighter := TCPASHighlighter(StrToInt(ReadString('Options', 'CPASHighlighter', '0')));
     OptionsContainer.CSSVersion := TSynWebCssVersion(StrToInt(ReadString('Options', 'CSSVersion', '2')));
     OptionsContainer.PHPVersion := TSynWebPhpVersion(StrToInt(ReadString('Options', 'PHPVersion', '1')));
+    OptionsContainer.DefaultEncoding := StrToInt(ReadString('Options', 'DefaultEncoding', '1'));
+    OptionsContainer.DefaultHighlighter := StrToInt(ReadString('Options', 'DefaultHighlighter', '52'));
     { Tool Bar }
     OptionsContainer.ToolBarStandard := ReadBool('ActionToolBar', 'Standard', True);
     OptionsContainer.ToolBarPrint := ReadBool('ActionToolBar', 'Print', True);
@@ -2185,6 +2190,8 @@ begin
     WriteString('Options', 'CPASHighlighter', IntToStr(Ord(OptionsContainer.CPASHighlighter)));
     WriteString('Options', 'CSSVersion', IntToStr(Ord(OptionsContainer.CSSVersion)));
     WriteString('Options', 'PHPVersion', IntToStr(Ord(OptionsContainer.PHPVersion)));
+    WriteString('Options', 'DefaultEncoding', IntToStr(OptionsContainer.DefaultEncoding));
+    WriteString('Options', 'DefaultHighlighter', IntToStr(OptionsContainer.DefaultHighlighter));
   finally
     Free;
   end;

@@ -1641,28 +1641,28 @@ begin
         Application.ProcessMessages;
         FindInFiles(OutputTreeView, FindWhatText, FileTypeText, FolderText, SearchCaseSensitive, LookInSubfolders);
       finally
-        FOutputFrame.ProcessingTabSheet := False;
         T2 := Now;
-        if not FOutputFrame.IsEmpty then
+        if not FOutputFrame.CancelSearch then
         begin
-          Min := StrToInt(FormatDateTime('n', T2 - T1));
-          Secs := Min * 60 + StrToInt(FormatDateTime('s', T2 - T1));
-          if Secs < 60 then
-            TimeDifference := FormatDateTime(Format('s.zzz "%s"', [LanguageDataModule.GetConstant('Second')]), T2 - T1)
+          if not FOutputFrame.IsEmpty then
+          begin
+            Min := StrToInt(FormatDateTime('n', T2 - T1));
+            Secs := Min * 60 + StrToInt(FormatDateTime('s', T2 - T1));
+            if Secs < 60 then
+              TimeDifference := FormatDateTime(Format('s.zzz "%s"', [LanguageDataModule.GetConstant('Second')]), T2 - T1)
+            else
+              TimeDifference := FormatDateTime(Format('n "%s" s.zzz "%s"', [LanguageDataModule.GetConstant('Minute'), LanguageDataModule.GetConstant('Second')]), T2 - T1);
+            StatusBar.Panels[3].Text := Format(LanguageDataModule.GetConstant('OccurencesFound'), [FOutputFrame.Count, TimeDifference])
+          end
           else
-            TimeDifference := FormatDateTime(Format('n "%s" s.zzz "%s"', [LanguageDataModule.GetConstant('Minute'), LanguageDataModule.GetConstant('Second')]), T2 - T1);
-          StatusBar.Panels[3].Text := Format(LanguageDataModule.GetConstant('OccurencesFound'), [FOutputFrame.Count, TimeDifference])
-        end
-        else
-        begin
-          if not FOutputFrame.CancelSearch then
           begin
             ShowMessage(Format(LanguageDataModule.GetMessage('CannotFindString'), [FindWhatText]));
             FOutputFrame.CloseTabSheet;
+            StatusBar.Panels[3].Text := '';
           end;
-          StatusBar.Panels[3].Text := '';
         end;
         FOutputFrame.PageControl.EndDrag(False); { if close button pressed and search canceled, dragging will stay... }
+        FOutputFrame.ProcessingTabSheet := False;
       end;
     end;
   end;
@@ -1974,14 +1974,8 @@ begin
 end;
 
 procedure TMainForm.SetHighlighterComboIndex(Value: Integer);
-//var
-//  SynEdit: TBCSynEdit;
 begin
   HighlighterComboBox.ItemIndex := Value;
-  {SynEdit := FDocumentFrame.GetActiveSynEdit;
-  if Assigned(SynEdit) then
-    if SynEdit.CanFocus then
-      SynEdit.SetFocus}
 end;
 
 procedure TMainForm.SetEncodingComboIndex(Value: Integer);

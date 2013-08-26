@@ -547,7 +547,7 @@ function TOutputFrame.CheckCancel: Boolean;
 begin
   Result := False;
   Application.ProcessMessages;
-  if FProcessingTabSheet then
+  if FProcessingTabSheet and not IsEmpty then
     if FProcessingPage = PageControl.ActivePage then
     begin
       if AskYesOrNo(LanguageDataModule.GetYesOrNoMessage('CancelSearch')) then
@@ -614,8 +614,9 @@ begin
   Result := nil;
   if Assigned(TabSheet) then
     if TabSheet.ComponentCount <> 0 then
-      if TabSheet.Components[0] is TOutputTabSheetFrame then
-        Result := TOutputTabSheetFrame(TabSheet.Components[0]);
+      if Assigned(TabSheet.Components[0]) then
+        if TabSheet.Components[0] is TOutputTabSheetFrame then
+          Result := TOutputTabSheetFrame(TabSheet.Components[0]);
 end;
 
 procedure TOutputFrame.SetOptions;

@@ -207,7 +207,7 @@ object OptionsDialog: TOptionsDialog
       ImageIndex = 1
     end
     object PrintAction: TAction
-      Caption = 'Print Preview'
+      Caption = 'Print'
       ImageIndex = 14
     end
     object MainMenuAction: TAction
