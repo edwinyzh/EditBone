@@ -70,7 +70,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Vcl.Themes, Options, BCCommon.StyleUtils;
+  Vcl.Themes, Options, BCCommon.StyleUtils, BCCommon.StringUtils;
 
 constructor TDocTabSheetFrame.Create(AOwner: TComponent);
 begin
@@ -102,66 +102,13 @@ begin
   end;
 end;
 
-function SplitTextIntoWords(SynCompletionProposal: TSynCompletionProposal; SynEdit: TBCSynEdit): string;
-var
-  i: Integer;
-  S, Word: string;
-  StringList: TStringList;
-  startpos, endpos: Integer;
-  KeywordStringList: TStrings;
-begin
-  Result := '';
-  S := SynEdit.Text;
-  SynCompletionProposal.ItemList.Clear;
-  startpos := 1;
-  KeywordStringList := TStringList.Create;
-  StringList := TStringList.Create;
-  StringList.CaseSensitive := OptionsContainer.CompletionProposalCaseSensitive;
-  try
-    { add document words }
-    while startpos <= Length(S) do
-    begin
-      while (startpos <= Length(S)) and not IsCharAlpha(S[startpos]) do
-        Inc(startpos);
-      if startpos <= Length(S) then
-      begin
-        endpos := startpos + 1;
-        while (endpos <= Length(S)) and IsCharAlpha(S[endpos]) do
-          Inc(endpos);
-        Word := Copy(S, startpos, endpos - startpos);
-        if endpos - startpos > Length(Result) then
-          Result := Word;
-        if StringList.IndexOf(Word) = -1 then { no duplicates }
-          StringList.Add(Word);
-        startpos := endpos + 1;
-      end;
-    end;
-    { add highlighter keywords }
-    SynEdit.Highlighter.AddKeywords(KeywordStringList);
-    for i := 0 to KeywordStringList.Count - 1 do
-    begin
-      Word := KeywordStringList.Strings[i];
-      if Length(Word) > Length(Result) then
-        Result := Word;
-      if StringList.IndexOf(Word) = -1 then { no duplicates }
-        StringList.Add(Word);
-    end;
-  finally
-    StringList.Sort;
-    SynCompletionProposal.ItemList.Assign(StringList);
-    StringList.Free;
-    if Assigned(KeywordStringList) then
-      KeywordStringList.Free;
-  end;
-end;
-
 procedure TDocTabSheetFrame.SynCompletionProposalExecute(Kind: SynCompletionType; Sender: TObject;
   var CurrentInput: string; var x, y: Integer; var CanExecute: Boolean);
 var
   MaxLengthWord: string;
 begin
   SynCompletionProposal.NbLinesInWindow := 8; { Bug fix }
-  MaxLengthWord := SplitTextIntoWords(SynCompletionProposal, SynEdit);
+  MaxLengthWord := SplitTextIntoWords(SynCompletionProposal, SynEdit, OptionsContainer.CompletionProposalCaseSensitive);
   SynCompletionProposal.Width := SynEdit.Canvas.TextWidth(MaxLengthWord) + 40;
   CanExecute := SynCompletionProposal.ItemList.Count > 0;
 end;
@@ -177,7 +124,7 @@ var
   MaxLengthWord: string;
 begin
   SplitSynCompletionProposal.NbLinesInWindow := 8; { Bug fix }
-  MaxLengthWord := SplitTextIntoWords(SplitSynCompletionProposal, SplitSynEdit);
+  MaxLengthWord := SplitTextIntoWords(SplitSynCompletionProposal, SplitSynEdit, OptionsContainer.CompletionProposalCaseSensitive);
   SynCompletionProposal.Width := SplitSynEdit.Canvas.TextWidth(MaxLengthWord);
   CanExecute := SplitSynCompletionProposal.ItemList.Count > 0;
 end;
