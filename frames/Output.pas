@@ -603,7 +603,6 @@ begin
   FProcessingTabSheet := Value;
   FProcessingPage := PageControl.ActivePage;
   FCancelSearch := False;
-  //OutputCloseAction.Enabled := not Value;
 end;
 
 function TOutputFrame.GetOutputTabSheetFrame(TabSheet: TTabSheet): TOutputTabSheetFrame;

@@ -1633,7 +1633,7 @@ begin
     if ShowModal = mrOk then
     begin
       T1 := Now;
-      //Screen.Cursor := crHourGlass;
+      Screen.Cursor := crHourGlass;
       try
         OutputPanel.Visible := True;
         OutputTreeView := FOutputFrame.AddTreeView(Format(LanguageDataModule.GetConstant('SearchFor'), [FindWhatText]));
@@ -1663,6 +1663,7 @@ begin
         end;
         FOutputFrame.PageControl.EndDrag(False); { if close button pressed and search canceled, dragging will stay... }
         FOutputFrame.ProcessingTabSheet := False;
+        Screen.Cursor := crDefault;
       end;
     end;
   end;
