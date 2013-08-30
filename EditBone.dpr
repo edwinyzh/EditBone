@@ -30,7 +30,6 @@ uses
   BCFrames.Compare in '..\..\Common\frames\BCFrames.Compare.pas' {CompareFrame: TFrame},
   BigIni in '..\..\Common\units\BigIni.pas',
   BCDialogs.Dlg in '..\..\Common\dialogs\BCDialogs.Dlg.pas' {Dialog},
-  BCCommon in '..\..\Common\units\BCCommon.pas',
   BCCommon.Dialogs in '..\..\Common\units\BCCommon.Dialogs.pas',
   LanguageEditor in 'forms\LanguageEditor.pas' {LanguageEditorForm},
   DocumentTabSheet in 'frames\DocumentTabSheet.pas' {DocTabSheetFrame: TFrame},
@@ -63,7 +62,8 @@ uses
   BCCommon.Messages in '..\..\Common\units\BCCommon.Messages.pas',
   BCForms.Convert in '..\..\Common\forms\BCForms.Convert.pas' {ConvertForm},
   OptionsEditorCompletionProposal in 'frames\OptionsEditorCompletionProposal.pas' {EditorCompletionProposalFrame: TFrame},
-  OptionsPrint in 'frames\OptionsPrint.pas' {OptionsPrintFrame: TFrame};
+  OptionsPrint in 'frames\OptionsPrint.pas' {OptionsPrintFrame: TFrame},
+  BCCommon.Lib in '..\..\Common\units\BCCommon.Lib.pas';
 
 {$R *.res}
 

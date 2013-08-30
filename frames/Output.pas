@@ -10,9 +10,6 @@ uses
   Vcl.ActnPopup, BCControls.ImageList, Vcl.Themes, OutputTabSheet, BCControls.PageControl,
   System.Actions;
 
-const
-  OUTPUT_FILE_SEPARATOR = '@#/%&';
-
 type
   TOpenAllEvent = procedure(var FileNames: TStrings);
 
@@ -88,7 +85,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Lib, Options, BCCommon.StyleUtils, System.Math, System.UITypes, Vcl.Clipbrd, BCCommon.Messages,
+  Lib, Options, BCCommon.Lib, BCCommon.StyleUtils, System.Math, System.UITypes, Vcl.Clipbrd, BCCommon.Messages,
   BCCommon.LanguageStrings, BCCommon.FileUtils, BCCommon.StringUtils;
 
 procedure TOutputFrame.OpenAllActionExecute(Sender: TObject);

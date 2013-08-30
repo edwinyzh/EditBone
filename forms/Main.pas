@@ -361,7 +361,7 @@ uses
   About, BCDialogs.FindInFiles, Vcl.ClipBrd, BigIni, BCCommon.StyleUtils, BCCommon.FileUtils,
   System.IOUtils, BCCommon.LanguageStrings, BCDialogs.ConfirmReplace, LanguageEditor, BCControls.SynEdit,
   BCCommon.LanguageUtils, BCCommon.DuplicateChecker, UnicodeCharacterMap, DuplicateCheckerOptions, Winapi.ShellAPI,
-  System.Types, BCCommon.Messages, BCCommon, BCCommon.StringUtils, Winapi.CommCtrl, BCForms.Convert;
+  System.Types, BCCommon.Messages, BCCommon.Lib, BCCommon.StringUtils, Winapi.CommCtrl, BCForms.Convert;
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';

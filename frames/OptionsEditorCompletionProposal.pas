@@ -26,7 +26,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Vcl.Menus, BCCommon;
+  Vcl.Menus, BCCommon.Lib;
 
 constructor TEditorCompletionProposalFrame.Create(AOwner: TComponent);
 var
