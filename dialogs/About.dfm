@@ -20,7 +20,7 @@ object AboutDialog: TAboutDialog
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel1: TPanel
+  object TopPanel: TPanel
     Left = 0
     Top = 0
     Width = 365
@@ -71,7 +71,7 @@ object AboutDialog: TAboutDialog
       Height = 13
       Caption = 'Memory Available to Windows: %s'
     end
-    object Panel6: TPanel
+    object ImagePanel: TPanel
       Left = 237
       Top = 0
       Width = 128
@@ -482,7 +482,7 @@ object AboutDialog: TAboutDialog
       end
     end
   end
-  object Panel2: TPanel
+  object SeparatorPanel: TPanel
     Left = 0
     Top = 137
     Width = 365
@@ -493,7 +493,7 @@ object AboutDialog: TAboutDialog
     ParentBackground = False
     TabOrder = 1
   end
-  object Panel3: TPanel
+  object ThanksToPanel: TPanel
     Left = 0
     Top = 138
     Width = 365
@@ -525,7 +525,7 @@ object AboutDialog: TAboutDialog
       Caption = 'Copyright %s. All Rights Reserved.'
       ExplicitWidth = 170
     end
-    object LinkLabel2: TLinkLabel
+    object ThanksTo2LinkLabel: TLinkLabel
       Left = 18
       Top = 42
       Width = 329
@@ -539,7 +539,7 @@ object AboutDialog: TAboutDialog
       TabOrder = 0
       OnLinkClick = LinkClick
     end
-    object LinkLabel1: TLinkLabel
+    object ThanksTo1LinkLabel: TLinkLabel
       Left = 11
       Top = 25
       Width = 349
@@ -556,7 +556,7 @@ object AboutDialog: TAboutDialog
       OnLinkClick = LinkClick
     end
   end
-  object Panel4: TPanel
+  object BottomPanel: TPanel
     Left = 0
     Top = 215
     Width = 365

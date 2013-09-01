@@ -8,12 +8,12 @@ uses
 
 type
   TInsertTagDialog = class(TDialog)
-    ButtonPanel: TPanel;
-    OKButton: TButton;
-    CancelButton: TButton;
     ButtonDividerPanel: TPanel;
-    TopPanel: TPanel;
+    ButtonPanel: TPanel;
+    CancelButton: TButton;
     InsertTagEdit: TBCEdit;
+    OKButton: TButton;
+    TopPanel: TPanel;
     procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }

@@ -8,20 +8,20 @@ uses
 
 type
   TAboutDialog = class(TDialog)
+    BottomPanel: TPanel;
     CopyrightLabel: TLabel;
     EditBoneImage: TImage;
-    LinkLabel1: TLinkLabel;
-    LinkLabel2: TLinkLabel;
+    ImagePanel: TPanel;
     MemoryAvailableLabel: TLabel;
     OKButton: TButton;
     OSLabel: TLabel;
-    Panel1: TPanel;
-    Panel2: TPanel;
-    Panel3: TPanel;
-    Panel4: TPanel;
-    Panel6: TPanel;
     ProgramNameLabel: TLabel;
+    SeparatorPanel: TPanel;
+    ThanksTo1LinkLabel: TLinkLabel;
+    ThanksTo2LinkLabel: TLinkLabel;
     ThanksToLabel: TLabel;
+    ThanksToPanel: TPanel;
+    TopPanel: TPanel;
     VersionLabel: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);

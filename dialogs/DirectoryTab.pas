@@ -13,28 +13,28 @@ type
 
   TDirectoryTabDialog = class(TDialog)
     ActionList: TActionList;
+    ButtonDividerPanel: TPanel;
     ButtonPanel: TPanel;
     CancelButton: TButton;
-    ShowFileTypePanel: TPanel;
     ExcludeOtherBranchesAction: TAction;
+    ExcludeOtherBranchesCheckBox: TBCCheckBox;
     OKAction: TAction;
     OKButton: TButton;
-    ButtonDividerPanel: TPanel;
     RootDirectoryClickAction: TAction;
     RootDirectoryEdit: TBCEdit;
     RootDirectoryLabel: TLabel;
     RootDirectoryPanel: TPanel;
+    RootDrectoryBitBtn: TJvSpeedButton;
+    ShowDrivesComboBox: TBCComboBox;
+    ShowDrivesLabel: TLabel;
+    ShowDrivesPanel: TPanel;
+    ShowFileTypeComboBox: TBCComboBox;
+    ShowFileTypeLabel: TLabel;
+    ShowFileTypePanel: TPanel;
     TabNameEdit: TBCEdit;
     TabNameLabel: TLabel;
     TabNamePanel: TPanel;
     TopPanel: TPanel;
-    ShowDrivesPanel: TPanel;
-    ShowDrivesLabel: TLabel;
-    ExcludeOtherBranchesCheckBox: TBCCheckBox;
-    ShowDrivesComboBox: TBCComboBox;
-    ShowFileTypeLabel: TLabel;
-    ShowFileTypeComboBox: TBCComboBox;
-    RootDrectoryBitBtn: TJvSpeedButton;
     procedure ExcludeOtherBranchesActionExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure OKActionExecute(Sender: TObject);

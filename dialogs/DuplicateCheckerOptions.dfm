@@ -160,7 +160,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
             BevelOuter = bvNone
             Padding.Bottom = 3
             TabOrder = 0
-            object BitBtn1: TJvSpeedButton
+            object FolderBitBtn: TJvSpeedButton
               Left = 329
               Top = 0
               Width = 21
@@ -440,7 +440,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
             BevelOuter = bvNone
             Padding.Right = 8
             TabOrder = 0
-            object JvSpeedButton1: TJvSpeedButton
+            object FileSpeedButton: TJvSpeedButton
               Left = 329
               Top = 0
               Width = 21
