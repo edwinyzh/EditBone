@@ -1216,14 +1216,13 @@ procedure TOptionsDialog.OptionsVirtualStringTreePaintText(Sender: TBaseVirtualT
 var
   LStyles: TCustomStyleServices;
 begin
-  if vsSelected in Node.States then
-  begin
-    LStyles := StyleServices;
-    if LStyles.Enabled then
-      TargetCanvas.Font.Color := LStyles.GetSystemColor(clHighlightText)
-    else
-      TargetCanvas.Font.Color := clHighlightText;
-  end;
+  if TStyleManager.ActiveStyle.Name <> STYLENAME_WINDOWS then
+    if vsSelected in Node.States then
+    begin
+      LStyles := StyleServices;
+      if LStyles.Enabled then
+        TargetCanvas.Font.Color := LStyles.GetSystemColor(clHighlightText)
+    end;
 end;
 
 procedure TOptionsDialog.PutData;

@@ -1112,6 +1112,7 @@ begin
   SetMainEncodingCombo(SynEdit);
   CheckModifiedDocuments;
   CheckHTMLErrors;
+  PageControl.Repaint; { Icon paint bug fix }
 end;
 
 procedure TDocumentFrame.CloseAll(CloseDocuments: Boolean);
@@ -1149,6 +1150,7 @@ begin
   end;
   CheckModifiedDocuments;
   CheckHTMLErrors;
+  PageControl.Repaint; { Icon paint bug fix }
 end;
 
 procedure TDocumentFrame.CloseAllOtherPages;
@@ -1199,6 +1201,7 @@ begin
   end;
   CheckModifiedDocuments;
   CheckHTMLErrors;
+  PageControl.Repaint; { Icon paint bug fix }
 end;
 
 procedure TDocumentFrame.CheckModifiedDocuments;
