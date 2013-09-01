@@ -13,7 +13,7 @@ object StatusBarFrame: TStatusBarFrame
     BevelOuter = bvNone
     TabOrder = 0
     object SelectFontSpeedButton: TSpeedButton
-      Left = 8
+      Left = 9
       Top = 31
       Width = 24
       Height = 24
@@ -48,7 +48,7 @@ object StatusBarFrame: TStatusBarFrame
     end
     object FontLabel: TLabel
       Left = 39
-      Top = 31
+      Top = 37
       Width = 57
       Height = 13
       Margins.Left = 4

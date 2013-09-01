@@ -14,15 +14,11 @@ type
     RightMarginLabel: TLabel;
     RightMarginEdit: TBCEdit;
     FontDialog: TFontDialog;
-    SelectFontSpeedButton: TSpeedButton;
-    FontLabel: TLabel;
     ActionList: TActionList;
-    SelectFontAction: TAction;
     AutoSizeCheckBox: TBCCheckBox;
     WidthLabel: TLabel;
     WidthEdit: TBCEdit;
     VisibleRightMarginCheckBox: TBCCheckBox;
-    procedure SelectFontActionExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -32,16 +28,5 @@ type
 implementation
 
 {$R *.dfm}
-
-procedure TEditorGutterFrame.SelectFontActionExecute(Sender: TObject);
-begin
-  FontDialog.Font.Name := FontLabel.Font.Name;
-  FontDialog.Font.Size := FontLabel.Font.Size;
-  if FontDialog.Execute then
-  begin
-    FontLabel.Font.Assign(FontDialog.Font);
-    FontLabel.Caption := Format('%s %dpt', [FontLabel.Font.Name, FontLabel.Font.Size]);
-  end;
-end;
 
 end.

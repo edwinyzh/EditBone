@@ -15,7 +15,7 @@ object MainMenuFrame: TMainMenuFrame
     BevelOuter = bvNone
     TabOrder = 0
     object SelectFontSpeedButton: TSpeedButton
-      Left = 8
+      Left = 9
       Top = 71
       Width = 24
       Height = 24
@@ -49,8 +49,8 @@ object MainMenuFrame: TMainMenuFrame
         00FFFF00FFCFAB7FB67F3CB57E3AB6803DBD8C4FFF00FFFF00FF}
     end
     object FontLabel: TLabel
-      Left = 39
-      Top = 71
+      Left = 40
+      Top = 77
       Width = 57
       Height = 13
       Margins.Left = 4
