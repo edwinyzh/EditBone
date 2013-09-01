@@ -118,18 +118,4 @@ object EditorGutterFrame: TEditorGutterFrame
       ReadOnly = False
     end
   end
-  object FontDialog: TFontDialog
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    Options = []
-    Left = 210
-    Top = 84
-  end
-  object ActionList: TActionList
-    Left = 134
-    Top = 48
-  end
 end
