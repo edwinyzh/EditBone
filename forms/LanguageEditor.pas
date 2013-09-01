@@ -21,26 +21,27 @@ type
   TLanguageEditorForm = class(TForm)
     ActionList: TActionList;
     ApplicationEvents: TApplicationEvents;
-    Bevel1: TBevel;
     ButtonPanel: TPanel;
+    CloseAction: TAction;
+    CloseToolBar: TBCToolBar;
+    CloseToolButton: TToolButton;
     FileNewAction: TAction;
     FileOpenAction: TAction;
     FileSaveAction: TAction;
     ImageList: TBCImageList;
+    NewToolButton: TToolButton;
+    OpenToolButton: TToolButton;
     SaveToolBar: TBCToolBar;
+    SaveToolButton: TToolButton;
     StandardToolBar: TBCToolBar;
     StatusBar: TStatusBar;
-    ToolButton1: TToolButton;
-    ToolButton2: TToolButton;
+    ToolbarSeparator1Bevel: TBevel;
+    ToolbarSeparator2Bevel: TBevel;
     VirtualDrawTree: TVirtualDrawTree;
     VirtualTreePanel: TPanel;
-    ZoomToolButton: TToolButton;
-    Bevel2: TBevel;
-    CloseToolBar: TBCToolBar;
-    CloseToolButton: TToolButton;
-    CloseAction: TAction;
     procedure ApplicationEventsHint(Sender: TObject);
     procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
+    procedure CloseActionExecute(Sender: TObject);
     procedure FileNewActionExecute(Sender: TObject);
     procedure FileOpenActionExecute(Sender: TObject);
     procedure FileSaveActionExecute(Sender: TObject);
@@ -57,7 +58,6 @@ type
     procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
     procedure VirtualDrawTreeInitChildren(Sender: TBaseVirtualTree; Node: PVirtualNode; var ChildCount: Cardinal);
     procedure VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
-    procedure CloseActionExecute(Sender: TObject);
   private
     { Private declarations }
     FLanguageFileName: string;

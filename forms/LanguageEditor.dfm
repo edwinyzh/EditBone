@@ -150,7 +150,7 @@ object LanguageEditorForm: TLanguageEditorForm
     Padding.Right = 2
     Padding.Bottom = 2
     TabOrder = 2
-    object Bevel1: TBevel
+    object ToolbarSeparator1Bevel: TBevel
       AlignWithMargins = True
       Left = 56
       Top = 4
@@ -164,7 +164,7 @@ object LanguageEditorForm: TLanguageEditorForm
       ExplicitLeft = 84
       ExplicitTop = 5
     end
-    object Bevel2: TBevel
+    object ToolbarSeparator2Bevel: TBevel
       AlignWithMargins = True
       Left = 93
       Top = 4
@@ -187,12 +187,12 @@ object LanguageEditorForm: TLanguageEditorForm
       ButtonHeight = 23
       Images = ImageList
       TabOrder = 0
-      object ZoomToolButton: TToolButton
+      object NewToolButton: TToolButton
         Left = 0
         Top = 0
         Action = FileNewAction
       end
-      object ToolButton2: TToolButton
+      object OpenToolButton: TToolButton
         Left = 23
         Top = 0
         Action = FileOpenAction
@@ -208,7 +208,7 @@ object LanguageEditorForm: TLanguageEditorForm
       Caption = 'ZoomToolBar'
       Images = ImageList
       TabOrder = 1
-      object ToolButton1: TToolButton
+      object SaveToolButton: TToolButton
         Left = 0
         Top = 0
         Action = FileSaveAction
