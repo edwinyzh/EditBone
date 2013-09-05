@@ -1076,7 +1076,9 @@ begin
       except
         { It is not always possible to focus... }
       end;
-    end;
+    end
+    else
+      ShowErrorMessage(Format(LanguageDataModule.GetErrorMessage('FileNotFound'), [Filename]))
   end;
   FProcessing := False;
 end;
