@@ -89,7 +89,6 @@ object InsertTagDialog: TInsertTagDialog
       Margins.Bottom = 4
       Align = alTop
       TabOrder = 0
-      Text = ''
       EnterToTab = False
       OnlyNumbers = False
       NumbersWithDots = False

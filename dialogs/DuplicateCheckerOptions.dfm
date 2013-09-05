@@ -112,7 +112,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               Height = 22
               Align = alLeft
               Caption = 'Folder'
-              ExplicitHeight = 13
             end
           end
           object FileTypePanel: TPanel
@@ -136,7 +135,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               Height = 23
               Align = alLeft
               Caption = 'File type'
-              ExplicitHeight = 13
             end
           end
         end
@@ -225,8 +223,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               HotTrackFont.Name = 'Tahoma'
               HotTrackFont.Style = []
               NumGlyphs = 2
-              ExplicitLeft = 331
-              ExplicitTop = 2
             end
             object FolderEdit: TBCEdit
               Left = 0
@@ -505,7 +501,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               HotTrackFont.Name = 'Tahoma'
               HotTrackFont.Style = []
               NumGlyphs = 2
-              ExplicitLeft = 335
             end
             object FileEdit: TBCEdit
               Left = 0

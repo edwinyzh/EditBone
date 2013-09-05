@@ -141,7 +141,7 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
       Anchors = [akLeft, akTop, akRight]
       DroppedDownWidth = 420
       MaxMRUCount = 0
-      FontName = 'Arabic Transparent'
+      FontName = 'Arial'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11

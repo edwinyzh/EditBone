@@ -41,7 +41,6 @@ object FileTypesFrame: TFileTypesFrame
       Margins.Bottom = 4
       Align = alBottom
       TabOrder = 0
-      Text = ''
       OnChange = ExtensionsEditChange
       EnterToTab = False
       OnlyNumbers = False

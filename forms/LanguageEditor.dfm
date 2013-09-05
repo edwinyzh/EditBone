@@ -161,8 +161,6 @@ object LanguageEditorForm: TLanguageEditorForm
       Margins.Bottom = 2
       Align = alLeft
       Shape = bsLeftLine
-      ExplicitLeft = 84
-      ExplicitTop = 5
     end
     object ToolbarSeparator2Bevel: TBevel
       AlignWithMargins = True
@@ -175,8 +173,6 @@ object LanguageEditorForm: TLanguageEditorForm
       Margins.Bottom = 2
       Align = alLeft
       Shape = bsLeftLine
-      ExplicitLeft = 109
-      ExplicitTop = 3
     end
     object StandardToolBar: TBCToolBar
       Left = 2

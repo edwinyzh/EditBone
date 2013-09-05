@@ -26,7 +26,6 @@ object DocumentFrame: TDocumentFrame
       Align = alLeft
       Caption = 'Whole Words Only'
       Layout = tlCenter
-      ExplicitHeight = 13
     end
     object RegularExpressionLabel: TLabel
       Left = 550
@@ -36,7 +35,6 @@ object DocumentFrame: TDocumentFrame
       Align = alLeft
       Caption = 'Regular Expression'
       Layout = tlCenter
-      ExplicitHeight = 13
     end
     object SearchPanel1: TPanel
       Left = 0
@@ -109,7 +107,6 @@ object DocumentFrame: TDocumentFrame
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
         Margin = 2
         NumGlyphs = 2
-        ExplicitLeft = 24
       end
     end
     object SearchPanel2: TPanel
@@ -131,7 +128,6 @@ object DocumentFrame: TDocumentFrame
         Height = 18
         Align = alLeft
         Caption = 'Search for'
-        ExplicitHeight = 13
       end
     end
     object SearchPanel3: TPanel
@@ -229,7 +225,6 @@ object DocumentFrame: TDocumentFrame
           64FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FF7474748E8E8EFF00FFFF00FFFF00FF}
         NumGlyphs = 2
-        ExplicitLeft = 164
       end
     end
     object SearchPanel6: TPanel
@@ -302,7 +297,6 @@ object DocumentFrame: TDocumentFrame
           FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF8E8E8E737373FF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
         NumGlyphs = 2
-        ExplicitLeft = 164
       end
     end
     object SearchPanel7: TPanel
@@ -344,7 +338,6 @@ object DocumentFrame: TDocumentFrame
         Align = alLeft
         Caption = 'Case Sensitive'
         Layout = tlCenter
-        ExplicitHeight = 13
       end
       object WholeWordsCheckBox: TBCCheckBox
         Left = 78
@@ -499,7 +492,6 @@ object DocumentFrame: TDocumentFrame
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
         Margin = 2
         NumGlyphs = 2
-        ExplicitHeight = 25
       end
     end
     object GotoLineLabelPanel: TPanel
@@ -521,7 +513,6 @@ object DocumentFrame: TDocumentFrame
         Height = 20
         Align = alLeft
         Caption = 'Go to Line'
-        ExplicitHeight = 13
       end
     end
     object LineNumberPanel: TPanel
@@ -598,8 +589,6 @@ object DocumentFrame: TDocumentFrame
           FFFF00FFFF00FFFF00FFB8B8B6B0B0ADAEAEACAEAEABAEAEABADAEABAEAEABAF
           AFAEBCBEBEFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
         Margin = 2
-        ExplicitTop = 2
-        ExplicitHeight = 19
       end
     end
   end

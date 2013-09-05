@@ -251,7 +251,6 @@ object MainForm: TMainForm
       Align = alBottom
       AutoSnap = False
       Visible = False
-      ExplicitTop = 339
     end
     object VerticalSplitter: TSplitter
       Left = 257
@@ -260,7 +259,6 @@ object MainForm: TMainForm
       AutoSnap = False
       MinSize = 100
       ResizeStyle = rsUpdate
-      ExplicitHeight = 339
     end
     object OutputPanel: TPanel
       Left = 0

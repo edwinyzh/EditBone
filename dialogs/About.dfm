@@ -478,7 +478,6 @@ object AboutDialog: TAboutDialog
           FE12264D9AF47118EAAD36090EEA0E22F01F7CF04178F2C9C20F9AF83F23F483
           A5DDABB1A00000000049454E44AE426082}
         IsControl = True
-        ExplicitTop = 3
       end
     end
   end
@@ -523,7 +522,6 @@ object AboutDialog: TAboutDialog
       Align = alBottom
       Alignment = taCenter
       Caption = 'Copyright %s. All Rights Reserved.'
-      ExplicitWidth = 170
     end
     object ThanksTo2LinkLabel: TLinkLabel
       Left = 18

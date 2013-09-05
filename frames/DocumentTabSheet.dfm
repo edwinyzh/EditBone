@@ -25,7 +25,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Color = clBtnFace
       ParentColor = False
       Visible = False
-      ExplicitHeight = 546
     end
     object VirtualDrawTree: TVirtualDrawTree
       Left = 1
@@ -70,9 +69,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Align = alBottom
         ParentColor = False
         Visible = False
-        ExplicitLeft = 2
-        ExplicitTop = 285
-        ExplicitWidth = 665
       end
       object SynEditSplitter: TSplitter
         Left = 42
@@ -82,9 +78,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Align = alRight
         ParentColor = False
         Visible = False
-        ExplicitLeft = 546
-        ExplicitTop = 4
-        ExplicitHeight = 303
       end
       object SplitSynEditPanel: TPanel
         Left = 0
@@ -105,8 +98,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
           Color = clBtnFace
           ParentColor = False
           Visible = False
-          ExplicitLeft = 466
-          ExplicitHeight = 365
         end
         object SplitSynEdit: TBCSynEdit
           Left = 0

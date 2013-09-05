@@ -148,8 +148,6 @@ object DirectoryTabDialog: TDirectoryTabDialog
         HotTrackFont.Name = 'Tahoma'
         HotTrackFont.Style = []
         NumGlyphs = 2
-        ExplicitLeft = 150
-        ExplicitTop = 0
       end
       object RootDirectoryEdit: TBCEdit
         Left = 87
