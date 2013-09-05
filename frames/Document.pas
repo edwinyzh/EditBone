@@ -1648,6 +1648,9 @@ begin
     MessageBeep;
     SynEdit.BlockBegin := SynEdit.BlockEnd;
     SynEdit.CaretXY := SynEdit.BlockBegin;
+    if (SynEdit.CaretX = 1) and (SynEdit.CaretY = 1) then
+      ShowMessage(Format(LanguageDataModule.GetYesOrNoMessage('SearchStringNotFound'), [SearchForEdit.Text]))
+    else
     if AskYesOrNo(Format(LanguageDataModule.GetYesOrNoMessage('SearchMatchNotFound'), [CHR_DOUBLE_ENTER])) then
     begin
       SynEdit.CaretX := 0;
