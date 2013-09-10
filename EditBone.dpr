@@ -63,7 +63,8 @@ uses
   BCForms.Convert in '..\..\Common\forms\BCForms.Convert.pas' {ConvertForm},
   OptionsEditorCompletionProposal in 'frames\OptionsEditorCompletionProposal.pas' {EditorCompletionProposalFrame: TFrame},
   OptionsPrint in 'frames\OptionsPrint.pas' {OptionsPrintFrame: TFrame},
-  BCCommon.Lib in '..\..\Common\units\BCCommon.Lib.pas';
+  BCCommon.Lib in '..\..\Common\units\BCCommon.Lib.pas',
+  BCCommon.MacroRecorder in '..\..\Common\units\BCCommon.MacroRecorder.pas';
 
 {$R *.res}
 
