@@ -264,7 +264,7 @@ type
     procedure SynEditHTMLOnChange(Sender: TObject);
     procedure SynEditHTMLPaintTransient(Sender: TObject; Canvas: TCanvas; TransientType: TTransientType);
     procedure SynEditPASPaintTransient(Sender: TObject; Canvas: TCanvas; TransientType: TTransientType);
-    procedure UpdateGutterAndColors(DocTabSheetFrame: TDocTabSheetFrame);
+    procedure UpdateMarginAndColors(DocTabSheetFrame: TDocTabSheetFrame);
     procedure UpdateHighlighterColors;
   public
     { Public declarations }
@@ -345,7 +345,7 @@ type
     procedure ToggleSelectionMode;
     procedure ToggleSplit;
     procedure Undo;
-    procedure UpdateGutterAndControls;
+    procedure UpdateMarginAndControls;
     procedure UpdateLanguage(SelectedLanguage: string);
     procedure WriteIniFile;
     property ActiveDocumentFound: Boolean read GetActiveDocumentFound;
@@ -672,7 +672,7 @@ begin
     if XMLTreeVisible then
       LoadFromXML(SynEdit.Text);
 
-    UpdateGutterAndColors(DocTabSheetFrame);
+    UpdateMarginAndColors(DocTabSheetFrame);
 
     { reduce flickering by setting width & height }
     SynEdit.Width := 0;
@@ -758,7 +758,7 @@ begin
   end;
 end;
 
-procedure TDocumentFrame.UpdateGutterAndControls;
+procedure TDocumentFrame.UpdateMarginAndControls;
 var
   i, Right: Integer;
   DocTabSheetFrame: TDocTabSheetFrame;
@@ -779,7 +779,7 @@ begin
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
     if Assigned(DocTabSheetFrame) then
     begin
-      UpdateGutterAndColors(DocTabSheetFrame);
+      UpdateMarginAndColors(DocTabSheetFrame);
       DocTabSheetFrame.UpdateOptionsAndStyles(Right);
     end;
     CompareFrame := GetCompareFrame(PageControl.Pages[i]);
@@ -804,10 +804,10 @@ begin
     end;
 end;
 
-procedure TDocumentFrame.UpdateGutterAndColors(DocTabSheetFrame: TDocTabSheetFrame);
+procedure TDocumentFrame.UpdateMarginAndColors(DocTabSheetFrame: TDocTabSheetFrame);
 begin
-  BCCommon.StyleUtils.UpdateGutterAndColors(DocTabSheetFrame.SynEdit);
-  BCCommon.StyleUtils.UpdateGutterAndColors(DocTabSheetFrame.SplitSynEdit);
+  BCCommon.StyleUtils.UpdateMarginAndColors(DocTabSheetFrame.SynEdit);
+  BCCommon.StyleUtils.UpdateMarginAndColors(DocTabSheetFrame.SplitSynEdit);
 end;
 
 procedure TDocumentFrame.SynEditEnter(Sender: TObject);
@@ -1193,7 +1193,7 @@ begin
       PageControl.UpdatePageCaption(TabSheet);
       SelectHighlighter(DocTabSheetFrame, DocumentName);
       SetMainHighlighterCombo(DocTabSheetFrame.SynEdit);
-      UpdateGutterAndColors(DocTabSheetFrame);
+      UpdateMarginAndColors(DocTabSheetFrame);
     end;
     CheckModifiedDocuments;
   end;
@@ -1839,13 +1839,13 @@ begin
     OptionsContainer.FontName := ReadString('Options', 'FontName', 'Courier New');
     OptionsContainer.FontSize := StrToInt(ReadString('Options', 'FontSize', '10'));
     OptionsContainer.ColorBrightness := StrToInt(ReadString('Options', 'ActiveLineColorBrightness', '2'));
-    OptionsContainer.GutterFontName := ReadString('Options', 'GutterFontName', 'Courier New');
-    OptionsContainer.GutterFontSize := StrToInt(ReadString('Options', 'GutterFontSize', '8'));
-    OptionsContainer.GutterAutoSize := ReadBool('Options', 'GutterAutoSize', True);
-    OptionsContainer.GutterVisibleRightMargin := ReadBool('Options', 'GutterVisibleRightMargin', True);
-    OptionsContainer.GutterRightMargin := StrToInt(ReadString('Options', 'RightMargin', '80'));
-    OptionsContainer.GutterVisible := ReadBool('Options', 'GutterVisible', True);
-    OptionsContainer.GutterWidth := StrToInt(ReadString('Options', 'GutterWidth', '48'));
+    OptionsContainer.MarginFontName := ReadString('Options', 'MarginFontName', 'Courier New');
+    OptionsContainer.MarginFontSize := StrToInt(ReadString('Options', 'MarginFontSize', '8'));
+    OptionsContainer.MarginAutoSize := ReadBool('Options', 'MarginAutoSize', True);
+    OptionsContainer.MarginVisibleRightMargin := ReadBool('Options', 'MarginVisibleRightMargin', True);
+    OptionsContainer.MarginRightMargin := StrToInt(ReadString('Options', 'RightMargin', '80'));
+    OptionsContainer.MarginVisible := ReadBool('Options', 'MarginVisible', True);
+    OptionsContainer.MarginWidth := StrToInt(ReadString('Options', 'MarginWidth', '48'));
     OptionsContainer.InsertCaret := TSynEditCaretType(StrToInt(ReadString('Options', 'InsertCaret', '0')));
     OptionsContainer.MinimapFontFactor :=  StrToInt(ReadString('Options', 'MinimapFontFactor', '2'));
     OptionsContainer.ExtraLineSpacing := StrToInt(ReadString('Options', 'ExtraLineSpacing', '0'));
@@ -2019,16 +2019,16 @@ begin
     { Options }
     WriteString('Options', 'FontName', OptionsContainer.FontName);
     WriteString('Options', 'FontSize', IntToStr(OptionsContainer.FontSize));
-    WriteString('Options', 'GutterFontName', OptionsContainer.GutterFontName);
-    WriteString('Options', 'GutterFontSize', IntToStr(OptionsContainer.GutterFontSize));
-    WriteString('Options', 'RightMargin', IntToStr(OptionsContainer.GutterRightMargin));
-    WriteBool('Options', 'GutterAutoSize', OptionsContainer.GutterAutoSize);
-    WriteString('Options', 'GutterWidth', IntToStr(OptionsContainer.GutterWidth));
-    WriteBool('Options', 'GutterVisibleRightMargin', OptionsContainer.GutterVisibleRightMargin);
+    WriteString('Options', 'MarginFontName', OptionsContainer.MarginFontName);
+    WriteString('Options', 'MarginFontSize', IntToStr(OptionsContainer.MarginFontSize));
+    WriteString('Options', 'RightMargin', IntToStr(OptionsContainer.MarginRightMargin));
+    WriteBool('Options', 'MarginAutoSize', OptionsContainer.MarginAutoSize);
+    WriteString('Options', 'MarginWidth', IntToStr(OptionsContainer.MarginWidth));
+    WriteBool('Options', 'MarginVisibleRightMargin', OptionsContainer.MarginVisibleRightMargin);
     WriteString('Options', 'ExtraLineSpacing', IntToStr(OptionsContainer.ExtraLineSpacing));
     WriteString('Options', 'TabWidth', IntToStr(OptionsContainer.TabWidth));
     WriteString('Options', 'ActiveLineColorBrightness', IntToStr(OptionsContainer.ColorBrightness));
-    WriteBool('Options', 'GutterVisible', OptionsContainer.GutterVisible);
+    WriteBool('Options', 'MarginVisible', OptionsContainer.MarginVisible);
     WriteString('Options', 'InsertCaret', IntToStr(Ord(OptionsContainer.InsertCaret)));
     WriteString('Options', 'MinimapFontFactor', IntToStr(OptionsContainer.MinimapFontFactor));
     WriteBool('Options', 'CompletionProposalEnabled', OptionsContainer.CompletionProposalEnabled);
@@ -2186,7 +2186,7 @@ begin
         SelectHighlighter(DocTabSheetFrame, DocTabSheetFrame.SynEdit.DocumentName);
       end;
     end;
-    UpdateGutterAndControls;
+    UpdateMarginAndControls;
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
     if Assigned(DocTabSheetFrame) then
       SetMainHighlighterCombo(DocTabSheetFrame.SynEdit);

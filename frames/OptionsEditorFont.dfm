@@ -73,7 +73,7 @@ object EditorFontFrame: TEditorFontFrame
         Font.Style = []
         ParentFont = False
       end
-      object GutterFontLabel: TLabel
+      object MarginFontLabel: TLabel
         Left = 40
         Top = 73
         Width = 105
@@ -90,7 +90,7 @@ object EditorFontFrame: TEditorFontFrame
         Font.Style = []
         ParentFont = False
       end
-      object SelectGutterFontSpeedButton: TSpeedButton
+      object SelecMarginFontSpeedButton: TSpeedButton
         Left = 9
         Top = 67
         Width = 24
@@ -135,16 +135,16 @@ object EditorFontFrame: TEditorFontFrame
         Margins.Bottom = 4
         Caption = 'Editor'
       end
-      object GutterLabel: TLabel
+      object MarginLabel: TLabel
         Left = 11
         Top = 52
-        Width = 31
+        Width = 32
         Height = 13
         Margins.Left = 4
         Margins.Top = 4
         Margins.Right = 4
         Margins.Bottom = 4
-        Caption = 'Gutter'
+        Caption = 'Margin'
       end
     end
     object BottomPanel: TPanel

@@ -605,7 +605,7 @@ end;
 procedure TMainForm.UpdateControls;
 begin
   FDirectoryFrame.UpdateControls;
-  FDocumentFrame.UpdateGutterAndControls;
+  FDocumentFrame.UpdateMarginAndControls;
   FOutputFrame.UpdateControls;
   UpdateToolBar;
   UpdateStatusBar;
@@ -1400,7 +1400,7 @@ begin
   if HighlighterComboBox.ItemIndex <> -1 then
   begin
     FDocumentFrame.SetActiveHighlighter(HighlighterComboBox.ItemIndex);
-    FDocumentFrame.UpdateGutterAndControls;
+    FDocumentFrame.UpdateMarginAndControls;
   end;
 end;
 

@@ -40,7 +40,7 @@ uses
   OptionsEditorErrorChecking in 'frames\OptionsEditorErrorChecking.pas' {EditorErrorCheckingFrame: TFrame},
   OptionsEditorOther in 'frames\OptionsEditorOther.pas' {EditorOtherFrame: TFrame},
   OptionsEditorFont in 'frames\OptionsEditorFont.pas' {EditorFontFrame: TFrame},
-  OptionsEditorGutter in 'frames\OptionsEditorGutter.pas' {EditorGutterFrame: TFrame},
+  OptionsEditorMargin in 'frames\OptionsEditorMargin.pas' {EditorMarginFrame: TFrame},
   OptionsEditorTabs in 'frames\OptionsEditorTabs.pas' {EditorTabsFrame: TFrame},
   OptionsFileTypes in 'frames\OptionsFileTypes.pas' {FileTypesFrame: TFrame},
   OptionsMainMenu in 'frames\OptionsMainMenu.pas' {MainMenuFrame: TFrame},

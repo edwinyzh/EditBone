@@ -216,8 +216,8 @@
             <Form>EditorFontFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="frames\OptionsEditorGutter.pas">
-            <Form>EditorGutterFrame</Form>
+        <DCCReference Include="frames\OptionsEditorMargin.pas">
+            <Form>EditorMarginFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsEditorTabs.pas">

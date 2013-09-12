@@ -1,4 +1,4 @@
-object EditorGutterFrame: TEditorGutterFrame
+object EditorMarginFrame: TEditorMarginFrame
   Left = 0
   Top = 0
   Width = 451
@@ -36,7 +36,7 @@ object EditorGutterFrame: TEditorGutterFrame
       Margins.Bottom = 4
       Caption = 'Width'
     end
-    object GutterVisibleCheckBox: TBCCheckBox
+    object MarginVisibleCheckBox: TBCCheckBox
       Left = 9
       Top = 26
       Width = 198

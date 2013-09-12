@@ -18,10 +18,10 @@ type
     EditorFontLabel: TLabel;
     BottomPanel: TPanel;
     SynEdit: TBCSynEdit;
-    GutterFontLabel: TLabel;
-    SelectGutterFontSpeedButton: TSpeedButton;
+    MarginFontLabel: TLabel;
+    SelecMarginFontSpeedButton: TSpeedButton;
     EditorLabel: TLabel;
-    GutterLabel: TLabel;
+    MarginLabel: TLabel;
     SelectGutterFontAction: TAction;
     procedure SelectEditorFontActionExecute(Sender: TObject);
     procedure SelectGutterFontActionExecute(Sender: TObject);
@@ -57,12 +57,12 @@ end;
 
 procedure TEditorFontFrame.SelectGutterFontActionExecute(Sender: TObject);
 begin
-  FontDialog.Font.Name := GutterFontLabel.Font.Name;
-  FontDialog.Font.Size := GutterFontLabel.Font.Size;
+  FontDialog.Font.Name := MarginFontLabel.Font.Name;
+  FontDialog.Font.Size := MarginFontLabel.Font.Size;
   if FontDialog.Execute then
   begin
-    GutterFontLabel.Font.Assign(FontDialog.Font);
-    GutterFontLabel.Caption := Format('%s %dpt', [GutterFontLabel.Font.Name, GutterFontLabel.Font.Size]);
+    MarginFontLabel.Font.Assign(FontDialog.Font);
+    MarginFontLabel.Caption := Format('%s %dpt', [MarginFontLabel.Font.Name, MarginFontLabel.Font.Size]);
     SynEdit.Gutter.Font.Assign(FontDialog.Font);
   end;
 end;
