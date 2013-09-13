@@ -22,9 +22,9 @@ type
     SelecMarginFontSpeedButton: TSpeedButton;
     EditorLabel: TLabel;
     MarginLabel: TLabel;
-    SelectGutterFontAction: TAction;
+    SelectMarginFontAction: TAction;
     procedure SelectEditorFontActionExecute(Sender: TObject);
-    procedure SelectGutterFontActionExecute(Sender: TObject);
+    procedure SelectMarginFontActionExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -55,7 +55,7 @@ begin
   end;
 end;
 
-procedure TEditorFontFrame.SelectGutterFontActionExecute(Sender: TObject);
+procedure TEditorFontFrame.SelectMarginFontActionExecute(Sender: TObject);
 begin
   FontDialog.Font.Name := MarginFontLabel.Font.Name;
   FontDialog.Font.Size := MarginFontLabel.Font.Size;

@@ -874,8 +874,6 @@ begin
     WriteBool('Options', 'EnableLineNumbers', ViewLineNumbersAction.Checked);
     WriteBool('Options', 'EnableSpecialChars', ViewSpecialCharsAction.Checked);
     WriteBool('Options', 'EnableSelectionMode', ViewSelectionModeAction.Checked);
-    DeleteKey('Options', 'StyleName'); { depricated }
-    DeleteKey('Options', 'GutterLineNumbers'); { depricated }
     { Toolbar }
     EraseSection('ActionToolBar');
     for i := 0 to ToolbarPopupMenu.Items.Count - 1 do

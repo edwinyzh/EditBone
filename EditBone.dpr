@@ -64,7 +64,8 @@ uses
   OptionsEditorCompletionProposal in 'frames\OptionsEditorCompletionProposal.pas' {EditorCompletionProposalFrame: TFrame},
   OptionsPrint in 'frames\OptionsPrint.pas' {OptionsPrintFrame: TFrame},
   BCCommon.Lib in '..\..\Common\units\BCCommon.Lib.pas',
-  BCCommon.MacroRecorder in '..\..\Common\units\BCCommon.MacroRecorder.pas';
+  BCCommon.MacroRecorder in '..\..\Common\units\BCCommon.MacroRecorder.pas',
+  OptionsEditorSearch in 'frames\OptionsEditorSearch.pas' {EditorSearchFrame: TFrame};
 
 {$R *.res}
 

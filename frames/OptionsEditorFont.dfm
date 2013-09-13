@@ -95,7 +95,7 @@ object EditorFontFrame: TEditorFontFrame
         Top = 67
         Width = 24
         Height = 24
-        Action = SelectGutterFontAction
+        Action = SelectMarginFontAction
         Glyph.Data = {
           36030000424D3603000000000000360000002800000010000000100000000100
           18000000000000030000120B0000120B00000000000000000000FF00FFFF00FF
@@ -194,9 +194,9 @@ object EditorFontFrame: TEditorFontFrame
       Hint = 'Select a font'
       OnExecute = SelectEditorFontActionExecute
     end
-    object SelectGutterFontAction: TAction
+    object SelectMarginFontAction: TAction
       Hint = 'Select a font'
-      OnExecute = SelectGutterFontActionExecute
+      OnExecute = SelectMarginFontActionExecute
     end
   end
 end
