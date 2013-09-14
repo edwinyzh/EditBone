@@ -1033,10 +1033,14 @@ begin
   if Rslt <> mrCancel then
   begin
     ActivePageIndex := PageControl.ActivePageIndex;
+    { Fixed Delphi Bug: http://qc.embarcadero.com/wc/qcmain.aspx?d=5473 }
+    if (ActivePageIndex = PageControl.PageCount - 1) and (PageControl.PageCount > 1) then
+    begin
+      Dec(ActivePageIndex);
+      PageControl.ActivePage.PageIndex := ActivePageIndex;
+    end;
     if PageControl.PageCount > 0 then
-      PageControl.ActivePage.Free;
-    if PageControl.PageCount > 0 then
-      PageControl.ActivePageIndex := Max(ActivePageIndex - 1, 0);
+      PageControl.Pages[ActivePageIndex].Free;
     if PageControl.PageCount = 0 then
       FNumberOfNewDocument := 0;
   end;
@@ -1046,6 +1050,9 @@ begin
   CheckModifiedDocuments;
   CheckHTMLErrors;
   PageControl.Repaint; { Icon paint bug fix }
+  if Assigned(SynEdit) then
+    if SynEdit.CanFocus then
+      SynEdit.SetFocus;
 end;
 
 procedure TDocumentFrame.CloseAll(CloseDocuments: Boolean);
@@ -1528,10 +1535,12 @@ begin
   try
     if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
     begin
-      MessageBeep;
+      if OptionsContainer.BeepIfSearchStringNotFound then
+        MessageBeep;
       SynEdit.BlockBegin := SynEdit.BlockEnd;
       SynEdit.CaretXY := SynEdit.BlockBegin;
-      ShowMessage(Format(LanguageDataModule.GetYesOrNoMessage('SearchStringNotFound'), [SearchForEdit.Text]))
+      if OptionsContainer.ShowSearchStringNotFound then
+        ShowMessage(Format(LanguageDataModule.GetYesOrNoMessage('SearchStringNotFound'), [SearchForEdit.Text]))
     end;
   except
     { silent }
@@ -1576,11 +1585,15 @@ begin
 
   if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
   begin
-    MessageBeep;
+    if OptionsContainer.BeepIfSearchStringNotFound then
+      MessageBeep;
     SynEdit.BlockBegin := SynEdit.BlockEnd;
     SynEdit.CaretXY := SynEdit.BlockBegin;
     if (SynEdit.CaretX = 1) and (SynEdit.CaretY = 1) then
-      ShowMessage(Format(LanguageDataModule.GetYesOrNoMessage('SearchStringNotFound'), [SearchForEdit.Text]))
+    begin
+      if OptionsContainer.ShowSearchStringNotFound then
+        ShowMessage(Format(LanguageDataModule.GetYesOrNoMessage('SearchStringNotFound'), [SearchForEdit.Text]))
+    end
     else
     if AskYesOrNo(Format(LanguageDataModule.GetYesOrNoMessage('SearchMatchNotFound'), [CHR_DOUBLE_ENTER])) then
     begin
@@ -1846,6 +1859,8 @@ begin
     OptionsContainer.MarginRightMargin := StrToInt(ReadString('Options', 'RightMargin', '80'));
     OptionsContainer.MarginVisible := ReadBool('Options', 'MarginVisible', True);
     OptionsContainer.MarginWidth := StrToInt(ReadString('Options', 'MarginWidth', '48'));
+    OptionsContainer.ShowSearchStringNotFound := ReadBool('Options', 'ShowSearchStringNotFound', True);
+    OptionsContainer.BeepIfSearchStringNotFound := ReadBool('Options', 'BeepIfSearchStringNotFound', True);
     OptionsContainer.InsertCaret := TSynEditCaretType(StrToInt(ReadString('Options', 'InsertCaret', '0')));
     OptionsContainer.MinimapFontFactor :=  StrToInt(ReadString('Options', 'MinimapFontFactor', '2'));
     OptionsContainer.ExtraLineSpacing := StrToInt(ReadString('Options', 'ExtraLineSpacing', '0'));
@@ -2025,6 +2040,8 @@ begin
     WriteBool('Options', 'MarginAutoSize', OptionsContainer.MarginAutoSize);
     WriteString('Options', 'MarginWidth', IntToStr(OptionsContainer.MarginWidth));
     WriteBool('Options', 'MarginVisibleRightMargin', OptionsContainer.MarginVisibleRightMargin);
+    WriteBool('Options', 'ShowSearchStringNotFound', OptionsContainer.ShowSearchStringNotFound);
+    WriteBool('Options', 'BeepIfSearchStringNotFound', OptionsContainer.BeepIfSearchStringNotFound);
     WriteString('Options', 'ExtraLineSpacing', IntToStr(OptionsContainer.ExtraLineSpacing));
     WriteString('Options', 'TabWidth', IntToStr(OptionsContainer.TabWidth));
     WriteString('Options', 'ActiveLineColorBrightness', IntToStr(OptionsContainer.ColorBrightness));

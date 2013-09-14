@@ -564,9 +564,14 @@ begin
   begin
     Self.Clear;
     ActivePageIndex := PageControl.ActivePageIndex;
-    PageControl.ActivePage.Free;
+    { Fixed Delphi Bug: http://qc.embarcadero.com/wc/qcmain.aspx?d=5473 }
+    if (ActivePageIndex = PageControl.PageCount - 1) and (PageControl.PageCount > 1) then
+    begin
+      Dec(ActivePageIndex);
+      PageControl.ActivePage.PageIndex := ActivePageIndex;
+    end;
     if PageControl.PageCount > 0 then
-      PageControl.ActivePageIndex := Max(ActivePageIndex - 1, 0);
+      PageControl.Pages[ActivePageIndex].Free;
   end;
 end;
 

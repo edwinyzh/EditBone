@@ -7,7 +7,7 @@ uses
   Vcl.ComCtrls, Winapi.CommCtrl, System.Win.Registry, Vcl.ExtCtrls, Vcl.Buttons, Vcl.Menus, SynEdit, SynEditHighlighter,
   SynEditMiscClasses, SynHighlighterWebData, SynEditKeyCmds, System.Classes, System.SysUtils, Vcl.ImgList,
   SynHighlighterWeb, Vcl.Grids, SynHighlighterSQL, BCControls.CheckBox, Document, BCControls.Edit, JvCombobox,
-  BCControls.ComboBox, Vcl.ActnList, Vcl.Themes, Vcl.CheckLst, JvExComCtrls, OptionsPrint,
+  BCControls.ComboBox, Vcl.ActnList, Vcl.Themes, Vcl.CheckLst, JvExComCtrls, OptionsPrint, OptionsEditorSearch,
   JvComCtrls, VirtualTrees, OptionsEditorOptions, OptionsEditorFont, OptionsEditorMargin, OptionsEditorTabs, Lib,
   OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, OptionsCompare, OptionsMainMenu,
   OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, OptionsStatusBar, OptionsOutput, OptionsToolBar,
@@ -50,6 +50,7 @@ type
     StatusBarAction: TAction;
     ToolBarAction: TAction;
     TopPanel: TPanel;
+    EditorSearchAction: TAction;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -66,6 +67,7 @@ type
     FEditorErrorCheckingFrame: TEditorErrorCheckingFrame;
     FEditorFontFrame: TEditorFontFrame;
     FEditorMarginFrame: TEditorMarginFrame;
+    FEditorSearchFrame: TEditorSearchFrame;
     FEditorOptionsFrame: TEditorOptionsFrame;
     FEditorOtherFrame: TEditorOtherFrame;
     FEditorTabsFrame: TEditorTabsFrame;
@@ -95,6 +97,7 @@ type
     FAnimationStyle: TAnimationStyle;
     FAutoIndent: Boolean;
     FAutoSave: Boolean;
+    FBeepIfSearchStringNotFound: Boolean;
     FColorBrightness: Integer;
     FCompletionProposalCaseSensitive: Boolean;
     FCompletionProposalEnabled: Boolean;
@@ -173,6 +176,7 @@ type
     FScrollPastEof: Boolean;
     FScrollPastEol: Boolean;
     FShadows: Boolean;
+    FShowSearchStringNotFound: Boolean;
     FShowXMLTree: Boolean;
     FSmartTabDelete: Boolean;
     FSmartTabs: Boolean;
@@ -215,6 +219,7 @@ type
     property AnimationStyle: TAnimationStyle read FAnimationStyle write FAnimationStyle;
     property AutoIndent: Boolean read FAutoIndent write FAutoIndent;
     property AutoSave: Boolean read FAutoSave write FAutoSave;
+    property BeepIfSearchStringNotFound: Boolean read FBeepIfSearchStringNotFound write FBeepIfSearchStringNotFound;
     property ColorBrightness: Integer read FColorBrightness write FColorBrightness;
     property CompletionProposalCaseSensitive: Boolean read FCompletionProposalCaseSensitive write FCompletionProposalCaseSensitive;
     property CompletionProposalEnabled: Boolean read FCompletionProposalEnabled write FCompletionProposalEnabled;
@@ -296,6 +301,7 @@ type
     property ScrollPastEof: Boolean read FScrollPastEof write FScrollPastEof;
     property ScrollPastEol: Boolean read FScrollPastEol write FScrollPastEol;
     property Shadows: Boolean read FShadows write FShadows;
+    property ShowSearchStringNotFound: Boolean read FShowSearchStringNotFound write FShowSearchStringNotFound;
     property ShowXMLTree: Boolean read FShowXMLTree write FShowXMLTree;
     property SmartTabDelete: Boolean read FSmartTabDelete write FSmartTabDelete;
     property SmartTabs: Boolean read FSmartTabs write FSmartTabs;
@@ -648,6 +654,7 @@ begin
   FAnimationStyle := asDefault;
   FAutoIndent := True;
   FAutoSave := False;
+  FBeepIfSearchStringNotFound := True;
   FCompletionProposalCaseSensitive := True;
   FCompletionProposalEnabled := True;
   FCompletionProposalShortcut := 'Ctrl+Space';
@@ -714,6 +721,8 @@ begin
   FScrollPastEof := False;
   FScrollPastEol := True;
   FShadows := True;
+  FShowSearchStringNotFound := True;
+  FShowXMLTree := False;
   FSmartTabDelete := False;
   FSmartTabs := False;
   FStatusBarFontName := 'Tahoma';
@@ -827,6 +836,7 @@ begin
   FEditorErrorCheckingFrame.Free;
   FEditorFontFrame.Free;
   FEditorMarginFrame.Free;
+  FEditorSearchFrame.Free;
   FEditorOptionsFrame.Free;
   FEditorOtherFrame.Free;
   FEditorTabsFrame.Free;
@@ -872,6 +882,11 @@ begin
     Data := GetNodeData(ChildNode);
     Data.ImageIndex := EditorTabsAction.ImageIndex;
     Data.Caption := EditorTabsAction.Caption;
+    { Search }
+    ChildNode := AddChild(Node);
+    Data := GetNodeData(ChildNode);
+    Data.ImageIndex := EditorSearchAction.ImageIndex;
+    Data.Caption := EditorSearchAction.Caption;
     { Completion proposal }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
@@ -968,6 +983,7 @@ begin
   UpdateLanguage(TForm(FEditorErrorCheckingFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorFontFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorMarginFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FEditorSearchFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorOptionsFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorOtherFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorTabsFrame), SelectedLanguage);
@@ -1023,6 +1039,9 @@ begin
   FEditorMarginFrame.VisibleRightMarginCheckBox.Checked := FOptionsContainer.MarginVisibleRightMargin;
   FEditorMarginFrame.RightMarginEdit.Text := IntToStr(FOptionsContainer.MarginRightMargin);
   FEditorMarginFrame.WidthEdit.Text := IntToStr(FOptionsContainer.MarginWidth);
+  { Search }
+  FEditorSearchFrame.ShowSearchStringNotFoundCheckBox.Checked := FOptionsContainer.ShowSearchStringNotFound;
+  FEditorSearchFrame.BeepIfSearchStringNotFoundCheckBox.Checked := FOptionsContainer.BeepIfSearchStringNotFound;
   { Document tabs }
   FEditorTabsFrame.CloseTabByDblClickCheckBox.Checked := FOptionsContainer.DocCloseTabByDblClick;
   FEditorTabsFrame.CloseTabByMiddleClickCheckBox.Checked := FOptionsContainer.DocCloseTabByMiddleClick;
@@ -1157,9 +1176,10 @@ begin
     end;
     FEditorMarginFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 1);
     FEditorTabsFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 2);
-    FEditorCompletionProposalFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 3);
-    FEditorErrorCheckingFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 4);
-    FEditorOtherFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 5);
+    FEditorSearchFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 3);
+    FEditorCompletionProposalFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 4);
+    FEditorErrorCheckingFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 5);
+    FEditorOtherFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 6);
     FOptionsDirectoryFrame.Visible := (Level = 0) and (TreeNode.Index = 1);
     FDirectoryTabsFrame.Visible := (ParentIndex = 1) and (Level = 1) and (TreeNode.Index = 0);
     FOptionsOutputFrame.Visible := (Level = 0) and (TreeNode.Index = 2);
@@ -1257,6 +1277,9 @@ begin
   FOptionsContainer.MarginRightMargin := StrToIntDef(FEditorMarginFrame.RightMarginEdit.Text, 80);
   FOptionsContainer.MarginVisibleRightMargin := FEditorMarginFrame.VisibleRightMarginCheckBox.Checked;
   FOptionsContainer.MarginWidth := StrToIntDef(FEditorMarginFrame.WidthEdit.Text, 48);
+  { Search }
+  FOptionsContainer.ShowSearchStringNotFound := FEditorSearchFrame.ShowSearchStringNotFoundCheckBox.Checked;
+  FOptionsContainer.BeepIfSearchStringNotFound := FEditorSearchFrame.BeepIfSearchStringNotFoundCheckBox.Checked;
   { Document tabs }
   FOptionsContainer.DocCloseTabByDblClick := FEditorTabsFrame.CloseTabByDblClickCheckBox.Checked;
   FOptionsContainer.DocCloseTabByMiddleClick := FEditorTabsFrame.CloseTabByMiddleClickCheckBox.Checked;
@@ -1411,6 +1434,8 @@ begin
   FEditorFontFrame.Parent := OptionsPanel;
   FEditorMarginFrame := TEditorMarginFrame.Create(OptionsPanel);
   FEditorMarginFrame.Parent := OptionsPanel;
+  FEditorSearchFrame := TEditorSearchFrame.Create(OptionsPanel);
+  FEditorSearchFrame.Parent := OptionsPanel;
   FEditorOptionsFrame := TEditorOptionsFrame.Create(OptionsPanel);
   FEditorOptionsFrame.Parent := OptionsPanel;
   FEditorOtherFrame := TEditorOtherFrame.Create(OptionsPanel);
