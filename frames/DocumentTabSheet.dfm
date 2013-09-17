@@ -1,15 +1,15 @@
 object DocTabSheetFrame: TDocTabSheetFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 302
+  Width = 752
+  Height = 494
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 451
-    Height = 302
+    Width = 752
+    Height = 494
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 1
@@ -21,7 +21,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 201
       Top = 1
       Width = 4
-      Height = 299
+      Height = 491
       Color = clBtnFace
       ParentColor = False
       Visible = False
@@ -30,7 +30,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 1
       Top = 1
       Width = 200
-      Height = 299
+      Height = 491
       Align = alLeft
       DragOperations = []
       Header.AutoSizeIndex = 0
@@ -53,8 +53,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
     object DocumentPanel: TPanel
       Left = 205
       Top = 1
-      Width = 246
-      Height = 299
+      Width = 547
+      Height = 491
       Align = alClient
       BevelOuter = bvNone
       Color = clWindow
@@ -62,8 +62,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       TabOrder = 1
       object HorizontalSplitter: TSplitter
         Left = 0
-        Top = 18
-        Width = 246
+        Top = 210
+        Width = 547
         Height = 4
         Cursor = crVSplit
         Align = alBottom
@@ -71,18 +71,18 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Visible = False
       end
       object SynEditSplitter: TSplitter
-        Left = 42
+        Left = 343
         Top = 0
         Width = 4
-        Height = 18
+        Height = 210
         Align = alRight
         ParentColor = False
         Visible = False
       end
       object SplitSynEditPanel: TPanel
         Left = 0
-        Top = 22
-        Width = 246
+        Top = 214
+        Width = 547
         Height = 277
         Align = alBottom
         BevelOuter = bvNone
@@ -90,7 +90,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         TabOrder = 0
         Visible = False
         object SplitSynEditSplitter: TSplitter
-          Left = 42
+          Left = 343
           Top = 0
           Width = 4
           Height = 277
@@ -102,7 +102,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         object SplitSynEdit: TBCSynEdit
           Left = 0
           Top = 0
-          Width = 42
+          Width = 343
           Height = 277
           Align = alClient
           ActiveLineColor = clSkyBlue
@@ -124,7 +124,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
           FontSmoothing = fsmNone
         end
         object SplitSynEditMinimap: TSynMiniMap
-          Left = 46
+          Left = 347
           Top = 0
           Width = 200
           Height = 277
@@ -142,10 +142,10 @@ object DocTabSheetFrame: TDocTabSheetFrame
         end
       end
       object SynEditMinimap: TSynMiniMap
-        Left = 46
+        Left = 347
         Top = 0
         Width = 200
-        Height = 18
+        Height = 210
         Editor = SynEdit
         FontFactor = 2.000000000000000000
         Options.AllowScroll = True
@@ -161,8 +161,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       object SynEdit: TBCSynEdit
         Left = 0
         Top = 0
-        Width = 42
-        Height = 18
+        Width = 343
+        Height = 210
         Align = alClient
         ActiveLineColor = clSkyBlue
         Font.Charset = DEFAULT_CHARSET

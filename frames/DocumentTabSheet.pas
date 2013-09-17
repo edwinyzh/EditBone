@@ -234,10 +234,13 @@ begin
   begin
     AMargin := TextMargin;
     TreeNode := Sender.GetNodeData(Node);
-    if IsNameNodeType(TreeNode.Data.NodeType) then
-      NodeWidth := Canvas.TextWidth(TreeNode.Data.NodeName) + 2 * AMargin
-    else
-      NodeWidth := Canvas.TextWidth(TreeNode.Data.NodeValue) + 2 * AMargin
+    if Assigned(TreeNode.Data) then
+    begin
+      if IsNameNodeType(TreeNode.Data.NodeType) then
+        NodeWidth := Canvas.TextWidth(TreeNode.Data.NodeName) + 2 * AMargin
+      else
+        NodeWidth := Canvas.TextWidth(TreeNode.Data.NodeValue) + 2 * AMargin
+    end;
   end;
 end;
 
@@ -289,8 +292,9 @@ var
 begin
   inherited;
   TreeNode := VirtualDrawTree.GetNodeData(Node);
-  if TreeNode.Data.HasChildNodes or (UpperCase(TreeNode.Data.NodeName) = 'XML') then
-    Include(InitialStates, ivsHasChildren);
+  if Assigned(TreeNode.Data) then
+    if TreeNode.Data.HasChildNodes or (UpperCase(TreeNode.Data.NodeName) = 'XML') then
+      Include(InitialStates, ivsHasChildren);
 end;
 
 function TDocTabSheetFrame.GetSplitVisible: Boolean;

@@ -29,18 +29,11 @@ type
     { Private declarations }
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent); override;
   end;
 
 implementation
 
 {$R *.dfm}
-
-constructor TEditorFontFrame.Create(AOwner: TComponent);
-begin
-  inherited;
-  SynEdit.Text := EditorFontLabel.Caption;
-end;
 
 procedure TEditorFontFrame.SelectEditorFontActionExecute(Sender: TObject);
 begin

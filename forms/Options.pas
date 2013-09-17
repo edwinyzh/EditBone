@@ -681,7 +681,7 @@ begin
   FDocShowImage := True;
   FExtraLineSpacing := 0;
   FFontName := 'Courier New';
-  FFontSize := 10;
+  FFontSize := 9;
   FMarginAutoSize := True;
   FMarginFontName := 'Courier New';
   FMarginFontSize := 8;
@@ -1030,6 +1030,7 @@ begin
   FEditorFontFrame.EditorFontLabel.Font.Name := FOptionsContainer.FontName;
   FEditorFontFrame.EditorFontLabel.Font.Size := FOptionsContainer.FontSize;
   FEditorFontFrame.EditorFontLabel.Caption := Format('%s %dpt', [FEditorFontFrame.EditorFontLabel.Font.Name, FEditorFontFrame.EditorFontLabel.Font.Size]);
+  FEditorFontFrame.SynEdit.Text := FEditorFontFrame.EditorFontLabel.Caption;
   FEditorFontFrame.MarginFontLabel.Font.Name := FOptionsContainer.MarginFontName;
   FEditorFontFrame.MarginFontLabel.Font.Size := FOptionsContainer.MarginFontSize;
   FEditorFontFrame.MarginFontLabel.Caption := Format('%s %dpt', [FEditorFontFrame.MarginFontLabel.Font.Name, FEditorFontFrame.MarginFontLabel.Font.Size]);

@@ -1009,6 +1009,7 @@ begin
       end;
     end
     else
+    if ExtractFileName(FileName) <> '' then
       ShowErrorMessage(Format(LanguageDataModule.GetErrorMessage('FileNotFound'), [Filename]))
   end;
   FProcessing := False;
@@ -1850,7 +1851,7 @@ begin
   try
     { Options }
     OptionsContainer.FontName := ReadString('Options', 'FontName', 'Courier New');
-    OptionsContainer.FontSize := StrToInt(ReadString('Options', 'FontSize', '10'));
+    OptionsContainer.FontSize := StrToInt(ReadString('Options', 'FontSize', '9'));
     OptionsContainer.ColorBrightness := StrToInt(ReadString('Options', 'ActiveLineColorBrightness', '2'));
     OptionsContainer.MarginFontName := ReadString('Options', 'MarginFontName', 'Courier New');
     OptionsContainer.MarginFontSize := StrToInt(ReadString('Options', 'MarginFontSize', '8'));
