@@ -237,7 +237,6 @@ type
     function GetCanUndo: Boolean;
     function GetCompareFrame(TabSheet: TTabSheet): TCompareFrame;
     function GetDocTabSheetFrame(TabSheet: TTabSheet): TDocTabSheetFrame;
-    function GetFileDateTime(FileName: string): TDateTime;
     function GetModifiedDocuments(CheckActive: Boolean = True): Boolean;
     function GetOpenTabSheetCount: Integer;
     function GetOpenTabSheets: Boolean;
@@ -394,7 +393,7 @@ begin
   FModifiedDocuments := False;
   FHTMLErrorList := TList.Create;
 
-  { IDE can lose these, if the main form is not open }
+  { IDE will lose these, if the main form is not open }
   EditorPopupMenu.Images := MainForm.ImageList;
   CutMenuItem.Action := MainForm.EditCutAction;
   CopyMenuItem.Action := MainForm.EditCopyAction;
@@ -455,8 +454,7 @@ begin
   { compare and new image index }
   Icon := TIcon.Create;
   try
-    { windows font size causing problems here!
-      Icon size will be smaller than PageControl.Images size }
+    { Windows font size causing a problem: Icon size will be smaller than PageControl.Images size }
     case PageControl.Images.Height of
       16:
       begin
@@ -562,21 +560,6 @@ begin
   FHTMLErrorList.Clear;
 end;
 
-function GetIconIndex(Name: string; Flags: Cardinal): Integer;
-var
-  SFI: TSHFileInfo;
-begin
-  if SHGetFileInfo(PChar(Name), 0, SFI, SizeOf(SHFileInfo), Flags) = 0 then
-    Result := -1
-  else
-    Result := SFI.iIcon;
-end;
-
-function GetImageIndex(Path: string): integer;
-begin
-  Result := GetIconIndex(Path, SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
-end;
-
 function TDocumentFrame.ToggleXMLTree: Boolean;
 var
   i: Integer;
@@ -617,7 +600,7 @@ begin
   TabSheet.PageControl := PageControl;
 
   if FileName <> '' then
-    TabSheet.ImageIndex := GetImageIndex(FileName)
+    TabSheet.ImageIndex := GetIconIndex(FileName)
   else
     TabSheet.ImageIndex := FNewImageIndex;
 
@@ -1196,7 +1179,7 @@ begin
         UndoList.Clear;
       FileDateTime := GetFileDateTime(DocumentName);
       Modified := False;
-      TabSheet.ImageIndex := GetImageIndex(DocumentName);
+      TabSheet.ImageIndex := GetIconIndex(DocumentName);
       TabSheet.Caption := FormatFileName(TabSheet.Caption);
       PageControl.UpdatePageCaption(TabSheet);
       SelectHighlighter(DocTabSheetFrame, DocumentName);
@@ -1306,7 +1289,6 @@ procedure TDocumentFrame.Copy;
   end;
 
 begin
-
   Copy(GetActiveSynEdit);
   Copy(GetActiveSplitSynEdit);
 end;
@@ -2889,7 +2871,9 @@ var
   i: Integer;
   SynEdit: TBCSynEdit;
   FileDateTime: TDateTime;
+  DialogResult: Integer;
 begin
+  DialogResult := mrNo;
   if FProcessing then
     Exit;
   for i := 0 to PageControl.PageCount - 1 do
@@ -2903,7 +2887,9 @@ begin
         begin
           if FileExists(SynEdit.DocumentName) then
           begin
-            if AskYesOrNo(Format(LanguageDataModule.GetYesOrNoMessage('DocumentTimeChanged'), [SynEdit.DocumentName])) then
+            if not (DialogResult in [mrYesToAll, mrNoToAll]) then
+              DialogResult := AskYesOrNoAll(Format(LanguageDataModule.GetYesOrNoMessage('DocumentTimeChanged'), [SynEdit.DocumentName]));
+            if DialogResult in [mrYes, mrYesToAll] then
               Refresh(i);
           end
           else
@@ -2920,14 +2906,6 @@ begin
         end;
       end;
   end;
-end;
-
-function TDocumentFrame.GetFileDateTime(FileName: string): TDateTime;
-var
-  SearchRec: TSearchRec;
-begin
-  FindFirst(FileName, faAnyFile, SearchRec);
-  Result := SearchRec.TimeStamp;
 end;
 
 procedure TDocumentFrame.Refresh(Page: Integer);

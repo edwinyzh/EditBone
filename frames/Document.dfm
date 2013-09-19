@@ -146,8 +146,10 @@ object DocumentFrame: TDocumentFrame
         Width = 181
         Height = 21
         Align = alTop
+        DoubleBuffered = True
         Images = ImageList16
         LeftButton.Enabled = False
+        ParentDoubleBuffered = False
         RightButton.HotImageIndex = 3
         RightButton.ImageIndex = 2
         RightButton.PressedImageIndex = 4
