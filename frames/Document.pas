@@ -2824,6 +2824,8 @@ var
   CaretX, CaretY: Integer;
 begin
   SynEdit := GetActiveSynEdit;
+  if not Assigned(SynEdit) then
+    Exit;
   for i := 0 to SynEdit.Marks.Count - 1 do
     if SynEdit.CaretY = SynEdit.Marks[i].Line then
     begin
@@ -2832,7 +2834,7 @@ begin
     end;
   CaretX := SynEdit.CaretX;
   CaretY := SynEdit.CaretY;
-  for i := 0 to 9 do
+  for i := 1 to 9 do
     if not SynEdit.GetBookMark(i, CaretX, CaretY) then
     begin
       SynEdit.SetBookMark(i, SynEdit.CaretX, SynEdit.CaretY);
