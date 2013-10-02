@@ -1041,7 +1041,7 @@ end;
 
 procedure TDocumentFrame.CloseAll(CloseDocuments: Boolean);
 var
-  Rslt, i: Integer;
+  Rslt, i, j: Integer;
 begin
   Rslt := mrNone;
 
@@ -1057,9 +1057,10 @@ begin
     Screen.Cursor := crHourGlass;
     try
       FProgressBar.Visible := True;
-      for i := PageControl.PageCount - 1 downto 0 do
+      j := PageControl.PageCount;
+      for i := j - 1 downto 0 do
       begin
-        FProgressBar.Position := 100 - Trunc((i / PageControl.PageCount - 1) * 100);
+        FProgressBar.Position := 100 - Trunc((i / j) * 100);
         PageControl.Pages[i].Free;
       end;
       FProgressBar.Visible := False;
@@ -1076,7 +1077,7 @@ end;
 
 procedure TDocumentFrame.CloseAllOtherPages;
 var
-  i: Integer;
+  i, j: Integer;
   Rslt: Integer;
   SynEdit: TBCSynEdit;
 begin
@@ -1101,9 +1102,10 @@ begin
     Screen.Cursor := crHourGlass;
     try
       FProgressBar.Visible := True;
-      for i := PageControl.PageCount - 1 downto 1 do
+      j := PageControl.PageCount;
+      for i := j - 1 downto 1 do
       begin
-        FProgressBar.Position := 100 - Trunc((i / PageControl.PageCount - 1) * 100);
+        FProgressBar.Position := 100 - Trunc((i / j) * 100);
         PageControl.Pages[i].Free;
       end;
       FProgressBar.Visible := False;
@@ -1199,16 +1201,17 @@ end;
 
 procedure TDocumentFrame.SaveAll;
 var
-  i: Integer;
+  i, j: Integer;
   SynEdit: TBCSynEdit;
 begin
   Screen.Cursor := crHourGlass;
   try
     FProcessing := True;
     FProgressBar.Visible := True;
-    for i := 0 to PageControl.PageCount - 1 do
+    j := PageControl.PageCount;
+    for i := 0 to j - 1 do
     begin
-      FProgressBar.Position := Trunc((i / PageControl.PageCount - 1) * 100);
+      FProgressBar.Position := Trunc((i / j) * 100);
       SynEdit := GetSynEdit(PageControl.Pages[i]);
       if Assigned(SynEdit) and SynEdit.Modified then
         Save(PageControl.Pages[i]);
@@ -1607,7 +1610,7 @@ procedure TDocumentFrame.Replace;
 var
   SynSearchOptions: TSynSearchOptions;
   SynEdit: TBCSynEdit;
-  i, MResult: Integer;
+  i, j, MResult: Integer;
 begin
   with ReplaceDialog do
   begin
@@ -1633,9 +1636,10 @@ begin
         Screen.Cursor := crHourGlass;
         try
           FProgressBar.Visible := True;
-          for i := 0 to PageControl.PageCount - 1 do
+          j := PageControl.PageCount;
+          for i := 0 to j - 1 do
           begin
-            FProgressBar.Position := Trunc((i / PageControl.PageCount - 1) * 100);
+            FProgressBar.Position := Trunc((i / j) * 100);
             SynEdit := GetSynEdit(PageControl.Pages[i]);
             if Assigned(SynEdit) then
             begin

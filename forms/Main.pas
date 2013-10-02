@@ -1248,14 +1248,15 @@ end;
 
 procedure OutputOpenAllEvent(var FileNames: TStrings);
 var
-  i: Integer;
+  i, j: Integer;
 begin
   Screen.Cursor := crHourGlass;
   try
     MainForm.ProgressBar.Visible := True;
-    for i := 0 to FileNames.Count - 1 do
+    j := FileNames.Count;
+    for i := 0 to j - 1 do
     begin
-      MainForm.ProgressBar.Position := Trunc((i / FileNames.Count - 1) * 100);
+      MainForm.ProgressBar.Position := Trunc((i / j) * 100);
       MainForm.FDocumentFrame.Open(FileNames.Strings[i]);
     end;
     MainForm.ProgressBar.Visible := False;
