@@ -1910,7 +1910,9 @@ var
     end;
   end;
 begin
-  shFindFile := FindFirstFile(PChar(AddSlash(FolderText) + '*.*'), sWin32FD);
+  {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
+  shFindFile := FindFirstFile(PChar(IncludeTrailingBackslash(FolderText) + '*.*'), sWin32FD);
+  {$WARNINGS ON}
   if shFindFile <> INVALID_HANDLE_VALUE then
   try
     repeat
@@ -1920,14 +1922,18 @@ begin
       if (FName <> '.') and (FName <> '..') then
       begin
         if LookInSubfolders and IsDirectory(sWin32FD) then
-          FindInFiles(OutputTreeView, FindWhatText, FileTypeText, AddSlash(FolderText) + FName, SearchCaseSensitive, LookInSubfolders)
+        {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
+          FindInFiles(OutputTreeView, FindWhatText, FileTypeText, IncludeTrailingBackslash(FolderText) + FName, SearchCaseSensitive, LookInSubfolders)
+        {$WARNINGS ON}
         else
         begin
           if IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) then
             if (FileTypeText = '*.*') or IsExtInFileType(ExtractFileExt(FName), FileTypeText) then
             try
               SynEdit := TBCSynEdit.Create(nil);
-              SynEdit.LoadFromFile(AddSlash(String(FolderText)) + FName);
+              {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
+              SynEdit.LoadFromFile(IncludeTrailingBackslash(String(FolderText)) + FName);
+              {$WARNINGS ON}
               try
                 Root := nil;
                 if Trim(SynEdit.Text) <> '' then
@@ -1949,7 +1955,9 @@ begin
                       ChPos := ChPos + Ch;
                       if FOutputFrame.CancelSearch then
                         Break;
-                      FOutputFrame.AddTreeViewLine(OutputTreeView, Root, AddSlash(FolderText) + FName, Ln + 1, ChPos, Line, FindWhatText);
+                      {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
+                      FOutputFrame.AddTreeViewLine(OutputTreeView, Root, IncludeTrailingBackslash(FolderText) + FName, Ln + 1, ChPos, Line, FindWhatText);
+                      {$WARNINGS ON}
                       S := Copy(S, Ch + LongWord(Length(FindWhatText)), Length(S));
                       ChPos := ChPos + LongWord(Length(FindWhatText)) - 1;
                     end
@@ -1961,7 +1969,9 @@ begin
                 SynEdit.Free;
               end;
             except
-              ShowWarningMessage(Format(LanguageDataModule.GetWarningMessage('FileAccessError'), [AddSlash(FolderText) + FName]));
+              {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
+              ShowWarningMessage(Format(LanguageDataModule.GetWarningMessage('FileAccessError'), [IncludeTrailingBackslash(FolderText) + FName]));
+              {$WARNINGS ON}
             end;
         end;
       end;
