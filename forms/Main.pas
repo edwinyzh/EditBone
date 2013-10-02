@@ -1252,13 +1252,10 @@ var
 begin
   Screen.Cursor := crHourGlass;
   try
-    MainForm.ProgressBar.Min := 0;
-    MainForm.ProgressBar.Max := FileNames.Count - 1;
-    MainForm.ProgressBar.Invalidate;
     MainForm.ProgressBar.Visible := True;
     for i := 0 to FileNames.Count - 1 do
     begin
-      MainForm.ProgressBar.Position := i;
+      MainForm.ProgressBar.Position := Trunc((i / FileNames.Count - 1) * 100);
       MainForm.FDocumentFrame.Open(FileNames.Strings[i]);
     end;
     MainForm.ProgressBar.Visible := False;

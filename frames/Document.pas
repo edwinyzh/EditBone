@@ -1041,7 +1041,7 @@ end;
 
 procedure TDocumentFrame.CloseAll(CloseDocuments: Boolean);
 var
-  Rslt, i, j: Integer;
+  Rslt, i: Integer;
 begin
   Rslt := mrNone;
 
@@ -1056,14 +1056,10 @@ begin
     FProcessing := True;
     Screen.Cursor := crHourGlass;
     try
-      FProgressBar.Min := 0;
-      FProgressBar.Max := PageControl.PageCount - 1;
-      FProgressBar.Invalidate;
       FProgressBar.Visible := True;
-      j := FProgressBar.Max;
-      for i := j downto 0 do
+      for i := PageControl.PageCount - 1 downto 0 do
       begin
-        FProgressBar.Position := j - i;
+        FProgressBar.Position := 100 - Trunc((i / PageControl.PageCount - 1) * 100);
         PageControl.Pages[i].Free;
       end;
       FProgressBar.Visible := False;
@@ -1080,7 +1076,7 @@ end;
 
 procedure TDocumentFrame.CloseAllOtherPages;
 var
-  i, j: Integer;
+  i: Integer;
   Rslt: Integer;
   SynEdit: TBCSynEdit;
 begin
@@ -1104,14 +1100,10 @@ begin
     FProcessing := True;
     Screen.Cursor := crHourGlass;
     try
-      FProgressBar.Min := 1;
-      FProgressBar.Max := PageControl.PageCount - 1;
-      FProgressBar.Invalidate;
       FProgressBar.Visible := True;
-      j := FProgressBar.Max;
-      for i := j downto 1 do
+      for i := PageControl.PageCount - 1 downto 1 do
       begin
-        FProgressBar.Position := j - i;
+        FProgressBar.Position := 100 - Trunc((i / PageControl.PageCount - 1) * 100);
         PageControl.Pages[i].Free;
       end;
       FProgressBar.Visible := False;
@@ -1213,13 +1205,10 @@ begin
   Screen.Cursor := crHourGlass;
   try
     FProcessing := True;
-    FProgressBar.Min := 0;
-    FProgressBar.Max := PageControl.PageCount - 1;
-    FProgressBar.Invalidate;
     FProgressBar.Visible := True;
     for i := 0 to PageControl.PageCount - 1 do
     begin
-      FProgressBar.Position := i;
+      FProgressBar.Position := Trunc((i / PageControl.PageCount - 1) * 100);
       SynEdit := GetSynEdit(PageControl.Pages[i]);
       if Assigned(SynEdit) and SynEdit.Modified then
         Save(PageControl.Pages[i]);
@@ -1643,13 +1632,10 @@ begin
         FProcessing := True;
         Screen.Cursor := crHourGlass;
         try
-          FProgressBar.Min := 0;
-          FProgressBar.Max := PageControl.PageCount - 1;
-          FProgressBar.Invalidate;
           FProgressBar.Visible := True;
           for i := 0 to PageControl.PageCount - 1 do
           begin
-            FProgressBar.Position := i;
+            FProgressBar.Position := Trunc((i / PageControl.PageCount - 1) * 100);
             SynEdit := GetSynEdit(PageControl.Pages[i]);
             if Assigned(SynEdit) then
             begin
