@@ -1254,6 +1254,7 @@ begin
   try
     MainForm.ProgressBar.Min := 0;
     MainForm.ProgressBar.Max := FileNames.Count - 1;
+    MainForm.ProgressBar.Invalidate;
     MainForm.ProgressBar.Visible := True;
     for i := 0 to FileNames.Count - 1 do
     begin

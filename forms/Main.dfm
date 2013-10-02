@@ -2050,7 +2050,7 @@ object MainForm: TMainForm
     object FilePropertiesAction: TAction
       Category = '&File'
       Caption = 'Pr&operties'
-      Hint = 'See the file/directory properties'
+      Hint = 'See the file properties'
       ImageIndex = 12
       OnExecute = FilePropertiesActionExecute
     end

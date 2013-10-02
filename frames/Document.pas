@@ -1058,6 +1058,7 @@ begin
     try
       FProgressBar.Min := 0;
       FProgressBar.Max := PageControl.PageCount - 1;
+      FProgressBar.Invalidate;
       FProgressBar.Visible := True;
       j := FProgressBar.Max;
       for i := j downto 0 do
@@ -1105,6 +1106,7 @@ begin
     try
       FProgressBar.Min := 1;
       FProgressBar.Max := PageControl.PageCount - 1;
+      FProgressBar.Invalidate;
       FProgressBar.Visible := True;
       j := FProgressBar.Max;
       for i := j downto 1 do
@@ -1213,6 +1215,7 @@ begin
     FProcessing := True;
     FProgressBar.Min := 0;
     FProgressBar.Max := PageControl.PageCount - 1;
+    FProgressBar.Invalidate;
     FProgressBar.Visible := True;
     for i := 0 to PageControl.PageCount - 1 do
     begin
@@ -1642,6 +1645,7 @@ begin
         try
           FProgressBar.Min := 0;
           FProgressBar.Max := PageControl.PageCount - 1;
+          FProgressBar.Invalidate;
           FProgressBar.Visible := True;
           for i := 0 to PageControl.PageCount - 1 do
           begin

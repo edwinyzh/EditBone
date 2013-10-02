@@ -65,7 +65,8 @@ uses
   OptionsPrint in 'frames\OptionsPrint.pas' {OptionsPrintFrame: TFrame},
   BCCommon.Lib in '..\..\Common\units\BCCommon.Lib.pas',
   BCCommon.MacroRecorder in '..\..\Common\units\BCCommon.MacroRecorder.pas',
-  OptionsEditorSearch in 'frames\OptionsEditorSearch.pas' {EditorSearchFrame: TFrame};
+  OptionsEditorSearch in 'frames\OptionsEditorSearch.pas' {EditorSearchFrame: TFrame},
+  BCForms.SearchForFiles in '..\..\Common\forms\BCForms.SearchForFiles.pas' {SearchForFilesForm};
 
 {$R *.res}
 

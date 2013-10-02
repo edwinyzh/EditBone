@@ -72,6 +72,7 @@ object DirectoryFrame: TDirectoryFrame
   end
   object PopupMenu: TBCPopupMenu
     Images = ImagesList
+    OnPopup = PopupMenuPopup
     Left = 104
     Top = 156
     object OpenDirectoryMenuItem: TMenuItem

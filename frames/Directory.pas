@@ -46,6 +46,7 @@ type
     procedure PageControlCloseButtonClick(Sender: TObject);
     procedure PageControlDblClick(Sender: TObject);
     procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure PopupMenuPopup(Sender: TObject);
   private
     { Private declarations }
     FTabsheetDblClick: TNotifyEvent;
@@ -488,6 +489,11 @@ procedure TDirectoryFrame.PageControlMouseDown(Sender: TObject; Button: TMouseBu
 begin
   if (Button = mbMiddle) and OptionsContainer.DirCloseTabByMiddleClick then
     DirectoryCloseAction.Execute;
+end;
+
+procedure TDirectoryFrame.PopupMenuPopup(Sender: TObject);
+begin
+  DirectoryPropertiesAction.Enabled := FileExists(SelectedFile);
 end;
 
 procedure TDirectoryFrame.DriveComboChange(Sender: TObject);

@@ -263,16 +263,21 @@ procedure TUnicodeCharacterMapForm.ReadIniFile;
 begin
   with TMemIniFile.Create(GetIniFilename) do
   try
-    { Size }
-    Width := ReadInteger('CharacterMapSize', 'Width', Width);
-    Height := ReadInteger('CharacterMapSize', 'Height', Height);
-    { Position }
-    Left := ReadInteger('CharacterMapPosition', 'Left', (Screen.Width - Width) div 2);
-    Top := ReadInteger('CharacterMapPosition', 'Top', (Screen.Height - Height) div 2);
-    StringGridCharacter.Row := ReadInteger('CharacterMapPosition', 'Row', 0);
-    StringGridCharacter.Col := ReadInteger('CharacterMapPosition', 'Col', 0);
-  finally
-    Free;
+    try
+      { Size }
+      Width := ReadInteger('CharacterMapSize', 'Width', Width);
+      Height := ReadInteger('CharacterMapSize', 'Height', Height);
+      { Position }
+      Left := ReadInteger('CharacterMapPosition', 'Left', (Screen.Width - Width) div 2);
+      Top := ReadInteger('CharacterMapPosition', 'Top', (Screen.Height - Height) div 2);
+      StringGridCharacter.Row := ReadInteger('CharacterMapPosition', 'Row', 0);
+      StringGridCharacter.Col := ReadInteger('CharacterMapPosition', 'Col', 0);
+      FontComboBox.FontName := ReadString('CharacterMapPosition', 'FontName', 'Arial');
+    finally
+      Free;
+    end;
+  except
+
   end;
 end;
 
@@ -286,6 +291,8 @@ begin
     WriteInteger('CharacterMapPosition', 'Top', Top);
     WriteInteger('CharacterMapPosition', 'Row', StringGridCharacter.Row);
     WriteInteger('CharacterMapPosition', 'Col', StringGridCharacter.Col);
+    { Font name }
+    WriteString('CharacterMapPosition', 'FontName', FontComboBox.FontName);
     { Size }
     WriteInteger('CharacterMapSize', 'Width', Width);
     WriteInteger('CharacterMapSize', 'Height', Height);
