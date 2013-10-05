@@ -1120,9 +1120,18 @@ begin
   FDocumentFrame.CompareFiles;
 end;
 
+procedure DoSearchForFilesOpenFile(var FileName: string);
+begin
+  MainForm.FDocumentFrame.Open(FileName);
+end;
+
 procedure TMainForm.ViewSearchForFilesActionExecute(Sender: TObject);
 begin
-  SearchForFilesForm.Open(FDirectoryFrame.SelectedPath);
+  with SearchForFilesForm do
+  begin
+    OnOpenFile := DoSearchForFilesOpenFile;
+    Open(FDirectoryFrame.SelectedPath);
+  end;
 end;
 
 procedure TMainForm.ViewSelectionModeActionExecute(Sender: TObject);
