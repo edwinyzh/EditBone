@@ -330,7 +330,7 @@ begin
   begin
     AMargin := TextMargin;
     Data := Sender.GetNodeData(Node);
-
+    if Assigned(Data) then
     case Data.Level of
       0: begin
            Canvas.Font.Style := Canvas.Font.Style + [fsBold];
@@ -351,7 +351,6 @@ end;
 procedure TOutputFrame.VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
 var
   Data: POutputRec;
-
 begin
   Data := Sender.GetNodeData(Node);
 

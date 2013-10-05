@@ -1408,12 +1408,12 @@ begin
   if Windowstate = wsNormal then
   with TMemIniFile.Create(GetIniFilename) do
   try
-    { Position }
-    WriteInteger('OptionsPosition', 'Left', Left);
-    WriteInteger('OptionsPosition', 'Top', Top);
     { Size }
     WriteInteger('OptionsSize', 'Width', Width);
     WriteInteger('OptionsSize', 'Height', Height);
+    { Position }
+    WriteInteger('OptionsPosition', 'Left', Left);
+    WriteInteger('OptionsPosition', 'Top', Top);
     { Tree width }
     WriteInteger('OptionsSize', 'TreeWidth', OptionsVirtualStringTree.Width);
   finally

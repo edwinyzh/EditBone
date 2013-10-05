@@ -16,8 +16,8 @@ const
   FILE_MENU_ITEMINDEX = 0;
   FILE_REOPEN_MENU_ITEMINDEX = 2;
   VIEW_MENU_ITEMINDEX = 3;
-  VIEW_LANGUAGE_MENU_ITEMINDEX = 14;
-  VIEW_STYLE_MENU_ITEMINDEX = 15;
+  VIEW_LANGUAGE_MENU_ITEMINDEX = 15;
+  VIEW_STYLE_MENU_ITEMINDEX = 16;
 
 type
   TStatusBar = class(Vcl.ComCtrls.TStatusBar)
@@ -201,6 +201,7 @@ type
     ViewToolbarAction: TAction;
     ViewWordWrapAction: TAction;
     ViewXMLTreeAction: TAction;
+    ViewSearchForFilesAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -312,6 +313,7 @@ type
     procedure ViewToolbarActionExecute(Sender: TObject);
     procedure ViewWordWrapActionExecute(Sender: TObject);
     procedure ViewXMLTreeActionExecute(Sender: TObject);
+    procedure ViewSearchForFilesActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -361,7 +363,8 @@ uses
   About, BCDialogs.FindInFiles, Vcl.ClipBrd, BigIni, BCCommon.StyleUtils, BCCommon.FileUtils,
   System.IOUtils, BCCommon.LanguageStrings, BCDialogs.ConfirmReplace, LanguageEditor, BCControls.SynEdit,
   BCCommon.LanguageUtils, BCCommon.DuplicateChecker, UnicodeCharacterMap, DuplicateCheckerOptions, Winapi.ShellAPI,
-  System.Types, BCCommon.Messages, BCCommon.Lib, BCCommon.StringUtils, Winapi.CommCtrl, BCForms.Convert;
+  System.Types, BCCommon.Messages, BCCommon.Lib, BCCommon.StringUtils, Winapi.CommCtrl, BCForms.Convert,
+  BCForms.SearchForFiles;
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
@@ -1044,6 +1047,7 @@ begin
 
   ViewEditDirectoryAction.Enabled := DirectoryPanel.Visible;
   ViewCloseDirectoryAction.Enabled := DirectoryPanel.Visible;
+  ViewSearchForFilesAction.Enabled := FDirectoryFrame.IsAnyDirectory and (FDirectoryFrame.SelectedPath <> '');
 
   if DirectoryPanel.Visible then
     DocumentPanel.Padding.Left := 0
@@ -1114,6 +1118,11 @@ end;
 procedure TMainForm.CompareFilesActionExecute(Sender: TObject);
 begin
   FDocumentFrame.CompareFiles;
+end;
+
+procedure TMainForm.ViewSearchForFilesActionExecute(Sender: TObject);
+begin
+  SearchForFilesForm.Open(FDirectoryFrame.SelectedPath);
 end;
 
 procedure TMainForm.ViewSelectionModeActionExecute(Sender: TObject);
