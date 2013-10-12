@@ -526,21 +526,21 @@ object AboutDialog: TAboutDialog
     object ThanksTo2LinkLabel: TLinkLabel
       Left = 18
       Top = 42
-      Width = 329
+      Width = 317
       Height = 17
       Anchors = [akTop]
       Caption = 
         '<a href="http://www.fatcow.com/free-icons">FatCow Icons</a>, <a ' +
         'href="http://www.customicondesign.com/">Custom Icon Design</a>, ' +
         '<a href="http://angusj.com/delphi/">Angus Johnson</a>, <a href="' +
-        'http://www.delphigeist.com">Dorin Duminica</a>'
+        'http://www.soft-gems.net">Mike Lischke</a>'
       TabOrder = 0
       OnLinkClick = LinkClick
     end
     object ThanksTo1LinkLabel: TLinkLabel
-      Left = 11
-      Top = 25
-      Width = 349
+      Left = 34
+      Top = 26
+      Width = 284
       Height = 17
       Anchors = [akTop]
       Caption = 
@@ -548,8 +548,7 @@ object AboutDialog: TAboutDialog
         'adero RAD Studio</a>, <a href="http://www.delphi-jedi.org/">Jedi' +
         ' Project</a>, <a href="http://synedit.svn.sourceforge.net/viewvc' +
         '/synedit/">SynEdit</a>, <a href="http://code.google.com/p/synweb' +
-        '/">SynWeb</a>, <a href="http://www.soft-gems.net">Mike Lischke</' +
-        'a>, '
+        '/">SynWeb</a>, '
       TabOrder = 1
       OnLinkClick = LinkClick
     end

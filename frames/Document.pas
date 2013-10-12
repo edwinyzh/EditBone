@@ -631,8 +631,7 @@ begin
       BookMarkOptions.BookmarkImages := BookmarkImagesList;
     end;
     { SynEditMinimap }
-    with SynEditMinimap do
-      OnSpecialLineColors := SynEditSpecialLineColors;
+    SynEditMinimap.OnSpecialLineColors := SynEditSpecialLineColors;
     { VirtualDrawTree }
     with VirtualDrawTree do
     begin
@@ -2379,13 +2378,13 @@ begin
       if DocTabSheetFrame.SplitVisible then
         LinesChange(DocTabSheetFrame.SplitSynEdit);
       if DocTabSheetFrame.MinimapVisible then
-        LinesChange(DocTabSheetFrame.SynEditMinimap);
+        LinesChange(DocTabSheetFrame.SplitSynEditMinimap);
     end;
   end;
 end;
 
 procedure TDocumentFrame.SynEditSplitOnChange(Sender: TObject);
-var
+{var
   i: Integer;
   SynEdit, SplitSynEdit: TBCSynEdit;
 begin
@@ -2411,6 +2410,53 @@ begin
     SynEdit.EndUpdate;
   end;
   SynEdit.Repaint;
+end; }
+var
+  ActiveSynEdit: TBCSynEdit;
+  DocTabSheetFrame: TDocTabSheetFrame;
+
+  procedure LinesChange(SynEdit: TBCSynEdit);
+  var
+    i: Integer;
+  begin
+    if Assigned(SynEdit) then
+    begin
+      SynEdit.BeginUpdate;
+
+      while SynEdit.Lines.Count > ActiveSynEdit.Lines.Count do
+        SynEdit.Lines.Delete(SynEdit.Lines.Count);
+      while SynEdit.Lines.Count < ActiveSynEdit.Lines.Count do
+        SynEdit.Lines.Add('');
+      for i := 0 to SynEdit.Lines.Count - 1 do
+        if ActiveSynEdit.Lines[i] <> SynEdit.Lines[i] then
+          SynEdit.Lines[i] := ActiveSynEdit.Lines[i];
+      SynEdit.EndUpdate;
+      SynEdit.Repaint;
+    end;
+  end;
+
+begin
+  inherited;
+  FModifiedDocuments := True;
+
+  if OptionsContainer.AutoSave then
+    Save
+  else
+  if not FProcessing then
+    SetActivePageCaptionModified;
+
+  if Assigned(PageControl.ActivePage) then
+  begin
+    DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+    if Assigned(DocTabSheetFrame) then
+    begin
+      ActiveSynEdit := DocTabSheetFrame.SplitSynEdit;
+      if DocTabSheetFrame.SplitVisible then
+        LinesChange(DocTabSheetFrame.SynEdit);
+      if DocTabSheetFrame.MinimapVisible then
+        LinesChange(DocTabSheetFrame.SynEditMinimap);
+    end;
+  end;
 end;
 
 function TDocumentFrame.GetActiveTabSheetCaption: string;
@@ -3550,11 +3596,9 @@ begin
         DocumentName := FileName;
         FileDateTime := GetFileDateTime(FileName);
         Font.Color := ASynEdit.Font.Color;
-        Font.Height := ASynEdit.Font.Height;
-        Font.Name := ASynEdit.Font.Name;
+        //Font.Height := ASynEdit.Font.Height;
         Gutter.Font.Color := ASynEdit.Gutter.Font.Color;
-        Gutter.Font.Height := ASynEdit.Gutter.Font.Height;
-        Gutter.Font.Name := ASynEdit.Gutter.Font.Name;
+        //Gutter.Font.Height := ASynEdit.Gutter.Font.Height;
         Gutter.ShowLineNumbers := ASynEdit.Gutter.ShowLineNumbers;
         OnChange := SynEditSplitOnChange;
         OnSpecialLineColors := SynEditSpecialLineColors;
@@ -3672,8 +3716,6 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
     FileExt := ExtractFileExt(FileName);
     with SynEdit do
     begin
-      Color := clWhite;
-      ActiveLineColor := clSkyBlue;
       OnPaintTransient := nil;
       FHTMLDocumentChanged := False;
       HtmlVersion := shvUndefined;
