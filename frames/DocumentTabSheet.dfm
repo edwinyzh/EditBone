@@ -1,15 +1,15 @@
 object DocTabSheetFrame: TDocTabSheetFrame
   Left = 0
   Top = 0
-  Width = 598
-  Height = 526
+  Width = 894
+  Height = 624
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 598
-    Height = 526
+    Width = 894
+    Height = 624
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 1
@@ -21,7 +21,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 201
       Top = 1
       Width = 4
-      Height = 523
+      Height = 621
       Color = clBtnFace
       ParentColor = False
       Visible = False
@@ -30,7 +30,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 1
       Top = 1
       Width = 200
-      Height = 523
+      Height = 621
       Align = alLeft
       DragOperations = []
       Header.AutoSizeIndex = 0
@@ -53,8 +53,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
     object DocumentPanel: TPanel
       Left = 205
       Top = 1
-      Width = 393
-      Height = 523
+      Width = 689
+      Height = 621
       Align = alClient
       BevelOuter = bvNone
       Color = clWindow
@@ -62,8 +62,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       TabOrder = 1
       object HorizontalSplitter: TSplitter
         Left = 0
-        Top = 242
-        Width = 393
+        Top = 340
+        Width = 689
         Height = 4
         Cursor = crVSplit
         Align = alBottom
@@ -71,18 +71,18 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Visible = False
       end
       object SynEditSplitter: TSplitter
-        Left = 189
+        Left = 485
         Top = 0
         Width = 4
-        Height = 242
+        Height = 340
         Align = alRight
         ParentColor = False
         Visible = False
       end
       object SplitSynEditPanel: TPanel
         Left = 0
-        Top = 246
-        Width = 393
+        Top = 344
+        Width = 689
         Height = 277
         Align = alBottom
         BevelOuter = bvNone
@@ -90,7 +90,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         TabOrder = 0
         Visible = False
         object SplitSynEditSplitter: TSplitter
-          Left = 189
+          Left = 485
           Top = 0
           Width = 4
           Height = 277
@@ -102,7 +102,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         object SplitSynEdit: TBCSynEdit
           Left = 0
           Top = 0
-          Width = 189
+          Width = 485
           Height = 277
           Align = alClient
           ActiveLineColor = clSkyBlue
@@ -112,6 +112,11 @@ object DocTabSheetFrame: TDocTabSheetFrame
           Font.Name = 'Courier New'
           Font.Style = []
           TabOrder = 0
+          OnKeyDown = SplitSynEditKeyDown
+          OnKeyUp = SplitSynEditKeyUp
+          OnMouseDown = SplitSynEditMouseDown
+          OnMouseMove = SplitSynEditMouseMove
+          OnMouseWheel = SplitSynEditMouseWheel
           Gutter.AutoSize = True
           Gutter.Font.Charset = DEFAULT_CHARSET
           Gutter.Font.Color = clWindowText
@@ -124,7 +129,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
           FontSmoothing = fsmNone
         end
         object SplitSynEditMinimap: TBCSynEdit
-          Left = 193
+          Left = 489
           Top = 0
           Width = 200
           Height = 277
@@ -142,6 +147,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
           OnKeyUp = SplitSynEditMinimapKeyUp
           OnMouseDown = SplitSynEditMinimapMouseDown
           OnMouseMove = SplitSynEditMinimapMouseMove
+          OnMouseWheel = SplitSynEditMinimapMouseWheel
           Gutter.Font.Charset = DEFAULT_CHARSET
           Gutter.Font.Color = clWindowText
           Gutter.Font.Height = -11
@@ -160,8 +166,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       object SynEdit: TBCSynEdit
         Left = 0
         Top = 0
-        Width = 189
-        Height = 242
+        Width = 485
+        Height = 340
         Align = alClient
         ActiveLineColor = clSkyBlue
         Font.Charset = DEFAULT_CHARSET
@@ -170,6 +176,11 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Font.Name = 'Courier New'
         Font.Style = []
         TabOrder = 1
+        OnKeyDown = SynEditKeyDown
+        OnKeyUp = SynEditKeyUp
+        OnMouseDown = SynEditMouseDown
+        OnMouseMove = SynEditMouseMove
+        OnMouseWheel = SynEditMouseWheel
         Gutter.AutoSize = True
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
@@ -182,10 +193,10 @@ object DocTabSheetFrame: TDocTabSheetFrame
         FontSmoothing = fsmNone
       end
       object SynEditMiniMap: TBCSynEdit
-        Left = 193
+        Left = 489
         Top = 0
         Width = 200
-        Height = 242
+        Height = 340
         Align = alRight
         ActiveLineColor = clSkyBlue
         Font.Charset = DEFAULT_CHARSET
@@ -200,6 +211,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         OnKeyUp = SynEditMiniMapKeyUp
         OnMouseDown = SynEditMiniMapMouseDown
         OnMouseMove = SynEditMiniMapMouseMove
+        OnMouseWheel = SynEditMiniMapMouseWheel
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
