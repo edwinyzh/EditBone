@@ -66,7 +66,8 @@ uses
   BCCommon.Lib in '..\..\Common\units\BCCommon.Lib.pas',
   BCCommon.MacroRecorder in '..\..\Common\units\BCCommon.MacroRecorder.pas',
   OptionsEditorSearch in 'frames\OptionsEditorSearch.pas' {EditorSearchFrame: TFrame},
-  BCForms.SearchForFiles in '..\..\Common\forms\BCForms.SearchForFiles.pas' {SearchForFilesForm};
+  BCForms.SearchForFiles in '..\..\Common\forms\BCForms.SearchForFiles.pas' {SearchForFilesForm},
+  BCCommon.Math in '..\..\Common\units\BCCommon.Math.pas';
 
 {$R *.res}
 

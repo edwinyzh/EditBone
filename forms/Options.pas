@@ -152,7 +152,7 @@ type
     FMainMenuSystemFontName: string;
     FMainMenuSystemFontSize: Integer;
     FMainMenuUseSystemFont: Boolean;
-    FMinimapFontFactor: Integer;
+    FMinimapFontSize: Integer;
     FOutputCloseTabByDblClick: Boolean;
     FOutputCloseTabByMiddleClick: Boolean;
     FOutputDoubleBuffered: Boolean;
@@ -277,7 +277,7 @@ type
     property MainMenuSystemFontName: string read FMainMenuSystemFontName write FMainMenuSystemFontName;
     property MainMenuSystemFontSize: Integer read FMainMenuSystemFontSize write FMainMenuSystemFontSize;
     property MainMenuUseSystemFont: Boolean read FMainMenuUseSystemFont write FMainMenuUseSystemFont;
-    property MinimapFontFactor: Integer read FMinimapFontFactor write FMinimapFontFactor;
+    property MinimapFontSize: Integer read FMinimapFontSize write FMinimapFontSize;
     property OutputCloseTabByDblClick: Boolean read FOutputCloseTabByDblClick write FOutputCloseTabByDblClick;
     property OutputCloseTabByMiddleClick: Boolean read FOutputCloseTabByMiddleClick write FOutputCloseTabByMiddleClick;
     property OutputDoubleBuffered: Boolean read FOutputDoubleBuffered write FOutputDoubleBuffered;
@@ -689,6 +689,7 @@ begin
   FMarginWidth := 48;
   FMarginVisible := True;
   FMarginVisibleRightMargin := True;
+  FMinimapFontSize := 3;
   FHTMLErrorChecking := True;
   FHTMLVersion := shvHtml5;
   FIgnoreBlanks := True;
@@ -1025,7 +1026,7 @@ begin
   FEditorOptionsFrame.TabWidthEdit.Text := IntToStr(FOptionsContainer.TabWidth);
   FEditorOptionsFrame.BrightnessTrackBar.Position := FOptionsContainer.ColorBrightness;
   FEditorOptionsFrame.InsertCaretComboBox.ItemIndex := Ord(FOptionsContainer.InsertCaret);
-  FEditorOptionsFrame.MinimapFontFactorTrackBar.Position := FOptionsContainer.MinimapFontFactor;
+  FEditorOptionsFrame.MinimapFontSizeTrackBar.Position := FOptionsContainer.MinimapFontSize;
   { Font }
   FEditorFontFrame.EditorFontLabel.Font.Name := FOptionsContainer.FontName;
   FEditorFontFrame.EditorFontLabel.Font.Size := FOptionsContainer.FontSize;
@@ -1266,7 +1267,7 @@ begin
   FOptionsContainer.TabWidth := StrToIntDef(FEditorOptionsFrame.TabWidthEdit.Text, 2);
   FOptionsContainer.ColorBrightness := FEditorOptionsFrame.BrightnessTrackBar.Position;
   FOptionsContainer.InsertCaret := TSynEditCaretType(FEditorOptionsFrame.InsertCaretComboBox.ItemIndex);
-  FOptionsContainer.MinimapFontFactor := FEditorOptionsFrame.MinimapFontFactorTrackBar.Position;
+  FOptionsContainer.MinimapFontSize := FEditorOptionsFrame.MinimapFontSizeTrackBar.Position;
   { Font }
   FOptionsContainer.FontName := FEditorFontFrame.EditorFontLabel.Font.Name;
   FOptionsContainer.FontSize := FEditorFontFrame.EditorFontLabel.Font.Size;

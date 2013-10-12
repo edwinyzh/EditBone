@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, VirtualTrees, SynEdit, BCControls.SynEdit,
   Xml.XMLIntf, Xml.xmldom, Xml.Win.msxmldom, Xml.XMLDoc, Vcl.ImgList, BCControls.ImageList, Vcl.Menus,
-  Vcl.ActnList, SynEditHighlighter, SynHighlighterMulti, SynURIOpener, SynHighlighterURI, SynMinimap,
+  Vcl.ActnList, SynEditHighlighter, SynHighlighterMulti, SynURIOpener, SynHighlighterURI,
   SynCompletionProposal;
 
 type
@@ -27,12 +27,12 @@ type
     XMLDocument: TXMLDocument;
     SynEditSplitter: TSplitter;
     SplitSynEditPanel: TPanel;
-    SplitSynEditMinimap: TSynMinimap;
     SplitSynEditSplitter: TSplitter;
-    SynEditMinimap: TSynMinimap;
     SynEdit: TBCSynEdit;
     SynCompletionProposal: TSynCompletionProposal;
     SplitSynCompletionProposal: TSynCompletionProposal;
+    SynEditMiniMap: TBCSynEdit;
+    SplitSynEditMinimap: TBCSynEdit;
     procedure RefreshActionExecute(Sender: TObject);
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
@@ -40,14 +40,14 @@ type
     procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
     procedure VirtualDrawTreeInitChildren(Sender: TBaseVirtualTree; Node: PVirtualNode; var ChildCount: Cardinal);
     procedure VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
-    procedure SynEditMinimapClick(Sender: TObject; Data: PSynMinimapEventData);
-    procedure SplitSynEditMinimapClick(Sender: TObject; Data: PSynMinimapEventData);
     procedure SynCompletionProposalExecute(Kind: SynCompletionType; Sender: TObject; var CurrentInput: string; var x,
       y: Integer; var CanExecute: Boolean);
     procedure SplitSynCompletionProposalExecute(Kind: SynCompletionType; Sender: TObject; var CurrentInput: string;
       var x, y: Integer; var CanExecute: Boolean);
+    procedure SynEditMiniMapPaint(Sender: TObject; ACanvas: TCanvas);
   private
     { Private declarations }
+    OldSynEditProc, OldSynEditMinimapProc: TWndMethod;
     function GetSplitVisible: Boolean;
     function GetMinimapVisible: Boolean;
     function GetXMLTreeVisible: Boolean;
@@ -55,6 +55,8 @@ type
     procedure SetSplitVisible(Value: Boolean);
     procedure SetMinimapVisible(Value: Boolean);
     procedure SetXMLTreeVisible(Value: Boolean);
+    procedure SynEditWindowProc(var Message: TMessage);
+    procedure SynEditMinimapWindowProc(var Message: TMessage);
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -70,7 +72,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Vcl.Themes, Options, BCCommon.StyleUtils, BCCommon.StringUtils;
+  Vcl.Themes, Options, BCCommon.StyleUtils, BCCommon.StringUtils, System.Math, BCCommon.Math;
 
 constructor TDocTabSheetFrame.Create(AOwner: TComponent);
 begin
@@ -80,6 +82,25 @@ begin
   HorizontalSplitter.Height := VerticalSplitter.Width;
   SynEditSplitter.Width := VerticalSplitter.Width;
   UpdateOptionsAndStyles(Panel.Padding.Right);
+
+  OldSynEditProc := SynEdit.WindowProc;
+  OldSynEditMinimapProc := SynEditMinimap.WindowProc;
+  SynEdit.WindowProc := SynEditWindowProc;
+  SynEditMinimap.WindowProc := SynEditMinimapWindowProc;
+end;
+
+procedure TDocTabSheetFrame.SynEditWindowProc(var Message: TMessage);
+begin
+  OldSynEditProc(Message);
+  if (Message.Msg = WM_VSCROLL) or (Message.msg = WM_Mousewheel) then
+    OldSynEditMinimapProc(Message);
+end;
+
+procedure TDocTabSheetFrame.SynEditMinimapWindowProc(var Message: TMessage);
+begin
+  OldSynEditMinimapProc(Message);
+  if (Message.Msg = WM_VSCROLL) or (Message.msg = WM_Mousewheel) then
+    OldSynEditProc(Message);
 end;
 
 function TDocTabSheetFrame.GetXMLTreeVisible: Boolean;
@@ -93,14 +114,14 @@ begin
   VirtualDrawTree.Visible := Value;
 end;
 
-procedure GotoLine(SynEdit: TSynEdit; Data: PSynMinimapEventData);
+{procedure GotoLine(SynEdit: TSynEdit; Data: PSynMinimapEventData);
 begin
   if Assigned(SynEdit) then
   begin
     SynEdit.GotoLineAndCenter(Data.Coord.Line);
     SynEdit.CaretX := Data.Coord.Char;
   end;
-end;
+end; }
 
 procedure TDocTabSheetFrame.SynCompletionProposalExecute(Kind: SynCompletionType; Sender: TObject;
   var CurrentInput: string; var x, y: Integer; var CanExecute: Boolean);
@@ -113,9 +134,39 @@ begin
   CanExecute := SynCompletionProposal.ItemList.Count > 0;
 end;
 
-procedure TDocTabSheetFrame.SynEditMinimapClick(Sender: TObject; Data: PSynMinimapEventData);
+{procedure TDocTabSheetFrame.SynEditMinimapClick(Sender: TObject; Data: PSynMinimapEventData);
 begin
-  GotoLine(SynEditMinimap.Editor, Data);
+  //GotoLine(SynEditMinimap.Editor, Data);
+end; }
+
+procedure TDocTabSheetFrame.SynEditMiniMapPaint(Sender: TObject; ACanvas: TCanvas);
+var
+  Bitmap: TBitmap;
+  ARect: TRect;
+  LStyles: TCustomStyleServices;
+  nL1, nL2: Integer;
+begin
+  ARect := ACanvas.ClipRect;
+  LStyles := StyleServices;
+  Bitmap := TBitmap.Create;
+  try
+    nL1 := Max(SynEditMiniMap.TopLine + ARect.Top div SynEditMiniMap.LineHeight, SynEditMiniMap.TopLine);
+    nL2 := MinMax(SynEditMiniMap.TopLine + (ARect.Bottom + SynEditMiniMap.LineHeight - 1) div SynEditMiniMap.LineHeight,
+      1, SynEditMiniMap.DisplayLineCount);
+    if LStyles.Enabled then
+      Bitmap.Canvas.Brush.Color := LStyles.GetStyleFontColor(sfMenuItemTextDisabled)
+    else
+      Bitmap.Canvas.Brush.Color := clBtnFace;
+    { Top }
+    Bitmap.Width := ARect.Right - ARect.Left;
+    Bitmap.Height := ARect.Bottom - ARect.Top;
+    Bitmap.Canvas.FillRect(Rect(0, 0, Bitmap.Width, Bitmap.Height));
+    ACanvas.Draw(ARect.Left, ARect.Top, Bitmap, 170);
+    { Bottom }
+
+  finally
+    FreeAndNil(Bitmap);
+  end;
 end;
 
 procedure TDocTabSheetFrame.SplitSynCompletionProposalExecute(Kind: SynCompletionType; Sender: TObject;
@@ -129,10 +180,10 @@ begin
   CanExecute := SplitSynCompletionProposal.ItemList.Count > 0;
 end;
 
-procedure TDocTabSheetFrame.SplitSynEditMinimapClick(Sender: TObject; Data: PSynMinimapEventData);
+{procedure TDocTabSheetFrame.SplitSynEditMinimapClick(Sender: TObject; Data: PSynMinimapEventData);
 begin
   GotoLine(SplitSynEditMinimap.Editor, Data);
-end;
+end;}
 
 function IsNameNodeType(NodeType: TNodeType): Boolean;
 begin
@@ -310,7 +361,7 @@ end;
 
 function TDocTabSheetFrame.GetMinimapVisible: Boolean;
 begin
-  Result := SynEditMinimap.Visible;
+  Result := SynEditMiniMap.Visible;
 end;
 
 procedure TDocTabSheetFrame.SetMinimapVisible(Value: Boolean);
@@ -319,6 +370,7 @@ begin
   SynEditSplitter.Visible := Value;
   SplitSynEditMinimap.Visible := Value;
   SplitSynEditSplitter.Visible := Value;
+  UpdateOptionsAndStyles(GetRightPadding);
 end;
 
 procedure TDocTabSheetFrame.LoadFromXML(XML: string);
@@ -379,10 +431,17 @@ var
 begin
   Panel.Padding.Right := Right;
   {  SynEditMinimap }
-  SynEditMinimap.FontFactor := OptionsContainer.MinimapFontFactor;
-  SynEditMinimap.Invalidate;
-  SplitSynEditMinimap.FontFactor := OptionsContainer.MinimapFontFactor;
-  SplitSynEditMinimap.Invalidate;
+  SynEditMinimap.Font.Size := OptionsContainer.MinimapFontSize;
+  SynEditMinimap.Color := SynEdit.Color;
+  SynEditMinimap.Highlighter := SynEdit.Highlighter;
+  SynEditMinimap.Text := SynEdit.Text;
+  SynEditMinimap.ActiveLineColor := SynEdit.ActiveLineColor;
+  SynEditMinimap.RightEdge := SynEdit.RightEdge;
+  SynEditMinimap.SelectedColor.Background := SynEdit.SelectedColor.Background;
+  SynEditMinimap.SelectedColor.Foreground := SynEdit.SelectedColor.Foreground;
+
+  //SplitSynEditMinimap.FontFactor := OptionsContainer.MinimapFontSize;
+  //SplitSynEditMinimap.Invalidate;
   { SynCompletionProposal }
   LStyles := StyleServices;
   SetFontAndColors(SynCompletionProposal);

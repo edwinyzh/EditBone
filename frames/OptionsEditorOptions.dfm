@@ -1,15 +1,15 @@
 object EditorOptionsFrame: TEditorOptionsFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 464
+  Width = 499
+  Height = 507
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 451
-    Height = 464
+    Width = 499
+    Height = 507
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
@@ -53,16 +53,16 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Height = 13
       Caption = 'Insert Caret'
     end
-    object MinimapFontFactorLabel: TLabel
+    object MinimapFontSizeLabel: TLabel
       Left = 11
       Top = 381
-      Width = 97
+      Width = 85
       Height = 13
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = 'Minimap Font Factor'
+      Caption = 'Minimap Font Size'
     end
     object AutoIndentCheckBox: TBCCheckBox
       Left = 9
@@ -250,14 +250,14 @@ object EditorOptionsFrame: TEditorOptionsFrame
       TabOrder = 5
       ReadOnly = False
     end
-    object MinimapFontFactorTrackBar: TTrackBar
+    object MinimapFontSizeTrackBar: TTrackBar
       Left = 4
       Top = 396
       Width = 150
       Height = 27
-      Max = 4
-      Min = 2
-      Position = 2
+      Max = 8
+      Min = 3
+      Position = 3
       TabOrder = 13
     end
     object TripleClickRowSelectCheckBox: TBCCheckBox

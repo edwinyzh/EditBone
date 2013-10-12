@@ -1,15 +1,15 @@
 object DocTabSheetFrame: TDocTabSheetFrame
   Left = 0
   Top = 0
-  Width = 752
-  Height = 494
+  Width = 664
+  Height = 547
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 752
-    Height = 494
+    Width = 664
+    Height = 547
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 1
@@ -21,7 +21,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 201
       Top = 1
       Width = 4
-      Height = 491
+      Height = 544
       Color = clBtnFace
       ParentColor = False
       Visible = False
@@ -30,7 +30,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 1
       Top = 1
       Width = 200
-      Height = 491
+      Height = 544
       Align = alLeft
       DragOperations = []
       Header.AutoSizeIndex = 0
@@ -53,8 +53,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
     object DocumentPanel: TPanel
       Left = 205
       Top = 1
-      Width = 547
-      Height = 491
+      Width = 459
+      Height = 544
       Align = alClient
       BevelOuter = bvNone
       Color = clWindow
@@ -62,8 +62,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       TabOrder = 1
       object HorizontalSplitter: TSplitter
         Left = 0
-        Top = 210
-        Width = 547
+        Top = 263
+        Width = 459
         Height = 4
         Cursor = crVSplit
         Align = alBottom
@@ -71,18 +71,18 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Visible = False
       end
       object SynEditSplitter: TSplitter
-        Left = 343
+        Left = 255
         Top = 0
         Width = 4
-        Height = 210
+        Height = 263
         Align = alRight
         ParentColor = False
         Visible = False
       end
       object SplitSynEditPanel: TPanel
         Left = 0
-        Top = 214
-        Width = 547
+        Top = 267
+        Width = 459
         Height = 277
         Align = alBottom
         BevelOuter = bvNone
@@ -90,7 +90,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         TabOrder = 0
         Visible = False
         object SplitSynEditSplitter: TSplitter
-          Left = 343
+          Left = 255
           Top = 0
           Width = 4
           Height = 277
@@ -102,7 +102,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         object SplitSynEdit: TBCSynEdit
           Left = 0
           Top = 0
-          Width = 343
+          Width = 255
           Height = 277
           Align = alClient
           ActiveLineColor = clSkyBlue
@@ -123,46 +123,38 @@ object DocTabSheetFrame: TDocTabSheetFrame
           WantTabs = True
           FontSmoothing = fsmNone
         end
-        object SplitSynEditMinimap: TSynMiniMap
-          Left = 347
+        object SplitSynEditMinimap: TBCSynEdit
+          Left = 259
           Top = 0
           Width = 200
           Height = 277
-          Editor = SplitSynEdit
-          FontFactor = 2.000000000000000000
-          Options.AllowScroll = True
-          Options.ReverseScroll = False
-          Options.TabWidthOverride = False
-          Options.TabWidth = 4
-          PixelFormat = pf32bit
-          OnClick = SplitSynEditMinimapClick
-          UseThemes = True
           Align = alRight
+          ActiveLineColor = clSkyBlue
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -1
+          Font.Name = 'Courier New'
+          Font.Style = []
+          TabOrder = 1
           Visible = False
+          Gutter.Font.Charset = DEFAULT_CHARSET
+          Gutter.Font.Color = clWindowText
+          Gutter.Font.Height = -11
+          Gutter.Font.Name = 'Courier New'
+          Gutter.Font.Style = []
+          Gutter.Visible = False
+          Gutter.Width = 0
+          Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
+          ReadOnly = True
+          ScrollBars = ssNone
+          FontSmoothing = fsmNone
         end
-      end
-      object SynEditMinimap: TSynMiniMap
-        Left = 347
-        Top = 0
-        Width = 200
-        Height = 210
-        Editor = SynEdit
-        FontFactor = 2.000000000000000000
-        Options.AllowScroll = True
-        Options.ReverseScroll = False
-        Options.TabWidthOverride = False
-        Options.TabWidth = 4
-        PixelFormat = pf32bit
-        OnClick = SynEditMinimapClick
-        UseThemes = True
-        Align = alRight
-        Visible = False
       end
       object SynEdit: TBCSynEdit
         Left = 0
         Top = 0
-        Width = 343
-        Height = 210
+        Width = 255
+        Height = 263
         Align = alClient
         ActiveLineColor = clSkyBlue
         Font.Charset = DEFAULT_CHARSET
@@ -170,7 +162,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = []
-        TabOrder = 2
+        TabOrder = 1
         Gutter.AutoSize = True
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
@@ -180,6 +172,33 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Gutter.ShowLineNumbers = True
         Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
         WantTabs = True
+        FontSmoothing = fsmNone
+      end
+      object SynEditMiniMap: TBCSynEdit
+        Left = 259
+        Top = 0
+        Width = 200
+        Height = 263
+        Align = alRight
+        ActiveLineColor = clSkyBlue
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -1
+        Font.Name = 'Courier New'
+        Font.Style = []
+        TabOrder = 2
+        Visible = False
+        Gutter.Font.Charset = DEFAULT_CHARSET
+        Gutter.Font.Color = clWindowText
+        Gutter.Font.Height = -11
+        Gutter.Font.Name = 'Courier New'
+        Gutter.Font.Style = []
+        Gutter.Visible = False
+        Gutter.Width = 0
+        Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
+        ReadOnly = True
+        ScrollBars = ssNone
+        OnPaint = SynEditMiniMapPaint
         FontSmoothing = fsmNone
       end
     end

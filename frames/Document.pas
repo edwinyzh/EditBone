@@ -201,7 +201,7 @@ type
     procedure SynEditEnter(Sender: TObject);
     procedure SynEditorReplaceText(Sender: TObject; const ASearch, AReplace: UnicodeString; Line, Column: Integer; var Action: TSynReplaceAction);
     procedure SynEditSpecialLineColors(Sender: TObject; Line: Integer; var Special: Boolean; var FG, BG: TColor);
-    procedure SynEditSplitChange(Sender: TObject);
+    procedure SynEditSplitOnChange(Sender: TObject);
     procedure XMLTreeRefreshActionExecute(Sender: TObject);
     procedure GotoLineCloseActionExecute(Sender: TObject);
     procedure GotoLineActionExecute(Sender: TObject);
@@ -630,6 +630,9 @@ begin
       PopupMenu := EditorPopupMenu;
       BookMarkOptions.BookmarkImages := BookmarkImagesList;
     end;
+    { SynEditMinimap }
+    with SynEditMinimap do
+      OnSpecialLineColors := SynEditSpecialLineColors;
     { VirtualDrawTree }
     with VirtualDrawTree do
     begin
@@ -1839,7 +1842,7 @@ begin
     OptionsContainer.ShowSearchStringNotFound := ReadBool('Options', 'ShowSearchStringNotFound', True);
     OptionsContainer.BeepIfSearchStringNotFound := ReadBool('Options', 'BeepIfSearchStringNotFound', True);
     OptionsContainer.InsertCaret := TSynEditCaretType(StrToInt(ReadString('Options', 'InsertCaret', '0')));
-    OptionsContainer.MinimapFontFactor :=  StrToInt(ReadString('Options', 'MinimapFontFactor', '2'));
+    OptionsContainer.MinimapFontSize :=  StrToInt(ReadString('Options', 'MinimapFontSize', '3'));
     OptionsContainer.ExtraLineSpacing := StrToInt(ReadString('Options', 'ExtraLineSpacing', '0'));
     OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '2'));
     OptionsContainer.CompletionProposalEnabled := ReadBool('Options', 'CompletionProposalEnabled', True);
@@ -1964,22 +1967,33 @@ function TDocumentFrame.ReadIniOpenFiles: Boolean;
 var
   i: Integer;
   FName: string;
-  FileNames, Bookmarks: TStrings;
+  FileNames, Bookmarks, Minimaps: TStrings;
   SynEdit: TBCSynEdit;
+  DocTabSheetFrame: TDocTabSheetFrame;
 begin
   FileNames := TStringList.Create;
   Bookmarks := TStringList.Create;
+  Minimaps := TStringList.Create;
   with TBigIniFile.Create(GetIniFilename) do
   try
     PageControl.Visible := False;
     { Open Files }
     ReadSectionValues('OpenFiles', FileNames);
+    ReadSectionValues('Bookmarks', Bookmarks);
     for i := 0 to FileNames.Count - 1 do
     begin
       FName := System.Copy(FileNames.Strings[i], Pos('=', FileNames.Strings[i]) + 1, Length(FileNames.Strings[i]));
-      ReadSectionValues('Bookmarks', Bookmarks);
       if FileExists(FName) then
         Open(FName, Bookmarks, 0, 0, True);
+    end;
+    { Minimaps }
+    ReadSectionValues('Minimaps', Minimaps);
+    for i := 0 to Minimaps.Count - 1 do
+    if Pos('=1', Minimaps.Strings[i]) <> 0 then
+    begin
+      DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
+      if Assigned(DocTabSheetFrame) then
+        DocTabSheetFrame.MinimapVisible := True;
     end;
 
     i := ReadInteger('Options', 'ActivePageIndex', 0);
@@ -1995,6 +2009,7 @@ begin
   finally
     FileNames.Free;
     Bookmarks.Free;
+    Minimaps.Free;
     Free;
     PageControl.Visible := True;
   end;
@@ -2005,6 +2020,7 @@ var
   i, j: Integer;
   FileType: string;
   SynEdit: TBCSynEdit;
+  DocTabSheetFrame: TDocTabSheetFrame;
 begin
   with TBigIniFile.Create(GetIniFilename) do
   try
@@ -2024,7 +2040,8 @@ begin
     WriteString('Options', 'ActiveLineColorBrightness', IntToStr(OptionsContainer.ColorBrightness));
     WriteBool('Options', 'MarginVisible', OptionsContainer.MarginVisible);
     WriteString('Options', 'InsertCaret', IntToStr(Ord(OptionsContainer.InsertCaret)));
-    WriteString('Options', 'MinimapFontFactor', IntToStr(OptionsContainer.MinimapFontFactor));
+    DeleteKey('Options', 'MinimapFontFactor'); { deprecated }
+    WriteString('Options', 'MinimapFontSize', IntToStr(OptionsContainer.MinimapFontSize));
     WriteBool('Options', 'CompletionProposalEnabled', OptionsContainer.CompletionProposalEnabled);
     WriteBool('Options', 'CompletionProposalCaseSensitive', OptionsContainer.CompletionProposalCaseSensitive);
     WriteString('Options', 'CompletionProposalShortcut', OptionsContainer.CompletionProposalShortcut);
@@ -2095,7 +2112,7 @@ begin
     WriteString('Options', 'OutputIndent', IntToStr(OptionsContainer.OutputIndent));
     EraseSection('OpenFiles');
     EraseSection('Bookmarks');
-    { Open documents }
+    { Open documents and bookmarks }
     if OptionsContainer.DocSaveTabs then
     for i := 0 to PageControl.PageCount - 1 do
     begin
@@ -2109,6 +2126,15 @@ begin
             Format('%s;%s;%s', [IntToStr(SynEdit.Marks.Items[j].BookmarkNumber),
             IntToStr(SynEdit.Marks.Items[j].Line), IntToStr(SynEdit.Marks.Items[j].Char)]));
       end;
+    end;
+    { Minimaps }
+    EraseSection('Minimaps');
+    if OptionsContainer.DocSaveTabs then
+    for i := 0 to PageControl.PageCount - 1 do
+    begin
+      DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
+      if Assigned(DocTabSheetFrame) then
+        WriteBool('Minimaps', IntToStr(i), DocTabSheetFrame.MinimapVisible);
     end;
     { Active document }
     WriteInteger('Options', 'ActivePageIndex', PageControl.ActivePageIndex);
@@ -2311,8 +2337,29 @@ end;
 
 procedure TDocumentFrame.SynEditOnChange(Sender: TObject);
 var
-  i: Integer;
-  SynEdit, SplitSynEdit: TBCSynEdit;
+  ActiveSynEdit: TBCSynEdit;
+  DocTabSheetFrame: TDocTabSheetFrame;
+
+  procedure LinesChange(SynEdit: TBCSynEdit);
+  var
+    i: Integer;
+  begin
+    if Assigned(SynEdit) then
+    begin
+      SynEdit.BeginUpdate;
+
+      while SynEdit.Lines.Count > ActiveSynEdit.Lines.Count do
+        SynEdit.Lines.Delete(SynEdit.Lines.Count);
+      while SynEdit.Lines.Count < ActiveSynEdit.Lines.Count do
+        SynEdit.Lines.Add('');
+      for i := 0 to SynEdit.Lines.Count - 1 do
+        if ActiveSynEdit.Lines[i] <> SynEdit.Lines[i] then
+          SynEdit.Lines[i] := ActiveSynEdit.Lines[i];
+      SynEdit.EndUpdate;
+      SynEdit.Repaint;
+    end;
+  end;
+
 begin
   inherited;
   FModifiedDocuments := True;
@@ -2323,28 +2370,21 @@ begin
   if not FProcessing then
     SetActivePageCaptionModified;
 
-  if MainForm.ViewSplitAction.Checked then
+  if Assigned(PageControl.ActivePage) then
   begin
-    SynEdit := GetActiveSynEdit;
-    SplitSynEdit := GetActiveSplitSynEdit;
-    if Assigned(SplitSynEdit) then
+    DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+    if Assigned(DocTabSheetFrame) then
     begin
-      SplitSynEdit.BeginUpdate;
-
-      while SplitSynEdit.Lines.Count > SynEdit.Lines.Count do
-        SplitSynEdit.Lines.Delete(SplitSynEdit.Lines.Count);
-      while SplitSynEdit.Lines.Count < SynEdit.Lines.Count do
-        SplitSynEdit.Lines.Add('');
-      for i := 0 to SplitSynEdit.Lines.Count - 1 do
-        if SynEdit.Lines[i] <> SplitSynEdit.Lines[i] then
-          SplitSynEdit.Lines[i] := SynEdit.Lines[i];
-      SplitSynEdit.EndUpdate;
-      SplitSynEdit.Repaint;
+      ActiveSynEdit := DocTabSheetFrame.SynEdit;
+      if DocTabSheetFrame.SplitVisible then
+        LinesChange(DocTabSheetFrame.SplitSynEdit);
+      if DocTabSheetFrame.MinimapVisible then
+        LinesChange(DocTabSheetFrame.SynEditMinimap);
     end;
   end;
 end;
 
-procedure TDocumentFrame.SynEditSplitChange(Sender: TObject);
+procedure TDocumentFrame.SynEditSplitOnChange(Sender: TObject);
 var
   i: Integer;
   SynEdit, SplitSynEdit: TBCSynEdit;
@@ -3516,7 +3556,7 @@ begin
         Gutter.Font.Height := ASynEdit.Gutter.Font.Height;
         Gutter.Font.Name := ASynEdit.Gutter.Font.Name;
         Gutter.ShowLineNumbers := ASynEdit.Gutter.ShowLineNumbers;
-        OnChange := SynEditSplitChange;
+        OnChange := SynEditSplitOnChange;
         OnSpecialLineColors := SynEditSpecialLineColors;
         OnEnter := SynEditEnter;
         OnReplaceText := SynEditorReplaceText;

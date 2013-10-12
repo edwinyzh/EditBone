@@ -27,8 +27,8 @@ type
     UndoAfterSaveCheckBox: TBCCheckBox;
     SmartTabsCheckBox: TBCCheckBox;
     SmartTabDeleteCheckBox: TBCCheckBox;
-    MinimapFontFactorLabel: TLabel;
-    MinimapFontFactorTrackBar: TTrackBar;
+    MinimapFontSizeLabel: TLabel;
+    MinimapFontSizeTrackBar: TTrackBar;
     TripleClickRowSelectCheckBox: TBCCheckBox;
   private
     { Private declarations }
