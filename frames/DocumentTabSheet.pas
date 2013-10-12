@@ -45,6 +45,7 @@ type
     procedure SplitSynCompletionProposalExecute(Kind: SynCompletionType; Sender: TObject; var CurrentInput: string;
       var x, y: Integer; var CanExecute: Boolean);
     procedure SynEditMiniMapPaint(Sender: TObject; ACanvas: TCanvas);
+    procedure SynEditScroll(Sender: TObject; ScrollBar: TScrollBarKind);
   private
     { Private declarations }
     OldSynEditProc, OldSynEditMinimapProc: TWndMethod;
@@ -103,6 +104,12 @@ begin
     OldSynEditProc(Message);
 end;
 
+procedure TDocTabSheetFrame.SynEditScroll(Sender: TObject; ScrollBar: TScrollBarKind);
+begin
+  if SynEditMiniMap.Visible then
+    SynEditMiniMap.Invalidate;
+end;
+
 function TDocTabSheetFrame.GetXMLTreeVisible: Boolean;
 begin
   Result := VirtualDrawTree.Visible;
@@ -144,26 +151,32 @@ var
   Bitmap: TBitmap;
   ARect: TRect;
   LStyles: TCustomStyleServices;
-  nL1, nL2: Integer;
 begin
   ARect := ACanvas.ClipRect;
   LStyles := StyleServices;
   Bitmap := TBitmap.Create;
   try
-    nL1 := Max(SynEditMiniMap.TopLine + ARect.Top div SynEditMiniMap.LineHeight, SynEditMiniMap.TopLine);
-    nL2 := MinMax(SynEditMiniMap.TopLine + (ARect.Bottom + SynEditMiniMap.LineHeight - 1) div SynEditMiniMap.LineHeight,
-      1, SynEditMiniMap.DisplayLineCount);
     if LStyles.Enabled then
       Bitmap.Canvas.Brush.Color := LStyles.GetStyleFontColor(sfMenuItemTextDisabled)
     else
       Bitmap.Canvas.Brush.Color := clBtnFace;
     { Top }
-    Bitmap.Width := ARect.Right - ARect.Left;
-    Bitmap.Height := ARect.Bottom - ARect.Top;
-    Bitmap.Canvas.FillRect(Rect(0, 0, Bitmap.Width, Bitmap.Height));
-    ACanvas.Draw(ARect.Left, ARect.Top, Bitmap, 170);
+    if SynEdit.TopLine > SynEditMiniMap.TopLine then
+    begin
+      Bitmap.Width := ARect.Right - ARect.Left;
+      Bitmap.Height := Min((SynEdit.TopLine - SynEditMiniMap.TopLine) * SynEditMiniMap.LineHeight, SynEditMiniMap.LinesInWindow * SynEditMiniMap.LineHeight);  //ARect.Bottom - ARect.Top;
+      Bitmap.Canvas.FillRect(Rect(0, 0, Bitmap.Width, Bitmap.Height));
+      ACanvas.Draw(ARect.Left, ARect.Top, Bitmap, 50);
+    end;
     { Bottom }
-
+    if SynEdit.TopLine + SynEdit.LinesInWindow < SynEditMiniMap.TopLine + SynEditMiniMap.LinesInWindow then
+    begin
+      Bitmap.Width := ARect.Right - ARect.Left;
+      Bitmap.Height := ARect.Bottom - ARect.Top;
+      Bitmap.Canvas.FillRect(Rect(0, 0, Bitmap.Width, Bitmap.Height));
+      ACanvas.Draw(ARect.Left, ARect.Top + Max(SynEdit.TopLine - SynEditMiniMap.TopLine + SynEdit.LinesInWindow + 1, 0) * SynEditMiniMap.LineHeight,
+        Bitmap, 50);
+    end;
   finally
     FreeAndNil(Bitmap);
   end;
@@ -433,6 +446,7 @@ begin
   {  SynEditMinimap }
   SynEditMinimap.Font.Size := OptionsContainer.MinimapFontSize;
   SynEditMinimap.Color := SynEdit.Color;
+  SynEditMinimap.Font.Color := SynEdit.Font.Color;
   SynEditMinimap.Highlighter := SynEdit.Highlighter;
   SynEditMinimap.Text := SynEdit.Text;
   SynEditMinimap.ActiveLineColor := SynEdit.ActiveLineColor;
