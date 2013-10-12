@@ -11,6 +11,12 @@ const
   WM_AFTER_SHOW = WM_USER + 301; // custom message
 
 type
+  { For some reason DropDownCount property is not published }
+  TJvFontComboBox = class(JvColorCombo.TJvFontComboBox)
+  published
+    property DropDownCount;
+  end;
+
   TUnicodeCharacterMapForm = class(TForm)
     StatusBar: TStatusBar;
     Panel: TPanel;
@@ -129,6 +135,7 @@ end;
 procedure TUnicodeCharacterMapForm.Open(DocumentFrame: TDocumentFrame);
 begin
   FOnStartUp := True;
+  FontComboBox.DropDownCount := 16;
   FDocumentFrame := DocumentFrame;
   ReadIniFile;
   UpdateFields;
