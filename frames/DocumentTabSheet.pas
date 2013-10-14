@@ -156,7 +156,7 @@ end;
 procedure TDocTabSheetFrame.SynEditMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
   MousePos: TPoint; var Handled: Boolean);
 begin
-  SynEditMinimapGotoLine(SynEditMiniMap, SynEdit);
+  SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);
 end;
 
 procedure TDocTabSheetFrame.SplitSynEditWindowProc(var Message: TMessage);
@@ -214,7 +214,7 @@ end;
 
 procedure TDocTabSheetFrame.SynEditGotoLine(SynEdit, SynEditMiniMap: TBCSynEdit);
 begin
-  if not SynEditMiniMap.Visible then
+  if not MinimapVisible then
     Exit;
   SynEdit.GotoLineAndCenter(SynEditMiniMap.CaretY);
   SynEditMiniMap.Invalidate
@@ -222,7 +222,7 @@ end;
 
 procedure TDocTabSheetFrame.SynEditMinimapGotoLine(SynEdit, SynEditMiniMap: TBCSynEdit);
 begin
-  if not SynEditMiniMap.Visible then
+  if not MinimapVisible then
     Exit;
   SynEditMiniMap.Text := SynEdit.Text;
   SynEditMiniMap.GotoLineAndCenter(SynEdit.CaretY);
