@@ -181,7 +181,8 @@ end;
 
 procedure TDocTabSheetFrame.SplitSynEditMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
-  SynEditMinimapGotoLine(SplitSynEdit, SplitSynEditMiniMap);
+  if Shift = [ssLeft] then
+    SynEditMinimapGotoLine(SplitSynEdit, SplitSynEditMiniMap);
 end;
 
 procedure TDocTabSheetFrame.SplitSynEditMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
