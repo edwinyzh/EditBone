@@ -1892,7 +1892,7 @@ begin
     OptionsContainer.IgnoreBlanks := ReadBool('Options', 'IgnoreBlanks', True);
     OptionsContainer.PersistentHotKeys := ReadBool('Options', 'PersistentHotKeys', False);
     OptionsContainer.Shadows := ReadBool('Options', 'Shadows', True);
-    DeleteKey('Options', 'UseSystemFont'); { depricated }
+    DeleteKey('Options', 'UseSystemFont'); { deprecated }
     OptionsContainer.MainMenuUseSystemFont := ReadBool('Options', 'MainMenuUseSystemFont', False);
     OptionsContainer.MainMenuFontName := ReadString('Options', 'MainMenuFontName', 'Tahoma');
     OptionsContainer.MainMenuFontSize := StrToInt(ReadString('Options', 'MainMenuFontSize', '8'));

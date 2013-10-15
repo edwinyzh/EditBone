@@ -903,7 +903,7 @@ begin
     Data := GetNodeData(ChildNode);
     Data.ImageIndex := EditorOtherAction.ImageIndex;
     Data.Caption := EditorOtherAction.Caption;
-    Node.ChildCount := 6;
+    Node.ChildCount := 7;
     OptionsVirtualStringTree.Selected[Node] := True;
     OptionsVirtualStringTree.Expanded[Node] := True;
     { Directory }
