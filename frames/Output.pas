@@ -543,7 +543,7 @@ function TOutputFrame.CheckCancel: Boolean;
 begin
   Result := False;
   Application.ProcessMessages;
-  if FProcessingTabSheet and not IsEmpty then
+  if FProcessingTabSheet then
     if FProcessingPage = PageControl.ActivePage then
     begin
       if AskYesOrNo(LanguageDataModule.GetYesOrNoMessage('CancelSearch')) then

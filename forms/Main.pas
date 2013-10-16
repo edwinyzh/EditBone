@@ -1672,6 +1672,7 @@ begin
           else
           begin
             ShowMessage(Format(LanguageDataModule.GetMessage('CannotFindString'), [FindWhatText]));
+            FOutputFrame.ProcessingTabSheet := False;
             FOutputFrame.CloseTabSheet;
             StatusBar.Panels[3].Text := '';
           end;
@@ -1934,6 +1935,8 @@ begin
   if shFindFile <> INVALID_HANDLE_VALUE then
   try
     repeat
+      if FOutputFrame.CancelSearch then
+        Exit;
       StatusBar.Panels[3].Text := LanguageDataModule.GetConstant('SearchInProgress');
       Application.ProcessMessages;
       FName := StrPas(sWin32FD.cFileName);
