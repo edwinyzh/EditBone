@@ -637,6 +637,7 @@ end;
 
 procedure TMainForm.CreateLanguageMenu;
 var
+  i: Integer;
   LanguagePath, FileName, ExtractedFileName, LanguageName: string;
   ActionClientItem: TActionClientItem;
   Action: TAction;
@@ -647,7 +648,7 @@ begin
     Exit;
 
   LanguageName := GetSelectedLanguage('English');
-
+  i := 1;
   for FileName in TDirectory.GetFiles(LanguagePath, '*.lng') do
   begin
     ActionClientItem := GetActionClientItem(VIEW_MENU_ITEMINDEX, VIEW_LANGUAGE_MENU_ITEMINDEX);
@@ -655,11 +656,12 @@ begin
 
     Action := TAction.Create(ActionManager);
     ExtractedFileName := ExtractFilename(ChangeFileExt(FileName, ''));
-    Action.Name := ExtractedFileName + 'LanguageSelectAction';
     Action.Caption := ExtractedFileName;
+    Action.Name := Format('%s%d%s', [RemoveNonAlpha(ExtractedFileName), i, 'LanguageSelectAction']);
     Action.OnExecute := SelectLanguageActionExecute;
     Action.Checked := LanguageName = ExtractedFileName;
     ActionClientItem.Action := Action;
+    Inc(i);
   end;
   ActionClientItem := GetActionClientItem(VIEW_MENU_ITEMINDEX, VIEW_LANGUAGE_MENU_ITEMINDEX);
   ViewLanguageAction.Enabled := ActionClientItem.Items.Count > 0;
