@@ -1410,7 +1410,7 @@ object MainForm: TMainForm
     object ViewSearchForFilesAction: TAction
       Category = '&View'
       Caption = '&Files...'
-      Hint = 'Search for files of the selected directory'
+      Hint = 'Search files from the selected directory and its subdirectories'
       ImageIndex = 83
       ShortCut = 16507
       OnExecute = ViewSearchForFilesActionExecute
@@ -2055,7 +2055,7 @@ object MainForm: TMainForm
     end
     object EditRemoveWhiteSpaceAction: TAction
       Category = '&Delete'
-      Caption = 'Re&move Whitespace'
+      Caption = 'W&hitespace'
       Hint = 'Remove all whitespace from selected text'
       ImageIndex = 27
       OnExecute = EditRemoveWhiteSpaceActionExecute
