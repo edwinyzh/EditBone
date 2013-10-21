@@ -3,15 +3,13 @@ unit Options;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, Vcl.Graphics, Vcl.Controls, Vcl.Forms, BCCommon.FileUtils, Vcl.StdCtrls,
-  Vcl.ComCtrls, Winapi.CommCtrl, System.Win.Registry, Vcl.ExtCtrls, Vcl.Buttons, Vcl.Menus, SynEdit, SynEditHighlighter,
-  SynEditMiscClasses, SynHighlighterWebData, SynEditKeyCmds, System.Classes, System.SysUtils, Vcl.ImgList,
-  SynHighlighterWeb, Vcl.Grids, SynHighlighterSQL, BCControls.CheckBox, Document, BCControls.Edit, JvCombobox,
-  BCControls.ComboBox, Vcl.ActnList, Vcl.Themes, Vcl.CheckLst, JvExComCtrls, OptionsPrint, OptionsEditorSearch,
-  JvComCtrls, VirtualTrees, OptionsEditorOptions, OptionsEditorFont, OptionsEditorMargin, OptionsEditorTabs, Lib,
-  OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, OptionsCompare, OptionsMainMenu,
-  OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, OptionsStatusBar, OptionsOutput, OptionsToolBar,
-  Vcl.ActnMenus, System.Actions, OptionsEditorCompletionProposal, BCDialogs.Dlg;
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, BCCommon.FileUtils, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.Buttons,
+  Vcl.Menus, SynEdit, SynEditMiscClasses, SynHighlighterWebData, System.Classes, System.SysUtils, Vcl.ImgList,
+  SynHighlighterWeb, SynHighlighterSQL, Vcl.ActnList, Vcl.Themes, OptionsPrint, OptionsEditorSearch, VirtualTrees,
+  OptionsEditorOptions, OptionsEditorFont, OptionsEditorMargin, OptionsEditorTabs, Lib, OptionsEditorErrorChecking,
+  OptionsEditorOther, OptionsFileTypes, OptionsCompare, OptionsMainMenu, OptionsDirectoryTabs, OptionsOutputTabs,
+  OptionsDirectory, OptionsStatusBar, OptionsOutput, OptionsToolBar, Vcl.ActnMenus, System.Actions,
+  OptionsEditorCompletionProposal, BCDialogs.Dlg;
 
 type
   POptionsRec = ^TOptionsRec;
@@ -337,7 +335,7 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.StyleUtils, BCCommon.LanguageStrings, SynHighlighterMulti, System.IniFiles, SynEditTypes, BCCommon.StringUtils,
+  BCCommon.StyleUtils, BCCommon.LanguageStrings, System.IniFiles, SynEditTypes, BCCommon.StringUtils,
   BCCommon.LanguageUtils, SynCompletionProposal;
 
 { TOptionsContainer }

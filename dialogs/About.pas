@@ -3,8 +3,8 @@ unit About;
 interface
 
 uses
-  System.SysUtils, Winapi.Windows, Winapi.Messages, System.Classes, Vcl.Graphics, Vcl.Forms,
-  Vcl.Controls, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Imaging.pngimage, BCDialogs.Dlg;
+  System.SysUtils, Winapi.Windows, System.Classes, Vcl.Graphics, Vcl.Forms, Vcl.Controls, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, Vcl.Imaging.pngimage, BCDialogs.Dlg;
 
 type
   TAboutDialog = class(TDialog)

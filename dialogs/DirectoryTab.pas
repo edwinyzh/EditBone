@@ -3,9 +3,8 @@ unit DirectoryTab;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, BCDialogs.Dlg, Vcl.Mask, Vcl.StdCtrls, BCControls.Edit, Vcl.ActnList, Vcl.ExtCtrls,
-  Vcl.Themes, BCControls.CheckBox, Vcl.Buttons, System.Actions, JvExStdCtrls, JvEdit, BCControls.ComboBox, JvExControls,
+  System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, BCDialogs.Dlg, Vcl.StdCtrls, BCControls.Edit,
+  Vcl.ActnList, Vcl.ExtCtrls, BCControls.CheckBox, Vcl.Buttons, System.Actions, BCControls.ComboBox, JvExControls,
   JvSpeedButton;
 
 type

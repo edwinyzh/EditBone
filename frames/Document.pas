@@ -3,14 +3,13 @@ unit Document;
 interface
 
 uses
-  Winapi.Windows, Winapi.CommDlg, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, SynEdit, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.ImgList,
-  JvExComCtrls, JvComCtrls, Vcl.Menus, BCControls.PageControl, Directory, Vcl.Buttons,
+  Winapi.Windows, Winapi.CommDlg, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, SynEdit,
+  Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.ImgList, JvExComCtrls, JvComCtrls, Vcl.Menus, BCControls.PageControl, Vcl.Buttons,
   SynEditPrint, SynEditMiscClasses, SynEditSearch, SynEditTypes, SynEditPlugins, Vcl.StdCtrls,
-  Vcl.ActnList, BCControls.CheckBox, BCControls.Edit, System.Actions, BCControls.ProgressBar,
+  Vcl.ActnList, BCControls.CheckBox, System.Actions, BCControls.ProgressBar,
   BCControls.ImageList, Vcl.ActnPopup, BCControls.PopupMenu, SynMacroRecorder, SynEditKeyCmds, Vcl.Themes,
   SynEditRegexSearch, BCControls.SynEdit, DocumentTabSheet, BCFrames.Compare, Vcl.PlatformDefaultStyleActnCtrls,
-  SynHighlighterPas, SynHighlighterCobol, SynHighlighterWebData, SynHighlighterURI, SynURIOpener, SynHighlighterTeX,
+  SynHighlighterPas, SynHighlighterCobol, SynHighlighterWebData, SynHighlighterTeX,
   SynHighlighterProgress, SynHighlighterPerl, SynHighlighterKix, SynHighlighterJScript, SynHighlighterGalaxy,
   SynHighlighterFoxpro, SynHighlighterWeb, SynHighlighterCache, SynHighlighterDml, SynHighlighterGWS, SynHighlighterIDL,
   SynHighlighterCPM, SynHighlighterHaskell, SynHighlighterHP48, SynHighlighterDOT, SynHighlighterADSP21xx,

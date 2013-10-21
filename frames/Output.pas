@@ -3,12 +3,10 @@ unit Output;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, JvExControls,
-  JvLabel, Vcl.ActnList, Vcl.ImgList, Vcl.ToolWin, Vcl.StdCtrls, JvSpeedButton, JvExComCtrls,
-  JvComCtrls, Vcl.Menus, BCControls.PopupMenu, VirtualTrees, Vcl.PlatformDefaultStyleActnCtrls,
-  Vcl.ActnPopup, BCControls.ImageList, Vcl.Themes, OutputTabSheet, BCControls.PageControl,
-  System.Actions;
+  Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Buttons, Vcl.ComCtrls,
+  Vcl.ActnList, Vcl.ImgList, JvExComCtrls, JvComCtrls, Vcl.Menus, BCControls.PopupMenu, VirtualTrees,
+  Vcl.PlatformDefaultStyleActnCtrls, Vcl.ActnPopup, BCControls.ImageList, Vcl.Themes, OutputTabSheet,
+  BCControls.PageControl, System.Actions;
 
 type
   TOpenAllEvent = procedure(var FileNames: TStrings);

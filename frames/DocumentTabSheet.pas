@@ -3,11 +3,9 @@ unit DocumentTabSheet;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, VirtualTrees, SynEdit, BCControls.SynEdit,
-  Xml.XMLIntf, Xml.xmldom, Xml.Win.msxmldom, Xml.XMLDoc, Vcl.ImgList, BCControls.ImageList, Vcl.Menus,
-  Vcl.ActnList, SynEditHighlighter, SynHighlighterMulti, SynURIOpener, SynHighlighterURI,
-  SynCompletionProposal;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls,
+  Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, VirtualTrees, SynEdit, BCControls.SynEdit, Xml.XMLIntf, Xml.Win.msxmldom,
+  Xml.XMLDoc, Vcl.ActnList, SynEditHighlighter, SynURIOpener, SynHighlighterURI, SynCompletionProposal, Xml.xmldom;
 
 type
   PXMLTreeRec = ^TXMLTreeRec;

@@ -3,9 +3,8 @@ unit DirectoryTabSheet;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, VirtualTrees, BCControls.FileControl,
-  Vcl.StdCtrls;
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, VirtualTrees,
+  BCControls.FileControl, Vcl.StdCtrls;
 
 type
   TDirTabSheetFrame = class(TFrame)

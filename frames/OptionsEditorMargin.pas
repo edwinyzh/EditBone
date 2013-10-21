@@ -3,9 +3,8 @@ unit OptionsEditorMargin;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ExtCtrls, Vcl.StdCtrls, BCControls.CheckBox,
-  BCControls.Edit, Vcl.Buttons, JvExStdCtrls, JvEdit;
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ExtCtrls, Vcl.StdCtrls, BCControls.CheckBox,
+  BCControls.Edit, Vcl.Buttons, JvEdit;
 
 type
   TEditorMarginFrame = class(TFrame)

@@ -3,13 +3,11 @@ unit Main;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.ActnCtrls, Vcl.ActnList, Vcl.ActnMan, Vcl.ActnMenus,
-  Vcl.ToolWin, Vcl.ComCtrls, Vcl.ImgList, Vcl.ExtCtrls, SynEdit, Directory, BCControls.FileControl,
-  Vcl.StdCtrls, Vcl.Menus, Vcl.AppEvnts, Document, Output, Options, Lib, JvAppInst, VirtualTrees,
-  JvDragDrop, BCControls.PopupMenu, Vcl.PlatformDefaultStyleActnCtrls, JvComponentBase, Vcl.ActnPopup,
-  BCControls.ImageList, JvExStdCtrls, JvCombobox, BCControls.ComboBox, Vcl.Themes, System.Actions,
-  JvAppEvent, BCControls.ProgressBar, Vcl.PlatformVclStylesActnCtrls;
+  Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ActnCtrls, Vcl.ActnList,
+  Vcl.ActnMan, Vcl.ActnMenus, Vcl.ToolWin, Vcl.ComCtrls, Vcl.ImgList, Vcl.ExtCtrls, SynEdit, Directory, Vcl.StdCtrls,
+  Vcl.Menus, Vcl.AppEvnts, Document, Output, Options, Lib, JvAppInst, VirtualTrees, JvDragDrop, BCControls.PopupMenu,
+  Vcl.PlatformDefaultStyleActnCtrls, JvComponentBase, Vcl.ActnPopup, BCControls.ImageList, BCControls.ComboBox,
+  Vcl.Themes, System.Actions, BCControls.ProgressBar, Vcl.PlatformVclStylesActnCtrls;
 
 const
   { Main menu item indexes }
@@ -361,7 +359,7 @@ implementation
 
 uses
   About, BCDialogs.FindInFiles, Vcl.ClipBrd, BigIni, BCCommon.StyleUtils, BCCommon.FileUtils,
-  System.IOUtils, BCCommon.LanguageStrings, BCDialogs.ConfirmReplace, LanguageEditor, BCControls.SynEdit,
+  System.IOUtils, BCCommon.LanguageStrings, LanguageEditor, BCControls.SynEdit,
   BCCommon.LanguageUtils, BCCommon.DuplicateChecker, UnicodeCharacterMap, DuplicateCheckerOptions, Winapi.ShellAPI,
   System.Types, BCCommon.Messages, BCCommon.Lib, BCCommon.StringUtils, Winapi.CommCtrl, BCForms.Convert,
   BCForms.SearchForFiles;

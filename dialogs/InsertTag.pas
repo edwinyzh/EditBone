@@ -3,8 +3,8 @@ unit InsertTag;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, BCDialogs.Dlg, Vcl.StdCtrls, JvExStdCtrls, JvEdit, BCControls.Edit, Vcl.ExtCtrls;
+  System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, BCDialogs.Dlg, Vcl.StdCtrls, BCControls.Edit,
+  Vcl.ExtCtrls;
 
 type
   TInsertTagDialog = class(TDialog)

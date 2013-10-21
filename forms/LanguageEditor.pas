@@ -3,9 +3,9 @@ unit LanguageEditor;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.ActnList, Vcl.ComCtrls, Vcl.ToolWin, BCControls.ToolBar,
-  Vcl.ExtCtrls, Vcl.ImgList, BCControls.ImageList, VirtualTrees, Vcl.AppEvnts, BCControls.Edit, System.Actions;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ActnList,
+  Vcl.ComCtrls, Vcl.ToolWin, BCControls.ToolBar, Vcl.ExtCtrls, Vcl.ImgList, BCControls.ImageList, VirtualTrees,
+  Vcl.AppEvnts, BCControls.Edit, System.Actions;
 
 type
   TValueType = (vtString, vtPickString);

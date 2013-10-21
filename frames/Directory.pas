@@ -5,11 +5,10 @@ unit Directory;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.ComCtrls, BCControls.FileControl, Vcl.StdCtrls, Vcl.ExtCtrls,
-  Vcl.ImgList, Vcl.ToolWin, Vcl.ActnList, Vcl.Buttons, JvExControls, JvLabel, Vcl.Menus,
-  JvSpeedButton, JvExComCtrls, JvComCtrls, BCControls.PopupMenu, BCControls.PageControl, Vcl.ActnPopup, Vcl.Themes,
-  Vcl.PlatformDefaultStyleActnCtrls, BCControls.ImageList, VirtualTrees, DirectoryTabSheet, System.Actions;
+  Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ComCtrls,
+  BCControls.FileControl, Vcl.ImgList, Vcl.ActnList, Vcl.Buttons, Vcl.Menus, JvExComCtrls, JvComCtrls,
+  BCControls.PopupMenu, BCControls.PageControl, Vcl.ActnPopup, Vcl.Themes, Vcl.PlatformDefaultStyleActnCtrls,
+  BCControls.ImageList, VirtualTrees, DirectoryTabSheet, System.Actions;
 
 type
   TDirectoryFrame = class(TFrame)
@@ -88,7 +87,7 @@ implementation
 {$R *.dfm}
 
 uses
-  System.Types, DirectoryTab, Winapi.ShellAPI, BCCommon.StyleUtils, BigIni, BCCommon.LanguageStrings, Options,
+  DirectoryTab, BCCommon.StyleUtils, BigIni, BCCommon.LanguageStrings, Options,
   System.Math, BCCommon.FileUtils, BCCommon.Messages, BCCommon.Dialogs, BCCommon.StringUtils;
 
 constructor TDirectoryFrame.Create(AOwner: TComponent);
