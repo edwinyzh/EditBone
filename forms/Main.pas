@@ -1285,17 +1285,19 @@ end;
 
 procedure TMainForm.CreateFrames;
 begin
+  { TOutputFrame }
   FOutputFrame := TOutputFrame.Create(OutputPanel);
   FOutputFrame.Parent := OutputPanel;
   FOutputFrame.OnTabsheetDblClick := OutputDblClickActionExecute;
   FOutputFrame.OnOpenAll := OutputOpenAllEvent;
   FOutputFrame.ReadOutFile;
   OutputPanel.Visible := FOutputFrame.IsAnyOutput;
-
+  { TDirectoryFrame }
   FDirectoryFrame := TDirectoryFrame.Create(DirectoryPanel);
   FDirectoryFrame.Parent := DirectoryPanel;
   FDirectoryFrame.OnTabsheetDblClick := FileTreeViewDblClickActionExecute;
-
+  FDirectoryFrame.SearchForFilesOpenFile := DoSearchForFilesOpenFile;
+  { TDocumentFrame }
   FDocumentFrame := TDocumentFrame.Create(DocumentPanel);
   FDocumentFrame.Parent := DocumentPanel;
   FDocumentFrame.PopupMenu := DocumentPopupMenu;
@@ -1311,7 +1313,6 @@ begin
   CreateFrames;
   UpdateStatusBar;
   ReadIniFile;
-  //ReadLanguageFile(GetSelectedLanguage);
 
   {$IFDEF RELEASE}
   ToolsDuplicateCheckerAction.Visible := False;

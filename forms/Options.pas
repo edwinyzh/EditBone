@@ -133,12 +133,12 @@ type
     FFileTypes: TStrings;
     FFontName: string;
     FFontSize: Integer;
-    FMarginAutoSize: Boolean;
+    FMarginLeftMarginAutoSize: Boolean;
     FMarginFontName: string;
     FMarginFontSize: Integer;
     FMarginRightMargin: Integer;
-    FMarginWidth: Integer;
-    FMarginVisible: Boolean;
+    FMarginLeftMarginWidth: Integer;
+    FMarginVisibleLeftMargin: Boolean;
     FMarginVisibleRightMargin: Boolean;
     FHTMLErrorChecking: Boolean;
     FHTMLVersion: TSynWebHtmlVersion;
@@ -258,12 +258,12 @@ type
     property Filters: string read GetFilters;
     property FontName: string read FFontName write FFontName;
     property FontSize: Integer read FFontSize write FFontSize;
-    property MarginAutoSize: Boolean read FMarginAutoSize write FMarginAutoSize;
+    property MarginLeftMarginAutoSize: Boolean read FMarginLeftMarginAutoSize write FMarginLeftMarginAutoSize;
     property MarginFontName: string read FMarginFontName write FMarginFontName;
     property MarginFontSize: Integer read FMarginFontSize write FMarginFontSize;
     property MarginRightMargin: Integer read FMarginRightMargin write FMarginRightMargin;
-    property MarginWidth: Integer read FMarginWidth write FMarginWidth;
-    property MarginVisible: Boolean read FMarginVisible write FMarginVisible;
+    property MarginLeftMarginWidth: Integer read FMarginLeftMarginWidth write FMarginLeftMarginWidth;
+    property MarginVisibleLeftMargin: Boolean read FMarginVisibleLeftMargin write FMarginVisibleLeftMargin;
     property MarginVisibleRightMargin: Boolean read FMarginVisibleRightMargin write FMarginVisibleRightMargin;
     property HTMLErrorChecking: Boolean read FHTMLErrorChecking write FHTMLErrorChecking;
     property HTMLVersion: TSynWebHtmlVersion read FHTMLVersion write FHTMLVersion;
@@ -357,7 +357,7 @@ begin
   begin
     TCustomSynEdit(Dest).Font.Name := FFontName;
     TCustomSynEdit(Dest).Font.Size := FFontSize;
-    TCustomSynEdit(Dest).Gutter.Visible := FMarginVisible;
+    TCustomSynEdit(Dest).Gutter.Visible := FMarginVisibleLeftMargin;
     TCustomSynEdit(Dest).Gutter.Font.Name := FMarginFontName;
     TCustomSynEdit(Dest).Gutter.Font.Size := FMarginFontSize;
     TCustomSynEdit(Dest).ExtraLineSpacing := FExtraLineSpacing;
@@ -365,8 +365,8 @@ begin
       TCustomSynEdit(Dest).RightEdge := FMarginRightMargin
     else
       TCustomSynEdit(Dest).RightEdge := 0;
-    TCustomSynEdit(Dest).Gutter.AutoSize := FMarginAutoSize;
-    TCustomSynEdit(Dest).Gutter.Width := FMarginWidth;
+    TCustomSynEdit(Dest).Gutter.AutoSize := FMarginLeftMarginAutoSize;
+    TCustomSynEdit(Dest).Gutter.Width := FMarginLeftMarginWidth;
     TCustomSynEdit(Dest).TabWidth := FTabWidth;
     TCustomSynEdit(Dest).InsertCaret := FInsertCaret;
     if FAutoIndent then
@@ -680,12 +680,12 @@ begin
   FExtraLineSpacing := 0;
   FFontName := 'Courier New';
   FFontSize := 9;
-  FMarginAutoSize := True;
+  FMarginLeftMarginAutoSize := True;
   FMarginFontName := 'Courier New';
   FMarginFontSize := 8;
   FMarginRightMargin := 80;
-  FMarginWidth := 48;
-  FMarginVisible := True;
+  FMarginLeftMarginWidth := 48;
+  FMarginVisibleLeftMargin := True;
   FMarginVisibleRightMargin := True;
   FMinimapFontSize := 3;
   FHTMLErrorChecking := True;
@@ -1034,11 +1034,11 @@ begin
   FEditorFontFrame.MarginFontLabel.Font.Size := FOptionsContainer.MarginFontSize;
   FEditorFontFrame.MarginFontLabel.Caption := Format('%s %dpt', [FEditorFontFrame.MarginFontLabel.Font.Name, FEditorFontFrame.MarginFontLabel.Font.Size]);
   { Margin }
-  FEditorMarginFrame.AutoSizeCheckBox.Checked := FOptionsContainer.MarginAutoSize;
-  FEditorMarginFrame.MarginVisibleCheckBox.Checked := FOptionsContainer.MarginVisible;
+  FEditorMarginFrame.LeftMarginAutoSizeCheckBox.Checked := FOptionsContainer.MarginLeftMarginAutoSize;
+  FEditorMarginFrame.VisibleLeftMarginCheckBox.Checked := FOptionsContainer.MarginVisibleLeftMargin;
   FEditorMarginFrame.VisibleRightMarginCheckBox.Checked := FOptionsContainer.MarginVisibleRightMargin;
   FEditorMarginFrame.RightMarginEdit.Text := IntToStr(FOptionsContainer.MarginRightMargin);
-  FEditorMarginFrame.WidthEdit.Text := IntToStr(FOptionsContainer.MarginWidth);
+  FEditorMarginFrame.LeftMarginWidthEdit.Text := IntToStr(FOptionsContainer.MarginLeftMarginWidth);
   { Search }
   FEditorSearchFrame.ShowSearchStringNotFoundCheckBox.Checked := FOptionsContainer.ShowSearchStringNotFound;
   FEditorSearchFrame.BeepIfSearchStringNotFoundCheckBox.Checked := FOptionsContainer.BeepIfSearchStringNotFound;
@@ -1272,11 +1272,11 @@ begin
   FOptionsContainer.MarginFontName := FEditorFontFrame.MarginFontLabel.Font.Name;
   FOptionsContainer.MarginFontSize := FEditorFontFrame.MarginFontLabel.Font.Size;
   { Margin }
-  FOptionsContainer.MarginAutoSize := FEditorMarginFrame.AutoSizeCheckBox.Checked;
-  FOptionsContainer.MarginVisible := FEditorMarginFrame.MarginVisibleCheckBox.Checked;
+  FOptionsContainer.MarginLeftMarginAutoSize := FEditorMarginFrame.LeftMarginAutoSizeCheckBox.Checked;
+  FOptionsContainer.MarginVisibleLeftMargin := FEditorMarginFrame.VisibleLeftMarginCheckBox.Checked;
   FOptionsContainer.MarginRightMargin := StrToIntDef(FEditorMarginFrame.RightMarginEdit.Text, 80);
   FOptionsContainer.MarginVisibleRightMargin := FEditorMarginFrame.VisibleRightMarginCheckBox.Checked;
-  FOptionsContainer.MarginWidth := StrToIntDef(FEditorMarginFrame.WidthEdit.Text, 48);
+  FOptionsContainer.MarginLeftMarginWidth := StrToIntDef(FEditorMarginFrame.LeftMarginWidthEdit.Text, 48);
   { Search }
   FOptionsContainer.ShowSearchStringNotFound := FEditorSearchFrame.ShowSearchStringNotFoundCheckBox.Checked;
   FOptionsContainer.BeepIfSearchStringNotFound := FEditorSearchFrame.BeepIfSearchStringNotFoundCheckBox.Checked;

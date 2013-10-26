@@ -9,12 +9,12 @@ uses
 type
   TEditorMarginFrame = class(TFrame)
     Panel: TPanel;
-    MarginVisibleCheckBox: TBCCheckBox;
+    VisibleLeftMarginCheckBox: TBCCheckBox;
     RightMarginLabel: TLabel;
     RightMarginEdit: TBCEdit;
-    AutoSizeCheckBox: TBCCheckBox;
-    WidthLabel: TLabel;
-    WidthEdit: TBCEdit;
+    LeftMarginAutoSizeCheckBox: TBCCheckBox;
+    LeftMarginWidthLabel: TLabel;
+    LeftMarginWidthEdit: TBCEdit;
     VisibleRightMarginCheckBox: TBCCheckBox;
   private
     { Private declarations }

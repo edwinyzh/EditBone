@@ -1832,11 +1832,11 @@ begin
     OptionsContainer.ColorBrightness := StrToInt(ReadString('Options', 'ActiveLineColorBrightness', '2'));
     OptionsContainer.MarginFontName := ReadString('Options', 'MarginFontName', 'Courier New');
     OptionsContainer.MarginFontSize := StrToInt(ReadString('Options', 'MarginFontSize', '8'));
-    OptionsContainer.MarginAutoSize := ReadBool('Options', 'MarginAutoSize', True);
+    OptionsContainer.MarginLeftMarginAutoSize := ReadBool('Options', 'MarginLeftMarginAutoSize', True);
     OptionsContainer.MarginVisibleRightMargin := ReadBool('Options', 'MarginVisibleRightMargin', True);
     OptionsContainer.MarginRightMargin := StrToInt(ReadString('Options', 'RightMargin', '80'));
-    OptionsContainer.MarginVisible := ReadBool('Options', 'MarginVisible', True);
-    OptionsContainer.MarginWidth := StrToInt(ReadString('Options', 'MarginWidth', '48'));
+    OptionsContainer.MarginVisibleLeftMargin := ReadBool('Options', 'MarginVisibleLeftMargin', True);
+    OptionsContainer.MarginLeftMarginWidth := StrToInt(ReadString('Options', 'MarginLeftMarginWidth', '48'));
     OptionsContainer.ShowSearchStringNotFound := ReadBool('Options', 'ShowSearchStringNotFound', True);
     OptionsContainer.BeepIfSearchStringNotFound := ReadBool('Options', 'BeepIfSearchStringNotFound', True);
     OptionsContainer.InsertCaret := TSynEditCaretType(StrToInt(ReadString('Options', 'InsertCaret', '0')));
@@ -2028,15 +2028,18 @@ begin
     WriteString('Options', 'MarginFontName', OptionsContainer.MarginFontName);
     WriteString('Options', 'MarginFontSize', IntToStr(OptionsContainer.MarginFontSize));
     WriteString('Options', 'RightMargin', IntToStr(OptionsContainer.MarginRightMargin));
-    WriteBool('Options', 'MarginAutoSize', OptionsContainer.MarginAutoSize);
-    WriteString('Options', 'MarginWidth', IntToStr(OptionsContainer.MarginWidth));
+    DeleteKey('Options', 'MarginAutoSize');
+    WriteBool('Options', 'MarginLeftMarginAutoSize', OptionsContainer.MarginLeftMarginAutoSize);
+    DeleteKey('Options', 'MarginWidth');
+    WriteString('Options', 'MarginLeftMarginWidth', IntToStr(OptionsContainer.MarginLeftMarginWidth));
     WriteBool('Options', 'MarginVisibleRightMargin', OptionsContainer.MarginVisibleRightMargin);
     WriteBool('Options', 'ShowSearchStringNotFound', OptionsContainer.ShowSearchStringNotFound);
     WriteBool('Options', 'BeepIfSearchStringNotFound', OptionsContainer.BeepIfSearchStringNotFound);
     WriteString('Options', 'ExtraLineSpacing', IntToStr(OptionsContainer.ExtraLineSpacing));
     WriteString('Options', 'TabWidth', IntToStr(OptionsContainer.TabWidth));
     WriteString('Options', 'ActiveLineColorBrightness', IntToStr(OptionsContainer.ColorBrightness));
-    WriteBool('Options', 'MarginVisible', OptionsContainer.MarginVisible);
+    DeleteKey('Options', 'MarginVisible');
+    WriteBool('Options', 'MarginVisibleLeftMargin', OptionsContainer.MarginVisibleLeftMargin);
     WriteString('Options', 'InsertCaret', IntToStr(Ord(OptionsContainer.InsertCaret)));
     DeleteKey('Options', 'MinimapFontFactor'); { deprecated }
     WriteString('Options', 'MinimapFontSize', IntToStr(OptionsContainer.MinimapFontSize));

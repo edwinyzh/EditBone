@@ -8,7 +8,7 @@ uses
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ComCtrls,
   BCControls.FileControl, Vcl.ImgList, Vcl.ActnList, Vcl.Buttons, Vcl.Menus, JvExComCtrls, JvComCtrls,
   BCControls.PopupMenu, BCControls.PageControl, Vcl.ActnPopup, Vcl.Themes, Vcl.PlatformDefaultStyleActnCtrls,
-  BCControls.ImageList, VirtualTrees, DirectoryTabSheet, System.Actions;
+  BCControls.ImageList, VirtualTrees, DirectoryTabSheet, System.Actions, BCForms.SearchForFiles;
 
 type
   TDirectoryFrame = class(TFrame)
@@ -33,6 +33,8 @@ type
     Separator1MenuItem: TMenuItem;
     Separator2MenuItem: TMenuItem;
     Separator3MenuItem: TMenuItem;
+    DirectoryFilesAction: TAction;
+    Files1: TMenuItem;
     procedure DirectoryCloseActionExecute(Sender: TObject);
     procedure DirectoryDeleteActionExecute(Sender: TObject);
     procedure DirectoryEditActionExecute(Sender: TObject);
@@ -46,9 +48,11 @@ type
     procedure PageControlDblClick(Sender: TObject);
     procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure PopupMenuPopup(Sender: TObject);
+    procedure DirectoryFilesActionExecute(Sender: TObject);
   private
     { Private declarations }
     FTabsheetDblClick: TNotifyEvent;
+    FSearchForFilesOpenFile: TOpenFileEvent;
     function GetActiveDriveComboBox: TBCDriveComboBox;
     function GetDrivesPanelOrientation(TabSheet: TTabSheet = nil): Byte;
     function GetFileTypePanelOrientation(TabSheet: TTabSheet = nil): Byte;
@@ -78,6 +82,7 @@ type
     property ExcludeOtherBranches: Boolean read GetActiveExcludeOtherBranches;
     property IsAnyDirectory: Boolean read GetIsAnyDirectory;
     property OnTabsheetDblClick: TNotifyEvent read FTabsheetDblClick write FTabsheetDblClick;
+    property SearchForFilesOpenFile: TOpenFileEvent read FSearchForFilesOpenFile write FSearchForFilesOpenFile;
     property RootDirectory: string read GetRootDirectory;
     property SelectedPath: string read GetSelectedPath;
   end;
@@ -403,6 +408,15 @@ end;
 procedure TDirectoryFrame.DirectoryEditActionExecute(Sender: TObject);
 begin
   EditDirectory;
+end;
+
+procedure TDirectoryFrame.DirectoryFilesActionExecute(Sender: TObject);
+begin
+  with SearchForFilesForm do
+  begin
+    OnOpenFile := FSearchForFilesOpenFile;
+    Open(SelectedPath);
+  end;
 end;
 
 procedure TDirectoryFrame.OpenDirectory;

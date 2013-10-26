@@ -25,18 +25,18 @@ object EditorMarginFrame: TEditorMarginFrame
       Margins.Bottom = 4
       Caption = 'Right Margin'
     end
-    object WidthLabel: TLabel
+    object LeftMarginWidthLabel: TLabel
       Left = 11
       Top = 70
-      Width = 28
+      Width = 85
       Height = 13
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = 'Width'
+      Caption = 'Left Margin Width'
     end
-    object MarginVisibleCheckBox: TBCCheckBox
+    object VisibleLeftMarginCheckBox: TBCCheckBox
       Left = 9
       Top = 26
       Width = 198
@@ -45,7 +45,7 @@ object EditorMarginFrame: TEditorMarginFrame
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Visible'
+      Caption = ' Visible Left Margin'
       Checked = True
       State = cbChecked
       TabOrder = 0
@@ -69,7 +69,7 @@ object EditorMarginFrame: TEditorMarginFrame
       ErrorColor = 14803198
       NumbersAllowNegative = False
     end
-    object AutoSizeCheckBox: TBCCheckBox
+    object LeftMarginAutoSizeCheckBox: TBCCheckBox
       Left = 9
       Top = 6
       Width = 198
@@ -78,13 +78,13 @@ object EditorMarginFrame: TEditorMarginFrame
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Auto Size'
+      Caption = ' Left Margin Auto Size'
       Checked = True
       State = cbChecked
       TabOrder = 2
       ReadOnly = False
     end
-    object WidthEdit: TBCEdit
+    object LeftMarginWidthEdit: TBCEdit
       Left = 9
       Top = 87
       Width = 64
