@@ -772,6 +772,8 @@ begin
     { Position }
     Left := ReadInteger('Position', 'Left', (Screen.Width - Width) div 2);
     Top := ReadInteger('Position', 'Top', (Screen.Height - Height) div 2);
+    { Directory }
+    DirectoryPanel.Width := ReadInteger('Options', 'DirectoryWidth', 257);
     Application.ProcessMessages;
 finally
     Free;
@@ -867,6 +869,7 @@ begin
     end;
     WriteInteger('Size', 'State', State);
     { Options }
+    WriteInteger('Options', 'DirectoryWidth', DirectoryPanel.Width);
     WriteBool('Options', 'ShowToolBar', ToolBarPanel.Visible);
     WriteBool('Options', 'ShowStatusbar', StatusBar.Visible);
     WriteBool('Options', 'ShowDirectory', DirectoryPanel.Visible);
