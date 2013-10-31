@@ -1456,7 +1456,10 @@ begin
       OutputPanel.Visible := True;
     end
     else
+    begin
+      FOutputFrame.ProcessingTabSheet := False;
       FOutputFrame.CloseTabSheet;
+    end;
     FOutputFrame.ProcessingTabSheet := False;
   end;
 end;

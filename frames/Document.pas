@@ -959,44 +959,47 @@ var
   SynEdit: TBCSynEdit;
 begin
   FProcessing := True;
-  if FileName = '' then
-  begin
-    if BCCommon.Dialogs.OpenFiles(Handle, '', OptionsContainer.Filters, LanguageDataModule.GetConstant('Open')) then
+  try
+    if FileName = '' then
     begin
-      Application.ProcessMessages; { style fix }
-      for i := 0 to BCCommon.Dialogs.Files.Count - 1 do
-        Open(BCCommon.Dialogs.Files[i])
-    end;
-  end
-  else
-  begin
-    if FileExists(FileName) then
-    begin
-      SynEdit := FindOpenFile(FileName);
-      if not Assigned(SynEdit) then
-        SynEdit := CreateNewTabSheet(FileName);
-      SynEdit.CaretXY := BufferCoord(Ch, Ln);
-      SetBookmarks(SynEdit, Bookmarks);
-      CheckHTMLErrors;
-      try
-        SetMainHighlighterCombo(SynEdit);
-        SetMainEncodingCombo(SynEdit);
-        if SynEdit.CanFocus then
-          SynEdit.SetFocus;
-        if not StartUp then
-        begin
-          AddToReopenFiles(FileName);
-          MainForm.CreateFileReopenList;
-        end;
-      except
-        { It is not always possible to focus... }
+      if BCCommon.Dialogs.OpenFiles(Handle, '', OptionsContainer.Filters, LanguageDataModule.GetConstant('Open')) then
+      begin
+        Application.ProcessMessages; { style fix }
+        for i := 0 to BCCommon.Dialogs.Files.Count - 1 do
+          Open(BCCommon.Dialogs.Files[i])
       end;
     end
     else
-    if ExtractFileName(FileName) <> '' then
-      ShowErrorMessage(Format(LanguageDataModule.GetErrorMessage('FileNotFound'), [Filename]))
+    begin
+      if FileExists(FileName) then
+      begin
+        SynEdit := FindOpenFile(FileName);
+        if not Assigned(SynEdit) then
+          SynEdit := CreateNewTabSheet(FileName);
+        SynEdit.CaretXY := BufferCoord(Ch, Ln);
+        SetBookmarks(SynEdit, Bookmarks);
+        CheckHTMLErrors;
+        try
+          SetMainHighlighterCombo(SynEdit);
+          SetMainEncodingCombo(SynEdit);
+          if SynEdit.CanFocus then
+            SynEdit.SetFocus;
+          if not StartUp then
+          begin
+            AddToReopenFiles(FileName);
+            MainForm.CreateFileReopenList;
+          end;
+        except
+          { It is not always possible to focus... }
+        end;
+      end
+      else
+      if ExtractFileName(FileName) <> '' then
+        ShowErrorMessage(Format(LanguageDataModule.GetErrorMessage('FileNotFound'), [Filename]))
+    end;
+  finally
+    FProcessing := False;
   end;
-  FProcessing := False;
 end;
 
 procedure TDocumentFrame.Close;
@@ -1055,6 +1058,7 @@ begin
   if CloseDocuments and (Rslt <> mrCancel) then
   begin
     FProcessing := True;
+    Application.ProcessMessages;
     Screen.Cursor := crHourGlass;
     try
       FProgressBar.Visible := True;
@@ -1064,9 +1068,9 @@ begin
         FProgressBar.Position := 100 - Trunc((i / j) * 100);
         PageControl.Pages[i].Free;
       end;
-      FProgressBar.Visible := False;
     finally
       Screen.Cursor := crDefault;
+      FProgressBar.Visible := False;
       FProcessing := False;
     end;
     FNumberOfNewDocument := 0;
@@ -1100,6 +1104,7 @@ begin
   if Rslt <> mrCancel then
   begin
     FProcessing := True;
+    Application.ProcessMessages;
     Screen.Cursor := crHourGlass;
     try
       FProgressBar.Visible := True;
@@ -1208,6 +1213,7 @@ begin
   Screen.Cursor := crHourGlass;
   try
     FProcessing := True;
+    Application.ProcessMessages;
     FProgressBar.Visible := True;
     j := PageControl.PageCount;
     for i := 0 to j - 1 do
@@ -1634,6 +1640,7 @@ begin
       else
       begin
         FProcessing := True;
+        Application.ProcessMessages;
         Screen.Cursor := crHourGlass;
         try
           FProgressBar.Visible := True;
@@ -1651,11 +1658,11 @@ begin
               PageControl.UpdatePageCaption(PageControl.Pages[i]);
             end;
           end;
-          FProgressBar.Visible := False;
         finally
           Screen.Cursor := crDefault;
+          FProgressBar.Visible := False;
+          FProcessing := False;
         end;
-        FProcessing := False;
       end;
     end;
   end;
