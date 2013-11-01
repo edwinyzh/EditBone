@@ -512,6 +512,7 @@ object AboutDialog: TAboutDialog
       Top = 6
       Width = 47
       Height = 13
+      Alignment = taCenter
       Caption = 'Thanks to'
     end
     object CopyrightLabel: TLabel
@@ -539,7 +540,7 @@ object AboutDialog: TAboutDialog
     end
     object ThanksTo1LinkLabel: TLinkLabel
       Left = 34
-      Top = 26
+      Top = 24
       Width = 284
       Height = 17
       Anchors = [akTop]

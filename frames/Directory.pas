@@ -75,7 +75,7 @@ type
     procedure OpenDirectory(TabName: string; RootDirectory: string; LastPath: string; ShowDrives: Byte;
       ExcludeOtherBranches: Boolean; ShowFileType: Byte; FileType: string); overload;
     procedure OpenDirectory; overload;
-    procedure OpenPath(RootDirectory: string; LastPath: string; ExcludeOtherBranches: Boolean);
+    procedure OpenPath(RootDirectory: string; LastPath: string; ExcludeOtherBranches: Boolean = False);
     procedure UpdateControls;
     procedure SetOptions;
     procedure WriteIniFile;

@@ -200,6 +200,8 @@ type
     ViewWordWrapAction: TAction;
     ViewXMLTreeAction: TAction;
     ViewSearchForFilesAction: TAction;
+    FileSelectFromDirectoryAction: TAction;
+    SelectfromDirectory1: TMenuItem;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -312,6 +314,7 @@ type
     procedure ViewWordWrapActionExecute(Sender: TObject);
     procedure ViewXMLTreeActionExecute(Sender: TObject);
     procedure ViewSearchForFilesActionExecute(Sender: TObject);
+    procedure FileSelectFromDirectoryActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -985,6 +988,7 @@ begin
   FileSaveAllAction.Enabled := FDocumentFrame.ModifiedDocuments and ActiveDocumentFound;
   FilePrintAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
   FilePrintPreviewAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
+  FileSelectFromDirectoryAction.Enabled := ActiveDocumentFound and FDirectoryFrame.IsAnyDirectory;
   EditUndoAction.Enabled := FileCloseAction.Enabled and FDocumentFrame.CanUndo and ActiveDocumentFound;
   EditRedoAction.Enabled := FileCloseAction.Enabled and FDocumentFrame.CanRedo and ActiveDocumentFound;
   EditCutAction.Enabled := SelectionFound and ActiveDocumentFound;
@@ -1175,24 +1179,18 @@ begin
 end;
 
 procedure TMainForm.FileSaveAsActionExecute(Sender: TObject);
-var
-  RootDirectory: string;
-  Filename: string;
 begin
-  try
-    RootDirectory := '';
+  FDocumentFrame.SaveAs;
+  Repaint;
+end;
+
+procedure TMainForm.FileSelectFromDirectoryActionExecute(Sender: TObject);
+begin
+  if FDocumentFrame.ActiveDocumentName <> '' then
     if Assigned(FDirectoryFrame) then
-      RootDirectory := FDirectoryFrame.RootDirectory;
-    Filename := FDocumentFrame.SaveAs;
-    if Filename <> '' then
-      if Assigned(FDirectoryFrame) then
-        if FDirectoryFrame.IsAnyDirectory then
-          FDirectoryFrame.OpenPath(Format('%s\', [ExtractFileDrive(Filename)]), ExtractFilePath(Filename), FDirectoryFrame.ExcludeOtherBranches);
-    Repaint;
-  except
-    on E: Exception do
-      ShowErrorMessage(E.Message);
-  end;
+      if FDirectoryFrame.IsAnyDirectory then
+        FDirectoryFrame.OpenPath(FDirectoryFrame.RootDirectory, FDocumentFrame.ActiveDocumentName,
+          FDirectoryFrame.ExcludeOtherBranches);
 end;
 
 procedure TMainForm.FileTreeViewDblClickActionExecute(Sender: TObject);
