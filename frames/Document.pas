@@ -853,8 +853,10 @@ begin
     SetCompareFile(Filename);
     SpecialChars := OptionsContainer.EnableSpecialChars;
     LineNumbers := OptionsContainer.EnableLineNumbers;
+    UpdateLanguage(GetSelectedLanguage);
   end;
-  BCCommon.LanguageUtils.UpdateLanguage(TForm(Frame));
+  //Frame.UpdateLanguage(GetSelectedLanguage);
+  //BCCommon.LanguageUtils.UpdateLanguage(TForm(Frame));
 end;
 
 procedure TDocumentFrame.SelectForCompare;
