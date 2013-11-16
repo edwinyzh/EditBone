@@ -628,6 +628,12 @@ begin
       SearchEngine := SynEditSearch;
       PopupMenu := EditorPopupMenu;
       BookMarkOptions.BookmarkImages := BookmarkImagesList;
+      WordWrap := OptionsContainer.EnableWordWrap;
+      Gutter.ShowLineNumbers := OptionsContainer.EnableLineNumbers;
+      if OptionsContainer.EnableSpecialChars then
+        Options := Options + [eoShowSpecialChars]
+      else
+        Options := Options - [eoShowSpecialChars]
     end;
     { SynEditMinimap }
     SynEditMinimap.OnSpecialLineColors := SynEditSpecialLineColors;
@@ -855,8 +861,6 @@ begin
     LineNumbers := OptionsContainer.EnableLineNumbers;
     UpdateLanguage(GetSelectedLanguage);
   end;
-  //Frame.UpdateLanguage(GetSelectedLanguage);
-  //BCCommon.LanguageUtils.UpdateLanguage(TForm(Frame));
 end;
 
 procedure TDocumentFrame.SelectForCompare;
@@ -1731,6 +1735,7 @@ begin
     if Assigned(SynEdit) then
       SynEdit.WordWrap := not SynEdit.WordWrap;
   end;
+  OptionsContainer.EnableWordWrap := Result;
 end;
 
 function TDocumentFrame.ToggleSpecialChars: Boolean;
@@ -1762,6 +1767,7 @@ begin
     if PageControl.Pages[i].Components[0] is TCompareFrame then
       Result := TCompareFrame(PageControl.Pages[i].Components[0]).ToggleSpecialChars
   end;
+  OptionsContainer.EnableSpecialChars := Result;
 end;
 
 function TDocumentFrame.GetSelectionModeChecked: Boolean;
@@ -1824,6 +1830,7 @@ begin
     if PageControl.Pages[i].Components[0] is TCompareFrame then
       Result := TCompareFrame(PageControl.Pages[i].Components[0]).ToggleLineNumbers
   end;
+  OptionsContainer.EnableLineNumbers := Result;
 end;
 
 procedure TDocumentFrame.ReadIniFile;

@@ -1385,7 +1385,7 @@ object MainForm: TMainForm
     end
     object ViewOpenDirectoryAction: TAction
       Category = '&View'
-      Caption = '&Open Directory'
+      Caption = '&Open Directory...'
       Hint = 'Open a new directory'
       ImageIndex = 54
       ShortCut = 16452
@@ -1401,7 +1401,7 @@ object MainForm: TMainForm
     end
     object ViewEditDirectoryAction: TAction
       Category = '&View'
-      Caption = '&Edit Directory'
+      Caption = '&Edit Directory...'
       Hint = 'Edit the active directory'
       ImageIndex = 56
       ShortCut = 24645
@@ -1528,21 +1528,21 @@ object MainForm: TMainForm
     end
     object HelpCheckForUpdatesMenuAction: TAction
       Category = '&Help'
-      Caption = '&Check for Updates...'
+      Caption = '&Check for Updates'
       Hint = 'Check for updates'
       ImageIndex = 80
       OnExecute = HelpCheckForUpdatesMenuActionExecute
     end
     object HelpHomeAction: TAction
       Category = '&Help'
-      Caption = '&Visit Homepage...'
+      Caption = '&Visit Homepage'
       Hint = 'Visit EditBone homepage - http://www.bonecode.com/'
       ImageIndex = 81
       OnExecute = HelpHomeActionExecute
     end
     object HelpAboutAction: TAction
       Category = '&Help'
-      Caption = '&About EditBone...'
+      Caption = '&About EditBone'
       Hint = 'Display information about EditBone'
       ImageIndex = 82
       OnExecute = HelpAboutActionExecute
