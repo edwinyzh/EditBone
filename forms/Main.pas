@@ -988,7 +988,7 @@ begin
   FileSaveAllAction.Enabled := FDocumentFrame.ModifiedDocuments and ActiveDocumentFound;
   FilePrintAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
   FilePrintPreviewAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
-  FileSelectFromDirectoryAction.Enabled := ActiveDocumentFound and FDirectoryFrame.IsAnyDirectory;
+  FileSelectFromDirectoryAction.Enabled := DirectoryPanel.Visible and ActiveDocumentFound and FDirectoryFrame.IsAnyDirectory;
   EditUndoAction.Enabled := FileCloseAction.Enabled and FDocumentFrame.CanUndo and ActiveDocumentFound;
   EditRedoAction.Enabled := FileCloseAction.Enabled and FDocumentFrame.CanRedo and ActiveDocumentFound;
   EditCutAction.Enabled := SelectionFound and ActiveDocumentFound;
@@ -1189,7 +1189,7 @@ begin
   if FDocumentFrame.ActiveDocumentName <> '' then
     if Assigned(FDirectoryFrame) then
       if FDirectoryFrame.IsAnyDirectory then
-        FDirectoryFrame.OpenPath(FDirectoryFrame.RootDirectory, FDocumentFrame.ActiveDocumentName,
+        FDirectoryFrame.OpenPath(ExtractFileDrive(FDocumentFrame.ActiveDocumentName), FDocumentFrame.ActiveDocumentName,
           FDirectoryFrame.ExcludeOtherBranches);
 end;
 

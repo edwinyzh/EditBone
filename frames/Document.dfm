@@ -1,8 +1,8 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 302
+  Width = 938
+  Height = 670
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
@@ -10,7 +10,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 938
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -22,7 +22,7 @@ object DocumentFrame: TDocumentFrame
       Left = 434
       Top = 0
       Width = 89
-      Height = 13
+      Height = 21
       Align = alLeft
       Caption = 'Whole Words Only'
       Layout = tlCenter
@@ -31,7 +31,7 @@ object DocumentFrame: TDocumentFrame
       Left = 550
       Top = 0
       Width = 92
-      Height = 13
+      Height = 21
       Align = alLeft
       Caption = 'Regular Expression'
       Layout = tlCenter
@@ -125,7 +125,7 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 50
-        Height = 13
+        Height = 18
         Align = alLeft
         Caption = 'Search for'
       end
@@ -336,7 +336,7 @@ object DocumentFrame: TDocumentFrame
         Left = 0
         Top = 2
         Width = 70
-        Height = 13
+        Height = 19
         Align = alLeft
         Caption = 'Case Sensitive'
         Layout = tlCenter
@@ -382,8 +382,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 451
-    Height = 256
+    Width = 938
+    Height = 624
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -394,8 +394,8 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 451
-      Height = 254
+      Width = 938
+      Height = 622
       Align = alClient
       DoubleBuffered = False
       ParentDoubleBuffered = False
@@ -412,8 +412,8 @@ object DocumentFrame: TDocumentFrame
   end
   object GotoLinePanel: TPanel
     Left = 0
-    Top = 277
-    Width = 451
+    Top = 645
+    Width = 938
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
@@ -512,7 +512,7 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 48
-        Height = 13
+        Height = 20
         Align = alLeft
         Caption = 'Go to Line'
       end
