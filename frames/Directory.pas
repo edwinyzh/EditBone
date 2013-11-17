@@ -333,6 +333,7 @@ begin
     Exit;
   if PageControl.PageCount > 0 then
   begin
+    PageControl.TabClosed := True;
     ActivePageIndex := PageControl.ActivePageIndex;
     { Fixed Delphi Bug: http://qc.embarcadero.com/wc/qcmain.aspx?d=5473 }
     if (ActivePageIndex = PageControl.PageCount - 1) and (PageControl.PageCount > 1) then
