@@ -211,6 +211,7 @@ type
     procedure GotoLineNumberEditChange(Sender: TObject);
     procedure SearchClearActionExecute(Sender: TObject);
     procedure GotoLineClearActionExecute(Sender: TObject);
+    procedure SynEditGutterClick(Sender: TObject; Button: TMouseButton; X, Y, Line: Integer; Mark: SynEdit.TSynEditMark);
   private
     { Private declarations }
     FCaseCycle: Byte;
@@ -589,6 +590,15 @@ begin
     Result := DocTabSheetFrame.VirtualDrawTree.Visible;
 end;
 
+procedure TDocumentFrame.SynEditGutterClick(Sender: TObject; Button: TMouseButton; X, Y, Line: Integer; Mark: SynEdit.TSynEditMark);
+begin
+  if X < 16 then
+  begin
+    GetActiveSynEdit.CaretY := Line;
+    ToggleBookMark;
+  end;
+end;
+
 function TDocumentFrame.CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
 var
   TabSheet: TTabSheet;
@@ -625,10 +635,11 @@ begin
       OnSpecialLineColors := SynEditSpecialLineColors;
       OnEnter := SynEditEnter;
       OnReplaceText := SynEditorReplaceText;
+      OnGutterClick := SynEditGutterClick;
       SearchEngine := SynEditSearch;
       PopupMenu := EditorPopupMenu;
       BookMarkOptions.BookmarkImages := BookmarkImagesList;
-      WordWrap := OptionsContainer.EnableWordWrap;
+      WordWrap.Enabled := OptionsContainer.EnableWordWrap;
       Gutter.ShowLineNumbers := OptionsContainer.EnableLineNumbers;
       if OptionsContainer.EnableSpecialChars then
         Options := Options + [eoShowSpecialChars]
@@ -1729,12 +1740,12 @@ begin
     SynEdit := GetSynEdit(PageControl.Pages[i]);
     if Assigned(SynEdit) then
     begin
-      SynEdit.WordWrap := not SynEdit.WordWrap;
-      Result := SynEdit.WordWrap;
+      SynEdit.WordWrap.Enabled := not SynEdit.WordWrap.Enabled;
+      Result := SynEdit.WordWrap.Enabled;
     end;
     SynEdit := GetSplitSynEdit(PageControl.Pages[i]);
     if Assigned(SynEdit) then
-      SynEdit.WordWrap := not SynEdit.WordWrap;
+      SynEdit.WordWrap.Enabled := not SynEdit.WordWrap.Enabled;
   end;
   OptionsContainer.EnableWordWrap := Result;
 end;
@@ -2224,6 +2235,7 @@ begin
         SelectHighlighter(DocTabSheetFrame, DocTabSheetFrame.SynEdit.DocumentName);
       end;
     end;
+    Application.ProcessMessages;
     UpdateMarginAndControls;
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
     if Assigned(DocTabSheetFrame) then
@@ -3615,9 +3627,7 @@ begin
         DocumentName := FileName;
         FileDateTime := GetFileDateTime(FileName);
         Font.Color := ASynEdit.Font.Color;
-        //Font.Height := ASynEdit.Font.Height;
         Gutter.Font.Color := ASynEdit.Gutter.Font.Color;
-        //Gutter.Font.Height := ASynEdit.Gutter.Font.Height;
         Gutter.ShowLineNumbers := ASynEdit.Gutter.ShowLineNumbers;
         OnChange := SynEditSplitOnChange;
         OnSpecialLineColors := SynEditSpecialLineColors;
@@ -3731,6 +3741,7 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
   procedure SetSynEdit(SynEdit: TBCSynEdit);
   var
     FileExt: string;
+    LStyles: TCustomStyleServices;
   begin
     FileExt := ExtractFileExt(FileName);
     with SynEdit do
@@ -3739,7 +3750,11 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
       FHTMLDocumentChanged := False;
       HtmlVersion := shvUndefined;
       SynWebEngine.Options.HtmlVersion := shvUndefined;
-
+      LStyles := StyleServices;
+      if LStyles.Enabled then
+        Color := LStyles.GetStyleColor(scEdit)
+      else
+        Color := clWhite;
       if IsExtInFileType(FileExt, ftCS) then
       begin
         if (Highlighter <> ClassicCSSyn) and

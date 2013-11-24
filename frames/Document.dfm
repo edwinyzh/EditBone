@@ -22,7 +22,7 @@ object DocumentFrame: TDocumentFrame
       Left = 434
       Top = 0
       Width = 89
-      Height = 13
+      Height = 21
       Align = alLeft
       Caption = 'Whole Words Only'
       Layout = tlCenter
@@ -31,7 +31,7 @@ object DocumentFrame: TDocumentFrame
       Left = 550
       Top = 0
       Width = 92
-      Height = 13
+      Height = 21
       Align = alLeft
       Caption = 'Regular Expression'
       Layout = tlCenter
@@ -125,7 +125,7 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 50
-        Height = 13
+        Height = 18
         Align = alLeft
         Caption = 'Search for'
       end
@@ -336,7 +336,7 @@ object DocumentFrame: TDocumentFrame
         Left = 0
         Top = 2
         Width = 70
-        Height = 13
+        Height = 19
         Align = alLeft
         Caption = 'Case Sensitive'
         Layout = tlCenter
@@ -404,6 +404,7 @@ object DocumentFrame: TDocumentFrame
       OnMouseDown = PageControlMouseDown
       RightClickSelect = True
       TabDragDrop = True
+      TabClosed = False
       HoldShiftToDragDrop = False
       ShowCloseButton = False
       OnCloseButtonClick = PageControlCloseButtonClick
@@ -512,7 +513,7 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 48
-        Height = 13
+        Height = 20
         Align = alLeft
         Caption = 'Go to Line'
       end

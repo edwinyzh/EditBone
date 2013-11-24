@@ -360,11 +360,8 @@ begin
     TCustomSynEdit(Dest).Gutter.Visible := FMarginVisibleLeftMargin;
     TCustomSynEdit(Dest).Gutter.Font.Name := FMarginFontName;
     TCustomSynEdit(Dest).Gutter.Font.Size := FMarginFontSize;
-    TCustomSynEdit(Dest).ExtraLineSpacing := FExtraLineSpacing;
-    if FMarginVisibleRightMargin then
-      TCustomSynEdit(Dest).RightEdge := FMarginRightMargin
-    else
-      TCustomSynEdit(Dest).RightEdge := 0;
+// TODO    TCustomSynEdit(Dest).ExtraLineSpacing := FExtraLineSpacing;
+    TCustomSynEdit(Dest).RightEdge.Visible := FMarginVisibleRightMargin;
     TCustomSynEdit(Dest).Gutter.AutoSize := FMarginLeftMarginAutoSize;
     TCustomSynEdit(Dest).Gutter.Width := FMarginLeftMarginWidth;
     TCustomSynEdit(Dest).TabWidth := FTabWidth;
@@ -402,7 +399,7 @@ begin
     else
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoTripleClicks];
 
-    TCustomSynEdit(Dest).WordWrap := FEnableWordWrap;
+    TCustomSynEdit(Dest).WordWrap.Enabled := FEnableWordWrap;
     TCustomSynEdit(Dest).Gutter.ShowLineNumbers := FEnableLineNumbers;
 
     if FEnableSpecialChars then
