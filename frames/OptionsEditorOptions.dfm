@@ -1,28 +1,28 @@
 object EditorOptionsFrame: TEditorOptionsFrame
   Left = 0
   Top = 0
-  Width = 499
-  Height = 507
+  Width = 451
+  Height = 479
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 499
-    Height = 507
+    Width = 451
+    Height = 479
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    object ExtraLinesLabel: TLabel
+    object LineSpacingLabel: TLabel
       Left = 11
       Top = 209
-      Width = 53
+      Width = 59
       Height = 13
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = 'Extra Lines'
+      Caption = 'Line Spacing'
     end
     object TabWidthLabel: TLabel
       Left = 11
@@ -122,7 +122,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
       TabOrder = 3
       ReadOnly = False
     end
-    object ExtraLinesEdit: TBCEdit
+    object LineSpacingEdit: TBCEdit
       Left = 9
       Top = 224
       Width = 64

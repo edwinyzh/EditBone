@@ -13,8 +13,8 @@ type
     TrimTrailingSpacesCheckBox: TBCCheckBox;
     ScrollPastEofCheckBox: TBCCheckBox;
     ScrollPastEolCheckBox: TBCCheckBox;
-    ExtraLinesLabel: TLabel;
-    ExtraLinesEdit: TBCEdit;
+    LineSpacingLabel: TLabel;
+    LineSpacingEdit: TBCEdit;
     TabWidthLabel: TLabel;
     TabWidthEdit: TBCEdit;
     BrightnessTrackBar: TTrackBar;

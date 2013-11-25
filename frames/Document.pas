@@ -1869,7 +1869,7 @@ begin
     OptionsContainer.BeepIfSearchStringNotFound := ReadBool('Options', 'BeepIfSearchStringNotFound', True);
     OptionsContainer.InsertCaret := TSynEditCaretType(StrToInt(ReadString('Options', 'InsertCaret', '0')));
     OptionsContainer.MinimapFontSize :=  StrToInt(ReadString('Options', 'MinimapFontSize', '3'));
-    OptionsContainer.ExtraLineSpacing := StrToInt(ReadString('Options', 'ExtraLineSpacing', '0'));
+    OptionsContainer.LineSpacing := StrToInt(ReadString('Options', 'LineSpacing', '0'));
     OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '2'));
     OptionsContainer.CompletionProposalEnabled := ReadBool('Options', 'CompletionProposalEnabled', True);
     OptionsContainer.CompletionProposalCaseSensitive := ReadBool('Options', 'CompletionProposalCaseSensitive', True);
@@ -2063,7 +2063,10 @@ begin
     WriteBool('Options', 'MarginVisibleRightMargin', OptionsContainer.MarginVisibleRightMargin);
     WriteBool('Options', 'ShowSearchStringNotFound', OptionsContainer.ShowSearchStringNotFound);
     WriteBool('Options', 'BeepIfSearchStringNotFound', OptionsContainer.BeepIfSearchStringNotFound);
-    WriteString('Options', 'ExtraLineSpacing', IntToStr(OptionsContainer.ExtraLineSpacing));
+
+    DeleteKey('Options', 'ExtraLineSpacing'); { deprecated }
+
+    WriteString('Options', 'LineSpacing', IntToStr(OptionsContainer.LineSpacing));
     WriteString('Options', 'TabWidth', IntToStr(OptionsContainer.TabWidth));
     WriteString('Options', 'ActiveLineColorBrightness', IntToStr(OptionsContainer.ColorBrightness));
     DeleteKey('Options', 'MarginVisible');
@@ -2235,7 +2238,6 @@ begin
         SelectHighlighter(DocTabSheetFrame, DocTabSheetFrame.SynEdit.DocumentName);
       end;
     end;
-    Application.ProcessMessages;
     UpdateMarginAndControls;
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
     if Assigned(DocTabSheetFrame) then
@@ -3757,9 +3759,7 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
         Color := clWhite;
       if IsExtInFileType(FileExt, ftCS) then
       begin
-        if (Highlighter <> ClassicCSSyn) and
-          (Highlighter <> DefaultCSSyn) and
-          (Highlighter <> TwilightCSSyn) then
+        if (Highlighter = ClassicCSSyn) or (Highlighter = DefaultCSSyn) or (Highlighter = TwilightCSSyn) then
         begin
           if OptionsContainer.CPASHighlighter = hClassic then
           begin
@@ -3778,9 +3778,7 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
       end
       else if IsExtInFileType(FileExt, ftCPP) then
       begin
-        if (Highlighter <> ClassicCPPSyn) and
-          (Highlighter <> DefaultCPPSyn) and
-          (Highlighter <> TwilightCPPSyn) then
+        if (Highlighter = ClassicCPPSyn) or (Highlighter = DefaultCPPSyn) or (Highlighter = TwilightCPPSyn) then
         begin
           if OptionsContainer.CPASHighlighter = hClassic then
           begin
@@ -3807,9 +3805,7 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
       end
       else if IsExtInFileType(FileExt, ftPas) then
       begin
-        if (Highlighter <> ClassicPasSyn) and
-          (Highlighter <> DefaultPasSyn) and
-          (Highlighter <> TwilightPasSyn) then
+        if (Highlighter = ClassicPasSyn) or (Highlighter = DefaultPasSyn) or (Highlighter = TwilightPasSyn) then
         begin
           if OptionsContainer.CPASHighlighter = hClassic then
           begin

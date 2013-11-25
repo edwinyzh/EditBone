@@ -129,7 +129,7 @@ type
     FEnableSelectionMode: Boolean;
     FEnableSpecialChars: Boolean;
     FEnableWordWrap: Boolean;
-    FExtraLineSpacing: Integer;
+    FLineSpacing: Integer;
     FFileTypes: TStrings;
     FFontName: string;
     FFontSize: Integer;
@@ -252,7 +252,7 @@ type
     property EnableSpecialChars: Boolean read FEnableSpecialChars write FEnableSpecialChars;
     property EnableWordWrap: Boolean read FEnableWordWrap write FEnableWordWrap;
     property Extensions: string read GetExtensions;
-    property ExtraLineSpacing: Integer read FExtraLineSpacing write FExtraLineSpacing;
+    property LineSpacing: Integer read FLineSpacing write FLineSpacing;
     property FileTypes: TStrings read FFileTypes write FFileTypes;
     property FilterCount: Cardinal read GetFilterCount;
     property Filters: string read GetFilters;
@@ -360,7 +360,7 @@ begin
     TCustomSynEdit(Dest).Gutter.Visible := FMarginVisibleLeftMargin;
     TCustomSynEdit(Dest).Gutter.Font.Name := FMarginFontName;
     TCustomSynEdit(Dest).Gutter.Font.Size := FMarginFontSize;
-// TODO    TCustomSynEdit(Dest).ExtraLineSpacing := FExtraLineSpacing;
+    TCustomSynEdit(Dest).LineSpacing := FLineSpacing;
     TCustomSynEdit(Dest).RightEdge.Visible := FMarginVisibleRightMargin;
     TCustomSynEdit(Dest).Gutter.AutoSize := FMarginLeftMarginAutoSize;
     TCustomSynEdit(Dest).Gutter.Width := FMarginLeftMarginWidth;
@@ -674,7 +674,7 @@ begin
   FDocSaveTabs := True;
   FDocShowCloseButton := False;
   FDocShowImage := True;
-  FExtraLineSpacing := 0;
+  FLineSpacing := 0;
   FFontName := 'Courier New';
   FFontSize := 9;
   FMarginLeftMarginAutoSize := True;
@@ -1017,7 +1017,7 @@ begin
   FEditorOptionsFrame.TabsToSpacesCheckBox.Checked := FOptionsContainer.TabsToSpaces;
   FEditorOptionsFrame.SmartTabsCheckBox.Checked := FOptionsContainer.SmartTabs;
   FEditorOptionsFrame.SmartTabDeleteCheckBox.Checked := FOptionsContainer.SmartTabDelete;
-  FEditorOptionsFrame.ExtraLinesEdit.Text := IntToStr(FOptionsContainer.ExtraLineSpacing);
+  FEditorOptionsFrame.LineSpacingEdit.Text := IntToStr(FOptionsContainer.LineSpacing);
   FEditorOptionsFrame.TabWidthEdit.Text := IntToStr(FOptionsContainer.TabWidth);
   FEditorOptionsFrame.BrightnessTrackBar.Position := FOptionsContainer.ColorBrightness;
   FEditorOptionsFrame.InsertCaretComboBox.ItemIndex := Ord(FOptionsContainer.InsertCaret);
@@ -1258,7 +1258,7 @@ begin
   FOptionsContainer.TabsToSpaces := FEditorOptionsFrame.TabsToSpacesCheckBox.Checked;
   FOptionsContainer.SmartTabs := FEditorOptionsFrame.SmartTabsCheckBox.Checked;
   FOptionsContainer.SmartTabDelete := FEditorOptionsFrame.SmartTabDeleteCheckBox.Checked;
-  FOptionsContainer.ExtraLineSpacing := StrToIntDef(FEditorOptionsFrame.ExtraLinesEdit.Text, 0);
+  FOptionsContainer.LineSpacing := StrToIntDef(FEditorOptionsFrame.LineSpacingEdit.Text, 0);
   FOptionsContainer.TabWidth := StrToIntDef(FEditorOptionsFrame.TabWidthEdit.Text, 2);
   FOptionsContainer.ColorBrightness := FEditorOptionsFrame.BrightnessTrackBar.Position;
   FOptionsContainer.InsertCaret := TSynEditCaretType(FEditorOptionsFrame.InsertCaretComboBox.ItemIndex);

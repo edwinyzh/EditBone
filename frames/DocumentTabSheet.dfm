@@ -120,7 +120,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
           RightEdge.Color = clSilver
           RightEdge.Style = psSolid
           LineSpacing = 0
-          LineSpacingRule = lsSingle
+          LineSpacingRule = lsSpecified
           Background.Visible = False
           Background.RepeatMode = brmNone
           Font.Charset = DEFAULT_CHARSET
@@ -178,7 +178,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
           RightEdge.Color = clSilver
           RightEdge.Style = psSolid
           LineSpacing = 0
-          LineSpacingRule = lsSingle
+          LineSpacingRule = lsSpecified
           Background.Visible = False
           Background.RepeatMode = brmNone
           Font.Charset = DEFAULT_CHARSET
@@ -237,7 +237,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         RightEdge.Color = clSilver
         RightEdge.Style = psSolid
         LineSpacing = 0
-        LineSpacingRule = lsSingle
+        LineSpacingRule = lsSpecified
         Background.Visible = False
         Background.RepeatMode = brmNone
         Font.Charset = DEFAULT_CHARSET
@@ -295,7 +295,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         RightEdge.Color = clSilver
         RightEdge.Style = psSolid
         LineSpacing = 0
-        LineSpacingRule = lsSingle
+        LineSpacingRule = lsSpecified
         Background.Visible = False
         Background.RepeatMode = brmNone
         Font.Charset = DEFAULT_CHARSET
