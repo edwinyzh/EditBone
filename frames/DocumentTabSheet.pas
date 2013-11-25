@@ -72,6 +72,8 @@ type
     procedure SplitSynEditMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure SplitSynEditMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint;
       var Handled: Boolean);
+    procedure SplitSynEditGutterClick(Sender: TObject; Button: TMouseButton; X, Y, Line: Integer; Mark: TSynEditMark);
+    procedure SynEditGutterClick(Sender: TObject; Button: TMouseButton; X, Y, Line: Integer; Mark: TSynEditMark);
   private
     { Private declarations }
     OldSynEditProc, OldSynEditMinimapProc, OldSplitSynEditProc, OldSplitSynEditMinimapProc: TWndMethod;
@@ -157,7 +159,8 @@ end;
 procedure TDocTabSheetFrame.SynEditMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
   if (Shift = [ssLeft]) then
-    SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);
+    if X > SynEdit.Gutter.LeftOffset then
+      SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);
 end;
 
 procedure TDocTabSheetFrame.SynEditMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
@@ -193,7 +196,8 @@ end;
 procedure TDocTabSheetFrame.SplitSynEditMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
   if Shift = [ssLeft] then
-    SynEditMinimapGotoLine(SplitSynEdit, SplitSynEditMiniMap);
+    if X > SplitSynEdit.Gutter.LeftOffset then
+      SynEditMinimapGotoLine(SplitSynEdit, SplitSynEditMiniMap);
 end;
 
 procedure TDocTabSheetFrame.SplitSynEditMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
@@ -230,6 +234,16 @@ begin
     Exit;
   SynEdit.GotoLineAndCenter(SynEditMiniMap.CaretY);
   SynEditMiniMap.Invalidate
+end;
+
+procedure TDocTabSheetFrame.SynEditGutterClick(Sender: TObject; Button: TMouseButton; X, Y, Line: Integer;
+  Mark: TSynEditMark);
+begin
+  SynEdit.CaretX := 0;
+  SynEdit.CaretY := Line;
+  if X < SynEdit.Gutter.LeftOffset then
+    SynEdit.ToggleBookMark;
+  SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);
 end;
 
 procedure TDocTabSheetFrame.SynEditMinimapGotoLine(SynEdit, SynEditMiniMap: TBCSynEdit);
@@ -352,6 +366,16 @@ begin
   MaxLengthWord := SplitTextIntoWords(SplitSynCompletionProposal, SplitSynEdit, OptionsContainer.CompletionProposalCaseSensitive);
   SynCompletionProposal.Width := SplitSynEdit.Canvas.TextWidth(MaxLengthWord);
   CanExecute := SplitSynCompletionProposal.ItemList.Count > 0;
+end;
+
+procedure TDocTabSheetFrame.SplitSynEditGutterClick(Sender: TObject; Button: TMouseButton; X, Y, Line: Integer;
+  Mark: TSynEditMark);
+begin
+  SplitSynEdit.CaretX := 0;
+  SplitSynEdit.CaretY := Line;
+  if X < SplitSynEdit.Gutter.LeftOffset then
+    SplitSynEdit.ToggleBookMark;
+  SynEditMinimapGotoLine(SplitSynEdit, SplitSynEditMiniMap);
 end;
 
 procedure TDocTabSheetFrame.SplitSynEditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

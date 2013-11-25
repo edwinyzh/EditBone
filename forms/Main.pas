@@ -734,8 +734,18 @@ begin
 end;
 
 procedure TMainForm.ToggleBookmarkActionExecute(Sender: TObject);
+var
+  SynEdit: TBCSynEdit;
 begin
-  FDocumentFrame.ToggleBookMark;
+  SynEdit := FDocumentFrame.GetActiveSynEdit;
+  if Assigned(SynEdit) then
+    SynEdit.ToggleBookMark
+  else
+  begin
+    SynEdit := FDocumentFrame.GetActiveSplitSynEdit;
+    if Assigned(SynEdit) then
+      SynEdit.ToggleBookMark
+  end;
 end;
 
 procedure TMainForm.ViewOpenDirectoryActionExecute(Sender: TObject);

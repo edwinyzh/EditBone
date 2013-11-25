@@ -146,6 +146,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
           Gutter.Font.Height = -11
           Gutter.Font.Name = 'Courier New'
           Gutter.Font.Style = []
+          Gutter.LeftOffset = 20
           Gutter.LeftOffsetColor = clBtnFace
           Gutter.RightOffset = 5
           Gutter.RightOffsetColor = clNone
@@ -155,6 +156,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
           WordWrap.Enabled = False
           WordWrap.Position = 80
           WordWrap.Style = wwsClientWidth
+          OnGutterClick = SplitSynEditGutterClick
           FontSmoothing = fsmNone
         end
         object SplitSynEditMinimap: TBCSynEdit
@@ -263,6 +265,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Gutter.Font.Height = -11
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
+        Gutter.LeftOffset = 20
         Gutter.LeftOffsetColor = clBtnFace
         Gutter.RightOffset = 5
         Gutter.RightOffsetColor = clNone
@@ -272,6 +275,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         WordWrap.Enabled = False
         WordWrap.Position = 80
         WordWrap.Style = wwsClientWidth
+        OnGutterClick = SynEditGutterClick
         FontSmoothing = fsmNone
       end
       object SynEditMiniMap: TBCSynEdit

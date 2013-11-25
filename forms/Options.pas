@@ -6,10 +6,10 @@ uses
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, BCCommon.FileUtils, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.Buttons,
   Vcl.Menus, SynEdit, SynEditMiscClasses, SynHighlighterWebData, System.Classes, System.SysUtils, Vcl.ImgList,
   SynHighlighterWeb, SynHighlighterSQL, Vcl.ActnList, Vcl.Themes, OptionsPrint, OptionsEditorSearch, VirtualTrees,
-  OptionsEditorOptions, OptionsEditorFont, OptionsEditorMargin, OptionsEditorTabs, Lib, OptionsEditorErrorChecking,
+  OptionsEditorOptions, OptionsEditorFont, OptionsEditorLeftMargin, OptionsEditorTabs, Lib, OptionsEditorErrorChecking,
   OptionsEditorOther, OptionsFileTypes, OptionsCompare, OptionsMainMenu, OptionsDirectoryTabs, OptionsOutputTabs,
   OptionsDirectory, OptionsStatusBar, OptionsOutput, OptionsToolBar, Vcl.ActnMenus, System.Actions,
-  OptionsEditorCompletionProposal, BCDialogs.Dlg;
+  OptionsEditorCompletionProposal, BCDialogs.Dlg, OptionsEditorRightMargin;
 
 type
   POptionsRec = ^TOptionsRec;
@@ -49,6 +49,8 @@ type
     ToolBarAction: TAction;
     TopPanel: TPanel;
     EditorSearchAction: TAction;
+    EditorLeftMarginAction: TAction;
+    EditorRightMarginAction: TAction;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -64,7 +66,8 @@ type
     FEditorCompletionProposalFrame: TEditorCompletionProposalFrame;
     FEditorErrorCheckingFrame: TEditorErrorCheckingFrame;
     FEditorFontFrame: TEditorFontFrame;
-    FEditorMarginFrame: TEditorMarginFrame;
+    FEditorLeftMarginFrame: TEditorLeftMarginFrame;
+    FEditorRightMarginFrame: TEditorRightMarginFrame;
     FEditorSearchFrame: TEditorSearchFrame;
     FEditorOptionsFrame: TEditorOptionsFrame;
     FEditorOtherFrame: TEditorOtherFrame;
@@ -150,6 +153,11 @@ type
     FMainMenuSystemFontName: string;
     FMainMenuSystemFontSize: Integer;
     FMainMenuUseSystemFont: Boolean;
+    FMarginInTens: Boolean;
+    FMarginZeroStart: Boolean;
+    FMarginLineModified: Boolean;
+    FMarginModifiedColor: string;
+    FMarginNormalColor: string;
     FMinimapFontSize: Integer;
     FOutputCloseTabByDblClick: Boolean;
     FOutputCloseTabByMiddleClick: Boolean;
@@ -275,6 +283,11 @@ type
     property MainMenuSystemFontName: string read FMainMenuSystemFontName write FMainMenuSystemFontName;
     property MainMenuSystemFontSize: Integer read FMainMenuSystemFontSize write FMainMenuSystemFontSize;
     property MainMenuUseSystemFont: Boolean read FMainMenuUseSystemFont write FMainMenuUseSystemFont;
+    property MarginInTens: Boolean read FMarginInTens write FMarginInTens;
+    property MarginZeroStart: Boolean read FMarginZeroStart write FMarginZeroStart;
+    property MarginLineModified: Boolean read FMarginLineModified write FMarginLineModified;
+    property MarginModifiedColor: string read FMarginModifiedColor write FMarginModifiedColor;
+    property MarginNormalColor: string read FMarginNormalColor write FMarginNormalColor;
     property MinimapFontSize: Integer read FMinimapFontSize write FMinimapFontSize;
     property OutputCloseTabByDblClick: Boolean read FOutputCloseTabByDblClick write FOutputCloseTabByDblClick;
     property OutputCloseTabByMiddleClick: Boolean read FOutputCloseTabByMiddleClick write FOutputCloseTabByMiddleClick;
@@ -364,6 +377,11 @@ begin
     TCustomSynEdit(Dest).RightEdge.Visible := FMarginVisibleRightMargin;
     TCustomSynEdit(Dest).Gutter.AutoSize := FMarginLeftMarginAutoSize;
     TCustomSynEdit(Dest).Gutter.Width := FMarginLeftMarginWidth;
+    TCustomSynEdit(Dest).Gutter.Intens := FMarginInTens;
+    TCustomSynEdit(Dest).Gutter.ZeroStart := FMarginZeroStart;
+    TCustomSynEdit(Dest).Gutter.ShowLineModified := FMarginLineModified;
+    TCustomSynEdit(Dest).Gutter.LineModifiedColor := StringToColor(FMarginModifiedColor);
+    TCustomSynEdit(Dest).Gutter.LineNormalColor := StringToColor(FMarginNormalColor);
     TCustomSynEdit(Dest).TabWidth := FTabWidth;
     TCustomSynEdit(Dest).InsertCaret := FInsertCaret;
     if FAutoIndent then
@@ -684,6 +702,11 @@ begin
   FMarginLeftMarginWidth := 48;
   FMarginVisibleLeftMargin := True;
   FMarginVisibleRightMargin := True;
+  FMarginInTens := True;
+  FMarginZeroStart := False;
+  FMarginLineModified := True;
+  FMarginModifiedColor := 'clYellow';
+  FMarginNormalColor := 'clGreen';
   FMinimapFontSize := 3;
   FHTMLErrorChecking := True;
   FHTMLVersion := shvHtml5;
@@ -831,7 +854,8 @@ begin
   FEditorCompletionProposalFrame.Free;
   FEditorErrorCheckingFrame.Free;
   FEditorFontFrame.Free;
-  FEditorMarginFrame.Free;
+  FEditorLeftMarginFrame.Free;
+  FEditorRightMarginFrame.Free;
   FEditorSearchFrame.Free;
   FEditorOptionsFrame.Free;
   FEditorOtherFrame.Free;
@@ -868,11 +892,16 @@ begin
     Data := GetNodeData(ChildNode);
     Data.ImageIndex := EditorFontAction.ImageIndex;
     Data.Caption := EditorFontAction.Caption;
-    { Margin }
+    { Left Margin }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
-    Data.ImageIndex := EditorMarginAction.ImageIndex;
-    Data.Caption := EditorMarginAction.Caption;
+    Data.ImageIndex := EditorLeftMarginAction.ImageIndex;
+    Data.Caption := EditorLeftMarginAction.Caption;
+    { Right Margin }
+    ChildNode := AddChild(Node);
+    Data := GetNodeData(ChildNode);
+    Data.ImageIndex := EditorRightMarginAction.ImageIndex;
+    Data.Caption := EditorRightMarginAction.Caption;
     { Tabs }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
@@ -898,7 +927,7 @@ begin
     Data := GetNodeData(ChildNode);
     Data.ImageIndex := EditorOtherAction.ImageIndex;
     Data.Caption := EditorOtherAction.Caption;
-    Node.ChildCount := 7; { Remember to fix this, if child nodes are added}
+    Node.ChildCount := 8; { Remember to fix this, if child nodes are added}
     OptionsVirtualStringTree.Selected[Node] := True;
     OptionsVirtualStringTree.Expanded[Node] := True;
     { Directory }
@@ -978,7 +1007,8 @@ begin
   UpdateLanguage(TForm(FEditorCompletionProposalFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorErrorCheckingFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorFontFrame), SelectedLanguage);
-  UpdateLanguage(TForm(FEditorMarginFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FEditorLeftMarginFrame), SelectedLanguage);
+  UpdateLanguage(TForm(FEditorRightMarginFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorSearchFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorOptionsFrame), SelectedLanguage);
   UpdateLanguage(TForm(FEditorOtherFrame), SelectedLanguage);
@@ -1030,12 +1060,18 @@ begin
   FEditorFontFrame.MarginFontLabel.Font.Name := FOptionsContainer.MarginFontName;
   FEditorFontFrame.MarginFontLabel.Font.Size := FOptionsContainer.MarginFontSize;
   FEditorFontFrame.MarginFontLabel.Caption := Format('%s %dpt', [FEditorFontFrame.MarginFontLabel.Font.Name, FEditorFontFrame.MarginFontLabel.Font.Size]);
-  { Margin }
-  FEditorMarginFrame.LeftMarginAutoSizeCheckBox.Checked := FOptionsContainer.MarginLeftMarginAutoSize;
-  FEditorMarginFrame.VisibleLeftMarginCheckBox.Checked := FOptionsContainer.MarginVisibleLeftMargin;
-  FEditorMarginFrame.VisibleRightMarginCheckBox.Checked := FOptionsContainer.MarginVisibleRightMargin;
-  FEditorMarginFrame.RightMarginEdit.Text := IntToStr(FOptionsContainer.MarginRightMargin);
-  FEditorMarginFrame.LeftMarginWidthEdit.Text := IntToStr(FOptionsContainer.MarginLeftMarginWidth);
+  { Left Margin }
+  FEditorLeftMarginFrame.AutoSizeCheckBox.Checked := FOptionsContainer.MarginLeftMarginAutoSize;
+  FEditorLeftMarginFrame.VisibleCheckBox.Checked := FOptionsContainer.MarginVisibleLeftMargin;
+  FEditorLeftMarginFrame.InTensCheckBox.Checked := FOptionsContainer.MarginInTens;
+  FEditorLeftMarginFrame.ZeroStartCheckBox.Checked := FOptionsContainer.MarginZeroStart;
+  FEditorLeftMarginFrame.ShowLineModifiedCheckBox.Checked := FOptionsContainer.MarginLineModified;
+  FEditorLeftMarginFrame.LineModifiedColorBox.Selected := StringToColor(FOptionsContainer.MarginModifiedColor);
+  FEditorLeftMarginFrame.LineNormalColorBox.Selected := StringToColor(FOptionsContainer.MarginNormalColor);
+  FEditorLeftMarginFrame.LeftMarginWidthEdit.Text := IntToStr(FOptionsContainer.MarginLeftMarginWidth);
+  { Right Margin }
+  FEditorRightMarginFrame.VisibleCheckBox.Checked := FOptionsContainer.MarginVisibleRightMargin;
+  FEditorRightMarginFrame.PositionEdit.Text := IntToStr(FOptionsContainer.MarginRightMargin);
   { Search }
   FEditorSearchFrame.ShowSearchStringNotFoundCheckBox.Checked := FOptionsContainer.ShowSearchStringNotFound;
   FEditorSearchFrame.BeepIfSearchStringNotFoundCheckBox.Checked := FOptionsContainer.BeepIfSearchStringNotFound;
@@ -1171,12 +1207,13 @@ begin
       FOptionsContainer.AssignTo(FEditorFontFrame.SynEdit);
       UpdateMarginAndColors(FEditorFontFrame.SynEdit);
     end;
-    FEditorMarginFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 1);
-    FEditorTabsFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 2);
-    FEditorSearchFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 3);
-    FEditorCompletionProposalFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 4);
-    FEditorErrorCheckingFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 5);
-    FEditorOtherFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 6);
+    FEditorLeftMarginFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 1);
+    FEditorRightMarginFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 2);
+    FEditorTabsFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 3);
+    FEditorSearchFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 4);
+    FEditorCompletionProposalFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 5);
+    FEditorErrorCheckingFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 6);
+    FEditorOtherFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 7);
     FOptionsDirectoryFrame.Visible := (Level = 0) and (TreeNode.Index = 1);
     FDirectoryTabsFrame.Visible := (ParentIndex = 1) and (Level = 1) and (TreeNode.Index = 0);
     FOptionsOutputFrame.Visible := (Level = 0) and (TreeNode.Index = 2);
@@ -1268,12 +1305,18 @@ begin
   FOptionsContainer.FontSize := FEditorFontFrame.EditorFontLabel.Font.Size;
   FOptionsContainer.MarginFontName := FEditorFontFrame.MarginFontLabel.Font.Name;
   FOptionsContainer.MarginFontSize := FEditorFontFrame.MarginFontLabel.Font.Size;
-  { Margin }
-  FOptionsContainer.MarginLeftMarginAutoSize := FEditorMarginFrame.LeftMarginAutoSizeCheckBox.Checked;
-  FOptionsContainer.MarginVisibleLeftMargin := FEditorMarginFrame.VisibleLeftMarginCheckBox.Checked;
-  FOptionsContainer.MarginRightMargin := StrToIntDef(FEditorMarginFrame.RightMarginEdit.Text, 80);
-  FOptionsContainer.MarginVisibleRightMargin := FEditorMarginFrame.VisibleRightMarginCheckBox.Checked;
-  FOptionsContainer.MarginLeftMarginWidth := StrToIntDef(FEditorMarginFrame.LeftMarginWidthEdit.Text, 48);
+  { Left Margin }
+  FOptionsContainer.MarginVisibleLeftMargin := FEditorLeftMarginFrame.VisibleCheckBox.Checked;
+  FOptionsContainer.MarginLeftMarginAutoSize := FEditorLeftMarginFrame.AutoSizeCheckBox.Checked;
+  FOptionsContainer.MarginInTens := FEditorLeftMarginFrame.InTensCheckBox.Checked;
+  FOptionsContainer.MarginZeroStart := FEditorLeftMarginFrame.ZeroStartCheckBox.Checked;
+  FOptionsContainer.MarginLineModified := FEditorLeftMarginFrame.ShowLineModifiedCheckBox.Checked;
+  FOptionsContainer.MarginModifiedColor := ColorToString(FEditorLeftMarginFrame.LineModifiedColorBox.Selected);
+  FOptionsContainer.MarginNormalColor := ColorToString(FEditorLeftMarginFrame.LineNormalColorBox.Selected);
+  FOptionsContainer.MarginLeftMarginWidth := StrToIntDef(FEditorLeftMarginFrame.LeftMarginWidthEdit.Text, 48);
+  { Right Margin }
+  FOptionsContainer.MarginVisibleRightMargin := FEditorRightMarginFrame.VisibleCheckBox.Checked;
+  FOptionsContainer.MarginRightMargin := StrToIntDef(FEditorRightMarginFrame.PositionEdit.Text, 80);
   { Search }
   FOptionsContainer.ShowSearchStringNotFound := FEditorSearchFrame.ShowSearchStringNotFoundCheckBox.Checked;
   FOptionsContainer.BeepIfSearchStringNotFound := FEditorSearchFrame.BeepIfSearchStringNotFoundCheckBox.Checked;
@@ -1429,8 +1472,10 @@ begin
   FEditorErrorCheckingFrame.Parent := OptionsPanel;
   FEditorFontFrame := TEditorFontFrame.Create(OptionsPanel);
   FEditorFontFrame.Parent := OptionsPanel;
-  FEditorMarginFrame := TEditorMarginFrame.Create(OptionsPanel);
-  FEditorMarginFrame.Parent := OptionsPanel;
+  FEditorLeftMarginFrame := TEditorLeftMarginFrame.Create(OptionsPanel);
+  FEditorLeftMarginFrame.Parent := OptionsPanel;
+  FEditorRightMarginFrame := TEditorRightMarginFrame.Create(OptionsPanel);
+  FEditorRightMarginFrame.Parent := OptionsPanel;
   FEditorSearchFrame := TEditorSearchFrame.Create(OptionsPanel);
   FEditorSearchFrame.Parent := OptionsPanel;
   FEditorOptionsFrame := TEditorOptionsFrame.Create(OptionsPanel);

@@ -211,7 +211,6 @@ type
     procedure GotoLineNumberEditChange(Sender: TObject);
     procedure SearchClearActionExecute(Sender: TObject);
     procedure GotoLineClearActionExecute(Sender: TObject);
-    procedure SynEditGutterClick(Sender: TObject; Button: TMouseButton; X, Y, Line: Integer; Mark: SynEdit.TSynEditMark);
   private
     { Private declarations }
     FCaseCycle: Byte;
@@ -337,7 +336,7 @@ type
     procedure SortAsc;
     procedure SortDesc;
     procedure StopMacro;
-    procedure ToggleBookMark;
+    //procedure ToggleBookMark;
     procedure ToggleBookmarks(ItemIndex: Integer);
     procedure ToggleCase;
     procedure ToggleMiniMap;
@@ -590,15 +589,6 @@ begin
     Result := DocTabSheetFrame.VirtualDrawTree.Visible;
 end;
 
-procedure TDocumentFrame.SynEditGutterClick(Sender: TObject; Button: TMouseButton; X, Y, Line: Integer; Mark: SynEdit.TSynEditMark);
-begin
-  if X < 16 then
-  begin
-    GetActiveSynEdit.CaretY := Line;
-    ToggleBookMark;
-  end;
-end;
-
 function TDocumentFrame.CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
 var
   TabSheet: TTabSheet;
@@ -635,7 +625,6 @@ begin
       OnSpecialLineColors := SynEditSpecialLineColors;
       OnEnter := SynEditEnter;
       OnReplaceText := SynEditorReplaceText;
-      OnGutterClick := SynEditGutterClick;
       SearchEngine := SynEditSearch;
       PopupMenu := EditorPopupMenu;
       BookMarkOptions.BookmarkImages := BookmarkImagesList;
@@ -1269,6 +1258,7 @@ procedure TDocumentFrame.Undo;
 begin
   Undo(GetActiveSynEdit);
   Undo(GetActiveSplitSynEdit);
+  CheckModifiedDocuments;
 end;
 
 procedure TDocumentFrame.Redo;
@@ -1283,6 +1273,7 @@ procedure TDocumentFrame.Redo;
 begin
   Redo(GetActiveSynEdit);
   Redo(GetActiveSplitSynEdit);
+  CheckModifiedDocuments;
 end;
 
 procedure TDocumentFrame.Cut;
@@ -1865,6 +1856,13 @@ begin
     OptionsContainer.MarginRightMargin := StrToInt(ReadString('Options', 'RightMargin', '80'));
     OptionsContainer.MarginVisibleLeftMargin := ReadBool('Options', 'MarginVisibleLeftMargin', True);
     OptionsContainer.MarginLeftMarginWidth := StrToInt(ReadString('Options', 'MarginLeftMarginWidth', '48'));
+
+    OptionsContainer.MarginInTens := ReadBool('Options', 'MarginInTens', True);
+    OptionsContainer.MarginZeroStart := ReadBool('Options', 'MarginZeroStart', False);
+    OptionsContainer.MarginLineModified := ReadBool('Options', 'MarginLineModified', True);
+    OptionsContainer.MarginModifiedColor := ReadString('Options', 'MarginModifiedColor', 'clYellow');
+    OptionsContainer.MarginNormalColor := ReadString('Options', 'MarginNormalColor', 'clGreen');
+
     OptionsContainer.ShowSearchStringNotFound := ReadBool('Options', 'ShowSearchStringNotFound', True);
     OptionsContainer.BeepIfSearchStringNotFound := ReadBool('Options', 'BeepIfSearchStringNotFound', True);
     OptionsContainer.InsertCaret := TSynEditCaretType(StrToInt(ReadString('Options', 'InsertCaret', '0')));
@@ -2061,6 +2059,13 @@ begin
     DeleteKey('Options', 'MarginWidth');
     WriteString('Options', 'MarginLeftMarginWidth', IntToStr(OptionsContainer.MarginLeftMarginWidth));
     WriteBool('Options', 'MarginVisibleRightMargin', OptionsContainer.MarginVisibleRightMargin);
+
+    WriteBool('Options', 'MarginInTens', OptionsContainer.MarginInTens);
+    WriteBool('Options', 'MarginZeroStart', OptionsContainer.MarginZeroStart);
+    WriteBool('Options', 'MarginLineModified', OptionsContainer.MarginLineModified);
+    WriteString('Options', 'MarginModifiedColor', OptionsContainer.MarginModifiedColor);
+    WriteString('Options', 'MarginNormalColor', OptionsContainer.MarginNormalColor);
+
     WriteBool('Options', 'ShowSearchStringNotFound', OptionsContainer.ShowSearchStringNotFound);
     WriteBool('Options', 'BeepIfSearchStringNotFound', OptionsContainer.BeepIfSearchStringNotFound);
 
@@ -2930,7 +2935,7 @@ begin
   Result := Assigned(SynEdit) and SynEdit.Modified;
 end;
 
-procedure TDocumentFrame.ToggleBookMark;
+{procedure TDocumentFrame.ToggleBookMark;
 var
   i: Integer;
   SynEdit: TBCSynEdit;
@@ -2953,7 +2958,7 @@ begin
       SynEdit.SetBookMark(i, SynEdit.CaretX, SynEdit.CaretY);
       Exit;
     end;
-end;
+end;}
 
 procedure TDocumentFrame.NextPage;
 var

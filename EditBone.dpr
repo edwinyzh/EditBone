@@ -40,7 +40,6 @@ uses
   OptionsEditorErrorChecking in 'frames\OptionsEditorErrorChecking.pas' {EditorErrorCheckingFrame: TFrame},
   OptionsEditorOther in 'frames\OptionsEditorOther.pas' {EditorOtherFrame: TFrame},
   OptionsEditorFont in 'frames\OptionsEditorFont.pas' {EditorFontFrame: TFrame},
-  OptionsEditorMargin in 'frames\OptionsEditorMargin.pas' {EditorMarginFrame: TFrame},
   OptionsEditorTabs in 'frames\OptionsEditorTabs.pas' {EditorTabsFrame: TFrame},
   OptionsFileTypes in 'frames\OptionsFileTypes.pas' {FileTypesFrame: TFrame},
   OptionsMainMenu in 'frames\OptionsMainMenu.pas' {MainMenuFrame: TFrame},
@@ -67,7 +66,9 @@ uses
   BCCommon.MacroRecorder in '..\..\Common\units\BCCommon.MacroRecorder.pas',
   OptionsEditorSearch in 'frames\OptionsEditorSearch.pas' {EditorSearchFrame: TFrame},
   BCForms.SearchForFiles in '..\..\Common\forms\BCForms.SearchForFiles.pas' {SearchForFilesForm},
-  BCCommon.Math in '..\..\Common\units\BCCommon.Math.pas';
+  BCCommon.Math in '..\..\Common\units\BCCommon.Math.pas',
+  OptionsEditorLeftMargin in 'frames\OptionsEditorLeftMargin.pas' {EditorLeftMarginFrame: TFrame},
+  OptionsEditorRightMargin in 'frames\OptionsEditorRightMargin.pas' {EditorRightMarginFrame: TFrame};
 
 {$R *.res}
 
