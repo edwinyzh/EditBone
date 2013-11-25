@@ -323,7 +323,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Gutter.RightOffsetColor = clNone
         Gutter.Visible = False
         Gutter.Width = 0
-        Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoNoCaret, eoNoSelection, eoScrollPastEol, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
+        Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoNoCaret, eoScrollPastEol, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
         ReadOnly = True
         WordWrap.Enabled = False
         WordWrap.Position = 80

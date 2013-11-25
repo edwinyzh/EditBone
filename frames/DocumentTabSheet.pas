@@ -106,6 +106,11 @@ implementation
 uses
   Vcl.Themes, Options, BCCommon.StyleUtils, BCCommon.StringUtils, System.Math, BCCommon.Math;
 
+const
+  TAG_ZERO = 0;
+  TAG_NO_MOVE_EVENTS = 1;
+  TAG_POINT_IN_SELECTION = 2;
+
 constructor TDocTabSheetFrame.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -142,12 +147,16 @@ end;
 
 procedure TDocTabSheetFrame.SynEditMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
+  SynEdit.Tag := TAG_ZERO;
   SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);
+  if SynEdit.SelAvail then
+    if SynEdit.IsPointInSelection(SynEdit.DisplayToBufferPos(SynEdit.PixelsToRowColumn(X, Y))) then
+      SynEdit.Tag := TAG_POINT_IN_SELECTION;
 end;
 
 procedure TDocTabSheetFrame.SynEditMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
-  if Shift = [ssLeft] then
+  if (Shift = [ssLeft]) then
     SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);
 end;
 
@@ -174,7 +183,11 @@ end;
 procedure TDocTabSheetFrame.SplitSynEditMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
 begin
+  SplitSynEdit.Tag := TAG_ZERO;
   SynEditMinimapGotoLine(SplitSynEdit, SplitSynEditMiniMap);
+  if SplitSynEdit.SelAvail then
+    if SplitSynEdit.IsPointInSelection(SplitSynEdit.DisplayToBufferPos(SplitSynEdit.PixelsToRowColumn(X, Y))) then
+      SplitSynEdit.Tag := TAG_POINT_IN_SELECTION;
 end;
 
 procedure TDocTabSheetFrame.SplitSynEditMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
@@ -221,11 +234,24 @@ end;
 
 procedure TDocTabSheetFrame.SynEditMinimapGotoLine(SynEdit, SynEditMiniMap: TBCSynEdit);
 begin
+  if SynEdit.Tag = TAG_NO_MOVE_EVENTS then
+    Exit;
   if not MinimapVisible then
     Exit;
-  SynEditMiniMap.Text := SynEdit.Text;
-  SynEditMiniMap.GotoLineAndCenter(SynEdit.CaretY);
-  SynEditMiniMap.Invalidate
+
+  if not SynEdit.SelAvail or (SynEdit.Tag = TAG_POINT_IN_SELECTION) then
+  begin
+    SynEditMiniMap.Text := SynEdit.Text;
+    SynEditMiniMap.GotoLineAndCenter(SynEdit.CaretY);
+    SynEditMiniMap.Invalidate;
+    if SynEdit.Tag = TAG_POINT_IN_SELECTION then
+      SynEdit.Tag := TAG_NO_MOVE_EVENTS;
+  end
+  else
+  begin
+    SynEditMiniMap.SelStart := SynEdit.SelStart;
+    SynEditMiniMap.SelEnd := SynEdit.SelEnd;
+  end
 end;
 
 procedure TDocTabSheetFrame.SynEditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
