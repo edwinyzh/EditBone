@@ -230,10 +230,27 @@ end;
 
 procedure TDocTabSheetFrame.SynEditGotoLine(SynEdit, SynEditMiniMap: TBCSynEdit);
 begin
+  if SynEdit.Tag = TAG_NO_MOVE_EVENTS then
+    Exit;
   if not MinimapVisible then
     Exit;
-  SynEdit.GotoLineAndCenter(SynEditMiniMap.CaretY);
-  SynEditMiniMap.Invalidate
+
+  if not SynEditMiniMap.SelAvail or (SynEditMiniMap.Tag = TAG_POINT_IN_SELECTION) then
+  begin
+    if SynEditMiniMap.CaretY <> SynEdit.CaretY then
+    begin
+      SynEdit.GotoLineAndCenter(SynEditMiniMap.CaretY);
+      SynEditMiniMap.Invalidate;
+      SynEdit.Invalidate;
+    end;
+    if SynEditMiniMap.Tag = TAG_POINT_IN_SELECTION then
+      SynEditMiniMap.Tag := TAG_NO_MOVE_EVENTS;
+  end
+  else
+  begin
+    SynEdit.SelStart := SynEditMiniMap.SelStart;
+    SynEdit.SelEnd := SynEditMiniMap.SelEnd;
+  end
 end;
 
 procedure TDocTabSheetFrame.SynEditGutterClick(Sender: TObject; Button: TMouseButton; X, Y, Line: Integer;
@@ -256,8 +273,11 @@ begin
   if not SynEdit.SelAvail or (SynEdit.Tag = TAG_POINT_IN_SELECTION) then
   begin
     SynEditMiniMap.Text := SynEdit.Text;
-    SynEditMiniMap.GotoLineAndCenter(SynEdit.CaretY);
-    SynEditMiniMap.Invalidate;
+    if SynEditMiniMap.CaretY <> SynEdit.CaretY then
+    begin
+      SynEditMiniMap.GotoLineAndCenter(SynEdit.CaretY);
+      SynEditMiniMap.Invalidate;
+    end;
     if SynEdit.Tag = TAG_POINT_IN_SELECTION then
       SynEdit.Tag := TAG_NO_MOVE_EVENTS;
   end
@@ -296,13 +316,18 @@ end;
 procedure TDocTabSheetFrame.SynEditMiniMapMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
 begin
+  SynEditMiniMap.Tag := TAG_ZERO;
   SynEditGotoLine(SynEdit, SynEditMiniMap);
+  if SynEditMiniMap.SelAvail then
+    if SynEditMiniMap.IsPointInSelection(SynEditMiniMap.DisplayToBufferPos(SynEditMiniMap.PixelsToRowColumn(X, Y))) then
+      SynEditMiniMap.Tag := TAG_POINT_IN_SELECTION;
 end;
 
 procedure TDocTabSheetFrame.SynEditMiniMapMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
-  if Shift = [ssLeft] then
-    SynEditGotoLine(SynEdit, SynEditMiniMap);
+  if (Shift = [ssLeft]) then
+    if X > SynEditMiniMap.Gutter.LeftOffset then
+      SynEditGotoLine(SynEdit, SynEditMiniMap);
 end;
 
 procedure TDocTabSheetFrame.SynEditMiniMapMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
@@ -406,12 +431,18 @@ end;
 procedure TDocTabSheetFrame.SplitSynEditMinimapMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
 begin
+  SplitSynEditMiniMap.Tag := TAG_ZERO;
   SynEditGotoLine(SplitSynEdit, SplitSynEditMiniMap);
+  if SplitSynEditMiniMap.SelAvail then
+    if SplitSynEditMiniMap.IsPointInSelection(SplitSynEditMiniMap.DisplayToBufferPos(SplitSynEditMiniMap.PixelsToRowColumn(X, Y))) then
+      SplitSynEditMiniMap.Tag := TAG_POINT_IN_SELECTION;
 end;
 
 procedure TDocTabSheetFrame.SplitSynEditMinimapMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
-  SynEditGotoLine(SplitSynEdit, SplitSynEditMiniMap);
+  if (Shift = [ssLeft]) then
+    if X > SplitSynEditMiniMap.Gutter.LeftOffset then
+      SynEditGotoLine(SplitSynEdit, SplitSynEditMiniMap);
 end;
 
 procedure TDocTabSheetFrame.SplitSynEditMinimapMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
