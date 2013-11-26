@@ -697,7 +697,7 @@ begin
   FFontSize := 9;
   FMarginLeftMarginAutoSize := True;
   FMarginFontName := 'Courier New';
-  FMarginFontSize := 8;
+  FMarginFontSize := 9;
   FMarginRightMargin := 80;
   FMarginLeftMarginWidth := 48;
   FMarginVisibleLeftMargin := True;

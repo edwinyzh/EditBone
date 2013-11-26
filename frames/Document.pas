@@ -1850,7 +1850,7 @@ begin
     OptionsContainer.FontSize := StrToInt(ReadString('Options', 'FontSize', '9'));
     OptionsContainer.ColorBrightness := StrToInt(ReadString('Options', 'ActiveLineColorBrightness', '2'));
     OptionsContainer.MarginFontName := ReadString('Options', 'MarginFontName', 'Courier New');
-    OptionsContainer.MarginFontSize := StrToInt(ReadString('Options', 'MarginFontSize', '8'));
+    OptionsContainer.MarginFontSize := StrToInt(ReadString('Options', 'MarginFontSize', '9'));
     OptionsContainer.MarginLeftMarginAutoSize := ReadBool('Options', 'MarginLeftMarginAutoSize', True);
     OptionsContainer.MarginVisibleRightMargin := ReadBool('Options', 'MarginVisibleRightMargin', True);
     OptionsContainer.MarginRightMargin := StrToInt(ReadString('Options', 'RightMargin', '80'));
@@ -3468,7 +3468,6 @@ procedure TDocumentFrame.SetActiveHighlighter(Value: Integer);
     if Assigned(SynEdit) then
     with SynEdit do
     begin
-      //Color := clWhite;
       ActiveLineColor := clSkyBlue;
       OnPaintTransient := nil;
       HtmlVersion := shvUndefined;
