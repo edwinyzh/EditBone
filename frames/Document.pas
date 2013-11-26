@@ -3468,7 +3468,7 @@ procedure TDocumentFrame.SetActiveHighlighter(Value: Integer);
     if Assigned(SynEdit) then
     with SynEdit do
     begin
-      Color := clWhite;
+      //Color := clWhite;
       ActiveLineColor := clSkyBlue;
       OnPaintTransient := nil;
       HtmlVersion := shvUndefined;
