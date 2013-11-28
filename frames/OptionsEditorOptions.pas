@@ -26,9 +26,10 @@ type
     UndoAfterSaveCheckBox: TBCCheckBox;
     SmartTabsCheckBox: TBCCheckBox;
     SmartTabDeleteCheckBox: TBCCheckBox;
-    MinimapFontSizeLabel: TLabel;
-    MinimapFontSizeTrackBar: TTrackBar;
     TripleClickRowSelectCheckBox: TBCCheckBox;
+    NonblinkingCaretCheckBox: TBCCheckBox;
+    LineModifiedColorLabel: TLabel;
+    NonblinkingCaretColorBox: TColorBox;
   private
     { Private declarations }
   public

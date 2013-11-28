@@ -202,6 +202,7 @@ type
     ViewSearchForFilesAction: TAction;
     FileSelectFromDirectoryAction: TAction;
     SelectfromDirectory1: TMenuItem;
+    DirectorySearchFindInFilesAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -315,6 +316,7 @@ type
     procedure ViewXMLTreeActionExecute(Sender: TObject);
     procedure ViewSearchForFilesActionExecute(Sender: TObject);
     procedure FileSelectFromDirectoryActionExecute(Sender: TObject);
+    procedure DirectorySearchFindInFilesActionExecute(Sender: TObject);
   private
     { Private declarations }
     FDirectoryFrame: TDirectoryFrame;
@@ -337,6 +339,7 @@ type
     procedure ReadWindowState;
     procedure RecreateDragDrop;
     procedure ResizeProgressBar;
+    procedure SearchFindInFiles(Folder: string = '');
     procedure SetEncodingComboIndex(Value: Integer);
     procedure SetFields;
     procedure SetHighlighterComboIndex(Value: Integer);
@@ -1307,7 +1310,8 @@ begin
   FDirectoryFrame := TDirectoryFrame.Create(DirectoryPanel);
   FDirectoryFrame.Parent := DirectoryPanel;
   FDirectoryFrame.OnTabsheetDblClick := FileTreeViewDblClickActionExecute;
-  FDirectoryFrame.SearchForFilesOpenFile := DoSearchForFilesOpenFile;
+  FDirectoryFrame.OnSearchForFilesOpenFile := DoSearchForFilesOpenFile;
+  FDirectoryFrame.SearchForFilesAction := DirectorySearchFindInFilesAction;
   { TDocumentFrame }
   FDocumentFrame := TDocumentFrame.Create(DocumentPanel);
   FDocumentFrame.Parent := DocumentPanel;
@@ -1502,6 +1506,11 @@ begin
   FDocumentFrame.StopMacro;
 end;
 
+procedure TMainForm.DirectorySearchFindInFilesActionExecute(Sender: TObject);
+begin
+  SearchFindInFiles(FDirectoryFrame.SelectedPath);
+end;
+
 procedure TMainForm.DragDropDrop(Sender: TObject; Pos: TPoint;
   Value: TStrings);
 var
@@ -1643,6 +1652,11 @@ begin
 end;
 
 procedure TMainForm.SearchFindInFilesActionExecute(Sender: TObject);
+begin
+  SearchFindInFiles;
+end;
+
+procedure TMainForm.SearchFindInFiles(Folder: string = '');
 var
   T1, T2: TTime;
   SynEdit: TBCSynEdit;
@@ -1652,6 +1666,9 @@ var
 begin
   with FindInFilesDialog do
   begin
+    if Folder <> '' then
+      FolderText := Folder
+    else
     if FolderText = '' then
       if Assigned(FDirectoryFrame) then
         FolderText := FDirectoryFrame.SelectedPath;

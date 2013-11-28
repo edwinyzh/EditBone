@@ -111,7 +111,7 @@ object EditorLeftMarginFrame: TEditorLeftMarginFrame
       ReadOnly = False
     end
     object LineModifiedColorBox: TColorBox
-      Left = 29
+      Left = 27
       Top = 128
       Width = 145
       Height = 22
@@ -119,7 +119,7 @@ object EditorLeftMarginFrame: TEditorLeftMarginFrame
       TabOrder = 5
     end
     object LineNormalColorBox: TColorBox
-      Left = 29
+      Left = 27
       Top = 170
       Width = 145
       Height = 22

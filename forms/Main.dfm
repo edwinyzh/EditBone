@@ -2107,6 +2107,11 @@ object MainForm: TMainForm
       ImageIndex = 84
       OnExecute = FileSelectFromDirectoryActionExecute
     end
+    object DirectorySearchFindInFilesAction: TAction
+      Category = '&Search'
+      Caption = 'DirectorySearchFindInFilesAction'
+      OnExecute = DirectorySearchFindInFilesActionExecute
+    end
   end
   object ImageList: TBCImageList
     ColorDepth = cd32Bit

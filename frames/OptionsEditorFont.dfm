@@ -1,24 +1,24 @@
 object EditorFontFrame: TEditorFontFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 302
+  Width = 501
+  Height = 524
   Align = alClient
   TabOrder = 0
   Visible = False
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 451
-    Height = 302
+    Width = 501
+    Height = 524
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
     object TopPanel: TPanel
       Left = 0
       Top = 0
-      Width = 451
-      Height = 101
+      Width = 501
+      Height = 147
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 0
@@ -59,16 +59,16 @@ object EditorFontFrame: TEditorFontFrame
       object EditorFontLabel: TLabel
         Left = 40
         Top = 31
-        Width = 128
-        Height = 16
+        Width = 105
+        Height = 15
         Margins.Left = 4
         Margins.Top = 4
         Margins.Right = 4
         Margins.Bottom = 4
-        Caption = 'Courier New 10pt'
+        Caption = 'Courier New 9pt'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -13
+        Font.Height = -12
         Font.Name = 'Courier New'
         Font.Style = []
         ParentFont = False
@@ -77,15 +77,15 @@ object EditorFontFrame: TEditorFontFrame
         Left = 40
         Top = 73
         Width = 105
-        Height = 14
+        Height = 15
         Margins.Left = 4
         Margins.Top = 4
         Margins.Right = 4
         Margins.Bottom = 4
-        Caption = 'Courier New 8pt'
+        Caption = 'Courier New 9pt'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'Courier New'
         Font.Style = []
         ParentFont = False
@@ -146,12 +146,33 @@ object EditorFontFrame: TEditorFontFrame
         Margins.Bottom = 4
         Caption = 'Margin'
       end
+      object MinimapFontSizeLabel: TLabel
+        Left = 11
+        Top = 98
+        Width = 85
+        Height = 13
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
+        Caption = 'Minimap Font Size'
+      end
+      object MinimapFontSizeTrackBar: TTrackBar
+        Left = 4
+        Top = 113
+        Width = 150
+        Height = 27
+        Max = 8
+        Min = 3
+        Position = 3
+        TabOrder = 0
+      end
     end
     object BottomPanel: TPanel
       Left = 0
-      Top = 101
-      Width = 451
-      Height = 201
+      Top = 147
+      Width = 501
+      Height = 377
       Align = alClient
       BevelOuter = bvNone
       Padding.Left = 4
@@ -159,20 +180,45 @@ object EditorFontFrame: TEditorFontFrame
       object SynEdit: TBCSynEdit
         Left = 4
         Top = 0
-        Width = 447
-        Height = 201
+        Width = 497
+        Height = 377
         Align = alClient
+        CodeFolding.CaseSensitive = False
+        CodeFolding.FolderBarLinesColor = 12434877
+        ActiveLine.Background = clYellow
+        ActiveLine.Foreground = clNavy
+        ActiveLine.Visible = True
+        LineDivider.Visible = False
+        LineDivider.Color = clRed
+        LineDivider.Style = psSolid
+        RightEdge.MouseMove = False
+        RightEdge.Visible = True
+        RightEdge.Position = 80
+        RightEdge.Color = clSilver
+        RightEdge.Style = psSolid
+        LineSpacing = 0
+        LineSpacingRule = lsSpecified
+        Background.Visible = False
+        Background.RepeatMode = brmNone
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = []
         TabOrder = 0
+        Gutter.ShowLineModified = False
+        Gutter.LineModifiedColor = clYellow
+        Gutter.LineNormalColor = clLime
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
+        Gutter.LeftOffsetColor = clNone
+        Gutter.RightOffsetColor = clNone
+        WordWrap.Enabled = False
+        WordWrap.Position = 80
+        WordWrap.Style = wwsClientWidth
         FontSmoothing = fsmNone
       end
     end

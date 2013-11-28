@@ -35,6 +35,8 @@ type
     Separator3MenuItem: TMenuItem;
     DirectoryFilesAction: TAction;
     Files1: TMenuItem;
+    DirectoryFindiInFilesAction: TAction;
+    FindinFiles1: TMenuItem;
     procedure DirectoryCloseActionExecute(Sender: TObject);
     procedure DirectoryDeleteActionExecute(Sender: TObject);
     procedure DirectoryEditActionExecute(Sender: TObject);
@@ -49,10 +51,12 @@ type
     procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure PopupMenuPopup(Sender: TObject);
     procedure DirectoryFilesActionExecute(Sender: TObject);
+    procedure DirectoryFindiInFilesActionExecute(Sender: TObject);
   private
     { Private declarations }
     FTabsheetDblClick: TNotifyEvent;
-    FSearchForFilesOpenFile: TOpenFileEvent;
+    FOnSearchForFilesOpenFile: TOpenFileEvent;
+    FSearchForFilesAction: TAction;
     function GetActiveDriveComboBox: TBCDriveComboBox;
     function GetDrivesPanelOrientation(TabSheet: TTabSheet = nil): Byte;
     function GetFileTypePanelOrientation(TabSheet: TTabSheet = nil): Byte;
@@ -82,9 +86,10 @@ type
     property ExcludeOtherBranches: Boolean read GetActiveExcludeOtherBranches;
     property IsAnyDirectory: Boolean read GetIsAnyDirectory;
     property OnTabsheetDblClick: TNotifyEvent read FTabsheetDblClick write FTabsheetDblClick;
-    property SearchForFilesOpenFile: TOpenFileEvent read FSearchForFilesOpenFile write FSearchForFilesOpenFile;
+    property OnSearchForFilesOpenFile: TOpenFileEvent read FOnSearchForFilesOpenFile write FOnSearchForFilesOpenFile;
     property RootDirectory: string read GetRootDirectory;
     property SelectedPath: string read GetSelectedPath;
+    property SearchForFilesAction: TAction read FSearchForFilesAction write FSearchForFilesAction;
   end;
 
 implementation
@@ -415,9 +420,14 @@ procedure TDirectoryFrame.DirectoryFilesActionExecute(Sender: TObject);
 begin
   with SearchForFilesForm do
   begin
-    OnOpenFile := FSearchForFilesOpenFile;
+    OnOpenFile := FOnSearchForFilesOpenFile;
     Open(SelectedPath);
   end;
+end;
+
+procedure TDirectoryFrame.DirectoryFindiInFilesActionExecute(Sender: TObject);
+begin
+  FSearchForFilesAction.Execute;
 end;
 
 procedure TDirectoryFrame.OpenDirectory;

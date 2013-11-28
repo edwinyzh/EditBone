@@ -98,6 +98,7 @@ type
     FAnimationStyle: TAnimationStyle;
     FAutoIndent: Boolean;
     FAutoSave: Boolean;
+    FNonblinkingCaret: Boolean;
     FBeepIfSearchStringNotFound: Boolean;
     FColorBrightness: Integer;
     FCompletionProposalCaseSensitive: Boolean;
@@ -148,6 +149,7 @@ type
     FIgnoreBlanks: Boolean;
     FIgnoreCase: Boolean;
     FInsertCaret: TSynEditCaretType;
+    FNonblinkingCaretColor: string;
     FMainMenuFontName: string;
     FMainMenuFontSize: Integer;
     FMainMenuSystemFontName: string;
@@ -225,6 +227,7 @@ type
     property AnimationStyle: TAnimationStyle read FAnimationStyle write FAnimationStyle;
     property AutoIndent: Boolean read FAutoIndent write FAutoIndent;
     property AutoSave: Boolean read FAutoSave write FAutoSave;
+    property NonblinkingCaret: Boolean read FNonblinkingCaret write FNonblinkingCaret;
     property BeepIfSearchStringNotFound: Boolean read FBeepIfSearchStringNotFound write FBeepIfSearchStringNotFound;
     property ColorBrightness: Integer read FColorBrightness write FColorBrightness;
     property CompletionProposalCaseSensitive: Boolean read FCompletionProposalCaseSensitive write FCompletionProposalCaseSensitive;
@@ -278,6 +281,7 @@ type
     property IgnoreBlanks: Boolean read FIgnoreBlanks write FIgnoreBlanks;
     property IgnoreCase: Boolean read FIgnoreCase write FIgnoreCase;
     property InsertCaret: TSynEditCaretType read FInsertCaret write FInsertCaret;
+    property NonblinkingCaretColor: string read FNonblinkingCaretColor write FNonblinkingCaretColor;
     property MainMenuFontName: string read FMainMenuFontName write FMainMenuFontName;
     property MainMenuFontSize: Integer read FMainMenuFontSize write FMainMenuFontSize;
     property MainMenuSystemFontName: string read FMainMenuSystemFontName write FMainMenuSystemFontName;
@@ -384,6 +388,7 @@ begin
     TCustomSynEdit(Dest).Gutter.LineNormalColor := StringToColor(FMarginNormalColor);
     TCustomSynEdit(Dest).TabWidth := FTabWidth;
     TCustomSynEdit(Dest).InsertCaret := FInsertCaret;
+    TCustomSynEdit(Dest).NonBlinkingCaretColor := StringToColor(FNonblinkingCaretColor);
     if FAutoIndent then
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoAutoIndent]
     else
@@ -416,6 +421,10 @@ begin
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoTripleClicks]
     else
       TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoTripleClicks];
+    if FNonblinkingCaret then
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options + [eoNonblinkingCaret]
+    else
+      TCustomSynEdit(Dest).Options := TCustomSynEdit(Dest).Options - [eoNonblinkingCaret];
 
     TCustomSynEdit(Dest).WordWrap.Enabled := FEnableWordWrap;
     TCustomSynEdit(Dest).Gutter.ShowLineNumbers := FEnableLineNumbers;
@@ -667,6 +676,7 @@ begin
   FAnimationStyle := asDefault;
   FAutoIndent := True;
   FAutoSave := False;
+  FNonblinkingCaret := False;
   FBeepIfSearchStringNotFound := True;
   FCompletionProposalCaseSensitive := True;
   FCompletionProposalEnabled := True;
@@ -713,6 +723,7 @@ begin
   FIgnoreBlanks := True;
   FIgnoreCase := True;
   FInsertCaret := ctVerticalLine;
+  FNonblinkingCaretColor := 'clBlack';
   FMainMenuFontName := 'Tahoma';
   FMainMenuFontSize := 8;
   FMainMenuSystemFontName := Screen.MenuFont.Name;
@@ -1039,6 +1050,7 @@ begin
   { Options }
   FEditorOptionsFrame.AutoIndentCheckBox.Checked := FOptionsContainer.AutoIndent;
   FEditorOptionsFrame.AutoSaveCheckBox.Checked := FOptionsContainer.AutoSave;
+  FEditorOptionsFrame.NonblinkingCaretCheckBox.Checked := FOptionsContainer.NonblinkingCaret;
   FEditorOptionsFrame.UndoAfterSaveCheckBox.Checked := FOptionsContainer.UndoAfterSave;
   FEditorOptionsFrame.TrimTrailingSpacesCheckBox.Checked := FOptionsContainer.TrimTrailingSpaces;
   FEditorOptionsFrame.TripleClickRowSelectCheckBox.Checked := FOptionsContainer.TripleClickRowSelect;
@@ -1051,7 +1063,7 @@ begin
   FEditorOptionsFrame.TabWidthEdit.Text := IntToStr(FOptionsContainer.TabWidth);
   FEditorOptionsFrame.BrightnessTrackBar.Position := FOptionsContainer.ColorBrightness;
   FEditorOptionsFrame.InsertCaretComboBox.ItemIndex := Ord(FOptionsContainer.InsertCaret);
-  FEditorOptionsFrame.MinimapFontSizeTrackBar.Position := FOptionsContainer.MinimapFontSize;
+  FEditorOptionsFrame.NonblinkingCaretColorBox.Selected := StringToColor(FOptionsContainer.NonblinkingCaretColor);
   { Font }
   FEditorFontFrame.EditorFontLabel.Font.Name := FOptionsContainer.FontName;
   FEditorFontFrame.EditorFontLabel.Font.Size := FOptionsContainer.FontSize;
@@ -1060,6 +1072,7 @@ begin
   FEditorFontFrame.MarginFontLabel.Font.Name := FOptionsContainer.MarginFontName;
   FEditorFontFrame.MarginFontLabel.Font.Size := FOptionsContainer.MarginFontSize;
   FEditorFontFrame.MarginFontLabel.Caption := Format('%s %dpt', [FEditorFontFrame.MarginFontLabel.Font.Name, FEditorFontFrame.MarginFontLabel.Font.Size]);
+  FEditorFontFrame.MinimapFontSizeTrackBar.Position := FOptionsContainer.MinimapFontSize;
   { Left Margin }
   FEditorLeftMarginFrame.AutoSizeCheckBox.Checked := FOptionsContainer.MarginLeftMarginAutoSize;
   FEditorLeftMarginFrame.VisibleCheckBox.Checked := FOptionsContainer.MarginVisibleLeftMargin;
@@ -1287,6 +1300,7 @@ begin
   { Options }
   FOptionsContainer.AutoIndent := FEditorOptionsFrame.AutoIndentCheckBox.Checked;
   FOptionsContainer.AutoSave := FEditorOptionsFrame.AutoSaveCheckBox.Checked;
+  FOptionsContainer.NonblinkingCaret := FEditorOptionsFrame.NonblinkingCaretCheckBox.Checked;
   FOptionsContainer.UndoAfterSave := FEditorOptionsFrame.UndoAfterSaveCheckBox.Checked;
   FOptionsContainer.TrimTrailingSpaces := FEditorOptionsFrame.TrimTrailingSpacesCheckBox.Checked;
   FOptionsContainer.TripleClickRowSelect := FEditorOptionsFrame.TripleClickRowSelectCheckBox.Checked;
@@ -1299,12 +1313,13 @@ begin
   FOptionsContainer.TabWidth := StrToIntDef(FEditorOptionsFrame.TabWidthEdit.Text, 2);
   FOptionsContainer.ColorBrightness := FEditorOptionsFrame.BrightnessTrackBar.Position;
   FOptionsContainer.InsertCaret := TSynEditCaretType(FEditorOptionsFrame.InsertCaretComboBox.ItemIndex);
-  FOptionsContainer.MinimapFontSize := FEditorOptionsFrame.MinimapFontSizeTrackBar.Position;
+  FOptionsContainer.NonblinkingCaretColor := ColorToString(FEditorOptionsFrame.NonblinkingCaretColorBox.Selected);
   { Font }
   FOptionsContainer.FontName := FEditorFontFrame.EditorFontLabel.Font.Name;
   FOptionsContainer.FontSize := FEditorFontFrame.EditorFontLabel.Font.Size;
   FOptionsContainer.MarginFontName := FEditorFontFrame.MarginFontLabel.Font.Name;
   FOptionsContainer.MarginFontSize := FEditorFontFrame.MarginFontLabel.Font.Size;
+  FOptionsContainer.MinimapFontSize := FEditorFontFrame.MinimapFontSizeTrackBar.Position;
   { Left Margin }
   FOptionsContainer.MarginVisibleLeftMargin := FEditorLeftMarginFrame.VisibleCheckBox.Checked;
   FOptionsContainer.MarginLeftMarginAutoSize := FEditorLeftMarginFrame.AutoSizeCheckBox.Checked;

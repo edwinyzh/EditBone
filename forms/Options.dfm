@@ -2,7 +2,7 @@ object OptionsDialog: TOptionsDialog
   Left = 580
   Top = 154
   Caption = 'Options'
-  ClientHeight = 469
+  ClientHeight = 495
   ClientWidth = 512
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -56,7 +56,7 @@ object OptionsDialog: TOptionsDialog
     Left = 0
     Top = 0
     Width = 512
-    Height = 428
+    Height = 454
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 6
@@ -66,13 +66,13 @@ object OptionsDialog: TOptionsDialog
     object Splitter: TSplitter
       Left = 206
       Top = 6
-      Height = 422
+      Height = 448
     end
     object OptionsVirtualStringTree: TVirtualStringTree
       Left = 6
       Top = 6
       Width = 200
-      Height = 422
+      Height = 448
       Align = alLeft
       Header.AutoSizeIndex = 0
       Header.Font.Charset = DEFAULT_CHARSET
@@ -98,7 +98,7 @@ object OptionsDialog: TOptionsDialog
       Left = 209
       Top = 6
       Width = 297
-      Height = 422
+      Height = 448
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 1
@@ -106,7 +106,7 @@ object OptionsDialog: TOptionsDialog
   end
   object ButtonPanel: TPanel
     Left = 0
-    Top = 428
+    Top = 454
     Width = 512
     Height = 41
     Align = alBottom

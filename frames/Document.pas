@@ -211,6 +211,7 @@ type
     procedure GotoLineNumberEditChange(Sender: TObject);
     procedure SearchClearActionExecute(Sender: TObject);
     procedure GotoLineClearActionExecute(Sender: TObject);
+    procedure SearchForEditKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     FCaseCycle: Byte;
@@ -1491,24 +1492,24 @@ var
   DocTabSheetFrame: TDocTabSheetFrame;
   SynEdit: TBCSynEdit;
 begin
-  SearchPanel.Visible := not SearchPanel.Visible;
-  if SearchPanel.Visible then
+  SearchPanel.Show; // Visible := True;
+  //if SearchPanel.Visible then
+  //begin
+  DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+  if DocTabSheetFrame.SplitSynEdit.Focused then
+    SynEdit := DocTabSheetFrame.SplitSynEdit
+  else
+    SynEdit := DocTabSheetFrame.SynEdit;
+  if Assigned(SynEdit) then
   begin
-    DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
-    if DocTabSheetFrame.SplitSynEdit.Focused then
-      SynEdit := DocTabSheetFrame.SplitSynEdit
-    else
-      SynEdit := DocTabSheetFrame.SynEdit;
-    if Assigned(SynEdit) then
-    begin
-      SearchPanel.Height := SearchForEdit.Height;
-      if SynEdit.SelAvail then
-        SearchForEdit.Text := SynEdit.SelText;
-      SearchForEdit.SetFocus;
-      SynEdit.CaretXY := BufferCoord(0, 0);
-      DoSearch(SynEdit);
-    end;
+    SearchPanel.Height := SearchForEdit.Height;
+    if SynEdit.SelAvail then
+      SearchForEdit.Text := SynEdit.SelText;
+    SearchForEdit.SetFocus;
+    SynEdit.CaretXY := BufferCoord(0, 0);
+    DoSearch(SynEdit);
   end;
+  //end;
 end;
 
 procedure TDocumentFrame.DoSearch(SynEdit: TBCSynEdit);
@@ -1715,6 +1716,15 @@ begin
   end;
 end;
 
+procedure TDocumentFrame.SearchForEditKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #27 then
+  begin
+    SearchPanel.Hide;
+    Key := #0;
+  end;
+end;
+
 function TDocumentFrame.CanFindNextPrevious: Boolean;
 begin
   Result := SearchForEdit.Text <> '';
@@ -1866,6 +1876,7 @@ begin
     OptionsContainer.ShowSearchStringNotFound := ReadBool('Options', 'ShowSearchStringNotFound', True);
     OptionsContainer.BeepIfSearchStringNotFound := ReadBool('Options', 'BeepIfSearchStringNotFound', True);
     OptionsContainer.InsertCaret := TSynEditCaretType(StrToInt(ReadString('Options', 'InsertCaret', '0')));
+    OptionsContainer.NonblinkingCaretColor := ReadString('Options', 'NonblinkingCaretColor', 'clBlack');
     OptionsContainer.MinimapFontSize :=  StrToInt(ReadString('Options', 'MinimapFontSize', '3'));
     OptionsContainer.LineSpacing := StrToInt(ReadString('Options', 'LineSpacing', '0'));
     OptionsContainer.TabWidth := StrToInt(ReadString('Options', 'TabWidth', '2'));
@@ -1905,6 +1916,7 @@ begin
     OptionsContainer.HtmlVersion := TSynWebHtmlVersion(StrToInt(ReadString('Options', 'HTMLVersion', '4'))); { default: HTML5 }
     OptionsContainer.AutoIndent := ReadBool('Options', 'AutoIndent', True);
     OptionsContainer.AutoSave := ReadBool('Options', 'AutoSave', False);
+    OptionsContainer.NonblinkingCaret := ReadBool('Options', 'NonblinkingCaret', False);
     OptionsContainer.UndoAfterSave := ReadBool('Options', 'UnfoAfterSave', False);
     OptionsContainer.TrimTrailingSpaces := ReadBool('Options', 'TrimTrailingSpaces', True);
     OptionsContainer.TripleClickRowSelect := ReadBool('Options', 'TripleClickRowSelect', True);
@@ -2077,6 +2089,7 @@ begin
     DeleteKey('Options', 'MarginVisible');
     WriteBool('Options', 'MarginVisibleLeftMargin', OptionsContainer.MarginVisibleLeftMargin);
     WriteString('Options', 'InsertCaret', IntToStr(Ord(OptionsContainer.InsertCaret)));
+    WriteString('Options', 'NonblinkingCaretColor', OptionsContainer.NonblinkingCaretColor);
     DeleteKey('Options', 'MinimapFontFactor'); { deprecated }
     WriteString('Options', 'MinimapFontSize', IntToStr(OptionsContainer.MinimapFontSize));
     WriteBool('Options', 'CompletionProposalEnabled', OptionsContainer.CompletionProposalEnabled);
@@ -2114,6 +2127,7 @@ begin
     WriteString('Options', 'HTMLVersion', IntToStr(Ord(OptionsContainer.HtmlVersion)));
     WriteBool('Options', 'AutoIndent', OptionsContainer.AutoIndent);
     WriteBool('Options', 'AutoSave', OptionsContainer.AutoSave);
+    WriteBool('Options', 'NonblinkingCaret', OptionsContainer.NonblinkingCaret);
     WriteBool('Options', 'UndoAfterSave', OptionsContainer.UndoAfterSave);
     WriteBool('Options', 'TrimTrailingSpaces', OptionsContainer.TrimTrailingSpaces);
     WriteBool('Options', 'TripleClickRowSelect', OptionsContainer.TripleClickRowSelect);
