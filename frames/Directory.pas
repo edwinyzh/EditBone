@@ -34,9 +34,9 @@ type
     Separator2MenuItem: TMenuItem;
     Separator3MenuItem: TMenuItem;
     DirectoryFilesAction: TAction;
-    Files1: TMenuItem;
+    FilesMenuItem: TMenuItem;
     DirectoryFindiInFilesAction: TAction;
-    FindinFiles1: TMenuItem;
+    FindinFilesMenuItem: TMenuItem;
     procedure DirectoryCloseActionExecute(Sender: TObject);
     procedure DirectoryDeleteActionExecute(Sender: TObject);
     procedure DirectoryEditActionExecute(Sender: TObject);
@@ -51,12 +51,12 @@ type
     procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure PopupMenuPopup(Sender: TObject);
     procedure DirectoryFilesActionExecute(Sender: TObject);
-    procedure DirectoryFindiInFilesActionExecute(Sender: TObject);
+//    procedure DirectoryFindiInFilesActionExecute(Sender: TObject);
   private
     { Private declarations }
     FTabsheetDblClick: TNotifyEvent;
     FOnSearchForFilesOpenFile: TOpenFileEvent;
-    FSearchForFilesAction: TAction;
+    //FSearchForFilesAction: TAction;
     function GetActiveDriveComboBox: TBCDriveComboBox;
     function GetDrivesPanelOrientation(TabSheet: TTabSheet = nil): Byte;
     function GetFileTypePanelOrientation(TabSheet: TTabSheet = nil): Byte;
@@ -70,6 +70,7 @@ type
     function ReadIniFile: Boolean;
     procedure SetDrivesPanelOrientation(ShowDrives: Byte; TabSheetFrame: TDirTabSheetFrame = nil);
     procedure SetFileTypePanelOrientation(ShowFileType: Byte; FileType: string = ''; TabSheetFrame: TDirTabSheetFrame = nil);
+    procedure SetSearchForFilesAction(Action: TAction);
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -89,7 +90,7 @@ type
     property OnSearchForFilesOpenFile: TOpenFileEvent read FOnSearchForFilesOpenFile write FOnSearchForFilesOpenFile;
     property RootDirectory: string read GetRootDirectory;
     property SelectedPath: string read GetSelectedPath;
-    property SearchForFilesAction: TAction read FSearchForFilesAction write FSearchForFilesAction;
+    property SearchForFilesAction: TAction write SetSearchForFilesAction;
   end;
 
 implementation
@@ -104,6 +105,14 @@ constructor TDirectoryFrame.Create(AOwner: TComponent);
 begin
   inherited;
   ReadIniFile;
+end;
+
+procedure TDirectoryFrame.SetSearchForFilesAction(Action: TAction);
+begin
+  DirectoryFindiInFilesAction.Caption := Action.Caption;
+  DirectoryFindiInFilesAction.Hint := Action.Hint;
+  //DirectoryFindiInFilesAction.ShortCut := Action.ShortCut;
+  DirectoryFindiInFilesAction.OnExecute := Action.OnExecute;
 end;
 
 function TDirectoryFrame.ReadIniFile: Boolean;
@@ -425,10 +434,10 @@ begin
   end;
 end;
 
-procedure TDirectoryFrame.DirectoryFindiInFilesActionExecute(Sender: TObject);
+{procedure TDirectoryFrame.DirectoryFindiInFilesActionExecute(Sender: TObject);
 begin
   FSearchForFilesAction.Execute;
-end;
+end; }
 
 procedure TDirectoryFrame.OpenDirectory;
 begin

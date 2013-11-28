@@ -565,6 +565,11 @@ begin
   { update mainform }
   MainMenuTitleBarActions(True);
   UpdateLanguage(Self, SelectedLanguage);
+  { TODO: Think about this... }
+  DirectorySearchFindInFilesAction.Caption := SearchFindInFilesAction.Caption;
+  DirectorySearchFindInFilesAction.Hint := SearchFindInFilesAction.Hint;
+  FDirectoryFrame.SearchForFilesAction := DirectorySearchFindInFilesAction;
+
   MainMenuTitleBarActions(False);
   { update frames }
   UpdateLanguage(TForm(FDirectoryFrame), SelectedLanguage);
@@ -1311,7 +1316,6 @@ begin
   FDirectoryFrame.Parent := DirectoryPanel;
   FDirectoryFrame.OnTabsheetDblClick := FileTreeViewDblClickActionExecute;
   FDirectoryFrame.OnSearchForFilesOpenFile := DoSearchForFilesOpenFile;
-  FDirectoryFrame.SearchForFilesAction := DirectorySearchFindInFilesAction;
   { TDocumentFrame }
   FDocumentFrame := TDocumentFrame.Create(DocumentPanel);
   FDocumentFrame.Parent := DocumentPanel;

@@ -2109,7 +2109,7 @@ object MainForm: TMainForm
     end
     object DirectorySearchFindInFilesAction: TAction
       Category = '&Search'
-      Caption = 'DirectorySearchFindInFilesAction'
+      Caption = '<directory find in files action>'
       OnExecute = DirectorySearchFindInFilesActionExecute
     end
   end

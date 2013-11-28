@@ -28,7 +28,7 @@ type
     SmartTabDeleteCheckBox: TBCCheckBox;
     TripleClickRowSelectCheckBox: TBCCheckBox;
     NonblinkingCaretCheckBox: TBCCheckBox;
-    LineModifiedColorLabel: TLabel;
+    NonblinkingCaretColorLabel: TLabel;
     NonblinkingCaretColorBox: TColorBox;
   private
     { Private declarations }

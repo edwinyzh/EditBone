@@ -81,8 +81,6 @@ object DirectoryFrame: TDirectoryFrame
       Caption = '&Find in Files...'
       Hint = 'Search for a string in multiple files'
       ImageIndex = 8
-      ShortCut = 24646
-      OnExecute = DirectoryFindiInFilesActionExecute
     end
   end
   object PopupMenu: TBCPopupMenu
@@ -104,10 +102,10 @@ object DirectoryFrame: TDirectoryFrame
       Action = DirectoryEditAction
       ShortCut = 24645
     end
-    object Files1: TMenuItem
+    object FilesMenuItem: TMenuItem
       Action = DirectoryFilesAction
     end
-    object FindinFiles1: TMenuItem
+    object FindinFilesMenuItem: TMenuItem
       Action = DirectoryFindiInFilesAction
     end
     object Separator2MenuItem: TMenuItem
