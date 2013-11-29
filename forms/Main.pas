@@ -326,6 +326,8 @@ type
     FOutputFrame: TOutputFrame;
     FProcessingEventHandler: Boolean;
     FProgressBar: TBCProgressBar;
+    FEncoding: TEncoding;
+    function GetStringList(Filename: string): TStringList;
     function GetActionClientItem(MenuItemIndex, SubMenuItemIndex: Integer): TActionClientItem;
     procedure CreateFrames;
     procedure CreateLanguageMenu;
@@ -365,7 +367,7 @@ implementation
 
 uses
   About, BCDialogs.FindInFiles, Vcl.ClipBrd, BigIni, BCCommon.StyleUtils, BCCommon.FileUtils,
-  System.IOUtils, BCCommon.LanguageStrings, LanguageEditor, BCControls.SynEdit,
+  System.IOUtils, BCCommon.LanguageStrings, LanguageEditor, BCControls.SynEdit, SynUnicode, BCCommon.Encoding,
   BCCommon.LanguageUtils, BCCommon.DuplicateChecker, UnicodeCharacterMap, DuplicateCheckerOptions, Winapi.ShellAPI,
   System.Types, BCCommon.Messages, BCCommon.Lib, BCCommon.StringUtils, Winapi.CommCtrl, BCForms.Convert,
   BCForms.SearchForFiles;
@@ -1667,6 +1669,7 @@ var
   Min, Secs: Integer;
   TimeDifference: string;
   OutputTreeView: TVirtualDrawTree;
+  Root: PVirtualNode;
 begin
   with FindInFilesDialog do
   begin
@@ -1695,23 +1698,20 @@ begin
         T2 := Now;
         if not FOutputFrame.CancelSearch then
         begin
-          if not FOutputFrame.IsEmpty then
+          if FOutputFrame.IsEmpty then
           begin
-            Min := StrToInt(FormatDateTime('n', T2 - T1));
-            Secs := Min * 60 + StrToInt(FormatDateTime('s', T2 - T1));
-            if Secs < 60 then
-              TimeDifference := FormatDateTime(Format('s.zzz "%s"', [LanguageDataModule.GetConstant('Second')]), T2 - T1)
-            else
-              TimeDifference := FormatDateTime(Format('n "%s" s.zzz "%s"', [LanguageDataModule.GetConstant('Minute'), LanguageDataModule.GetConstant('Second')]), T2 - T1);
-            StatusBar.Panels[3].Text := Format(LanguageDataModule.GetConstant('OccurencesFound'), [FOutputFrame.Count, TimeDifference])
-          end
-          else
-          begin
-            ShowMessage(Format(LanguageDataModule.GetMessage('CannotFindString'), [FindWhatText]));
-            FOutputFrame.ProcessingTabSheet := False;
-            FOutputFrame.CloseTabSheet;
+            Root := nil;
+            FOutputFrame.AddTreeViewLine(OutputTreeView, Root, '', -1, 0,
+              Format(LanguageDataModule.GetMessage('CannotFindString'), [FindWhatText]));
             StatusBar.Panels[3].Text := '';
           end;
+          Min := StrToInt(FormatDateTime('n', T2 - T1));
+          Secs := Min * 60 + StrToInt(FormatDateTime('s', T2 - T1));
+          if Secs < 60 then
+            TimeDifference := FormatDateTime(Format('s.zzz "%s"', [LanguageDataModule.GetConstant('Second')]), T2 - T1)
+          else
+            TimeDifference := FormatDateTime(Format('n "%s" s.zzz "%s"', [LanguageDataModule.GetConstant('Minute'), LanguageDataModule.GetConstant('Second')]), T2 - T1);
+          StatusBar.Panels[3].Text := Format(LanguageDataModule.GetConstant('OccurencesFound'), [FOutputFrame.Count, TimeDifference])
         end;
         FOutputFrame.PageControl.EndDrag(False); { if close button pressed and search canceled, dragging will stay... }
         FOutputFrame.ProcessingTabSheet := False;
@@ -1941,6 +1941,38 @@ begin
   Repaint;
 end;
 
+function TMainForm.GetStringList(Filename: string): TStringList;
+var
+  i: Integer;
+  LFileStream: TFileStream;
+  LBuffer: TBytes;
+  WithBom: Boolean;
+begin
+  Result := TStringList.Create;
+  FEncoding := nil;
+  LFileStream := TFileStream.Create(FileName, fmOpenRead);
+  try
+    // Identify encoding
+    if SynUnicode.IsUTF8(LFileStream, WithBom) then
+    begin
+      if WithBom then
+        FEncoding := TEncoding.UTF8
+      else
+        FEncoding := TEncoding.UTF8WithoutBOM;
+    end
+    else
+    begin
+      // Read file into buffer
+      SetLength(LBuffer, LFileStream.Size);
+      LFileStream.ReadBuffer(Pointer(LBuffer)^, Length(LBuffer));
+      TEncoding.GetBufferEncoding(LBuffer, FEncoding);
+    end;
+  finally
+    LFileStream.Free;
+  end;
+  Result.LoadFromFile(FileName, FEncoding);
+end;
+
 { Recursive method to find files. }
 procedure TMainForm.FindInFiles(OutputTreeView: TVirtualDrawTree; FindWhatText, FileTypeText, FolderText: String; SearchCaseSensitive, LookInSubfolders: Boolean);
 var
@@ -1950,7 +1982,7 @@ var
   FName: string;
   Ln, Ch, ChPos: LongWord;
   Found: Boolean;
-  SynEdit: TBCSynEdit;
+  StringList: TStringList;
   Root: PVirtualNode;
 
   function IsDirectory(dWin32FD: TWin32FindData): Boolean;
@@ -1987,17 +2019,16 @@ begin
           if IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) then
             if (FileTypeText = '*.*') or IsExtInFileType(ExtractFileExt(FName), FileTypeText) then
             try
-              SynEdit := TBCSynEdit.Create(nil);
               {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
-              SynEdit.LoadFromFile(IncludeTrailingBackslash(String(FolderText)) + FName);
+              StringList := GetStringList(IncludeTrailingBackslash(String(FolderText)) + FName);
               {$WARNINGS ON}
               try
                 Root := nil;
-                if Trim(SynEdit.Text) <> '' then
-                for Ln := 0 to SynEdit.Lines.Count - 1 do
+                if Trim(StringList.Text) <> '' then
+                for Ln := 0 to StringList.Count - 1 do
                 begin
                   Found := True;
-                  Line := SynEdit.Lines[Ln];
+                  Line := StringList.Strings[Ln];
                   S := Line;
                   ChPos := 0;
                   while Found do
@@ -2023,11 +2054,15 @@ begin
                   end;
                 end
               finally
-                SynEdit.Free;
+                StringList.Free;
               end;
             except
-              {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
-              ShowWarningMessage(Format(LanguageDataModule.GetWarningMessage('FileAccessError'), [IncludeTrailingBackslash(FolderText) + FName]));
+              {$WARNINGS OFF}
+              { IncludeTrailingBackslash is specific to a platform }
+              FOutputFrame.AddTreeViewLine(OutputTreeView, Root, '', -1, 0,
+                Format(LanguageDataModule.GetWarningMessage('FileAccessError'), [IncludeTrailingBackslash(FolderText) + FName]), '');
+
+              //ShowWarningMessage(Format(LanguageDataModule.GetWarningMessage('FileAccessError'), [IncludeTrailingBackslash(FolderText) + FName]));
               {$WARNINGS ON}
             end;
         end;

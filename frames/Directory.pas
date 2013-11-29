@@ -111,8 +111,8 @@ procedure TDirectoryFrame.SetSearchForFilesAction(Action: TAction);
 begin
   DirectoryFindiInFilesAction.Caption := Action.Caption;
   DirectoryFindiInFilesAction.Hint := Action.Hint;
-  //DirectoryFindiInFilesAction.ShortCut := Action.ShortCut;
   DirectoryFindiInFilesAction.OnExecute := Action.OnExecute;
+  DirectoryFindiInFilesAction.Enabled := True;
 end;
 
 function TDirectoryFrame.ReadIniFile: Boolean;

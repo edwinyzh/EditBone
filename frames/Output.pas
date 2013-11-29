@@ -62,7 +62,7 @@ type
     { Public declarations }
     function SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
     function AddTreeView(TabCaption: string; AutoExpand: Boolean = False): TVirtualDrawTree;
-    procedure AddTreeViewLine(OutputTreeView: TVirtualDrawTree; var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongWord; Text: WideString; SearchString: WideString = '');
+    procedure AddTreeViewLine(OutputTreeView: TVirtualDrawTree; var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString = '');
     procedure Clear;
     procedure CloseTabSheet;
     procedure UpdateControls;
@@ -276,8 +276,10 @@ begin
     InflateRect(R, -TextMargin, 0);
     Dec(R.Right);
     Dec(R.Bottom);
+    if Data.Level = 2 then
+      R.Left := 4;
 
-    if Data.Level = 0 then
+    if (Data.Level = 0) or (Data.Level = 2) then
       S := Data.Filename
     else
       S := String(Data.Text);
@@ -285,7 +287,7 @@ begin
     if Length(S) > 0 then
     begin
       Format := DT_TOP or DT_LEFT or DT_VCENTER or DT_SINGLELINE;
-      if (Data.Level = 0) or (Data.SearchString = '') then
+      if (Data.Level = 0) or (Data.Level = 2) or (Data.SearchString = '') then
       begin
         if Data.Level = 0 then
           S := System.SysUtils.Format('%s [%d]', [S, Node.ChildCount]);
@@ -364,7 +366,7 @@ begin
   end;
 end;
 
-procedure TOutputFrame.AddTreeViewLine(OutputTreeView: TVirtualDrawTree; var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongWord; Text: WideString; SearchString: WideString);
+procedure TOutputFrame.AddTreeViewLine(OutputTreeView: TVirtualDrawTree; var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString);
 var
   Node: PVirtualNode;
   NodeData: POutputRec;
@@ -394,38 +396,46 @@ begin
     Root := OutputTreeView.AddChild(nil);
     NodeData := OutputTreeView.GetNodeData(Root);
     NodeData.Level := 0;
-    NodeData.Filename := Filename;
-  end;
-
-  Node := OutputTreeView.AddChild(Root);
-  NodeData := OutputTreeView.GetNodeData(Node);
-  NodeData.Level := 1;
-  NodeData.Ln := Ln;
-  NodeData.Ch := Ch;
-  NodeData.SearchString := SearchString;
-  NodeData.Filename := Filename;
-
-  s := Text;
-
-  if NodeData.SearchString <> '' then
-  begin
-    if Ch > 255 then
+    if Ln = -1 then
     begin
-      NodeData.TextCh := 11;
-      s := System.Copy(s, Ch - 10, System.Length(s));
+      NodeData.Level := 2;
+      NodeData.Filename := Text;
     end
     else
-      NodeData.TextCh := Ch;
-    if System.Length(s) > 255 then
-      s := Format('%s...', [System.Copy(s, 0, 251)]);
+      NodeData.Filename := Filename;
   end;
+  if Ln <> -1  then
+  begin
+    Node := OutputTreeView.AddChild(Root);
+    NodeData := OutputTreeView.GetNodeData(Node);
+    NodeData.Level := 1;
+    NodeData.Ln := Ln;
+    NodeData.Ch := Ch;
+    NodeData.SearchString := SearchString;
+    NodeData.Filename := Filename;
 
-  if toAutoExpand in OutputTreeView.TreeOptions.AutoOptions then
-    if not OutputTreeView.Expanded[Root] then
-      OutputTreeView.FullExpand(Root);
+    s := Text;
 
-  NodeData.Text := s;
-  OutputTreeView.Tag := OutputTreeView.Tag + 1;
+    if NodeData.SearchString <> '' then
+    begin
+      if Ch > 255 then
+      begin
+        NodeData.TextCh := 11;
+        s := System.Copy(s, Ch - 10, System.Length(s));
+      end
+      else
+        NodeData.TextCh := Ch;
+      if System.Length(s) > 255 then
+        s := Format('%s...', [System.Copy(s, 0, 251)]);
+    end;
+
+    if toAutoExpand in OutputTreeView.TreeOptions.AutoOptions then
+      if not OutputTreeView.Expanded[Root] then
+        OutputTreeView.FullExpand(Root);
+
+    NodeData.Text := s;
+    OutputTreeView.Tag := OutputTreeView.Tag + 1;
+  end;
 
   Application.ProcessMessages;
 end;

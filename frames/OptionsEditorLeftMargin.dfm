@@ -116,6 +116,7 @@ object EditorLeftMarginFrame: TEditorLeftMarginFrame
       Width = 145
       Height = 22
       Selected = clYellow
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbCustomColor, cbPrettyNames]
       TabOrder = 5
     end
     object LineNormalColorBox: TColorBox
@@ -124,6 +125,7 @@ object EditorLeftMarginFrame: TEditorLeftMarginFrame
       Width = 145
       Height = 22
       Selected = clGreen
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbCustomColor, cbPrettyNames]
       TabOrder = 6
     end
     object InTensCheckBox: TBCCheckBox

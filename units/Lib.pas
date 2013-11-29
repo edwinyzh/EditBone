@@ -12,8 +12,8 @@ type
   TOutputRec = packed record
     Level: Byte;
     Filename: string;
-    Ln: LongWord;
-    Ch: LongWord;
+    Ln: LongInt;
+    Ch: LongInt;
     TextCh: LongWord;
     Text: WideString;
     SearchString: WideString;
