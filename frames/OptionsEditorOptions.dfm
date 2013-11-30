@@ -2,14 +2,14 @@ object EditorOptionsFrame: TEditorOptionsFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 497
+  Height = 534
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
     Width = 451
-    Height = 497
+    Height = 534
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
@@ -281,7 +281,7 @@ object EditorOptionsFrame: TEditorOptionsFrame
     object NonblinkingCaretColorBox: TColorBox
       Left = 9
       Top = 416
-      Width = 145
+      Width = 133
       Height = 22
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbCustomColor, cbPrettyNames]
       TabOrder = 15

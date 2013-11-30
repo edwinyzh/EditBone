@@ -113,7 +113,7 @@ object EditorLeftMarginFrame: TEditorLeftMarginFrame
     object LineModifiedColorBox: TColorBox
       Left = 27
       Top = 128
-      Width = 145
+      Width = 133
       Height = 22
       Selected = clYellow
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbCustomColor, cbPrettyNames]
@@ -122,7 +122,7 @@ object EditorLeftMarginFrame: TEditorLeftMarginFrame
     object LineNormalColorBox: TColorBox
       Left = 27
       Top = 170
-      Width = 145
+      Width = 133
       Height = 22
       Selected = clGreen
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbCustomColor, cbPrettyNames]
