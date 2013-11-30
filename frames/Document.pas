@@ -337,7 +337,6 @@ type
     procedure SortAsc;
     procedure SortDesc;
     procedure StopMacro;
-    //procedure ToggleBookMark;
     procedure ToggleBookmarks(ItemIndex: Integer);
     procedure ToggleCase;
     procedure ToggleMiniMap;
@@ -2948,31 +2947,6 @@ begin
   SynEdit := GetActiveSynEdit;
   Result := Assigned(SynEdit) and SynEdit.Modified;
 end;
-
-{procedure TDocumentFrame.ToggleBookMark;
-var
-  i: Integer;
-  SynEdit: TBCSynEdit;
-  CaretX, CaretY: Integer;
-begin
-  SynEdit := GetActiveSynEdit;
-  if not Assigned(SynEdit) then
-    Exit;
-  for i := 0 to SynEdit.Marks.Count - 1 do
-    if SynEdit.CaretY = SynEdit.Marks[i].Line then
-    begin
-      SynEdit.ClearBookmark(SynEdit.Marks[i].BookmarkNumber);
-      Exit;
-    end;
-  CaretX := SynEdit.CaretX;
-  CaretY := SynEdit.CaretY;
-  for i := 1 to 9 do
-    if not SynEdit.GetBookMark(i, CaretX, CaretY) then
-    begin
-      SynEdit.SetBookMark(i, SynEdit.CaretX, SynEdit.CaretY);
-      Exit;
-    end;
-end;}
 
 procedure TDocumentFrame.NextPage;
 var

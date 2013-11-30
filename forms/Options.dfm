@@ -166,10 +166,6 @@ object OptionsDialog: TOptionsDialog
       Caption = 'Font'
       ImageIndex = 4
     end
-    object EditorMarginAction: TAction
-      Caption = 'Margins'
-      ImageIndex = 5
-    end
     object EditorLeftMarginAction: TAction
       Caption = 'Left Margin'
       ImageIndex = 16

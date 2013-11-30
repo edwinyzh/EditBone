@@ -1943,7 +1943,6 @@ end;
 
 function TMainForm.GetStringList(Filename: string): TStringList;
 var
-  i: Integer;
   LFileStream: TFileStream;
   LBuffer: TBytes;
   WithBom: Boolean;
@@ -2011,9 +2010,9 @@ begin
       if (FName <> '.') and (FName <> '..') then
       begin
         if LookInSubfolders and IsDirectory(sWin32FD) then
-        {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
+          {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
           FindInFiles(OutputTreeView, FindWhatText, FileTypeText, IncludeTrailingBackslash(FolderText) + FName, SearchCaseSensitive, LookInSubfolders)
-        {$WARNINGS ON}
+          {$WARNINGS ON}
         else
         begin
           if IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) then
@@ -2061,8 +2060,6 @@ begin
               { IncludeTrailingBackslash is specific to a platform }
               FOutputFrame.AddTreeViewLine(OutputTreeView, Root, '', -1, 0,
                 Format(LanguageDataModule.GetWarningMessage('FileAccessError'), [IncludeTrailingBackslash(FolderText) + FName]), '');
-
-              //ShowWarningMessage(Format(LanguageDataModule.GetWarningMessage('FileAccessError'), [IncludeTrailingBackslash(FolderText) + FName]));
               {$WARNINGS ON}
             end;
         end;

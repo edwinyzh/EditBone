@@ -117,6 +117,8 @@ constructor TDocTabSheetFrame.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   Panel.Padding.Right := GetRightPadding;
+  UpdateOptionsAndStyles(Panel.Padding.Right);
+
   VerticalSplitter.Width := GetSplitterSize;
   HorizontalSplitter.Height := VerticalSplitter.Width;
   SynEditSplitter.Width := VerticalSplitter.Width;
