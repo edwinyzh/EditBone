@@ -1,23 +1,23 @@
 object EditorFontFrame: TEditorFontFrame
   Left = 0
   Top = 0
-  Width = 501
-  Height = 524
+  Width = 451
+  Height = 302
   Align = alClient
   TabOrder = 0
   Visible = False
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 501
-    Height = 524
+    Width = 451
+    Height = 302
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
     object TopPanel: TPanel
       Left = 0
       Top = 0
-      Width = 501
+      Width = 451
       Height = 147
       Align = alTop
       BevelOuter = bvNone
@@ -171,8 +171,8 @@ object EditorFontFrame: TEditorFontFrame
     object BottomPanel: TPanel
       Left = 0
       Top = 147
-      Width = 501
-      Height = 377
+      Width = 451
+      Height = 155
       Align = alClient
       BevelOuter = bvNone
       Padding.Left = 4
@@ -180,8 +180,8 @@ object EditorFontFrame: TEditorFontFrame
       object SynEdit: TBCSynEdit
         Left = 4
         Top = 0
-        Width = 497
-        Height = 377
+        Width = 447
+        Height = 155
         Align = alClient
         CodeFolding.CaseSensitive = False
         CodeFolding.FolderBarLinesColor = 12434877

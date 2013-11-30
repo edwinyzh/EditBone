@@ -2,14 +2,14 @@ object EditorOptionsFrame: TEditorOptionsFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 513
+  Height = 497
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
     Width = 451
-    Height = 513
+    Height = 497
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
