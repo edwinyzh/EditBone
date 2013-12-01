@@ -1865,6 +1865,7 @@ begin
     OptionsContainer.MarginVisibleRightMargin := ReadBool('Options', 'MarginVisibleRightMargin', True);
     OptionsContainer.MarginRightMargin := StrToInt(ReadString('Options', 'RightMargin', '80'));
     OptionsContainer.MarginVisibleLeftMargin := ReadBool('Options', 'MarginVisibleLeftMargin', True);
+    OptionsContainer.MarginShowBookmarks := ReadBool('Options', 'MarginShowBookmarks', True);
     OptionsContainer.MarginLeftMarginWidth := StrToInt(ReadString('Options', 'MarginLeftMarginWidth', '48'));
 
     OptionsContainer.MarginInTens := ReadBool('Options', 'MarginInTens', True);
@@ -2088,6 +2089,7 @@ begin
     WriteString('Options', 'ActiveLineColorBrightness', IntToStr(OptionsContainer.ColorBrightness));
     DeleteKey('Options', 'MarginVisible');
     WriteBool('Options', 'MarginVisibleLeftMargin', OptionsContainer.MarginVisibleLeftMargin);
+    WriteBool('Options', 'MarginShowBookmarks', OptionsContainer.MarginShowBookmarks);
     WriteString('Options', 'InsertCaret', IntToStr(Ord(OptionsContainer.InsertCaret)));
     WriteString('Options', 'NonblinkingCaretColor', OptionsContainer.NonblinkingCaretColor);
     DeleteKey('Options', 'MinimapFontFactor'); { deprecated }
@@ -3603,6 +3605,7 @@ end;
 
 procedure TDocumentFrame.ToggleSplit;
 var
+  i: Integer;
   FileName: string;
   ASynEdit: TBCSynEdit;
   DocTabSheetFrame: TDocTabSheetFrame;
@@ -3638,6 +3641,8 @@ begin
       if Filename <> '' then
       begin
         DocTabSheetFrame.SplitSynEdit.Text := ASynEdit.Text;
+        for i := 0 to DocTabSheetFrame.SplitSynEdit.ExpandLines.Count - 1 do
+          DocTabSheetFrame.SplitSynEdit.ExpandLines.Attributes[i].aLineState := DocTabSheetFrame.SynEdit.ExpandLines.Attributes[i].aLineState;
         SelectHighlighter(DocTabSheetFrame, FileName);
       end;
     end;

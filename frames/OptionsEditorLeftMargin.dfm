@@ -16,7 +16,7 @@ object EditorLeftMarginFrame: TEditorLeftMarginFrame
     TabOrder = 0
     object WidthLabel: TLabel
       Left = 11
-      Top = 200
+      Top = 220
       Width = 28
       Height = 13
       Margins.Left = 4
@@ -27,7 +27,7 @@ object EditorLeftMarginFrame: TEditorLeftMarginFrame
     end
     object LineModifiedColorLabel: TLabel
       Left = 29
-      Top = 112
+      Top = 132
       Width = 90
       Height = 13
       Margins.Left = 4
@@ -38,7 +38,7 @@ object EditorLeftMarginFrame: TEditorLeftMarginFrame
     end
     object LineNormalColorLabel: TLabel
       Left = 29
-      Top = 154
+      Top = 174
       Width = 83
       Height = 13
       Margins.Left = 4
@@ -79,14 +79,14 @@ object EditorLeftMarginFrame: TEditorLeftMarginFrame
     end
     object LeftMarginWidthEdit: TBCEdit
       Left = 9
-      Top = 217
+      Top = 237
       Width = 64
       Height = 21
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      TabOrder = 7
+      TabOrder = 8
       Text = '48'
       EnterToTab = False
       OnlyNumbers = True
@@ -97,7 +97,7 @@ object EditorLeftMarginFrame: TEditorLeftMarginFrame
     end
     object ShowLineModifiedCheckBox: TBCCheckBox
       Left = 9
-      Top = 86
+      Top = 106
       Width = 296
       Height = 21
       Margins.Left = 4
@@ -107,26 +107,26 @@ object EditorLeftMarginFrame: TEditorLeftMarginFrame
       Caption = ' Show Line Modified'
       Checked = True
       State = cbChecked
-      TabOrder = 4
+      TabOrder = 5
       ReadOnly = False
     end
     object LineModifiedColorBox: TColorBox
       Left = 27
-      Top = 128
+      Top = 148
       Width = 133
       Height = 22
       Selected = clYellow
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbCustomColor, cbPrettyNames]
-      TabOrder = 5
+      TabOrder = 6
     end
     object LineNormalColorBox: TColorBox
       Left = 27
-      Top = 170
+      Top = 190
       Width = 133
       Height = 22
       Selected = clGreen
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbCustomColor, cbPrettyNames]
-      TabOrder = 6
+      TabOrder = 7
     end
     object InTensCheckBox: TBCCheckBox
       Left = 9
@@ -156,6 +156,21 @@ object EditorLeftMarginFrame: TEditorLeftMarginFrame
       Checked = True
       State = cbChecked
       TabOrder = 3
+      ReadOnly = False
+    end
+    object ShowBookmarksCheckBox: TBCCheckBox
+      Left = 9
+      Top = 86
+      Width = 296
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Show Bookmarks'
+      Checked = True
+      State = cbChecked
+      TabOrder = 4
       ReadOnly = False
     end
   end
