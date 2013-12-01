@@ -1,8 +1,6 @@
 program EditBone;
 
 uses
-  {$ifdef debug}
-  {$endif }
   Forms,
   Windows,
   System.SysUtils,

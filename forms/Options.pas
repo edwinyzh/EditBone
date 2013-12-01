@@ -708,7 +708,7 @@ begin
   FMarginFontName := 'Courier New';
   FMarginFontSize := 9;
   FMarginRightMargin := 80;
-  FMarginLeftMarginWidth := 48;
+  FMarginLeftMarginWidth := 30;
   FMarginVisibleLeftMargin := True;
   FMarginVisibleRightMargin := True;
   FMarginInTens := True;
@@ -1327,7 +1327,7 @@ begin
   FOptionsContainer.MarginLineModified := FEditorLeftMarginFrame.ShowLineModifiedCheckBox.Checked;
   FOptionsContainer.MarginModifiedColor := ColorToString(FEditorLeftMarginFrame.LineModifiedColorBox.Selected);
   FOptionsContainer.MarginNormalColor := ColorToString(FEditorLeftMarginFrame.LineNormalColorBox.Selected);
-  FOptionsContainer.MarginLeftMarginWidth := StrToIntDef(FEditorLeftMarginFrame.LeftMarginWidthEdit.Text, 48);
+  FOptionsContainer.MarginLeftMarginWidth := StrToIntDef(FEditorLeftMarginFrame.LeftMarginWidthEdit.Text, 30);
   { Right Margin }
   FOptionsContainer.MarginVisibleRightMargin := FEditorRightMarginFrame.VisibleCheckBox.Checked;
   FOptionsContainer.MarginRightMargin := StrToIntDef(FEditorRightMarginFrame.PositionEdit.Text, 80);

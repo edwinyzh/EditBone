@@ -1671,6 +1671,7 @@ var
   OutputTreeView: TVirtualDrawTree;
   Root: PVirtualNode;
 begin
+  OutputTreeView := nil;
   with FindInFilesDialog do
   begin
     if Folder <> '' then
