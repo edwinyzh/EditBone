@@ -1032,11 +1032,11 @@ begin
     { silent }
   end;
   ViewSelectionModeAction.Enabled := ActiveDocumentFound;
-  ViewSelectionModeAction.Checked := FDocumentFrame.SelectionModeChecked;
+  ViewSelectionModeAction.Checked := ActiveDocumentFound and FDocumentFrame.SelectionModeChecked;
   ViewSplitAction.Enabled := ActiveDocumentFound;
-  ViewSplitAction.Checked := FDocumentFrame.SplitChecked;
+  ViewSplitAction.Checked := ActiveDocumentFound and FDocumentFrame.SplitChecked;
   ViewMinimapAction.Enabled := ActiveDocumentFound;
-  ViewMinimapAction.Checked := FDocumentFrame.MinimapChecked;
+  ViewMinimapAction.Checked := ActiveDocumentFound and FDocumentFrame.MinimapChecked;
   SearchAction.Enabled := ActiveDocumentFound;
   SearchGotoLineAction.Enabled := ActiveDocumentFound;
   SearchReplaceAction.Enabled := ActiveDocumentFound;

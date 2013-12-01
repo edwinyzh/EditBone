@@ -637,6 +637,7 @@ begin
     end;
     { SynEditMinimap }
     SynEditMinimap.OnSpecialLineColors := SynEditSpecialLineColors;
+    SplitSynEditMinimap.OnSpecialLineColors := SynEditSpecialLineColors;
     { VirtualDrawTree }
     with VirtualDrawTree do
     begin
