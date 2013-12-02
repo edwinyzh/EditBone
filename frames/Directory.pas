@@ -51,7 +51,6 @@ type
     procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure PopupMenuPopup(Sender: TObject);
     procedure DirectoryFilesActionExecute(Sender: TObject);
-//    procedure DirectoryFindiInFilesActionExecute(Sender: TObject);
   private
     { Private declarations }
     FTabsheetDblClick: TNotifyEvent;
@@ -388,11 +387,23 @@ end;
 
 procedure TDirectoryFrame.DirectoryDeleteActionExecute(Sender: TObject);
 var
+  Result: Boolean;
   FileTreeView: TBCFileTreeView;
+  SelectedNode: PVirtualNode;
+  Data: PBCFileTreeNodeRec;
 begin
   FileTreeView := GetFileTreeView;
   if Assigned(FileTreeView) then
-    FileTreeView.DeleteSelectedNode;
+  begin
+    SelectedNode := FileTreeView.GetFirstSelected;
+    Data := FileTreeView.GetNodeData(SelectedNode);
+    if Data.FileType = ftDirectory then
+      Result := AskYesOrNo(Format(LanguageDataModule.GetYesOrNoMessage('DeleteDirectory'), [SelectedPath]))
+    else
+      Result := AskYesOrNo(Format(LanguageDataModule.GetYesOrNoMessage('DeleteFile'), [SelectedFile]));
+    if Result then
+      FileTreeView.DeleteSelectedNode;
+  end;
 end;
 
 procedure TDirectoryFrame.EditDirectory;

@@ -2,14 +2,14 @@ object EditorOptionsFrame: TEditorOptionsFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 534
+  Height = 526
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
     Width = 451
-    Height = 534
+    Height = 526
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
@@ -284,6 +284,8 @@ object EditorOptionsFrame: TEditorOptionsFrame
       Width = 133
       Height = 22
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbCustomColor, cbPrettyNames]
+      DoubleBuffered = True
+      ParentDoubleBuffered = False
       TabOrder = 15
     end
   end
