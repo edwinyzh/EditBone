@@ -2476,7 +2476,7 @@ var
     if Assigned(SynEdit) then
     begin
       SynEdit.BeginUpdate;
-
+      SynEdit.Modified := True;
       while SynEdit.Lines.Count > ActiveSynEdit.Lines.Count do
         SynEdit.Lines.Delete(SynEdit.Lines.Count);
       while SynEdit.Lines.Count < ActiveSynEdit.Lines.Count do

@@ -35,7 +35,7 @@ type
     Separator3MenuItem: TMenuItem;
     DirectoryFilesAction: TAction;
     FilesMenuItem: TMenuItem;
-    DirectoryFindiInFilesAction: TAction;
+    DirectoryFindInFilesAction: TAction;
     FindinFilesMenuItem: TMenuItem;
     procedure DirectoryCloseActionExecute(Sender: TObject);
     procedure DirectoryDeleteActionExecute(Sender: TObject);
@@ -56,7 +56,6 @@ type
     { Private declarations }
     FTabsheetDblClick: TNotifyEvent;
     FOnSearchForFilesOpenFile: TOpenFileEvent;
-    //FSearchForFilesAction: TAction;
     function GetActiveDriveComboBox: TBCDriveComboBox;
     function GetDrivesPanelOrientation(TabSheet: TTabSheet = nil): Byte;
     function GetFileTypePanelOrientation(TabSheet: TTabSheet = nil): Byte;
@@ -109,10 +108,9 @@ end;
 
 procedure TDirectoryFrame.SetSearchForFilesAction(Action: TAction);
 begin
-  DirectoryFindiInFilesAction.Caption := Action.Caption;
-  DirectoryFindiInFilesAction.Hint := Action.Hint;
-  DirectoryFindiInFilesAction.OnExecute := Action.OnExecute;
-  DirectoryFindiInFilesAction.Enabled := True;
+  DirectoryFindInFilesAction.Caption := Action.Caption;
+  DirectoryFindInFilesAction.Hint := Action.Hint;
+  DirectoryFindInFilesAction.OnExecute := Action.OnExecute;
 end;
 
 function TDirectoryFrame.ReadIniFile: Boolean;

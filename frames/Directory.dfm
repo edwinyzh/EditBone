@@ -77,7 +77,7 @@ object DirectoryFrame: TDirectoryFrame
       ShortCut = 16507
       OnExecute = DirectoryFilesActionExecute
     end
-    object DirectoryFindiInFilesAction: TAction
+    object DirectoryFindInFilesAction: TAction
       Caption = '&Find in Files...'
       Hint = 'Search for a string in multiple files'
       ImageIndex = 8
@@ -106,7 +106,7 @@ object DirectoryFrame: TDirectoryFrame
       Action = DirectoryFilesAction
     end
     object FindinFilesMenuItem: TMenuItem
-      Action = DirectoryFindiInFilesAction
+      Action = DirectoryFindInFilesAction
     end
     object Separator2MenuItem: TMenuItem
       Caption = '-'

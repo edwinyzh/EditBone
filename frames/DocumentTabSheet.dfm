@@ -137,6 +137,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
           Gutter.ShowLineModified = True
           Gutter.LineModifiedColor = clYellow
           Gutter.LineNormalColor = clLime
+          Gutter.Intens = False
           Gutter.AutoSize = True
           Gutter.Color = clWindow
           Gutter.Font.Charset = DEFAULT_CHARSET
@@ -257,6 +258,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Gutter.ShowLineModified = True
         Gutter.LineModifiedColor = clYellow
         Gutter.LineNormalColor = clLime
+        Gutter.Intens = False
         Gutter.AutoSize = True
         Gutter.Color = clWindow
         Gutter.Font.Charset = DEFAULT_CHARSET

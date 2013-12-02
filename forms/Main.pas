@@ -567,11 +567,6 @@ begin
   { update mainform }
   MainMenuTitleBarActions(True);
   UpdateLanguage(Self, SelectedLanguage);
-  { TODO: Think about this... }
-  DirectorySearchFindInFilesAction.Caption := SearchFindInFilesAction.Caption;
-  DirectorySearchFindInFilesAction.Hint := SearchFindInFilesAction.Hint;
-  FDirectoryFrame.SearchForFilesAction := DirectorySearchFindInFilesAction;
-
   MainMenuTitleBarActions(False);
   { update frames }
   UpdateLanguage(TForm(FDirectoryFrame), SelectedLanguage);
@@ -1318,6 +1313,7 @@ begin
   FDirectoryFrame.Parent := DirectoryPanel;
   FDirectoryFrame.OnTabsheetDblClick := FileTreeViewDblClickActionExecute;
   FDirectoryFrame.OnSearchForFilesOpenFile := DoSearchForFilesOpenFile;
+  FDirectoryFrame.SearchForFilesAction := SearchFindInFilesAction;
   { TDocumentFrame }
   FDocumentFrame := TDocumentFrame.Create(DocumentPanel);
   FDocumentFrame.Parent := DocumentPanel;
@@ -1329,7 +1325,7 @@ procedure TMainForm.FormCreate(Sender: TObject);
 begin
   FOnStartUp := True;
   ActionManager.Style := PlatformVclStylesStyle;
-  BCCommon.LanguageStrings.ReadLanguageFile(GetSelectedLanguage);
+  BCCommon.LanguageStrings.ReadLanguageFile(GetSelectedLanguage('English'));
   FImageListCount := ImageList.Count; { System images are inserted after }
   CreateFrames;
   UpdateStatusBar;
@@ -1659,7 +1655,10 @@ end;
 
 procedure TMainForm.SearchFindInFilesActionExecute(Sender: TObject);
 begin
-  SearchFindInFiles;
+  if TControl(Sender).Name = 'DirectoryFindInFilesAction' then
+    SearchFindInFiles(FDirectoryFrame.SelectedPath)
+  else
+    SearchFindInFiles;
 end;
 
 procedure TMainForm.SearchFindInFiles(Folder: string = '');
