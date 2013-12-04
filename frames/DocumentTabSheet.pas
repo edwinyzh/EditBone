@@ -74,15 +74,18 @@ type
       var Handled: Boolean);
     procedure SplitSynEditGutterClick(Sender: TObject; Button: TMouseButton; X, Y, Line: Integer; Mark: TSynEditMark);
     procedure SynEditGutterClick(Sender: TObject; Button: TMouseButton; X, Y, Line: Integer; Mark: TSynEditMark);
+    procedure SynEditMiniMapSpecialLineColors(Sender: TObject; Line: Integer; var Special: Boolean; var FG, BG: TColor);
+    procedure SynEditRightEdgeMouseUp(Sender: TObject);
   private
     { Private declarations }
+    FModified: Boolean;
     OldSynEditProc, OldSynEditMinimapProc, OldSplitSynEditProc, OldSplitSynEditMinimapProc: TWndMethod;
     function GetSplitVisible: Boolean;
     function GetMinimapVisible: Boolean;
     function GetXMLTreeVisible: Boolean;
     procedure SynEditGotoLine(SynEdit, SynEditMiniMap: TBCSynEdit);
     procedure SynEditMinimapGotoLine(SynEdit, SynEditMiniMap: TBCSynEdit);
-    procedure Paint(ACanvas: TCanvas; SynEdit, SynEditMiniMap: TBCSynEdit);
+    //procedure Paint(ACanvas: TCanvas; SynEdit, SynEditMiniMap: TBCSynEdit);
     procedure ProcessNode(Node: IXMLNode; TreeNode: PVirtualNode);
     procedure SetSplitVisible(Value: Boolean);
     procedure SetMinimapVisible(Value: Boolean);
@@ -116,6 +119,8 @@ const
 constructor TDocTabSheetFrame.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  FModified := False;
+
   Panel.Padding.Right := GetRightPadding;
   UpdateOptionsAndStyles(Panel.Padding.Right);
 
@@ -124,10 +129,10 @@ begin
   SynEditSplitter.Width := VerticalSplitter.Width;
   UpdateOptionsAndStyles(Panel.Padding.Right);
 
-  OldSynEditProc := SynEdit.WindowProc;
+  {OldSynEditProc := SynEdit.WindowProc;
   OldSynEditMinimapProc := SynEditMinimap.WindowProc;
   SynEdit.WindowProc := SynEditWindowProc;
-  SynEditMinimap.WindowProc := SynEditMinimapWindowProc;
+  SynEditMinimap.WindowProc := SynEditMinimapWindowProc;}
 
   OldSplitSynEditProc := SplitSynEdit.WindowProc;
   OldSplitSynEditMinimapProc := SplitSynEditMinimap.WindowProc;
@@ -151,24 +156,31 @@ end;
 
 procedure TDocTabSheetFrame.SynEditMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
-  SynEdit.Tag := TAG_ZERO;
+SynEditMiniMap.GotoLineAndCenter(SynEdit.TopLine);
+  {SynEdit.Tag := TAG_ZERO;
   SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);
   if SynEdit.SelAvail then
     if SynEdit.IsPointInSelection(SynEdit.DisplayToBufferPos(SynEdit.PixelsToRowColumn(X, Y))) then
-      SynEdit.Tag := TAG_POINT_IN_SELECTION;
+      SynEdit.Tag := TAG_POINT_IN_SELECTION; }
 end;
 
 procedure TDocTabSheetFrame.SynEditMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
-  if (Shift = [ssLeft]) then
+  {if (Shift = [ssLeft]) then
     if X > SynEdit.Gutter.LeftOffset then
-      SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);
+      SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);}
 end;
 
 procedure TDocTabSheetFrame.SynEditMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
   MousePos: TPoint; var Handled: Boolean);
 begin
-  SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);
+  //SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);
+end;
+
+procedure TDocTabSheetFrame.SynEditRightEdgeMouseUp(Sender: TObject);
+begin
+  OptionsContainer.MarginRightMargin := SynEdit.RightEdge.Position;
+  SplitSynEdit.RightEdge.Position := SynEdit.RightEdge.Position;
 end;
 
 procedure TDocTabSheetFrame.SplitSynEditWindowProc(var Message: TMessage);
@@ -236,14 +248,15 @@ begin
     Exit;
   if not MinimapVisible then
     Exit;
-
   if not SynEditMiniMap.SelAvail or (SynEditMiniMap.Tag = TAG_POINT_IN_SELECTION) then
   begin
     if SynEditMiniMap.CaretY <> SynEdit.CaretY then
     begin
       SynEdit.GotoLineAndCenter(SynEditMiniMap.CaretY);
-      SynEditMiniMap.Invalidate;
-      SynEdit.Invalidate;
+      if SynEdit.Focused then
+        SynEditMiniMap.Invalidate;
+      if SynEditMiniMap.Focused then
+        SynEdit.Invalidate;
     end;
     if SynEditMiniMap.Tag = TAG_POINT_IN_SELECTION then
       SynEditMiniMap.Tag := TAG_NO_MOVE_EVENTS;
@@ -252,7 +265,7 @@ begin
   begin
     SynEdit.SelStart := SynEditMiniMap.SelStart;
     SynEdit.SelEnd := SynEditMiniMap.SelEnd;
-  end
+  end;
 end;
 
 procedure TDocTabSheetFrame.SynEditGutterClick(Sender: TObject; Button: TMouseButton; X, Y, Line: Integer;
@@ -262,7 +275,7 @@ begin
   SynEdit.CaretY := Line;
   if X < SynEdit.Gutter.LeftOffset then
     SynEdit.ToggleBookMark;
-  SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);
+  //SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);
 end;
 
 procedure TDocTabSheetFrame.SynEditMinimapGotoLine(SynEdit, SynEditMiniMap: TBCSynEdit);
@@ -271,14 +284,17 @@ begin
     Exit;
   if not MinimapVisible then
     Exit;
-
   if not SynEdit.SelAvail or (SynEdit.Tag = TAG_POINT_IN_SELECTION) then
   begin
-    SynEditMiniMap.Text := SynEdit.Text;
+    if FModified then
+    begin
+      SynEditMiniMap.Lines[SynEdit.CaretY] := SynEdit.Lines[SynEdit.CaretY];
+      FModified := False;
+    end;
     if SynEditMiniMap.CaretY <> SynEdit.CaretY then
     begin
       SynEditMiniMap.GotoLineAndCenter(SynEdit.CaretY);
-      SynEditMiniMap.Invalidate;
+      //SynEditMiniMap.Invalidate;
     end;
     if SynEdit.Tag = TAG_POINT_IN_SELECTION then
       SynEdit.Tag := TAG_NO_MOVE_EVENTS;
@@ -287,63 +303,66 @@ begin
   begin
     SynEditMiniMap.SelStart := SynEdit.SelStart;
     SynEditMiniMap.SelEnd := SynEdit.SelEnd;
-  end
+  end;
 end;
 
 procedure TDocTabSheetFrame.SynEditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);
+  //SplitSynEdit.Tag := TAG_ZERO;
+  //FModified := True;
+  //SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);
 end;
 
 procedure TDocTabSheetFrame.SynEditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);
+  //SplitSynEdit.Tag := TAG_ZERO;
+  //SynEditMinimapGotoLine(SynEdit, SynEditMiniMap);
 end;
 
 procedure TDocTabSheetFrame.SynEditMiniMapClick(Sender: TObject);
 begin
-  SynEditGotoLine(SynEdit, SynEditMiniMap);
+//  SynEditGotoLine(SynEdit, SynEditMiniMap);
 end;
 
 procedure TDocTabSheetFrame.SynEditMiniMapKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  SynEditGotoLine(SynEdit, SynEditMiniMap);
+//  SynEditGotoLine(SynEdit, SynEditMiniMap);
 end;
 
 procedure TDocTabSheetFrame.SynEditMiniMapKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  SynEditGotoLine(SynEdit, SynEditMiniMap);
+//  SynEditGotoLine(SynEdit, SynEditMiniMap);
 end;
 
 procedure TDocTabSheetFrame.SynEditMiniMapMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
 begin
-  SynEditMiniMap.Tag := TAG_ZERO;
+{  SynEditMiniMap.Tag := TAG_ZERO;
   SynEditGotoLine(SynEdit, SynEditMiniMap);
   if SynEditMiniMap.SelAvail then
     if SynEditMiniMap.IsPointInSelection(SynEditMiniMap.DisplayToBufferPos(SynEditMiniMap.PixelsToRowColumn(X, Y))) then
-      SynEditMiniMap.Tag := TAG_POINT_IN_SELECTION;
+      SynEditMiniMap.Tag := TAG_POINT_IN_SELECTION;  }
 end;
 
 procedure TDocTabSheetFrame.SynEditMiniMapMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
-  if (Shift = [ssLeft]) then
+{  if (Shift = [ssLeft]) then
     if X > SynEditMiniMap.Gutter.LeftOffset then
-      SynEditGotoLine(SynEdit, SynEditMiniMap);
+      SynEditGotoLine(SynEdit, SynEditMiniMap);  }
 end;
 
 procedure TDocTabSheetFrame.SynEditMiniMapMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
   MousePos: TPoint; var Handled: Boolean);
 begin
-  SynEditGotoLine(SynEdit, SynEditMiniMap);
+//  SynEditGotoLine(SynEdit, SynEditMiniMap);
 end;
 
 procedure TDocTabSheetFrame.SynEditMiniMapPaint(Sender: TObject; ACanvas: TCanvas);
 begin
-  Paint(ACanvas, SynEdit, SynEditMiniMap);
+//  Paint(ACanvas, SynEdit, SynEditMiniMap);
 end;
 
-procedure TDocTabSheetFrame.Paint(ACanvas: TCanvas; SynEdit, SynEditMiniMap: TBCSynEdit);
+(*procedure TDocTabSheetFrame.Paint(ACanvas: TCanvas; SynEdit, SynEditMiniMap: TBCSynEdit);
 var
   Bitmap: TBitmap;
   ARect: TRect;
@@ -377,11 +396,39 @@ begin
   finally
     FreeAndNil(Bitmap);
   end;
-end;
+end; *)
 
 procedure TDocTabSheetFrame.SynEditMiniMapScroll(Sender: TObject; ScrollBar: TScrollBarKind);
 begin
-  SynEditMiniMap.Invalidate;
+//  SynEditMiniMap.Invalidate;
+end;
+
+procedure TDocTabSheetFrame.SynEditMiniMapSpecialLineColors(Sender: TObject; Line: Integer; var Special: Boolean;
+  var FG, BG: TColor);
+var
+  LStyles: TCustomStyleServices;
+  LColor: TColor;
+begin
+  LStyles := StyleServices;
+  if not TBCSynEdit(Sender).SelAvail then
+    if TBCSynEdit(Sender).CaretY = Line then
+    begin
+      Special := True;
+      //LStyles := StyleServices;
+      if LStyles.Enabled then
+        BG := LightenColor(TBCSynEdit(Sender).Color, 1 - (10 - OptionsContainer.ColorBrightness)/10);
+    end;
+  if LStyles.Enabled then
+    LColor := LStyles.GetStyleColor(scPanel) //LightenColor(TBCSynEdit(Sender).Color, -0.5)
+  else
+    LColor := clBtnFace;
+  if (Line < SynEdit.TopLine) or (Line >= SynEdit.TopLine + SynEdit.LinesInWindow) then
+  begin
+    Special := True;
+    //BG := LColor;
+    BG := LightenColor(TBCSynEdit(Sender).Color, 0.5);
+    //xxx mieti miten saisi disabled colorin aikaan...
+  end;
 end;
 
 procedure TDocTabSheetFrame.SplitSynCompletionProposalExecute(Kind: SynCompletionType; Sender: TObject;
@@ -455,7 +502,7 @@ end;
 
 procedure TDocTabSheetFrame.SplitSynEditMinimapPaint(Sender: TObject; ACanvas: TCanvas);
 begin
-  Paint(ACanvas, SplitSynEdit, SplitSynEditMiniMap);
+  //Paint(ACanvas, SplitSynEdit, SplitSynEditMiniMap);
 end;
 
 procedure TDocTabSheetFrame.SplitSynEditMinimapScroll(Sender: TObject; ScrollBar: TScrollBarKind);

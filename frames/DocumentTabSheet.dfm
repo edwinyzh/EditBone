@@ -139,6 +139,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
           Gutter.LineNormalColor = clLime
           Gutter.Intens = False
           Gutter.AutoSize = True
+          Gutter.BorderStyle = gbsMiddle
           Gutter.Color = clWindow
           Gutter.Font.Charset = DEFAULT_CHARSET
           Gutter.Font.Color = clWindowText
@@ -149,13 +150,13 @@ object DocTabSheetFrame: TDocTabSheetFrame
           Gutter.LeftOffsetColor = clBtnFace
           Gutter.RightOffsetColor = clNone
           Gutter.ShowLineNumbers = True
+          Gutter.Width = 53
           Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
           WantTabs = True
           WordWrap.Enabled = False
           WordWrap.Position = 80
           WordWrap.Style = wwsClientWidth
           OnGutterClick = SplitSynEditGutterClick
-          FontSmoothing = fsmNone
         end
         object SplitSynEditMinimap: TBCSynEdit
           Left = 46
@@ -194,6 +195,9 @@ object DocTabSheetFrame: TDocTabSheetFrame
           OnMouseDown = SplitSynEditMinimapMouseDown
           OnMouseMove = SplitSynEditMinimapMouseMove
           OnMouseWheel = SplitSynEditMinimapMouseWheel
+          BookMarkOptions.DrawBookmarksFirst = False
+          BookMarkOptions.EnableKeys = False
+          BookMarkOptions.GlyphsVisible = False
           Gutter.ShowLineModified = False
           Gutter.LineModifiedColor = clYellow
           Gutter.LineNormalColor = clLime
@@ -206,18 +210,17 @@ object DocTabSheetFrame: TDocTabSheetFrame
           Gutter.Font.Style = []
           Gutter.LeftOffset = 16
           Gutter.LeftOffsetColor = clNone
-          Gutter.RightOffset = 2
+          Gutter.RightOffset = 0
           Gutter.RightOffsetColor = clNone
           Gutter.Visible = False
           Gutter.Width = 0
-          Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoNoCaret, eoNoSelection, eoScrollPastEol, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
+          Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoNoCaret, eoScrollPastEol, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
           ReadOnly = True
           WordWrap.Enabled = False
           WordWrap.Position = 80
           WordWrap.Style = wwsClientWidth
           OnPaint = SplitSynEditMinimapPaint
           OnScroll = SplitSynEditMinimapScroll
-          FontSmoothing = fsmNone
         end
       end
       object SynEdit: TBCSynEdit
@@ -235,7 +238,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         LineDivider.Visible = False
         LineDivider.Color = clRed
         LineDivider.Style = psSolid
-        RightEdge.MouseMove = False
+        RightEdge.MouseMove = True
         RightEdge.Visible = True
         RightEdge.Position = 80
         RightEdge.Color = clSilver
@@ -260,6 +263,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Gutter.LineNormalColor = clLime
         Gutter.Intens = False
         Gutter.AutoSize = True
+        Gutter.BorderStyle = gbsMiddle
         Gutter.Color = clWindow
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
@@ -270,13 +274,14 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Gutter.LeftOffsetColor = clBtnFace
         Gutter.RightOffsetColor = clNone
         Gutter.ShowLineNumbers = True
+        Gutter.Width = 53
         Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
         WantTabs = True
         WordWrap.Enabled = False
         WordWrap.Position = 80
         WordWrap.Style = wwsClientWidth
         OnGutterClick = SynEditGutterClick
-        FontSmoothing = fsmNone
+        OnRightEdgeMouseUp = SynEditRightEdgeMouseUp
       end
       object SynEditMiniMap: TBCSynEdit
         Left = 46
@@ -315,6 +320,9 @@ object DocTabSheetFrame: TDocTabSheetFrame
         OnMouseDown = SynEditMiniMapMouseDown
         OnMouseMove = SynEditMiniMapMouseMove
         OnMouseWheel = SynEditMiniMapMouseWheel
+        BookMarkOptions.DrawBookmarksFirst = False
+        BookMarkOptions.EnableKeys = False
+        BookMarkOptions.GlyphsVisible = False
         Gutter.ShowLineModified = False
         Gutter.LineModifiedColor = clYellow
         Gutter.LineNormalColor = clLime
@@ -327,7 +335,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Gutter.Font.Style = []
         Gutter.LeftOffset = 16
         Gutter.LeftOffsetColor = clNone
-        Gutter.RightOffset = 2
+        Gutter.RightOffset = 0
         Gutter.RightOffsetColor = clNone
         Gutter.Visible = False
         Gutter.Width = 0
@@ -338,7 +346,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         WordWrap.Style = wwsClientWidth
         OnPaint = SynEditMiniMapPaint
         OnScroll = SynEditMiniMapScroll
-        FontSmoothing = fsmNone
+        OnSpecialLineColors = SynEditMiniMapSpecialLineColors
       end
     end
   end

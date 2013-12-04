@@ -66,7 +66,8 @@ uses
   BCForms.SearchForFiles in '..\..\Common\forms\BCForms.SearchForFiles.pas' {SearchForFilesForm},
   BCCommon.Math in '..\..\Common\units\BCCommon.Math.pas',
   OptionsEditorLeftMargin in 'frames\OptionsEditorLeftMargin.pas' {EditorLeftMarginFrame: TFrame},
-  OptionsEditorRightMargin in 'frames\OptionsEditorRightMargin.pas' {EditorRightMarginFrame: TFrame};
+  OptionsEditorRightMargin in 'frames\OptionsEditorRightMargin.pas' {EditorRightMarginFrame: TFrame},
+  SynEdit in '..\..\Components\src\UniSynEdit\Source\SynEdit.pas';
 
 {$R *.res}
 

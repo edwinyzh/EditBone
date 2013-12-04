@@ -633,11 +633,12 @@ begin
       if OptionsContainer.EnableSpecialChars then
         Options := Options + [eoShowSpecialChars]
       else
-        Options := Options - [eoShowSpecialChars]
+        Options := Options - [eoShowSpecialChars];
+      RightEdge.Position := OptionsContainer.MarginRightMargin;
     end;
     { SynEditMinimap }
-    SynEditMinimap.OnSpecialLineColors := SynEditSpecialLineColors;
-    SplitSynEditMinimap.OnSpecialLineColors := SynEditSpecialLineColors;
+    //SynEditMinimap.OnSpecialLineColors := SynEditSpecialLineColors;
+    //SplitSynEditMinimap.OnSpecialLineColors := SynEditSpecialLineColors;
     { VirtualDrawTree }
     with VirtualDrawTree do
     begin
@@ -1353,6 +1354,8 @@ begin
     SynWebEngine.Options.HtmlVersion := SynEdit.HtmlVersion;
     SetMainHighlighterCombo(SynEdit);
     SetMainEncodingCombo(SynEdit);
+
+    SynEdit.RightEdge.Position := OptionsContainer.MarginRightMargin;
   end
   else
   begin
