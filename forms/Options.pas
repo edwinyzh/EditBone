@@ -150,11 +150,12 @@ type
     FMarginInTens: Boolean;
     FMarginLeftMarginAutoSize: Boolean;
     FMarginLeftMarginWidth: Integer;
+    FMarginLeftMarginMouseMove: Boolean;
     FMarginLineModified: Boolean;
     FMarginModifiedColor: string;
     FMarginNormalColor: string;
     FMarginRightMargin: Integer;
-    FMarginShowBookmarks: Boolean;
+    FMarginShowBookmarkPanel: Boolean;
     FMarginVisibleLeftMargin: Boolean;
     FMarginVisibleRightMargin: Boolean;
     FMarginZeroStart: Boolean;
@@ -223,35 +224,35 @@ type
     function SupportedFileExts(Refresh: Boolean = False): string;
     procedure AssignTo(Dest: TPersistent); override;
   published
-    property AnimationDuration: Integer read FAnimationDuration write FAnimationDuration;
-    property AnimationStyle: TAnimationStyle read FAnimationStyle write FAnimationStyle;
-    property AutoIndent: Boolean read FAutoIndent write FAutoIndent;
-    property AutoSave: Boolean read FAutoSave write FAutoSave;
-    property BeepIfSearchStringNotFound: Boolean read FBeepIfSearchStringNotFound write FBeepIfSearchStringNotFound;
+    property AnimationDuration: Integer read FAnimationDuration write FAnimationDuration default 150;
+    property AnimationStyle: TAnimationStyle read FAnimationStyle write FAnimationStyle default asDefault;
+    property AutoIndent: Boolean read FAutoIndent write FAutoIndent default True;
+    property AutoSave: Boolean read FAutoSave write FAutoSave default False;
+    property BeepIfSearchStringNotFound: Boolean read FBeepIfSearchStringNotFound write FBeepIfSearchStringNotFound default True;
     property ColorBrightness: Integer read FColorBrightness write FColorBrightness;
-    property CompletionProposalCaseSensitive: Boolean read FCompletionProposalCaseSensitive write FCompletionProposalCaseSensitive;
-    property CompletionProposalEnabled: Boolean read FCompletionProposalEnabled write FCompletionProposalEnabled;
+    property CompletionProposalCaseSensitive: Boolean read FCompletionProposalCaseSensitive write FCompletionProposalCaseSensitive default True;
+    property CompletionProposalEnabled: Boolean read FCompletionProposalEnabled write FCompletionProposalEnabled default True;
     property CompletionProposalShortcut: string read FCompletionProposalShortcut write FCompletionProposalShortcut;
     property CPASHighlighter: TCPASHighlighter read FCPASHighlighter write FCPASHighlighter;
     property CSSVersion: TSynWebCssVersion read FCSSVersion write FCSSVersion;
     property DefaultEncoding: Integer read FDefaultEncoding write FDefaultEncoding;
     property DefaultHighlighter: Integer read FDefaultHighlighter write FDefaultHighlighter;
-    property DirCloseTabByDblClick: Boolean read FDirCloseTabByDblClick write FDirCloseTabByDblClick;
-    property DirCloseTabByMiddleClick: Boolean read FDirCloseTabByMiddleClick write FDirCloseTabByMiddleClick;
-    property DirDoubleBuffered: Boolean read FDirDoubleBuffered write FDirDoubleBuffered;
-    property DirIndent: Integer read FDirIndent write FDirIndent;
-    property DirMultiLine: Boolean read FDirMultiLine write FDirMultiLine;
-    property DirRightClickSelect: Boolean read FDirRightClickSelect write FDirRightClickSelect;
-    property DirSaveTabs: Boolean read FDirSaveTabs write FDirSaveTabs;
-    property DirShowArchiveFiles: Boolean read FDirShowArchiveFiles write FDirShowArchiveFiles;
-    property DirShowCloseButton: Boolean read FDirShowCloseButton write FDirShowCloseButton;
-    property DirShowHiddenFiles: Boolean read FDirShowHiddenFiles write FDirShowHiddenFiles;
-    property DirShowImage: Boolean read FDirShowImage write FDirShowImage;
-    property DirShowSystemFiles: Boolean read FDirShowSystemFiles write FDirShowSystemFiles;
-    property DirShowTreeLines: Boolean read FDirShowTreeLines write FDirShowTreeLines;
-    property DocCloseTabByDblClick: Boolean read FDocCloseTabByDblClick write FDocCloseTabByDblClick;
-    property DocCloseTabByMiddleClick: Boolean read FDocCloseTabByMiddleClick write FDocCloseTabByMiddleClick;
-    property DocDoubleBuffered: Boolean read FDocDoubleBuffered write FDocDoubleBuffered;
+    property DirCloseTabByDblClick: Boolean read FDirCloseTabByDblClick write FDirCloseTabByDblClick default False;
+    property DirCloseTabByMiddleClick: Boolean read FDirCloseTabByMiddleClick write FDirCloseTabByMiddleClick default False;
+    property DirDoubleBuffered: Boolean read FDirDoubleBuffered write FDirDoubleBuffered default True;
+    property DirIndent: Integer read FDirIndent write FDirIndent default 20;
+    property DirMultiLine: Boolean read FDirMultiLine write FDirMultiLine default False;
+    property DirRightClickSelect: Boolean read FDirRightClickSelect write FDirRightClickSelect default True;
+    property DirSaveTabs: Boolean read FDirSaveTabs write FDirSaveTabs default True;
+    property DirShowArchiveFiles: Boolean read FDirShowArchiveFiles write FDirShowArchiveFiles default True;
+    property DirShowCloseButton: Boolean read FDirShowCloseButton write FDirShowCloseButton default False;
+    property DirShowHiddenFiles: Boolean read FDirShowHiddenFiles write FDirShowHiddenFiles default False;
+    property DirShowImage: Boolean read FDirShowImage write FDirShowImage default True;
+    property DirShowSystemFiles: Boolean read FDirShowSystemFiles write FDirShowSystemFiles default False;
+    property DirShowTreeLines: Boolean read FDirShowTreeLines write FDirShowTreeLines default False;
+    property DocCloseTabByDblClick: Boolean read FDocCloseTabByDblClick write FDocCloseTabByDblClick default False;
+    property DocCloseTabByMiddleClick: Boolean read FDocCloseTabByMiddleClick write FDocCloseTabByMiddleClick default False;
+    property DocDoubleBuffered: Boolean read FDocDoubleBuffered write FDocDoubleBuffered default True;
     property DocMultiLine: Boolean read FDocMultiLine write FDocMultiLine;
     property DocRightClickSelect: Boolean read FDocRightClickSelect write FDocRightClickSelect;
     property DocSaveTabs: Boolean read FDocSaveTabs write FDocSaveTabs;
@@ -282,17 +283,18 @@ type
     property MarginFontSize: Integer read FMarginFontSize write FMarginFontSize;
     property MarginInTens: Boolean read FMarginInTens write FMarginInTens;
     property MarginLeftMarginAutoSize: Boolean read FMarginLeftMarginAutoSize write FMarginLeftMarginAutoSize;
+    property MarginLeftMarginMouseMove: Boolean read FMarginLeftMarginMouseMove write FMarginLeftMarginMouseMove;
     property MarginLeftMarginWidth: Integer read FMarginLeftMarginWidth write FMarginLeftMarginWidth;
     property MarginLineModified: Boolean read FMarginLineModified write FMarginLineModified;
     property MarginModifiedColor: string read FMarginModifiedColor write FMarginModifiedColor;
     property MarginNormalColor: string read FMarginNormalColor write FMarginNormalColor;
     property MarginRightMargin: Integer read FMarginRightMargin write FMarginRightMargin;
-    property MarginShowBookmarks: Boolean read FMarginShowBookmarks write FMarginShowBookmarks default True;
+    property MarginShowBookmarkPanel: Boolean read FMarginShowBookmarkPanel write FMarginShowBookmarkPanel default True;
     property MarginVisibleLeftMargin: Boolean read FMarginVisibleLeftMargin write FMarginVisibleLeftMargin;
     property MarginVisibleRightMargin: Boolean read FMarginVisibleRightMargin write FMarginVisibleRightMargin;
     property MarginZeroStart: Boolean read FMarginZeroStart write FMarginZeroStart;
     property MinimapFontSize: Integer read FMinimapFontSize write FMinimapFontSize;
-    property NonblinkingCaret: Boolean read FNonblinkingCaret write FNonblinkingCaret;
+    property NonblinkingCaret: Boolean read FNonblinkingCaret write FNonblinkingCaret default False;
     property NonblinkingCaretColor: string read FNonblinkingCaretColor write FNonblinkingCaretColor;
     property OutputCloseTabByDblClick: Boolean read FOutputCloseTabByDblClick write FOutputCloseTabByDblClick;
     property OutputCloseTabByMiddleClick: Boolean read FOutputCloseTabByMiddleClick write FOutputCloseTabByMiddleClick;
@@ -385,7 +387,7 @@ begin
     TCustomSynEdit(Dest).Gutter.Intens := FMarginInTens;
     TCustomSynEdit(Dest).Gutter.ZeroStart := FMarginZeroStart;
     TCustomSynEdit(Dest).Gutter.ShowLineModified := FMarginLineModified;
-    if FMarginShowBookmarks then
+    if FMarginShowBookmarkPanel then
       TCustomSynEdit(Dest).Gutter.LeftOffset := 20
     else
       TCustomSynEdit(Dest).Gutter.LeftOffset := 0;
@@ -452,6 +454,10 @@ begin
     end;
     if TCustomSynEdit(Dest).Highlighter is TSynSQLSyn then
       TSynSQLSyn(TCustomSynEdit(Dest).Highlighter).SQLDialect := FSQLDialect;
+
+    TCustomSynEdit(Dest).RightEdge.Visible := FMarginVisibleRightMargin;
+    TCustomSynEdit(Dest).RightEdge.MouseMove := FMarginLeftMarginMouseMove;
+    TCustomSynEdit(Dest).RightEdge.Position := FMarginRightMargin;
   end
   else
   if Assigned(Dest) and (Dest is TActionMainMenuBar) then
@@ -677,30 +683,7 @@ var
   i: Integer;
 begin
   inherited;
-  FAnimationDuration := 150;
-  FAnimationStyle := asDefault;
-  FAutoIndent := True;
-  FAutoSave := False;
-  FNonblinkingCaret := False;
-  FBeepIfSearchStringNotFound := True;
-  FCompletionProposalCaseSensitive := True;
-  FCompletionProposalEnabled := True;
   FCompletionProposalShortcut := 'Ctrl+Space';
-  FDirCloseTabByDblClick := False;
-  FDirCloseTabByMiddleClick := False;
-  FDirDoubleBuffered := True;
-  FDirIndent := 20;
-  FDirMultiLine := False;
-  FDirRightClickSelect := True;
-  FDirSaveTabs := True;
-  FDirShowArchiveFiles := True;
-  FDirShowCloseButton := False;
-  FDirShowHiddenFiles := False;
-  FDirShowImage := True;
-  FDirShowSystemFiles := False;
-  FDirShowtreeLines := False;
-  FDocCloseTabByDblClick := False;
-  FDocCloseTabByMiddleClick := False;
   FDocDoubleBuffered := True;
   FDocMultiLine := False;
   FDocRightClickSelect := True;
@@ -1083,7 +1066,7 @@ begin
   FEditorLeftMarginFrame.VisibleCheckBox.Checked := FOptionsContainer.MarginVisibleLeftMargin;
   FEditorLeftMarginFrame.InTensCheckBox.Checked := FOptionsContainer.MarginInTens;
   FEditorLeftMarginFrame.ZeroStartCheckBox.Checked := FOptionsContainer.MarginZeroStart;
-  FEditorLeftMarginFrame.ShowBookmarksCheckBox.Checked := FOptionsContainer.MarginShowBookmarks;
+  FEditorLeftMarginFrame.ShowBookmarkPanelCheckBox.Checked := FOptionsContainer.MarginShowBookmarkPanel;
   FEditorLeftMarginFrame.ShowLineModifiedCheckBox.Checked := FOptionsContainer.MarginLineModified;
   FEditorLeftMarginFrame.LineModifiedColorBox.Selected := StringToColor(FOptionsContainer.MarginModifiedColor);
   FEditorLeftMarginFrame.LineNormalColorBox.Selected := StringToColor(FOptionsContainer.MarginNormalColor);
@@ -1091,6 +1074,7 @@ begin
   { Right Margin }
   FEditorRightMarginFrame.VisibleCheckBox.Checked := FOptionsContainer.MarginVisibleRightMargin;
   FEditorRightMarginFrame.PositionEdit.Text := IntToStr(FOptionsContainer.MarginRightMargin);
+  FEditorRightMarginFrame.MouseMoveCheckBox.Checked := FOptionsContainer.MarginLeftMarginMouseMove;
   { Search }
   FEditorSearchFrame.ShowSearchStringNotFoundCheckBox.Checked := FOptionsContainer.ShowSearchStringNotFound;
   FEditorSearchFrame.BeepIfSearchStringNotFoundCheckBox.Checked := FOptionsContainer.BeepIfSearchStringNotFound;
@@ -1331,7 +1315,7 @@ begin
   FOptionsContainer.MarginLeftMarginAutoSize := FEditorLeftMarginFrame.AutoSizeCheckBox.Checked;
   FOptionsContainer.MarginInTens := FEditorLeftMarginFrame.InTensCheckBox.Checked;
   FOptionsContainer.MarginZeroStart := FEditorLeftMarginFrame.ZeroStartCheckBox.Checked;
-  FOptionsContainer.MarginShowBookmarks := FEditorLeftMarginFrame.ShowBookmarksCheckBox.Checked;
+  FOptionsContainer.MarginShowBookmarkPanel := FEditorLeftMarginFrame.ShowBookmarkPanelCheckBox.Checked;
   FOptionsContainer.MarginLineModified := FEditorLeftMarginFrame.ShowLineModifiedCheckBox.Checked;
   FOptionsContainer.MarginModifiedColor := ColorToString(FEditorLeftMarginFrame.LineModifiedColorBox.Selected);
   FOptionsContainer.MarginNormalColor := ColorToString(FEditorLeftMarginFrame.LineNormalColorBox.Selected);
@@ -1339,6 +1323,7 @@ begin
   { Right Margin }
   FOptionsContainer.MarginVisibleRightMargin := FEditorRightMarginFrame.VisibleCheckBox.Checked;
   FOptionsContainer.MarginRightMargin := StrToIntDef(FEditorRightMarginFrame.PositionEdit.Text, 80);
+  FOptionsContainer.MarginLeftMarginMouseMove := FEditorRightMarginFrame.MouseMoveCheckBox.Checked;
   { Search }
   FOptionsContainer.ShowSearchStringNotFound := FEditorSearchFrame.ShowSearchStringNotFoundCheckBox.Checked;
   FOptionsContainer.BeepIfSearchStringNotFound := FEditorSearchFrame.BeepIfSearchStringNotFoundCheckBox.Checked;

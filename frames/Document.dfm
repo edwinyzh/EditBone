@@ -395,8 +395,8 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 451
-      Height = 254
+      Width = 915
+      Height = 586
       Align = alClient
       DoubleBuffered = False
       ParentDoubleBuffered = False
@@ -3184,12 +3184,6 @@ object DocumentFrame: TDocumentFrame
       ImageIndex = 0
       OnExecute = XMLTreeRefreshActionExecute
     end
-  end
-  object SynDWSSyn: TSynDWSSyn
-    Tag = 17
-    DefaultFilter = 'DWScript Files (*.dws;*.pas;*.inc)|*.dws;*.pas;*.inc'
-    Left = 308
-    Top = 420
   end
   object SynYAMLSyn: TSynYAMLSyn
     Tag = 60

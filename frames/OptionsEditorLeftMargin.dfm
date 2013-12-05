@@ -162,7 +162,7 @@ object EditorLeftMarginFrame: TEditorLeftMarginFrame
       TabOrder = 3
       ReadOnly = False
     end
-    object ShowBookmarksCheckBox: TBCCheckBox
+    object ShowBookmarkPanelCheckBox: TBCCheckBox
       Left = 9
       Top = 86
       Width = 296
@@ -171,7 +171,7 @@ object EditorLeftMarginFrame: TEditorLeftMarginFrame
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Show Bookmarks'
+      Caption = ' Show Bookmark Panel'
       Checked = True
       State = cbChecked
       TabOrder = 4

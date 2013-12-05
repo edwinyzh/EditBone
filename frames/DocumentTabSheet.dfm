@@ -70,15 +70,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
         ParentColor = False
         Visible = False
       end
-      object SynEditSplitter: TSplitter
-        Left = 42
-        Top = 0
-        Width = 4
-        Height = 18
-        Align = alRight
-        ParentColor = False
-        Visible = False
-      end
       object SplitSynEditPanel: TPanel
         Left = 0
         Top = 22
@@ -89,20 +80,10 @@ object DocTabSheetFrame: TDocTabSheetFrame
         ParentColor = True
         TabOrder = 0
         Visible = False
-        object SplitSynEditSplitter: TSplitter
-          Left = 42
-          Top = 0
-          Width = 4
-          Height = 277
-          Align = alRight
-          Color = clBtnFace
-          ParentColor = False
-          Visible = False
-        end
         object SplitSynEdit: TBCSynEdit
           Left = 0
           Top = 0
-          Width = 42
+          Width = 246
           Height = 277
           Align = alClient
           ActiveLineColor = clSkyBlue
@@ -129,11 +110,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
           Font.Name = 'Courier New'
           Font.Style = []
           TabOrder = 0
-          OnKeyDown = SplitSynEditKeyDown
-          OnKeyUp = SplitSynEditKeyUp
-          OnMouseDown = SplitSynEditMouseDown
-          OnMouseMove = SplitSynEditMouseMove
-          OnMouseWheel = SplitSynEditMouseWheel
           Gutter.ShowLineModified = True
           Gutter.LineModifiedColor = clYellow
           Gutter.LineNormalColor = clLime
@@ -151,82 +127,26 @@ object DocTabSheetFrame: TDocTabSheetFrame
           Gutter.RightOffsetColor = clNone
           Gutter.ShowLineNumbers = True
           Gutter.Width = 53
+          Minimap.Font.Charset = DEFAULT_CHARSET
+          Minimap.Font.Color = clWindowText
+          Minimap.Font.Height = -4
+          Minimap.Font.Name = 'Courier New'
+          Minimap.Font.Style = []
+          Minimap.Visible = True
           Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
           WantTabs = True
           WordWrap.Enabled = False
           WordWrap.Position = 80
           WordWrap.Style = wwsClientWidth
           OnGutterClick = SplitSynEditGutterClick
-        end
-        object SplitSynEditMinimap: TBCSynEdit
-          Left = 46
-          Top = 0
-          Width = 200
-          Height = 277
-          Align = alRight
-          ActiveLineColor = clSkyBlue
-          CodeFolding.CaseSensitive = False
-          CodeFolding.FolderBarLinesColor = 12434877
-          ActiveLine.Background = clYellow
-          ActiveLine.Foreground = clNavy
-          ActiveLine.Visible = True
-          LineDivider.Visible = False
-          LineDivider.Color = clRed
-          LineDivider.Style = psSolid
-          RightEdge.MouseMove = False
-          RightEdge.Visible = True
-          RightEdge.Position = 80
-          RightEdge.Color = clSilver
-          RightEdge.Style = psSolid
-          LineSpacing = 0
-          LineSpacingRule = lsSpecified
-          Background.Visible = False
-          Background.RepeatMode = brmNone
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -1
-          Font.Name = 'Courier New'
-          Font.Style = []
-          TabOrder = 1
-          Visible = False
-          OnClick = SplitSynEditMinimapClick
-          OnKeyDown = SplitSynEditMinimapKeyDown
-          OnKeyUp = SplitSynEditMinimapKeyUp
-          OnMouseDown = SplitSynEditMinimapMouseDown
-          OnMouseMove = SplitSynEditMinimapMouseMove
-          OnMouseWheel = SplitSynEditMinimapMouseWheel
-          BookMarkOptions.DrawBookmarksFirst = False
-          BookMarkOptions.EnableKeys = False
-          BookMarkOptions.GlyphsVisible = False
-          Gutter.ShowLineModified = False
-          Gutter.LineModifiedColor = clYellow
-          Gutter.LineNormalColor = clLime
-          Gutter.Intens = False
-          Gutter.BorderStyle = gbsMiddle
-          Gutter.Font.Charset = DEFAULT_CHARSET
-          Gutter.Font.Color = clWindowText
-          Gutter.Font.Height = -11
-          Gutter.Font.Name = 'Courier New'
-          Gutter.Font.Style = []
-          Gutter.LeftOffset = 16
-          Gutter.LeftOffsetColor = clNone
-          Gutter.RightOffset = 0
-          Gutter.RightOffsetColor = clNone
-          Gutter.Visible = False
-          Gutter.Width = 0
-          Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoNoCaret, eoScrollPastEol, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
-          ReadOnly = True
-          WordWrap.Enabled = False
-          WordWrap.Position = 80
-          WordWrap.Style = wwsClientWidth
-          OnPaint = SplitSynEditMinimapPaint
-          OnScroll = SplitSynEditMinimapScroll
+          OnRightEdgeMouseUp = SplitSynEditRightEdgeMouseUp
+          FontSmoothing = fsmNone
         end
       end
       object SynEdit: TBCSynEdit
         Left = 0
         Top = 0
-        Width = 42
+        Width = 246
         Height = 18
         Align = alClient
         ActiveLineColor = clSkyBlue
@@ -253,11 +173,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Font.Name = 'Courier New'
         Font.Style = []
         TabOrder = 1
-        OnKeyDown = SynEditKeyDown
-        OnKeyUp = SynEditKeyUp
-        OnMouseDown = SynEditMouseDown
-        OnMouseMove = SynEditMouseMove
-        OnMouseWheel = SynEditMouseWheel
         Gutter.ShowLineModified = True
         Gutter.LineModifiedColor = clYellow
         Gutter.LineNormalColor = clLime
@@ -275,6 +190,12 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Gutter.RightOffsetColor = clNone
         Gutter.ShowLineNumbers = True
         Gutter.Width = 53
+        Minimap.Font.Charset = DEFAULT_CHARSET
+        Minimap.Font.Color = clWindowText
+        Minimap.Font.Height = -4
+        Minimap.Font.Name = 'Courier New'
+        Minimap.Font.Style = []
+        Minimap.Visible = True
         Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
         WantTabs = True
         WordWrap.Enabled = False
@@ -282,71 +203,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         WordWrap.Style = wwsClientWidth
         OnGutterClick = SynEditGutterClick
         OnRightEdgeMouseUp = SynEditRightEdgeMouseUp
-      end
-      object SynEditMiniMap: TBCSynEdit
-        Left = 46
-        Top = 0
-        Width = 200
-        Height = 18
-        Align = alRight
-        ActiveLineColor = clSkyBlue
-        CodeFolding.CaseSensitive = False
-        CodeFolding.FolderBarLinesColor = 12434877
-        ActiveLine.Background = clYellow
-        ActiveLine.Foreground = clNavy
-        ActiveLine.Visible = True
-        LineDivider.Visible = False
-        LineDivider.Color = clRed
-        LineDivider.Style = psSolid
-        RightEdge.MouseMove = False
-        RightEdge.Visible = True
-        RightEdge.Position = 80
-        RightEdge.Color = clSilver
-        RightEdge.Style = psSolid
-        LineSpacing = 0
-        LineSpacingRule = lsSpecified
-        Background.Visible = False
-        Background.RepeatMode = brmNone
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -1
-        Font.Name = 'Courier New'
-        Font.Style = []
-        TabOrder = 2
-        Visible = False
-        OnClick = SynEditMiniMapClick
-        OnKeyDown = SynEditMiniMapKeyDown
-        OnKeyUp = SynEditMiniMapKeyUp
-        OnMouseDown = SynEditMiniMapMouseDown
-        OnMouseMove = SynEditMiniMapMouseMove
-        OnMouseWheel = SynEditMiniMapMouseWheel
-        BookMarkOptions.DrawBookmarksFirst = False
-        BookMarkOptions.EnableKeys = False
-        BookMarkOptions.GlyphsVisible = False
-        Gutter.ShowLineModified = False
-        Gutter.LineModifiedColor = clYellow
-        Gutter.LineNormalColor = clLime
-        Gutter.Intens = False
-        Gutter.BorderStyle = gbsMiddle
-        Gutter.Font.Charset = DEFAULT_CHARSET
-        Gutter.Font.Color = clWindowText
-        Gutter.Font.Height = -11
-        Gutter.Font.Name = 'Courier New'
-        Gutter.Font.Style = []
-        Gutter.LeftOffset = 16
-        Gutter.LeftOffsetColor = clNone
-        Gutter.RightOffset = 0
-        Gutter.RightOffsetColor = clNone
-        Gutter.Visible = False
-        Gutter.Width = 0
-        Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoNoCaret, eoScrollPastEol, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
-        ReadOnly = True
-        WordWrap.Enabled = False
-        WordWrap.Position = 80
-        WordWrap.Style = wwsClientWidth
-        OnPaint = SynEditMiniMapPaint
-        OnScroll = SynEditMiniMapScroll
-        OnSpecialLineColors = SynEditMiniMapSpecialLineColors
+        FontSmoothing = fsmNone
       end
     end
   end

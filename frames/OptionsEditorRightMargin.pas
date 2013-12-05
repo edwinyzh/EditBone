@@ -12,6 +12,7 @@ type
     PositionLabel: TLabel;
     PositionEdit: TBCEdit;
     VisibleCheckBox: TBCCheckBox;
+    MouseMoveCheckBox: TBCCheckBox;
   private
     { Private declarations }
   public
