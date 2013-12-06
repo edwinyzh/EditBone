@@ -155,6 +155,7 @@ type
     FMarginModifiedColor: string;
     FMarginNormalColor: string;
     FMarginRightMargin: Integer;
+    FMarginShowBookmarks: Boolean;
     FMarginShowBookmarkPanel: Boolean;
     FMarginVisibleLeftMargin: Boolean;
     FMarginVisibleRightMargin: Boolean;
@@ -283,12 +284,13 @@ type
     property MarginFontSize: Integer read FMarginFontSize write FMarginFontSize;
     property MarginInTens: Boolean read FMarginInTens write FMarginInTens;
     property MarginLeftMarginAutoSize: Boolean read FMarginLeftMarginAutoSize write FMarginLeftMarginAutoSize;
-    property MarginLeftMarginMouseMove: Boolean read FMarginLeftMarginMouseMove write FMarginLeftMarginMouseMove;
+    property MarginLeftMarginMouseMove: Boolean read FMarginLeftMarginMouseMove write FMarginLeftMarginMouseMove default True;
     property MarginLeftMarginWidth: Integer read FMarginLeftMarginWidth write FMarginLeftMarginWidth;
     property MarginLineModified: Boolean read FMarginLineModified write FMarginLineModified;
     property MarginModifiedColor: string read FMarginModifiedColor write FMarginModifiedColor;
     property MarginNormalColor: string read FMarginNormalColor write FMarginNormalColor;
     property MarginRightMargin: Integer read FMarginRightMargin write FMarginRightMargin;
+    property MarginShowBookmarks: Boolean read FMarginShowBookmarks write FMarginShowBookmarks default True;
     property MarginShowBookmarkPanel: Boolean read FMarginShowBookmarkPanel write FMarginShowBookmarkPanel default True;
     property MarginVisibleLeftMargin: Boolean read FMarginVisibleLeftMargin write FMarginVisibleLeftMargin;
     property MarginVisibleRightMargin: Boolean read FMarginVisibleRightMargin write FMarginVisibleRightMargin;
@@ -458,6 +460,8 @@ begin
     TCustomSynEdit(Dest).RightEdge.Visible := FMarginVisibleRightMargin;
     TCustomSynEdit(Dest).RightEdge.MouseMove := FMarginLeftMarginMouseMove;
     TCustomSynEdit(Dest).RightEdge.Position := FMarginRightMargin;
+
+    TCustomSynEdit(Dest).BookMarkOptions.Enabled := FMarginShowBookmarks;
   end
   else
   if Assigned(Dest) and (Dest is TActionMainMenuBar) then
@@ -1066,6 +1070,7 @@ begin
   FEditorLeftMarginFrame.VisibleCheckBox.Checked := FOptionsContainer.MarginVisibleLeftMargin;
   FEditorLeftMarginFrame.InTensCheckBox.Checked := FOptionsContainer.MarginInTens;
   FEditorLeftMarginFrame.ZeroStartCheckBox.Checked := FOptionsContainer.MarginZeroStart;
+  FEditorLeftMarginFrame.ShowBookmarksCheckBox.Checked := FOptionsContainer.MarginShowBookmarks;
   FEditorLeftMarginFrame.ShowBookmarkPanelCheckBox.Checked := FOptionsContainer.MarginShowBookmarkPanel;
   FEditorLeftMarginFrame.ShowLineModifiedCheckBox.Checked := FOptionsContainer.MarginLineModified;
   FEditorLeftMarginFrame.LineModifiedColorBox.Selected := StringToColor(FOptionsContainer.MarginModifiedColor);
@@ -1315,6 +1320,7 @@ begin
   FOptionsContainer.MarginLeftMarginAutoSize := FEditorLeftMarginFrame.AutoSizeCheckBox.Checked;
   FOptionsContainer.MarginInTens := FEditorLeftMarginFrame.InTensCheckBox.Checked;
   FOptionsContainer.MarginZeroStart := FEditorLeftMarginFrame.ZeroStartCheckBox.Checked;
+  FOptionsContainer.MarginShowBookmarks := FEditorLeftMarginFrame.ShowBookmarksCheckBox.Checked;
   FOptionsContainer.MarginShowBookmarkPanel := FEditorLeftMarginFrame.ShowBookmarkPanelCheckBox.Checked;
   FOptionsContainer.MarginLineModified := FEditorLeftMarginFrame.ShowLineModifiedCheckBox.Checked;
   FOptionsContainer.MarginModifiedColor := ColorToString(FEditorLeftMarginFrame.LineModifiedColorBox.Selected);

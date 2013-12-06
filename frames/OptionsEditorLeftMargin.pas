@@ -21,6 +21,7 @@ type
     InTensCheckBox: TBCCheckBox;
     ZeroStartCheckBox: TBCCheckBox;
     ShowBookmarkPanelCheckBox: TBCCheckBox;
+    ShowBookmarksCheckBox: TBCCheckBox;
   private
     { Private declarations }
   public

@@ -38,8 +38,6 @@ type
       y: Integer; var CanExecute: Boolean);
     procedure SplitSynCompletionProposalExecute(Kind: SynCompletionType; Sender: TObject; var CurrentInput: string;
       var x, y: Integer; var CanExecute: Boolean);
-    procedure SplitSynEditGutterClick(Sender: TObject; Button: TMouseButton; X, Y, Line: Integer; Mark: TSynEditMark);
-    procedure SynEditGutterClick(Sender: TObject; Button: TMouseButton; X, Y, Line: Integer; Mark: TSynEditMark);
     procedure SynEditRightEdgeMouseUp(Sender: TObject);
     procedure SplitSynEditRightEdgeMouseUp(Sender: TObject);
   private
@@ -115,15 +113,6 @@ begin
   CanExecute := SynCompletionProposal.ItemList.Count > 0;
 end;
 
-procedure TDocTabSheetFrame.SynEditGutterClick(Sender: TObject; Button: TMouseButton; X, Y, Line: Integer;
-  Mark: TSynEditMark);
-begin
-  SynEdit.CaretX := 0;
-  SynEdit.CaretY := Line;
-  if X < SynEdit.Gutter.LeftOffset then
-    SynEdit.ToggleBookMark;
-end;
-
 procedure TDocTabSheetFrame.SplitSynCompletionProposalExecute(Kind: SynCompletionType; Sender: TObject;
   var CurrentInput: string; var x, y: Integer; var CanExecute: Boolean);
 var
@@ -133,15 +122,6 @@ begin
   MaxLengthWord := SplitTextIntoWords(SplitSynCompletionProposal, SplitSynEdit, OptionsContainer.CompletionProposalCaseSensitive);
   SynCompletionProposal.Width := SplitSynEdit.Canvas.TextWidth(MaxLengthWord);
   CanExecute := SplitSynCompletionProposal.ItemList.Count > 0;
-end;
-
-procedure TDocTabSheetFrame.SplitSynEditGutterClick(Sender: TObject; Button: TMouseButton; X, Y, Line: Integer;
-  Mark: TSynEditMark);
-begin
-  SplitSynEdit.CaretX := 0;
-  SplitSynEdit.CaretY := Line;
-  if X < SplitSynEdit.Gutter.LeftOffset then
-    SplitSynEdit.ToggleBookMark;
 end;
 
 procedure TDocTabSheetFrame.SplitSynEditRightEdgeMouseUp(Sender: TObject);

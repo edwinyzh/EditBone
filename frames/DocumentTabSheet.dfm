@@ -138,7 +138,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
           WordWrap.Enabled = False
           WordWrap.Position = 80
           WordWrap.Style = wwsClientWidth
-          OnGutterClick = SplitSynEditGutterClick
           OnRightEdgeMouseUp = SplitSynEditRightEdgeMouseUp
           FontSmoothing = fsmNone
         end
@@ -201,7 +200,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
         WordWrap.Enabled = False
         WordWrap.Position = 80
         WordWrap.Style = wwsClientWidth
-        OnGutterClick = SynEditGutterClick
         OnRightEdgeMouseUp = SynEditRightEdgeMouseUp
         FontSmoothing = fsmNone
       end

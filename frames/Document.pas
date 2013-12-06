@@ -190,6 +190,7 @@ type
     SortMenuItem: TMenuItem;
     SearchClearAction: TAction;
     GotoLineClearAction: TAction;
+    SynDWSSyn: TSynDWSSyn;
     procedure PageControlChange(Sender: TObject);
     procedure SearchCloseActionExecute(Sender: TObject);
     procedure SearchFindNextActionExecute(Sender: TObject);
@@ -399,8 +400,8 @@ begin
   SelectAllMenuItem.Action := MainForm.EditSelectAllAction;
   UndoMenuItem.Action := MainForm.EditUndoAction;
   RedoMenuItem.Action := MainForm.EditRedoAction;
-  ToggleBookmarkMenuItem.Action := MainForm.ToggleBookmarkAction;
-  ToggleBookmarksMenuItem.Action := MainForm.ToggleBookmarksAction;
+  ToggleBookmarkMenuItem.Action := MainForm.SearchToggleBookmarkAction;
+  ToggleBookmarksMenuItem.Action := MainForm.SearchToggleBookmarksAction;
   ToggleBookmark1MenuItem.Action := MainForm.ToggleBookmarks1Action;
   ToggleBookmark2MenuItem.Action := MainForm.ToggleBookmarks2Action;
   ToggleBookmark3MenuItem.Action := MainForm.ToggleBookmarks3Action;
@@ -410,7 +411,7 @@ begin
   ToggleBookmark7MenuItem.Action := MainForm.ToggleBookmarks7Action;
   ToggleBookmark8MenuItem.Action := MainForm.ToggleBookmarks8Action;
   ToggleBookmark9MenuItem.Action := MainForm.ToggleBookmarks9Action;
-  GotoBookmarksMenuItem.Action := MainForm.GotoBookmarksAction;
+  GotoBookmarksMenuItem.Action := MainForm.SearchGotoBookmarksAction;
   GotoBookmark1MenuItem.Action := MainForm.GotoBookmarks1Action;
   GotoBookmark2MenuItem.Action := MainForm.GotoBookmarks2Action;
   GotoBookmark3MenuItem.Action := MainForm.GotoBookmarks3Action;
@@ -420,7 +421,7 @@ begin
   GotoBookmark7MenuItem.Action := MainForm.GotoBookmarks7Action;
   GotoBookmark8MenuItem.Action := MainForm.GotoBookmarks8Action;
   GotoBookmark9MenuItem.Action := MainForm.GotoBookmarks9Action;
-  ClearBookmarksMenuItem.Action := MainForm.ClearBookmarksAction;
+  ClearBookmarksMenuItem.Action := MainForm.SearchClearBookmarksAction;
   InsertMenuItem.Action := MainForm.EditInsertAction;
   InsertLineMenuItem.Action := MainForm.EditInsertLineAction;
   InsertTagMenuItem.Action := MainForm.EditInsertTagAction;
@@ -697,7 +698,7 @@ begin
     UpdateCPMSynColors(SynCPMSyn, WhiteBackground);
     UpdateDOTSynColors(SynDOTSyn, WhiteBackground);
     UpdateADSP21xxSynColors(SynADSP21xxSyn, WhiteBackground);
-    //UpdateDWSSynColors(SynDWSSyn, WhiteBackground);
+    UpdateDWSSynColors(SynDWSSyn, WhiteBackground);
     UpdateEiffelSynColors(SynEiffelSyn, WhiteBackground);
     UpdateFortranSynColors(SynFortranSyn, WhiteBackground);
     UpdateFoxproSynColors(SynFoxproSyn, WhiteBackground);
@@ -1909,6 +1910,7 @@ begin
     OptionsContainer.MarginModifiedColor := ReadString('Options', 'MarginModifiedColor', 'clYellow');
     OptionsContainer.MarginNormalColor := ReadString('Options', 'MarginNormalColor', 'clGreen');
     OptionsContainer.MarginRightMargin := StrToInt(ReadString('Options', 'RightMargin', '80'));
+    OptionsContainer.MarginShowBookmarks := ReadBool('Options', 'MarginShowBookmarks', True);
     OptionsContainer.MarginShowBookmarkPanel := ReadBool('Options', 'MarginShowBookmarkPanel', True);
     OptionsContainer.MarginVisibleLeftMargin := ReadBool('Options', 'MarginVisibleLeftMargin', True);
     OptionsContainer.MarginVisibleRightMargin := ReadBool('Options', 'MarginVisibleRightMargin', True);
@@ -2064,7 +2066,6 @@ begin
     DeleteKey('Options', 'MarginWidth');
     DeleteKey('Options', 'MarginVisible');
     DeleteKey('Options', 'MinimapFontFactor');
-    DeleteKey('Options', 'MarginShowBookmarks');
     WriteBool('Options', 'AutoIndent', OptionsContainer.AutoIndent);
     WriteBool('Options', 'AutoSave', OptionsContainer.AutoSave);
     WriteBool('Options', 'BeepIfSearchStringNotFound', OptionsContainer.BeepIfSearchStringNotFound);
@@ -2098,6 +2099,7 @@ begin
     WriteBool('Options', 'MarginLeftMarginAutoSize', OptionsContainer.MarginLeftMarginAutoSize);
     WriteBool('Options', 'MarginLeftMarginMouseMove', OptionsContainer.MarginLeftMarginMouseMove);
     WriteBool('Options', 'MarginLineModified', OptionsContainer.MarginLineModified);
+    WriteBool('Options', 'MarginShowBookmarks', OptionsContainer.MarginShowBookmarks);
     WriteBool('Options', 'MarginShowBookmarkPanel', OptionsContainer.MarginShowBookmarkPanel);
     WriteBool('Options', 'MarginVisibleLeftMargin', OptionsContainer.MarginVisibleLeftMargin);
     WriteBool('Options', 'MarginVisibleRightMargin', OptionsContainer.MarginVisibleRightMargin);
@@ -3522,7 +3524,7 @@ procedure TDocumentFrame.SetActiveHighlighter(Value: Integer);
         14: Highlighter := SynCPMSyn;
         15: Highlighter := SynDOTSyn;
         16: Highlighter := SynADSP21xxSyn;
-        //17: Highlighter := SynDWSSyn;
+        17: Highlighter := SynDWSSyn;
         18: Highlighter := SynEiffelSyn;
         19: Highlighter := SynFortranSyn;
         20: Highlighter := SynFoxproSyn;
@@ -3890,8 +3892,8 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
         Highlighter := SynDOTSyn
       else if IsExtInFileType(FileExt, ftADSP21xx) then
         Highlighter := SynADSP21xxSyn
-      //else if IsExtInFileType(FileExt, ftDWScript) then
-      //  Highlighter := SynDWSSyn
+      else if IsExtInFileType(FileExt, ftDWScript) then
+        Highlighter := SynDWSSyn
       else if IsExtInFileType(FileExt, ftEiffel) then
         Highlighter := SynEiffelSyn
       else if IsExtInFileType(FileExt, ftFortran) then

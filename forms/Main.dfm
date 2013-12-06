@@ -596,7 +596,7 @@ object MainForm: TMainForm
                 Caption = '-'
               end
               item
-                Action = ToggleBookmarkAction
+                Action = SearchToggleBookmarkAction
                 ImageIndex = 40
                 ShortCut = 16497
               end
@@ -647,7 +647,7 @@ object MainForm: TMainForm
                     ImageIndex = 50
                     ShortCut = 24633
                   end>
-                Action = ToggleBookmarksAction
+                Action = SearchToggleBookmarksAction
                 ImageIndex = 41
                 UsageCount = 1
               end
@@ -698,13 +698,13 @@ object MainForm: TMainForm
                     ImageIndex = 50
                     ShortCut = 16441
                   end>
-                Action = GotoBookmarksAction
+                Action = SearchGotoBookmarksAction
                 Caption = '&Go to Bookmarks'
                 ImageIndex = 51
                 UsageCount = 1
               end
               item
-                Action = ClearBookmarksAction
+                Action = SearchClearBookmarksAction
                 ImageIndex = 52
               end
               item
@@ -1606,7 +1606,7 @@ object MainForm: TMainForm
       ImageIndex = 64
       OnExecute = ViewSelectionModeActionExecute
     end
-    object ToggleBookmarkAction: TAction
+    object SearchToggleBookmarkAction: TAction
       Category = '&Search'
       Caption = '&Toggle Bookmark'
       Hint = 
@@ -1614,7 +1614,7 @@ object MainForm: TMainForm
         ' by using Ctrl+Shift+0..9. Go to bookmark by using Ctrl+0..9.'
       ImageIndex = 40
       ShortCut = 16497
-      OnExecute = ToggleBookmarkActionExecute
+      OnExecute = SearchToggleBookmarkActionExecute
     end
     object EditSelectAllAction: TAction
       Category = '&Edit'
@@ -1724,24 +1724,24 @@ object MainForm: TMainForm
       ShortCut = 24643
       OnExecute = EditToggleCaseActionExecute
     end
-    object ToggleBookmarksAction: TAction
+    object SearchToggleBookmarksAction: TAction
       Category = 'T&oggle Bookmarks'
       Caption = 'T&oggle Bookmarks'
       ImageIndex = 41
       OnExecute = DummyActionExecute
     end
-    object GotoBookmarksAction: TAction
+    object SearchGotoBookmarksAction: TAction
       Category = 'Go to Bookmarks'
       Caption = 'Go to Bookmarks'
       ImageIndex = 51
       OnExecute = DummyActionExecute
     end
-    object ClearBookmarksAction: TAction
+    object SearchClearBookmarksAction: TAction
       Category = '&Search'
       Caption = 'Clear &Bookmarks'
       Hint = 'Clear all bookmarks'
       ImageIndex = 52
-      OnExecute = ClearBookmarksActionExecute
+      OnExecute = SearchClearBookmarksActionExecute
     end
     object MacroMenuAction: TAction
       Category = '&Macro'
