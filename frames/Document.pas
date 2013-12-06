@@ -2022,13 +2022,12 @@ begin
     { Minimaps }
     ReadSectionValues('Minimaps', Minimaps);
     for i := 0 to Minimaps.Count - 1 do
-    if Pos('=1', Minimaps.Strings[i]) <> 0 then
     begin
       if i < PageControl.PageCount then
       begin
         DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
         if Assigned(DocTabSheetFrame) then
-          DocTabSheetFrame.MinimapVisible := True;
+          DocTabSheetFrame.MinimapVisible := Pos('=1', Minimaps.Strings[i]) <> 0
       end;
     end;
 

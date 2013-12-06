@@ -132,7 +132,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
           Minimap.Font.Height = -4
           Minimap.Font.Name = 'Courier New'
           Minimap.Font.Style = []
-          Minimap.Visible = True
           Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
           WantTabs = True
           WordWrap.Enabled = False
@@ -194,7 +193,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Minimap.Font.Height = -4
         Minimap.Font.Name = 'Courier New'
         Minimap.Font.Style = []
-        Minimap.Visible = True
         Options = [eoAltSetsColumnMode, eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSpecialLineDefaultFg, eoTabsToSpaces, eoTrimTrailingSpaces]
         WantTabs = True
         WordWrap.Enabled = False

@@ -461,7 +461,7 @@ begin
     TCustomSynEdit(Dest).RightEdge.MouseMove := FMarginLeftMarginMouseMove;
     TCustomSynEdit(Dest).RightEdge.Position := FMarginRightMargin;
 
-    TCustomSynEdit(Dest).BookMarkOptions.Enabled := FMarginShowBookmarks;
+    TCustomSynEdit(Dest).Gutter.ShowBookmarks := FMarginShowBookmarks;
   end
   else
   if Assigned(Dest) and (Dest is TActionMainMenuBar) then
