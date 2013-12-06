@@ -214,7 +214,6 @@ object EditorFontFrame: TEditorFontFrame
         Gutter.Font.Height = -11
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
-        Gutter.LeftOffsetColor = clNone
         Gutter.RightOffsetColor = clNone
         WordWrap.Enabled = False
         WordWrap.Position = 80

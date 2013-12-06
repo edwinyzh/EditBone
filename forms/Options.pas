@@ -389,10 +389,7 @@ begin
     TCustomSynEdit(Dest).Gutter.Intens := FMarginInTens;
     TCustomSynEdit(Dest).Gutter.ZeroStart := FMarginZeroStart;
     TCustomSynEdit(Dest).Gutter.ShowLineModified := FMarginLineModified;
-    if FMarginShowBookmarkPanel then
-      TCustomSynEdit(Dest).Gutter.LeftOffset := 20
-    else
-      TCustomSynEdit(Dest).Gutter.LeftOffset := 0;
+    TCustomSynEdit(Dest).Gutter.ShowBookmarkPanel := FMarginShowBookmarkPanel;
     TCustomSynEdit(Dest).Gutter.LineModifiedColor := StringToColor(FMarginModifiedColor);
     TCustomSynEdit(Dest).Gutter.LineNormalColor := StringToColor(FMarginNormalColor);
     TCustomSynEdit(Dest).TabWidth := FTabWidth;
