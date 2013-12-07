@@ -162,8 +162,8 @@ object EditorFontFrame: TEditorFontFrame
         Top = 113
         Width = 150
         Height = 27
-        Max = 8
-        Min = 3
+        Max = 6
+        Min = 1
         Position = 3
         TabOrder = 0
       end
@@ -209,12 +209,21 @@ object EditorFontFrame: TEditorFontFrame
         Gutter.ShowLineModified = False
         Gutter.LineModifiedColor = clYellow
         Gutter.LineNormalColor = clLime
+        Gutter.Intens = False
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
+        Gutter.BookmarkPanelColor = clNone
+        Gutter.RightOffset = 2
         Gutter.RightOffsetColor = clNone
+        Gutter.ShowBookmarks = False
+        Minimap.Font.Charset = DEFAULT_CHARSET
+        Minimap.Font.Color = clWindowText
+        Minimap.Font.Height = -4
+        Minimap.Font.Name = 'Courier New'
+        Minimap.Font.Style = []
         WordWrap.Enabled = False
         WordWrap.Position = 80
         WordWrap.Style = wwsClientWidth

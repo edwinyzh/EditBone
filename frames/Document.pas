@@ -629,9 +629,6 @@ begin
       PopupMenu := EditorPopupMenu;
       BookMarkOptions.BookmarkImages := BookmarkImagesList;
     end;
-    { SynEditMinimap }
-    //SynEditMinimap.OnSpecialLineColors := SynEditSpecialLineColors;
-    //SplitSynEditMinimap.OnSpecialLineColors := SynEditSpecialLineColors;
     { VirtualDrawTree }
     with VirtualDrawTree do
     begin
@@ -779,19 +776,21 @@ procedure TDocumentFrame.SynEditSpecialLineColors(Sender: TObject; Line: Integer
 var
   LStyles: TCustomStyleServices;
 begin
-  if not TBCSynEdit(Sender).SelAvail then
+  {if not TBCSynEdit(Sender).SelAvail then
     if TBCSynEdit(Sender).CaretY = Line then
     begin
       Special := True;
       LStyles := StyleServices;
       if LStyles.Enabled then
         BG := LightenColor(TBCSynEdit(Sender).Color, 1 - (10 - OptionsContainer.ColorBrightness)/10);
-    end;
+    end;}
 end;
 
 procedure TDocumentFrame.UpdateMarginAndColors(DocTabSheetFrame: TDocTabSheetFrame);
 begin
+  DocTabSheetFrame.SynEdit.ActiveLineColor := LightenColor(DocTabSheetFrame.SynEdit.Color, 1 - (10 - OptionsContainer.ColorBrightness)/10);
   BCCommon.StyleUtils.UpdateMarginAndColors(DocTabSheetFrame.SynEdit);
+  DocTabSheetFrame.SplitSynEdit.ActiveLineColor := LightenColor(DocTabSheetFrame.SplitSynEdit.Color, 1 - (10 - OptionsContainer.ColorBrightness)/10);
   BCCommon.StyleUtils.UpdateMarginAndColors(DocTabSheetFrame.SplitSynEdit);
 end;
 
@@ -1915,7 +1914,7 @@ begin
     OptionsContainer.MarginVisibleLeftMargin := ReadBool('Options', 'MarginVisibleLeftMargin', True);
     OptionsContainer.MarginVisibleRightMargin := ReadBool('Options', 'MarginVisibleRightMargin', True);
     OptionsContainer.MarginZeroStart := ReadBool('Options', 'MarginZeroStart', False);
-    OptionsContainer.MinimapFontSize :=  StrToInt(ReadString('Options', 'MinimapFontSize', '3'));
+    OptionsContainer.MinimapFontSize :=  StrToInt(ReadString('Options', 'MinimapFontSize', '2'));
     OptionsContainer.NonblinkingCaret := ReadBool('Options', 'NonblinkingCaret', False);
     OptionsContainer.NonblinkingCaretColor := ReadString('Options', 'NonblinkingCaretColor', 'clBlack');
     OptionsContainer.OutputCloseTabByDblClick := ReadBool('Options', 'OutputCloseTabByDblClick', False);

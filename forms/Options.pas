@@ -459,6 +459,7 @@ begin
     TCustomSynEdit(Dest).RightEdge.Position := FMarginRightMargin;
 
     TCustomSynEdit(Dest).Gutter.ShowBookmarks := FMarginShowBookmarks;
+    TCustomSynEdit(Dest).Minimap.Font.Size := FMinimapFontSize;
   end
   else
   if Assigned(Dest) and (Dest is TActionMainMenuBar) then
@@ -706,7 +707,7 @@ begin
   FMarginLineModified := True;
   FMarginModifiedColor := 'clYellow';
   FMarginNormalColor := 'clGreen';
-  FMinimapFontSize := 3;
+  FMinimapFontSize := 2;
   FHTMLErrorChecking := True;
   FHTMLVersion := shvHtml5;
   FIgnoreBlanks := True;

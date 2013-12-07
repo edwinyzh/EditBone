@@ -122,9 +122,11 @@ object DocTabSheetFrame: TDocTabSheetFrame
           Gutter.Font.Height = -11
           Gutter.Font.Name = 'Courier New'
           Gutter.Font.Style = []
+          Gutter.BookmarkPanelColor = clNone
           Gutter.RightOffsetColor = clNone
           Gutter.ShowLineNumbers = True
-          Gutter.Width = 53
+          Gutter.ShowBookmarks = False
+          Gutter.Width = 57
           Minimap.Font.Charset = DEFAULT_CHARSET
           Minimap.Font.Color = clWindowText
           Minimap.Font.Height = -4
@@ -181,9 +183,11 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Gutter.Font.Height = -11
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
+        Gutter.BookmarkPanelColor = clNone
         Gutter.RightOffsetColor = clNone
         Gutter.ShowLineNumbers = True
-        Gutter.Width = 53
+        Gutter.ShowBookmarks = False
+        Gutter.Width = 57
         Minimap.Font.Charset = DEFAULT_CHARSET
         Minimap.Font.Color = clWindowText
         Minimap.Font.Height = -4
