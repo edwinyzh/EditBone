@@ -199,7 +199,6 @@ type
     procedure SynEditOnChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
     procedure SynEditorReplaceText(Sender: TObject; const ASearch, AReplace: UnicodeString; Line, Column: Integer; var Action: TSynReplaceAction);
-    procedure SynEditSpecialLineColors(Sender: TObject; Line: Integer; var Special: Boolean; var FG, BG: TColor);
     procedure SynEditSplitOnChange(Sender: TObject);
     procedure XMLTreeRefreshActionExecute(Sender: TObject);
     procedure GotoLineCloseActionExecute(Sender: TObject);
@@ -622,7 +621,6 @@ begin
       DocumentName := FileName;
       FileDateTime := GetFileDateTime(FileName);
       OnChange := SynEditOnChange;
-      OnSpecialLineColors := SynEditSpecialLineColors;
       OnEnter := SynEditEnter;
       OnReplaceText := SynEditorReplaceText;
       SearchEngine := SynEditSearch;
@@ -769,21 +767,6 @@ begin
       CompareFrame.Panel.Padding.Right := Right  // TODO: Fix UpdateStyles
   end;
   UpdateHighlighterColors;
-end;
-
-procedure TDocumentFrame.SynEditSpecialLineColors(Sender: TObject; Line: Integer;
-  var Special: Boolean; var FG, BG: TColor);
-var
-  LStyles: TCustomStyleServices;
-begin
-  {if not TBCSynEdit(Sender).SelAvail then
-    if TBCSynEdit(Sender).CaretY = Line then
-    begin
-      Special := True;
-      LStyles := StyleServices;
-      if LStyles.Enabled then
-        BG := LightenColor(TBCSynEdit(Sender).Color, 1 - (10 - OptionsContainer.ColorBrightness)/10);
-    end;}
 end;
 
 procedure TDocumentFrame.UpdateMarginAndColors(DocTabSheetFrame: TDocTabSheetFrame);
@@ -3619,7 +3602,6 @@ begin
         Gutter.Font.Color := ASynEdit.Gutter.Font.Color;
         Gutter.ShowLineNumbers := ASynEdit.Gutter.ShowLineNumbers;
         OnChange := SynEditSplitOnChange;
-        OnSpecialLineColors := SynEditSpecialLineColors;
         OnEnter := SynEditEnter;
         OnReplaceText := SynEditorReplaceText;
         SearchEngine := SynEditSearch;
