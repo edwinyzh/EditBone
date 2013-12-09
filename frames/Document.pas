@@ -766,6 +766,7 @@ begin
     if Assigned(CompareFrame) then
       CompareFrame.Panel.Padding.Right := Right  // TODO: Fix UpdateStyles
   end;
+
   UpdateHighlighterColors;
 end;
 
@@ -1897,7 +1898,8 @@ begin
     OptionsContainer.MarginVisibleLeftMargin := ReadBool('Options', 'MarginVisibleLeftMargin', True);
     OptionsContainer.MarginVisibleRightMargin := ReadBool('Options', 'MarginVisibleRightMargin', True);
     OptionsContainer.MarginZeroStart := ReadBool('Options', 'MarginZeroStart', False);
-    OptionsContainer.MinimapFontSize :=  StrToInt(ReadString('Options', 'MinimapFontSize', '2'));
+    OptionsContainer.MinimapFontName :=  ReadString('Options', 'MinimapFontName', 'Courier New');
+    OptionsContainer.MinimapFontSize :=  StrToInt(ReadString('Options', 'MinimapFontSize', '1'));
     OptionsContainer.NonblinkingCaret := ReadBool('Options', 'NonblinkingCaret', False);
     OptionsContainer.NonblinkingCaretColor := ReadString('Options', 'NonblinkingCaretColor', 'clBlack');
     OptionsContainer.OutputCloseTabByDblClick := ReadBool('Options', 'OutputCloseTabByDblClick', False);
@@ -2130,6 +2132,7 @@ begin
     WriteString('Options', 'MarginLeftMarginWidth', IntToStr(OptionsContainer.MarginLeftMarginWidth));
     WriteString('Options', 'MarginModifiedColor', OptionsContainer.MarginModifiedColor);
     WriteString('Options', 'MarginNormalColor', OptionsContainer.MarginNormalColor);
+    WriteString('Options', 'MinimapFontName', OptionsContainer.MinimapFontName);
     WriteString('Options', 'MinimapFontSize', IntToStr(OptionsContainer.MinimapFontSize));
     WriteString('Options', 'NonblinkingCaretColor', OptionsContainer.NonblinkingCaretColor);
     WriteString('Options', 'OutputIndent', IntToStr(OptionsContainer.OutputIndent));
@@ -2721,8 +2724,7 @@ begin
   end;
 end;
 
-procedure TDocumentFrame.SynEditPASPaintTransient
-  (Sender: TObject; Canvas: TCanvas; TransientType: TTransientType);
+procedure TDocumentFrame.SynEditPASPaintTransient(Sender: TObject; Canvas: TCanvas; TransientType: TTransientType);
 
 const
   PasTokens: array [0 .. 14] of TSynTokenMatch =
@@ -3433,7 +3435,7 @@ procedure TDocumentFrame.SetActiveHighlighter(Value: Integer);
     if Assigned(SynEdit) then
     with SynEdit do
     begin
-      ActiveLineColor := clSkyBlue;
+      //ActiveLineColor := clSkyBlue;
       OnPaintTransient := nil;
       HtmlVersion := shvUndefined;
       SynWebEngine.Options.HtmlVersion := shvUndefined;
@@ -3442,7 +3444,10 @@ procedure TDocumentFrame.SetActiveHighlighter(Value: Integer);
              Color := clNavy;
              ActiveLineColor := clBlue;
            end;
-        4: ActiveLineColor := $E6FFFA;
+        4: begin
+             Color := clWhite;
+             ActiveLineColor := $E6FFFA;
+           end;
         5: begin
              Color := clBlack;
              ActiveLineColor := clGray;
@@ -3451,7 +3456,10 @@ procedure TDocumentFrame.SetActiveHighlighter(Value: Integer);
              Color := clNavy;
              ActiveLineColor := clBlue;
            end;
-        7: ActiveLineColor := $E6FFFA;
+        7: begin
+             Color := clWhite;
+             ActiveLineColor := $E6FFFA;
+           end;
         8: begin
              Color := clBlack;
              ActiveLineColor := clGray;
@@ -3468,7 +3476,11 @@ procedure TDocumentFrame.SetActiveHighlighter(Value: Integer);
               ActiveLineColor := clBlue;
               OnPaintTransient := SynEditPASPaintTransient;
             end;
-        39: ActiveLineColor := $E6FFFA;
+        39: begin
+              Color := clWhite;
+              ActiveLineColor := $E6FFFA;
+              OnPaintTransient := SynEditPASPaintTransient;
+            end;
         40: begin
               Color := clBlack;
               ActiveLineColor := clGray;
@@ -3739,7 +3751,10 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
           end
           else
           if OptionsContainer.CPASHighlighter = hDefault then
+          begin
+            Color := clWhite;
             ActiveLineColor := $E6FFFA
+          end
           else
           begin
             Color := clBlack;
@@ -3758,7 +3773,10 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
           end
           else
           if OptionsContainer.CPASHighlighter = hDefault then
+          begin
+            Color := clWhite;
             ActiveLineColor := $E6FFFA
+          end
           else
           begin
             Color := clBlack;
@@ -3786,7 +3804,11 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
           end
           else
           if OptionsContainer.CPASHighlighter = hDefault then
-            ActiveLineColor := $E6FFFA
+          begin
+            Color := clWhite;
+            ActiveLineColor := $E6FFFA;
+            OnPaintTransient := SynEditPASPaintTransient;
+          end
           else
           begin
             Color := clBlack;
@@ -3973,8 +3995,8 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
   end;
 
 begin
-  SetSynEdit(DocTabSheetFrame.SynEdit);
   SetHighlighter;
+  SetSynEdit(DocTabSheetFrame.SynEdit);
   SetSplitSynEdit(DocTabSheetFrame.SynEdit, DocTabSheetFrame.SplitSynEdit);
 end;
 

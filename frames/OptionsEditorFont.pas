@@ -4,7 +4,8 @@ interface
 
 uses
   System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Buttons,
-  Vcl.StdCtrls, Vcl.ActnList, BCControls.SynEdit, System.Actions, SynEdit, Vcl.ComCtrls;
+  Vcl.StdCtrls, Vcl.ActnList, BCControls.SynEdit, System.Actions, SynEdit, Vcl.ComCtrls, Vcl.ImgList,
+  BCControls.ImageList, SynEditHighlighter, SynHighlighterURI, SynURIOpener;
 
 type
   TEditorFontFrame = class(TFrame)
@@ -22,10 +23,16 @@ type
     EditorLabel: TLabel;
     MarginLabel: TLabel;
     SelectMarginFontAction: TAction;
-    MinimapFontSizeTrackBar: TTrackBar;
-    MinimapFontSizeLabel: TLabel;
+    MinimapLabel: TLabel;
+    SelecMinimapFontSpeedButton: TSpeedButton;
+    MinimapFontLabel: TLabel;
+    SelectMinimapFontAction: TAction;
+    BookmarkImagesList: TBCImageList;
+    SynURIOpener: TSynURIOpener;
+    SynURISyn: TSynURISyn;
     procedure SelectEditorFontActionExecute(Sender: TObject);
     procedure SelectMarginFontActionExecute(Sender: TObject);
+    procedure SelectMinimapFontActionExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -58,6 +65,18 @@ begin
     MarginFontLabel.Font.Assign(FontDialog.Font);
     MarginFontLabel.Caption := Format('%s %dpt', [MarginFontLabel.Font.Name, MarginFontLabel.Font.Size]);
     SynEdit.Gutter.Font.Assign(FontDialog.Font);
+  end;
+end;
+
+procedure TEditorFontFrame.SelectMinimapFontActionExecute(Sender: TObject);
+begin
+  FontDialog.Font.Name := MinimapFontLabel.Font.Name;
+  FontDialog.Font.Size := MinimapFontLabel.Font.Size;
+  if FontDialog.Execute then
+  begin
+    MinimapFontLabel.Font.Assign(FontDialog.Font);
+    MinimapFontLabel.Caption := Format('%s %dpt', [MinimapFontLabel.Font.Name, MinimapFontLabel.Font.Size]);
+    SynEdit.Minimap.Font.Assign(FontDialog.Font);
   end;
 end;
 

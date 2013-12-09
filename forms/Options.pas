@@ -161,6 +161,7 @@ type
     FMarginVisibleRightMargin: Boolean;
     FMarginZeroStart: Boolean;
     FMinimapFontSize: Integer;
+    FMinimapFontName: string;
     FNonblinkingCaret: Boolean;
     FNonblinkingCaretColor: string;
     FOutputCloseTabByDblClick: Boolean;
@@ -296,6 +297,7 @@ type
     property MarginVisibleRightMargin: Boolean read FMarginVisibleRightMargin write FMarginVisibleRightMargin;
     property MarginZeroStart: Boolean read FMarginZeroStart write FMarginZeroStart;
     property MinimapFontSize: Integer read FMinimapFontSize write FMinimapFontSize;
+    property MinimapFontName: string read FMinimapFontName write FMinimapFontName;
     property NonblinkingCaret: Boolean read FNonblinkingCaret write FNonblinkingCaret default False;
     property NonblinkingCaretColor: string read FNonblinkingCaretColor write FNonblinkingCaretColor;
     property OutputCloseTabByDblClick: Boolean read FOutputCloseTabByDblClick write FOutputCloseTabByDblClick;
@@ -460,6 +462,7 @@ begin
 
     TCustomSynEdit(Dest).Gutter.ShowBookmarks := FMarginShowBookmarks;
     TCustomSynEdit(Dest).Minimap.Font.Size := FMinimapFontSize;
+    TCustomSynEdit(Dest).Minimap.Font.Name := FMinimapFontName;
   end
   else
   if Assigned(Dest) and (Dest is TActionMainMenuBar) then
@@ -708,6 +711,7 @@ begin
   FMarginModifiedColor := 'clYellow';
   FMarginNormalColor := 'clGreen';
   FMinimapFontSize := 2;
+  FMinimapFontName := 'Courier New';
   FHTMLErrorChecking := True;
   FHTMLVersion := shvHtml5;
   FIgnoreBlanks := True;
@@ -1062,7 +1066,9 @@ begin
   FEditorFontFrame.MarginFontLabel.Font.Name := FOptionsContainer.MarginFontName;
   FEditorFontFrame.MarginFontLabel.Font.Size := FOptionsContainer.MarginFontSize;
   FEditorFontFrame.MarginFontLabel.Caption := Format('%s %dpt', [FEditorFontFrame.MarginFontLabel.Font.Name, FEditorFontFrame.MarginFontLabel.Font.Size]);
-  FEditorFontFrame.MinimapFontSizeTrackBar.Position := FOptionsContainer.MinimapFontSize;
+  FEditorFontFrame.MinimapFontLabel.Font.Name := FOptionsContainer.MinimapFontName;
+  FEditorFontFrame.MinimapFontLabel.Font.Size := FOptionsContainer.MinimapFontSize;
+  FEditorFontFrame.MinimapFontLabel.Caption := Format('%s %dpt', [FEditorFontFrame.MinimapFontLabel.Font.Name, FEditorFontFrame.MinimapFontLabel.Font.Size]);
   { Left Margin }
   FEditorLeftMarginFrame.AutoSizeCheckBox.Checked := FOptionsContainer.MarginLeftMarginAutoSize;
   FEditorLeftMarginFrame.VisibleCheckBox.Checked := FOptionsContainer.MarginVisibleLeftMargin;
@@ -1211,6 +1217,7 @@ begin
     if FEditorFontFrame.Visible then
     begin
       FOptionsContainer.AssignTo(FEditorFontFrame.SynEdit);
+      FEditorFontFrame.SynEdit.ActiveLineColor := LightenColor(FEditorFontFrame.SynEdit.Color, 1 - (10 - FOptionsContainer.ColorBrightness)/10);
       UpdateMarginAndColors(FEditorFontFrame.SynEdit);
     end;
     FEditorLeftMarginFrame.Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 1);
@@ -1312,7 +1319,8 @@ begin
   FOptionsContainer.FontSize := FEditorFontFrame.EditorFontLabel.Font.Size;
   FOptionsContainer.MarginFontName := FEditorFontFrame.MarginFontLabel.Font.Name;
   FOptionsContainer.MarginFontSize := FEditorFontFrame.MarginFontLabel.Font.Size;
-  FOptionsContainer.MinimapFontSize := FEditorFontFrame.MinimapFontSizeTrackBar.Position;
+  FOptionsContainer.MinimapFontName := FEditorFontFrame.MinimapFontLabel.Font.Name;
+  FOptionsContainer.MinimapFontSize := FEditorFontFrame.MinimapFontLabel.Font.Size;
   { Left Margin }
   FOptionsContainer.MarginVisibleLeftMargin := FEditorLeftMarginFrame.VisibleCheckBox.Checked;
   FOptionsContainer.MarginLeftMarginAutoSize := FEditorLeftMarginFrame.AutoSizeCheckBox.Checked;
