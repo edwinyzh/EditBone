@@ -29,6 +29,7 @@ object MainForm: TMainForm
     Top = 541
     Width = 1100
     Height = 19
+    DoubleBuffered = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBtnText
     Font.Height = -11
@@ -48,6 +49,7 @@ object MainForm: TMainForm
       item
         Width = 50
       end>
+    ParentDoubleBuffered = False
     UseSystemFont = False
   end
   object MainMenuPanel: TPanel

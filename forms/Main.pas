@@ -1694,7 +1694,6 @@ begin
     if ShowModal = mrOk then
     begin
       T1 := Now;
-      Screen.Cursor := crHourGlass;
       try
         OutputPanel.Visible := True;
         OutputTreeView := FOutputFrame.AddTreeView(Format(LanguageDataModule.GetConstant('SearchFor'), [FindWhatText]));
@@ -1722,7 +1721,6 @@ begin
         end;
         FOutputFrame.PageControl.EndDrag(False); { if close button pressed and search canceled, dragging will stay... }
         FOutputFrame.ProcessingTabSheet := False;
-        Screen.Cursor := crDefault;
       end;
     end;
   end;
@@ -2011,9 +2009,8 @@ begin
     repeat
       if FOutputFrame.CancelSearch then
         Exit;
-      StatusBar.Panels[3].Text := LanguageDataModule.GetConstant('SearchInProgress');
-      Application.ProcessMessages;
       FName := StrPas(sWin32FD.cFileName);
+
       if (FName <> '.') and (FName <> '..') then
       begin
         if LookInSubfolders and IsDirectory(sWin32FD) then
@@ -2022,6 +2019,9 @@ begin
           {$WARNINGS ON}
         else
         begin
+          StatusBar.Panels[3].Text := IncludeTrailingBackslash(String(FolderText)) + FName;
+          Application.ProcessMessages;
+
           if IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) then
             if (FileTypeText = '*.*') or IsExtInFileType(ExtractFileExt(FName), FileTypeText) then
             try

@@ -77,6 +77,7 @@ begin
     MinimapFontLabel.Font.Assign(FontDialog.Font);
     MinimapFontLabel.Caption := Format('%s %dpt', [MinimapFontLabel.Font.Name, MinimapFontLabel.Font.Size]);
     SynEdit.Minimap.Font.Assign(FontDialog.Font);
+    SynEdit.Invalidate;
   end;
 end;
 
