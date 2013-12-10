@@ -2019,7 +2019,10 @@ begin
           {$WARNINGS ON}
         else
         begin
+          {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
           StatusBar.Panels[3].Text := IncludeTrailingBackslash(String(FolderText)) + FName;
+          StatusBar.Invalidate;
+          {$WARNINGS ON}
           Application.ProcessMessages;
 
           if IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) then

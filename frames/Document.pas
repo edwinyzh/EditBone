@@ -1900,6 +1900,7 @@ begin
     OptionsContainer.MarginZeroStart := ReadBool('Options', 'MarginZeroStart', False);
     OptionsContainer.MinimapFontName :=  ReadString('Options', 'MinimapFontName', 'Courier New');
     OptionsContainer.MinimapFontSize :=  StrToInt(ReadString('Options', 'MinimapFontSize', '1'));
+    OptionsContainer.MinimapWidth :=  StrToInt(ReadString('Options', 'MinimapWidth', '100'));
     OptionsContainer.NonblinkingCaret := ReadBool('Options', 'NonblinkingCaret', False);
     OptionsContainer.NonblinkingCaretColor := ReadString('Options', 'NonblinkingCaretColor', 'clBlack');
     OptionsContainer.OutputCloseTabByDblClick := ReadBool('Options', 'OutputCloseTabByDblClick', False);
@@ -2134,6 +2135,7 @@ begin
     WriteString('Options', 'MarginNormalColor', OptionsContainer.MarginNormalColor);
     WriteString('Options', 'MinimapFontName', OptionsContainer.MinimapFontName);
     WriteString('Options', 'MinimapFontSize', IntToStr(OptionsContainer.MinimapFontSize));
+    WriteString('Options', 'MinimapWidth', IntToStr(OptionsContainer.MinimapWidth));
     WriteString('Options', 'NonblinkingCaretColor', OptionsContainer.NonblinkingCaretColor);
     WriteString('Options', 'OutputIndent', IntToStr(OptionsContainer.OutputIndent));
     WriteString('Options', 'PrintDateTime', IntToStr(OptionsContainer.PrintDateTime));

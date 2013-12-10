@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Buttons,
   Vcl.StdCtrls, Vcl.ActnList, BCControls.SynEdit, System.Actions, SynEdit, Vcl.ComCtrls, Vcl.ImgList,
-  BCControls.ImageList, SynEditHighlighter, SynHighlighterURI, SynURIOpener;
+  BCControls.ImageList, SynEditHighlighter, SynHighlighterURI, SynURIOpener, BCControls.Edit;
 
 type
   TEditorFontFrame = class(TFrame)
@@ -30,9 +30,12 @@ type
     BookmarkImagesList: TBCImageList;
     SynURIOpener: TSynURIOpener;
     SynURISyn: TSynURISyn;
+    MinimapWidthLabel: TLabel;
+    MinimapWidthEdit: TBCEdit;
     procedure SelectEditorFontActionExecute(Sender: TObject);
     procedure SelectMarginFontActionExecute(Sender: TObject);
     procedure SelectMinimapFontActionExecute(Sender: TObject);
+    procedure MinimapWidthEditChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -42,6 +45,11 @@ type
 implementation
 
 {$R *.dfm}
+
+procedure TEditorFontFrame.MinimapWidthEditChange(Sender: TObject);
+begin
+  SynEdit.Minimap.Width := StrToInt(MinimapWidthEdit.Text);
+end;
 
 procedure TEditorFontFrame.SelectEditorFontActionExecute(Sender: TObject);
 begin
