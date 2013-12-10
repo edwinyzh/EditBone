@@ -463,8 +463,8 @@ begin
     TCustomSynEdit(Dest).RightEdge.Position := FMarginRightMargin;
 
     TCustomSynEdit(Dest).Gutter.ShowBookmarks := FMarginShowBookmarks;
-    TCustomSynEdit(Dest).Minimap.Font.Size := FMinimapFontSize;
     TCustomSynEdit(Dest).Minimap.Font.Name := FMinimapFontName;
+    TCustomSynEdit(Dest).Minimap.Font.Size := FMinimapFontSize;
     TCustomSynEdit(Dest).Minimap.Width := FMinimapWidth;
   end
   else

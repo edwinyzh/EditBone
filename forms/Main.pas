@@ -1315,17 +1315,17 @@ begin
   FOutputFrame.OnOpenAll := OutputOpenAllEvent;
   FOutputFrame.ReadOutFile;
   OutputPanel.Visible := FOutputFrame.IsAnyOutput;
+  { TDocumentFrame }
+  FDocumentFrame := TDocumentFrame.Create(DocumentPanel);
+  FDocumentFrame.Parent := DocumentPanel;
+  FDocumentFrame.PopupMenu := DocumentPopupMenu;
+  FDocumentFrame.ReadIniFile;
   { TDirectoryFrame }
   FDirectoryFrame := TDirectoryFrame.Create(DirectoryPanel);
   FDirectoryFrame.Parent := DirectoryPanel;
   FDirectoryFrame.OnTabsheetDblClick := FileTreeViewDblClickActionExecute;
   FDirectoryFrame.OnSearchForFilesOpenFile := DoSearchForFilesOpenFile;
   FDirectoryFrame.SearchForFilesAction := SearchFindInFilesAction;
-  { TDocumentFrame }
-  FDocumentFrame := TDocumentFrame.Create(DocumentPanel);
-  FDocumentFrame.Parent := DocumentPanel;
-  FDocumentFrame.PopupMenu := DocumentPopupMenu;
-  FDocumentFrame.ReadIniFile;
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);

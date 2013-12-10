@@ -46,10 +46,12 @@ object DirTabSheetFrame: TDirTabSheetFrame
       IncrementalSearch = isAll
       Indent = 20
       ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 0
       TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScroll, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
-      TreeOptions.MiscOptions = [toEditable, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
-      TreeOptions.PaintOptions = [toShowBackground, toShowButtons, toShowDropmark, toShowRoot, toThemeAware, toUseBlendedSelection, toUseExplorerTheme]
+      TreeOptions.MiscOptions = [toEditable, toFullRepaintOnResize, toToggleOnDblClick, toWheelPanning, toEditOnClick]
+      TreeOptions.PaintOptions = [toHideFocusRect, toShowButtons, toShowDropmark, toShowRoot, toThemeAware, toUseBlendedSelection]
       Columns = <>
     end
     object DriveComboBox: TBCDriveComboBox
