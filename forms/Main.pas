@@ -793,7 +793,7 @@ begin
     { Directory }
     DirectoryPanel.Width := ReadInteger('Options', 'DirectoryWidth', 257);
     Application.ProcessMessages;
-finally
+  finally
     Free;
   end;
 end;
@@ -870,7 +870,7 @@ begin
   with TBigIniFile.Create(GetIniFilename) do
   try
     WriteString(Application.Title, 'Version', AboutDialog.Version);
-    if WindowState = wsNormal then
+    if WindowState = wsNormal  then
     begin
       { Position }
       WriteInteger('Position', 'Left', Left);
@@ -1293,14 +1293,15 @@ var
 begin
   Screen.Cursor := crHourGlass;
   try
-    MainForm.ProgressBar.Visible := True;
     j := FileNames.Count;
+    MainForm.ProgressBar.Init(j);
+    MainForm.ProgressBar.Show;
     for i := 0 to j - 1 do
     begin
-      MainForm.ProgressBar.Position := Trunc((i / j) * 100);
+      MainForm.ProgressBar.StepIt;
       MainForm.FDocumentFrame.Open(FileNames.Strings[i]);
     end;
-    MainForm.ProgressBar.Visible := False;
+    MainForm.ProgressBar.Hide;
   finally
     Screen.Cursor := crDefault;
   end;
@@ -1337,6 +1338,7 @@ begin
   CreateFrames;
   UpdateStatusBar;
   ReadIniFile;
+  ReadWindowState; { because of styles this cannot be done before... }
 
   {$IFDEF RELEASE}
   ToolsDuplicateCheckerAction.Visible := False;
@@ -1388,7 +1390,6 @@ begin
     UpdateControls;
 
     FOnStartUp := False;
-    ReadWindowState; { because of styles this cannot be done before... }
 
     SynEdit := FDocumentFrame.GetActiveSynEdit;
     if Assigned(SynEdit) then
@@ -1414,7 +1415,7 @@ end;
 procedure TMainForm.CreateProgressBar;
 begin
   FProgressBar := TBCProgressBar.Create(StatusBar);
-  FProgressBar.Visible := False;
+  FProgressBar.Hide;
   ResizeProgressBar;
   FProgressBar.Parent := Statusbar;
   FDocumentFrame.ProgressBar := FProgressBar;
@@ -1693,6 +1694,8 @@ begin
         FindWhatComboBox.Text := SynEdit.SelText;
     if ShowModal = mrOk then
     begin
+      ProgressBar.Init(CountFilesInFolder(FolderText));
+      ProgressBar.Visible := True; // Show;
       T1 := Now;
       try
         OutputPanel.Visible := True;
@@ -1701,6 +1704,7 @@ begin
         Application.ProcessMessages;
         FindInFiles(OutputTreeView, FindWhatText, FileTypeText, FolderText, SearchCaseSensitive, LookInSubfolders);
       finally
+        ProgressBar.Visible := False; // Hide;
         T2 := Now;
         if not FOutputFrame.CancelSearch then
         begin
@@ -2020,8 +2024,8 @@ begin
         else
         begin
           {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
-          StatusBar.Panels[3].Text := IncludeTrailingBackslash(String(FolderText)) + FName;
-          StatusBar.Invalidate;
+          //StatusBar.Panels[3].Text := IncludeTrailingBackslash(String(FolderText)) + FName;
+          ProgressBar.StepIt;
           {$WARNINGS ON}
           Application.ProcessMessages;
 

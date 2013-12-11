@@ -29,7 +29,7 @@ object MainForm: TMainForm
     Top = 541
     Width = 1100
     Height = 19
-    DoubleBuffered = False
+    DoubleBuffered = True
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBtnText
     Font.Height = -11
