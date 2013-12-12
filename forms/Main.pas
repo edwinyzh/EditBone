@@ -1280,6 +1280,8 @@ end;
 
 procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  if FOutputFrame.ProcessingTabSheet then
+    FOutputFrame.CloseTabSheet;
   FDocumentFrame.CloseAll(False);
   FDocumentFrame.WriteIniFile;
   FDirectoryFrame.WriteIniFile;
@@ -1294,7 +1296,7 @@ begin
   Screen.Cursor := crHourGlass;
   try
     j := FileNames.Count;
-    MainForm.ProgressBar.Init(j);
+    MainForm.ProgressBar.Count := j;
     MainForm.ProgressBar.Show;
     for i := 0 to j - 1 do
     begin
@@ -1694,8 +1696,8 @@ begin
         FindWhatComboBox.Text := SynEdit.SelText;
     if ShowModal = mrOk then
     begin
-      ProgressBar.Init(CountFilesInFolder(FolderText));
-      ProgressBar.Visible := True; // Show;
+      ProgressBar.Count := CountFilesInFolder(FolderText);
+      ProgressBar.Show;
       T1 := Now;
       try
         OutputPanel.Visible := True;
@@ -1704,7 +1706,7 @@ begin
         Application.ProcessMessages;
         FindInFiles(OutputTreeView, FindWhatText, FileTypeText, FolderText, SearchCaseSensitive, LookInSubfolders);
       finally
-        ProgressBar.Visible := False; // Hide;
+        ProgressBar.Hide;
         T2 := Now;
         if not FOutputFrame.CancelSearch then
         begin
@@ -2023,10 +2025,7 @@ begin
           {$WARNINGS ON}
         else
         begin
-          {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
-          //StatusBar.Panels[3].Text := IncludeTrailingBackslash(String(FolderText)) + FName;
           ProgressBar.StepIt;
-          {$WARNINGS ON}
           Application.ProcessMessages;
 
           if IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) then
