@@ -311,8 +311,7 @@ type
     procedure LoadMacro;
     procedure New;
     procedure NextPage;
-    procedure Open(FileName: string = ''; Bookmarks: TStrings = nil; Ln: Integer = 0;
-      Ch: Integer = 0; StartUp: Boolean = False);
+    procedure Open(FileName: string = ''; Bookmarks: TStrings = nil; Ln: Integer = 0; Ch: Integer = 0; StartUp: Boolean = False);
     procedure Paste;
     procedure PlaybackMacro;
     procedure PreviousPage;
@@ -961,6 +960,7 @@ begin
         if not Assigned(SynEdit) then
           SynEdit := CreateNewTabSheet(FileName);
         SynEdit.CaretXY := BufferCoord(Ch, Ln);
+        SynEdit.GotoLineAndCenter(Ln);
         SetBookmarks(SynEdit, Bookmarks);
         CheckHTMLErrors;
         try
