@@ -58,15 +58,15 @@ uses
   BCCommon.LanguageUtils in '..\..\Common\units\BCCommon.LanguageUtils.pas',
   BCCommon.Messages in '..\..\Common\units\BCCommon.Messages.pas',
   BCForms.Convert in '..\..\Common\forms\BCForms.Convert.pas' {ConvertForm},
-  OptionsEditorCompletionProposal in 'frames\OptionsEditorCompletionProposal.pas' {EditorCompletionProposalFrame: TFrame},
+  BCFrames.OptionsEditorCompletionProposal in '..\..\Common\frames\BCFrames.OptionsEditorCompletionProposal.pas' {EditorCompletionProposalFrame: TFrame},
   OptionsPrint in 'frames\OptionsPrint.pas' {OptionsPrintFrame: TFrame},
   BCCommon.Lib in '..\..\Common\units\BCCommon.Lib.pas',
   BCCommon.MacroRecorder in '..\..\Common\units\BCCommon.MacroRecorder.pas',
   OptionsEditorSearch in 'frames\OptionsEditorSearch.pas' {EditorSearchFrame: TFrame},
   BCForms.SearchForFiles in '..\..\Common\forms\BCForms.SearchForFiles.pas' {SearchForFilesForm},
   BCCommon.Math in '..\..\Common\units\BCCommon.Math.pas',
-  OptionsEditorLeftMargin in 'frames\OptionsEditorLeftMargin.pas' {EditorLeftMarginFrame: TFrame},
-  OptionsEditorRightMargin in 'frames\OptionsEditorRightMargin.pas' {EditorRightMarginFrame: TFrame};
+  OptionsEditorRightMargin in 'frames\OptionsEditorRightMargin.pas' {EditorRightMarginFrame: TFrame},
+  BCFrames.OptionsEditorLeftMargin in '..\..\Common\frames\BCFrames.OptionsEditorLeftMargin.pas' {EditorLeftMarginFrame: TFrame};
 
 {$R *.res}
 
