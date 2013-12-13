@@ -8,8 +8,8 @@ uses
   SynHighlighterWeb, SynHighlighterSQL, Vcl.ActnList, Vcl.Themes, OptionsPrint, BCFrames.OptionsEditorSearch, VirtualTrees,
   BCFrames.OptionsEditorOptions, BCFrames.OptionsEditorFont, BCFrames.OptionsEditorLeftMargin, OptionsEditorTabs, Lib,
   OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, BCFrames.OptionsCompare, BCFrames.OptionsMainMenu,
-  OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, OptionsStatusBar, OptionsOutput, OptionsToolBar, Vcl.ActnMenus, System.Actions,
-  BCFrames.OptionsEditorCompletionProposal, BCDialogs.Dlg, BCFrames.OptionsEditorRightMargin;
+  OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, OptionsStatusBar, BCFrames.OptionsOutput, OptionsToolBar,
+  Vcl.ActnMenus, System.Actions, BCFrames.OptionsEditorCompletionProposal, BCDialogs.Dlg, BCFrames.OptionsEditorRightMargin;
 
 type
   POptionsRec = ^TOptionsRec;
