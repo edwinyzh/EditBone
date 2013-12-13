@@ -43,7 +43,7 @@ uses
   OptionsOutputTabs in 'frames\OptionsOutputTabs.pas' {OutputTabsFrame: TFrame},
   Vcl.PlatformVclStylesActnCtrls in '..\..\Common\units\Vcl.PlatformVclStylesActnCtrls.pas',
   OptionsDirectory in 'frames\OptionsDirectory.pas' {OptionsDirectoryFrame: TFrame},
-  OptionsStatusBar in 'frames\OptionsStatusBar.pas' {StatusBarFrame: TFrame},
+  BCFrames.OptionsStatusBar in '..\..\Common\frames\BCFrames.OptionsStatusBar.pas' {StatusBarFrame: TFrame},
   InsertTag in 'dialogs\InsertTag.pas' {InsertTagDialog},
   OptionsToolBar in 'frames\OptionsToolBar.pas' {ToolBarFrame: TFrame},
   UnicodeCharacterMap in 'forms\UnicodeCharacterMap.pas' {UnicodeCharacterMapForm},
@@ -55,7 +55,6 @@ uses
   BCCommon.Messages in '..\..\Common\units\BCCommon.Messages.pas',
   BCForms.Convert in '..\..\Common\forms\BCForms.Convert.pas' {ConvertForm},
   BCFrames.OptionsEditorCompletionProposal in '..\..\Common\frames\BCFrames.OptionsEditorCompletionProposal.pas' {EditorCompletionProposalFrame: TFrame},
-  OptionsPrint in 'frames\OptionsPrint.pas' {OptionsPrintFrame: TFrame},
   BCCommon.Lib in '..\..\Common\units\BCCommon.Lib.pas',
   BCCommon.MacroRecorder in '..\..\Common\units\BCCommon.MacroRecorder.pas',
   BCForms.SearchForFiles in '..\..\Common\forms\BCForms.SearchForFiles.pas' {SearchForFilesForm},
@@ -66,7 +65,8 @@ uses
   BCFrames.OptionsEditorSearch in '..\..\Common\frames\BCFrames.OptionsEditorSearch.pas' {EditorSearchFrame: TFrame},
   OptionsEditorTabs in 'frames\OptionsEditorTabs.pas' {EditorTabsFrame: TFrame},
   BCFrames.OptionsMainMenu in '..\..\Common\frames\BCFrames.OptionsMainMenu.pas' {MainMenuFrame: TFrame},
-  BCFrames.OptionsOutput in '..\..\Common\frames\BCFrames.OptionsOutput.pas' {OptionsOutputFrame: TFrame};
+  BCFrames.OptionsOutput in '..\..\Common\frames\BCFrames.OptionsOutput.pas' {OptionsOutputFrame: TFrame},
+  BCFrames.OptionsPrint in '..\..\Common\frames\BCFrames.OptionsPrint.pas' {OptionsPrintFrame: TFrame};
 
 {$R *.res}
 

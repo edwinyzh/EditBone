@@ -233,7 +233,7 @@
             <Form>OptionsDirectoryFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="frames\OptionsStatusBar.pas">
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsStatusBar.pas">
             <Form>StatusBarFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
@@ -261,11 +261,6 @@
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorCompletionProposal.pas">
             <Form>EditorCompletionProposalFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="frames\OptionsPrint.pas">
-            <Form>OptionsPrintFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
@@ -308,6 +303,11 @@
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsOutput.pas">
             <Form>OptionsOutputFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsPrint.pas">
+            <Form>OptionsPrintFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>

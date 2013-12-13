@@ -5,11 +5,12 @@ interface
 uses
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, BCCommon.FileUtils, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.Buttons,
   Vcl.Menus, SynEdit, SynEditMiscClasses, SynHighlighterWebData, System.Classes, System.SysUtils, Vcl.ImgList,
-  SynHighlighterWeb, SynHighlighterSQL, Vcl.ActnList, Vcl.Themes, OptionsPrint, BCFrames.OptionsEditorSearch, VirtualTrees,
-  BCFrames.OptionsEditorOptions, BCFrames.OptionsEditorFont, BCFrames.OptionsEditorLeftMargin, OptionsEditorTabs, Lib,
-  OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, BCFrames.OptionsCompare, BCFrames.OptionsMainMenu,
-  OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, OptionsStatusBar, BCFrames.OptionsOutput, OptionsToolBar,
-  Vcl.ActnMenus, System.Actions, BCFrames.OptionsEditorCompletionProposal, BCDialogs.Dlg, BCFrames.OptionsEditorRightMargin;
+  SynHighlighterWeb, SynHighlighterSQL, Vcl.ActnList, Vcl.Themes, BCFrames.OptionsPrint, BCFrames.OptionsEditorSearch,
+  VirtualTrees, BCFrames.OptionsEditorOptions, BCFrames.OptionsEditorFont, BCFrames.OptionsEditorLeftMargin,
+  OptionsEditorTabs, Lib, OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, BCFrames.OptionsCompare,
+  BCFrames.OptionsMainMenu, OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, BCFrames.OptionsStatusBar,
+  BCFrames.OptionsOutput, OptionsToolBar, Vcl.ActnMenus, System.Actions, BCFrames.OptionsEditorCompletionProposal,
+  BCDialogs.Dlg, BCFrames.OptionsEditorRightMargin;
 
 type
   POptionsRec = ^TOptionsRec;
