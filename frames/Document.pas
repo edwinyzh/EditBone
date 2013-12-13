@@ -771,10 +771,11 @@ end;
 
 procedure TDocumentFrame.UpdateMarginAndColors(DocTabSheetFrame: TDocTabSheetFrame);
 begin
-  DocTabSheetFrame.SynEdit.ActiveLineColor := LightenColor(DocTabSheetFrame.SynEdit.Color, 1 - (10 - OptionsContainer.ColorBrightness)/10);
   BCCommon.StyleUtils.UpdateMarginAndColors(DocTabSheetFrame.SynEdit);
-  DocTabSheetFrame.SplitSynEdit.ActiveLineColor := LightenColor(DocTabSheetFrame.SplitSynEdit.Color, 1 - (10 - OptionsContainer.ColorBrightness)/10);
+  DocTabSheetFrame.SynEdit.ActiveLineColor := LightenColor(DocTabSheetFrame.SynEdit.Color, 1 - (10 - OptionsContainer.ColorBrightness)/10);
+
   BCCommon.StyleUtils.UpdateMarginAndColors(DocTabSheetFrame.SplitSynEdit);
+  DocTabSheetFrame.SplitSynEdit.ActiveLineColor := LightenColor(DocTabSheetFrame.SplitSynEdit.Color, 1 - (10 - OptionsContainer.ColorBrightness)/10);
 end;
 
 procedure TDocumentFrame.SynEditEnter(Sender: TObject);
