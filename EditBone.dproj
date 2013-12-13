@@ -200,10 +200,6 @@
             <Form>OutputTabSheetFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="frames\OptionsEditorOptions.pas">
-            <Form>EditorOptionsFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="frames\OptionsEditorErrorChecking.pas">
             <Form>EditorErrorCheckingFrame</Form>
             <DesignClass>TFrame</DesignClass>
@@ -216,16 +212,8 @@
             <Form>EditorFontFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="frames\OptionsEditorTabs.pas">
-            <Form>EditorTabsFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="frames\OptionsFileTypes.pas">
             <Form>FileTypesFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="frames\OptionsMainMenu.pas">
-            <Form>MainMenuFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsCompare.pas">
@@ -287,23 +275,38 @@
         </DCCReference>
         <DCCReference Include="..\..\Common\units\BCCommon.Lib.pas"/>
         <DCCReference Include="..\..\Common\units\BCCommon.MacroRecorder.pas"/>
-        <DCCReference Include="frames\OptionsEditorSearch.pas">
-            <Form>EditorSearchFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="..\..\Common\forms\BCForms.SearchForFiles.pas">
             <Form>SearchForFilesForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\..\Common\units\BCCommon.Math.pas"/>
-        <DCCReference Include="frames\OptionsEditorRightMargin.pas">
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorRightMargin.pas">
             <Form>EditorRightMarginFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorLeftMargin.pas">
             <Form>EditorLeftMarginFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorOptions.pas">
+            <Form>EditorOptionsFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorSearch.pas">
+            <Form>EditorSearchFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="frames\OptionsEditorTabs.pas">
+            <Form>EditorTabsFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsMainMenu.pas">
+            <Form>MainMenuFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>

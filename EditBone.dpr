@@ -34,13 +34,10 @@ uses
   BCCommon.Encoding in '..\..\Common\units\BCCommon.Encoding.pas',
   DirectoryTabSheet in 'frames\DirectoryTabSheet.pas' {DirTabSheetFrame: TFrame},
   OutputTabSheet in 'frames\OutputTabSheet.pas' {OutputTabSheetFrame: TFrame},
-  OptionsEditorOptions in 'frames\OptionsEditorOptions.pas' {EditorOptionsFrame: TFrame},
   OptionsEditorErrorChecking in 'frames\OptionsEditorErrorChecking.pas' {EditorErrorCheckingFrame: TFrame},
   OptionsEditorOther in 'frames\OptionsEditorOther.pas' {EditorOtherFrame: TFrame},
   BCFrames.OptionsEditorFont in '..\..\Common\frames\BCFrames.OptionsEditorFont.pas' {EditorFontFrame: TFrame},
-  OptionsEditorTabs in 'frames\OptionsEditorTabs.pas' {EditorTabsFrame: TFrame},
   OptionsFileTypes in 'frames\OptionsFileTypes.pas' {FileTypesFrame: TFrame},
-  OptionsMainMenu in 'frames\OptionsMainMenu.pas' {MainMenuFrame: TFrame},
   BCFrames.OptionsCompare in '..\..\Common\frames\BCFrames.OptionsCompare.pas' {OptionsCompareFrame: TFrame},
   OptionsDirectoryTabs in 'frames\OptionsDirectoryTabs.pas' {DirectoryTabsFrame: TFrame},
   OptionsOutputTabs in 'frames\OptionsOutputTabs.pas' {OutputTabsFrame: TFrame},
@@ -62,11 +59,14 @@ uses
   OptionsPrint in 'frames\OptionsPrint.pas' {OptionsPrintFrame: TFrame},
   BCCommon.Lib in '..\..\Common\units\BCCommon.Lib.pas',
   BCCommon.MacroRecorder in '..\..\Common\units\BCCommon.MacroRecorder.pas',
-  OptionsEditorSearch in 'frames\OptionsEditorSearch.pas' {EditorSearchFrame: TFrame},
   BCForms.SearchForFiles in '..\..\Common\forms\BCForms.SearchForFiles.pas' {SearchForFilesForm},
   BCCommon.Math in '..\..\Common\units\BCCommon.Math.pas',
-  OptionsEditorRightMargin in 'frames\OptionsEditorRightMargin.pas' {EditorRightMarginFrame: TFrame},
-  BCFrames.OptionsEditorLeftMargin in '..\..\Common\frames\BCFrames.OptionsEditorLeftMargin.pas' {EditorLeftMarginFrame: TFrame};
+  BCFrames.OptionsEditorRightMargin in '..\..\Common\frames\BCFrames.OptionsEditorRightMargin.pas' {EditorRightMarginFrame: TFrame},
+  BCFrames.OptionsEditorLeftMargin in '..\..\Common\frames\BCFrames.OptionsEditorLeftMargin.pas' {EditorLeftMarginFrame: TFrame},
+  BCFrames.OptionsEditorOptions in '..\..\Common\frames\BCFrames.OptionsEditorOptions.pas' {EditorOptionsFrame: TFrame},
+  BCFrames.OptionsEditorSearch in '..\..\Common\frames\BCFrames.OptionsEditorSearch.pas' {EditorSearchFrame: TFrame},
+  OptionsEditorTabs in 'frames\OptionsEditorTabs.pas' {EditorTabsFrame: TFrame},
+  BCFrames.OptionsMainMenu in '..\..\Common\frames\BCFrames.OptionsMainMenu.pas' {MainMenuFrame: TFrame};
 
 {$R *.res}
 
