@@ -8,7 +8,7 @@
         <Base>True</Base>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -212,7 +212,7 @@
             <Form>EditorOtherFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="frames\OptionsEditorFont.pas">
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorFont.pas">
             <Form>EditorFontFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
@@ -228,7 +228,7 @@
             <Form>MainMenuFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="frames\OptionsCompare.pas">
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsCompare.pas">
             <Form>OptionsCompareFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
