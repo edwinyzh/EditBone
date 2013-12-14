@@ -373,7 +373,7 @@ var
 
 function OptionsContainer: TOptionsContainer;
 begin
-  if FOptionsContainer = nil then
+  if not Assigned(FOptionsContainer) then
     FOptionsContainer := TOptionsContainer.Create(nil);
   Result := FOptionsContainer;
 end;
