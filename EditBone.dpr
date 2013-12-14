@@ -14,7 +14,7 @@ uses
   Document in 'frames\Document.pas' {DocumentFrame: TFrame},
   About in 'dialogs\About.pas' {AboutDialog},
   Lib in 'units\Lib.pas',
-  Options in 'forms\Options.pas' {OptionsDialog},
+  Options in 'forms\Options.pas' {OptionsForm},
   BCForms.PrintPreview in '..\..\Common\forms\BCForms.PrintPreview.pas' {PrintPreviewDialog},
   BCDialogs.ConfirmReplace in '..\..\Common\dialogs\BCDialogs.ConfirmReplace.pas' {ConfirmReplaceDialog},
   BCDialogs.FindInFiles in '..\..\Common\dialogs\BCDialogs.FindInFiles.pas' {FindInFilesDialog},
@@ -66,7 +66,8 @@ uses
   OptionsEditorTabs in 'frames\OptionsEditorTabs.pas' {EditorTabsFrame: TFrame},
   BCFrames.OptionsMainMenu in '..\..\Common\frames\BCFrames.OptionsMainMenu.pas' {MainMenuFrame: TFrame},
   BCFrames.OptionsOutput in '..\..\Common\frames\BCFrames.OptionsOutput.pas' {OptionsOutputFrame: TFrame},
-  BCFrames.OptionsPrint in '..\..\Common\frames\BCFrames.OptionsPrint.pas' {OptionsPrintFrame: TFrame};
+  BCFrames.OptionsPrint in '..\..\Common\frames\BCFrames.OptionsPrint.pas' {OptionsPrintFrame: TFrame},
+  BCCommon.OptionsContainer in '..\..\Common\units\BCCommon.OptionsContainer.pas';
 
 {$R *.res}
 

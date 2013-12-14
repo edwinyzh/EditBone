@@ -2227,7 +2227,7 @@ var
   i: Integer;
   DocTabSheetFrame: TDocTabSheetFrame;
 begin
-  Result := OptionsDialog.Execute(OptionsContainer);
+  Result := OptionsForm.Execute(OptionsContainer);
 
   if Result then
   begin

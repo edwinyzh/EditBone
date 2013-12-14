@@ -1,4 +1,4 @@
-object OptionsDialog: TOptionsDialog
+object OptionsForm: TOptionsForm
   Left = 580
   Top = 154
   Caption = 'Options'

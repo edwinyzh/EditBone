@@ -21,7 +21,7 @@ type
 
   TOptionsContainer = class;
 
-  TOptionsDialog = class(TForm)
+  TOptionsForm = class(TForm)
     ActionList: TActionList;
     ButtonDividerPanel: TPanel;
     ButtonPanel: TPanel;
@@ -354,7 +354,7 @@ type
     property UndoAfterSave: Boolean read FUndoAfterSave write FUndoAfterSave;
   end;
 
-function OptionsDialog: TOptionsDialog;
+function OptionsForm: TOptionsForm;
 function OptionsContainer: TOptionsContainer;
 
 implementation
@@ -369,7 +369,7 @@ uses
 
 var
   FOptionsContainer: TOptionsContainer;
-  FOptionsDialog: TOptionsDialog;
+  FOptionsForm: TOptionsForm;
 
 function OptionsContainer: TOptionsContainer;
 begin
@@ -850,14 +850,14 @@ end;
 
 { TOptionsDialog }
 
-function OptionsDialog: TOptionsDialog;
+function OptionsForm: TOptionsForm;
 begin
-  if not Assigned(FOptionsDialog) then
-    Application.CreateForm(TOptionsDialog, FOptionsDialog);
-  Result := FOptionsDialog;
+  if not Assigned(FOptionsForm) then
+    Application.CreateForm(TOptionsForm, FOptionsForm);
+  Result := FOptionsForm;
 end;
 
-procedure TOptionsDialog.FormDestroy(Sender: TObject);
+procedure TOptionsForm.FormDestroy(Sender: TObject);
 begin
   FDirectoryTabsFrame.Free;
   FEditorCompletionProposalFrame.Free;
@@ -879,10 +879,10 @@ begin
   FStatusBarFrame.Free;
   FToolBarFrame.Free;
 
-  FOptionsDialog := nil;
+  FOptionsForm := nil;
 end;
 
-procedure TOptionsDialog.CreateTree;
+procedure TOptionsForm.CreateTree;
 var
   Data: POptionsRec;
   Node, ChildNode: PVirtualNode;
@@ -998,7 +998,7 @@ begin
   end;
 end;
 
-function TOptionsDialog.Execute(EditOptions: TOptionsContainer): Boolean;
+function TOptionsForm.Execute(EditOptions: TOptionsContainer): Boolean;
 var
   SelectedLanguage: string;
 begin
@@ -1040,7 +1040,7 @@ begin
     PutData;
 end;
 
-procedure TOptionsDialog.GetData;
+procedure TOptionsForm.GetData;
 var
   i: Integer;
   FileType: string;
@@ -1195,12 +1195,12 @@ begin
   FStatusBarFrame.FontLabel.Caption := Format('%s %dpt', [FStatusBarFrame.FontLabel.Font.Name, FStatusBarFrame.FontLabel.Font.Size]);
 end;
 
-procedure TOptionsDialog.OptionsVirtualStringTreeClick(Sender: TObject);
+procedure TOptionsForm.OptionsVirtualStringTreeClick(Sender: TObject);
 begin
   SetVisibleFrame;
 end;
 
-procedure TOptionsDialog.SetVisibleFrame;
+procedure TOptionsForm.SetVisibleFrame;
 var
   i, Level, ParentIndex: Integer;
   TreeNode: PVirtualNode;
@@ -1250,7 +1250,7 @@ begin
   end;
 end;
 
-procedure TOptionsDialog.OptionsVirtualStringTreeFreeNode(Sender: TBaseVirtualTree;
+procedure TOptionsForm.OptionsVirtualStringTreeFreeNode(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
 var
   Data: POptionsRec;
@@ -1259,7 +1259,7 @@ begin
   Finalize(Data^);
 end;
 
-procedure TOptionsDialog.OptionsVirtualStringTreeGetImageIndex(Sender: TBaseVirtualTree;
+procedure TOptionsForm.OptionsVirtualStringTreeGetImageIndex(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean;
   var ImageIndex: Integer);
 var
@@ -1273,7 +1273,7 @@ begin
     ImageIndex := Data.ImageIndex;
 end;
 
-procedure TOptionsDialog.OptionsVirtualStringTreeGetText(Sender: TBaseVirtualTree;
+procedure TOptionsForm.OptionsVirtualStringTreeGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
 var
   Data: POptionsRec;
@@ -1283,7 +1283,7 @@ begin
     CellText := Data.Caption;
 end;
 
-procedure TOptionsDialog.OptionsVirtualStringTreePaintText(Sender: TBaseVirtualTree; const TargetCanvas: TCanvas;
+procedure TOptionsForm.OptionsVirtualStringTreePaintText(Sender: TBaseVirtualTree; const TargetCanvas: TCanvas;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType);
 var
   LStyles: TCustomStyleServices;
@@ -1297,7 +1297,7 @@ begin
     end;
 end;
 
-procedure TOptionsDialog.PutData;
+procedure TOptionsForm.PutData;
 var
   i: Integer;
   FileType: string;
@@ -1443,14 +1443,14 @@ begin
   FOptionsContainer.StatusBarFontSize := FStatusBarFrame.FontLabel.Font.Size;
 end;
 
-procedure TOptionsDialog.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure TOptionsForm.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
   OptionsContainer.SupportedFileExts(True);
   WriteIniFile;
 end;
 
-procedure TOptionsDialog.ReadIniFile;
+procedure TOptionsForm.ReadIniFile;
 begin
   with TMemIniFile.Create(GetIniFilename) do
   try
@@ -1467,7 +1467,7 @@ begin
   end;
 end;
 
-procedure TOptionsDialog.WriteIniFile;
+procedure TOptionsForm.WriteIniFile;
 begin
   if Windowstate = wsNormal then
   with TMemIniFile.Create(GetIniFilename) do
@@ -1486,7 +1486,7 @@ begin
   end;
 end;
 
-procedure TOptionsDialog.FormCreate(Sender: TObject);
+procedure TOptionsForm.FormCreate(Sender: TObject);
 begin
   OptionsVirtualStringTree.NodeDataSize := SizeOf(TOptionsRec);
   FDirectoryTabsFrame := TDirectoryTabsFrame.Create(OptionsPanel);
@@ -1529,7 +1529,7 @@ begin
   FToolBarFrame.Parent := OptionsPanel;
 end;
 
-procedure TOptionsDialog.FormShow(Sender: TObject);
+procedure TOptionsForm.FormShow(Sender: TObject);
 var
   Node: PVirtualNode;
 begin
