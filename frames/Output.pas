@@ -66,7 +66,7 @@ type
     procedure Clear;
     procedure CloseTabSheet;
     procedure UpdateControls;
-    procedure ReadOutFile;
+    procedure ReadOutputFile;
     procedure SetOptions;
     procedure WriteOutFile;
     property Count: Integer read GetCount;
@@ -684,7 +684,7 @@ begin
   end;
 end;
 
-procedure TOutputFrame.ReadOutFile;
+procedure TOutputFrame.ReadOutputFile;
 var
   Filename, S: string;
   OutputFile: TextFile;

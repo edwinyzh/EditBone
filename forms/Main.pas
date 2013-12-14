@@ -335,10 +335,9 @@ type
     procedure CreateStyleMenu;
     procedure FindInFiles(OutputTreeView: TVirtualDrawTree; FindWhatText, FileTypeText, FolderText: string; SearchCaseSensitive, LookInSubfolders: Boolean);
     procedure MainMenuTitleBarActions(Enabled: Boolean);
-    procedure ReadIniFile;
+    procedure ReadIniSizePositionAndState;
     procedure ReadIniOptions;
     procedure ReadLanguageFile(SelectedLanguage: string);
-    procedure ReadWindowState;
     procedure RecreateDragDrop;
     procedure ResizeProgressBar;
     procedure SearchFindInFiles(Folder: string = '');
@@ -763,24 +762,9 @@ begin
   end;
 end;
 
-procedure TMainForm.ReadWindowState;
+procedure TMainForm.ReadIniSizePositionAndState;
 var
   State: Integer;
-begin
-  with TBigIniFile.Create(GetIniFilename) do
-  try
-    State := ReadInteger('Size', 'State', 0);
-    case State of
-      0: WindowState := wsNormal;
-      1: WindowState := wsMinimized;
-      2: WindowState := wsMaximized;
-    end;
-  finally
-    Free;
-  end;
-end;
-
-procedure TMainForm.ReadIniFile;
 begin
   with TBigIniFile.Create(GetIniFilename) do
   try
@@ -793,6 +777,13 @@ begin
     { Directory }
     DirectoryPanel.Width := ReadInteger('Options', 'DirectoryWidth', 257);
     Application.ProcessMessages;
+    { State }
+    State := ReadInteger('Size', 'State', 0);
+    case State of
+      0: WindowState := wsNormal;
+      1: WindowState := wsMinimized;
+      2: WindowState := wsMaximized;
+    end;
   finally
     Free;
   end;
@@ -800,6 +791,8 @@ end;
 
 procedure TMainForm.ReadIniOptions;
 begin
+  OptionsContainer.ReadIniFile;
+
   with TBigIniFile.Create(GetIniFilename) do
   try
     { Options }
@@ -1316,13 +1309,12 @@ begin
   FOutputFrame.Parent := OutputPanel;
   FOutputFrame.OnTabsheetDblClick := OutputDblClickActionExecute;
   FOutputFrame.OnOpenAll := OutputOpenAllEvent;
-  FOutputFrame.ReadOutFile;
+  FOutputFrame.ReadOutputFile;
   OutputPanel.Visible := FOutputFrame.IsAnyOutput;
   { TDocumentFrame }
   FDocumentFrame := TDocumentFrame.Create(DocumentPanel);
   FDocumentFrame.Parent := DocumentPanel;
   FDocumentFrame.PopupMenu := DocumentPopupMenu;
-  FDocumentFrame.ReadIniFile;
   { TDirectoryFrame }
   FDirectoryFrame := TDirectoryFrame.Create(DirectoryPanel);
   FDirectoryFrame.Parent := DirectoryPanel;
@@ -1339,8 +1331,7 @@ begin
   FImageListCount := ImageList.Count; { System images are inserted after }
   CreateFrames;
   UpdateStatusBar;
-  ReadIniFile;
-  ReadWindowState; { because of styles this cannot be done before... }
+  ReadIniSizePositionAndState;
 
   {$IFDEF RELEASE}
   ToolsDuplicateCheckerAction.Visible := False;
