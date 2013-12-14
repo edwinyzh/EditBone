@@ -1276,8 +1276,8 @@ begin
   if FOutputFrame.ProcessingTabSheet then
     FOutputFrame.CloseTabSheet;
   FDocumentFrame.CloseAll(False);
-  FDocumentFrame.WriteIniFile;
   OptionsContainer.WriteIniFile;
+  FDocumentFrame.WriteIniFile;
   FDirectoryFrame.WriteIniFile;
   FOutputFrame.WriteOutputFile;
   WriteIniFile;
