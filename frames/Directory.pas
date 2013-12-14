@@ -96,7 +96,7 @@ implementation
 {$R *.dfm}
 
 uses
-  DirectoryTab, BCCommon.StyleUtils, BigIni, BCCommon.LanguageStrings, Options,
+  DirectoryTab, BCCommon.StyleUtils, BigIni, BCCommon.LanguageStrings, BCCommon.OptionsContainer,
   System.Math, BCCommon.FileUtils, BCCommon.Messages, BCCommon.Dialogs, BCCommon.StringUtils;
 
 constructor TDirectoryFrame.Create(AOwner: TComponent);

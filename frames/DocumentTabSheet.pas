@@ -65,7 +65,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Vcl.Themes, Options, BCCommon.StyleUtils, BCCommon.StringUtils, System.Math, BCCommon.Math;
+  Vcl.Themes, BCCommon.OptionsContainer, BCCommon.StyleUtils, BCCommon.StringUtils, System.Math, BCCommon.Math;
 
 const
   TAG_ZERO = 0;

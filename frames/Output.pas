@@ -83,7 +83,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Lib, Options, BCCommon.Lib, BCCommon.StyleUtils, System.Math, System.UITypes, Vcl.Clipbrd, BCCommon.Messages,
+  Lib, BCCommon.OptionsContainer, BCCommon.Lib, BCCommon.StyleUtils, System.Math, System.UITypes, Vcl.Clipbrd, BCCommon.Messages,
   BCCommon.LanguageStrings, BCCommon.FileUtils, BCCommon.StringUtils;
 
 procedure TOutputFrame.OpenAllActionExecute(Sender: TObject);

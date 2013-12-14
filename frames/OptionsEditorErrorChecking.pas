@@ -4,7 +4,7 @@ interface
 
 uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, BCControls.ComboBox,
-  BCControls.CheckBox, Vcl.ExtCtrls;
+  BCControls.CheckBox, Vcl.ExtCtrls, BCCommon.OptionsContainer;
 
 type
   TEditorErrorCheckingFrame = class(TFrame)
@@ -18,6 +18,8 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
+    procedure GetData(OptionsContainer: TEditBoneOptionsContainer);
+    procedure PutData(OptionsContainer: TEditBoneOptionsContainer);
   end;
 
 implementation
@@ -39,6 +41,19 @@ end;
 procedure TEditorErrorCheckingFrame.HTMLErrorCheckingCheckBoxClick(Sender: TObject);
 begin
   HTMLVersionComboBox.Enabled := HTMLErrorCheckingCheckBox.Checked;
+end;
+
+procedure TEditorErrorCheckingFrame.GetData(OptionsContainer: TEditBoneOptionsContainer);
+begin
+  HTMLErrorCheckingCheckBox.Checked := OptionsContainer.HTMLErrorChecking;
+  HTMLVersionComboBox.ItemIndex := Ord(OptionsContainer.HTMLVersion);
+  HTMLVersionComboBox.Enabled := HTMLErrorCheckingCheckBox.Checked;
+end;
+
+procedure TEditorErrorCheckingFrame.PutData(OptionsContainer: TEditBoneOptionsContainer);
+begin
+  OptionsContainer.HTMLErrorChecking := HTMLErrorCheckingCheckBox.Checked;
+  OptionsContainer.HTMLVersion := TSynWebHtmlVersion(HTMLVersionComboBox.ItemIndex);
 end;
 
 end.

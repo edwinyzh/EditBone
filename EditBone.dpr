@@ -40,7 +40,7 @@ uses
   OptionsFileTypes in 'frames\OptionsFileTypes.pas' {FileTypesFrame: TFrame},
   BCFrames.OptionsCompare in '..\..\Common\frames\BCFrames.OptionsCompare.pas' {OptionsCompareFrame: TFrame},
   OptionsDirectoryTabs in 'frames\OptionsDirectoryTabs.pas' {DirectoryTabsFrame: TFrame},
-  OptionsOutputTabs in 'frames\OptionsOutputTabs.pas' {OutputTabsFrame: TFrame},
+  OptionsOutputTabs in 'frames\OptionsOutputTabs.pas' {OptionsOutputTabsFrame: TFrame},
   Vcl.PlatformVclStylesActnCtrls in '..\..\Common\units\Vcl.PlatformVclStylesActnCtrls.pas',
   OptionsDirectory in 'frames\OptionsDirectory.pas' {OptionsDirectoryFrame: TFrame},
   BCFrames.OptionsStatusBar in '..\..\Common\frames\BCFrames.OptionsStatusBar.pas' {StatusBarFrame: TFrame},

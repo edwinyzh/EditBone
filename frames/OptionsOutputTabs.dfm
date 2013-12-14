@@ -1,4 +1,4 @@
-object OutputTabsFrame: TOutputTabsFrame
+object OptionsOutputTabsFrame: TOptionsOutputTabsFrame
   Left = 0
   Top = 0
   Width = 451
