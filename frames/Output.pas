@@ -68,7 +68,7 @@ type
     procedure UpdateControls;
     procedure ReadOutputFile;
     procedure SetOptions;
-    procedure WriteOutFile;
+    procedure WriteOutputFile;
     property Count: Integer read GetCount;
     property IsAnyOutput: Boolean read GetIsAnyOutput;
     property IsEmpty: Boolean read GetIsEmpty;
@@ -735,7 +735,7 @@ begin
   FProcessingTabSheet := False;
 end;
 
-procedure TOutputFrame.WriteOutFile;
+procedure TOutputFrame.WriteOutputFile;
 var
   i: Integer;
   Filename: string;

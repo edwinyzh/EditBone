@@ -1277,8 +1277,9 @@ begin
     FOutputFrame.CloseTabSheet;
   FDocumentFrame.CloseAll(False);
   FDocumentFrame.WriteIniFile;
+  OptionsContainer.WriteIniFile;
   FDirectoryFrame.WriteIniFile;
-  FOutputFrame.WriteOutFile;
+  FOutputFrame.WriteOutputFile;
   WriteIniFile;
 end;
 
