@@ -1,4 +1,4 @@
-object DirectoryTabsFrame: TDirectoryTabsFrame
+object OptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame
   Left = 0
   Top = 0
   Width = 451

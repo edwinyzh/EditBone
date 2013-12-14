@@ -1,4 +1,4 @@
-object ToolBarFrame: TToolBarFrame
+object OptionsToolBarFrame: TOptionsToolBarFrame
   Left = 0
   Top = 0
   Width = 343

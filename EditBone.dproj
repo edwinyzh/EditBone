@@ -205,19 +205,19 @@
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsEditorErrorChecking.pas">
-            <Form>EditorErrorCheckingFrame</Form>
+            <Form>OptionsEditorErrorCheckingFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsEditorOther.pas">
-            <Form>EditorOtherFrame</Form>
+            <Form>OptionsEditorOtherFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorFont.pas">
-            <Form>EditorFontFrame</Form>
+            <Form>OptionsEditorFontFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsFileTypes.pas">
-            <Form>FileTypesFrame</Form>
+            <Form>OptionsFileTypesFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsCompare.pas">
@@ -225,7 +225,7 @@
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsDirectoryTabs.pas">
-            <Form>DirectoryTabsFrame</Form>
+            <Form>OptionsDirectoryTabsFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsOutputTabs.pas">
@@ -238,14 +238,14 @@
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsStatusBar.pas">
-            <Form>StatusBarFrame</Form>
+            <Form>OptionsStatusBarFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="dialogs\InsertTag.pas">
             <Form>InsertTagDialog</Form>
         </DCCReference>
         <DCCReference Include="frames\OptionsToolBar.pas">
-            <Form>ToolBarFrame</Form>
+            <Form>OptionsToolBarFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="forms\UnicodeCharacterMap.pas">
@@ -264,7 +264,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorCompletionProposal.pas">
-            <Form>EditorCompletionProposalFrame</Form>
+            <Form>OptionsEditorCompletionProposalFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
@@ -276,32 +276,32 @@
         </DCCReference>
         <DCCReference Include="..\..\Common\units\BCCommon.Math.pas"/>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorRightMargin.pas">
-            <Form>EditorRightMarginFrame</Form>
+            <Form>OptionsEditorRightMarginFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorLeftMargin.pas">
-            <Form>EditorLeftMarginFrame</Form>
+            <Form>OptionsEditorLeftMarginFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorOptions.pas">
-            <Form>EditorOptionsFrame</Form>
+            <Form>OptionsEditorOptionsFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorSearch.pas">
-            <Form>EditorSearchFrame</Form>
+            <Form>OptionsEditorSearchFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsEditorTabs.pas">
-            <Form>EditorTabsFrame</Form>
+            <Form>OptionsEditorTabsFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsMainMenu.pas">
-            <Form>MainMenuFrame</Form>
+            <Form>OptionsMainMenuFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>

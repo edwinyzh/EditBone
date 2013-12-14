@@ -7,7 +7,7 @@ uses
   BCCommon.OptionsContainer;
 
 type
-  TToolBarFrame = class(TFrame)
+  TOptionsToolBarFrame = class(TFrame)
     Panel: TPanel;
     StandardCheckBox: TBCCheckBox;
     PrintCheckBox: TBCCheckBox;
@@ -33,7 +33,7 @@ implementation
 
 {$R *.dfm}
 
-procedure TToolBarFrame.GetData(OptionsContainer: TEditBoneOptionsContainer);
+procedure TOptionsToolBarFrame.GetData(OptionsContainer: TEditBoneOptionsContainer);
 begin
   StandardCheckBox.Checked := OptionsContainer.ToolBarStandard;
   PrintCheckBox.Checked := OptionsContainer.ToolBarPrint;
@@ -49,7 +49,7 @@ begin
   DocumentCheckBox.Checked := OptionsContainer.ToolBarDocument;
 end;
 
-procedure TToolBarFrame.PutData(OptionsContainer: TEditBoneOptionsContainer);
+procedure TOptionsToolBarFrame.PutData(OptionsContainer: TEditBoneOptionsContainer);
 begin
   OptionsContainer.ToolBarStandard := StandardCheckBox.Checked;
   OptionsContainer.ToolBarPrint := PrintCheckBox.Checked;

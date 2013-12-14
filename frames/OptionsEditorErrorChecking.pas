@@ -7,7 +7,7 @@ uses
   BCControls.CheckBox, Vcl.ExtCtrls, BCCommon.OptionsContainer;
 
 type
-  TEditorErrorCheckingFrame = class(TFrame)
+  TOptionsEditorErrorCheckingFrame = class(TFrame)
     Panel: TPanel;
     HTMLVersionLabel: TLabel;
     HTMLErrorCheckingCheckBox: TBCCheckBox;
@@ -29,7 +29,7 @@ implementation
 uses
   SynHighlighterWebData;
 
-constructor TEditorErrorCheckingFrame.Create(AOwner: TComponent);
+constructor TOptionsEditorErrorCheckingFrame.Create(AOwner: TComponent);
 var
   i: TSynWebHtmlVersion;
 begin
@@ -38,19 +38,19 @@ begin
     HTMLVersionComboBox.Items.Add(TSynWebHtmlVersionStr[TSynWebHtmlVersion(i)]);
 end;
 
-procedure TEditorErrorCheckingFrame.HTMLErrorCheckingCheckBoxClick(Sender: TObject);
+procedure TOptionsEditorErrorCheckingFrame.HTMLErrorCheckingCheckBoxClick(Sender: TObject);
 begin
   HTMLVersionComboBox.Enabled := HTMLErrorCheckingCheckBox.Checked;
 end;
 
-procedure TEditorErrorCheckingFrame.GetData(OptionsContainer: TEditBoneOptionsContainer);
+procedure TOptionsEditorErrorCheckingFrame.GetData(OptionsContainer: TEditBoneOptionsContainer);
 begin
   HTMLErrorCheckingCheckBox.Checked := OptionsContainer.HTMLErrorChecking;
   HTMLVersionComboBox.ItemIndex := Ord(OptionsContainer.HTMLVersion);
   HTMLVersionComboBox.Enabled := HTMLErrorCheckingCheckBox.Checked;
 end;
 
-procedure TEditorErrorCheckingFrame.PutData(OptionsContainer: TEditBoneOptionsContainer);
+procedure TOptionsEditorErrorCheckingFrame.PutData(OptionsContainer: TEditBoneOptionsContainer);
 begin
   OptionsContainer.HTMLErrorChecking := HTMLErrorCheckingCheckBox.Checked;
   OptionsContainer.HTMLVersion := TSynWebHtmlVersion(HTMLVersionComboBox.ItemIndex);

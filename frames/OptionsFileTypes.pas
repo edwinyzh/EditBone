@@ -7,7 +7,7 @@ uses
   Vcl.ExtCtrls, BCCommon.OptionsContainer;
 
 type
-  TFileTypesFrame = class(TFrame)
+  TOptionsFileTypesFrame = class(TFrame)
     FileTypesBottomPanel: TPanel;
     ExtensionsEdit: TBCEdit;
     FileTypesTopPanel: TPanel;
@@ -30,7 +30,7 @@ implementation
 uses
   BCCommon.StringUtils, BCCommon.LanguageStrings;
 
-procedure TFileTypesFrame.ExtensionsEditChange(Sender: TObject);
+procedure TOptionsFileTypesFrame.ExtensionsEditChange(Sender: TObject);
 var
   Extensions: string;
 begin
@@ -41,14 +41,14 @@ begin
   FileTypesListBox.Items.Strings[FileTypesListBox.ItemIndex] := Format('%s%s)', [Extensions, ExtensionsEdit.Text]);
 end;
 
-procedure TFileTypesFrame.FileTypesListBoxClick(Sender: TObject);
+procedure TOptionsFileTypesFrame.FileTypesListBoxClick(Sender: TObject);
 begin
   if FileTypesListBox.ItemIndex = -1 then
     Exit;
   ExtensionsEdit.Text := StringBetween(FileTypesListBox.Items.Strings[FileTypesListBox.ItemIndex], '(', ')');
 end;
 
-procedure TFileTypesFrame.GetData(OptionsContainer: TEditBoneOptionsContainer);
+procedure TOptionsFileTypesFrame.GetData(OptionsContainer: TEditBoneOptionsContainer);
 var
   i: Integer;
   FileType: string;
@@ -65,7 +65,7 @@ begin
   FileTypesListBoxClick(nil);
 end;
 
-procedure TFileTypesFrame.PutData(OptionsContainer: TEditBoneOptionsContainer);
+procedure TOptionsFileTypesFrame.PutData(OptionsContainer: TEditBoneOptionsContainer);
 var
   i: Integer;
   FileType: string;

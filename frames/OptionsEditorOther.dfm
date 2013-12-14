@@ -1,4 +1,4 @@
-object EditorOtherFrame: TEditorOtherFrame
+object OptionsEditorOtherFrame: TOptionsEditorOtherFrame
   Left = 0
   Top = 0
   Width = 451

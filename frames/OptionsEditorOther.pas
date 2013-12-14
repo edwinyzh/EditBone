@@ -7,7 +7,7 @@ uses
   BCCommon.OptionsContainer;
 
 type
-  TEditorOtherFrame = class(TFrame)
+  TOptionsEditorOtherFrame = class(TFrame)
     Panel: TPanel;
     CPASHighlighterLabel: TLabel;
     SQLDialectLabel: TLabel;
@@ -37,7 +37,7 @@ implementation
 uses
   Lib, BCCommon.LanguageStrings, SynHighlighterSQL, SynHighlighterWebData;
 
-constructor TEditorOtherFrame.Create(AOwner: TComponent);
+constructor TOptionsEditorOtherFrame.Create(AOwner: TComponent);
 var
   i: TSQLDialect;
   k: TSynWebCssVersion;
@@ -58,7 +58,7 @@ begin
     PHPVersionComboBox.Items.Add(TSynWebPhpVersionStr[TSynWebPhpVersion(l)]);
 end;
 
-procedure TEditorOtherFrame.GetData(OptionsContainer: TEditBoneOptionsContainer);
+procedure TOptionsEditorOtherFrame.GetData(OptionsContainer: TEditBoneOptionsContainer);
 begin
   SQLDialectComboBox.ItemIndex := Ord(OptionsContainer.SQLDialect);
   CPASHighlighterComboBox.ItemIndex := Ord(OptionsContainer.CPASHighlighter);
@@ -68,7 +68,7 @@ begin
   DefaultHighlighterComboBox.ItemIndex := OptionsContainer.DefaultHighlighter;
 end;
 
-procedure TEditorOtherFrame.PutData(OptionsContainer: TEditBoneOptionsContainer);
+procedure TOptionsEditorOtherFrame.PutData(OptionsContainer: TEditBoneOptionsContainer);
 begin
   OptionsContainer.SQLDialect := TSQLDialect(SQLDialectComboBox.ItemIndex);
   OptionsContainer.CPASHighlighter := TCPASHighlighter(CPASHighlighterComboBox.ItemIndex);

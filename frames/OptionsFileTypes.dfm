@@ -1,4 +1,4 @@
-object FileTypesFrame: TFileTypesFrame
+object OptionsFileTypesFrame: TOptionsFileTypesFrame
   Left = 0
   Top = 0
   Width = 451

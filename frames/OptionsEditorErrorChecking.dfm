@@ -1,4 +1,4 @@
-object EditorErrorCheckingFrame: TEditorErrorCheckingFrame
+object OptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame
   Left = 0
   Top = 0
   Width = 451

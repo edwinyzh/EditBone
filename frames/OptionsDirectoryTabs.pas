@@ -7,7 +7,7 @@ uses
   BCCommon.OptionsContainer;
 
 type
-  TDirectoryTabsFrame = class(TFrame)
+  TOptionsDirectoryTabsFrame = class(TFrame)
     Panel: TPanel;
     MultilineCheckBox: TBCCheckBox;
     ShowCloseButtonCheckBox: TBCCheckBox;
@@ -29,7 +29,7 @@ implementation
 
 {$R *.dfm}
 
-procedure TDirectoryTabsFrame.GetData(OptionsContainer: TEditBoneOptionsContainer);
+procedure TOptionsDirectoryTabsFrame.GetData(OptionsContainer: TEditBoneOptionsContainer);
 begin
   CloseTabByDblClickCheckBox.Checked := OptionsContainer.DirCloseTabByDblClick;
   CloseTabByMiddleClickCheckBox.Checked := OptionsContainer.DirCloseTabByMiddleClick;
@@ -41,7 +41,7 @@ begin
   RightClickSelectCheckBox.Checked := OptionsContainer.DirRightClickSelect;
 end;
 
-procedure TDirectoryTabsFrame.PutData(OptionsContainer: TEditBoneOptionsContainer);
+procedure TOptionsDirectoryTabsFrame.PutData(OptionsContainer: TEditBoneOptionsContainer);
 begin
   OptionsContainer.DirCloseTabByDblClick := CloseTabByDblClickCheckBox.Checked;
   OptionsContainer.DirCloseTabByMiddleClick := CloseTabByMiddleClickCheckBox.Checked;
