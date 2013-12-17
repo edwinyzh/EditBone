@@ -115,7 +115,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
           Gutter.LineNormalColor = clLime
           Gutter.Intens = False
           Gutter.AutoSize = True
-          Gutter.BorderStyle = gbsMiddle
           Gutter.Color = clWindow
           Gutter.Font.Charset = DEFAULT_CHARSET
           Gutter.Font.Color = clWindowText
@@ -180,7 +179,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Gutter.LineNormalColor = clLime
         Gutter.Intens = False
         Gutter.AutoSize = True
-        Gutter.BorderStyle = gbsMiddle
         Gutter.Color = clWindow
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText

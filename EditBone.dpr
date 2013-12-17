@@ -67,7 +67,8 @@ uses
   BCFrames.OptionsMainMenu in '..\..\Common\frames\BCFrames.OptionsMainMenu.pas' {OptionsMainMenuFrame: TFrame},
   BCFrames.OptionsOutput in '..\..\Common\frames\BCFrames.OptionsOutput.pas' {OptionsOutputFrame: TFrame},
   BCFrames.OptionsPrint in '..\..\Common\frames\BCFrames.OptionsPrint.pas' {OptionsPrintFrame: TFrame},
-  BCCommon.OptionsContainer in '..\..\Common\units\BCCommon.OptionsContainer.pas';
+  BCCommon.OptionsContainer in '..\..\Common\units\BCCommon.OptionsContainer.pas',
+  IniPersist in '..\..\Common\units\IniPersist.pas';
 
 {$R *.res}
 

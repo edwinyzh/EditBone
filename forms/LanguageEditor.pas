@@ -213,6 +213,8 @@ begin
     { Position }
     Left := ReadInteger('LanguageEditorPosition', 'Left', (Screen.Width - Width) div 2);
     Top := ReadInteger('LanguageEditorPosition', 'Top', (Screen.Height - Height) div 2);
+    { Check if the form is outside the workarea }
+    Left := SetFormInsideWorkArea(Left, Width);
   finally
     Free;
   end;

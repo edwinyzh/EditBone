@@ -61,7 +61,7 @@ implementation
 {$R *.dfm}
 
 uses
-  IniFiles, BCControls.SynEdit, SynEditKeyCmds, BCCommon.FileUtils;
+  IniFiles, BCControls.SynEdit, SynEditKeyCmds, BCCommon.FileUtils, BCCommon.Lib;
 
 var
   FUnicodeCharacterMapForm: TUnicodeCharacterMapForm;
@@ -277,6 +277,8 @@ begin
       { Position }
       Left := ReadInteger('CharacterMapPosition', 'Left', (Screen.Width - Width) div 2);
       Top := ReadInteger('CharacterMapPosition', 'Top', (Screen.Height - Height) div 2);
+      { Check if the form is outside the workarea }
+      Left := SetFormInsideWorkArea(Left, Width);
       StringGridCharacter.Row := ReadInteger('CharacterMapPosition', 'Row', 0);
       StringGridCharacter.Col := ReadInteger('CharacterMapPosition', 'Col', 0);
       FontComboBox.FontName := ReadString('CharacterMapPosition', 'FontName', 'Arial');

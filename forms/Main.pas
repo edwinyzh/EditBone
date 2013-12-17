@@ -774,6 +774,8 @@ begin
     { Position }
     Left := ReadInteger('Position', 'Left', (Screen.Width - Width) div 2);
     Top := ReadInteger('Position', 'Top', (Screen.Height - Height) div 2);
+    { Check if the form is outside the workarea }
+    Left := SetFormInsideWorkArea(Left, Width);
     { Directory }
     DirectoryPanel.Width := ReadInteger('Options', 'DirectoryWidth', 257);
     Application.ProcessMessages;
@@ -887,10 +889,6 @@ begin
     WriteBool('Options', 'ShowHighlighterSelection', HighlighterComboBox.Visible);
     WriteBool('Options', 'ShowEncodingSelection', EncodingComboBox.Visible);
     WriteBool('Options', 'ShowXMLTree', ViewXMLTreeAction.Checked);
-    WriteBool('Options', 'EnableWordWrap', ViewWordWrapAction.Checked);
-    WriteBool('Options', 'EnableLineNumbers', ViewLineNumbersAction.Checked);
-    WriteBool('Options', 'EnableSpecialChars', ViewSpecialCharsAction.Checked);
-    WriteBool('Options', 'EnableSelectionMode', ViewSelectionModeAction.Checked);
     { Toolbar }
     EraseSection('ActionToolBar');
     for i := 0 to ToolbarPopupMenu.Items.Count - 1 do

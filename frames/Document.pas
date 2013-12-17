@@ -1714,20 +1714,17 @@ var
   i: Integer;
   SynEdit: TSynEdit;
 begin
-  Result := False;
+  OptionsContainer.EnableWordWrap := not OptionsContainer.EnableWordWrap;
+  Result := OptionsContainer.EnableWordWrap;
   for i := 0 to PageControl.PageCount - 1 do
   begin
     SynEdit := GetSynEdit(PageControl.Pages[i]);
     if Assigned(SynEdit) then
-    begin
-      SynEdit.WordWrap.Enabled := not SynEdit.WordWrap.Enabled;
-      Result := SynEdit.WordWrap.Enabled;
-    end;
+      SynEdit.WordWrap.Enabled := Result;
     SynEdit := GetSplitSynEdit(PageControl.Pages[i]);
     if Assigned(SynEdit) then
-      SynEdit.WordWrap.Enabled := not SynEdit.WordWrap.Enabled;
+      SynEdit.WordWrap.Enabled := Result;
   end;
-  OptionsContainer.EnableWordWrap := Result;
 end;
 
 function TDocumentFrame.ToggleSpecialChars: Boolean;
@@ -1735,31 +1732,29 @@ var
   i: Integer;
   SynEdit: TSynEdit;
 begin
-  Result := False;
-
+  OptionsContainer.EnableSpecialChars := not OptionsContainer.EnableSpecialChars;
+  Result := OptionsContainer.EnableSpecialChars;
   for i := 0 to PageControl.PageCount - 1 do
   begin
     SynEdit := GetSynEdit(PageControl.Pages[i]);
     if Assigned(SynEdit) then
     begin
-      if eoShowSpecialChars in SynEdit.Options then
-        SynEdit.Options := SynEdit.Options - [eoShowSpecialChars]
+      if Result then
+        SynEdit.Options := SynEdit.Options + [eoShowSpecialChars]
       else
-        SynEdit.Options := SynEdit.Options + [eoShowSpecialChars];
-      Result := eoShowSpecialChars in SynEdit.Options;
+        SynEdit.Options := SynEdit.Options - [eoShowSpecialChars]
     end;
     SynEdit := GetSplitSynEdit(PageControl.Pages[i]);
     if Assigned(SynEdit) then
     begin
-      if eoShowSpecialChars in SynEdit.Options then
-        SynEdit.Options := SynEdit.Options - [eoShowSpecialChars]
+      if Result then
+        SynEdit.Options := SynEdit.Options + [eoShowSpecialChars]
       else
-        SynEdit.Options := SynEdit.Options + [eoShowSpecialChars];
+        SynEdit.Options := SynEdit.Options - [eoShowSpecialChars]
     end;
     if PageControl.Pages[i].Components[0] is TCompareFrame then
       Result := TCompareFrame(PageControl.Pages[i].Components[0]).ToggleSpecialChars
   end;
-  OptionsContainer.EnableSpecialChars := Result;
 end;
 
 function TDocumentFrame.GetSelectionModeChecked: Boolean;
@@ -1781,20 +1776,21 @@ var
     if Assigned(SynEdit) then
       if SynEdit.Focused then
       begin
-        if SynEdit.SelectionMode = smColumn then
-        begin
-          SynEdit.Options := SynEdit.Options + [eoAltSetsColumnMode];
-          SynEdit.SelectionMode := smNormal
-        end
-        else
+        if OptionsContainer.EnableSelectionMode then
         begin
           SynEdit.Options := SynEdit.Options - [eoAltSetsColumnMode];
           SynEdit.SelectionMode := smColumn;
+        end
+        else
+        begin
+          SynEdit.Options := SynEdit.Options + [eoAltSetsColumnMode];
+          SynEdit.SelectionMode := smNormal
         end;
       end;
   end;
 
 begin
+  OptionsContainer.EnableSelectionMode := not OptionsContainer.EnableSelectionMode;
   for i := 0 to PageControl.PageCount - 1 do
   begin
     ToggleSelectionMode(GetSynEdit(PageControl.Pages[i]));
@@ -1807,22 +1803,19 @@ var
   i: Integer;
   SynEdit: TSynEdit;
 begin
-  Result := False;
+  OptionsContainer.EnableLineNumbers := not OptionsContainer.EnableLineNumbers;
+  Result := OptionsContainer.EnableLineNumbers;
   for i := 0 to PageControl.PageCount - 1 do
   begin
     SynEdit := GetSynEdit(PageControl.Pages[i]);
     if Assigned(SynEdit) then
-    begin
-      SynEdit.Gutter.ShowLineNumbers := not SynEdit.Gutter.ShowLineNumbers;
-      Result := SynEdit.Gutter.ShowLineNumbers;
-    end;
+      SynEdit.Gutter.ShowLineNumbers := Result;
     SynEdit := GetSplitSynEdit(PageControl.Pages[i]);
     if Assigned(SynEdit) then
-      SynEdit.Gutter.ShowLineNumbers := not SynEdit.Gutter.ShowLineNumbers;
+      SynEdit.Gutter.ShowLineNumbers := Result;
     if PageControl.Pages[i].Components[0] is TCompareFrame then
       Result := TCompareFrame(PageControl.Pages[i].Components[0]).ToggleLineNumbers
   end;
-  OptionsContainer.EnableLineNumbers := Result;
 end;
 
 function TDocumentFrame.ReadIniOpenFiles: Boolean;

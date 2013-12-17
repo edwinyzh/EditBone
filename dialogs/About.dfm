@@ -5,7 +5,7 @@ object AboutDialog: TAboutDialog
   BorderStyle = bsDialog
   Caption = 'About EditBone'
   ClientHeight = 256
-  ClientWidth = 365
+  ClientWidth = 372
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,7 +23,7 @@ object AboutDialog: TAboutDialog
   object TopPanel: TPanel
     Left = 0
     Top = 0
-    Width = 365
+    Width = 372
     Height = 137
     Align = alTop
     BevelOuter = bvNone
@@ -72,7 +72,7 @@ object AboutDialog: TAboutDialog
       Caption = 'Memory Available to Windows: %s'
     end
     object ImagePanel: TPanel
-      Left = 237
+      Left = 244
       Top = 0
       Width = 128
       Height = 137
@@ -484,7 +484,7 @@ object AboutDialog: TAboutDialog
   object SeparatorPanel: TPanel
     Left = 0
     Top = 137
-    Width = 365
+    Width = 372
     Height = 1
     Align = alTop
     BevelOuter = bvNone
@@ -495,7 +495,7 @@ object AboutDialog: TAboutDialog
   object ThanksToPanel: TPanel
     Left = 0
     Top = 138
-    Width = 365
+    Width = 372
     Height = 77
     Margins.Left = 2
     Margins.Top = 2
@@ -505,7 +505,7 @@ object AboutDialog: TAboutDialog
     BevelOuter = bvNone
     TabOrder = 2
     DesignSize = (
-      365
+      372
       77)
     object ThanksToLabel: TLabel
       Left = 11
@@ -518,30 +518,30 @@ object AboutDialog: TAboutDialog
     object CopyrightLabel: TLabel
       Left = 0
       Top = 64
-      Width = 365
+      Width = 372
       Height = 13
       Align = alBottom
       Alignment = taCenter
       Caption = 'Copyright %s. All Rights Reserved.'
     end
     object ThanksTo2LinkLabel: TLinkLabel
-      Left = 18
+      Left = 21
       Top = 42
-      Width = 317
+      Width = 310
       Height = 17
       Anchors = [akTop]
       Caption = 
-        '<a href="http://www.fatcow.com/free-icons">FatCow Icons</a>, <a ' +
-        'href="http://www.customicondesign.com/">Custom Icon Design</a>, ' +
-        '<a href="http://angusj.com/delphi/">Angus Johnson</a>, <a href="' +
-        'http://www.soft-gems.net">Mike Lischke</a>'
+        '<a href="http://www.customicondesign.com/">Custom Icon Design</a' +
+        '>, <a href="http://angusj.com/delphi/">Angus Johnson</a>, <a hre' +
+        'f="http://www.soft-gems.net">Mike Lischke</a>, <a href="http://r' +
+        'obstechcorner.blogspot.fi/">Robert Love</a>'
       TabOrder = 0
       OnLinkClick = LinkClick
     end
     object ThanksTo1LinkLabel: TLinkLabel
-      Left = 34
-      Top = 24
-      Width = 284
+      Left = 12
+      Top = 26
+      Width = 357
       Height = 17
       Anchors = [akTop]
       Caption = 
@@ -549,7 +549,8 @@ object AboutDialog: TAboutDialog
         'adero RAD Studio</a>, <a href="http://www.delphi-jedi.org/">Jedi' +
         ' Project</a>, <a href="http://synedit.svn.sourceforge.net/viewvc' +
         '/synedit/">SynEdit</a>, <a href="http://code.google.com/p/synweb' +
-        '/">SynWeb</a>, '
+        '/">SynWeb</a>, <a href="http://www.fatcow.com/free-icons">FatCow' +
+        ' Icons</a>, '
       TabOrder = 1
       OnLinkClick = LinkClick
     end
@@ -557,7 +558,7 @@ object AboutDialog: TAboutDialog
   object BottomPanel: TPanel
     Left = 0
     Top = 215
-    Width = 365
+    Width = 372
     Height = 41
     Margins.Left = 2
     Margins.Top = 2
@@ -570,7 +571,7 @@ object AboutDialog: TAboutDialog
     Padding.Bottom = 8
     TabOrder = 3
     object OKButton: TButton
-      Left = 282
+      Left = 289
       Top = 8
       Width = 75
       Height = 25
