@@ -5,7 +5,7 @@ object AboutDialog: TAboutDialog
   BorderStyle = bsDialog
   Caption = 'About EditBone'
   ClientHeight = 256
-  ClientWidth = 372
+  ClientWidth = 375
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,7 +23,7 @@ object AboutDialog: TAboutDialog
   object TopPanel: TPanel
     Left = 0
     Top = 0
-    Width = 372
+    Width = 375
     Height = 137
     Align = alTop
     BevelOuter = bvNone
@@ -72,7 +72,7 @@ object AboutDialog: TAboutDialog
       Caption = 'Memory Available to Windows: %s'
     end
     object ImagePanel: TPanel
-      Left = 244
+      Left = 247
       Top = 0
       Width = 128
       Height = 137
@@ -484,7 +484,7 @@ object AboutDialog: TAboutDialog
   object SeparatorPanel: TPanel
     Left = 0
     Top = 137
-    Width = 372
+    Width = 375
     Height = 1
     Align = alTop
     BevelOuter = bvNone
@@ -495,7 +495,7 @@ object AboutDialog: TAboutDialog
   object ThanksToPanel: TPanel
     Left = 0
     Top = 138
-    Width = 372
+    Width = 375
     Height = 77
     Margins.Left = 2
     Margins.Top = 2
@@ -504,9 +504,6 @@ object AboutDialog: TAboutDialog
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    DesignSize = (
-      372
-      77)
     object ThanksToLabel: TLabel
       Left = 11
       Top = 6
@@ -518,18 +515,17 @@ object AboutDialog: TAboutDialog
     object CopyrightLabel: TLabel
       Left = 0
       Top = 64
-      Width = 372
+      Width = 375
       Height = 13
       Align = alBottom
       Alignment = taCenter
       Caption = 'Copyright %s. All Rights Reserved.'
     end
     object ThanksTo2LinkLabel: TLinkLabel
-      Left = 21
-      Top = 42
+      Left = 11
+      Top = 43
       Width = 310
       Height = 17
-      Anchors = [akTop]
       Caption = 
         '<a href="http://www.customicondesign.com/">Custom Icon Design</a' +
         '>, <a href="http://angusj.com/delphi/">Angus Johnson</a>, <a hre' +
@@ -539,11 +535,10 @@ object AboutDialog: TAboutDialog
       OnLinkClick = LinkClick
     end
     object ThanksTo1LinkLabel: TLinkLabel
-      Left = 12
+      Left = 11
       Top = 26
       Width = 357
       Height = 17
-      Anchors = [akTop]
       Caption = 
         '<a href="http://www.embarcadero.com/products/rad-studio/">Embarc' +
         'adero RAD Studio</a>, <a href="http://www.delphi-jedi.org/">Jedi' +
@@ -558,7 +553,7 @@ object AboutDialog: TAboutDialog
   object BottomPanel: TPanel
     Left = 0
     Top = 215
-    Width = 372
+    Width = 375
     Height = 41
     Margins.Left = 2
     Margins.Top = 2
@@ -571,7 +566,7 @@ object AboutDialog: TAboutDialog
     Padding.Bottom = 8
     TabOrder = 3
     object OKButton: TButton
-      Left = 289
+      Left = 292
       Top = 8
       Width = 75
       Height = 25

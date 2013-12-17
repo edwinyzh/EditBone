@@ -500,7 +500,7 @@ var
   Ln: Integer;
   S: string;
 begin
-  Result := OptionsContainer.HtmlVersion; { Default }
+  Result := TSynWebHtmlVersion(OptionsContainer.HtmlVersion); { Default }
 
   try
     for Ln := 0 to 10 do
@@ -3199,7 +3199,7 @@ procedure TDocumentFrame.SetActiveHighlighter(Value: Integer);
               OnPaintTransient := SynEditHTMLPaintTransient;
               OnChange := SynEditHTMLOnChange;
               FHTMLDocumentChanged := True;
-              HtmlVersion := OptionsContainer.HTMLVersion;
+              HtmlVersion := TSynWebHtmlVersion(OptionsContainer.HTMLVersion);
               SynWebEngine.Options.HtmlVersion := HtmlVersion;
             end;
         38: begin
@@ -3217,7 +3217,7 @@ procedure TDocumentFrame.SetActiveHighlighter(Value: Integer);
               ActiveLineColor := clGray;
               OnPaintTransient := SynEditPASPaintTransient;
             end;
-        47: SynSQLSyn.SQLDialect := OptionsContainer.SQLDialect;
+        47: SynSQLSyn.SQLDialect := TSQLDialect(OptionsContainer.SQLDialect);
       end;
     end;
   end;
@@ -3475,13 +3475,13 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
       begin
         if (Highlighter = ClassicCSSyn) or (Highlighter = DefaultCSSyn) or (Highlighter = TwilightCSSyn) then
         begin
-          if OptionsContainer.CPASHighlighter = hClassic then
+          if OptionsContainer.CPASHighlighter = Ord(hClassic) then
           begin
             Color := clNavy;
             ActiveLineColor := clBlue;
           end
           else
-          if OptionsContainer.CPASHighlighter = hDefault then
+          if OptionsContainer.CPASHighlighter = Ord(hDefault) then
           begin
             Color := clWhite;
             ActiveLineColor := $E6FFFA
@@ -3497,13 +3497,13 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
       begin
         if (Highlighter = ClassicCPPSyn) or (Highlighter = DefaultCPPSyn) or (Highlighter = TwilightCPPSyn) then
         begin
-          if OptionsContainer.CPASHighlighter = hClassic then
+          if OptionsContainer.CPASHighlighter = Ord(hClassic) then
           begin
             Color := clNavy;
             ActiveLineColor := clBlue;
           end
           else
-          if OptionsContainer.CPASHighlighter = hDefault then
+          if OptionsContainer.CPASHighlighter = Ord(hDefault) then
           begin
             Color := clWhite;
             ActiveLineColor := $E6FFFA
@@ -3527,14 +3527,14 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
       begin
         if (Highlighter = ClassicPasSyn) or (Highlighter = DefaultPasSyn) or (Highlighter = TwilightPasSyn) then
         begin
-          if OptionsContainer.CPASHighlighter = hClassic then
+          if OptionsContainer.CPASHighlighter = Ord(hClassic) then
           begin
             Color := clNavy;
             ActiveLineColor := clBlue;
             OnPaintTransient := SynEditPASPaintTransient;
           end
           else
-          if OptionsContainer.CPASHighlighter = hDefault then
+          if OptionsContainer.CPASHighlighter = Ord(hDefault) then
           begin
             Color := clWhite;
             ActiveLineColor := $E6FFFA;
@@ -3550,7 +3550,7 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
       end
       else
       if IsExtInFileType(FileExt, ftSQL) then
-        SynSQLSyn.SQLDialect := OptionsContainer.SQLDialect
+        SynSQLSyn.SQLDialect := TSQLDialect(OptionsContainer.SQLDialect)
     end;
   end;
 
@@ -3585,10 +3585,10 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
           (Highlighter <> DefaultCSSyn) and
           (Highlighter <> TwilightCSSyn) then
         begin
-          if OptionsContainer.CPASHighlighter = hClassic then
+          if OptionsContainer.CPASHighlighter = Ord(hClassic) then
             Highlighter := ClassicCSSyn
           else
-          if OptionsContainer.CPASHighlighter = hDefault then
+          if OptionsContainer.CPASHighlighter = Ord(hDefault) then
             Highlighter := DefaultCSSyn
           else
             Highlighter := TwilightCSSyn;
@@ -3600,10 +3600,10 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
           (Highlighter <> DefaultCPPSyn) and
           (Highlighter <> TwilightCPPSyn) then
         begin
-          if OptionsContainer.CPASHighlighter = hClassic then
+          if OptionsContainer.CPASHighlighter = Ord(hClassic) then
             Highlighter := ClassicCppSyn
           else
-          if OptionsContainer.CPASHighlighter = hDefault then
+          if OptionsContainer.CPASHighlighter = Ord(hDefault) then
             Highlighter := DefaultCppSyn
           else
             Highlighter := TwilightCppSyn;
@@ -3673,10 +3673,10 @@ procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; 
           (Highlighter <> DefaultPasSyn) and
           (Highlighter <> TwilightPasSyn) then
         begin
-          if OptionsContainer.CPASHighlighter = hClassic then
+          if OptionsContainer.CPASHighlighter = Ord(hClassic) then
             Highlighter := ClassicPasSyn
           else
-          if OptionsContainer.CPASHighlighter = hDefault then
+          if OptionsContainer.CPASHighlighter = Ord(hDefault) then
             Highlighter := DefaultPasSyn
           else
             Highlighter := TwilightPasSyn

@@ -53,7 +53,7 @@ end;
 procedure TOptionsEditorErrorCheckingFrame.PutData(OptionsContainer: TEditBoneOptionsContainer);
 begin
   OptionsContainer.HTMLErrorChecking := HTMLErrorCheckingCheckBox.Checked;
-  OptionsContainer.HTMLVersion := TSynWebHtmlVersion(HTMLVersionComboBox.ItemIndex);
+  OptionsContainer.HTMLVersion := HTMLVersionComboBox.ItemIndex;
 end;
 
 end.
