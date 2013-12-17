@@ -798,7 +798,6 @@ begin
   with TBigIniFile.Create(GetIniFilename) do
   try
     { Options }
-    OptionsContainer.ToolBarVisible := ReadBool('Options', 'ShowToolBar', True);
     StatusBar.Visible := ReadBool('Options', 'ShowStatusbar', True);
     DirectoryPanel.Visible := ReadBool('Options', 'ShowDirectory', True);
     HighlighterComboBox.Visible := ReadBool('Options', 'ShowHighlighterSelection', True);
