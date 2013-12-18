@@ -15,6 +15,7 @@ uses
 type
   POptionsRec = ^TOptionsRec;
   TOptionsRec = record
+    Index: Integer;
     Caption: UnicodeString;
     ImageIndex: Integer;
   end;
@@ -150,47 +151,55 @@ begin
     { Editor }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
-
+    Data.Index := 0;
     Data.ImageIndex := EditorAction.ImageIndex;
     Data.Caption := EditorAction.Caption;
     { Font }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
+    Data.Index := 1;
     Data.ImageIndex := EditorFontAction.ImageIndex;
     Data.Caption := EditorFontAction.Caption;
     { Left Margin }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
+    Data.Index := 2;
     Data.ImageIndex := EditorLeftMarginAction.ImageIndex;
     Data.Caption := EditorLeftMarginAction.Caption;
     { Right Margin }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
+    Data.Index := 3;
     Data.ImageIndex := EditorRightMarginAction.ImageIndex;
     Data.Caption := EditorRightMarginAction.Caption;
     { Tabs }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
+    Data.Index := 4;
     Data.ImageIndex := EditorTabsAction.ImageIndex;
     Data.Caption := EditorTabsAction.Caption;
     { Search }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
+    Data.Index := 5;
     Data.ImageIndex := EditorSearchAction.ImageIndex;
     Data.Caption := EditorSearchAction.Caption;
     { Completion proposal }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
+    Data.Index := 6;
     Data.ImageIndex := EditorCompletionProposalAction.ImageIndex;
     Data.Caption := EditorCompletionProposalAction.Caption;
     { Error checking }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
+    Data.Index := 7;
     Data.ImageIndex := EditorErrorCheckingAction.ImageIndex;
     Data.Caption := EditorErrorCheckingAction.Caption;
     { Other }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
+    Data.Index := 8;
     Data.ImageIndex := EditorOtherAction.ImageIndex;
     Data.Caption := EditorOtherAction.Caption;
     Node.ChildCount := 8; { Remember to fix this, if child nodes are added}
@@ -199,11 +208,13 @@ begin
     { Directory }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
+    Data.Index := 9;
     Data.ImageIndex := DirectoryAction.ImageIndex;
     Data.Caption := DirectoryAction.Caption;
     { Tabs }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
+    Data.Index := 10;
     Data.ImageIndex := DirectoryTabsAction.ImageIndex;
     Data.Caption := DirectoryTabsAction.Caption;
     OptionsVirtualStringTree.Selected[Node] := True;
@@ -211,11 +222,13 @@ begin
     { Output }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
+    Data.Index := 11;
     Data.ImageIndex := OutputAction.ImageIndex;
     Data.Caption := OutputAction.Caption;
     { Tabs }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
+    Data.Index := 12;
     Data.ImageIndex := OutputTabsAction.ImageIndex;
     Data.Caption := OutputTabsAction.Caption;
     OptionsVirtualStringTree.Selected[Node] := True;
@@ -223,31 +236,37 @@ begin
     { Compare }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
+    Data.Index := 13;
     Data.ImageIndex := CompareAction.ImageIndex;
     Data.Caption := CompareAction.Caption;
     { Print }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
+    Data.Index := 14;
     Data.ImageIndex := PrintAction.ImageIndex;
     Data.Caption := PrintAction.Caption;
     { Main menu }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
+    Data.Index := 15;
     Data.ImageIndex := MainMenuAction.ImageIndex;
     Data.Caption := MainMenuAction.Caption;
     { Tool Bar }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
+    Data.Index := 16;
     Data.ImageIndex := ToolBarAction.ImageIndex;
     Data.Caption := ToolBarAction.Caption;
     { Status Bar }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
+    Data.Index := 17;
     Data.ImageIndex := StatusBarAction.ImageIndex;
     Data.Caption := StatusBarAction.Caption;
     { File types }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
+    Data.Index := 18;
     Data.ImageIndex := FileTypesAction.ImageIndex;
     Data.Caption := FileTypesAction.Caption;
 
@@ -258,6 +277,8 @@ end;
 function TOptionsForm.Execute(EditOptions: TEditBoneOptionsContainer): Boolean;
 var
   SelectedLanguage: string;
+  Node: PVirtualNode;
+  Data: POptionsRec;
 begin
   ReadIniFile;
 
@@ -292,9 +313,21 @@ begin
   FOptionsContainer := EditOptions;
   GetData;
 
-  Result:= Showmodal = mrOk;
+  Result := Showmodal = mrOk;
   if Result then
     PutData;
+
+  { save the selected tree node }
+  with TIniFile.Create(GetIniFilename) do
+  try
+    Node := OptionsVirtualStringTree.GetFirstSelected;
+    Data := OptionsVirtualStringTree.GetNodeData(Node);
+    WriteInteger('Options', 'OptionsSelectedItemIndex', Data.Index);
+  finally
+    Free;
+  end;
+
+  Free;
 end;
 
 procedure TOptionsForm.GetData;
@@ -532,14 +565,40 @@ begin
   FOptionsToolBarFrame.Parent := OptionsPanel;
 end;
 
+
+
 procedure TOptionsForm.FormShow(Sender: TObject);
 var
+  SelectedItemIndex: Integer;
   Node: PVirtualNode;
+
+  function FindItem(CurrentNode: PVirtualNode; ItemIndex: Integer): PVirtualNode;
+  var
+    ChildNode: PVirtualNode;
+    Data: POptionsRec;
+  begin
+    Data := OptionsVirtualStringTree.GetNodeData(CurrentNode);
+    while Assigned(CurrentNode) and (Data.Index <> ItemIndex) do
+    begin
+      CurrentNode := OptionsVirtualStringTree.GetNext(CurrentNode);
+      Data := OptionsVirtualStringTree.GetNodeData(CurrentNode);
+    end;
+    Result := CurrentNode;
+  end;
+
 begin
   inherited;
-  Node := OptionsVirtualStringTree.GetFirstSelected;
   CreateTree;
-  OptionsVirtualStringTree.Selected[Node] := True;
+
+  with TIniFile.Create(GetIniFilename) do
+  try
+    SelectedItemIndex := ReadInteger('Options', 'OptionsSelectedItemIndex', 0);
+  finally
+    Free;
+  end;
+  Node := FindItem(OptionsVirtualStringTree.GetFirst, SelectedItemIndex);
+  if Assigned(Node) then
+    OptionsVirtualStringTree.Selected[Node] := True;
   SetVisibleFrame;
 end;
 

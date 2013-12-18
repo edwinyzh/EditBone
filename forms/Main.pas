@@ -1899,7 +1899,7 @@ end;
 
 procedure TMainForm.ViewInBrowserActionExecute(Sender: TObject);
 begin
-  BrowseURL(FDocumentFrame.ActiveDocumentName);
+  BrowseURL(FormatFileName(FDocumentFrame.ActiveDocumentName));
 end;
 
 procedure TMainForm.ViewLineNumbersActionExecute(Sender: TObject);
