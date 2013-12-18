@@ -2645,9 +2645,14 @@ var
   SynEdit: TBCSynEdit;
 begin
   Result := '';
-  SynEdit := GetActiveSynEdit;
-  if Assigned(SynEdit) and SynEdit.Modified then
-    Result := LanguageDataModule.GetConstant('Modified');
+  if OptionsContainer.AutoSave then
+    Result := LanguageDataModule.GetConstant('AutoSave')
+  else
+  begin
+    SynEdit := GetActiveSynEdit;
+    if Assigned(SynEdit) and SynEdit.Modified then
+      Result := LanguageDataModule.GetConstant('Modified');
+  end;
 end;
 
 function TDocumentFrame.GetActiveDocumentModified: Boolean;
