@@ -372,7 +372,6 @@ object MainForm: TMainForm
               end
               item
                 Action = FileReopenAction
-                Caption = '&Reopen'
                 ImageIndex = 2
               end
               item
@@ -404,7 +403,6 @@ object MainForm: TMainForm
               end
               item
                 Action = FileCloseAllOtherPagesAction
-                Caption = 'Clos&e All Other'
                 ImageIndex = 8
                 ShortCut = 24691
               end
@@ -714,7 +712,6 @@ object MainForm: TMainForm
               end
               item
                 Action = SearchGotoLineAction
-                Caption = 'Go to &Line'
                 ImageIndex = 53
                 ShortCut = 16455
               end>
@@ -756,7 +753,6 @@ object MainForm: TMainForm
               end
               item
                 Action = ViewMiniMapAction
-                Caption = 'Minim&ap'
               end
               item
                 Action = ViewOutputAction
@@ -822,7 +818,6 @@ object MainForm: TMainForm
               end
               item
                 Action = FormatXMLAction
-                Caption = '&Format XML'
                 ImageIndex = 66
               end
               item
@@ -1216,7 +1211,7 @@ object MainForm: TMainForm
     end
     object FileReopenAction: TAction
       Category = '&File'
-      Caption = 'Reopen'
+      Caption = '&Reopen'
       ImageIndex = 2
       OnExecute = FileReopenActionExecute
     end
@@ -1261,7 +1256,7 @@ object MainForm: TMainForm
     end
     object FileCloseAllOtherPagesAction: TAction
       Category = '&File'
-      Caption = 'Close All Other'
+      Caption = 'Clos&e All Other'
       Hint = 'Close all other pages'
       ImageIndex = 8
       ShortCut = 24691
@@ -1439,7 +1434,7 @@ object MainForm: TMainForm
     end
     object ViewMiniMapAction: TAction
       Category = '&View'
-      Caption = 'Minimap'
+      Caption = 'Minim&ap'
       Hint = 'Show or hide the minimap'
       OnExecute = ViewMiniMapActionExecute
     end
@@ -1451,20 +1446,20 @@ object MainForm: TMainForm
     end
     object ViewSplitAction: TAction
       Category = '&View'
-      Caption = 'S&plit'
+      Caption = '&Split'
       Hint = 'Split the document'
       OnExecute = ViewSplitActionExecute
     end
     object ViewStatusBarAction: TAction
       Category = '&View'
-      Caption = '&Status Bar'
+      Caption = 'S&tatus Bar'
       Checked = True
       Hint = 'Show or hide the status bar'
       OnExecute = ViewStatusBarActionExecute
     end
     object ViewToolbarAction: TAction
       Category = '&View'
-      Caption = '&Toolbar'
+      Caption = 'Too&lbar'
       Checked = True
       Hint = 'Show or hide the toolbar'
       OnExecute = ViewToolbarActionExecute
@@ -1477,7 +1472,7 @@ object MainForm: TMainForm
     end
     object ViewLanguageAction: TAction
       Category = '&View'
-      Caption = '&Language'
+      Caption = 'La&nguage'
       ImageIndex = 57
       OnExecute = DummyActionExecute
     end
@@ -1489,7 +1484,7 @@ object MainForm: TMainForm
     end
     object ViewNextPageAction: TAction
       Category = '&View'
-      Caption = '&Next Page'
+      Caption = 'Next &Page'
       Hint = 'Go to next page'
       ImageIndex = 59
       ShortCut = 16393
@@ -1586,7 +1581,7 @@ object MainForm: TMainForm
     end
     object FormatXMLAction: TAction
       Category = '&Document'
-      Caption = 'Format XML'
+      Caption = '&Format XML'
       Hint = 'Format XML'
       ImageIndex = 66
       OnExecute = FormatXMLActionExecute
@@ -2071,7 +2066,7 @@ object MainForm: TMainForm
     end
     object SearchGotoLineAction: TAction
       Category = '&Search'
-      Caption = 'Go to Line'
+      Caption = 'Go to &Line'
       Hint = 'Go to Line'
       ImageIndex = 53
       ShortCut = 16455
