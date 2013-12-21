@@ -201,7 +201,7 @@ begin
     Data.Index := 8;
     Data.ImageIndex := EditorOtherAction.ImageIndex;
     Data.Caption := EditorOtherAction.Caption;
-    Node.ChildCount := 8; { Remember to fix this, if child nodes are added}
+    Node.ChildCount := OptionsVirtualStringTree.ChildCount[Node];
     OptionsVirtualStringTree.Selected[Node] := True;
     OptionsVirtualStringTree.Expanded[Node] := True;
     { Directory }
@@ -216,6 +216,7 @@ begin
     Data.Index := 10;
     Data.ImageIndex := DirectoryTabsAction.ImageIndex;
     Data.Caption := DirectoryTabsAction.Caption;
+    Node.ChildCount := OptionsVirtualStringTree.ChildCount[Node];
     OptionsVirtualStringTree.Selected[Node] := True;
     OptionsVirtualStringTree.Expanded[Node] := True;
     { Output }
@@ -230,6 +231,7 @@ begin
     Data.Index := 12;
     Data.ImageIndex := OutputTabsAction.ImageIndex;
     Data.Caption := OutputTabsAction.Caption;
+    Node.ChildCount := OptionsVirtualStringTree.ChildCount[Node];
     OptionsVirtualStringTree.Selected[Node] := True;
     OptionsVirtualStringTree.Expanded[Node] := True;
     { Compare }

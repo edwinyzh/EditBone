@@ -2,14 +2,14 @@ object DocTabSheetFrame: TDocTabSheetFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 302
+  Height = 305
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
     Width = 451
-    Height = 302
+    Height = 305
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 1
@@ -21,16 +21,17 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 201
       Top = 1
       Width = 4
-      Height = 299
+      Height = 302
       Color = clBtnFace
       ParentColor = False
       Visible = False
+      ExplicitHeight = 299
     end
     object VirtualDrawTree: TVirtualDrawTree
       Left = 1
       Top = 1
       Width = 200
-      Height = 299
+      Height = 302
       Align = alLeft
       DragOperations = []
       Header.AutoSizeIndex = 0
@@ -46,7 +47,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
       OnFreeNode = VirtualDrawTreeFreeNode
       OnGetImageIndex = VirtualDrawTreeGetImageIndex
       OnGetNodeWidth = VirtualDrawTreeGetNodeWidth
-      OnInitChildren = VirtualDrawTreeInitChildren
       OnInitNode = VirtualDrawTreeInitNode
       Columns = <>
     end
@@ -54,7 +54,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 205
       Top = 1
       Width = 246
-      Height = 299
+      Height = 302
       Align = alClient
       BevelOuter = bvNone
       Color = clWindow
@@ -62,17 +62,18 @@ object DocTabSheetFrame: TDocTabSheetFrame
       TabOrder = 1
       object HorizontalSplitter: TSplitter
         Left = 0
-        Top = 18
+        Top = 21
         Width = 246
         Height = 4
         Cursor = crVSplit
         Align = alBottom
         ParentColor = False
         Visible = False
+        ExplicitTop = 18
       end
       object SplitSynEditPanel: TPanel
         Left = 0
-        Top = 22
+        Top = 25
         Width = 246
         Height = 277
         Align = alBottom
@@ -148,7 +149,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Left = 0
         Top = 0
         Width = 246
-        Height = 18
+        Height = 21
         Align = alClient
         ActiveLineColor = clSkyBlue
         CodeFolding.CaseSensitive = False

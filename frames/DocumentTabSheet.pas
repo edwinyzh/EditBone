@@ -10,7 +10,10 @@ uses
 type
   PXMLTreeRec = ^TXMLTreeRec;
   TXMLTreeRec = record
-    Data: IXMLNode;
+    HasChildNodes: Boolean;
+    NodeType: TNodeType;
+    NodeName: string;
+    NodeValue: string;
   end;
 
   TDocTabSheetFrame = class(TFrame)
@@ -32,7 +35,6 @@ type
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
     procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
-    procedure VirtualDrawTreeInitChildren(Sender: TBaseVirtualTree; Node: PVirtualNode; var ChildCount: Cardinal);
     procedure VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
     procedure SynCompletionProposalExecute(Kind: SynCompletionType; Sender: TObject; var CurrentInput: string; var x,
       y: Integer; var CanExecute: Boolean);
@@ -46,7 +48,7 @@ type
     function GetSplitVisible: Boolean;
     function GetMinimapVisible: Boolean;
     function GetXMLTreeVisible: Boolean;
-    procedure ProcessNode(Node: IXMLNode; TreeNode: PVirtualNode);
+    function ProcessNode(Node: IXMLNode; TreeNode: PVirtualNode): PVirtualNode;
     procedure SetSplitVisible(Value: Boolean);
     procedure SetMinimapVisible(Value: Boolean);
     procedure SetXMLTreeVisible(Value: Boolean);
@@ -181,10 +183,10 @@ begin
     InflateRect(R, -TextMargin, 0);
     Dec(R.Right);
     Dec(R.Bottom);
-    if IsNameNodeType(TreeNode.Data.NodeType) then
-      S := TreeNode.Data.NodeName
+    if IsNameNodeType(TreeNode.NodeType) then
+      S := TreeNode.NodeName
     else
-      S := TreeNode.Data.NodeValue;
+      S := TreeNode.NodeValue;
 
     if Length(S) > 0 then
     begin
@@ -216,7 +218,7 @@ begin
   if Kind in [ikNormal, ikSelected] then
   begin
     TreeNode := VirtualDrawTree.GetNodeData(Node);
-    ImageIndex := Ord(TreeNode.Data.NodeType);
+    ImageIndex := Ord(TreeNode.NodeType);
   end;
 end;
 
@@ -230,55 +232,19 @@ begin
   begin
     AMargin := TextMargin;
     TreeNode := Sender.GetNodeData(Node);
-    if Assigned(TreeNode.Data) then
+    if Assigned(TreeNode) then
     begin
-      if IsNameNodeType(TreeNode.Data.NodeType) then
-        NodeWidth := Canvas.TextWidth(TreeNode.Data.NodeName) + 2 * AMargin
+      if IsNameNodeType(TreeNode.NodeType) then
+        NodeWidth := Canvas.TextWidth(TreeNode.NodeName) + 2 * AMargin
       else
-        NodeWidth := Canvas.TextWidth(TreeNode.Data.NodeValue) + 2 * AMargin
+        NodeWidth := Canvas.TextWidth(TreeNode.NodeValue) + 2 * AMargin
     end;
   end;
-end;
-
-procedure TDocTabSheetFrame.ProcessNode(Node: IXMLNode; TreeNode: PVirtualNode);
-var
-  VirtualNode: PVirtualNode;
-  NodeData: PXMLTreeRec;
-begin
-  if not Assigned(Node) then
-    Exit;
-  Application.ProcessMessages;
-
-  VirtualNode := VirtualDrawTree.AddChild(TreeNode);
-  NodeData := VirtualDrawTree.GetNodeData(VirtualNode);
-  NodeData.Data := Node;
 end;
 
 procedure TDocTabSheetFrame.RefreshActionExecute(Sender: TObject);
 begin
   LoadFromXML(SynEdit.Text);
-end;
-
-procedure TDocTabSheetFrame.VirtualDrawTreeInitChildren(Sender: TBaseVirtualTree; Node: PVirtualNode;
-  var ChildCount: Cardinal);
-var
-  i: Integer;
-  TreeNode: PXMLTreeRec;
-  XMLNode: IXMLNode;
-begin
-  TreeNode := VirtualDrawTree.GetNodeData(Node);
-  XMLNode := TreeNode.Data;
-  { attributes }
-  for i := 0 to XMLNode.AttributeNodes.Count - 1 do
-    ProcessNode(XMLNode.AttributeNodes.Get(i), Node);
-  { childnodes }
-  XMLNode := TreeNode.Data.ChildNodes.First;
-  while Assigned(XMLNode) do
-  begin
-    ProcessNode(XMLNode, Node);
-    XMLNode := XMLNode.NextSibling;
-  end;
-  ChildCount := VirtualDrawTree.ChildCount[Node];
 end;
 
 procedure TDocTabSheetFrame.VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
@@ -288,8 +254,8 @@ var
 begin
   inherited;
   TreeNode := VirtualDrawTree.GetNodeData(Node);
-  if Assigned(TreeNode.Data) then
-    if TreeNode.Data.HasChildNodes or (UpperCase(TreeNode.Data.NodeName) = 'XML') then
+  if Assigned(TreeNode) then
+    if TreeNode.HasChildNodes then //or (UpperCase(TreeNode.Data.NodeName) = 'XML') then
       Include(InitialStates, ivsHasChildren);
 end;
 
@@ -316,9 +282,34 @@ begin
   UpdateOptionsAndStyles(GetRightPadding);
 end;
 
+function TDocTabSheetFrame.ProcessNode(Node: IXMLNode; TreeNode: PVirtualNode): PVirtualNode;
+var
+  i: Integer;
+  NodeData: PXMLTreeRec;
+begin
+  Result := VirtualDrawTree.AddChild(TreeNode);
+
+  NodeData := VirtualDrawTree.GetNodeData(Result);
+  NodeData.HasChildNodes := Node.HasChildNodes; // and (Node.NodeType <> ntAttribute);
+  NodeData.NodeType := Node.NodeType;
+  NodeData.NodeName := Node.NodeName;
+  if Node.NodeName = '#text' then
+    NodeData.NodeValue := Node.NodeValue;
+
+  { attributes }
+  for i := 0 to Node.AttributeNodes.Count - 1 do
+    ProcessNode(Node.AttributeNodes.Get(i), Result);
+
+  if Assigned(TreeNode) and NodeData.HasChildNodes then
+    for i := 0 to Node.ChildNodes.Count - 1 do
+      ProcessNode(Node.ChildNodes.Get(i), Result);
+end;
+
 procedure TDocTabSheetFrame.LoadFromXML(XML: string);
 var
+  i: Integer;
   XMLNode: IXMLNode;
+  Node: PVirtualNode;
 begin
   try
     XMLDocument.LoadFromXML(XML);
@@ -327,12 +318,18 @@ begin
     VirtualDrawTree.NodeDataSize := SizeOf(TXMLTreeRec);
     VirtualDrawTree.BeginUpdate;
 
-    XMLNode := XMLDocument.ChildNodes.First;
+    XMLNode := XMLDocument.DocumentElement;
+    Node := nil;
     while Assigned(XMLNode) do
     begin
-      ProcessNode(XMLNode, nil);
+      Node := ProcessNode(XMLNode, Node);
+
+      if XMLNode.HasChildNodes then
+        for i := 0 to XMLNode.ChildNodes.Count - 1 do
+          ProcessNode(XMLNode.ChildNodes.Get(i), Node);
       XMLNode := XMLNode.NextSibling;
     end;
+    VirtualDrawTree.Expanded[VirtualDrawTree.GetFirst] := True;
   finally
     VirtualDrawTree.EndUpdate;
   end;
