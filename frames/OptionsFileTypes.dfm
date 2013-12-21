@@ -2,13 +2,13 @@ object OptionsFileTypesFrame: TOptionsFileTypesFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 302
+  Height = 305
   Align = alClient
   TabOrder = 0
   Visible = False
   object FileTypesBottomPanel: TPanel
     Left = 0
-    Top = 260
+    Top = 263
     Width = 451
     Height = 42
     Align = alBottom
@@ -54,7 +54,7 @@ object OptionsFileTypesFrame: TOptionsFileTypesFrame
     Left = 0
     Top = 0
     Width = 451
-    Height = 260
+    Height = 263
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 4
@@ -63,7 +63,7 @@ object OptionsFileTypesFrame: TOptionsFileTypesFrame
       Left = 4
       Top = 0
       Width = 447
-      Height = 260
+      Height = 263
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4

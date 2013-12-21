@@ -1,22 +1,20 @@
 object OptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 302
-  Align = alClient
+  Width = 232
+  Height = 161
   TabOrder = 0
   Visible = False
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 451
-    Height = 302
-    Align = alClient
+    Width = 232
+    Height = 161
     BevelOuter = bvNone
     TabOrder = 0
     object MultilineCheckBox: TBCCheckBox
-      Left = 9
-      Top = 66
+      Left = 4
+      Top = 60
       Width = 232
       Height = 21
       Margins.Left = 4
@@ -28,8 +26,8 @@ object OptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame
       ReadOnly = False
     end
     object ShowCloseButtonCheckBox: TBCCheckBox
-      Left = 9
-      Top = 106
+      Left = 4
+      Top = 100
       Width = 218
       Height = 21
       Margins.Left = 4
@@ -41,8 +39,8 @@ object OptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame
       ReadOnly = False
     end
     object ShowImageCheckBox: TBCCheckBox
-      Left = 9
-      Top = 126
+      Left = 4
+      Top = 120
       Width = 218
       Height = 21
       Margins.Left = 4
@@ -54,8 +52,8 @@ object OptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame
       ReadOnly = False
     end
     object CloseTabByDblClickCheckBox: TBCCheckBox
-      Left = 9
-      Top = 6
+      Left = 4
+      Top = 0
       Width = 218
       Height = 21
       Margins.Left = 4
@@ -67,8 +65,8 @@ object OptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame
       ReadOnly = False
     end
     object CloseTabByMiddleClickCheckBox: TBCCheckBox
-      Left = 9
-      Top = 26
+      Left = 4
+      Top = 20
       Width = 218
       Height = 21
       Margins.Left = 4
@@ -80,8 +78,8 @@ object OptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame
       ReadOnly = False
     end
     object DoubleBufferedCheckBox: TBCCheckBox
-      Left = 9
-      Top = 46
+      Left = 4
+      Top = 40
       Width = 232
       Height = 21
       Margins.Left = 4
@@ -95,8 +93,8 @@ object OptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame
       ReadOnly = False
     end
     object RightClickSelectCheckBox: TBCCheckBox
-      Left = 9
-      Top = 146
+      Left = 4
+      Top = 140
       Width = 218
       Height = 21
       Margins.Left = 4
@@ -110,8 +108,8 @@ object OptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame
       ReadOnly = False
     end
     object SaveTabsCheckBox: TBCCheckBox
-      Left = 9
-      Top = 86
+      Left = 4
+      Top = 80
       Width = 218
       Height = 21
       Margins.Left = 4

@@ -1,20 +1,19 @@
 object OptionsDirectoryFrame: TOptionsDirectoryFrame
   Left = 0
   Top = 0
-  Width = 320
-  Height = 240
+  Width = 201
+  Height = 125
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 320
-    Height = 240
-    Align = alClient
+    Width = 201
+    Height = 125
     BevelOuter = bvNone
     TabOrder = 0
     object IndentLabel: TLabel
-      Left = 11
-      Top = 93
+      Left = 6
+      Top = 87
       Width = 32
       Height = 13
       Margins.Left = 4
@@ -24,8 +23,8 @@ object OptionsDirectoryFrame: TOptionsDirectoryFrame
       Caption = 'Indent'
     end
     object ShowTreeLinesCheckBox: TBCCheckBox
-      Left = 9
-      Top = 6
+      Left = 4
+      Top = 0
       Width = 201
       Height = 21
       Margins.Left = 4
@@ -37,8 +36,8 @@ object OptionsDirectoryFrame: TOptionsDirectoryFrame
       ReadOnly = False
     end
     object IndentEdit: TBCEdit
-      Left = 9
-      Top = 110
+      Left = 4
+      Top = 104
       Width = 64
       Height = 21
       Margins.Left = 4
@@ -55,8 +54,8 @@ object OptionsDirectoryFrame: TOptionsDirectoryFrame
       NumbersAllowNegative = False
     end
     object ShowHiddenFilesCheckBox: TBCCheckBox
-      Left = 9
-      Top = 26
+      Left = 4
+      Top = 20
       Width = 201
       Height = 21
       Margins.Left = 4
@@ -68,8 +67,8 @@ object OptionsDirectoryFrame: TOptionsDirectoryFrame
       ReadOnly = False
     end
     object ShowSystemFilesCheckBox: TBCCheckBox
-      Left = 9
-      Top = 46
+      Left = 4
+      Top = 40
       Width = 201
       Height = 21
       Margins.Left = 4
@@ -81,8 +80,8 @@ object OptionsDirectoryFrame: TOptionsDirectoryFrame
       ReadOnly = False
     end
     object ShowArchiveFilesCheckBox: TBCCheckBox
-      Left = 9
-      Top = 66
+      Left = 4
+      Top = 58
       Width = 201
       Height = 21
       Margins.Left = 4

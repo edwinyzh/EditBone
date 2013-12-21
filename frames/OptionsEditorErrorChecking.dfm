@@ -1,29 +1,27 @@
 object OptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 302
-  Align = alClient
+  Width = 278
+  Height = 62
   TabOrder = 0
   Visible = False
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 451
-    Height = 302
-    Align = alClient
+    Width = 278
+    Height = 62
     BevelOuter = bvNone
     TabOrder = 0
     object HTMLVersionLabel: TLabel
-      Left = 11
-      Top = 30
+      Left = 6
+      Top = 25
       Width = 188
       Height = 13
       Caption = 'Version When DOCTYPE Does Not Exist'
     end
     object HTMLErrorCheckingCheckBox: TBCCheckBox
-      Left = 9
-      Top = 5
+      Left = 4
+      Top = 0
       Width = 278
       Height = 21
       Margins.Left = 4
@@ -38,8 +36,8 @@ object OptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame
       ReadOnly = False
     end
     object HTMLVersionComboBox: TBCComboBox
-      Left = 9
-      Top = 46
+      Left = 4
+      Top = 41
       Width = 186
       Height = 21
       Margins.Left = 4

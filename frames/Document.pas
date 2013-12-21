@@ -191,6 +191,9 @@ type
     SearchClearAction: TAction;
     GotoLineClearAction: TAction;
     SynDWSSyn: TSynDWSSyn;
+    AfterRegularExpressionPanel: TPanel;
+    WildCardCheckBox: TBCCheckBox;
+    WildCardLabel: TLabel;
     procedure PageControlChange(Sender: TObject);
     procedure SearchCloseActionExecute(Sender: TObject);
     procedure SearchFindNextActionExecute(Sender: TObject);
@@ -1501,7 +1504,7 @@ begin
   if RegularExpressionCheckBox.Checked then
     SynEdit.SearchEngine := SynEditRegexSearch
   else
-  if (Pos('*', SearchForEdit.Text) <> 0) or (Pos('?', SearchForEdit.Text) <> 0) then
+  if WildCardCheckBox.Checked then
     SynEdit.SearchEngine := SynEditWildCardSearch
   else
     SynEdit.SearchEngine := SynEditSearch;

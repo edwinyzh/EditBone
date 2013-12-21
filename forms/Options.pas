@@ -50,6 +50,7 @@ type
     StatusBarAction: TAction;
     ToolBarAction: TAction;
     TopPanel: TPanel;
+    ScrollBox: TScrollBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -321,7 +322,7 @@ begin
       FOptionsEditorOptionsFrame := TOptionsEditorOptionsFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsEditorOptionsFrame), FSelectedLanguage);
       FOptionsEditorOptionsFrame.GetData(FOptionsContainer);
-      FOptionsEditorOptionsFrame.Parent := OptionsPanel;
+      FOptionsEditorOptionsFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsEditorOptionsFrame) then
     FOptionsEditorOptionsFrame.Visible := Visible;
@@ -338,7 +339,7 @@ begin
       FOptionsContainer.AssignTo(FOptionsEditorFontFrame.SynEdit);
       FOptionsEditorFontFrame.SynEdit.ActiveLineColor := LightenColor(FOptionsEditorFontFrame.SynEdit.Color, 1 - (10 - FOptionsContainer.ColorBrightness)/10);
       UpdateMarginAndColors(FOptionsEditorFontFrame.SynEdit);
-      FOptionsEditorFontFrame.Parent := OptionsPanel;
+      FOptionsEditorFontFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsEditorFontFrame) then
     FOptionsEditorFontFrame.Visible := Visible;
@@ -352,7 +353,7 @@ begin
       FOptionsEditorLeftMarginFrame := TOptionsEditorLeftMarginFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsEditorLeftMarginFrame), FSelectedLanguage);
       FOptionsEditorLeftMarginFrame.GetData(FOptionsContainer);
-      FOptionsEditorLeftMarginFrame.Parent := OptionsPanel;
+      FOptionsEditorLeftMarginFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsEditorLeftMarginFrame) then
     FOptionsEditorLeftMarginFrame.Visible := Visible;
@@ -366,7 +367,7 @@ begin
       FOptionsEditorRightMarginFrame := TOptionsEditorRightMarginFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsEditorRightMarginFrame), FSelectedLanguage);
       FOptionsEditorRightMarginFrame.GetData(FOptionsContainer);
-      FOptionsEditorRightMarginFrame.Parent := OptionsPanel;
+      FOptionsEditorRightMarginFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsEditorRightMarginFrame) then
     FOptionsEditorRightMarginFrame.Visible := Visible;
@@ -380,7 +381,7 @@ begin
       FOptionsEditorTabsFrame := TOptionsEditorTabsFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsEditorTabsFrame), FSelectedLanguage);
       FOptionsEditorTabsFrame.GetData(FOptionsContainer);
-      FOptionsEditorTabsFrame.Parent := OptionsPanel;
+      FOptionsEditorTabsFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsEditorTabsFrame) then
     FOptionsEditorTabsFrame.Visible := Visible;
@@ -394,7 +395,7 @@ begin
       FOptionsEditorSearchFrame := TOptionsEditorSearchFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsEditorSearchFrame), FSelectedLanguage);
       FOptionsEditorSearchFrame.GetData(FOptionsContainer);
-      FOptionsEditorSearchFrame.Parent := OptionsPanel;
+      FOptionsEditorSearchFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsEditorSearchFrame) then
     FOptionsEditorSearchFrame.Visible := Visible;
@@ -408,7 +409,7 @@ begin
       FOptionsEditorCompletionProposalFrame := TOptionsEditorCompletionProposalFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsEditorCompletionProposalFrame), FSelectedLanguage);
       FOptionsEditorCompletionProposalFrame.GetData(FOptionsContainer);
-      FOptionsEditorCompletionProposalFrame.Parent := OptionsPanel;
+      FOptionsEditorCompletionProposalFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsEditorCompletionProposalFrame) then
     FOptionsEditorCompletionProposalFrame.Visible := Visible;
@@ -422,7 +423,7 @@ begin
       FOptionsEditorErrorCheckingFrame := TOptionsEditorErrorCheckingFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsEditorErrorCheckingFrame), FSelectedLanguage);
       FOptionsEditorErrorCheckingFrame.GetData(FOptionsContainer);
-      FOptionsEditorErrorCheckingFrame.Parent := OptionsPanel;
+      FOptionsEditorErrorCheckingFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsEditorErrorCheckingFrame) then
     FOptionsEditorErrorCheckingFrame.Visible := Visible;
@@ -436,7 +437,7 @@ begin
       FOptionsEditorOtherFrame := TOptionsEditorOtherFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsEditorOtherFrame), FSelectedLanguage);
       FOptionsEditorOtherFrame.GetData(FOptionsContainer);
-      FOptionsEditorOtherFrame.Parent := OptionsPanel;
+      FOptionsEditorOtherFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsEditorOtherFrame) then
     FOptionsEditorOtherFrame.Visible := Visible;
@@ -450,7 +451,7 @@ begin
       FOptionsDirectoryFrame := TOptionsDirectoryFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsDirectoryFrame), FSelectedLanguage);
       FOptionsDirectoryFrame.GetData(FOptionsContainer);
-      FOptionsDirectoryFrame.Parent := OptionsPanel;
+      FOptionsDirectoryFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsDirectoryFrame) then
     FOptionsDirectoryFrame.Visible := Visible;
@@ -464,7 +465,7 @@ begin
       FOptionsDirectoryTabsFrame := TOptionsDirectoryTabsFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsDirectoryTabsFrame), FSelectedLanguage);
       FOptionsDirectoryTabsFrame.GetData(FOptionsContainer);
-      FOptionsDirectoryTabsFrame.Parent := OptionsPanel;
+      FOptionsDirectoryTabsFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsDirectoryTabsFrame) then
     FOptionsDirectoryTabsFrame.Visible := Visible;
@@ -478,7 +479,7 @@ begin
       FOptionsOutputFrame := TOptionsOutputFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsOutputFrame), FSelectedLanguage);
       FOptionsOutputFrame.GetData(FOptionsContainer);
-      FOptionsOutputFrame.Parent := OptionsPanel;
+      FOptionsOutputFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsOutputFrame) then
     FOptionsOutputFrame.Visible := Visible;
@@ -492,7 +493,7 @@ begin
       FOptionsOutputTabsFrame := TOptionsOutputTabsFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsOutputTabsFrame), FSelectedLanguage);
       FOptionsOutputTabsFrame.GetData(FOptionsContainer);
-      FOptionsOutputTabsFrame.Parent := OptionsPanel;
+      FOptionsOutputTabsFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsOutputTabsFrame) then
     FOptionsOutputTabsFrame.Visible := Visible;
@@ -506,7 +507,7 @@ begin
       FOptionsCompareFrame := TOptionsCompareFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsCompareFrame), FSelectedLanguage);
       FOptionsCompareFrame.GetData(FOptionsContainer);
-      FOptionsCompareFrame.Parent := OptionsPanel;
+      FOptionsCompareFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsCompareFrame) then
     FOptionsCompareFrame.Visible := Visible;
@@ -520,7 +521,7 @@ begin
       FOptionsPrintFrame := TOptionsPrintFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsPrintFrame), FSelectedLanguage);
       FOptionsPrintFrame.GetData(FOptionsContainer);
-      FOptionsPrintFrame.Parent := OptionsPanel;
+      FOptionsPrintFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsPrintFrame) then
     FOptionsPrintFrame.Visible := Visible;
@@ -534,7 +535,7 @@ begin
       FOptionsMainMenuFrame := TOptionsMainMenuFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsMainMenuFrame), FSelectedLanguage);
       FOptionsMainMenuFrame.GetData(FOptionsContainer);
-      FOptionsMainMenuFrame.Parent := OptionsPanel;
+      FOptionsMainMenuFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsMainMenuFrame) then
     FOptionsMainMenuFrame.Visible := Visible;
@@ -548,7 +549,7 @@ begin
       FOptionsToolBarFrame := TOptionsToolBarFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsToolBarFrame), FSelectedLanguage);
       FOptionsToolBarFrame.GetData(FOptionsContainer);
-      FOptionsToolBarFrame.Parent := OptionsPanel;
+      FOptionsToolBarFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsToolBarFrame) then
     FOptionsToolBarFrame.Visible := Visible;
@@ -562,7 +563,7 @@ begin
       FOptionsStatusBarFrame := TOptionsStatusBarFrame.Create(OptionsPanel);
       UpdateLanguage(TForm(FOptionsStatusBarFrame), FSelectedLanguage);
       FOptionsStatusBarFrame.GetData(FOptionsContainer);
-      FOptionsStatusBarFrame.Parent := OptionsPanel;
+      FOptionsStatusBarFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsStatusBarFrame) then
     FOptionsStatusBarFrame.Visible := Visible;
@@ -580,7 +581,7 @@ begin
       if FOptionsFileTypesFrame.Visible then
         if FOptionsFileTypesFrame.ExtensionsEdit.CanFocus then
           FOptionsFileTypesFrame.ExtensionsEdit.SetFocus;
-      FOptionsFileTypesFrame.Parent := OptionsPanel;
+      FOptionsFileTypesFrame.Parent := ScrollBox;
     end;
   if Assigned(FOptionsFileTypesFrame) then
     FOptionsFileTypesFrame.Visible := Visible;

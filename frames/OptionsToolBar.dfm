@@ -1,20 +1,19 @@
 object OptionsToolBarFrame: TOptionsToolBarFrame
   Left = 0
   Top = 0
-  Width = 343
-  Height = 298
+  Width = 232
+  Height = 263
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 343
-    Height = 298
-    Align = alClient
+    Width = 232
+    Height = 263
     BevelOuter = bvNone
     TabOrder = 0
     object StandardCheckBox: TBCCheckBox
-      Left = 9
-      Top = 6
+      Left = 4
+      Top = 0
       Width = 232
       Height = 21
       Margins.Left = 4
@@ -28,8 +27,8 @@ object OptionsToolBarFrame: TOptionsToolBarFrame
       ReadOnly = False
     end
     object PrintCheckBox: TBCCheckBox
-      Left = 9
-      Top = 28
+      Left = 4
+      Top = 22
       Width = 232
       Height = 21
       Margins.Left = 4
@@ -43,8 +42,8 @@ object OptionsToolBarFrame: TOptionsToolBarFrame
       ReadOnly = False
     end
     object DirectoryCheckBox: TBCCheckBox
-      Left = 9
-      Top = 50
+      Left = 4
+      Top = 44
       Width = 232
       Height = 21
       Margins.Left = 4
@@ -58,8 +57,8 @@ object OptionsToolBarFrame: TOptionsToolBarFrame
       ReadOnly = False
     end
     object IndentCheckBox: TBCCheckBox
-      Left = 9
-      Top = 72
+      Left = 4
+      Top = 66
       Width = 232
       Height = 21
       Margins.Left = 4
@@ -73,8 +72,8 @@ object OptionsToolBarFrame: TOptionsToolBarFrame
       ReadOnly = False
     end
     object SortCheckBox: TBCCheckBox
-      Left = 9
-      Top = 94
+      Left = 4
+      Top = 88
       Width = 232
       Height = 21
       Margins.Left = 4
@@ -88,8 +87,8 @@ object OptionsToolBarFrame: TOptionsToolBarFrame
       ReadOnly = False
     end
     object CaseCheckBox: TBCCheckBox
-      Left = 9
-      Top = 116
+      Left = 4
+      Top = 110
       Width = 232
       Height = 21
       Margins.Left = 4
@@ -103,8 +102,8 @@ object OptionsToolBarFrame: TOptionsToolBarFrame
       ReadOnly = False
     end
     object DocumentCheckBox: TBCCheckBox
-      Left = 9
-      Top = 248
+      Left = 4
+      Top = 242
       Width = 232
       Height = 21
       Margins.Left = 4
@@ -118,8 +117,8 @@ object OptionsToolBarFrame: TOptionsToolBarFrame
       ReadOnly = False
     end
     object MacroCheckBox: TBCCheckBox
-      Left = 9
-      Top = 226
+      Left = 4
+      Top = 220
       Width = 232
       Height = 21
       Margins.Left = 4
@@ -133,8 +132,8 @@ object OptionsToolBarFrame: TOptionsToolBarFrame
       ReadOnly = False
     end
     object ToolsCheckBox: TBCCheckBox
-      Left = 9
-      Top = 204
+      Left = 4
+      Top = 198
       Width = 232
       Height = 21
       Margins.Left = 4
@@ -148,8 +147,8 @@ object OptionsToolBarFrame: TOptionsToolBarFrame
       ReadOnly = False
     end
     object ModeCheckBox: TBCCheckBox
-      Left = 9
-      Top = 182
+      Left = 4
+      Top = 176
       Width = 232
       Height = 21
       Margins.Left = 4
@@ -163,8 +162,8 @@ object OptionsToolBarFrame: TOptionsToolBarFrame
       ReadOnly = False
     end
     object SearchCheckBox: TBCCheckBox
-      Left = 9
-      Top = 160
+      Left = 4
+      Top = 154
       Width = 232
       Height = 21
       Margins.Left = 4
@@ -178,8 +177,8 @@ object OptionsToolBarFrame: TOptionsToolBarFrame
       ReadOnly = False
     end
     object CommandCheckBox: TBCCheckBox
-      Left = 9
-      Top = 138
+      Left = 4
+      Top = 132
       Width = 232
       Height = 21
       Margins.Left = 4
