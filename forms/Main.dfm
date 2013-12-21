@@ -49,6 +49,7 @@ object MainForm: TMainForm
       item
         Width = 50
       end>
+    ParentColor = True
     ParentDoubleBuffered = False
     UseSystemFont = False
   end

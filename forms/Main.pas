@@ -1327,6 +1327,7 @@ begin
   ActionManager.Style := PlatformVclStylesStyle;
   BCCommon.LanguageStrings.ReadLanguageFile(GetSelectedLanguage('English'));
   FImageListCount := ImageList.Count; { System images are inserted after }
+  ReadIniOptions;
   CreateFrames;
   UpdateStatusBar;
   ReadIniSizePositionAndState;
@@ -1366,7 +1367,6 @@ begin
   { Style change will call the FormShow }
   if FOnStartUp then
   begin
-    ReadIniOptions;
     if not FDocumentFrame.ReadIniOpenFiles and (ParamCount = 0) then
       FDocumentFrame.New;
     if ParamCount > 0 then

@@ -12,17 +12,17 @@ object DocTabSheetFrame: TDocTabSheetFrame
     Height = 305
     Align = alClient
     BevelOuter = bvNone
+    Color = clWindow
     Padding.Left = 1
     Padding.Top = 1
     Padding.Bottom = 2
-    ParentColor = True
+    ParentBackground = False
     TabOrder = 0
     object VerticalSplitter: TSplitter
       Left = 201
       Top = 1
       Width = 4
       Height = 302
-      Color = clBtnFace
       ParentColor = False
       Visible = False
       ExplicitHeight = 299
