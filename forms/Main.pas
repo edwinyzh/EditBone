@@ -1326,7 +1326,7 @@ begin
   FOnStartUp := True;
   ActionManager.Style := PlatformVclStylesStyle;
   BCCommon.LanguageStrings.ReadLanguageFile(GetSelectedLanguage('English'));
-  FImageListCount := ImageList.Count; { System images are inserted after }
+  FImageListCount := ImageList.Count; { System images are appended after menu icons }
   ReadIniOptions;
   CreateFrames;
   UpdateStatusBar;
@@ -1685,8 +1685,8 @@ begin
         FindWhatComboBox.Text := SynEdit.SelText;
     if ShowModal = mrOk then
     begin
-      ProgressBar.Count := CountFilesInFolder(FolderText);
-      ProgressBar.Show;
+      FProgressBar.Count := CountFilesInFolder(FolderText);
+      FProgressBar.Show;
       T1 := Now;
       try
         OutputPanel.Visible := True;
@@ -1695,7 +1695,7 @@ begin
         Application.ProcessMessages;
         FindInFiles(OutputTreeView, FindWhatText, FileTypeText, FolderText, SearchCaseSensitive, LookInSubfolders);
       finally
-        ProgressBar.Hide;
+        FProgressBar.Hide;
         T2 := Now;
         if not FOutputFrame.CancelSearch then
         begin
