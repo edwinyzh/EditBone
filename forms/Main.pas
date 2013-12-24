@@ -249,7 +249,6 @@ type
     procedure FormatXMLActionExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -319,6 +318,7 @@ type
     procedure DirectorySearchFindInFilesActionExecute(Sender: TObject);
   private
     { Private declarations }
+    FNoIni: Boolean;
     FDirectoryFrame: TDirectoryFrame;
     FDocumentFrame: TDocumentFrame;
     FImageListCount: Integer;
@@ -373,6 +373,7 @@ uses
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
+  PARAM_NO_INI = '-noini';
 
 { TStatusBar }
 
@@ -861,6 +862,8 @@ procedure TMainForm.WriteIniFile;
 var
   i, State: Integer;
 begin
+  if FNoIni then
+    Exit;
   with TBigIniFile.Create(GetIniFilename) do
   try
     WriteString(Application.Title, 'Version', AboutDialog.Version);
@@ -1273,6 +1276,8 @@ begin
   if FOutputFrame.ProcessingTabSheet then
     FOutputFrame.CloseTabSheet;
   FDocumentFrame.CloseAll(False);
+  if FNoIni then
+    Exit;
   OptionsContainer.WriteIniFile;
   FDocumentFrame.WriteIniFile;
   FDirectoryFrame.WriteIniFile;
@@ -1337,13 +1342,6 @@ begin
   {$ENDIF}
 end;
 
-procedure TMainForm.FormDestroy(Sender: TObject);
-begin
-  FProgressBar.Free;
-  FDocumentFrame.Free;
-  FDirectoryFrame.Free;
-end;
-
 procedure TMainForm.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -1367,11 +1365,18 @@ begin
   { Style change will call the FormShow }
   if FOnStartUp then
   begin
-    if not FDocumentFrame.ReadIniOpenFiles and (ParamCount = 0) then
+    if not FDocumentFrame.ReadIniOpenFiles and (ParamCount = 0) or
+      (ParamCount = 1) and (ParamStr(1) = PARAM_NO_INI) then
       FDocumentFrame.New;
+    FNoIni := False;
     if ParamCount > 0 then
       for i := 1 to ParamCount do
-        FDocumentFrame.Open(ParamStr(i), nil, 0, 0, True);
+      begin
+        if ParamStr(i) = PARAM_NO_INI then
+          FNoIni := True
+        else
+          FDocumentFrame.Open(ParamStr(i), nil, 0, 0, True);
+      end;
     ReadLanguageFile(GetSelectedLanguage);
     CreateLanguageMenu;
     CreateStyleMenu;

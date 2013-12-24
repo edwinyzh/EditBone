@@ -18,7 +18,6 @@ object MainForm: TMainForm
   OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnResize = FormResize
   OnShow = FormShow

@@ -3,7 +3,7 @@
         <ProjectGuid>{E3B818CC-5E75-4FBB-9706-6F94F69C4127}</ProjectGuid>
         <ProjectVersion>15.3</ProjectVersion>
         <MainSource>EditBone.dpr</MainSource>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
         <Base>True</Base>
         <AppType>Application</AppType>
@@ -259,58 +259,47 @@
         <DCCReference Include="..\..\Common\units\BCCommon.Messages.pas"/>
         <DCCReference Include="..\..\Common\forms\BCForms.Convert.pas">
             <Form>ConvertForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorCompletionProposal.pas">
             <Form>OptionsEditorCompletionProposalFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\units\BCCommon.Lib.pas"/>
         <DCCReference Include="..\..\Common\units\BCCommon.MacroRecorder.pas"/>
         <DCCReference Include="..\..\Common\forms\BCForms.SearchForFiles.pas">
             <Form>SearchForFilesForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\..\Common\units\BCCommon.Math.pas"/>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorRightMargin.pas">
             <Form>OptionsEditorRightMarginFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorLeftMargin.pas">
             <Form>OptionsEditorLeftMarginFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorOptions.pas">
             <Form>OptionsEditorOptionsFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsEditorSearch.pas">
             <Form>OptionsEditorSearchFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="frames\OptionsEditorTabs.pas">
             <Form>OptionsEditorTabsFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsMainMenu.pas">
             <Form>OptionsMainMenuFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsOutput.pas">
             <Form>OptionsOutputFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsPrint.pas">
             <Form>OptionsPrintFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\units\BCCommon.OptionsContainer.pas"/>
