@@ -19,9 +19,12 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure GetData(OptionsContainer: TOptionsContainer); override;
-    procedure PutData(OptionsContainer: TOptionsContainer); override;
+    destructor Destroy; override;
+    procedure GetData; override;
+    procedure PutData; override;
   end;
+
+function OptionsDirectoryFrame(AOwner: TComponent): TOptionsDirectoryFrame;
 
 implementation
 
@@ -30,9 +33,25 @@ implementation
 uses
   System.SysUtils;
 
-procedure TOptionsDirectoryFrame.GetData(OptionsContainer: TOptionsContainer);
+var
+  FOptionsDirectoryFrame: TOptionsDirectoryFrame;
+
+function OptionsDirectoryFrame(AOwner: TComponent): TOptionsDirectoryFrame;
 begin
-  with OptionsContainer as TEditBoneOptionsContainer do
+  if not Assigned(FOptionsDirectoryFrame) then
+    FOptionsDirectoryFrame := TOptionsDirectoryFrame.Create(AOwner);
+  Result := FOptionsDirectoryFrame;
+end;
+
+destructor TOptionsDirectoryFrame.Destroy;
+begin
+  inherited;
+  FOptionsDirectoryFrame := nil;
+end;
+
+procedure TOptionsDirectoryFrame.GetData;
+begin
+  with OptionsContainer do
   begin
     ShowTreeLinesCheckBox.Checked := DirShowTreeLines;
     IndentEdit.Text := IntToStr(DirIndent);
@@ -42,9 +61,9 @@ begin
   end;
 end;
 
-procedure TOptionsDirectoryFrame.PutData(OptionsContainer: TOptionsContainer);
+procedure TOptionsDirectoryFrame.PutData;
 begin
-  with OptionsContainer as TEditBoneOptionsContainer do
+  with OptionsContainer do
   begin
     DirShowTreeLines := ShowTreeLinesCheckBox.Checked;
     DirShowHiddenFiles := ShowHiddenFilesCheckBox.Checked;

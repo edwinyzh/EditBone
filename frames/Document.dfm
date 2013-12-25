@@ -1,8 +1,8 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 843
-  Height = 514
+  Width = 451
+  Height = 305
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
@@ -10,7 +10,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 843
+    Width = 451
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -18,35 +18,33 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 0
     Visible = False
+    ExplicitWidth = 843
     object WholeWordsOnlyLabel: TLabel
       Left = 434
       Top = 0
       Width = 89
-      Height = 21
+      Height = 13
       Align = alLeft
       Caption = 'Whole Words Only'
       Layout = tlCenter
-      ExplicitHeight = 13
     end
     object RegularExpressionLabel: TLabel
       Left = 550
       Top = 0
       Width = 92
-      Height = 21
+      Height = 13
       Align = alLeft
       Caption = 'Regular Expression'
       Layout = tlCenter
-      ExplicitHeight = 13
     end
     object WildCardLabel: TLabel
       Left = 669
       Top = 0
       Width = 46
-      Height = 21
+      Height = 13
       Align = alLeft
       Caption = 'Wild Card'
       Layout = tlCenter
-      ExplicitHeight = 13
     end
     object SearchPanel1: TPanel
       Left = 0
@@ -137,10 +135,9 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 50
-        Height = 18
+        Height = 13
         Align = alLeft
         Caption = 'Search for'
-        ExplicitHeight = 13
       end
     end
     object SearchPanel3: TPanel
@@ -350,11 +347,10 @@ object DocumentFrame: TDocumentFrame
         Left = 0
         Top = 2
         Width = 70
-        Height = 19
+        Height = 13
         Align = alLeft
         Caption = 'Case Sensitive'
         Layout = tlCenter
-        ExplicitHeight = 13
       end
       object WholeWordsCheckBox: TBCCheckBox
         Left = 78
@@ -418,8 +414,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 843
-    Height = 468
+    Width = 451
+    Height = 259
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -427,6 +423,8 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentColor = True
     TabOrder = 1
+    ExplicitWidth = 843
+    ExplicitHeight = 468
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
@@ -449,8 +447,8 @@ object DocumentFrame: TDocumentFrame
   end
   object GotoLinePanel: TPanel
     Left = 0
-    Top = 489
-    Width = 843
+    Top = 280
+    Width = 451
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
@@ -459,6 +457,8 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 2
     Visible = False
+    ExplicitTop = 489
+    ExplicitWidth = 843
     object GotoLineClosePanel: TPanel
       Left = 0
       Top = 2
@@ -549,10 +549,9 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 48
-        Height = 20
+        Height = 13
         Align = alLeft
         Caption = 'Go to Line'
-        ExplicitHeight = 13
       end
     end
     object LineNumberPanel: TPanel

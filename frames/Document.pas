@@ -1958,7 +1958,7 @@ var
   i: Integer;
   DocTabSheetFrame: TDocTabSheetFrame;
 begin
-  Result := OptionsForm.Execute(OptionsContainer);
+  Result := OptionsForm.Execute;
 
   if Result then
   begin

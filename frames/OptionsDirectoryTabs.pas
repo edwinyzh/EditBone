@@ -21,36 +21,55 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure GetData(OptionsContainer: TOptionsContainer); override;
-    procedure PutData(OptionsContainer: TOptionsContainer); override;
+    destructor Destroy; override;
+    procedure GetData; override;
+    procedure PutData; override;
   end;
+
+function OptionsDirectoryTabsFrame(AOwner: TComponent): TOptionsDirectoryTabsFrame;
 
 implementation
 
 {$R *.dfm}
 
-procedure TOptionsDirectoryTabsFrame.GetData(OptionsContainer: TOptionsContainer);
+var
+  FOptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame;
+
+function OptionsDirectoryTabsFrame(AOwner: TComponent): TOptionsDirectoryTabsFrame;
 begin
-  CloseTabByDblClickCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).DirCloseTabByDblClick;
-  CloseTabByMiddleClickCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).DirCloseTabByMiddleClick;
-  DoubleBufferedCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).DirDoubleBuffered;
-  MultiLineCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).DirMultiLine;
-  SaveTabsCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).DirSaveTabs;
-  ShowCloseButtonCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).DirShowCloseButton;
-  ShowImageCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).DirShowImage;
-  RightClickSelectCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).DirRightClickSelect;
+  if not Assigned(FOptionsDirectoryTabsFrame) then
+    FOptionsDirectoryTabsFrame := TOptionsDirectoryTabsFrame.Create(AOwner);
+  Result := FOptionsDirectoryTabsFrame;
 end;
 
-procedure TOptionsDirectoryTabsFrame.PutData(OptionsContainer: TOptionsContainer);
+destructor TOptionsDirectoryTabsFrame.Destroy;
 begin
-  (OptionsContainer as TEditBoneOptionsContainer).DirCloseTabByDblClick := CloseTabByDblClickCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).DirCloseTabByMiddleClick := CloseTabByMiddleClickCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).DirDoubleBuffered := DoubleBufferedCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).DirMultiLine := MultiLineCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).DirSaveTabs := SaveTabsCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).DirShowCloseButton := ShowCloseButtonCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).DirShowImage := ShowImageCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).DirRightClickSelect := RightClickSelectCheckBox.Checked;
+  inherited;
+  FOptionsDirectoryTabsFrame := nil;
+end;
+
+procedure TOptionsDirectoryTabsFrame.GetData;
+begin
+  CloseTabByDblClickCheckBox.Checked := OptionsContainer.DirCloseTabByDblClick;
+  CloseTabByMiddleClickCheckBox.Checked := OptionsContainer.DirCloseTabByMiddleClick;
+  DoubleBufferedCheckBox.Checked := OptionsContainer.DirDoubleBuffered;
+  MultiLineCheckBox.Checked := OptionsContainer.DirMultiLine;
+  SaveTabsCheckBox.Checked := OptionsContainer.DirSaveTabs;
+  ShowCloseButtonCheckBox.Checked := OptionsContainer.DirShowCloseButton;
+  ShowImageCheckBox.Checked := OptionsContainer.DirShowImage;
+  RightClickSelectCheckBox.Checked := OptionsContainer.DirRightClickSelect;
+end;
+
+procedure TOptionsDirectoryTabsFrame.PutData;
+begin
+  OptionsContainer.DirCloseTabByDblClick := CloseTabByDblClickCheckBox.Checked;
+  OptionsContainer.DirCloseTabByMiddleClick := CloseTabByMiddleClickCheckBox.Checked;
+  OptionsContainer.DirDoubleBuffered := DoubleBufferedCheckBox.Checked;
+  OptionsContainer.DirMultiLine := MultiLineCheckBox.Checked;
+  OptionsContainer.DirSaveTabs := SaveTabsCheckBox.Checked;
+  OptionsContainer.DirShowCloseButton := ShowCloseButtonCheckBox.Checked;
+  OptionsContainer.DirShowImage := ShowImageCheckBox.Checked;
+  OptionsContainer.DirRightClickSelect := RightClickSelectCheckBox.Checked;
 end;
 
 end.

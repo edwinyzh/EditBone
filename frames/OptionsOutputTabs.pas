@@ -21,36 +21,56 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure GetData(OptionsContainer: TOptionsContainer); override;
-    procedure PutData(OptionsContainer: TOptionsContainer); override;
+    destructor Destroy; override;
+    procedure GetData; override;
+    procedure PutData; override;
   end;
+
+function OptionsOutputTabsFrame(AOwner: TComponent): TOptionsOutputTabsFrame;
 
 implementation
 
 {$R *.dfm}
 
-procedure TOptionsOutputTabsFrame.GetData(OptionsContainer: TOptionsContainer);
+var
+  FOptionsOutputTabsFrame: TOptionsOutputTabsFrame;
+
+function OptionsOutputTabsFrame(AOwner: TComponent): TOptionsOutputTabsFrame;
 begin
-  CloseTabByDblClickCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).OutputCloseTabByDblClick;
-  CloseTabByMiddleClickCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).OutputCloseTabByMiddleClick;
-  DoubleBufferedCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).OutputDoubleBuffered;
-  MultiLineCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).OutputMultiLine;
-  SaveTabsCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).OutputSaveTabs;
-  ShowCloseButtonCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).OutputShowCloseButton;
-  ShowImageCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).OutputShowImage;
-  RightClickSelectCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).OutputRightClickSelect;
+  if not Assigned(FOptionsOutputTabsFrame) then
+    FOptionsOutputTabsFrame := TOptionsOutputTabsFrame.Create(AOwner);
+  Result := FOptionsOutputTabsFrame;
 end;
 
-procedure TOptionsOutputTabsFrame.PutData(OptionsContainer: TOptionsContainer);
+destructor TOptionsOutputTabsFrame.Destroy;
 begin
-  (OptionsContainer as TEditBoneOptionsContainer).OutputCloseTabByDblClick := CloseTabByDblClickCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).OutputCloseTabByMiddleClick := CloseTabByMiddleClickCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).OutputDoubleBuffered := DoubleBufferedCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).OutputMultiLine := MultiLineCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).OutputSaveTabs := SaveTabsCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).OutputShowCloseButton := ShowCloseButtonCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).OutputShowImage := ShowImageCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).OutputRightClickSelect := RightClickSelectCheckBox.Checked;
+  inherited;
+  FOptionsOutputTabsFrame := nil;
+end;
+
+
+procedure TOptionsOutputTabsFrame.GetData;
+begin
+  CloseTabByDblClickCheckBox.Checked := OptionsContainer.OutputCloseTabByDblClick;
+  CloseTabByMiddleClickCheckBox.Checked := OptionsContainer.OutputCloseTabByMiddleClick;
+  DoubleBufferedCheckBox.Checked := OptionsContainer.OutputDoubleBuffered;
+  MultiLineCheckBox.Checked := OptionsContainer.OutputMultiLine;
+  SaveTabsCheckBox.Checked := OptionsContainer.OutputSaveTabs;
+  ShowCloseButtonCheckBox.Checked := OptionsContainer.OutputShowCloseButton;
+  ShowImageCheckBox.Checked := OptionsContainer.OutputShowImage;
+  RightClickSelectCheckBox.Checked := OptionsContainer.OutputRightClickSelect;
+end;
+
+procedure TOptionsOutputTabsFrame.PutData;
+begin
+  OptionsContainer.OutputCloseTabByDblClick := CloseTabByDblClickCheckBox.Checked;
+  OptionsContainer.OutputCloseTabByMiddleClick := CloseTabByMiddleClickCheckBox.Checked;
+  OptionsContainer.OutputDoubleBuffered := DoubleBufferedCheckBox.Checked;
+  OptionsContainer.OutputMultiLine := MultiLineCheckBox.Checked;
+  OptionsContainer.OutputSaveTabs := SaveTabsCheckBox.Checked;
+  OptionsContainer.OutputShowCloseButton := ShowCloseButtonCheckBox.Checked;
+  OptionsContainer.OutputShowImage := ShowImageCheckBox.Checked;
+  OptionsContainer.OutputRightClickSelect := RightClickSelectCheckBox.Checked;
 end;
 
 end.

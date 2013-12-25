@@ -25,10 +25,13 @@ type
     { Private declarations }
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent); override;
-    procedure GetData(OptionsContainer: TOptionsContainer); override;
-    procedure PutData(OptionsContainer: TOptionsContainer); override;
+    destructor Destroy; override;
+    procedure Init; override;
+    procedure GetData; override;
+    procedure PutData; override;
   end;
+
+function OptionsEditorOtherFrame(AOwner: TComponent): TOptionsEditorOtherFrame;
 
 implementation
 
@@ -37,13 +40,28 @@ implementation
 uses
   Lib, BCCommon.LanguageStrings, SynHighlighterSQL, SynHighlighterWebData;
 
-constructor TOptionsEditorOtherFrame.Create(AOwner: TComponent);
+var
+  FOptionsEditorOtherFrame: TOptionsEditorOtherFrame;
+
+function OptionsEditorOtherFrame(AOwner: TComponent): TOptionsEditorOtherFrame;
+begin
+  if not Assigned(FOptionsEditorOtherFrame) then
+    FOptionsEditorOtherFrame := TOptionsEditorOtherFrame.Create(AOwner);
+  Result := FOptionsEditorOtherFrame;
+end;
+
+destructor TOptionsEditorOtherFrame.Destroy;
+begin
+  inherited;
+  FOptionsEditorOtherFrame := nil;
+end;
+
+procedure TOptionsEditorOtherFrame.Init;
 var
   i: TSQLDialect;
   k: TSynWebCssVersion;
   l: TSynWebPhpVersion;
 begin
-  inherited;
   for i := Low(TSQLDialect) to High(TSQLDialect) do
     SQLDialectComboBox.Items.Add(TSQLDialectStr[TSQLDialect(i)]);
   with CPASHighlighterComboBox.Items do
@@ -58,24 +76,24 @@ begin
     PHPVersionComboBox.Items.Add(TSynWebPhpVersionStr[TSynWebPhpVersion(l)]);
 end;
 
-procedure TOptionsEditorOtherFrame.GetData(OptionsContainer: TOptionsContainer);
+procedure TOptionsEditorOtherFrame.GetData;
 begin
-  SQLDialectComboBox.ItemIndex := (OptionsContainer as TEditBoneOptionsContainer).SQLDialect;
-  CPASHighlighterComboBox.ItemIndex := (OptionsContainer as TEditBoneOptionsContainer).CPASHighlighter;
-  CSSVersionComboBox.ItemIndex := (OptionsContainer as TEditBoneOptionsContainer).CSSVersion;
-  PHPVersionComboBox.ItemIndex := (OptionsContainer as TEditBoneOptionsContainer).PHPVersion;
-  DefaultEncodingComboBox.ItemIndex := (OptionsContainer as TEditBoneOptionsContainer).DefaultEncoding;
-  DefaultHighlighterComboBox.ItemIndex := (OptionsContainer as TEditBoneOptionsContainer).DefaultHighlighter;
+  SQLDialectComboBox.ItemIndex := OptionsContainer.SQLDialect;
+  CPASHighlighterComboBox.ItemIndex := OptionsContainer.CPASHighlighter;
+  CSSVersionComboBox.ItemIndex := OptionsContainer.CSSVersion;
+  PHPVersionComboBox.ItemIndex := OptionsContainer.PHPVersion;
+  DefaultEncodingComboBox.ItemIndex := OptionsContainer.DefaultEncoding;
+  DefaultHighlighterComboBox.ItemIndex := OptionsContainer.DefaultHighlighter;
 end;
 
-procedure TOptionsEditorOtherFrame.PutData(OptionsContainer: TOptionsContainer);
+procedure TOptionsEditorOtherFrame.PutData;
 begin
-  (OptionsContainer as TEditBoneOptionsContainer).SQLDialect := SQLDialectComboBox.ItemIndex;
-  (OptionsContainer as TEditBoneOptionsContainer).CPASHighlighter := CPASHighlighterComboBox.ItemIndex;
-  (OptionsContainer as TEditBoneOptionsContainer).CSSVersion := CSSVersionComboBox.ItemIndex;
-  (OptionsContainer as TEditBoneOptionsContainer).PHPVersion := PHPVersionComboBox.ItemIndex;
-  (OptionsContainer as TEditBoneOptionsContainer).DefaultEncoding := DefaultEncodingComboBox.ItemIndex;
-  (OptionsContainer as TEditBoneOptionsContainer).DefaultHighlighter := DefaultHighlighterComboBox.ItemIndex;
+  OptionsContainer.SQLDialect := SQLDialectComboBox.ItemIndex;
+  OptionsContainer.CPASHighlighter := CPASHighlighterComboBox.ItemIndex;
+  OptionsContainer.CSSVersion := CSSVersionComboBox.ItemIndex;
+  OptionsContainer.PHPVersion := PHPVersionComboBox.ItemIndex;
+  OptionsContainer.DefaultEncoding := DefaultEncodingComboBox.ItemIndex;
+  OptionsContainer.DefaultHighlighter := DefaultHighlighterComboBox.ItemIndex;
 end;
 
 end.

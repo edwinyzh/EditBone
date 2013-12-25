@@ -17,10 +17,13 @@ type
     { Private declarations }
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent); override;
-    procedure GetData(OptionsContainer: TOptionsContainer); override;
-    procedure PutData(OptionsContainer: TOptionsContainer); override;
+    destructor Destroy; override;
+    procedure Init; override;
+    procedure GetData; override;
+    procedure PutData; override;
   end;
+
+function OptionsEditorErrorCheckingFrame(AOwner: TComponent): TOptionsEditorErrorCheckingFrame;
 
 implementation
 
@@ -29,11 +32,26 @@ implementation
 uses
   SynHighlighterWebData;
 
-constructor TOptionsEditorErrorCheckingFrame.Create(AOwner: TComponent);
+var
+  FOptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame;
+
+function OptionsEditorErrorCheckingFrame(AOwner: TComponent): TOptionsEditorErrorCheckingFrame;
+begin
+  if not Assigned(FOptionsEditorErrorCheckingFrame) then
+    FOptionsEditorErrorCheckingFrame := TOptionsEditorErrorCheckingFrame.Create(AOwner);
+  Result := FOptionsEditorErrorCheckingFrame;
+end;
+
+destructor TOptionsEditorErrorCheckingFrame.Destroy;
+begin
+  inherited;
+  FOptionsEditorErrorCheckingFrame := nil;
+end;
+
+procedure TOptionsEditorErrorCheckingFrame.Init;
 var
   i: TSynWebHtmlVersion;
 begin
-  inherited;
   for i := Low(TSynWebHtmlVersion) to High(TSynWebHtmlVersion) do
     HTMLVersionComboBox.Items.Add(TSynWebHtmlVersionStr[TSynWebHtmlVersion(i)]);
 end;
@@ -43,17 +61,17 @@ begin
   HTMLVersionComboBox.Enabled := HTMLErrorCheckingCheckBox.Checked;
 end;
 
-procedure TOptionsEditorErrorCheckingFrame.GetData(OptionsContainer: TOptionsContainer);
+procedure TOptionsEditorErrorCheckingFrame.GetData;
 begin
-  HTMLErrorCheckingCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).HTMLErrorChecking;
-  HTMLVersionComboBox.ItemIndex := Ord((OptionsContainer as TEditBoneOptionsContainer).HTMLVersion);
+  HTMLErrorCheckingCheckBox.Checked := OptionsContainer.HTMLErrorChecking;
+  HTMLVersionComboBox.ItemIndex := OptionsContainer.HTMLVersion;
   HTMLVersionComboBox.Enabled := HTMLErrorCheckingCheckBox.Checked;
 end;
 
-procedure TOptionsEditorErrorCheckingFrame.PutData(OptionsContainer: TOptionsContainer);
+procedure TOptionsEditorErrorCheckingFrame.PutData;
 begin
-  (OptionsContainer as TEditBoneOptionsContainer).HTMLErrorChecking := HTMLErrorCheckingCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).HTMLVersion := HTMLVersionComboBox.ItemIndex;
+  OptionsContainer.HTMLErrorChecking := HTMLErrorCheckingCheckBox.Checked;
+  OptionsContainer.HTMLVersion := HTMLVersionComboBox.ItemIndex;
 end;
 
 end.

@@ -25,44 +25,69 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure GetData(OptionsContainer: TOptionsContainer); override;
-    procedure PutData(OptionsContainer: TOptionsContainer); override;
+    destructor Destroy; override;
+    procedure GetData; override;
+    procedure PutData; override;
   end;
+
+function OptionsToolBarFrame(AOwner: TComponent): TOptionsToolBarFrame;
 
 implementation
 
 {$R *.dfm}
 
-procedure TOptionsToolBarFrame.GetData(OptionsContainer: TOptionsContainer);
+var
+  FOptionsToolBarFrame: TOptionsToolBarFrame;
+
+function OptionsToolBarFrame(AOwner: TComponent): TOptionsToolBarFrame;
 begin
-  StandardCheckBox.Checked := OptionsContainer.ToolBarStandard;
-  PrintCheckBox.Checked := OptionsContainer.ToolBarPrint;
-  DirectoryCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).ToolBarDirectory;
-  IndentCheckBox.Checked := OptionsContainer.ToolBarIndent;
-  SortCheckBox.Checked := OptionsContainer.ToolBarSort;
-  CaseCheckBox.Checked := OptionsContainer.ToolBarCase;
-  CommandCheckBox.Checked := OptionsContainer.ToolBarCommand;
-  SearchCheckBox.Checked := OptionsContainer.ToolBarSearch;
-  ModeCheckBox.Checked := OptionsContainer.ToolBarMode;
-  ToolsCheckBox.Checked := OptionsContainer.ToolBarTools;
-  MacroCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).ToolBarMacro;
-  DocumentCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).ToolBarDocument;
+  if not Assigned(FOptionsToolBarFrame) then
+    FOptionsToolBarFrame := TOptionsToolBarFrame.Create(AOwner);
+  Result := FOptionsToolBarFrame;
 end;
 
-procedure TOptionsToolBarFrame.PutData(OptionsContainer: TOptionsContainer);
+destructor TOptionsToolBarFrame.Destroy;
 begin
-  OptionsContainer.ToolBarStandard := StandardCheckBox.Checked;
-  OptionsContainer.ToolBarPrint := PrintCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).ToolBarDirectory :=  DirectoryCheckBox.Checked;
-  OptionsContainer.ToolBarIndent := IndentCheckBox.Checked;
-  OptionsContainer.ToolBarSort := SortCheckBox.Checked;
-  OptionsContainer.ToolBarCase := CaseCheckBox.Checked;
-  OptionsContainer.ToolBarCommand := CommandCheckBox.Checked;
-  OptionsContainer.ToolBarSearch := SearchCheckBox.Checked;
-  OptionsContainer.ToolBarMode := ModeCheckBox.Checked;
-  OptionsContainer.ToolBarTools := ToolsCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).ToolBarMacro := MacroCheckBox.Checked;
-  (OptionsContainer as TEditBoneOptionsContainer).ToolBarDocument := DocumentCheckBox.Checked;
+  inherited;
+  FOptionsToolBarFrame := nil;
+end;
+
+procedure TOptionsToolBarFrame.GetData;
+begin
+  with OptionsContainer do
+  begin
+    StandardCheckBox.Checked := ToolBarStandard;
+    PrintCheckBox.Checked := ToolBarPrint;
+    IndentCheckBox.Checked := ToolBarIndent;
+    SortCheckBox.Checked := ToolBarSort;
+    CaseCheckBox.Checked := ToolBarCase;
+    CommandCheckBox.Checked := ToolBarCommand;
+    SearchCheckBox.Checked := ToolBarSearch;
+    ModeCheckBox.Checked := ToolBarMode;
+    ToolsCheckBox.Checked := ToolBarTools;
+    DirectoryCheckBox.Checked := ToolBarDirectory;
+    MacroCheckBox.Checked := ToolBarMacro;
+    DocumentCheckBox.Checked := ToolBarDocument;
+  end;
+end;
+
+procedure TOptionsToolBarFrame.PutData;
+begin
+  with OptionsContainer do
+  begin
+    ToolBarStandard := StandardCheckBox.Checked;
+    ToolBarPrint := PrintCheckBox.Checked;
+    ToolBarIndent := IndentCheckBox.Checked;
+    ToolBarSort := SortCheckBox.Checked;
+    ToolBarCase := CaseCheckBox.Checked;
+    ToolBarCommand := CommandCheckBox.Checked;
+    ToolBarSearch := SearchCheckBox.Checked;
+    ToolBarMode := ModeCheckBox.Checked;
+    ToolBarTools := ToolsCheckBox.Checked;
+    ToolBarDirectory :=  DirectoryCheckBox.Checked;
+    ToolBarMacro := MacroCheckBox.Checked;
+    ToolBarDocument := DocumentCheckBox.Checked;
+  end;
 end;
 
 end.

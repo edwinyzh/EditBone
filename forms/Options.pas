@@ -62,40 +62,13 @@ type
     procedure OptionsVirtualStringTreePaintText(Sender: TBaseVirtualTree; const TargetCanvas: TCanvas;
       Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType);
   private
-    FSelectedLanguage: string;
-    FOptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame;
-    FOptionsEditorCompletionProposalFrame: TOptionsEditorCompletionProposalFrame;
-    FOptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame;
-    FOptionsEditorOtherFrame: TOptionsEditorOtherFrame;
-    FOptionsFileTypesFrame: TOptionsFileTypesFrame;
-    FOptionsMainMenuFrame: TOptionsMainMenuFrame;
-    FOptionsCompareFrame: TOptionsCompareFrame;
-    FOptionsContainer: TEditBoneOptionsContainer;
-    FOptionsDirectoryFrame: TOptionsDirectoryFrame;
-    FOptionsOutputFrame: TOptionsOutputFrame;
-    FOptionsPrintFrame: TOptionsPrintFrame;
-    FOptionsOutputTabsFrame: TOptionsOutputTabsFrame;
-    FOptionsStatusBarFrame: TOptionsStatusBarFrame;
-    FOptionsToolBarFrame: TOptionsToolBarFrame;
     procedure CreateTree;
     procedure ReadIniFile;
+    procedure SaveSelectedTreeNode;
     procedure SetVisibleFrame;
     procedure WriteIniFile;
-    procedure EditorCompletionProposalVisible(Visible: Boolean);
-    procedure EditorErrorCheckingVisible(Visible: Boolean);
-    procedure EditorOtherVisible(Visible: Boolean);
-    procedure DirectoryVisible(Visible: Boolean);
-    procedure DirectoryTabsVisible(Visible: Boolean);
-    procedure OutputVisible(Visible: Boolean);
-    procedure OutputTabsVisible(Visible: Boolean);
-    procedure CompareVisible(Visible: Boolean);
-    procedure PrintVisible(Visible: Boolean);
-    procedure MainMenuVisible(Visible: Boolean);
-    procedure ToolBarVisible(Visible: Boolean);
-    procedure StatusBarVisible(Visible: Boolean);
-    procedure FileTypesVisible(Visible: Boolean);
   public
-    function Execute(EditOptions: TEditBoneOptionsContainer): Boolean;
+    function Execute: Boolean;
   end;
 
 function OptionsForm: TOptionsForm;
@@ -105,10 +78,7 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.StyleUtils, BCCommon.LanguageStrings, System.IniFiles, SynEditTypes, SynCompletionProposal,
-  BCCommon.LanguageUtils, BCCommon.Lib, Winapi.Windows;
-
-{ TOptionsContainer }
+  BCCommon.StyleUtils, BCCommon.LanguageStrings, System.IniFiles,  BCCommon.LanguageUtils, BCCommon.Lib, Winapi.Windows;
 
 var
   FOptionsForm: TOptionsForm;
@@ -263,25 +233,23 @@ begin
   end;
 end;
 
-function TOptionsForm.Execute(EditOptions: TEditBoneOptionsContainer): Boolean;
+function TOptionsForm.Execute: Boolean;
+begin
+  try
+    ReadIniFile;
+    UpdateLanguage(Self, GetSelectedLanguage);
+    Result := Showmodal = mrOk;
+    SaveSelectedTreeNode;
+  finally
+    Free;
+  end;
+end;
+
+procedure TOptionsForm.SaveSelectedTreeNode;
 var
   Node: PVirtualNode;
   Data: POptionsRec;
 begin
-  ReadIniFile;
-
-  if not Assigned(EditOptions) then
-  begin
-    Result:= False;
-    Exit;
-  end;
-  FSelectedLanguage := GetSelectedLanguage;
-  UpdateLanguage(Self, FSelectedLanguage);
-  FOptionsContainer := EditOptions;
-
-  Result := Showmodal = mrOk;
-
-  { save the selected tree node }
   with TIniFile.Create(GetIniFilename) do
   try
     Node := OptionsVirtualStringTree.GetFirstSelected;
@@ -290,8 +258,6 @@ begin
   finally
     Free;
   end;
-
-  Free;
 end;
 
 procedure TOptionsForm.OptionsVirtualStringTreeClick(Sender: TObject);
@@ -299,195 +265,9 @@ begin
   SetVisibleFrame;
 end;
 
-procedure TOptionsForm.EditorCompletionProposalVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsEditorCompletionProposalFrame) then
-    begin
-      FOptionsEditorCompletionProposalFrame := TOptionsEditorCompletionProposalFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsEditorCompletionProposalFrame), FSelectedLanguage);
-      FOptionsEditorCompletionProposalFrame.GetData(FOptionsContainer);
-      FOptionsEditorCompletionProposalFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsEditorCompletionProposalFrame) then
-    FOptionsEditorCompletionProposalFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.EditorErrorCheckingVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsEditorErrorCheckingFrame) then
-    begin
-      FOptionsEditorErrorCheckingFrame := TOptionsEditorErrorCheckingFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsEditorErrorCheckingFrame), FSelectedLanguage);
-      FOptionsEditorErrorCheckingFrame.GetData(FOptionsContainer);
-      FOptionsEditorErrorCheckingFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsEditorErrorCheckingFrame) then
-    FOptionsEditorErrorCheckingFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.EditorOtherVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsEditorOtherFrame) then
-    begin
-      FOptionsEditorOtherFrame := TOptionsEditorOtherFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsEditorOtherFrame), FSelectedLanguage);
-      FOptionsEditorOtherFrame.GetData(FOptionsContainer);
-      FOptionsEditorOtherFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsEditorOtherFrame) then
-    FOptionsEditorOtherFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.DirectoryVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsDirectoryFrame) then
-    begin
-      FOptionsDirectoryFrame := TOptionsDirectoryFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsDirectoryFrame), FSelectedLanguage);
-      FOptionsDirectoryFrame.GetData(FOptionsContainer);
-      FOptionsDirectoryFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsDirectoryFrame) then
-    FOptionsDirectoryFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.DirectoryTabsVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsDirectoryTabsFrame) then
-    begin
-      FOptionsDirectoryTabsFrame := TOptionsDirectoryTabsFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsDirectoryTabsFrame), FSelectedLanguage);
-      FOptionsDirectoryTabsFrame.GetData(FOptionsContainer);
-      FOptionsDirectoryTabsFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsDirectoryTabsFrame) then
-    FOptionsDirectoryTabsFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.OutputVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsOutputFrame) then
-    begin
-      FOptionsOutputFrame := TOptionsOutputFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsOutputFrame), FSelectedLanguage);
-      FOptionsOutputFrame.GetData(FOptionsContainer);
-      FOptionsOutputFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsOutputFrame) then
-    FOptionsOutputFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.OutputTabsVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsOutputTabsFrame) then
-    begin
-      FOptionsOutputTabsFrame := TOptionsOutputTabsFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsOutputTabsFrame), FSelectedLanguage);
-      FOptionsOutputTabsFrame.GetData(FOptionsContainer);
-      FOptionsOutputTabsFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsOutputTabsFrame) then
-    FOptionsOutputTabsFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.CompareVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsCompareFrame) then
-    begin
-      FOptionsCompareFrame := TOptionsCompareFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsCompareFrame), FSelectedLanguage);
-      FOptionsCompareFrame.GetData(FOptionsContainer);
-      FOptionsCompareFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsCompareFrame) then
-    FOptionsCompareFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.PrintVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsPrintFrame) then
-    begin
-      FOptionsPrintFrame := TOptionsPrintFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsPrintFrame), FSelectedLanguage);
-      FOptionsPrintFrame.GetData(FOptionsContainer);
-      FOptionsPrintFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsPrintFrame) then
-    FOptionsPrintFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.MainMenuVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsMainMenuFrame) then
-    begin
-      FOptionsMainMenuFrame := TOptionsMainMenuFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsMainMenuFrame), FSelectedLanguage);
-      FOptionsMainMenuFrame.GetData(FOptionsContainer);
-      FOptionsMainMenuFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsMainMenuFrame) then
-    FOptionsMainMenuFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.ToolBarVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsToolBarFrame) then
-    begin
-      FOptionsToolBarFrame := TOptionsToolBarFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsToolBarFrame), FSelectedLanguage);
-      FOptionsToolBarFrame.GetData(FOptionsContainer);
-      FOptionsToolBarFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsToolBarFrame) then
-    FOptionsToolBarFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.StatusBarVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsStatusBarFrame) then
-    begin
-      FOptionsStatusBarFrame := TOptionsStatusBarFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsStatusBarFrame), FSelectedLanguage);
-      FOptionsStatusBarFrame.GetData(FOptionsContainer);
-      FOptionsStatusBarFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsStatusBarFrame) then
-    FOptionsStatusBarFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.FileTypesVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsFileTypesFrame) then
-    begin
-      FOptionsFileTypesFrame := TOptionsFileTypesFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsFileTypesFrame), FSelectedLanguage);
-      FOptionsFileTypesFrame.GetData(FOptionsContainer);
-      { style bug with long TEdit border and resize }
-      if FOptionsFileTypesFrame.Visible then
-        if FOptionsFileTypesFrame.ExtensionsEdit.CanFocus then
-          FOptionsFileTypesFrame.ExtensionsEdit.SetFocus;
-      FOptionsFileTypesFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsFileTypesFrame) then
-    FOptionsFileTypesFrame.Visible := Visible;
-end;
-
 procedure TOptionsForm.SetVisibleFrame;
 var
-  Level, ParentIndex: Integer;
+  i, Level, ParentIndex: Integer;
   TreeNode: PVirtualNode;
 begin
   inherited;
@@ -498,28 +278,49 @@ begin
     ParentIndex := -1;
     if Level = 1 then
       ParentIndex := TreeNode.Parent.Index;
-
-    OptionsEditorOptionsFrame(Self).Visible := (Level = 0) and (TreeNode.Index = 0);
-    OptionsEditorFontFrame(Self).Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 0);
-    OptionsEditorLeftMarginFrame(Self).Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 1);
-    OptionsEditorRightMarginFrame(Self).Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 2);
-    OptionsEditorTabsFrame(Self).Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 3);
-    OptionsEditorSearchFrame(Self).Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 4);
-
-
-    EditorCompletionProposalVisible((ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 5));
-    EditorErrorCheckingVisible((ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 6));
-    EditorOtherVisible((ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 7));
-    DirectoryVisible((Level = 0) and (TreeNode.Index = 1));
-    DirectoryTabsVisible((ParentIndex = 1) and (Level = 1) and (TreeNode.Index = 0));
-    OutputVisible((Level = 0) and (TreeNode.Index = 2));
-    OutputTabsVisible((ParentIndex = 2) and (Level = 1) and (TreeNode.Index = 0));
-    CompareVisible((Level = 0) and (TreeNode.Index = 3));
-    PrintVisible((Level = 0) and (TreeNode.Index = 4));
-    MainMenuVisible((Level = 0) and (TreeNode.Index = 5));
-    ToolBarVisible((Level = 0) and (TreeNode.Index = 6));
-    StatusBarVisible((Level = 0) and (TreeNode.Index = 7));
-    FileTypesVisible((Level = 0) and (TreeNode.Index = 8));
+    for i := 0 to ComponentCount - 1 do
+      if Components[i] is TFrame then
+        (Components[i] as TFrame).Hide;
+      
+    { don't set the visibility value with the condition because the frame is created }
+    if (Level = 0) and (TreeNode.Index = 0) then
+      OptionsEditorOptionsFrame(Self).Show; 
+    if (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 0) then
+      OptionsEditorFontFrame(Self).Show;
+    if (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 1) then
+      OptionsEditorLeftMarginFrame(Self).Show;
+    if (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 2) then
+      OptionsEditorRightMarginFrame(Self).Show;
+    if (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 3) then
+      OptionsEditorTabsFrame(Self).Show;
+    if (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 4) then
+      OptionsEditorSearchFrame(Self).Show;
+    if (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 5) then
+      OptionsEditorCompletionProposalFrame(Self).Show;
+    if (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 6) then
+      OptionsEditorErrorCheckingFrame(Self).Show;
+    if (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 7) then
+      OptionsEditorOtherFrame(Self).Show;
+    if (Level = 0) and (TreeNode.Index = 1) then
+      OptionsDirectoryFrame(Self).Show;
+    if (ParentIndex = 1) and (Level = 1) and (TreeNode.Index = 0) then
+      OptionsDirectoryTabsFrame(Self).Show;
+    if (Level = 0) and (TreeNode.Index = 2) then
+      OptionsOutputFrame(Self).Show;
+    if (ParentIndex = 2) and (Level = 1) and (TreeNode.Index = 0) then
+      OptionsOutputTabsFrame(Self).Show;
+    if (Level = 0) and (TreeNode.Index = 3) then
+      OptionsCompareFrame(Self).Show;
+    if (Level = 0) and (TreeNode.Index = 4) then
+      OptionsPrintFrame(Self).Show;
+    if (Level = 0) and (TreeNode.Index = 5) then
+      OptionsMainMenuFrame(Self).Show;
+    if (Level = 0) and (TreeNode.Index = 6) then
+      OptionsToolBarFrame(Self).Show;
+    if (Level = 0) and (TreeNode.Index = 7) then
+      OptionsStatusBarFrame(Self).Show;
+    if (Level = 0) and (TreeNode.Index = 8) then
+      OptionsFileTypesFrame(Self).Show;
   end;
 end;
 
@@ -573,7 +374,7 @@ end;
 procedure TOptionsForm.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
-  FOptionsContainer.SupportedFileExts(True);
+  OptionsContainer.SupportedFileExts(True);
   WriteIniFile;
 end;
 

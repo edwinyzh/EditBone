@@ -19,9 +19,12 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure GetData(OptionsContainer: TOptionsContainer); override;
-    procedure PutData(OptionsContainer: TOptionsContainer); override;
+    destructor Destroy; override;
+    procedure GetData; override;
+    procedure PutData; override;
   end;
+
+function OptionsFileTypesFrame(AOwner: TComponent): TOptionsFileTypesFrame;
 
 implementation
 
@@ -29,6 +32,22 @@ implementation
 
 uses
   BCCommon.StringUtils, BCCommon.LanguageStrings;
+
+var
+  FOptionsFileTypesFrame: TOptionsFileTypesFrame;
+
+function OptionsFileTypesFrame(AOwner: TComponent): TOptionsFileTypesFrame;
+begin
+  if not Assigned(FOptionsFileTypesFrame) then
+    FOptionsFileTypesFrame := TOptionsFileTypesFrame.Create(AOwner);
+  Result := FOptionsFileTypesFrame;
+end;
+
+destructor TOptionsFileTypesFrame.Destroy;
+begin
+  inherited;
+  FOptionsFileTypesFrame := nil;
+end;
 
 procedure TOptionsFileTypesFrame.ExtensionsEditChange(Sender: TObject);
 var
@@ -48,34 +67,34 @@ begin
   ExtensionsEdit.Text := StringBetween(FileTypesListBox.Items.Strings[FileTypesListBox.ItemIndex], '(', ')');
 end;
 
-procedure TOptionsFileTypesFrame.GetData(OptionsContainer: TOptionsContainer);
+procedure TOptionsFileTypesFrame.GetData;
 var
   i: Integer;
   FileType: string;
 begin
   FileTypesListBox.Clear;
-  for i := 0 to (OptionsContainer as TEditBoneOptionsContainer).FileTypes.Count - 1 do
+  for i := 0 to OptionsContainer.FileTypes.Count - 1 do
   begin
     FileType := Trim(Copy(LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text, 0,
       Pos('(', LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text) - 1));
     FileTypesListBox.Items.Add(Format('%s (%s)', [
-      FileType, StringBetween((OptionsContainer as TEditBoneOptionsContainer).FileTypes.Strings[i], '(', ')')]));
+      FileType, StringBetween(OptionsContainer.FileTypes.Strings[i], '(', ')')]));
   end;
   FileTypesListBox.ItemIndex := 0;
   FileTypesListBoxClick(nil);
 end;
 
-procedure TOptionsFileTypesFrame.PutData(OptionsContainer: TOptionsContainer);
+procedure TOptionsFileTypesFrame.PutData;
 var
   i: Integer;
   FileType: string;
 begin
-  (OptionsContainer as TEditBoneOptionsContainer).FileTypes.Clear;
+  OptionsContainer.FileTypes.Clear;
   for i := 0 to FileTypesListBox.Items.Count - 1 do
   begin
     FileType := Trim(Copy(LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text, 0,
       Pos('(', LanguageDataModule.FileTypesMultiStringHolder.MultipleStrings.Items[i].Strings.Text) - 1));
-    (OptionsContainer as TEditBoneOptionsContainer).FileTypes.Add(Format('%s (%s)', [
+    OptionsContainer.FileTypes.Add(Format('%s (%s)', [
       FileType, StringBetween(FileTypesListBox.Items.Strings[i], '(', ')')]));
   end;
 end;
