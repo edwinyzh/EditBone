@@ -110,8 +110,6 @@ object OptionsForm: TOptionsForm
         Align = alClient
         BorderStyle = bsNone
         TabOrder = 0
-        ExplicitLeft = 3
-        ExplicitTop = 1
       end
     end
   end

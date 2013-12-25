@@ -66,13 +66,7 @@ type
     FOptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame;
     FOptionsEditorCompletionProposalFrame: TOptionsEditorCompletionProposalFrame;
     FOptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame;
-    FOptionsEditorFontFrame: TOptionsEditorFontFrame;
-    FOptionsEditorLeftMarginFrame: TOptionsEditorLeftMarginFrame;
-    FOptionsEditorOptionsFrame: TOptionsEditorOptionsFrame;
     FOptionsEditorOtherFrame: TOptionsEditorOtherFrame;
-    FOptionsEditorRightMarginFrame: TOptionsEditorRightMarginFrame;
-    FOptionsEditorSearchFrame: TOptionsEditorSearchFrame;
-    FOptionsEditorTabsFrame: TOptionsEditorTabsFrame;
     FOptionsFileTypesFrame: TOptionsFileTypesFrame;
     FOptionsMainMenuFrame: TOptionsMainMenuFrame;
     FOptionsCompareFrame: TOptionsCompareFrame;
@@ -84,16 +78,9 @@ type
     FOptionsStatusBarFrame: TOptionsStatusBarFrame;
     FOptionsToolBarFrame: TOptionsToolBarFrame;
     procedure CreateTree;
-    procedure PutData;
     procedure ReadIniFile;
     procedure SetVisibleFrame;
     procedure WriteIniFile;
-    procedure EditorOptionsVisible(Visible: Boolean);
-    procedure EditorFontVisible(Visible: Boolean);
-    procedure EditorLeftMarginVisible(Visible: Boolean);
-    procedure EditorRightMarginVisible(Visible: Boolean);
-    procedure EditorTabsVisible(Visible: Boolean);
-    procedure EditorSearchVisible(Visible: Boolean);
     procedure EditorCompletionProposalVisible(Visible: Boolean);
     procedure EditorErrorCheckingVisible(Visible: Boolean);
     procedure EditorOtherVisible(Visible: Boolean);
@@ -293,8 +280,6 @@ begin
   FOptionsContainer := EditOptions;
 
   Result := Showmodal = mrOk;
-  if Result then
-    PutData;
 
   { save the selected tree node }
   with TIniFile.Create(GetIniFilename) do
@@ -312,93 +297,6 @@ end;
 procedure TOptionsForm.OptionsVirtualStringTreeClick(Sender: TObject);
 begin
   SetVisibleFrame;
-end;
-
-procedure TOptionsForm.EditorOptionsVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsEditorOptionsFrame) then
-    begin
-      FOptionsEditorOptionsFrame := TOptionsEditorOptionsFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsEditorOptionsFrame), FSelectedLanguage);
-      FOptionsEditorOptionsFrame.GetData(FOptionsContainer);
-      FOptionsEditorOptionsFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsEditorOptionsFrame) then
-    FOptionsEditorOptionsFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.EditorFontVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsEditorFontFrame) then
-    begin
-      FOptionsEditorFontFrame := TOptionsEditorFontFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsEditorFontFrame), FSelectedLanguage);
-      FOptionsEditorFontFrame.GetData(FOptionsContainer);
-      FOptionsContainer.AssignTo(FOptionsEditorFontFrame.SynEdit);
-      FOptionsEditorFontFrame.SynEdit.ActiveLineColor := LightenColor(FOptionsEditorFontFrame.SynEdit.Color, 1 - (10 - FOptionsContainer.ColorBrightness)/10);
-      UpdateMarginAndColors(FOptionsEditorFontFrame.SynEdit);
-      FOptionsEditorFontFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsEditorFontFrame) then
-    FOptionsEditorFontFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.EditorLeftMarginVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsEditorLeftMarginFrame) then
-    begin
-      FOptionsEditorLeftMarginFrame := TOptionsEditorLeftMarginFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsEditorLeftMarginFrame), FSelectedLanguage);
-      FOptionsEditorLeftMarginFrame.GetData(FOptionsContainer);
-      FOptionsEditorLeftMarginFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsEditorLeftMarginFrame) then
-    FOptionsEditorLeftMarginFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.EditorRightMarginVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsEditorRightMarginFrame) then
-    begin
-      FOptionsEditorRightMarginFrame := TOptionsEditorRightMarginFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsEditorRightMarginFrame), FSelectedLanguage);
-      FOptionsEditorRightMarginFrame.GetData(FOptionsContainer);
-      FOptionsEditorRightMarginFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsEditorRightMarginFrame) then
-    FOptionsEditorRightMarginFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.EditorTabsVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsEditorTabsFrame) then
-    begin
-      FOptionsEditorTabsFrame := TOptionsEditorTabsFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsEditorTabsFrame), FSelectedLanguage);
-      FOptionsEditorTabsFrame.GetData(FOptionsContainer);
-      FOptionsEditorTabsFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsEditorTabsFrame) then
-    FOptionsEditorTabsFrame.Visible := Visible;
-end;
-
-procedure TOptionsForm.EditorSearchVisible(Visible: Boolean);
-begin
-  if Visible then
-    if not Assigned(FOptionsEditorSearchFrame) then
-    begin
-      FOptionsEditorSearchFrame := TOptionsEditorSearchFrame.Create(OptionsPanel);
-      UpdateLanguage(TForm(FOptionsEditorSearchFrame), FSelectedLanguage);
-      FOptionsEditorSearchFrame.GetData(FOptionsContainer);
-      FOptionsEditorSearchFrame.Parent := ScrollBox;
-    end;
-  if Assigned(FOptionsEditorSearchFrame) then
-    FOptionsEditorSearchFrame.Visible := Visible;
 end;
 
 procedure TOptionsForm.EditorCompletionProposalVisible(Visible: Boolean);
@@ -601,12 +499,14 @@ begin
     if Level = 1 then
       ParentIndex := TreeNode.Parent.Index;
 
-    EditorOptionsVisible((Level = 0) and (TreeNode.Index = 0));
-    EditorFontVisible((ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 0));
-    EditorLeftMarginVisible((ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 1));
-    EditorRightMarginVisible((ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 2));
-    EditorTabsVisible((ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 3));
-    EditorSearchVisible((ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 4));
+    OptionsEditorOptionsFrame(Self).Visible := (Level = 0) and (TreeNode.Index = 0);
+    OptionsEditorFontFrame(Self).Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 0);
+    OptionsEditorLeftMarginFrame(Self).Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 1);
+    OptionsEditorRightMarginFrame(Self).Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 2);
+    OptionsEditorTabsFrame(Self).Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 3);
+    OptionsEditorSearchFrame(Self).Visible := (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 4);
+
+
     EditorCompletionProposalVisible((ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 5));
     EditorErrorCheckingVisible((ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 6));
     EditorOtherVisible((ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 7));
@@ -668,46 +568,6 @@ begin
       if LStyles.Enabled then
         TargetCanvas.Font.Color := LStyles.GetSystemColor(clHighlightText)
     end;
-end;
-
-procedure TOptionsForm.PutData;
-begin
-  if Assigned(FOptionsEditorOptionsFrame) then
-    FOptionsEditorOptionsFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsEditorFontFrame) then
-    FOptionsEditorFontFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsEditorLeftMarginFrame) then
-    FOptionsEditorLeftMarginFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsEditorRightMarginFrame) then
-    FOptionsEditorRightMarginFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsEditorSearchFrame) then
-    FOptionsEditorSearchFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsEditorTabsFrame) then
-    FOptionsEditorTabsFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsEditorCompletionProposalFrame) then
-    FOptionsEditorCompletionProposalFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsDirectoryFrame) then
-    FOptionsDirectoryFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsDirectoryTabsFrame) then
-    FOptionsDirectoryTabsFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsOutputFrame) then
-    FOptionsOutputFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsOutputTabsFrame) then
-    FOptionsOutputTabsFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsCompareFrame) then
-    FOptionsCompareFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsEditorErrorCheckingFrame) then
-    FOptionsEditorErrorCheckingFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsEditorOtherFrame) then
-    FOptionsEditorOtherFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsPrintFrame) then
-    FOptionsPrintFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsMainMenuFrame) then
-    FOptionsMainMenuFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsToolBarFrame) then
-    FOptionsToolBarFrame.PutData(FOptionsContainer);
-  if Assigned(FOptionsStatusBarFrame) then
-    FOptionsStatusBarFrame.PutData(FOptionsContainer);
 end;
 
 procedure TOptionsForm.FormClose(Sender: TObject; var Action: TCloseAction);

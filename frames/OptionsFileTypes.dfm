@@ -1,11 +1,10 @@
-object OptionsFileTypesFrame: TOptionsFileTypesFrame
-  Left = 0
-  Top = 0
+inherited OptionsFileTypesFrame: TOptionsFileTypesFrame
   Width = 451
   Height = 305
   Align = alClient
-  TabOrder = 0
   Visible = False
+  ExplicitWidth = 451
+  ExplicitHeight = 305
   object FileTypesBottomPanel: TPanel
     Left = 0
     Top = 263

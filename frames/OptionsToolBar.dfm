@@ -1,9 +1,8 @@
-object OptionsToolBarFrame: TOptionsToolBarFrame
-  Left = 0
-  Top = 0
+inherited OptionsToolBarFrame: TOptionsToolBarFrame
   Width = 232
   Height = 263
-  TabOrder = 0
+  ExplicitWidth = 232
+  ExplicitHeight = 263
   object Panel: TPanel
     Left = 0
     Top = 0

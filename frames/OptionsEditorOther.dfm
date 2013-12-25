@@ -1,10 +1,9 @@
-object OptionsEditorOtherFrame: TOptionsEditorOtherFrame
-  Left = 0
-  Top = 0
+inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
   Width = 208
   Height = 255
-  TabOrder = 0
   Visible = False
+  ExplicitWidth = 208
+  ExplicitHeight = 255
   object Panel: TPanel
     Left = 0
     Top = 0

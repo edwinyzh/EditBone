@@ -4,10 +4,10 @@ interface
 
 uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, BCControls.CheckBox,
-  BCCommon.OptionsContainer;
+  BCCommon.OptionsContainer, BCFrames.OptionsFrame;
 
 type
-  TOptionsToolBarFrame = class(TFrame)
+  TOptionsToolBarFrame = class(TOptionsFrame)
     Panel: TPanel;
     StandardCheckBox: TBCCheckBox;
     PrintCheckBox: TBCCheckBox;
@@ -25,19 +25,19 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure GetData(OptionsContainer: TEditBoneOptionsContainer);
-    procedure PutData(OptionsContainer: TEditBoneOptionsContainer);
+    procedure GetData(OptionsContainer: TOptionsContainer); override;
+    procedure PutData(OptionsContainer: TOptionsContainer); override;
   end;
 
 implementation
 
 {$R *.dfm}
 
-procedure TOptionsToolBarFrame.GetData(OptionsContainer: TEditBoneOptionsContainer);
+procedure TOptionsToolBarFrame.GetData(OptionsContainer: TOptionsContainer);
 begin
   StandardCheckBox.Checked := OptionsContainer.ToolBarStandard;
   PrintCheckBox.Checked := OptionsContainer.ToolBarPrint;
-  DirectoryCheckBox.Checked := OptionsContainer.ToolBarDirectory;
+  DirectoryCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).ToolBarDirectory;
   IndentCheckBox.Checked := OptionsContainer.ToolBarIndent;
   SortCheckBox.Checked := OptionsContainer.ToolBarSort;
   CaseCheckBox.Checked := OptionsContainer.ToolBarCase;
@@ -45,15 +45,15 @@ begin
   SearchCheckBox.Checked := OptionsContainer.ToolBarSearch;
   ModeCheckBox.Checked := OptionsContainer.ToolBarMode;
   ToolsCheckBox.Checked := OptionsContainer.ToolBarTools;
-  MacroCheckBox.Checked := OptionsContainer.ToolBarMacro;
-  DocumentCheckBox.Checked := OptionsContainer.ToolBarDocument;
+  MacroCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).ToolBarMacro;
+  DocumentCheckBox.Checked := (OptionsContainer as TEditBoneOptionsContainer).ToolBarDocument;
 end;
 
-procedure TOptionsToolBarFrame.PutData(OptionsContainer: TEditBoneOptionsContainer);
+procedure TOptionsToolBarFrame.PutData(OptionsContainer: TOptionsContainer);
 begin
   OptionsContainer.ToolBarStandard := StandardCheckBox.Checked;
   OptionsContainer.ToolBarPrint := PrintCheckBox.Checked;
-  OptionsContainer.ToolBarDirectory :=  DirectoryCheckBox.Checked;
+  (OptionsContainer as TEditBoneOptionsContainer).ToolBarDirectory :=  DirectoryCheckBox.Checked;
   OptionsContainer.ToolBarIndent := IndentCheckBox.Checked;
   OptionsContainer.ToolBarSort := SortCheckBox.Checked;
   OptionsContainer.ToolBarCase := CaseCheckBox.Checked;
@@ -61,8 +61,8 @@ begin
   OptionsContainer.ToolBarSearch := SearchCheckBox.Checked;
   OptionsContainer.ToolBarMode := ModeCheckBox.Checked;
   OptionsContainer.ToolBarTools := ToolsCheckBox.Checked;
-  OptionsContainer.ToolBarMacro := MacroCheckBox.Checked;
-  OptionsContainer.ToolBarDocument := DocumentCheckBox.Checked;
+  (OptionsContainer as TEditBoneOptionsContainer).ToolBarMacro := MacroCheckBox.Checked;
+  (OptionsContainer as TEditBoneOptionsContainer).ToolBarDocument := DocumentCheckBox.Checked;
 end;
 
 end.

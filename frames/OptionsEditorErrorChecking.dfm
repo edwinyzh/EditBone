@@ -1,10 +1,9 @@
-object OptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame
-  Left = 0
-  Top = 0
+inherited OptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame
   Width = 278
   Height = 62
-  TabOrder = 0
   Visible = False
+  ExplicitWidth = 278
+  ExplicitHeight = 62
   object Panel: TPanel
     Left = 0
     Top = 0

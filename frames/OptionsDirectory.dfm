@@ -1,9 +1,8 @@
-object OptionsDirectoryFrame: TOptionsDirectoryFrame
-  Left = 0
-  Top = 0
+inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
   Width = 201
   Height = 125
-  TabOrder = 0
+  ExplicitWidth = 201
+  ExplicitHeight = 125
   object Panel: TPanel
     Left = 0
     Top = 0
