@@ -141,7 +141,7 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
       Anchors = [akLeft, akTop, akRight]
       DroppedDownWidth = 420
       MaxMRUCount = 0
-      FontName = 'Arial'
+      FontName = '@Yu Mincho Demibold'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11

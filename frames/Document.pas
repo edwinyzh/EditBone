@@ -736,6 +736,7 @@ begin
     UpdateASMSynColors(SynASMSyn, WhiteBackground);
     UpdateYAMLSynColors(SynYAMLSyn, WhiteBackground);
     UpdateWebEngineColors(SynWebEngine, WhiteBackground);
+    UpdateVRMLSynColors(SynVrml97Syn, WhiteBackground);
   end;
 end;
 

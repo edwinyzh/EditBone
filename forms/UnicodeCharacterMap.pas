@@ -61,7 +61,7 @@ implementation
 {$R *.dfm}
 
 uses
-  IniFiles, BCControls.SynEdit, SynEditKeyCmds, BCCommon.FileUtils, BCCommon.Lib;
+  IniFiles, BCControls.SynEdit, SynEditKeyCmds, BCCommon.FileUtils, BCCommon.Lib, BCCommon.LanguageUtils;
 
 var
   FUnicodeCharacterMapForm: TUnicodeCharacterMapForm;
@@ -137,6 +137,7 @@ begin
   FOnStartUp := True;
   FontComboBox.DropDownCount := 16;
   FDocumentFrame := DocumentFrame;
+  UpdateLanguage(Self, GetSelectedLanguage);
   ReadIniFile;
   UpdateFields;
   Show;
