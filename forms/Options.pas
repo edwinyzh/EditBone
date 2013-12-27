@@ -239,6 +239,8 @@ begin
     ReadIniFile;
     UpdateLanguage(Self, GetSelectedLanguage);
     Result := Showmodal = mrOk;
+    if Result then
+      WriteIniFile;
     SaveSelectedTreeNode;
   finally
     Free;
@@ -375,7 +377,6 @@ procedure TOptionsForm.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
   OptionsContainer.SupportedFileExts(True);
-  WriteIniFile;
 end;
 
 procedure TOptionsForm.ReadIniFile;
