@@ -99,64 +99,66 @@ end;
 
 procedure TOptionsForm.CreateTree;
 var
+  i: Integer;
   Data: POptionsRec;
   Node, ChildNode: PVirtualNode;
 begin
   with OptionsVirtualStringTree do
   begin
     Clear;
+    i := 0;
     { Editor }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
-    Data.Index := 0;
+    Data.Index := PostInc(i);
     Data.ImageIndex := EditorAction.ImageIndex;
     Data.Caption := EditorAction.Caption;
     { Font }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
-    Data.Index := 1;
+    Data.Index := PostInc(i);
     Data.ImageIndex := EditorFontAction.ImageIndex;
     Data.Caption := EditorFontAction.Caption;
     { Left Margin }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
-    Data.Index := 2;
+    Data.Index := PostInc(i);
     Data.ImageIndex := EditorLeftMarginAction.ImageIndex;
     Data.Caption := EditorLeftMarginAction.Caption;
     { Right Margin }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
-    Data.Index := 3;
+    Data.Index := PostInc(i);
     Data.ImageIndex := EditorRightMarginAction.ImageIndex;
     Data.Caption := EditorRightMarginAction.Caption;
     { Tabs }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
-    Data.Index := 4;
+    Data.Index := PostInc(i);
     Data.ImageIndex := EditorTabsAction.ImageIndex;
     Data.Caption := EditorTabsAction.Caption;
     { Search }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
-    Data.Index := 5;
+    Data.Index := PostInc(i);
     Data.ImageIndex := EditorSearchAction.ImageIndex;
     Data.Caption := EditorSearchAction.Caption;
     { Completion proposal }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
-    Data.Index := 6;
+    Data.Index := PostInc(i);
     Data.ImageIndex := EditorCompletionProposalAction.ImageIndex;
     Data.Caption := EditorCompletionProposalAction.Caption;
     { Error checking }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
-    Data.Index := 7;
+    Data.Index := PostInc(i);
     Data.ImageIndex := EditorErrorCheckingAction.ImageIndex;
     Data.Caption := EditorErrorCheckingAction.Caption;
     { Other }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
-    Data.Index := 8;
+    Data.Index := PostInc(i);
     Data.ImageIndex := EditorOtherAction.ImageIndex;
     Data.Caption := EditorOtherAction.Caption;
     Node.ChildCount := OptionsVirtualStringTree.ChildCount[Node];
@@ -165,13 +167,13 @@ begin
     { Directory }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
-    Data.Index := 9;
+    Data.Index := PostInc(i);
     Data.ImageIndex := DirectoryAction.ImageIndex;
     Data.Caption := DirectoryAction.Caption;
     { Tabs }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
-    Data.Index := 10;
+    Data.Index := PostInc(i);
     Data.ImageIndex := DirectoryTabsAction.ImageIndex;
     Data.Caption := DirectoryTabsAction.Caption;
     Node.ChildCount := OptionsVirtualStringTree.ChildCount[Node];
@@ -180,13 +182,13 @@ begin
     { Output }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
-    Data.Index := 11;
+    Data.Index := PostInc(i);
     Data.ImageIndex := OutputAction.ImageIndex;
     Data.Caption := OutputAction.Caption;
     { Tabs }
     ChildNode := AddChild(Node);
     Data := GetNodeData(ChildNode);
-    Data.Index := 12;
+    Data.Index := PostInc(i);
     Data.ImageIndex := OutputTabsAction.ImageIndex;
     Data.Caption := OutputTabsAction.Caption;
     Node.ChildCount := OptionsVirtualStringTree.ChildCount[Node];
@@ -195,37 +197,37 @@ begin
     { Compare }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
-    Data.Index := 13;
+    Data.Index := PostInc(i);
     Data.ImageIndex := CompareAction.ImageIndex;
     Data.Caption := CompareAction.Caption;
     { Print }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
-    Data.Index := 14;
+    Data.Index := PostInc(i);
     Data.ImageIndex := PrintAction.ImageIndex;
     Data.Caption := PrintAction.Caption;
     { Main menu }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
-    Data.Index := 15;
+    Data.Index := PostInc(i);
     Data.ImageIndex := MainMenuAction.ImageIndex;
     Data.Caption := MainMenuAction.Caption;
     { Tool Bar }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
-    Data.Index := 16;
+    Data.Index := PostInc(i);
     Data.ImageIndex := ToolBarAction.ImageIndex;
     Data.Caption := ToolBarAction.Caption;
     { Status Bar }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
-    Data.Index := 17;
+    Data.Index := PostInc(i);
     Data.ImageIndex := StatusBarAction.ImageIndex;
     Data.Caption := StatusBarAction.Caption;
     { File types }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
-    Data.Index := 18;
+    Data.Index := PostInc(i);
     Data.ImageIndex := FileTypesAction.ImageIndex;
     Data.Caption := FileTypesAction.Caption;
 
