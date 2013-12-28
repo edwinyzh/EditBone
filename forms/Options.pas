@@ -10,7 +10,7 @@ uses
   OptionsEditorTabs, Lib, OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, BCFrames.OptionsCompare,
   BCFrames.OptionsMainMenu, OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, BCFrames.OptionsStatusBar,
   BCFrames.OptionsOutput, OptionsToolBar, Vcl.ActnMenus, System.Actions, BCFrames.OptionsEditorCompletionProposal,
-  BCDialogs.Dlg, BCFrames.OptionsEditorRightMargin, BCCommon.OptionsContainer;
+  BCFrames.OptionsEditorRightMargin, BCCommon.OptionsContainer;
 
 type
   POptionsRec = ^TOptionsRec;
@@ -241,8 +241,7 @@ begin
     ReadIniFile;
     UpdateLanguage(Self, GetSelectedLanguage);
     Result := Showmodal = mrOk;
-    if Result then
-      WriteIniFile;
+    WriteIniFile;
     SaveSelectedTreeNode;
   finally
     Free;
