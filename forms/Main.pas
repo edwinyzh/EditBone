@@ -386,7 +386,14 @@ end;
 { TMainForm }
 
 procedure TMainForm.UpdateStatusBar;
+var
+  PanelWidth: Integer;
 begin
+  StatusBar.Panels[2].Width := 86;
+  PanelWidth := StatusBar.Canvas.TextWidth(StatusBar.Panels[2].Text) + 10;
+  if PanelWidth > 86 then
+    StatusBar.Panels[2].Width := PanelWidth;
+
   OptionsContainer.AssignTo(StatusBar);
 end;
 
@@ -523,6 +530,8 @@ begin
   Action.Checked := True;
 
   ReadLanguageFile(ActionCaption);
+  Application.ProcessMessages;
+  UpdateStatusBar;
 end;
 
 procedure TMainForm.SelectReopenFileActionExecute(Sender: TObject);
@@ -1329,6 +1338,7 @@ end;
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   FOnStartUp := True;
+  ActionManager.ActionBars[0].Items.AutoHotKeys := False;
   ActionManager.Style := PlatformVclStylesStyle;
   BCCommon.LanguageStrings.ReadLanguageFile(GetSelectedLanguage('English'));
   FImageListCount := ImageList.Count; { System images are appended after menu icons }

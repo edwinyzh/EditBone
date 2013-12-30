@@ -310,53 +310,6 @@ object MainForm: TMainForm
   object ActionManager: TActionManager
     ActionBars = <
       item
-      end
-      item
-      end
-      item
-        Items = <
-          item
-            Items = <
-              item
-                Action = FileNewAction
-                ShortCut = 16462
-              end
-              item
-                Action = FileOpenAction
-                ShortCut = 16463
-              end>
-            Caption = '&File'
-          end>
-      end
-      item
-      end
-      item
-      end
-      item
-        Items = <
-          item
-            Items = <
-              item
-                Action = FileNewAction
-                ImageIndex = 0
-                ShortCut = 16462
-              end
-              item
-                Action = FileOpenAction
-                ImageIndex = 1
-                ShortCut = 16463
-              end
-              item
-                Caption = '-'
-              end
-              item
-                Action = FileCloseAction
-                ShortCut = 16499
-              end>
-            Caption = '&File'
-          end>
-      end
-      item
         Items = <
           item
             Items = <
