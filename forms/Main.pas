@@ -373,7 +373,6 @@ uses
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
-  PARAM_NO_INI = '-noini';
 
 { TStatusBar }
 
@@ -871,8 +870,6 @@ procedure TMainForm.WriteIniFile;
 var
   i, State: Integer;
 begin
-  if FNoIni then
-    Exit;
   with TBigIniFile.Create(GetIniFilename) do
   try
     WriteString(Application.Title, 'Version', AboutDialog.Version);
