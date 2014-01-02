@@ -373,7 +373,7 @@ uses
   BCCommon.StyleUtils, VirtualTrees, Vcl.ActnMenus, SynTokenMatch, SynHighlighterWebMisc, System.Types, Winapi.ShellAPI,
   System.WideStrings, System.Math, Main, BigIni, Vcl.GraphUtil, SynUnicode, BCCommon.LanguageStrings, BCCommon.Dialogs,
   SynEditTextBuffer, BCCommon.Encoding, InsertTag, BCCommon.LanguageUtils, BCCommon.FileUtils, BCCommon.Messages,
-  BCCommon.Lib, BCCommon.StringUtils, Winapi.CommCtrl, SynEditPrintTypes, Options;
+  BCCommon.Lib, BCCommon.StringUtils, Winapi.CommCtrl, SynEditPrintTypes, Options, BCCommon.Images;
 
 { TDocumentFrame }
 
@@ -393,7 +393,7 @@ begin
   FHTMLErrorList := TList.Create;
 
   { IDE will lose these, if the main form is not open }
-  EditorPopupMenu.Images := MainForm.ImageList;
+  EditorPopupMenu.Images := ImagesDataModule.ImageList;
   CutMenuItem.Action := MainForm.EditCutAction;
   CopyMenuItem.Action := MainForm.EditCopyAction;
   PasteMenuItem.Action := MainForm.EditPasteAction;

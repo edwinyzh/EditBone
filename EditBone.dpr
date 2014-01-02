@@ -69,7 +69,8 @@ uses
   BCFrames.OptionsPrint in '..\..\Common\frames\BCFrames.OptionsPrint.pas' {OptionsPrintFrame: TFrame},
   BCCommon.OptionsContainer in '..\..\Common\units\BCCommon.OptionsContainer.pas',
   IniPersist in '..\..\Common\units\IniPersist.pas',
-  BCFrames.OptionsFrame in '..\..\Common\frames\BCFrames.OptionsFrame.pas' {OptionsFrame: TFrame};
+  BCFrames.OptionsFrame in '..\..\Common\frames\BCFrames.OptionsFrame.pas' {OptionsFrame: TFrame},
+  BCCommon.Images in '..\..\Common\units\BCCommon.Images.pas' {ImagesDataModule: TDataModule};
 
 {$R *.res}
 

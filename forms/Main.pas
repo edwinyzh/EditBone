@@ -7,7 +7,7 @@ uses
   Vcl.ActnMan, Vcl.ActnMenus, Vcl.ToolWin, Vcl.ComCtrls, Vcl.ImgList, Vcl.ExtCtrls, SynEdit, Directory, Vcl.StdCtrls,
   Vcl.Menus, Vcl.AppEvnts, Document, Output, Options, Lib, JvAppInst, VirtualTrees, JvDragDrop, BCControls.PopupMenu,
   Vcl.PlatformDefaultStyleActnCtrls, JvComponentBase, Vcl.ActnPopup, BCControls.ImageList, BCControls.ComboBox,
-  Vcl.Themes, System.Actions, BCControls.ProgressBar, Vcl.PlatformVclStylesActnCtrls;
+  Vcl.Themes, System.Actions, BCControls.ProgressBar, Vcl.PlatformVclStylesActnCtrls, BCCommon.Images;
 
 const
   { Main menu item indexes }
@@ -29,15 +29,12 @@ type
     ActionToolBar: TActionToolBar;
     AppInstances: TJvAppInstances;
     ApplicationEvents: TApplicationEvents;
-    CaseMenuItem: TMenuItem;
     SearchClearBookmarksAction: TAction;
     CloseAllOtherPages1: TMenuItem;
     CompareFilesAction: TAction;
     ContentPanel: TPanel;
-    DirectoryMenuItem: TMenuItem;
     DirectoryPanel: TPanel;
     DocumentMenuAction: TAction;
-    DocumentMenuItem: TMenuItem;
     DocumentPanel: TPanel;
     DocumentPopupMenu: TBCPopupMenu;
     DragDrop: TJvDragDrop;
@@ -102,18 +99,13 @@ type
     HighlighterPanel: TPanel;
     HorizontalSplitter: TSplitter;
     HTMLErrorTimer: TTimer;
-    ImageList: TBCImageList;
-    IndentMenuItem: TMenuItem;
     MacroMenuAction: TAction;
-    MacroMenuItem: TMenuItem;
     MacroOpenAction: TAction;
     MacroPlaybackAction: TAction;
     MacroRecordPauseAction: TAction;
     MacroSaveAsAction: TAction;
     MacroStopAction: TAction;
     MainMenuPanel: TPanel;
-    ModeMenuItem: TMenuItem;
-    NewOpenMenuItem: TMenuItem;
     OutputDblClickAction: TAction;
     OutputPanel: TPanel;
     PopupMenuCaseAction: TAction;
@@ -128,7 +120,6 @@ type
     PopupMenuSortAction: TAction;
     PopupMenuStandardAction: TAction;
     PopupMenuToolsAction: TAction;
-    Print2MenuItem: TMenuItem;
     PrintMenuItem: TMenuItem;
     PrintPreviewMenuItem: TMenuItem;
     PropertiesMenuItem: TMenuItem;
@@ -140,7 +131,6 @@ type
     SearchFindPreviousAction: TAction;
     SearchGotoLineAction: TAction;
     SearchMenuAction: TAction;
-    SearchMenuItem: TMenuItem;
     SearchReplaceAction: TAction;
     SelectforCompareMenuItem: TMenuItem;
     SelectLanguageAction: TAction;
@@ -151,7 +141,6 @@ type
     Separator3MenuItem: TMenuItem;
     Separator4MenuItem: TMenuItem;
     Separator5MenuItem: TMenuItem;
-    SortMenuItem: TMenuItem;
     StatusBar: TStatusBar;
     SearchToggleBookmarkAction: TAction;
     ToggleBookmarks1Action: TAction;
@@ -165,17 +154,14 @@ type
     ToggleBookmarks9Action: TAction;
     SearchToggleBookmarksAction: TAction;
     ToolBarPanel: TPanel;
-    ToolbarPopupMenu: TBCPopupMenu;
     ToolsConvertAction: TAction;
     ToolsDuplicateCheckerAction: TAction;
     ToolsLanguageEditorAction: TAction;
     ToolsMenuAction: TAction;
-    ToolsMenuItem: TMenuItem;
     ToolsOptionsAction: TAction;
     ToolsSelectForCompareAction: TAction;
     ToolsUnicodeCharacterMapAction: TAction;
     ToolsWordCountAction: TAction;
-    UndoandRedoMenuItem: TMenuItem;
     VerticalSplitter: TSplitter;
     ViewCloseDirectoryAction: TAction;
     ViewDirectoryAction: TAction;
@@ -329,6 +315,7 @@ type
     FEncoding: TEncoding;
     function GetStringList(Filename: string): TStringList;
     function GetActionClientItem(MenuItemIndex, SubMenuItemIndex: Integer): TActionClientItem;
+    procedure CreateActionToolBar;
     procedure CreateFrames;
     procedure CreateLanguageMenu;
     procedure CreateProgressBar;
@@ -429,8 +416,8 @@ begin
     if SysImageList <> 0 then
       SystemImageList.Handle := SysImageList;
     { Remove added images from imagelist }
-    while FImageListCount < ImageList.Count do
-      ImageList_Remove(ImageList.Handle, FImageListCount);
+    while FImageListCount < ImagesDataModule.ImageList.Count do
+      ImageList_Remove(ImagesDataModule.ImageList.Handle, FImageListCount);
 
     ReopenActionClientItem := GetActionClientItem(FILE_MENU_ITEMINDEX, FILE_REOPEN_MENU_ITEMINDEX);
     { Destroy actions }
@@ -462,7 +449,7 @@ begin
           try
             ImageIndex := GetIconIndex(s);
             SystemImageList.GetIcon(ImageIndex, Icon);
-            ImageIndex := ImageList_AddIcon(ImageList.Handle, Icon.Handle);
+            ImageIndex := ImageList_AddIcon(ImagesDataModule.ImageList.Handle, Icon.Handle);
           finally
             Icon.Free;
           end;
@@ -868,7 +855,7 @@ end;
 
 procedure TMainForm.WriteIniFile;
 var
-  i, State: Integer;
+  State: Integer;
 begin
   with TBigIniFile.Create(GetIniFilename) do
   try
@@ -898,9 +885,7 @@ begin
     WriteBool('Options', 'ShowEncodingSelection', EncodingComboBox.Visible);
     WriteBool('Options', 'ShowXMLTree', ViewXMLTreeAction.Checked);
     { Toolbar }
-    EraseSection('ActionToolBar');
-    for i := 0 to ToolbarPopupMenu.Items.Count - 1 do
-      WriteBool('ActionToolBar', ToolbarPopupMenu.Items[i].Caption, ToolbarPopupMenu.Items[i].Checked);
+    EraseSection('ActionToolBar'); { deprecated }
   finally
     Free;
   end;
@@ -1311,6 +1296,69 @@ begin
   end;
 end;
 
+procedure TMainForm.CreateActionToolBar;
+var
+  i: Integer;
+  s: string;
+  ToolBarItems: TStrings;
+  ActionClientItem: TActionClientItem;
+  ActionBarItem: TActionBarItem;
+
+  function FindItemByName(ItemName: string): TContainedAction;
+  var
+    j: Integer;
+  begin
+    Result := nil;
+    for j := 0 to ActionManager.ActionCount - 1 do
+      if ActionManager.Actions[j].Name = ItemName then
+      begin
+        Result := ActionManager.Actions[j];
+        Break;
+      end;
+  end;
+
+begin
+  ActionBarItem := ActionManager.ActionBars[1];
+  ToolBarItems := TStringList.Create;
+  with TBigIniFile.Create(GetIniFilename) do
+  try
+    { read items from ini }
+    ReadSectionValues('ToolBarItems', ToolBarItems);
+    if ToolBarItems.Count > 0 then
+    begin
+      { add items to action bar }
+      ActionBarItem.Items.Clear;
+      for i := 0 to ToolBarItems.Count - 1 do
+      begin
+        ActionClientItem := ActionBarItem.Items.Add;
+        s := System.Copy(ToolBarItems.Strings[i], Pos('=', ToolBarItems.Strings[i]) + 1, Length(ToolBarItems.Strings[i]));
+        if s <> '-' then
+        begin
+          ActionClientItem.Action := FindItemByName(s);
+          ActionClientItem.ShowCaption := False;
+        end
+        else
+          ActionClientItem.Caption := '-';
+      end;
+    end
+    else
+    begin
+      { if items doesn't exist in ini, create them }
+      for i := 0 to ActionBarItem.Items.Count - 1 do
+      begin
+        ActionClientItem := ActionBarItem.Items[i];
+        if Assigned(ActionClientItem.Action) then
+          WriteString('ToolBarItems', IntToStr(i), ActionClientItem.Action.Name)
+        else
+          WriteString('ToolBarItems', IntToStr(i), '-')
+      end;
+    end;
+  finally
+    Free;
+    ToolBarItems.Free;
+  end;
+end;
+
 procedure TMainForm.CreateFrames;
 begin
   { TOutputFrame }
@@ -1338,8 +1386,9 @@ begin
   ActionManager.ActionBars[0].Items.AutoHotKeys := False;
   ActionManager.Style := PlatformVclStylesStyle;
   BCCommon.LanguageStrings.ReadLanguageFile(GetSelectedLanguage('English'));
-  FImageListCount := ImageList.Count; { System images are appended after menu icons }
+  FImageListCount := ImagesDataModule.ImageList.Count; { System images are appended after menu icons }
   ReadIniOptions;
+  CreateActionToolBar;
   CreateFrames;
   UpdateStatusBar;
   ReadIniSizePositionAndState;
