@@ -1,6 +1,6 @@
 inherited OptionsToolBarFrame: TOptionsToolBarFrame
   Width = 451
-  Height = 310
+  Height = 305
   Align = alClient
   ExplicitWidth = 451
   ExplicitHeight = 305
@@ -8,38 +8,18 @@ inherited OptionsToolBarFrame: TOptionsToolBarFrame
     Left = 0
     Top = 0
     Width = 451
-    Height = 310
+    Height = 305
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitHeight = 305
-    object ListView: TListView
-      AlignWithMargins = True
-      Left = 4
-      Top = 0
-      Width = 447
-      Height = 282
-      Margins.Left = 4
-      Margins.Top = 0
-      Margins.Right = 0
-      Margins.Bottom = 0
-      Align = alClient
-      Columns = <>
-      HotTrack = True
-      RowSelect = True
-      SmallImages = ImagesDataModule.ImageList
-      TabOrder = 0
-      ViewStyle = vsSmallIcon
-      ExplicitHeight = 264
-    end
     object ButtonPanel: TPanel
       Left = 0
-      Top = 282
+      Top = 277
       Width = 451
       Height = 28
       Align = alBottom
       BevelOuter = bvNone
-      TabOrder = 1
+      TabOrder = 0
       object DividerBevel: TBevel
         AlignWithMargins = True
         Left = 55
@@ -66,8 +46,6 @@ inherited OptionsToolBarFrame: TOptionsToolBarFrame
         Caption = 'SourceToolBar'
         Images = ImageList
         TabOrder = 0
-        ExplicitLeft = 4
-        ExplicitTop = 4
         object MoveUpToolButton: TToolButton
           Left = 0
           Top = 0
@@ -107,6 +85,51 @@ inherited OptionsToolBarFrame: TOptionsToolBarFrame
           Action = AddDividerAction
         end
       end
+    end
+    object VirtualDrawTree: TVirtualDrawTree
+      AlignWithMargins = True
+      Left = 4
+      Top = 0
+      Width = 447
+      Height = 277
+      Margins.Left = 4
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alClient
+      Ctl3D = True
+      DragOperations = []
+      EditDelay = 0
+      Header.AutoSizeIndex = 0
+      Header.DefaultHeight = 20
+      Header.Font.Charset = DEFAULT_CHARSET
+      Header.Font.Color = clWindowText
+      Header.Font.Height = -11
+      Header.Font.Name = 'Tahoma'
+      Header.Font.Style = []
+      Header.Height = 20
+      Header.Images = ImageList
+      Header.Options = [hoAutoResize, hoShowSortGlyphs, hoVisible, hoAutoSpring]
+      Images = ImageList
+      Indent = 0
+      ParentCtl3D = False
+      TabOrder = 1
+      TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand]
+      TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
+      TreeOptions.PaintOptions = [toHideFocusRect, toShowButtons, toShowDropmark, toShowRoot, toThemeAware, toUseBlendedSelection]
+      TreeOptions.SelectionOptions = [toFullRowSelect, toMiddleClickSelect, toRightClickSelect]
+      WantTabs = True
+      OnDrawNode = VirtualDrawTreeDrawNode
+      OnFreeNode = VirtualDrawTreeFreeNode
+      OnGetImageIndex = VirtualDrawTreeGetImageIndex
+      OnGetNodeWidth = VirtualDrawTreeGetNodeWidth
+      Columns = <
+        item
+          Options = [coEnabled, coParentBidiMode, coParentColor, coVisible, coAutoSpring]
+          Position = 0
+          Width = 443
+          WideText = 'Menu Item'
+        end>
     end
   end
   object ImageList: TBCImageList
@@ -384,7 +407,7 @@ inherited OptionsToolBarFrame: TOptionsToolBarFrame
       FFFFFFFFF83FFFFFFFFFFFFFF83FFFFF00000000000000000000000000000000
       000000000000}
   end
-  object ActionList: TActionList
+  object ButtonActionList: TActionList
     Images = ImageList
     Left = 245
     Top = 173

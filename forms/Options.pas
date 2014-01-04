@@ -10,7 +10,7 @@ uses
   OptionsEditorTabs, Lib, OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, BCFrames.OptionsCompare,
   BCFrames.OptionsMainMenu, OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, BCFrames.OptionsStatusBar,
   BCFrames.OptionsOutput, OptionsToolBar, Vcl.ActnMenus, System.Actions, BCFrames.OptionsEditorCompletionProposal,
-  BCFrames.OptionsEditorRightMargin, BCCommon.OptionsContainer, Vcl.ActnMan;
+  BCFrames.OptionsEditorRightMargin, BCCommon.OptionsContainer, System.Generics.Collections;
 
 type
   POptionsRec = ^TOptionsRec;
@@ -62,14 +62,14 @@ type
     procedure OptionsVirtualStringTreePaintText(Sender: TBaseVirtualTree; const TargetCanvas: TCanvas;
       Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType);
   private
-    FActionManager: TActionManager;
+    FActionList: TObjectList<TAction>;
     procedure CreateTree;
     procedure ReadIniFile;
     procedure SaveSelectedTreeNode;
     procedure SetVisibleFrame;
     procedure WriteIniFile;
   public
-    function Execute(ActionManager: TActionManager): Boolean;
+    function Execute(ActionList: TObjectList<TAction>): Boolean;
   end;
 
 function OptionsForm: TOptionsForm;
@@ -236,9 +236,9 @@ begin
   end;
 end;
 
-function TOptionsForm.Execute(ActionManager: TActionManager): Boolean;
+function TOptionsForm.Execute(ActionList: TObjectList<TAction>): Boolean;
 begin
-  FActionManager := ActionManager;
+  FActionList := ActionList;
   try
     ReadIniFile;
     UpdateLanguage(Self, GetSelectedLanguage);
@@ -321,7 +321,7 @@ begin
     if (Level = 0) and (TreeNode.Index = 5) then
       OptionsMainMenuFrame(Self).Show;
     if (Level = 0) and (TreeNode.Index = 6) then
-      OptionsToolBarFrame(Self, FActionManager).Show;
+      OptionsToolBarFrame(Self, FActionList).Show;
     if (Level = 0) and (TreeNode.Index = 7) then
       OptionsStatusBarFrame(Self).Show;
     if (Level = 0) and (TreeNode.Index = 8) then
@@ -372,7 +372,7 @@ begin
     begin
       LStyles := StyleServices;
       if LStyles.Enabled then
-        TargetCanvas.Font.Color := LStyles.GetSystemColor(clHighlightText)
+        TargetCanvas.Font.Color := LStyles.GetStyleFontColor(sfMenuItemTextSelected); //clHighlightText)
     end;
 end;
 

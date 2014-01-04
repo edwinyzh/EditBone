@@ -310,6 +310,7 @@ type
     procedure UpdateControls;
     procedure UpdateMainMenuBar;
     procedure UpdateStatusBar;
+//    procedure UpdateToolBar;
     procedure WriteIniFile;
   public
     { Public declarations }
@@ -953,6 +954,7 @@ begin
   ViewSplitAction.Checked := ActiveDocumentFound and FDocumentFrame.SplitChecked;
   ViewMinimapAction.Enabled := ActiveDocumentFound;
   ViewMinimapAction.Checked := ActiveDocumentFound and FDocumentFrame.MinimapChecked;
+
   SearchAction.Enabled := ActiveDocumentFound;
   SearchGotoLineAction.Enabled := ActiveDocumentFound;
   SearchReplaceAction.Enabled := ActiveDocumentFound;
@@ -1240,6 +1242,7 @@ var
   ToolBarItems: TStrings;
   ActionClientItem: TActionClientItem;
   ActionBarItem: TActionBarItem;
+  IsChanged: Boolean;
 
   function FindItemByName(ItemName: string): TContainedAction;
   var
@@ -1248,10 +1251,7 @@ var
     Result := nil;
     for j := 0 to ActionManager.ActionCount - 1 do
       if ActionManager.Actions[j].Name = ItemName then
-      begin
-        Result := ActionManager.Actions[j];
-        Break;
-      end;
+        Exit(ActionManager.Actions[j]);
   end;
 
 begin
@@ -1259,23 +1259,33 @@ begin
   ToolBarItems := TStringList.Create;
   with TBigIniFile.Create(GetIniFilename) do
   try
-    { read items from ini }
-    ReadSectionValues('ToolBarItems', ToolBarItems);
-    if ToolBarItems.Count > 0 then
+    { update if changed }
+    IsChanged := ReadBool('ToolBarItemsChanged', 'Changed', False);
+    EraseSection('ToolBarItemChanged');
+    if IsChanged then
     begin
-      { add items to action bar }
-      ActionBarItem.Items.Clear;
-      for i := 0 to ToolBarItems.Count - 1 do
+      { read items from ini }
+      ReadSectionValues('ToolBarItems', ToolBarItems);
+      if ToolBarItems.Count > 0 then
       begin
-        ActionClientItem := ActionBarItem.Items.Add;
-        s := System.Copy(ToolBarItems.Strings[i], Pos('=', ToolBarItems.Strings[i]) + 1, Length(ToolBarItems.Strings[i]));
-        if s <> '-' then
+        { add items to action bar }
+        ActionBarItem.Items.Clear;
+        for i := 0 to ToolBarItems.Count - 1 do
         begin
-          ActionClientItem.Action := FindItemByName(s);
-          ActionClientItem.ShowCaption := False;
-        end
-        else
-          ActionClientItem.Caption := '-';
+          Application.ProcessMessages;
+          ActionClientItem := ActionBarItem.Items.Add;
+          s := System.Copy(ToolBarItems.Strings[i], Pos('=', ToolBarItems.Strings[i]) + 1, Length(ToolBarItems.Strings[i]));
+          if s <> '-' then
+          begin
+            ActionClientItem.Action := FindItemByName(s);
+            ActionClientItem.ShowCaption := False;
+          end
+          else
+          begin
+            ActionClientItem.Caption := '-';
+            ActionClientItem.CommandStyle := csSeparator;
+          end;
+        end;
       end;
     end
     else
@@ -1330,7 +1340,7 @@ begin
   CreateFrames;
   UpdateStatusBar;
   ReadIniSizePositionAndState;
-
+  ToolBarPanel.Visible := OptionsContainer.ToolBarVisible;
   {$IFDEF RELEASE}
   ToolsDuplicateCheckerAction.Visible := False;
   {$ENDIF}

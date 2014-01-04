@@ -84,7 +84,7 @@ object OptionsForm: TOptionsForm
       Images = ImageList
       TabOrder = 0
       TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toShowBackground, toShowButtons, toShowDropmark, toShowRoot, toThemeAware, toUseBlendedImages, toUseExplorerTheme]
+      TreeOptions.PaintOptions = [toHideFocusRect, toShowBackground, toShowButtons, toShowDropmark, toShowRoot, toThemeAware, toUseBlendedImages, toUseBlendedSelection, toUseExplorerTheme]
       TreeOptions.SelectionOptions = [toFullRowSelect]
       TreeOptions.StringOptions = []
       OnClick = OptionsVirtualStringTreeClick

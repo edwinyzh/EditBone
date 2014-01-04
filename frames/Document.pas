@@ -373,7 +373,8 @@ uses
   BCCommon.StyleUtils, VirtualTrees, Vcl.ActnMenus, SynTokenMatch, SynHighlighterWebMisc, System.Types, Winapi.ShellAPI,
   System.WideStrings, System.Math, Main, BigIni, Vcl.GraphUtil, SynUnicode, BCCommon.LanguageStrings, BCCommon.Dialogs,
   SynEditTextBuffer, BCCommon.Encoding, InsertTag, BCCommon.LanguageUtils, BCCommon.FileUtils, BCCommon.Messages,
-  BCCommon.Lib, BCCommon.StringUtils, Winapi.CommCtrl, SynEditPrintTypes, Options, BCCommon.Images;
+  BCCommon.Lib, BCCommon.StringUtils, Winapi.CommCtrl, SynEditPrintTypes, Options, BCCommon.Images,
+  System.Generics.Collections;
 
 { TDocumentFrame }
 
@@ -1958,28 +1959,53 @@ function TDocumentFrame.Options(ActionManager: TActionManager): Boolean;
 var
   i: Integer;
   DocTabSheetFrame: TDocTabSheetFrame;
-begin
-  Result := OptionsForm.Execute(ActionManager);
+  ActionList: TObjectList<TAction>;
 
-  if Result then
+  function GetActionList: TObjectList<TAction>;
+  var
+    i: Integer;
+    Action: TAction;
   begin
-    { assign to every synedit }
-    for i := 0 to PageControl.PageCount - 1 do
-    begin
-      DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
-      if Assigned(DocTabSheetFrame) then
+    Result := TObjectList<TAction>.Create;
+    for i := 0 to MainForm.ActionManager.ActionCount - 1 do
+      if (MainForm.ActionManager.Actions[i].ImageIndex <> -1) and
+        (MainForm.ActionManager.Actions[i].Hint <> '') then
       begin
-        OptionsContainer.AssignTo(DocTabSheetFrame.SynEdit);
-        OptionsContainer.AssignTo(DocTabSheetFrame.SplitSynEdit);
-        { file types might have changed }
-        SelectHighlighter(DocTabSheetFrame, DocTabSheetFrame.SynEdit.DocumentName);
+        Action := TAction.Create(nil);
+        Action.Name := MainForm.ActionManager.Actions[i].Name;
+        Action.Caption := StringReplace(MainForm.ActionManager.Actions[i].Caption, '&', '', []);
+        Action.ImageIndex := MainForm.ActionManager.Actions[i].ImageIndex;
+        Result.Add(Action);
       end;
+  end;
+
+begin
+  ActionList := GetActionList;
+  try
+    Result := OptionsForm.Execute(ActionList);
+    if Result then
+    begin
+      { assign to every synedit }
+      for i := 0 to PageControl.PageCount - 1 do
+      begin
+        DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
+        if Assigned(DocTabSheetFrame) then
+        begin
+          OptionsContainer.AssignTo(DocTabSheetFrame.SynEdit);
+          OptionsContainer.AssignTo(DocTabSheetFrame.SplitSynEdit);
+          { file types might have changed }
+          SelectHighlighter(DocTabSheetFrame, DocTabSheetFrame.SynEdit.DocumentName);
+        end;
+      end;
+      UpdateMarginAndControls;
+      DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+      if Assigned(DocTabSheetFrame) then
+        SetMainHighlighterCombo(DocTabSheetFrame.SynEdit);
+      WriteIniFile;
     end;
-    UpdateMarginAndControls;
-    DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
-    if Assigned(DocTabSheetFrame) then
-      SetMainHighlighterCombo(DocTabSheetFrame.SynEdit);
-    WriteIniFile;
+  finally
+    if Assigned(ActionList) then
+      ActionList.Free;
   end;
 end;
 

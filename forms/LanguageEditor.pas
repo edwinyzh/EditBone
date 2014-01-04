@@ -697,19 +697,6 @@ begin
   FEdit.Hide;
 end;
 
-function StrContains(Str1, Str2: string): Boolean;
-var
-  i: Integer;
-begin
-  for i := 1 to Length(Str1) do
-    if Pos(Str1[i], Str2) <> 0 then
-    begin
-      Result := True;
-      Exit;
-    end;
-  Result := False;
-end;
-
 function TEditLink.EndEdit: Boolean;
 var
   Data: PObjectNodeRec;
