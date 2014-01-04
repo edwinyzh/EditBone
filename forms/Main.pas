@@ -108,18 +108,6 @@ type
     MainMenuPanel: TPanel;
     OutputDblClickAction: TAction;
     OutputPanel: TPanel;
-    PopupMenuCaseAction: TAction;
-    PopupMenuCommandAction: TAction;
-    PopupMenuDirectoryAction: TAction;
-    PopupMenuDocumentAction: TAction;
-    PopupMenuIndentAction: TAction;
-    PopupMenuMacroAction: TAction;
-    PopupMenuModeAction: TAction;
-    PopupMenuPrintAction: TAction;
-    PopupMenuSearchAction: TAction;
-    PopupMenuSortAction: TAction;
-    PopupMenuStandardAction: TAction;
-    PopupMenuToolsAction: TAction;
     PrintMenuItem: TMenuItem;
     PrintPreviewMenuItem: TMenuItem;
     PropertiesMenuItem: TMenuItem;
@@ -250,18 +238,6 @@ type
     procedure MacroSaveAsActionExecute(Sender: TObject);
     procedure MacroStopActionExecute(Sender: TObject);
     procedure OutputDblClickActionExecute(Sender: TObject);
-    procedure PopupMenuCaseActionExecute(Sender: TObject);
-    procedure PopupMenuCommandActionExecute(Sender: TObject);
-    procedure PopupMenuDirectoryActionExecute(Sender: TObject);
-    procedure PopupMenuDocumentActionExecute(Sender: TObject);
-    procedure PopupMenuIndentActionExecute(Sender: TObject);
-    procedure PopupMenuMacroActionExecute(Sender: TObject);
-    procedure PopupMenuModeActionExecute(Sender: TObject);
-    procedure PopupMenuPrintActionExecute(Sender: TObject);
-    procedure PopupMenuSearchActionExecute(Sender: TObject);
-    procedure PopupMenuSortActionExecute(Sender: TObject);
-    procedure PopupMenuStandardActionExecute(Sender: TObject);
-    procedure PopupMenuToolsActionExecute(Sender: TObject);
     procedure SearchActionExecute(Sender: TObject);
     procedure SearchFindInFilesActionExecute(Sender: TObject);
     procedure SearchFindNextActionExecute(Sender: TObject);
@@ -334,7 +310,6 @@ type
     procedure UpdateControls;
     procedure UpdateMainMenuBar;
     procedure UpdateStatusBar;
-    procedure UpdateToolBar;
     procedure WriteIniFile;
   public
     { Public declarations }
@@ -611,7 +586,7 @@ begin
   FDirectoryFrame.UpdateControls;
   FDocumentFrame.UpdateMarginAndControls;
   FOutputFrame.UpdateControls;
-  UpdateToolBar;
+  //UpdateToolBar;
   UpdateStatusBar;
   RecreateDragDrop;
   if TStyleManager.ActiveStyle.Name = STYLENAME_WINDOWS then
@@ -813,44 +788,6 @@ end;
 procedure TMainForm.ToolsUnicodeCharacterMapActionExecute(Sender: TObject);
 begin
   UnicodeCharacterMapForm.Open(FDocumentFrame);
-end;
-
-procedure TMainForm.UpdateToolBar;
-var
-  i: Integer;
-begin
-  PopupMenuStandardAction.Checked := OptionsContainer.ToolBarStandard;
-  for i := 0 to 45 do
-    case i of
-      0..8: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarStandard;
-      9..11: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarPrint;
-      12..15: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarDirectory;
-      16..18: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarIndent;
-      19..21: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarSort;
-      22..23: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarCase;
-      24..26: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarCommand;
-      27..30: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarSearch;
-      31..35: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarMode;
-      36..37: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarTools;
-      38..43: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarMacro;
-      44..45: ActionToolBar.ActionControls[i].Visible := OptionsContainer.ToolBarDocument;
-    end;
-  ActionToolBar.ActionControls[43].Visible := OptionsContainer.ToolBarDocument; { last separator }
-
-  PopupMenuPrintAction.Checked := OptionsContainer.ToolBarPrint;
-  PopupMenuDirectoryAction.Checked := OptionsContainer.ToolBarDirectory;
-  PopupMenuIndentAction.Checked := OptionsContainer.ToolBarIndent;
-  PopupMenuSortAction.Checked := OptionsContainer.ToolBarSort;
-  PopupMenuCaseAction.Checked := OptionsContainer.ToolBarCase;
-  PopupMenuCommandAction.Checked := OptionsContainer.ToolBarCommand;
-  PopupMenuSearchAction.Checked := OptionsContainer.ToolBarSearch;
-  PopupMenuModeAction.Checked := OptionsContainer.ToolBarMode;
-  PopupMenuToolsAction.Checked := OptionsContainer.ToolBarTools;
-  PopupMenuMacroAction.Checked := OptionsContainer.ToolBarMacro;
-  PopupMenuDocumentAction.Checked := OptionsContainer.ToolBarDocument;
-
-  ActionToolBar.Repaint;
-  ToolBarPanel.Visible := OptionsContainer.ToolBarVisible;
 end;
 
 procedure TMainForm.WriteIniFile;
@@ -1385,6 +1322,7 @@ begin
   FOnStartUp := True;
   ActionManager.ActionBars[0].Items.AutoHotKeys := False;
   ActionManager.Style := PlatformVclStylesStyle;
+  ActionManager.Images := ImagesDataModule.ImageList; { IDE can lose this }
   BCCommon.LanguageStrings.ReadLanguageFile(GetSelectedLanguage('English'));
   FImageListCount := ImagesDataModule.ImageList.Count; { System images are appended after menu icons }
   ReadIniOptions;
@@ -1439,7 +1377,7 @@ begin
     CreateFileReopenList;
     CreateProgressBar;
 
-    UpdateControls;
+    //UpdateControls;
 
     FOnStartUp := False;
 
@@ -1598,78 +1536,6 @@ var
 begin
   if FOutputFrame.SelectedLine(Filename, Ln, Ch) then
     FDocumentFrame.Open(Filename, nil, Ln, Ch);
-end;
-
-procedure TMainForm.PopupMenuStandardActionExecute(Sender: TObject);
-begin
-  OptionsContainer.ToolBarStandard := not OptionsContainer.ToolBarStandard;
-  UpdateToolBar;
-end;
-
-procedure TMainForm.PopupMenuPrintActionExecute(Sender: TObject);
-begin
-  OptionsContainer.ToolBarPrint := not OptionsContainer.ToolBarPrint;
-  UpdateToolBar;
-end;
-
-procedure TMainForm.PopupMenuDirectoryActionExecute(Sender: TObject);
-begin
-  OptionsContainer.ToolBarDirectory := not OptionsContainer.ToolBarDirectory;
-  UpdateToolBar;
-end;
-
-procedure TMainForm.PopupMenuIndentActionExecute(Sender: TObject);
-begin
-  OptionsContainer.ToolBarIndent := not OptionsContainer.ToolBarIndent;
-  UpdateToolBar;
-end;
-
-procedure TMainForm.PopupMenuSortActionExecute(Sender: TObject);
-begin
-  OptionsContainer.ToolBarSort := not OptionsContainer.ToolBarSort;
-  UpdateToolBar;
-end;
-
-procedure TMainForm.PopupMenuCaseActionExecute(Sender: TObject);
-begin
-  OptionsContainer.ToolBarCase := not OptionsContainer.ToolBarCase;
-  UpdateToolBar;
-end;
-
-procedure TMainForm.PopupMenuCommandActionExecute(Sender: TObject);
-begin
-  OptionsContainer.ToolBarCommand := not OptionsContainer.ToolBarCommand;
-  UpdateToolBar;
-end;
-
-procedure TMainForm.PopupMenuSearchActionExecute(Sender: TObject);
-begin
-  OptionsContainer.ToolBarSearch := not OptionsContainer.ToolBarSearch;
-  UpdateToolBar;
-end;
-
-procedure TMainForm.PopupMenuModeActionExecute(Sender: TObject);
-begin
-  OptionsContainer.ToolBarMode := not OptionsContainer.ToolBarMode;
-  UpdateToolBar;
-end;
-
-procedure TMainForm.PopupMenuToolsActionExecute(Sender: TObject);
-begin
-  OptionsContainer.ToolBarTools := not OptionsContainer.ToolBarTools;
-  UpdateToolBar;
-end;
-
-procedure TMainForm.PopupMenuMacroActionExecute(Sender: TObject);
-begin
-  OptionsContainer.ToolBarMacro := not OptionsContainer.ToolBarMacro;
-  UpdateToolBar;
-end;
-
-procedure TMainForm.PopupMenuDocumentActionExecute(Sender: TObject);
-begin
-  OptionsContainer.ToolBarDocument := not OptionsContainer.ToolBarDocument;
-  UpdateToolBar;
 end;
 
 procedure TMainForm.ViewPreviousPageActionExecute(Sender: TObject);
@@ -1912,10 +1778,10 @@ end;
 
 procedure TMainForm.ToolsOptionsActionExecute(Sender: TObject);
 begin
-  if FDocumentFrame.Options then
+  if FDocumentFrame.Options(ActionManager) then
   begin
     UpdateMainMenuBar;
-    UpdateToolBar;
+    CreateActionToolBar;
     UpdateStatusBar;
     if Assigned(FOutputFrame) then
       FOutputFrame.SetOptions;

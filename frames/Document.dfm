@@ -1,8 +1,8 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 797
-  Height = 302
+  Width = 451
+  Height = 305
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
@@ -10,7 +10,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 797
+    Width = 451
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -18,6 +18,7 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 0
     Visible = False
+    ExplicitWidth = 797
     object WholeWordsOnlyLabel: TLabel
       Left = 434
       Top = 0
@@ -410,8 +411,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 797
-    Height = 256
+    Width = 451
+    Height = 259
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -419,6 +420,8 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentColor = True
     TabOrder = 1
+    ExplicitWidth = 797
+    ExplicitHeight = 256
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
@@ -441,8 +444,8 @@ object DocumentFrame: TDocumentFrame
   end
   object GotoLinePanel: TPanel
     Left = 0
-    Top = 277
-    Width = 797
+    Top = 280
+    Width = 451
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
@@ -451,6 +454,8 @@ object DocumentFrame: TDocumentFrame
     ParentColor = True
     TabOrder = 2
     Visible = False
+    ExplicitTop = 277
+    ExplicitWidth = 797
     object GotoLineClosePanel: TPanel
       Left = 0
       Top = 2

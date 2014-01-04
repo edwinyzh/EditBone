@@ -423,7 +423,7 @@ object MainForm: TMainForm
                   item
                     Action = EditInsertLineAction
                     ImageIndex = 20
-                    ShortCut = 16462
+                    ShortCut = 16397
                   end
                   item
                     Action = EditInsertTagAction
@@ -1584,7 +1584,7 @@ object MainForm: TMainForm
       Caption = '&Insert Line'
       Hint = 'Insert line'
       ImageIndex = 20
-      ShortCut = 16462
+      ShortCut = 16397
       OnExecute = EditInsertLineActionExecute
     end
     object EditDeleteAction: TAction
@@ -1736,84 +1736,12 @@ object MainForm: TMainForm
       ImageIndex = 73
       OnExecute = MacroSaveAsActionExecute
     end
-    object PopupMenuStandardAction: TAction
-      Category = 'ToolbarPopup'
-      Caption = 'Standard'
-      Checked = True
-      OnExecute = PopupMenuStandardActionExecute
-    end
-    object PopupMenuPrintAction: TAction
-      Category = 'ToolbarPopup'
-      Caption = 'Print'
-      Checked = True
-      OnExecute = PopupMenuPrintActionExecute
-    end
-    object PopupMenuDirectoryAction: TAction
-      Category = 'ToolbarPopup'
-      Caption = 'Directory'
-      Checked = True
-      OnExecute = PopupMenuDirectoryActionExecute
-    end
-    object PopupMenuIndentAction: TAction
-      Category = 'ToolbarPopup'
-      Caption = 'Indent'
-      Checked = True
-      OnExecute = PopupMenuIndentActionExecute
-    end
-    object PopupMenuSortAction: TAction
-      Category = 'ToolbarPopup'
-      Caption = 'Sort'
-      Checked = True
-      OnExecute = PopupMenuSortActionExecute
-    end
-    object PopupMenuCaseAction: TAction
-      Category = 'ToolbarPopup'
-      Caption = 'Case'
-      Checked = True
-      OnExecute = PopupMenuCaseActionExecute
-    end
-    object PopupMenuCommandAction: TAction
-      Category = 'ToolbarPopup'
-      Caption = 'Command'
-      Checked = True
-      OnExecute = PopupMenuCommandActionExecute
-    end
-    object PopupMenuSearchAction: TAction
-      Category = 'ToolbarPopup'
-      Caption = 'Search'
-      Checked = True
-      OnExecute = PopupMenuSearchActionExecute
-    end
-    object PopupMenuModeAction: TAction
-      Category = 'ToolbarPopup'
-      Caption = 'Mode'
-      Checked = True
-      OnExecute = PopupMenuModeActionExecute
-    end
-    object PopupMenuToolsAction: TAction
-      Category = 'ToolbarPopup'
-      Caption = 'Tools'
-      Checked = True
-      OnExecute = PopupMenuToolsActionExecute
-    end
-    object PopupMenuMacroAction: TAction
-      Category = 'ToolbarPopup'
-      Caption = 'Macro'
-      Checked = True
-      OnExecute = PopupMenuMacroActionExecute
-    end
     object ToolsSelectForCompareAction: TAction
       Category = '&Tools'
       Caption = 'Select for Compare...'
       Hint = 'Select document for compare'
       ImageIndex = 75
       OnExecute = ToolsSelectForCompareActionExecute
-    end
-    object PopupMenuDocumentAction: TAction
-      Category = 'ToolbarPopup'
-      Caption = 'Document'
-      Checked = True
-      OnExecute = PopupMenuDocumentActionExecute
     end
     object SelectStyleAction: TAction
       OnExecute = SelectStyleActionExecute

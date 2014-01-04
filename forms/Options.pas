@@ -10,7 +10,7 @@ uses
   OptionsEditorTabs, Lib, OptionsEditorErrorChecking, OptionsEditorOther, OptionsFileTypes, BCFrames.OptionsCompare,
   BCFrames.OptionsMainMenu, OptionsDirectoryTabs, OptionsOutputTabs, OptionsDirectory, BCFrames.OptionsStatusBar,
   BCFrames.OptionsOutput, OptionsToolBar, Vcl.ActnMenus, System.Actions, BCFrames.OptionsEditorCompletionProposal,
-  BCFrames.OptionsEditorRightMargin, BCCommon.OptionsContainer;
+  BCFrames.OptionsEditorRightMargin, BCCommon.OptionsContainer, Vcl.ActnMan;
 
 type
   POptionsRec = ^TOptionsRec;
@@ -62,13 +62,14 @@ type
     procedure OptionsVirtualStringTreePaintText(Sender: TBaseVirtualTree; const TargetCanvas: TCanvas;
       Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType);
   private
+    FActionManager: TActionManager;
     procedure CreateTree;
     procedure ReadIniFile;
     procedure SaveSelectedTreeNode;
     procedure SetVisibleFrame;
     procedure WriteIniFile;
   public
-    function Execute: Boolean;
+    function Execute(ActionManager: TActionManager): Boolean;
   end;
 
 function OptionsForm: TOptionsForm;
@@ -235,8 +236,9 @@ begin
   end;
 end;
 
-function TOptionsForm.Execute: Boolean;
+function TOptionsForm.Execute(ActionManager: TActionManager): Boolean;
 begin
+  FActionManager := ActionManager;
   try
     ReadIniFile;
     UpdateLanguage(Self, GetSelectedLanguage);
@@ -319,7 +321,7 @@ begin
     if (Level = 0) and (TreeNode.Index = 5) then
       OptionsMainMenuFrame(Self).Show;
     if (Level = 0) and (TreeNode.Index = 6) then
-      OptionsToolBarFrame(Self).Show;
+      OptionsToolBarFrame(Self, FActionManager).Show;
     if (Level = 0) and (TreeNode.Index = 7) then
       OptionsStatusBarFrame(Self).Show;
     if (Level = 0) and (TreeNode.Index = 8) then

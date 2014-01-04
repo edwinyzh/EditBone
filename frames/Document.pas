@@ -19,7 +19,7 @@ uses
   SynHighlighterSml, SynHighlighterST, SynHighlighterTclTk, SynHighlighterJava, SynHighlighterInno, SynHighlighterIni,
   SynHighlighterDWS, SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
   SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11,
-  SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch;
+  SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch, Vcl.ActnMan;
 
 type
   TDocumentFrame = class(TFrame)
@@ -283,7 +283,7 @@ type
     function IsMacroStopped: Boolean;
     function IsRecordingMacro: Boolean;
     function IsXMLDocument: Boolean;
-    function Options: Boolean;
+    function Options(ActionManager: TActionManager): Boolean;
     function ReadIniOpenFiles: Boolean;
     function SaveAs: string;
     function ToggleLineNumbers: Boolean;
@@ -1954,12 +1954,12 @@ begin
     SynEdit.ExecuteCommand(ecImeStr, #0, PWideChar(DateTimeToStr(Now)));
 end;
 
-function TDocumentFrame.Options: Boolean;
+function TDocumentFrame.Options(ActionManager: TActionManager): Boolean;
 var
   i: Integer;
   DocTabSheetFrame: TDocTabSheetFrame;
 begin
-  Result := OptionsForm.Execute;
+  Result := OptionsForm.Execute(ActionManager);
 
   if Result then
   begin
@@ -2718,6 +2718,7 @@ begin
               DialogResult := AskYesOrNoAll(Format(LanguageDataModule.GetYesOrNoMessage('DocumentTimeChanged'), [SynEdit.DocumentName]));
             if DialogResult in [mrYes, mrYesToAll] then
               Refresh(i);
+            PageControl.TabClosed := True; { just to avoid begin drag }
           end
           else
           begin
