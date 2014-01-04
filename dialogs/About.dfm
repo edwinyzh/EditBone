@@ -520,6 +520,7 @@ object AboutDialog: TAboutDialog
       Align = alBottom
       Alignment = taCenter
       Caption = 'Copyright %s. All Rights Reserved.'
+      ExplicitWidth = 170
     end
     object ThanksTo2LinkLabel: TLinkLabel
       Left = 11

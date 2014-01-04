@@ -86,7 +86,7 @@ begin
   except
     { silent }
   end;
-  CopyrightLabel.Caption := Format(CopyrightLabel.Caption, ['© 2010-2013 Lasse Rautiainen']);
+  CopyrightLabel.Caption := Format(CopyrightLabel.Caption, ['© 2010-2014 Lasse Rautiainen']);
   { initialize the structure }
   FillChar(MemoryStatus, SizeOf(MemoryStatus), 0);
   MemoryStatus.dwLength := SizeOf(MemoryStatus);
