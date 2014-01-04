@@ -15,6 +15,7 @@ type
     ShowHiddenFilesCheckBox: TBCCheckBox;
     ShowSystemFilesCheckBox: TBCCheckBox;
     ShowArchiveFilesCheckBox: TBCCheckBox;
+    ShowOverlayIconsCheckBox: TBCCheckBox;
   private
     { Private declarations }
   public
@@ -58,6 +59,7 @@ begin
     ShowHiddenFilesCheckBox.Checked := DirShowHiddenFiles;
     ShowSystemFilesCheckBox.Checked := DirShowSystemFiles;
     ShowArchiveFilesCheckBox.Checked := DirShowArchiveFiles;
+    ShowOverlayIconsCheckBox.Checked := DirShowOverlayIcons;
   end;
 end;
 
@@ -70,6 +72,7 @@ begin
     DirShowSystemFiles := ShowSystemFilesCheckBox.Checked;
     DirShowArchiveFiles := ShowArchiveFilesCheckBox.Checked;
     DirIndent := StrToIntDef(IndentEdit.Text, 20);
+    DirShowOverlayIcons := ShowOverlayIconsCheckBox.Checked;
   end;
 end;
 

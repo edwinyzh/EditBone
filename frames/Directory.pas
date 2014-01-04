@@ -626,6 +626,7 @@ begin
     FileTreeView.ShowHiddenFiles := OptionsContainer.DirShowHiddenFiles;
     FileTreeView.ShowSystemFiles := OptionsContainer.DirShowSystemFiles;
     FileTreeView.ShowArchiveFiles := OptionsContainer.DirShowArchiveFiles;
+    FileTreeView.ShowOverlayIcons := OptionsContainer.DirShowOverlayIcons;
     if OptionsContainer.DirShowTreeLines then
       FileTreeView.TreeOptions.PaintOptions := FileTreeView.TreeOptions.PaintOptions + [toShowTreeLines]
     else

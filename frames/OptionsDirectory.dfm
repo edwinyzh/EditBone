@@ -1,18 +1,18 @@
 inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
   Width = 201
-  Height = 125
+  Height = 150
   ExplicitWidth = 201
-  ExplicitHeight = 125
+  ExplicitHeight = 150
   object Panel: TPanel
     Left = 0
     Top = 0
     Width = 201
-    Height = 125
+    Height = 147
     BevelOuter = bvNone
     TabOrder = 0
     object IndentLabel: TLabel
       Left = 6
-      Top = 87
+      Top = 105
       Width = 32
       Height = 13
       Margins.Left = 4
@@ -36,14 +36,14 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
     end
     object IndentEdit: TBCEdit
       Left = 4
-      Top = 104
+      Top = 122
       Width = 64
       Height = 21
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      TabOrder = 4
+      TabOrder = 5
       Text = '20'
       EnterToTab = False
       OnlyNumbers = True
@@ -80,7 +80,7 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
     end
     object ShowArchiveFilesCheckBox: TBCCheckBox
       Left = 4
-      Top = 58
+      Top = 60
       Width = 201
       Height = 21
       Margins.Left = 4
@@ -91,6 +91,21 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
       Checked = True
       State = cbChecked
       TabOrder = 3
+      ReadOnly = False
+    end
+    object ShowOverlayIconsCheckBox: TBCCheckBox
+      Left = 4
+      Top = 80
+      Width = 201
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      Caption = ' Show Overlay Icons'
+      Checked = True
+      State = cbChecked
+      TabOrder = 4
       ReadOnly = False
     end
   end

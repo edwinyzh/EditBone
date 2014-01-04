@@ -28,6 +28,7 @@ inherited OptionsToolBarFrame: TOptionsToolBarFrame
         Height = 18
         Margins.Left = 6
         Margins.Top = 5
+        Margins.Right = 0
         Margins.Bottom = 5
         Align = alLeft
         Shape = bsLeftLine
@@ -59,7 +60,7 @@ inherited OptionsToolBarFrame: TOptionsToolBarFrame
       end
       object BCToolBar1: TBCToolBar
         AlignWithMargins = True
-        Left = 65
+        Left = 62
         Top = 3
         Width = 69
         Height = 22
@@ -69,6 +70,7 @@ inherited OptionsToolBarFrame: TOptionsToolBarFrame
         Caption = 'SourceToolBar'
         Images = ImageList
         TabOrder = 1
+        ExplicitLeft = 65
         object ToolButton1: TToolButton
           Left = 0
           Top = 0
@@ -113,6 +115,7 @@ inherited OptionsToolBarFrame: TOptionsToolBarFrame
       Images = ImageList
       Indent = 0
       ParentCtl3D = False
+      SelectionBlendFactor = 255
       TabOrder = 1
       TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand]
       TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]

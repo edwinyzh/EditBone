@@ -1796,7 +1796,10 @@ begin
     if Assigned(FOutputFrame) then
       FOutputFrame.SetOptions;
     if Assigned(FDirectoryFrame) then
+    begin
       FDirectoryFrame.SetOptions;
+      FDirectoryFrame.DirectoryRefreshAction.Execute;
+    end;
     Repaint;
   end;
 end;

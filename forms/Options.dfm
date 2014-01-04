@@ -82,6 +82,7 @@ object OptionsForm: TOptionsForm
       Header.Font.Style = []
       Header.MainColumn = -1
       Images = ImageList
+      SelectionBlendFactor = 255
       TabOrder = 0
       TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
       TreeOptions.PaintOptions = [toHideFocusRect, toShowBackground, toShowButtons, toShowDropmark, toShowRoot, toThemeAware, toUseBlendedImages, toUseBlendedSelection, toUseExplorerTheme]

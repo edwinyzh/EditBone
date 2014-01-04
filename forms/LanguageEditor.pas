@@ -391,10 +391,8 @@ begin
     if Length(S) > 0 then
     begin
       with R do
-      begin
         if (NodeWidth - 2 * Margin) > (Right - Left) then
           S := ShortenString(Canvas.Handle, S, Right - Left);
-      end;
 
       Format := DT_TOP or DT_LEFT or DT_VCENTER or DT_SINGLELINE;
 
