@@ -26,7 +26,7 @@ object OptionsToolBarItemsDialog: TOptionsToolBarItemsDialog
     Padding.Right = 8
     Padding.Bottom = 8
     TabOrder = 0
-    object OKButton: TButton
+    object AddButton: TButton
       Left = 148
       Top = 0
       Width = 75
@@ -92,8 +92,6 @@ object OptionsToolBarItemsDialog: TOptionsToolBarItemsDialog
     OnDrawNode = AddItemsVirtualDrawTreeDrawNode
     OnGetImageIndex = AddItemsVirtualDrawTreeGetImageIndex
     OnGetNodeWidth = AddItemsVirtualDrawTreeGetNodeWidth
-    ExplicitLeft = 4
-    ExplicitTop = 8
     Columns = <
       item
         Options = [coEnabled, coParentBidiMode, coParentColor, coVisible, coAutoSpring]

@@ -218,15 +218,17 @@ inherited OptionsToolBarFrame: TOptionsToolBarFrame
       ImageIndex = 0
       OnExecute = AddItemActionExecute
     end
-    object DeleteItemAction: TAction
-      Caption = 'Delete Item'
-      Hint = 'Delete item'
+    object DeleteAction: TAction
+      Caption = 'Delete'
+      Hint = 'Delete'
       ImageIndex = 1
+      OnExecute = DeleteActionExecute
     end
     object AddDividerAction: TAction
       Caption = 'Add Divider'
       Hint = 'Add divider'
       ImageIndex = 2
+      OnExecute = AddDividerActionExecute
     end
   end
   object PopupMenu: TPopupMenu
@@ -240,7 +242,7 @@ inherited OptionsToolBarFrame: TOptionsToolBarFrame
       Action = AddDividerAction
     end
     object DeleteItem1: TMenuItem
-      Action = DeleteItemAction
+      Action = DeleteAction
     end
   end
 end

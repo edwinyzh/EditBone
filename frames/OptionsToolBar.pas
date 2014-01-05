@@ -14,7 +14,7 @@ type
     ImageList: TBCImageList;
     ButtonActionList: TActionList;
     AddItemAction: TAction;
-    DeleteItemAction: TAction;
+    DeleteAction: TAction;
     AddDividerAction: TAction;
     VirtualDrawTree: TVirtualDrawTree;
     PopupMenu: TPopupMenu;
@@ -34,6 +34,8 @@ type
     procedure VirtualDrawTreeDragDrop(Sender: TBaseVirtualTree; Source: TObject; DataObject: IDataObject;
       Formats: TFormatArray; Shift: TShiftState; Pt: TPoint; var Effect: Integer; Mode: TDropMode);
     procedure AddItemActionExecute(Sender: TObject);
+    procedure DeleteActionExecute(Sender: TObject);
+    procedure AddDividerActionExecute(Sender: TObject);
   private
     { Private declarations }
     FActionList: TObjectList<TAction>;
@@ -59,7 +61,8 @@ implementation
 {$R *.dfm}
 
 uses
-  Winapi.Windows, Winapi.CommCtrl, BigIni, BCCommon.Images, BCCommon.FileUtils, Vcl.Themes, OptionsToolBarItems;
+  Winapi.Windows, Winapi.CommCtrl, BigIni, BCCommon.Images, BCCommon.FileUtils, Vcl.Themes, OptionsToolBarItems,
+  System.SysUtils, BCCommon.Lib;
 
 var
   FOptionsToolBarFrame: TOptionsToolBarFrame;
@@ -75,6 +78,23 @@ begin
   FOptionsToolBarFrame.GetToolBarItems;
 
   Result := FOptionsToolBarFrame;
+end;
+
+procedure TOptionsToolBarFrame.AddDividerActionExecute(Sender: TObject);
+var
+  NewNode, CurrentNode: PVirtualNode;
+  NewData: PTreeData;
+begin
+  inherited;
+  CurrentNode := VirtualDrawTree.GetFirstSelected;
+  if Assigned(CurrentNode) then
+    NewNode := VirtualDrawTree.InsertNode(CurrentNode, amInsertAfter)
+  else
+    NewNode := VirtualDrawTree.AddChild(nil);
+  NewData := VirtualDrawTree.GetNodeData(NewNode);
+  NewData^.Action := TAction.Create(nil);
+  NewData^.Action.Caption := '-';
+  FIsChanged := True;
 end;
 
 procedure TOptionsToolBarFrame.AddItemActionExecute(Sender: TObject);
@@ -102,6 +122,7 @@ begin
            NewData := VirtualDrawTree.GetNodeData(NewNode);
            NewData^.Action := Data^.Action;
            VirtualDrawTree.Selected[NewNode] := True;
+           FIsChanged := True;
          end;
          Node := AddItemsVirtualDrawTree.GetNext(Node);
        end;
@@ -109,6 +130,16 @@ begin
    finally
      Free;
    end;
+end;
+
+procedure TOptionsToolBarFrame.DeleteActionExecute(Sender: TObject);
+var
+  Node: PVirtualNode;
+begin
+  inherited;
+  Node := VirtualDrawTree.GetFirstSelected;
+  VirtualDrawTree.DeleteNode(Node);
+  FIsChanged := True;
 end;
 
 destructor TOptionsToolBarFrame.Destroy;
@@ -174,6 +205,11 @@ begin
 end;
 
 procedure TOptionsToolBarFrame.PutData;
+var
+  i: Integer;
+  Value: string;
+  Node: PVirtualNode;
+  Data: PTreeData;
 begin
   { write to ini }
   if FIsChanged then
@@ -181,11 +217,22 @@ begin
     with TBigIniFile.Create(GetIniFilename) do
     try
       WriteBool('ToolBarItemsChanged', 'Changed', True);
+      i := 0;
+      EraseSection('ToolBarItems');
+      Node := VirtualDrawTree.GetFirst;
+      while Assigned(Node) do
+      begin
+        Data := VirtualDrawTree.GetNodeData(Node);
+        if Data^.Action.Caption <> '-' then
+          Value := Data^.Action.Name
+        else
+          Value := '-';
+        WriteString('ToolBarItems', IntToStr(PostInc(i)), Value);
+        Node := VirtualDrawTree.GetNext(Node);
+      end;
     finally
       Free;
     end;
-
-
   end;
 end;
 

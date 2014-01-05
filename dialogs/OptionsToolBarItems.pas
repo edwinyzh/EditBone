@@ -10,7 +10,7 @@ uses
 type
   TOptionsToolBarItemsDialog = class(TForm)
     ButtonPanel: TPanel;
-    OKButton: TButton;
+    AddButton: TButton;
     CancelButton: TButton;
     ButtonDividerPanel: TPanel;
     AddItemsVirtualDrawTree: TVirtualDrawTree;

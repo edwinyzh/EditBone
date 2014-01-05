@@ -1261,7 +1261,7 @@ begin
   try
     { update if changed }
     IsChanged := ReadBool('ToolBarItemsChanged', 'Changed', False);
-    EraseSection('ToolBarItemChanged');
+    EraseSection('ToolBarItemsChanged');
     if IsChanged then
     begin
       { read items from ini }
