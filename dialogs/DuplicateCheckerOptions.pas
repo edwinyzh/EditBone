@@ -101,7 +101,7 @@ var
 
 function DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog;
 begin
-  if FDuplicateCheckerOptionsDialog = nil then
+  if not Assigned(FDuplicateCheckerOptionsDialog) then
     Application.CreateForm(TDuplicateCheckerOptionsDialog, FDuplicateCheckerOptionsDialog);
   Result := FDuplicateCheckerOptionsDialog;
   SetStyledFormSize(Result);

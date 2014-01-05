@@ -4,9 +4,9 @@ interface
 
 uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, BCControls.CheckBox,
-  BCCommon.OptionsContainer, BCFrames.OptionsFrame, Vcl.ComCtrls, BCCommon.Images, Vcl.ImgList, BCControls.ImageList,
+  BCCommon.OptionsContainer, BCFrames.OptionsFrame, Vcl.ComCtrls, Vcl.ImgList, BCControls.ImageList,
   Vcl.ToolWin, BCControls.ToolBar, System.Actions, Vcl.ActnList, System.Generics.Collections, System.Types, VirtualTrees,
-  ActiveX, Vcl.Menus;
+  Winapi.ActiveX, Vcl.Menus;
 
 type
   TOptionsToolBarFrame = class(TOptionsFrame)
@@ -58,7 +58,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Winapi.Windows, CommCtrl, BigIni, BCCommon.FileUtils, Vcl.Themes;
+  Winapi.Windows, Winapi.CommCtrl, BigIni, BCCommon.Images, BCCommon.FileUtils, Vcl.Themes;
 
 var
   FOptionsToolBarFrame: TOptionsToolBarFrame;
@@ -67,6 +67,7 @@ function OptionsToolBarFrame(AOwner: TComponent; ActionList: TObjectList<TAction
 begin
   if not Assigned(FOptionsToolBarFrame) then
     FOptionsToolBarFrame := TOptionsToolBarFrame.Create(AOwner);
+
   FOptionsToolBarFrame.VirtualDrawTree.NodeDataSize := SizeOf(TAction);
   FOptionsToolBarFrame.VirtualDrawTree.Images := ImagesDataModule.ImageList; { IDE can lose this }
   FOptionsToolBarFrame.ActionList := ActionList;

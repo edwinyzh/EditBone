@@ -70,7 +70,8 @@ uses
   BCCommon.OptionsContainer in '..\..\Common\units\BCCommon.OptionsContainer.pas',
   IniPersist in '..\..\Common\units\IniPersist.pas',
   BCFrames.OptionsFrame in '..\..\Common\frames\BCFrames.OptionsFrame.pas' {OptionsFrame: TFrame},
-  BCCommon.Images in '..\..\Common\units\BCCommon.Images.pas' {ImagesDataModule: TDataModule};
+  BCCommon.Images in '..\..\Common\units\BCCommon.Images.pas' {ImagesDataModule: TDataModule},
+  OptionsToolBarItems in 'dialogs\OptionsToolBarItems.pas' {OptionsToolBarItemsDialog};
 
 {$R *.res}
 
@@ -89,5 +90,6 @@ begin
     TStyleManager.SetStyle(TStyleManager.LoadFromFile(Format('%sStyles\%s', [ExtractFilePath(ParamStr(0)), StyleFilename])));
   Application.Title := 'EditBone';
   Application.CreateForm(TMainForm, MainForm);
+  Application.CreateForm(TOptionsToolBarItemsDialog, OptionsToolBarItemsDialog);
   Application.Run;
 end.

@@ -112,6 +112,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               Height = 22
               Align = alLeft
               Caption = 'Folder'
+              ExplicitHeight = 13
             end
           end
           object FileTypePanel: TPanel
@@ -135,6 +136,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               Height = 23
               Align = alLeft
               Caption = 'File type'
+              ExplicitHeight = 13
             end
           end
         end
@@ -217,11 +219,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
                 FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
                 FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
                 00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
-              HotTrackFont.Charset = DEFAULT_CHARSET
-              HotTrackFont.Color = clWindowText
-              HotTrackFont.Height = -11
-              HotTrackFont.Name = 'Tahoma'
-              HotTrackFont.Style = []
               NumGlyphs = 2
             end
             object FolderEdit: TBCEdit
@@ -495,11 +492,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
                 FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
                 FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
                 00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
-              HotTrackFont.Charset = DEFAULT_CHARSET
-              HotTrackFont.Color = clWindowText
-              HotTrackFont.Height = -11
-              HotTrackFont.Name = 'Tahoma'
-              HotTrackFont.Style = []
               NumGlyphs = 2
             end
             object FileEdit: TBCEdit
