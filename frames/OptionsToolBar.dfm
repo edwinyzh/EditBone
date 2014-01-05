@@ -216,6 +216,7 @@ inherited OptionsToolBarFrame: TOptionsToolBarFrame
       Caption = 'Add Item'
       Hint = 'Add item'
       ImageIndex = 0
+      OnExecute = AddItemActionExecute
     end
     object DeleteItemAction: TAction
       Caption = 'Delete Item'

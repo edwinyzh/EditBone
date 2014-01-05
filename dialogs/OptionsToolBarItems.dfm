@@ -11,6 +11,7 @@ object OptionsToolBarItemsDialog: TOptionsToolBarItemsDialog
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
@@ -25,9 +26,6 @@ object OptionsToolBarItemsDialog: TOptionsToolBarItemsDialog
     Padding.Right = 8
     Padding.Bottom = 8
     TabOrder = 0
-    ExplicitLeft = -61
-    ExplicitTop = 255
-    ExplicitWidth = 456
     object OKButton: TButton
       Left = 148
       Top = 0
@@ -36,8 +34,8 @@ object OptionsToolBarItemsDialog: TOptionsToolBarItemsDialog
       Align = alRight
       Caption = 'Add'
       Default = True
+      ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 290
     end
     object CancelButton: TButton
       Left = 231
@@ -48,7 +46,6 @@ object OptionsToolBarItemsDialog: TOptionsToolBarItemsDialog
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 373
     end
     object ButtonDividerPanel: TPanel
       Left = 223
@@ -58,10 +55,9 @@ object OptionsToolBarItemsDialog: TOptionsToolBarItemsDialog
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 2
-      ExplicitLeft = 365
     end
   end
-  object VirtualDrawTree: TVirtualDrawTree
+  object AddItemsVirtualDrawTree: TVirtualDrawTree
     AlignWithMargins = True
     Left = 6
     Top = 6
@@ -89,19 +85,17 @@ object OptionsToolBarItemsDialog: TOptionsToolBarItemsDialog
     SelectionBlendFactor = 255
     TabOrder = 1
     TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand]
+    TreeOptions.MiscOptions = [toAcceptOLEDrop, toCheckSupport, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
     TreeOptions.PaintOptions = [toHideFocusRect, toShowButtons, toShowDropmark, toShowRoot, toThemeAware, toGhostedIfUnfocused, toUseBlendedSelection]
     TreeOptions.SelectionOptions = [toFullRowSelect, toMiddleClickSelect]
     WantTabs = True
-    OnDrawNode = VirtualDrawTreeDrawNode
-    OnGetImageIndex = VirtualDrawTreeGetImageIndex
-    OnGetNodeWidth = VirtualDrawTreeGetNodeWidth
-    ExplicitLeft = -133
-    ExplicitTop = 0
-    ExplicitWidth = 447
-    ExplicitHeight = 305
+    OnDrawNode = AddItemsVirtualDrawTreeDrawNode
+    OnGetImageIndex = AddItemsVirtualDrawTreeGetImageIndex
+    OnGetNodeWidth = AddItemsVirtualDrawTreeGetNodeWidth
+    ExplicitLeft = 4
+    ExplicitTop = 8
     Columns = <
       item
-        CheckBox = True
         Options = [coEnabled, coParentBidiMode, coParentColor, coVisible, coAutoSpring]
         Position = 0
         Width = 298

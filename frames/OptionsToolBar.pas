@@ -33,6 +33,7 @@ type
       Pt: TPoint; Mode: TDropMode; var Effect: Integer; var Accept: Boolean);
     procedure VirtualDrawTreeDragDrop(Sender: TBaseVirtualTree; Source: TObject; DataObject: IDataObject;
       Formats: TFormatArray; Shift: TShiftState; Pt: TPoint; var Effect: Integer; Mode: TDropMode);
+    procedure AddItemActionExecute(Sender: TObject);
   private
     { Private declarations }
     FActionList: TObjectList<TAction>;
@@ -58,7 +59,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Winapi.Windows, Winapi.CommCtrl, BigIni, BCCommon.Images, BCCommon.FileUtils, Vcl.Themes;
+  Winapi.Windows, Winapi.CommCtrl, BigIni, BCCommon.Images, BCCommon.FileUtils, Vcl.Themes, OptionsToolBarItems;
 
 var
   FOptionsToolBarFrame: TOptionsToolBarFrame;
@@ -74,6 +75,40 @@ begin
   FOptionsToolBarFrame.GetToolBarItems;
 
   Result := FOptionsToolBarFrame;
+end;
+
+procedure TOptionsToolBarFrame.AddItemActionExecute(Sender: TObject);
+var
+  Node, NewNode, CurrentNode: PVirtualNode;
+  Data, NewData: PTreeData;
+begin
+  inherited;
+   with OptionsToolBarItemsDialog(ActionList) do
+   try
+     if Open then
+     begin
+       { insert selected items }
+       Node := AddItemsVirtualDrawTree.GetFirst;
+       while Assigned(Node) do
+       begin
+         if Node.CheckState = csCheckedNormal then
+         begin
+           Data := AddItemsVirtualDrawTree.GetNodeData(Node);
+           CurrentNode := VirtualDrawTree.GetFirstSelected;
+           if Assigned(CurrentNode) then
+             NewNode := VirtualDrawTree.InsertNode(CurrentNode, amInsertAfter)
+           else
+             NewNode := VirtualDrawTree.AddChild(nil);
+           NewData := VirtualDrawTree.GetNodeData(NewNode);
+           NewData^.Action := Data^.Action;
+           VirtualDrawTree.Selected[NewNode] := True;
+         end;
+         Node := AddItemsVirtualDrawTree.GetNext(Node);
+       end;
+     end;
+   finally
+     Free;
+   end;
 end;
 
 destructor TOptionsToolBarFrame.Destroy;
@@ -128,6 +163,9 @@ begin
       end;
       Data^.Action := Action;
     end;
+    Node := VirtualDrawTree.GetFirst;
+    if Assigned(Node) then
+      VirtualDrawTree.Selected[Node] := True;
     VirtualDrawTree.EndUpdate;
   finally
     Free;
