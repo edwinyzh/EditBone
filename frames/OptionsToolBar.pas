@@ -5,34 +5,34 @@ interface
 uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, BCControls.CheckBox,
   BCCommon.OptionsContainer, BCFrames.OptionsFrame, Vcl.ComCtrls, BCCommon.Images, Vcl.ImgList, BCControls.ImageList,
-  Vcl.ToolWin, BCControls.ToolBar, System.Actions, Vcl.ActnList, System.Generics.Collections, System.Types, VirtualTrees;
+  Vcl.ToolWin, BCControls.ToolBar, System.Actions, Vcl.ActnList, System.Generics.Collections, System.Types, VirtualTrees,
+  ActiveX, Vcl.Menus;
 
 type
   TOptionsToolBarFrame = class(TOptionsFrame)
     Panel: TPanel;
-    ButtonPanel: TPanel;
-    ColumnsToolBar: TBCToolBar;
-    MoveUpToolButton: TToolButton;
-    MoveDownToolButton: TToolButton;
     ImageList: TBCImageList;
-    DividerBevel: TBevel;
     ButtonActionList: TActionList;
-    MoveUpAction: TAction;
-    MoveDownAction: TAction;
     AddItemAction: TAction;
     DeleteItemAction: TAction;
     AddDividerAction: TAction;
-    BCToolBar1: TBCToolBar;
-    ToolButton1: TToolButton;
-    ToolButton2: TToolButton;
-    ToolButton3: TToolButton;
     VirtualDrawTree: TVirtualDrawTree;
+    PopupMenu: TPopupMenu;
+    Additem1: TMenuItem;
+    DeleteItem1: TMenuItem;
+    AddDivider1: TMenuItem;
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
     procedure VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
       Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
     procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode;
       Column: TColumnIndex; var NodeWidth: Integer);
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
+    procedure VirtualDrawTreeDragAllowed(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex;
+      var Allowed: Boolean);
+    procedure VirtualDrawTreeDragOver(Sender: TBaseVirtualTree; Source: TObject; Shift: TShiftState; State: TDragState;
+      Pt: TPoint; Mode: TDropMode; var Effect: Integer; var Accept: Boolean);
+    procedure VirtualDrawTreeDragDrop(Sender: TBaseVirtualTree; Source: TObject; DataObject: IDataObject;
+      Formats: TFormatArray; Shift: TShiftState; Pt: TPoint; var Effect: Integer; Mode: TDropMode);
   private
     { Private declarations }
     FActionList: TObjectList<TAction>;
@@ -122,7 +122,7 @@ begin
       end
       else
       begin
-        Action := TAction.Create(Self);
+        Action := TAction.Create(nil);
         Action.Caption := '-';
       end;
       Data^.Action := Action;
@@ -148,6 +148,40 @@ begin
 
 
   end;
+end;
+
+procedure TOptionsToolBarFrame.VirtualDrawTreeDragAllowed(Sender: TBaseVirtualTree; Node: PVirtualNode;
+  Column: TColumnIndex; var Allowed: Boolean);
+begin
+  inherited;
+  Allowed := True;
+end;
+
+procedure TOptionsToolBarFrame.VirtualDrawTreeDragDrop(Sender: TBaseVirtualTree; Source: TObject;
+  DataObject: IDataObject; Formats: TFormatArray; Shift: TShiftState; Pt: TPoint; var Effect: Integer; Mode: TDropMode);
+var
+  pSource, pTarget: PVirtualNode;
+  attMode: TVTNodeAttachMode;
+begin
+  pSource := TVirtualStringTree(Source).FocusedNode;
+  pTarget := Sender.DropTargetNode;
+
+  attMode := amNoWhere;
+  case Mode of
+    dmNowhere: attMode := amNoWhere;
+    dmAbove: attMode := amInsertBefore;
+    dmOnNode, dmBelow: attMode := amInsertAfter;
+  end;
+
+  Sender.MoveTo(pSource, pTarget, attMode, False);
+  FIsChanged := True;
+end;
+
+procedure TOptionsToolBarFrame.VirtualDrawTreeDragOver(Sender: TBaseVirtualTree; Source: TObject; Shift: TShiftState;
+  State: TDragState; Pt: TPoint; Mode: TDropMode; var Effect: Integer; var Accept: Boolean);
+begin
+  inherited;
+  Accept := (Source = Sender);
 end;
 
 procedure TOptionsToolBarFrame.VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
@@ -207,14 +241,9 @@ begin
 
     if Length(S) > 0 then
     begin
-      with R do
-        if (NodeWidth - 2 * Margin) > (Right - Left) then
-          S := ShortenString(Canvas.Handle, S, Right - Left);
-
       Format := DT_TOP or DT_LEFT or DT_VCENTER or DT_SINGLELINE;
       DrawTextW(Canvas.Handle, PWideChar(S), Length(S), R, Format)
     end;
-
   end;
 end;
 
@@ -244,17 +273,8 @@ end;
 
 procedure TOptionsToolBarFrame.VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas;
   Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
-var
-  Data: PTreeData;
-  AMargin: Integer;
 begin
-  with Sender as TVirtualDrawTree do
-  begin
-    AMargin := TextMargin;
-    Data := Sender.GetNodeData(Node);
-    if Assigned(Data) then
-      NodeWidth := Canvas.TextWidth(Data^.Action.Caption) + 2 * AMargin;
-  end;
+  NodeWidth := VirtualDrawTree.Width
 end;
 
 end.

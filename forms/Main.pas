@@ -1387,7 +1387,7 @@ begin
     CreateFileReopenList;
     CreateProgressBar;
 
-    //UpdateControls;
+    UpdateControls;
 
     FOnStartUp := False;
 
