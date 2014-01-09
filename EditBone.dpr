@@ -45,7 +45,6 @@ uses
   OptionsDirectory in 'frames\OptionsDirectory.pas' {OptionsDirectoryFrame: TFrame},
   BCFrames.OptionsStatusBar in '..\..\Common\frames\BCFrames.OptionsStatusBar.pas' {OptionsStatusBarFrame: TFrame},
   InsertTag in 'dialogs\InsertTag.pas' {InsertTagDialog},
-  OptionsToolBar in 'frames\OptionsToolBar.pas' {OptionsToolBarFrame: TFrame},
   UnicodeCharacterMap in 'forms\UnicodeCharacterMap.pas' {UnicodeCharacterMapForm},
   BCCommon.DuplicateChecker in '..\..\Common\units\BCCommon.DuplicateChecker.pas',
   DuplicateCheckerOptions in 'dialogs\DuplicateCheckerOptions.pas' {DuplicateCheckerOptionsDialog},
@@ -71,7 +70,8 @@ uses
   IniPersist in '..\..\Common\units\IniPersist.pas',
   BCFrames.OptionsFrame in '..\..\Common\frames\BCFrames.OptionsFrame.pas' {OptionsFrame: TFrame},
   BCCommon.Images in '..\..\Common\units\BCCommon.Images.pas' {ImagesDataModule: TDataModule},
-  OptionsToolBarItems in 'dialogs\OptionsToolBarItems.pas' {OptionsToolBarItemsDialog};
+  BCDialogs.OptionsToolBarItems in '..\..\Common\dialogs\BCDialogs.OptionsToolBarItems.pas' {OptionsToolBarItemsDialog},
+  BCFrames.OptionsToolBar in '..\..\Common\frames\BCFrames.OptionsToolBar.pas' {OptionsToolBarFrame: TFrame};
 
 {$R *.res}
 

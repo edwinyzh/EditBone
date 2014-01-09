@@ -242,10 +242,6 @@
         <DCCReference Include="dialogs\InsertTag.pas">
             <Form>InsertTagDialog</Form>
         </DCCReference>
-        <DCCReference Include="frames\OptionsToolBar.pas">
-            <Form>OptionsToolBarFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="forms\UnicodeCharacterMap.pas">
             <Form>UnicodeCharacterMapForm</Form>
         </DCCReference>
@@ -314,9 +310,14 @@
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="dialogs\OptionsToolBarItems.pas">
+        <DCCReference Include="..\..\Common\dialogs\BCDialogs.OptionsToolBarItems.pas">
             <Form>OptionsToolBarItemsDialog</Form>
             <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsToolBar.pas">
+            <Form>OptionsToolBarFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
