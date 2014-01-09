@@ -879,13 +879,13 @@ object MainForm: TMainForm
         Items = <
           item
             Action = FileNewAction
-            ImageIndex = 0
+            ImageIndex = 66
             ShowCaption = False
             ShortCut = 16462
           end
           item
             Action = FileOpenAction
-            ImageIndex = 1
+            ImageIndex = 135
             ShowCaption = False
             ShortCut = 16463
           end
@@ -894,32 +894,32 @@ object MainForm: TMainForm
           end
           item
             Action = FileSaveAction
-            ImageIndex = 3
+            ImageIndex = 167
             ShowCaption = False
             ShortCut = 16467
           end
           item
             Action = FileSaveAsAction
-            ImageIndex = 4
+            ImageIndex = 169
             ShowCaption = False
             ShortCut = 49235
           end
           item
             Action = FileSaveAllAction
-            ImageIndex = 5
+            ImageIndex = 168
             ShowCaption = False
             ShortCut = 24659
           end
           item
             Action = FileCloseAction
-            ImageIndex = 6
+            ImageIndex = 85
             ShowCaption = False
             ShortCut = 16499
           end
           item
             Action = FileCloseAllAction
             Caption = 'Close All'
-            ImageIndex = 7
+            ImageIndex = 86
             ShowCaption = False
           end
           item
@@ -927,13 +927,13 @@ object MainForm: TMainForm
           end
           item
             Action = FilePrintAction
-            ImageIndex = 9
+            ImageIndex = 150
             ShowCaption = False
             ShortCut = 16464
           end
           item
             Action = FilePrintPreviewAction
-            ImageIndex = 10
+            ImageIndex = 148
             ShowCaption = False
           end
           item
@@ -942,20 +942,20 @@ object MainForm: TMainForm
           item
             Action = ViewOpenDirectoryAction
             Caption = 'Open Direc&tory'
-            ImageIndex = 54
+            ImageIndex = 215
             ShowCaption = False
             ShortCut = 16452
           end
           item
             Action = ViewCloseDirectoryAction
             Caption = 'Close Director&y'
-            ImageIndex = 55
+            ImageIndex = 216
             ShowCaption = False
             ShortCut = 24644
           end
           item
             Action = ViewEditDirectoryAction
-            ImageIndex = 56
+            ImageIndex = 217
             ShowCaption = False
             ShortCut = 24645
           end
@@ -964,13 +964,13 @@ object MainForm: TMainForm
           end
           item
             Action = EditIncreaseIndentAction
-            ImageIndex = 29
+            ImageIndex = 100
             ShowCaption = False
             ShortCut = 24649
           end
           item
             Action = EditDecreaseIndentAction
-            ImageIndex = 30
+            ImageIndex = 101
             ShowCaption = False
             ShortCut = 24661
           end
@@ -980,14 +980,14 @@ object MainForm: TMainForm
           item
             Action = EditSortAscAction
             Caption = 'Sort Ascendin&g'
-            ImageIndex = 32
+            ImageIndex = 180
             ShowCaption = False
             ShortCut = 24641
           end
           item
             Action = EditSortDescAction
             Caption = 'Sort Descending'
-            ImageIndex = 33
+            ImageIndex = 181
             ShowCaption = False
             ShortCut = 24644
           end
@@ -997,7 +997,7 @@ object MainForm: TMainForm
           item
             Action = EditToggleCaseAction
             Caption = 'Togg&le Case'
-            ImageIndex = 34
+            ImageIndex = 25
             ShowCaption = False
             ShortCut = 24643
           end
@@ -1006,13 +1006,13 @@ object MainForm: TMainForm
           end
           item
             Action = EditUndoAction
-            ImageIndex = 13
+            ImageIndex = 223
             ShowCaption = False
             ShortCut = 16474
           end
           item
             Action = EditRedoAction
-            ImageIndex = 14
+            ImageIndex = 160
             ShowCaption = False
             ShortCut = 24666
           end
@@ -1022,20 +1022,20 @@ object MainForm: TMainForm
           item
             Action = SearchAction
             Caption = 'Searc&h...'
-            ImageIndex = 35
+            ImageIndex = 81
             ShowCaption = False
             ShortCut = 16454
           end
           item
             Action = SearchReplaceAction
             Caption = 'Replace...'
-            ImageIndex = 36
+            ImageIndex = 163
             ShowCaption = False
             ShortCut = 16466
           end
           item
             Action = SearchFindInFilesAction
-            ImageIndex = 37
+            ImageIndex = 82
             ShowCaption = False
             ShortCut = 24646
           end
@@ -1045,7 +1045,7 @@ object MainForm: TMainForm
           item
             Action = ViewWordWrapAction
             CommandStyle = csCheckBox
-            ImageIndex = 61
+            ImageIndex = 237
             ShowCaption = False
             CommandProperties.Width = -1
           end
@@ -1053,7 +1053,7 @@ object MainForm: TMainForm
             Action = ViewLineNumbersAction
             Caption = 'Line Nu&mbers'
             CommandStyle = csCheckBox
-            ImageIndex = 62
+            ImageIndex = 119
             ShowCaption = False
             CommandProperties.Width = -1
           end
@@ -1061,7 +1061,7 @@ object MainForm: TMainForm
             Action = ViewSpecialCharsAction
             Caption = 'Special Chars'
             CommandStyle = csCheckBox
-            ImageIndex = 63
+            ImageIndex = 144
             ShowCaption = False
             CommandProperties.Width = -1
           end
@@ -1069,7 +1069,7 @@ object MainForm: TMainForm
             Action = ViewSelectionModeAction
             Caption = 'Column Mode'
             CommandStyle = csCheckBox
-            ImageIndex = 64
+            ImageIndex = 29
             ShowCaption = False
             CommandProperties.Width = -1
           end
@@ -1079,7 +1079,7 @@ object MainForm: TMainForm
           item
             Action = CompareFilesAction
             Caption = 'Compare Files...'
-            ImageIndex = 75
+            ImageIndex = 31
             ShowCaption = False
           end
           item
@@ -1088,34 +1088,34 @@ object MainForm: TMainForm
           item
             Action = MacroRecordPauseAction
             Caption = 'Record'
-            ImageIndex = 68
+            ImageIndex = 158
             ShowCaption = False
             ShortCut = 24658
           end
           item
             Action = MacroStopAction
             Caption = 'Stop'
-            ImageIndex = 70
+            ImageIndex = 185
             ShowCaption = False
             ShortCut = 24659
           end
           item
             Action = MacroPlaybackAction
             Caption = 'Play&back'
-            ImageIndex = 71
+            ImageIndex = 146
             ShowCaption = False
             ShortCut = 24656
           end
           item
             Action = MacroOpenAction
             Caption = 'Open...'
-            ImageIndex = 72
+            ImageIndex = 128
             ShowCaption = False
           end
           item
             Action = MacroSaveAsAction
             Caption = 'Save as...'
-            ImageIndex = 73
+            ImageIndex = 129
             ShowCaption = False
           end
           item
@@ -1124,13 +1124,13 @@ object MainForm: TMainForm
           item
             Action = ToolsWordCountAction
             Caption = 'Line, Word and Character Count...'
-            ImageIndex = 65
+            ImageIndex = 70
             ShowCaption = False
           end
           item
             Action = ViewInBrowserAction
             Caption = 'View in Browser'
-            ImageIndex = 74
+            ImageIndex = 236
             ShowCaption = False
             ShortCut = 32834
           end>
@@ -1149,7 +1149,7 @@ object MainForm: TMainForm
       Category = '&File'
       Caption = '&New'
       Hint = 'Create a new document'
-      ImageIndex = 0
+      ImageIndex = 66
       ShortCut = 16462
       OnExecute = FileNewActionExecute
     end
@@ -1157,21 +1157,21 @@ object MainForm: TMainForm
       Category = '&File'
       Caption = '&Open...'
       Hint = 'Open an existing document'
-      ImageIndex = 1
+      ImageIndex = 135
       ShortCut = 16463
       OnExecute = FileOpenActionExecute
     end
     object FileReopenAction: TAction
       Category = '&File'
       Caption = '&Reopen'
-      ImageIndex = 2
+      ImageIndex = 162
       OnExecute = FileReopenActionExecute
     end
     object FileSaveAction: TAction
       Category = '&File'
       Caption = '&Save'
       Hint = 'Save the active document'
-      ImageIndex = 3
+      ImageIndex = 167
       ShortCut = 16467
       OnExecute = FileSaveActionExecute
     end
@@ -1179,7 +1179,7 @@ object MainForm: TMainForm
       Category = '&File'
       Caption = 'S&ave As...'
       Hint = 'Save the active document with a new name'
-      ImageIndex = 4
+      ImageIndex = 169
       ShortCut = 49235
       OnExecute = FileSaveAsActionExecute
     end
@@ -1187,7 +1187,7 @@ object MainForm: TMainForm
       Category = '&File'
       Caption = 'Sa&ve All'
       Hint = 'Save all documents'
-      ImageIndex = 5
+      ImageIndex = 168
       ShortCut = 24659
       OnExecute = FileSaveAllActionExecute
     end
@@ -1195,7 +1195,7 @@ object MainForm: TMainForm
       Category = '&File'
       Caption = '&Close'
       Hint = 'Close the active document'
-      ImageIndex = 6
+      ImageIndex = 85
       ShortCut = 16499
       OnExecute = FileCloseActionExecute
     end
@@ -1203,14 +1203,14 @@ object MainForm: TMainForm
       Category = '&File'
       Caption = 'C&lose All'
       Hint = 'Close all open files'
-      ImageIndex = 7
+      ImageIndex = 86
       OnExecute = FileCloseAllActionExecute
     end
     object FileCloseAllOtherPagesAction: TAction
       Category = '&File'
       Caption = 'Clos&e All Other'
       Hint = 'Close all other pages'
-      ImageIndex = 8
+      ImageIndex = 87
       ShortCut = 24691
       OnExecute = FileCloseAllOtherPagesActionExecute
     end
@@ -1218,7 +1218,7 @@ object MainForm: TMainForm
       Category = '&File'
       Caption = '&Print...'
       Hint = 'Print the active document'
-      ImageIndex = 9
+      ImageIndex = 150
       ShortCut = 16464
       OnExecute = FilePrintActionExecute
     end
@@ -1226,14 +1226,14 @@ object MainForm: TMainForm
       Category = '&File'
       Caption = 'Pr&int Preview...'
       Hint = 'Preview the active document'
-      ImageIndex = 10
+      ImageIndex = 148
       OnExecute = FilePrintPreviewActionExecute
     end
     object FileExitAction: TAction
       Category = '&File'
       Caption = 'E&xit'
       Hint = 'Quit the application'
-      ImageIndex = 11
+      ImageIndex = 76
       ShortCut = 32883
       OnExecute = FileExitActionExecute
     end
@@ -1246,7 +1246,7 @@ object MainForm: TMainForm
       Category = '&Edit'
       Caption = '&Undo'
       Hint = 'Undo the last action'
-      ImageIndex = 13
+      ImageIndex = 223
       ShortCut = 16474
       OnExecute = EditUndoActionExecute
     end
@@ -1254,7 +1254,7 @@ object MainForm: TMainForm
       Category = '&Edit'
       Caption = '&Redo'
       Hint = 'Redo the previously undone action'
-      ImageIndex = 14
+      ImageIndex = 160
       ShortCut = 24666
       OnExecute = EditRedoActionExecute
     end
@@ -1262,7 +1262,7 @@ object MainForm: TMainForm
       Category = '&Edit'
       Caption = '&Cut'
       Hint = 'Cut the selection and put it on the Clipboard'
-      ImageIndex = 15
+      ImageIndex = 43
       ShortCut = 16472
       OnExecute = EditCutActionExecute
     end
@@ -1270,7 +1270,7 @@ object MainForm: TMainForm
       Category = '&Edit'
       Caption = 'C&opy'
       Hint = 'Copy the selection and put it on the Clipboard'
-      ImageIndex = 16
+      ImageIndex = 40
       ShortCut = 16451
       OnExecute = EditCopyActionExecute
     end
@@ -1278,7 +1278,7 @@ object MainForm: TMainForm
       Category = '&Edit'
       Caption = '&Paste'
       Hint = 'Insert Clipboard contents'
-      ImageIndex = 17
+      ImageIndex = 142
       ShortCut = 16470
       OnExecute = EditPasteActionExecute
     end
@@ -1291,7 +1291,7 @@ object MainForm: TMainForm
       Category = '&Search'
       Caption = '&Search...'
       Hint = 'Search the specified text'
-      ImageIndex = 35
+      ImageIndex = 81
       ShortCut = 16454
       OnExecute = SearchActionExecute
     end
@@ -1299,7 +1299,7 @@ object MainForm: TMainForm
       Category = '&Search'
       Caption = '&Replace...'
       Hint = 'Replace the specified text with different text'
-      ImageIndex = 36
+      ImageIndex = 163
       ShortCut = 16466
       OnExecute = SearchReplaceActionExecute
     end
@@ -1307,7 +1307,7 @@ object MainForm: TMainForm
       Category = '&Search'
       Caption = '&Find in Files...'
       Hint = 'Search for a string in multiple files'
-      ImageIndex = 37
+      ImageIndex = 82
       ShortCut = 24646
       OnExecute = SearchFindInFilesActionExecute
     end
@@ -1315,7 +1315,7 @@ object MainForm: TMainForm
       Category = '&Search'
       Caption = 'Find &Next'
       Hint = 'Find the next matching text'
-      ImageIndex = 38
+      ImageIndex = 84
       ShortCut = 114
       OnExecute = SearchFindNextActionExecute
     end
@@ -1323,7 +1323,7 @@ object MainForm: TMainForm
       Category = '&Search'
       Caption = 'Find &Previous'
       Hint = 'Find the previous matching text'
-      ImageIndex = 38
+      ImageIndex = 83
       ShortCut = 8306
       OnExecute = SearchFindPreviousActionExecute
     end
@@ -1336,7 +1336,7 @@ object MainForm: TMainForm
       Category = '&View'
       Caption = '&Open Directory...'
       Hint = 'Open a new directory'
-      ImageIndex = 54
+      ImageIndex = 215
       ShortCut = 16452
       OnExecute = ViewOpenDirectoryActionExecute
     end
@@ -1344,7 +1344,7 @@ object MainForm: TMainForm
       Category = '&View'
       Caption = '&Close Directory'
       Hint = 'Close the active directory'
-      ImageIndex = 55
+      ImageIndex = 216
       ShortCut = 24644
       OnExecute = ViewCloseDirectoryActionExecute
     end
@@ -1352,7 +1352,7 @@ object MainForm: TMainForm
       Category = '&View'
       Caption = '&Edit Directory...'
       Hint = 'Edit the active directory'
-      ImageIndex = 56
+      ImageIndex = 217
       ShortCut = 24645
       OnExecute = ViewEditDirectoryActionExecute
     end
@@ -1360,7 +1360,7 @@ object MainForm: TMainForm
       Category = '&View'
       Caption = '&Files...'
       Hint = 'Search files from the selected directory and its subdirectories'
-      ImageIndex = 83
+      ImageIndex = 65
       ShortCut = 16507
       OnExecute = ViewSearchForFilesActionExecute
     end
@@ -1425,20 +1425,20 @@ object MainForm: TMainForm
     object ViewLanguageAction: TAction
       Category = '&View'
       Caption = 'La&nguage'
-      ImageIndex = 57
+      ImageIndex = 117
       OnExecute = DummyActionExecute
     end
     object ViewStyleAction: TAction
       Category = '&View'
       Caption = 'St&yle'
-      ImageIndex = 58
+      ImageIndex = 186
       OnExecute = DummyActionExecute
     end
     object ViewNextPageAction: TAction
       Category = '&View'
       Caption = 'Next &Page'
       Hint = 'Go to next page'
-      ImageIndex = 59
+      ImageIndex = 194
       ShortCut = 16393
       OnExecute = ViewNextPageActionExecute
     end
@@ -1446,7 +1446,7 @@ object MainForm: TMainForm
       Category = '&View'
       Caption = 'P&revious Page'
       Hint = 'Go to previous page'
-      ImageIndex = 60
+      ImageIndex = 193
       ShortCut = 24585
       OnExecute = ViewPreviousPageActionExecute
     end
@@ -1454,7 +1454,7 @@ object MainForm: TMainForm
       Category = '&View'
       Caption = '&Word Wrap'
       Hint = 'Toggle word wrap'
-      ImageIndex = 61
+      ImageIndex = 237
       OnExecute = ViewWordWrapActionExecute
     end
     object ViewLineNumbersAction: TAction
@@ -1462,7 +1462,7 @@ object MainForm: TMainForm
       Caption = 'Line Num&bers'
       Checked = True
       Hint = 'Toggle line numbers'
-      ImageIndex = 62
+      ImageIndex = 119
       OnExecute = ViewLineNumbersActionExecute
     end
     object ToolsMenuAction: TAction
@@ -1479,21 +1479,21 @@ object MainForm: TMainForm
       Category = '&Help'
       Caption = '&Check for Updates'
       Hint = 'Check for updates'
-      ImageIndex = 80
+      ImageIndex = 72
       OnExecute = HelpCheckForUpdatesMenuActionExecute
     end
     object HelpHomeAction: TAction
       Category = '&Help'
       Caption = '&Visit Homepage'
       Hint = 'Visit EditBone homepage - http://www.bonecode.com/'
-      ImageIndex = 81
+      ImageIndex = 98
       OnExecute = HelpHomeActionExecute
     end
     object HelpAboutAction: TAction
       Category = '&Help'
       Caption = '&About EditBone'
       Hint = 'Display information about EditBone'
-      ImageIndex = 82
+      ImageIndex = 107
       OnExecute = HelpAboutActionExecute
     end
     object ViewSpecialCharsAction: TAction
@@ -1501,7 +1501,7 @@ object MainForm: TMainForm
       Caption = 'Spec&ial Chars'
       GroupIndex = 1
       Hint = 'Toggle special characters'
-      ImageIndex = 63
+      ImageIndex = 144
       OnExecute = ViewSpecialCharsActionExecute
     end
     object OutputDblClickAction: TAction
@@ -1516,7 +1516,7 @@ object MainForm: TMainForm
       Category = '&Tools'
       Caption = '&Compare Files...'
       Hint = 'Compare files'
-      ImageIndex = 75
+      ImageIndex = 31
       OnExecute = CompareFilesActionExecute
     end
     object DocumentMenuAction: TAction
@@ -1528,21 +1528,21 @@ object MainForm: TMainForm
       Category = '&Document'
       Caption = '&Line, Word and Character Count...'
       Hint = 'Line, word and character count'
-      ImageIndex = 65
+      ImageIndex = 70
       OnExecute = ToolsWordCountActionExecute
     end
     object FormatXMLAction: TAction
       Category = '&Document'
       Caption = '&Format XML'
       Hint = 'Format XML'
-      ImageIndex = 66
+      ImageIndex = 91
       OnExecute = FormatXMLActionExecute
     end
     object ViewInBrowserAction: TAction
       Category = '&Document'
       Caption = '&View in Browser'
       Hint = 'View current document in default browser'
-      ImageIndex = 74
+      ImageIndex = 236
       ShortCut = 32834
       OnExecute = ViewInBrowserActionExecute
     end
@@ -1552,7 +1552,7 @@ object MainForm: TMainForm
       Hint = 
         'Toggle selection mode. Also pressing Alt on editor will toggle s' +
         'election mode.'
-      ImageIndex = 64
+      ImageIndex = 29
       OnExecute = ViewSelectionModeActionExecute
     end
     object SearchToggleBookmarkAction: TAction
@@ -1561,7 +1561,7 @@ object MainForm: TMainForm
       Hint = 
         'Set or clear bookmark at current line. Bookmarks can be also set' +
         ' by using Ctrl+Shift+0..9. Go to bookmark by using Ctrl+0..9.'
-      ImageIndex = 40
+      ImageIndex = 21
       ShortCut = 16497
       OnExecute = SearchToggleBookmarkActionExecute
     end
@@ -1569,35 +1569,35 @@ object MainForm: TMainForm
       Category = '&Edit'
       Caption = '&Select All'
       Hint = 'Select all'
-      ImageIndex = 18
+      ImageIndex = 172
       ShortCut = 16449
       OnExecute = EditSelectAllActionExecute
     end
     object EditInsertAction: TAction
       Category = '&Insert'
       Caption = '&Insert'
-      ImageIndex = 19
+      ImageIndex = 0
       OnExecute = DummyActionExecute
     end
     object EditInsertLineAction: TAction
       Category = '&Insert'
       Caption = '&Insert Line'
       Hint = 'Insert line'
-      ImageIndex = 20
+      ImageIndex = 109
       ShortCut = 16397
       OnExecute = EditInsertLineActionExecute
     end
     object EditDeleteAction: TAction
       Category = '&Delete'
       Caption = 'D&elete'
-      ImageIndex = 23
+      ImageIndex = 58
       OnExecute = DummyActionExecute
     end
     object EditDeleteEOLAction: TAction
       Category = '&Delete'
       Caption = '&End of Line'
       Hint = 'Delete end of line'
-      ImageIndex = 24
+      ImageIndex = 60
       ShortCut = 24665
       OnExecute = EditDeleteEOLActionExecute
     end
@@ -1605,7 +1605,7 @@ object MainForm: TMainForm
       Category = '&Delete'
       Caption = '&Line'
       Hint = 'Delete line'
-      ImageIndex = 25
+      ImageIndex = 61
       ShortCut = 16473
       OnExecute = EditDeleteLineActionExecute
     end
@@ -1613,21 +1613,21 @@ object MainForm: TMainForm
       Category = '&Delete'
       Caption = '&Word'
       Hint = 'Delete word'
-      ImageIndex = 26
+      ImageIndex = 63
       ShortCut = 16468
       OnExecute = EditDeleteWordActionExecute
     end
     object EditIndentAction: TAction
       Category = '&Indent'
       Caption = 'I&ndent'
-      ImageIndex = 28
+      ImageIndex = 99
       OnExecute = DummyActionExecute
     end
     object EditIncreaseIndentAction: TAction
       Category = '&Indent'
       Caption = 'Increase'
       Hint = 'Increase indent'
-      ImageIndex = 29
+      ImageIndex = 100
       SecondaryShortCuts.Strings = (
         'Tab')
       ShortCut = 24649
@@ -1637,7 +1637,7 @@ object MainForm: TMainForm
       Category = '&Indent'
       Caption = '&Decrease'
       Hint = 'Decrease indent'
-      ImageIndex = 30
+      ImageIndex = 101
       SecondaryShortCuts.Strings = (
         'Shift+Tab')
       ShortCut = 24661
@@ -1646,14 +1646,14 @@ object MainForm: TMainForm
     object EditSortAction: TAction
       Category = '&Sort'
       Caption = 'Sor&t'
-      ImageIndex = 31
+      ImageIndex = 178
       OnExecute = DummyActionExecute
     end
     object EditSortAscAction: TAction
       Category = '&Sort'
       Caption = '&Ascending'
       Hint = 'Sort ascending'
-      ImageIndex = 32
+      ImageIndex = 180
       ShortCut = 24641
       OnExecute = EditSortAscActionExecute
     end
@@ -1661,7 +1661,7 @@ object MainForm: TMainForm
       Category = '&Sort'
       Caption = 'Descending'
       Hint = 'Sort descending'
-      ImageIndex = 33
+      ImageIndex = 181
       ShortCut = 24644
       OnExecute = EditSortDescActionExecute
     end
@@ -1669,40 +1669,40 @@ object MainForm: TMainForm
       Category = '&Edit'
       Caption = 'To&ggle Case'
       Hint = 'Toggle case'
-      ImageIndex = 34
+      ImageIndex = 25
       ShortCut = 24643
       OnExecute = EditToggleCaseActionExecute
     end
     object SearchToggleBookmarksAction: TAction
       Category = 'T&oggle Bookmarks'
       Caption = 'T&oggle Bookmarks'
-      ImageIndex = 41
+      ImageIndex = 24
       OnExecute = DummyActionExecute
     end
     object SearchGotoBookmarksAction: TAction
       Category = 'Go to Bookmarks'
       Caption = 'Go to Bookmarks'
-      ImageIndex = 51
+      ImageIndex = 23
       OnExecute = DummyActionExecute
     end
     object SearchClearBookmarksAction: TAction
       Category = '&Search'
       Caption = 'Clear &Bookmarks'
       Hint = 'Clear all bookmarks'
-      ImageIndex = 52
+      ImageIndex = 22
       OnExecute = SearchClearBookmarksActionExecute
     end
     object MacroMenuAction: TAction
       Category = '&Macro'
       Caption = '&Macro'
-      ImageIndex = 67
+      ImageIndex = 127
       OnExecute = DummyActionExecute
     end
     object MacroRecordPauseAction: TAction
       Category = '&Macro'
       Caption = '&Record'
       Hint = 'Record or pause a macro'
-      ImageIndex = 68
+      ImageIndex = 158
       ShortCut = 24658
       OnExecute = MacroRecordPauseActionExecute
     end
@@ -1710,7 +1710,7 @@ object MainForm: TMainForm
       Category = '&Macro'
       Caption = '&Stop'
       Hint = 'Stop the macro recording'
-      ImageIndex = 70
+      ImageIndex = 185
       ShortCut = 24659
       OnExecute = MacroStopActionExecute
     end
@@ -1718,7 +1718,7 @@ object MainForm: TMainForm
       Category = '&Macro'
       Caption = '&Playback'
       Hint = 'Playback the macro'
-      ImageIndex = 71
+      ImageIndex = 146
       ShortCut = 24656
       OnExecute = MacroPlaybackActionExecute
     end
@@ -1726,21 +1726,21 @@ object MainForm: TMainForm
       Category = '&Macro'
       Caption = '&Open...'
       Hint = 'Open an existing macro'
-      ImageIndex = 72
+      ImageIndex = 128
       OnExecute = MacroOpenActionExecute
     end
     object MacroSaveAsAction: TAction
       Category = '&Macro'
       Caption = 'S&ave as...'
       Hint = 'Save the macro with a new name'
-      ImageIndex = 73
+      ImageIndex = 129
       OnExecute = MacroSaveAsActionExecute
     end
     object ToolsSelectForCompareAction: TAction
       Category = '&Tools'
       Caption = 'Select for Compare...'
       Hint = 'Select document for compare'
-      ImageIndex = 75
+      ImageIndex = 31
       OnExecute = ToolsSelectForCompareActionExecute
     end
     object SelectStyleAction: TAction
@@ -1750,14 +1750,14 @@ object MainForm: TMainForm
       Category = '&Tools'
       Caption = 'C&onvert...'
       Hint = 'Convert between numerical units'
-      ImageIndex = 76
+      ImageIndex = 39
       OnExecute = ToolsConvertActionExecute
     end
     object ToolsDuplicateCheckerAction: TAction
       Category = '&Tools'
       Caption = '&Duplicate Checker...'
       Hint = 'Check duplicate text blocks'
-      ImageIndex = 77
+      ImageIndex = 73
       OnExecute = ToolsDuplicateCheckerActionExecute
     end
     object ToolsUnicodeCharacterMapAction: TAction
@@ -1766,21 +1766,21 @@ object MainForm: TMainForm
       Hint = 
         'Insert unicode characters to active document by double clicking ' +
         'a character'
-      ImageIndex = 78
+      ImageIndex = 116
       OnExecute = ToolsUnicodeCharacterMapActionExecute
     end
     object ToolsLanguageEditorAction: TAction
       Category = '&Tools'
       Caption = '&Language Editor...'
       Hint = 'Language editor'
-      ImageIndex = 57
+      ImageIndex = 117
       OnExecute = ToolsLanguageEditorActionExecute
     end
     object ToolsOptionsAction: TAction
       Category = '&Tools'
       Caption = 'O&ptions...'
       Hint = 'Set options'
-      ImageIndex = 79
+      ImageIndex = 136
       OnExecute = ToolsOptionsActionExecute
     end
     object SelectLanguageAction: TAction
@@ -1790,7 +1790,7 @@ object MainForm: TMainForm
       Tag = 1
       Category = 'T&oggle Bookmarks'
       Caption = 'Bookmark &1'
-      ImageIndex = 42
+      ImageIndex = 12
       ShortCut = 24625
       OnExecute = ToggleBookmarksActionExecute
     end
@@ -1798,7 +1798,7 @@ object MainForm: TMainForm
       Tag = 1
       Category = 'Go to Bookmarks'
       Caption = 'Bookmark &1'
-      ImageIndex = 42
+      ImageIndex = 12
       ShortCut = 16433
       OnExecute = GotoBookmarksActionExecute
     end
@@ -1806,7 +1806,7 @@ object MainForm: TMainForm
       Tag = 2
       Category = 'T&oggle Bookmarks'
       Caption = 'Bookmark &2'
-      ImageIndex = 43
+      ImageIndex = 13
       ShortCut = 24626
       OnExecute = ToggleBookmarksActionExecute
     end
@@ -1814,7 +1814,7 @@ object MainForm: TMainForm
       Tag = 3
       Category = 'T&oggle Bookmarks'
       Caption = 'Bookmark &3'
-      ImageIndex = 44
+      ImageIndex = 14
       ShortCut = 24627
       OnExecute = ToggleBookmarksActionExecute
     end
@@ -1822,7 +1822,7 @@ object MainForm: TMainForm
       Tag = 4
       Category = 'T&oggle Bookmarks'
       Caption = 'Bookmark &4'
-      ImageIndex = 45
+      ImageIndex = 15
       ShortCut = 24628
       OnExecute = ToggleBookmarksActionExecute
     end
@@ -1830,7 +1830,7 @@ object MainForm: TMainForm
       Tag = 5
       Category = 'T&oggle Bookmarks'
       Caption = 'Bookmark &5'
-      ImageIndex = 46
+      ImageIndex = 16
       ShortCut = 24629
       OnExecute = ToggleBookmarksActionExecute
     end
@@ -1838,7 +1838,7 @@ object MainForm: TMainForm
       Tag = 6
       Category = 'T&oggle Bookmarks'
       Caption = 'Bookmark &6'
-      ImageIndex = 47
+      ImageIndex = 17
       ShortCut = 24630
       OnExecute = ToggleBookmarksActionExecute
     end
@@ -1846,7 +1846,7 @@ object MainForm: TMainForm
       Tag = 7
       Category = 'T&oggle Bookmarks'
       Caption = 'Bookmark &7'
-      ImageIndex = 48
+      ImageIndex = 18
       ShortCut = 24631
       OnExecute = ToggleBookmarksActionExecute
     end
@@ -1854,7 +1854,7 @@ object MainForm: TMainForm
       Tag = 8
       Category = 'T&oggle Bookmarks'
       Caption = 'Bookmark &8'
-      ImageIndex = 49
+      ImageIndex = 19
       ShortCut = 24632
       OnExecute = ToggleBookmarksActionExecute
     end
@@ -1862,7 +1862,7 @@ object MainForm: TMainForm
       Tag = 9
       Category = 'T&oggle Bookmarks'
       Caption = 'Bookmark &9'
-      ImageIndex = 50
+      ImageIndex = 20
       ShortCut = 24633
       OnExecute = ToggleBookmarksActionExecute
     end
@@ -1870,7 +1870,7 @@ object MainForm: TMainForm
       Tag = 2
       Category = 'Go to Bookmarks'
       Caption = 'Bookmark &2'
-      ImageIndex = 43
+      ImageIndex = 13
       ShortCut = 16434
       OnExecute = GotoBookmarksActionExecute
     end
@@ -1878,7 +1878,7 @@ object MainForm: TMainForm
       Tag = 3
       Category = 'Go to Bookmarks'
       Caption = 'Bookmark &3'
-      ImageIndex = 44
+      ImageIndex = 14
       ShortCut = 16435
       OnExecute = GotoBookmarksActionExecute
     end
@@ -1886,7 +1886,7 @@ object MainForm: TMainForm
       Tag = 4
       Category = 'Go to Bookmarks'
       Caption = 'Bookmark &4'
-      ImageIndex = 45
+      ImageIndex = 15
       ShortCut = 16436
       OnExecute = GotoBookmarksActionExecute
     end
@@ -1894,7 +1894,7 @@ object MainForm: TMainForm
       Tag = 5
       Category = 'Go to Bookmarks'
       Caption = 'Bookmark &5'
-      ImageIndex = 46
+      ImageIndex = 16
       ShortCut = 16437
       OnExecute = GotoBookmarksActionExecute
     end
@@ -1902,7 +1902,7 @@ object MainForm: TMainForm
       Tag = 6
       Category = 'Go to Bookmarks'
       Caption = 'Bookmark &6'
-      ImageIndex = 47
+      ImageIndex = 17
       ShortCut = 16438
       OnExecute = GotoBookmarksActionExecute
     end
@@ -1910,7 +1910,7 @@ object MainForm: TMainForm
       Tag = 7
       Category = 'Go to Bookmarks'
       Caption = 'Bookmark &7'
-      ImageIndex = 48
+      ImageIndex = 18
       ShortCut = 16439
       OnExecute = GotoBookmarksActionExecute
     end
@@ -1918,7 +1918,7 @@ object MainForm: TMainForm
       Tag = 8
       Category = 'Go to Bookmarks'
       Caption = 'Bookmark &8'
-      ImageIndex = 49
+      ImageIndex = 19
       ShortCut = 16440
       OnExecute = GotoBookmarksActionExecute
     end
@@ -1926,7 +1926,7 @@ object MainForm: TMainForm
       Tag = 9
       Category = 'Go to Bookmarks'
       Caption = 'Bookmark &9'
-      ImageIndex = 50
+      ImageIndex = 20
       ShortCut = 16441
       OnExecute = GotoBookmarksActionExecute
     end
@@ -1934,28 +1934,28 @@ object MainForm: TMainForm
       Category = '&Delete'
       Caption = 'W&hitespace'
       Hint = 'Remove all whitespace from selected text'
-      ImageIndex = 27
+      ImageIndex = 59
       OnExecute = EditRemoveWhiteSpaceActionExecute
     end
     object FilePropertiesAction: TAction
       Category = '&File'
       Caption = 'Pr&operties'
       Hint = 'See the file properties'
-      ImageIndex = 12
+      ImageIndex = 157
       OnExecute = FilePropertiesActionExecute
     end
     object SearchGotoLineAction: TAction
       Category = '&Search'
       Caption = 'Go to &Line'
       Hint = 'Go to Line'
-      ImageIndex = 53
+      ImageIndex = 97
       ShortCut = 16455
       OnExecute = SearchGotoLineActionExecute
     end
     object FileReopenClearAction: TAction
       Category = '&Reopen'
       Caption = '&Clear'
-      ImageIndex = 23
+      ImageIndex = 58
       OnExecute = FileReopenClearActionExecute
     end
     object SelectReopenFileAction: TAction
@@ -1965,7 +1965,7 @@ object MainForm: TMainForm
       Category = '&Insert'
       Caption = '&HTML/XML Tags...'
       Hint = 'Insert HTML/XML tags'
-      ImageIndex = 21
+      ImageIndex = 207
       ShortCut = 24660
       OnExecute = EditInsertTagActionExecute
     end
@@ -1973,7 +1973,7 @@ object MainForm: TMainForm
       Category = '&Insert'
       Caption = '&Date and Time'
       Hint = 'Insert date and time'
-      ImageIndex = 22
+      ImageIndex = 55
       ShortCut = 41028
       OnExecute = EditInsertDateTimeActionExecute
     end
@@ -1981,7 +1981,7 @@ object MainForm: TMainForm
       Category = '&File'
       Caption = 'Select from Directory'
       Hint = 'Select the file from the active directory'
-      ImageIndex = 84
+      ImageIndex = 214
       OnExecute = FileSelectFromDirectoryActionExecute
     end
     object DirectorySearchFindInFilesAction: TAction

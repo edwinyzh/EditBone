@@ -3043,12 +3043,12 @@ function TDocumentFrame.GetMacroRecordPauseImageIndex: Integer;
 var
   SynEdit: TBCSynEdit;
 begin
-  Result := Lib.IMAGEINDEX_RECORD;
+  Result := IMAGE_INDEX_RECORD;
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     if Assigned(SynEdit.SynMacroRecorder) then
        if SynEdit.SynMacroRecorder.State = msRecording then
-         Result := Lib.IMAGEINDEX_PAUSE
+         Result := IMAGE_INDEX_PAUSE
 end;
 
 function TDocumentFrame.IsRecordingMacro: Boolean;

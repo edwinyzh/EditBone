@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ActnList,
   Vcl.ComCtrls, Vcl.ToolWin, BCControls.ToolBar, Vcl.ExtCtrls, Vcl.ImgList, BCControls.ImageList, VirtualTrees,
-  Vcl.AppEvnts, BCControls.Edit, System.Actions;
+  Vcl.AppEvnts, BCControls.Edit, System.Actions, BCCommon.Images;
 
 type
   TValueType = (vtString, vtPickString);
@@ -28,7 +28,6 @@ type
     FileNewAction: TAction;
     FileOpenAction: TAction;
     FileSaveAction: TAction;
-    ImageList: TBCImageList;
     NewToolButton: TToolButton;
     OpenToolButton: TToolButton;
     SaveToolBar: TBCToolBar;
@@ -491,18 +490,18 @@ begin
   if TranslationNeeded then
     Data.Value[4] := 'Translation needed';
   if Pos('About Language File', NodeText) <> 0 then
-    Data.ImageIndex := 7
+    Data.ImageIndex := 107
   else
   if Pos('Dialog', NodeText) <> 0 then
-    Data.ImageIndex := 4
+    Data.ImageIndex := 1
   else
   if Pos('Frame', NodeText) <> 0 then
-    Data.ImageIndex := 5
+    Data.ImageIndex := 53
   else
   if Pos('Form', NodeText) <> 0 then
-    Data.ImageIndex := 6
+    Data.ImageIndex := 2
   else
-    Data.ImageIndex := 3;
+    Data.ImageIndex := 29;
   Data.Level := 0;
 end;
 
