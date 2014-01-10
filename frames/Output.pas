@@ -46,6 +46,7 @@ type
     FProcessingPage: TTabSheet;
     FTabsheetDblClick: TNotifyEvent;
     FOpenAll: TOpenAllEvent;
+    FErrorTabSheet: TTabSheet;
     function GetCount: Integer;
     function GetIsAnyOutput: Boolean;
     function GetIsEmpty: Boolean;
@@ -60,13 +61,16 @@ type
   public
     { Public declarations }
     function SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
-    function AddTreeView(TabCaption: string; AutoExpand: Boolean = False): TVirtualDrawTree;
+    function AddErrorTreeView: TVirtualDrawTree;
+    function AddTreeView(TabCaption: string): TVirtualDrawTree;
     procedure AddTreeViewLine(OutputTreeView: TVirtualDrawTree; var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString = '');
-    procedure Clear;
+    //procedure Clear;
     procedure CloseTabSheet;
     procedure UpdateControls;
     procedure ReadOutputFile;
     procedure SetOptions;
+    procedure ShowErrorTabSheet;
+    procedure CloseErrorTabSheet;
     procedure WriteOutputFile;
     property Count: Integer read GetCount;
     property IsAnyOutput: Boolean read GetIsAnyOutput;
@@ -171,7 +175,59 @@ begin
     end;
 end;
 
-function TOutputFrame.AddTreeView(TabCaption: string; AutoExpand: Boolean): TVirtualDrawTree;
+procedure TOutputFrame.ShowErrorTabSheet;
+begin
+  if Assigned(FErrorTabSheet) then
+  begin
+    PageControl.ActivePage := FErrorTabSheet;
+    FErrorTabSheet.TabVisible := True;
+  end;
+end;
+
+procedure TOutputFrame.CloseErrorTabSheet;
+begin
+  if Assigned(FErrorTabSheet) then
+    FreeAndNil(FErrorTabSheet)
+end;
+
+function TOutputFrame.AddErrorTreeView: TVirtualDrawTree;
+var
+  OutputTabSheetFrame: TOutputTabSheetFrame;
+begin
+  { check if there already is a tab with same name }
+  if Assigned(FErrorTabSheet) then
+  begin
+    Result := GetOutputTabSheetFrame(FErrorTabSheet).VirtualDrawTree;
+    if Assigned(Result) then
+      Result.Clear;
+    Exit;
+  end;
+
+  FErrorTabSheet := TTabSheet.Create(PageControl);
+  FErrorTabSheet.PageControl := PageControl;
+  FErrorTabSheet.TabVisible := False;
+  FErrorTabSheet.ImageIndex := 170; { errors }
+  FErrorTabSheet.Caption := LanguageDataModule.GetConstant('Errors');
+
+  OutputTabSheetFrame := TOutputTabSheetFrame.Create(FErrorTabSheet);
+  with OutputTabSheetFrame do
+  begin
+    Parent := FErrorTabSheet;
+    with VirtualDrawTree do
+    begin
+      TreeOptions.AutoOptions := VirtualDrawTree.TreeOptions.AutoOptions + [toAutoExpand];
+      OnDrawNode := VirtualDrawTreeDrawNode;
+      OnFreeNode := VirtualDrawTreeFreeNode;
+      OnGetNodeWidth := VirtualDrawTreeGetNodeWidth;
+      OnDblClick := TabsheetDblClick;
+      NodeDataSize := SizeOf(TOutputRec);
+    end;
+    Result := VirtualDrawTree;
+  end;
+  UpdateControls;
+end;
+
+function TOutputFrame.AddTreeView(TabCaption: string): TVirtualDrawTree;
 var
   TabSheet: TTabSheet;
   OutputTabSheetFrame: TOutputTabSheetFrame;
@@ -179,18 +235,16 @@ begin
   { check if there already is a tab with same name }
   if TabFound(TabCaption) then
   begin
-    Self.Clear;
     Result := GetOutputTabSheetFrame(PageControl.ActivePage).VirtualDrawTree;
+    if Assigned(Result) then
+      Result.Clear;
     Exit;
   end;
 
   TabSheet := TTabSheet.Create(PageControl);
   TabSheet.PageControl := PageControl;
   TabSheet.TabVisible := False;
-  if TabCaption = LanguageDataModule.GetConstant('Errors') then
-    TabSheet.ImageIndex := 1 { errors }
-  else
-    TabSheet.ImageIndex := 0; { find in files }
+  TabSheet.ImageIndex := 82; { find in files }
   TabSheet.Caption := TabCaption;
   PageControl.ActivePage := TabSheet;
 
@@ -200,8 +254,6 @@ begin
     Parent := TabSheet;
     with VirtualDrawTree do
     begin
-      if AutoExpand then
-        TreeOptions.AutoOptions := VirtualDrawTree.TreeOptions.AutoOptions + [toAutoExpand];
       OnDrawNode := VirtualDrawTreeDrawNode;
       OnFreeNode := VirtualDrawTreeFreeNode;
       OnGetNodeWidth := VirtualDrawTreeGetNodeWidth;
@@ -212,7 +264,6 @@ begin
   end;
   UpdateControls;
   TabSheet.TabVisible := True;
-  Self.Clear;
 end;
 
 procedure TOutputFrame.VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree;
@@ -439,7 +490,7 @@ begin
   Application.ProcessMessages;
 end;
 
-procedure TOutputFrame.Clear;
+{procedure TOutputFrame.Clear;
 var
   OutputTreeView: TVirtualDrawTree;
 begin
@@ -449,7 +500,7 @@ begin
     OutputTreeView.Clear;
     OutputTreeView.Tag := 0;
   end;
-end;
+end;}
 
 function TOutputFrame.SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
 var
@@ -569,7 +620,7 @@ begin
   if PageControl.PageCount > 0 then
   begin
     PageControl.TabClosed := True;
-    Self.Clear;
+    //Self.Clear;
     ActivePageIndex := PageControl.ActivePageIndex;
     { Fixed Delphi Bug: http://qc.embarcadero.com/wc/qcmain.aspx?d=5473 }
     if (ActivePageIndex = PageControl.PageCount - 1) and (PageControl.PageCount > 1) then

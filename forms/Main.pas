@@ -1463,9 +1463,8 @@ begin
   ErrorList := FDocumentFrame.GetHTMLErrors;
   if Assigned(ErrorList) then
   begin
-    OutputTreeView := FOutputFrame.AddTreeView(LanguageDataModule.GetConstant('Errors'), True);
+    OutputTreeView := FOutputFrame.AddErrorTreeView;
     FOutputFrame.ProcessingTabSheet := True;
-    FOutputFrame.Clear;
     if ErrorList.Count > 0 then
     begin
       Root := nil;
@@ -1475,15 +1474,16 @@ begin
         FOutputFrame.AddTreeViewLine(OutputTreeView, Root, OutputObject.FileName, OutputObject.Ln, OutputObject.Ch,
           String(OutputObject.Text));
       end;
-      OutputPanel.Visible := True;
     end
     else
     begin
       FOutputFrame.ProcessingTabSheet := False;
-      FOutputFrame.CloseTabSheet;
+      FOutputFrame.CloseErrorTabSheet;
     end;
+    FOutputFrame.ShowErrorTabSheet;
+    OutputPanel.Visible := True;
     FOutputFrame.ProcessingTabSheet := False;
-  end;
+  end
 end;
 
 procedure TMainForm.DummyActionExecute(Sender: TObject);
