@@ -37,6 +37,8 @@ type
     FilesMenuItem: TMenuItem;
     DirectoryFindInFilesAction: TAction;
     FindinFilesMenuItem: TMenuItem;
+    ContextMenuAction: TAction;
+    ContextMenu1: TMenuItem;
     procedure DirectoryCloseActionExecute(Sender: TObject);
     procedure DirectoryDeleteActionExecute(Sender: TObject);
     procedure DirectoryEditActionExecute(Sender: TObject);
@@ -51,6 +53,7 @@ type
     procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure PopupMenuPopup(Sender: TObject);
     procedure DirectoryFilesActionExecute(Sender: TObject);
+    procedure ContextMenuActionExecute(Sender: TObject);
   private
     { Private declarations }
     FTabsheetDblClick: TNotifyEvent;
@@ -96,8 +99,18 @@ implementation
 {$R *.dfm}
 
 uses
-  DirectoryTab, BCCommon.StyleUtils, BigIni, BCCommon.LanguageStrings, BCCommon.OptionsContainer,
+  DirectoryTab, BCCommon.StyleUtils, BigIni, BCCommon.LanguageStrings, BCCommon.OptionsContainer, JclShell,
   System.Math, BCCommon.FileUtils, BCCommon.Messages, BCCommon.Dialogs, BCCommon.StringUtils;
+
+procedure TDirectoryFrame.ContextMenuActionExecute(Sender: TObject);
+var
+  s: string;
+begin
+  s := SelectedFile;
+  if s = '' then
+    s := SelectedPath;
+  DisplayContextMenu(Handle, s, ScreenToClient(Mouse.CursorPos));
+end;
 
 constructor TDirectoryFrame.Create(AOwner: TComponent);
 begin

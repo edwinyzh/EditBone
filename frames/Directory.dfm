@@ -82,6 +82,11 @@ object DirectoryFrame: TDirectoryFrame
       Hint = 'Search for a string in multiple files'
       ImageIndex = 82
     end
+    object ContextMenuAction: TAction
+      Caption = 'C&ontext Menu'
+      ImageIndex = 247
+      OnExecute = ContextMenuActionExecute
+    end
   end
   object PopupMenu: TBCPopupMenu
     Images = ImagesDataModule.ImageList
@@ -125,6 +130,9 @@ object DirectoryFrame: TDirectoryFrame
     end
     object Separator3MenuItem: TMenuItem
       Caption = '-'
+    end
+    object ContextMenu1: TMenuItem
+      Action = ContextMenuAction
     end
     object PropertiesMenuItem: TMenuItem
       Action = DirectoryPropertiesAction

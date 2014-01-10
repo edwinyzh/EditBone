@@ -70,6 +70,7 @@ object MainForm: TMainForm
       Top = 0
       Width = 529
       Height = 30
+      UseSystemFont = False
       ActionManager = ActionManager
       Align = alNone
       Color = clMenuBar
@@ -78,7 +79,7 @@ object MainForm: TMainForm
       ColorMap.BtnSelectedFont = clBlack
       ColorMap.UnusedColor = clWhite
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clMenuText
+      Font.Color = clBlack
       Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = []
