@@ -895,6 +895,9 @@ begin
   ViewDirectoryAction.Enabled := FDirectoryFrame.IsAnyDirectory;
   ViewDirectoryAction.Checked := DirectoryPanel.Visible;
   HorizontalSplitter.Visible := OutputPanel.Visible;
+  { fix for rare splitter bug - set output panel under splitter }
+  if OutputPanel.Visible then
+    OutputPanel.Top := HorizontalSplitter.Top + HorizontalSplitter.Height;
 
   ViewHighlighterSelectionAction.Checked := HighlighterComboBox.Visible;
   ViewEncodingSelectionAction.Checked := EncodingComboBox.Visible;
