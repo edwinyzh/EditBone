@@ -5,8 +5,8 @@ interface
 uses
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Buttons, Vcl.ComCtrls,
   Vcl.ActnList, Vcl.ImgList, JvExComCtrls, JvComCtrls, Vcl.Menus, BCControls.PopupMenu, VirtualTrees,
-  Vcl.PlatformDefaultStyleActnCtrls, Vcl.ActnPopup, BCControls.ImageList, Vcl.Themes, OutputTabSheet,
-  BCControls.PageControl, System.Actions;
+  Vcl.PlatformDefaultStyleActnCtrls, Vcl.ActnPopup, Vcl.Themes, OutputTabSheet, BCControls.PageControl, System.Actions,
+  BCCommon.Images;
 
 type
   TOpenAllEvent = procedure(var FileNames: TStrings);
@@ -16,7 +16,6 @@ type
     CloseAllOtherPagesAction: TAction;
     CloseAllOtherPagesMenuItem: TMenuItem;
     CloseMenuItem: TMenuItem;
-    ImageList: TBCImageList;
     OutputActionList: TActionList;
     OutputCloseAction: TAction;
     OutputCloseAllAction: TAction;
@@ -639,7 +638,7 @@ begin
   PageControl.RightClickSelect := OptionsContainer.OutputRightClickSelect;
 
   if OptionsContainer.OutputShowImage then
-    PageControl.Images := ImageList
+    PageControl.Images := ImagesDataModule.ImageList
   else
     PageControl.Images := nil;
   for i := 0 to PageControl.PageCount - 1 do

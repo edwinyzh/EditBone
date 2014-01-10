@@ -4,8 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ActnList,
-  Vcl.ComCtrls, Vcl.ToolWin, BCControls.ToolBar, Vcl.ExtCtrls, Vcl.ImgList, BCControls.ImageList, VirtualTrees,
-  Vcl.AppEvnts, BCControls.Edit, System.Actions, BCCommon.Images;
+  Vcl.ComCtrls, Vcl.ToolWin, BCControls.ToolBar, Vcl.ExtCtrls, Vcl.ImgList, VirtualTrees, Vcl.AppEvnts, BCControls.Edit,
+  System.Actions, BCCommon.Images;
 
 type
   TValueType = (vtString, vtPickString);
@@ -496,7 +496,7 @@ begin
     Data.ImageIndex := 1
   else
   if Pos('Frame', NodeText) <> 0 then
-    Data.ImageIndex := 53
+    Data.ImageIndex := 3
   else
   if Pos('Form', NodeText) <> 0 then
     Data.ImageIndex := 2

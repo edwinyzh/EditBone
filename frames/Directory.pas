@@ -8,7 +8,8 @@ uses
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ComCtrls,
   BCControls.FileControl, Vcl.ImgList, Vcl.ActnList, Vcl.Buttons, Vcl.Menus, JvExComCtrls, JvComCtrls,
   BCControls.PopupMenu, BCControls.PageControl, Vcl.ActnPopup, Vcl.Themes, Vcl.PlatformDefaultStyleActnCtrls,
-  BCControls.ImageList, VirtualTrees, DirectoryTabSheet, System.Actions, BCForms.SearchForFiles;
+  VirtualTrees, DirectoryTabSheet, System.Actions, BCForms.SearchForFiles,
+  BCCommon.Images;
 
 type
   TDirectoryFrame = class(TFrame)
@@ -23,7 +24,6 @@ type
     DirectoryRefreshAction: TAction;
     DirectoryRenameAction: TAction;
     EditDirectoryMenuItem: TMenuItem;
-    ImagesList: TBCImageList;
     OpenDirectoryMenuItem: TMenuItem;
     PageControl: TBCPageControl;
     PopupMenu: TBCPopupMenu;
