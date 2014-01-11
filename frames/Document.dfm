@@ -1,8 +1,8 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 305
+  Width = 880
+  Height = 636
   Align = alClient
   DoubleBuffered = False
   ParentDoubleBuffered = False
@@ -10,7 +10,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 880
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -22,28 +22,31 @@ object DocumentFrame: TDocumentFrame
       Left = 434
       Top = 0
       Width = 89
-      Height = 13
+      Height = 21
       Align = alLeft
       Caption = 'Whole Words Only'
       Layout = tlCenter
+      ExplicitHeight = 13
     end
     object RegularExpressionLabel: TLabel
       Left = 550
       Top = 0
       Width = 92
-      Height = 13
+      Height = 21
       Align = alLeft
       Caption = 'Regular Expression'
       Layout = tlCenter
+      ExplicitHeight = 13
     end
     object WildCardLabel: TLabel
       Left = 669
       Top = 0
       Width = 46
-      Height = 13
+      Height = 21
       Align = alLeft
       Caption = 'Wild Card'
       Layout = tlCenter
+      ExplicitHeight = 13
     end
     object SearchPanel1: TPanel
       Left = 0
@@ -134,9 +137,10 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 50
-        Height = 13
+        Height = 18
         Align = alLeft
         Caption = 'Search for'
+        ExplicitHeight = 13
       end
     end
     object SearchPanel3: TPanel
@@ -346,10 +350,11 @@ object DocumentFrame: TDocumentFrame
         Left = 0
         Top = 2
         Width = 70
-        Height = 13
+        Height = 19
         Align = alLeft
         Caption = 'Case Sensitive'
         Layout = tlCenter
+        ExplicitHeight = 13
       end
       object WholeWordsCheckBox: TBCCheckBox
         Left = 78
@@ -410,8 +415,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 451
-    Height = 259
+    Width = 880
+    Height = 590
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -422,8 +427,8 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 451
-      Height = 257
+      Width = 880
+      Height = 588
       Align = alClient
       DoubleBuffered = False
       ParentDoubleBuffered = False
@@ -441,8 +446,8 @@ object DocumentFrame: TDocumentFrame
   end
   object GotoLinePanel: TPanel
     Left = 0
-    Top = 280
-    Width = 451
+    Top = 611
+    Width = 880
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
@@ -541,9 +546,10 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 48
-        Height = 13
+        Height = 20
         Align = alLeft
         Caption = 'Go to Line'
+        ExplicitHeight = 13
       end
     end
     object LineNumberPanel: TPanel
@@ -2487,7 +2493,7 @@ object DocumentFrame: TDocumentFrame
   end
   object SynHP48Syn: TSynHP48Syn
     Tag = 25
-    BaseRange = rsRpl
+    BaseRange = rsAsm
     Left = 382
     Top = 318
   end

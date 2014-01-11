@@ -1633,7 +1633,9 @@ begin
         OutputTreeView := FOutputFrame.AddTreeView(Format(LanguageDataModule.GetConstant('SearchFor'), [FindWhatText]));
         FOutputFrame.ProcessingTabSheet := True;
         Application.ProcessMessages;
+        OutputTreeView.ScrollBarOptions.ScrollBars := System.UITypes.TScrollStyle.ssNone;
         FindInFiles(OutputTreeView, FindWhatText, FileTypeText, FolderText, SearchCaseSensitive, LookInSubfolders);
+        OutputTreeView.ScrollBarOptions.ScrollBars := System.UITypes.TScrollStyle.ssBoth;
       finally
         FProgressBar.Hide;
         T2 := Now;

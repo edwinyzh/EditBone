@@ -428,7 +428,7 @@ begin
     Exit;
   if not Assigned(OutputTreeView) then
     Exit;
-
+  OutputTreeView.BeginUpdate;
   if not Assigned(Root) then
   begin
     Root := OutputTreeView.GetFirst;
@@ -486,7 +486,7 @@ begin
     NodeData.Text := s;
     OutputTreeView.Tag := OutputTreeView.Tag + 1;
   end;
-
+  OutputTreeView.EndUpdate;
   Application.ProcessMessages;
 end;
 
