@@ -304,21 +304,17 @@
         <DCCReference Include="..\..\Common\units\IniPersist.pas"/>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsFrame.pas">
             <Form>OptionsFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\units\BCCommon.Images.pas">
             <Form>ImagesDataModule</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\Common\dialogs\BCDialogs.OptionsToolBarItems.pas">
             <Form>OptionsToolBarItemsDialog</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\..\Common\frames\BCFrames.OptionsToolBar.pas">
             <Form>OptionsToolBarFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <BuildConfiguration Include="Debug">

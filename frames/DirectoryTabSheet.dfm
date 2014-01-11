@@ -2,14 +2,14 @@ object DirTabSheetFrame: TDirTabSheetFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 302
+  Height = 305
   Align = alClient
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
     Width = 451
-    Height = 302
+    Height = 305
     Margins.Left = 0
     Margins.Top = 0
     Margins.Right = 0
@@ -26,7 +26,7 @@ object DirTabSheetFrame: TDirTabSheetFrame
       Left = 1
       Top = 26
       Width = 447
-      Height = 250
+      Height = 253
       Align = alClient
       DragOperations = []
       EditDelay = 500
@@ -71,7 +71,7 @@ object DirTabSheetFrame: TDirTabSheetFrame
     object FileTypeComboBox: TBCFileTypeComboBox
       AlignWithMargins = True
       Left = 1
-      Top = 279
+      Top = 282
       Width = 447
       Height = 21
       Margins.Left = 0
@@ -80,6 +80,7 @@ object DirTabSheetFrame: TDirTabSheetFrame
       Align = alBottom
       FileTreeViewUpdateDelay = 500
       FileTreeView = FileTreeView
+      FileType = '*.*'
       TabOrder = 2
       Text = '*.*'
     end

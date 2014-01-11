@@ -1216,6 +1216,7 @@ begin
   FDirectoryFrame.WriteIniFile;
   FOutputFrame.WriteOutputFile;
   WriteIniFile;
+  OptionsContainer.Free;
 end;
 
 procedure OutputOpenAllEvent(var FileNames: TStrings);
