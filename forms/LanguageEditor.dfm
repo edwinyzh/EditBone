@@ -96,7 +96,6 @@ object LanguageEditorForm: TLanguageEditorForm
       Header.Font.Style = []
       Header.Height = 20
       Header.Options = [hoColumnResize, hoShowSortGlyphs, hoVisible]
-      Images = ImagesDataModule.ImageList
       ParentCtl3D = False
       TabOrder = 0
       TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand]
@@ -180,7 +179,6 @@ object LanguageEditorForm: TLanguageEditorForm
       Height = 23
       Align = alLeft
       ButtonHeight = 23
-      Images = ImagesDataModule.ImageList
       TabOrder = 0
       object NewToolButton: TToolButton
         Left = 0
@@ -201,7 +199,6 @@ object LanguageEditorForm: TLanguageEditorForm
       Align = alLeft
       ButtonHeight = 23
       Caption = 'ZoomToolBar'
-      Images = ImagesDataModule.ImageList
       TabOrder = 1
       object SaveToolButton: TToolButton
         Left = 0
@@ -216,7 +213,6 @@ object LanguageEditorForm: TLanguageEditorForm
       Height = 23
       Align = alLeft
       ButtonHeight = 23
-      Images = ImagesDataModule.ImageList
       TabOrder = 2
       object CloseToolButton: TToolButton
         Left = 0
@@ -226,7 +222,6 @@ object LanguageEditorForm: TLanguageEditorForm
     end
   end
   object ActionList: TActionList
-    Images = ImagesDataModule.ImageList
     Left = 186
     Top = 72
     object FileNewAction: TAction

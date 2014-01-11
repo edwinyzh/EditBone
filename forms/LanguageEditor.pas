@@ -425,9 +425,9 @@ procedure TLanguageEditorForm.VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; 
 var
   Data: PObjectNodeRec;
 begin
-  inherited;
   Data := VirtualDrawTree.GetNodeData(Node);
   Finalize(Data^);
+  inherited;
 end;
 
 procedure TLanguageEditorForm.VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree;

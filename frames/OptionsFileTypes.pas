@@ -198,9 +198,9 @@ procedure TOptionsFileTypesFrame.VirtualDrawTreeFreeNode(Sender: TBaseVirtualTre
 var
   Data: PTreeData;
 begin
-  inherited;
   Data := Sender.GetNodeData(Node);
   Finalize(Data^);
+  inherited;
 end;
 
 procedure TOptionsFileTypesFrame.VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas;

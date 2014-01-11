@@ -402,9 +402,9 @@ procedure TOutputFrame.VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: P
 var
   Data: POutputRec;
 begin
-  inherited;
   Data := Sender.GetNodeData(Node);
   Finalize(Data^);
+  inherited;
 end;
 
 procedure TOutputFrame.AddTreeViewLine(OutputTreeView: TVirtualDrawTree; var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString);

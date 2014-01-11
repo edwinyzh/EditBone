@@ -81,7 +81,6 @@ object OptionsForm: TOptionsForm
       Header.Font.Name = 'Tahoma'
       Header.Font.Style = []
       Header.MainColumn = -1
-      Images = ImagesDataModule.ImageList
       SelectionBlendFactor = 255
       TabOrder = 0
       TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
@@ -165,7 +164,6 @@ object OptionsForm: TOptionsForm
     end
   end
   object ActionList: TActionList
-    Images = ImagesDataModule.ImageList
     Left = 136
     Top = 36
     object EditorAction: TAction

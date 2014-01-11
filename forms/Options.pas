@@ -333,9 +333,9 @@ procedure TOptionsForm.OptionsVirtualStringTreeFreeNode(Sender: TBaseVirtualTree
 var
   Data: POptionsRec;
 begin
-  inherited;
   Data := Sender.GetNodeData(Node);
   Finalize(Data^);
+  inherited;
 end;
 
 procedure TOptionsForm.OptionsVirtualStringTreeGetImageIndex(Sender: TBaseVirtualTree;
