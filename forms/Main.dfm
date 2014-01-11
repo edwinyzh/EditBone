@@ -91,9 +91,9 @@ object MainForm: TMainForm
       Left = 834
       Top = 2
       Width = 130
-      Height = 21
+      Height = 22
       Align = alRight
-      Style = csDropDownList
+      Style = csOwnerDrawFixed
       DropDownCount = 57
       TabOrder = 1
       OnChange = EncodingComboBoxChange
@@ -123,9 +123,9 @@ object MainForm: TMainForm
         Left = 4
         Top = 0
         Width = 130
-        Height = 21
+        Height = 22
         Align = alRight
-        Style = csDropDownList
+        Style = csOwnerDrawFixed
         DropDownCount = 57
         TabOrder = 0
         OnChange = HighlighterComboBoxChange

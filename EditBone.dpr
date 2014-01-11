@@ -11,6 +11,8 @@ uses
   Vcl.Themes,
   Vcl.ComCtrls,
   Vcl.Styles,
+  BCCommon.Images in '..\..\Common\units\BCCommon.Images.pas' {ImagesDataModule: TDataModule},
+  Main in 'forms\Main.pas' {MainForm},
   BCCommon.LanguageStrings in '..\..\Common\units\BCCommon.LanguageStrings.pas' {LanguageDataModule: TDataModule},
   Directory in 'frames\Directory.pas' {DirectoryFrame: TFrame},
   Output in 'frames\Output.pas' {OutputFrame: TFrame},
@@ -25,7 +27,6 @@ uses
   Diff in '..\..\Common\units\Diff.pas',
   BCCommon.Hash in '..\..\Common\units\BCCommon.Hash.pas',
   DirectoryTab in 'dialogs\DirectoryTab.pas' {DirectoryTabDialog},
-  Main in 'forms\Main.pas' {MainForm},
   BCCommon.StyleUtils in '..\..\Common\units\BCCommon.StyleUtils.pas',
   BCDialogs.DownloadURL in '..\..\Common\dialogs\BCDialogs.DownloadURL.pas' {DownloadURLDialog},
   BCFrames.Compare in '..\..\Common\frames\BCFrames.Compare.pas' {CompareFrame: TFrame},
@@ -72,7 +73,6 @@ uses
   BCCommon.OptionsContainer in '..\..\Common\units\BCCommon.OptionsContainer.pas',
   IniPersist in '..\..\Common\units\IniPersist.pas',
   BCFrames.OptionsFrame in '..\..\Common\frames\BCFrames.OptionsFrame.pas' {OptionsFrame: TFrame},
-  BCCommon.Images in '..\..\Common\units\BCCommon.Images.pas' {ImagesDataModule: TDataModule},
   BCDialogs.OptionsToolBarItems in '..\..\Common\dialogs\BCDialogs.OptionsToolBarItems.pas' {OptionsToolBarItemsDialog},
   BCFrames.OptionsToolBar in '..\..\Common\frames\BCFrames.OptionsToolBar.pas' {OptionsToolBarFrame: TFrame};
 

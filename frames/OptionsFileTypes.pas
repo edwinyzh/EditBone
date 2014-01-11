@@ -18,6 +18,7 @@ type
     procedure VirtualDrawTreeClick(Sender: TObject);
     procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode;
       Column: TColumnIndex; var NodeWidth: Integer);
+    procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
   private
     { Private declarations }
   public
@@ -191,6 +192,15 @@ begin
       DrawTextW(Canvas.Handle, PWideChar(S), Length(S), R, Format)
     end;
   end;
+end;
+
+procedure TOptionsFileTypesFrame.VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
+var
+  Data: PTreeData;
+begin
+  inherited;
+  Data := Sender.GetNodeData(Node);
+  Finalize(Data^);
 end;
 
 procedure TOptionsFileTypesFrame.VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas;

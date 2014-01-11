@@ -1,14 +1,14 @@
 inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
   Width = 208
-  Height = 255
+  Height = 298
   Visible = False
   ExplicitWidth = 208
-  ExplicitHeight = 255
+  ExplicitHeight = 298
   object Panel: TPanel
     Left = 0
     Top = 0
     Width = 201
-    Height = 255
+    Height = 281
     BevelOuter = bvNone
     TabOrder = 0
     object CPASHighlighterLabel: TLabel
@@ -57,12 +57,12 @@ inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
       Left = 4
       Top = 146
       Width = 186
-      Height = 21
+      Height = 22
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Style = csDropDownList
+      Style = csOwnerDrawFixed
       DropDownCount = 9
       TabOrder = 0
       DeniedKeyStrokes = True
@@ -73,12 +73,12 @@ inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
       Left = 4
       Top = 103
       Width = 186
-      Height = 21
+      Height = 22
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Style = csDropDownList
+      Style = csOwnerDrawFixed
       DropDownCount = 9
       TabOrder = 1
       DeniedKeyStrokes = True
@@ -89,12 +89,12 @@ inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
       Left = 4
       Top = 16
       Width = 186
-      Height = 21
+      Height = 22
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Style = csDropDownList
+      Style = csOwnerDrawFixed
       DropDownCount = 9
       TabOrder = 2
       DeniedKeyStrokes = True
@@ -105,12 +105,12 @@ inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
       Left = 4
       Top = 59
       Width = 186
-      Height = 21
+      Height = 22
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Style = csDropDownList
+      Style = csOwnerDrawFixed
       DropDownCount = 9
       TabOrder = 3
       DeniedKeyStrokes = True
@@ -121,12 +121,12 @@ inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
       Left = 4
       Top = 190
       Width = 186
-      Height = 21
+      Height = 22
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Style = csDropDownList
+      Style = csOwnerDrawFixed
       DropDownCount = 9
       TabOrder = 4
       Items.Strings = (
@@ -145,12 +145,12 @@ inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
       Left = 4
       Top = 234
       Width = 186
-      Height = 21
+      Height = 22
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Style = csDropDownList
+      Style = csOwnerDrawFixed
       DropDownCount = 9
       TabOrder = 5
       Items.Strings = (

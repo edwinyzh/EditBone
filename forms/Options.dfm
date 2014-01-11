@@ -93,7 +93,6 @@ object OptionsForm: TOptionsForm
       OnGetText = OptionsVirtualStringTreeGetText
       OnPaintText = OptionsVirtualStringTreePaintText
       OnGetImageIndex = OptionsVirtualStringTreeGetImageIndex
-      ExplicitLeft = 9
       Columns = <>
     end
     object OptionsPanel: TPanel

@@ -83,7 +83,6 @@ inherited OptionsFileTypesFrame: TOptionsFileTypesFrame
       Header.Font.Style = []
       Header.Height = 20
       Header.Options = [hoAutoResize, hoShowSortGlyphs, hoVisible, hoAutoSpring]
-      Images = ImagesDataModule.ImageList
       Indent = 0
       ParentCtl3D = False
       SelectionBlendFactor = 255
@@ -94,6 +93,7 @@ inherited OptionsFileTypesFrame: TOptionsFileTypesFrame
       WantTabs = True
       OnClick = VirtualDrawTreeClick
       OnDrawNode = VirtualDrawTreeDrawNode
+      OnFreeNode = VirtualDrawTreeFreeNode
       OnGetNodeWidth = VirtualDrawTreeGetNodeWidth
       Columns = <
         item

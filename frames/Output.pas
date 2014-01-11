@@ -402,18 +402,9 @@ procedure TOutputFrame.VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: P
 var
   Data: POutputRec;
 begin
+  inherited;
   Data := Sender.GetNodeData(Node);
-
-  if Assigned(Data) then
-  begin
-    Data^.Level := 0;
-    Data^.Filename := '';
-    Data^.Ln := 0;
-    Data^.Ch := 0;
-    Data^.TextCh := 0;
-    Data^.Text := '';
-    Data^.SearchString := '';
-  end;
+  Finalize(Data^);
 end;
 
 procedure TOutputFrame.AddTreeViewLine(OutputTreeView: TVirtualDrawTree; var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString);

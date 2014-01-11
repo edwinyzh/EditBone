@@ -1,14 +1,14 @@
 inherited OptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame
   Width = 278
-  Height = 62
+  Height = 80
   Visible = False
   ExplicitWidth = 278
-  ExplicitHeight = 62
+  ExplicitHeight = 80
   object Panel: TPanel
     Left = 0
     Top = 0
     Width = 278
-    Height = 62
+    Height = 71
     BevelOuter = bvNone
     TabOrder = 0
     object HTMLVersionLabel: TLabel
@@ -38,12 +38,12 @@ inherited OptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame
       Left = 4
       Top = 41
       Width = 186
-      Height = 21
+      Height = 22
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Style = csDropDownList
+      Style = csOwnerDrawFixed
       TabOrder = 1
       DeniedKeyStrokes = True
       ReadOnly = False

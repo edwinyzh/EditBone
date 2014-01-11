@@ -95,7 +95,6 @@
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <DCC_UnitSearchPath>C:\Bonecode XE4\Common\units;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_Define>EDITBONE;$(DCC_Define)</DCC_Define>
         <VerInfo_MinorVer>6</VerInfo_MinorVer>
         <VerInfo_MajorVer>8</VerInfo_MajorVer>
@@ -108,7 +107,7 @@
         <VerInfo_MinorVer>6</VerInfo_MinorVer>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=8.6.0.0;InternalName=;LegalCopyright=Copyright © 2010-2014 Lasse Rautiainen. All Rights Reserved.;LegalTrademarks=;OriginalFilename=;ProductName=EditBone;ProductVersion=8.6.0;Comments=</VerInfo_Keys>
         <VerInfo_MajorVer>8</VerInfo_MajorVer>
-        <DCC_UnitSearchPath>C:\Bonecode XE4\Components\src\UniSynEdit\Source;C:\Bonecode XE4\Components\src\SynWeb\Source;C:\Bonecode XE4\Components\src\VirtualTreeView\Source;C:\Bonecode XE4\Components\src\Controls;C:\Bonecode XE4\Common\units;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>C:\Bonecode XE4\Components\src\UniSynEdit\Source;C:\Bonecode XE4\Components\src\SynWeb\Source;C:\Bonecode XE4\Components\src\VirtualTreeView\Source;C:\Bonecode XE4\Components\src\Controls;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
@@ -117,14 +116,13 @@
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <DCC_UnitSearchPath>C:\Bonecode XE4\Common\units;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_Define>EDITBONE;$(DCC_Define)</DCC_Define>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <DCC_Define>EDITBONE;$(DCC_Define)</DCC_Define>
-        <DCC_UnitSearchPath>C:\Bonecode XE4\Components\src\UniSynEdit\Source;C:\Bonecode XE4\Components\src\VirtualTreeView\Source;C:\Bonecode XE4\Components\src\Controls;C:\Bonecode XE4\Components\src\SynWeb\Source;C:\Bonecode XE4\Common\units;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>C:\Bonecode XE4\Components\src\UniSynEdit\Source;C:\Bonecode XE4\Components\src\VirtualTreeView\Source;C:\Bonecode XE4\Components\src\Controls;C:\Bonecode XE4\Components\src\SynWeb\Source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
@@ -132,6 +130,13 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
+        <DCCReference Include="..\..\Common\units\BCCommon.Images.pas">
+            <Form>ImagesDataModule</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="forms\Main.pas">
+            <Form>MainForm</Form>
+        </DCCReference>
         <DCCReference Include="..\..\Common\units\BCCommon.LanguageStrings.pas">
             <Form>LanguageDataModule</Form>
             <DesignClass>TDataModule</DesignClass>
@@ -171,9 +176,6 @@
         <DCCReference Include="..\..\Common\units\BCCommon.Hash.pas"/>
         <DCCReference Include="dialogs\DirectoryTab.pas">
             <Form>DirectoryTabDialog</Form>
-        </DCCReference>
-        <DCCReference Include="forms\Main.pas">
-            <Form>MainForm</Form>
         </DCCReference>
         <DCCReference Include="..\..\Common\units\BCCommon.StyleUtils.pas"/>
         <DCCReference Include="..\..\Common\dialogs\BCDialogs.DownloadURL.pas">
@@ -306,10 +308,6 @@
             <Form>OptionsFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="..\..\Common\units\BCCommon.Images.pas">
-            <Form>ImagesDataModule</Form>
-            <DesignClass>TDataModule</DesignClass>
-        </DCCReference>
         <DCCReference Include="..\..\Common\dialogs\BCDialogs.OptionsToolBarItems.pas">
             <Form>OptionsToolBarItemsDialog</Form>
         </DCCReference>
@@ -370,6 +368,7 @@
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k190.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dclofficexp190.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\RAD Studio\12.0\Bpl\Common.bpl">File C:\Users\Public\Documents\RAD Studio\12.0\Bpl\Common.bpl not found</Excluded_Packages>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Platforms>

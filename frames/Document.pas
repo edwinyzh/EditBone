@@ -370,7 +370,7 @@ implementation
 
 uses
   BCForms.PrintPreview, BCDialogs.Replace, BCDialogs.ConfirmReplace, Lib, BCCommon.OptionsContainer,
-  BCCommon.StyleUtils, VirtualTrees, Vcl.ActnMenus, SynTokenMatch, SynHighlighterWebMisc, System.Types, Winapi.ShellAPI,
+  BCCommon.StyleUtils, Vcl.ActnMenus, SynTokenMatch, SynHighlighterWebMisc, System.Types, Winapi.ShellAPI,
   System.WideStrings, System.Math, Main, BigIni, Vcl.GraphUtil, SynUnicode, BCCommon.LanguageStrings, BCCommon.Dialogs,
   SynEditTextBuffer, BCCommon.Encoding, InsertTag, BCCommon.LanguageUtils, BCCommon.FileUtils, BCCommon.Messages,
   BCCommon.Lib, BCCommon.StringUtils, Winapi.CommCtrl, SynEditPrintTypes, Options, BCCommon.Images,

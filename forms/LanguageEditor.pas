@@ -423,18 +423,11 @@ end;
 
 procedure TLanguageEditorForm.VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
 var
-  i: Integer;
   Data: PObjectNodeRec;
 begin
   inherited;
   Data := VirtualDrawTree.GetNodeData(Node);
-  if Assigned(Data) then
-  begin
-    Data^.Level := 0;
-    for i := 0 to 3 do
-      Data^.Value[i] := '';
-    Data^.ImageIndex := 0;
-  end;
+  Finalize(Data^);
 end;
 
 procedure TLanguageEditorForm.VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree;

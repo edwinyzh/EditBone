@@ -206,6 +206,7 @@ procedure TDocTabSheetFrame.VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; No
 var
   Data: PXMLTreeRec;
 begin
+  inherited;
   Data := Sender.GetNodeData(Node);
   Finalize(Data^);
 end;
