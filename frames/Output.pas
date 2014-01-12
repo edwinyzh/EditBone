@@ -90,7 +90,7 @@ uses
   Lib, BCCommon.OptionsContainer, BCCommon.Lib, BCCommon.StyleUtils, System.Math, System.UITypes, Vcl.Clipbrd, BCCommon.Messages,
   BCCommon.LanguageStrings, BCCommon.FileUtils, BCCommon.StringUtils;
 
-constructor TOutputFrame.Create(AOwner: TComponent); override;
+constructor TOutputFrame.Create(AOwner: TComponent);
 begin
   inherited;
   { IDE can lose there properties }
