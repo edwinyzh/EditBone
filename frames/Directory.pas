@@ -37,7 +37,7 @@ type
     FilesMenuItem: TMenuItem;
     DirectoryFindInFilesAction: TAction;
     FindinFilesMenuItem: TMenuItem;
-    ContextMenuAction: TAction;
+    DirectoryContextMenuAction: TAction;
     ContextMenu1: TMenuItem;
     procedure DirectoryCloseActionExecute(Sender: TObject);
     procedure DirectoryDeleteActionExecute(Sender: TObject);
@@ -53,7 +53,7 @@ type
     procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure PopupMenuPopup(Sender: TObject);
     procedure DirectoryFilesActionExecute(Sender: TObject);
-    procedure ContextMenuActionExecute(Sender: TObject);
+    procedure DirectoryContextMenuActionExecute(Sender: TObject);
   private
     { Private declarations }
     FTabsheetDblClick: TNotifyEvent;
@@ -102,7 +102,7 @@ uses
   DirectoryTab, BCCommon.StyleUtils, BigIni, BCCommon.LanguageStrings, BCCommon.OptionsContainer, JclShell,
   System.Math, BCCommon.FileUtils, BCCommon.Messages, BCCommon.Dialogs, BCCommon.StringUtils;
 
-procedure TDirectoryFrame.ContextMenuActionExecute(Sender: TObject);
+procedure TDirectoryFrame.DirectoryContextMenuActionExecute(Sender: TObject);
 var
   s: string;
 begin

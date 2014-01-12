@@ -1259,6 +1259,7 @@ var
   end;
 
 begin
+  ActionToolBar.Visible := False;
   ActionBarItem := ActionManager.ActionBars[1];
   ToolBarItems := TStringList.Create;
   with TBigIniFile.Create(GetIniFilename) do
@@ -1307,6 +1308,7 @@ begin
   finally
     Free;
     ToolBarItems.Free;
+    ActionToolBar.Visible := True;
   end;
 end;
 
