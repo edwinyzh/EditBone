@@ -25,6 +25,7 @@ object OutputFrame: TOutputFrame
     OnDblClick = PageControlDblClick
   end
   object OutputActionList: TActionList
+    Images = ImagesDataModule.ImageList
     Left = 72
     Top = 52
     object OutputCloseAction: TAction
@@ -59,6 +60,7 @@ object OutputFrame: TOutputFrame
     end
   end
   object PopupMenu: TBCPopupMenu
+    Images = ImagesDataModule.ImageList
     Left = 266
     Top = 124
     object CloseMenuItem: TMenuItem

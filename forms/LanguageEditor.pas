@@ -195,6 +195,12 @@ begin
   StatusBar.Font.Name := 'Tahoma';
   StatusBar.Font.Size := 8;
   VirtualDrawTree.NodeDataSize := SizeOf(TObjectNodeRec);
+  { IDE can lose these properties }
+  StandardToolBar.Images := ImagesDataModule.ImageList;
+  SaveToolBar.Images := ImagesDataModule.ImageList;
+  CloseToolBar.Images := ImagesDataModule.ImageList;
+  ActionList.Images := ImagesDataModule.ImageList;
+  VirtualDrawTree.Images := ImagesDataModule.ImageList;
 end;
 
 procedure TLanguageEditorForm.FormDestroy(Sender: TObject);

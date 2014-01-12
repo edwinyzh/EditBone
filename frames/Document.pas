@@ -393,7 +393,7 @@ begin
   FModifiedDocuments := False;
   FHTMLErrorList := TList.Create;
 
-  { IDE will lose these, if the main form is not open }
+  { IDE can lose these properties }
   EditorPopupMenu.Images := ImagesDataModule.ImageList;
   CutMenuItem.Action := MainForm.EditCutAction;
   CopyMenuItem.Action := MainForm.EditCopyAction;

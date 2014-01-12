@@ -1348,6 +1348,9 @@ begin
   {$IFDEF RELEASE}
   ToolsDuplicateCheckerAction.Visible := False;
   {$ENDIF}
+  { IDE can lose these properties }
+  ActionManager.Images := ImagesDataModule.ImageList;
+  DocumentPopupMenu.Images := ImagesDataModule.ImageList;
 end;
 
 procedure TMainForm.FormKeyDown(Sender: TObject; var Key: Word;

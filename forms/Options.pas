@@ -423,6 +423,9 @@ end;
 procedure TOptionsForm.FormCreate(Sender: TObject);
 begin
   OptionsVirtualStringTree.NodeDataSize := SizeOf(TOptionsRec);
+  { IDE can lose these properties }
+  ActionList.Images := ImagesDataModule.ImageList;
+  OptionsVirtualStringTree.Images := ImagesDataModule.ImageList;
 end;
 
 procedure TOptionsForm.FormShow(Sender: TObject);

@@ -60,6 +60,7 @@ type
     function CheckCancel: Boolean;
   public
     { Public declarations }
+    constructor Create(AOwner: TComponent); override;
     function SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
     function AddErrorTreeView: TVirtualDrawTree;
     function AddTreeView(TabCaption: string): TVirtualDrawTree;
@@ -88,6 +89,14 @@ implementation
 uses
   Lib, BCCommon.OptionsContainer, BCCommon.Lib, BCCommon.StyleUtils, System.Math, System.UITypes, Vcl.Clipbrd, BCCommon.Messages,
   BCCommon.LanguageStrings, BCCommon.FileUtils, BCCommon.StringUtils;
+
+constructor TOutputFrame.Create(AOwner: TComponent); override;
+begin
+  inherited;
+  { IDE can lose there properties }
+  OutputActionList.Images := ImagesDataModule.ImageList;
+  PopupMenu.Images := ImagesDataModule.ImageList;
+end;
 
 procedure TOutputFrame.OpenAllActionExecute(Sender: TObject);
 begin

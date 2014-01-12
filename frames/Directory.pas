@@ -116,6 +116,9 @@ constructor TDirectoryFrame.Create(AOwner: TComponent);
 begin
   inherited;
   ReadIniFile;
+  { IDE can lose there properties }
+  DirectoryActionList.Images := ImagesDataModule.ImageList;
+  PopupMenu.Images := ImagesDataModule.ImageList;
 end;
 
 procedure TDirectoryFrame.SetSearchForFilesAction(Action: TAction);
