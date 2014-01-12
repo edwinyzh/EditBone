@@ -1259,7 +1259,6 @@ var
   end;
 
 begin
-  ActionToolBar.Visible := False;
   ActionBarItem := ActionManager.ActionBars[1];
   ToolBarItems := TStringList.Create;
   with TBigIniFile.Create(GetIniFilename) do
@@ -1269,6 +1268,7 @@ begin
     EraseSection('ToolBarItemsChanged');
     if IsChanged then
     begin
+      ActionToolBar.Visible := False;
       { read items from ini }
       ReadSectionValues('ToolBarItems', ToolBarItems);
       if ToolBarItems.Count > 0 then
@@ -1292,6 +1292,7 @@ begin
           end;
         end;
       end;
+      ActionToolBar.Visible := True;
     end
     else
     begin
@@ -1308,7 +1309,6 @@ begin
   finally
     Free;
     ToolBarItems.Free;
-    ActionToolBar.Visible := True;
   end;
 end;
 
