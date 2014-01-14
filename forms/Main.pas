@@ -291,7 +291,7 @@ type
     FEncoding: TEncoding;
     function GetStringList(Filename: string): TStringList;
     function GetActionClientItem(MenuItemIndex, SubMenuItemIndex: Integer): TActionClientItem;
-    procedure CreateActionToolBar;
+    procedure CreateActionToolBar(CreateToolBar: Boolean = False);
     procedure CreateFrames;
     procedure CreateLanguageMenu;
     procedure CreateProgressBar;
@@ -1239,7 +1239,7 @@ begin
   end;
 end;
 
-procedure TMainForm.CreateActionToolBar;
+procedure TMainForm.CreateActionToolBar(CreateToolBar: Boolean);
 var
   i: Integer;
   s: string;
@@ -1266,7 +1266,7 @@ begin
     { update if changed }
     IsChanged := ReadBool('ToolBarItemsChanged', 'Changed', False);
     EraseSection('ToolBarItemsChanged');
-    if IsChanged then
+    if IsChanged or CreateToolBar then
     begin
       ActionToolBar.Visible := False;
       { read items from ini }
@@ -1342,7 +1342,7 @@ begin
   BCCommon.LanguageStrings.ReadLanguageFile(GetSelectedLanguage('English'));
   FImageListCount := ImagesDataModule.ImageList.Count; { System images are appended after menu icons }
   ReadIniOptions;
-  CreateActionToolBar;
+  CreateActionToolBar(True);
   CreateFrames;
   UpdateStatusBar;
   ReadIniSizePositionAndState;
