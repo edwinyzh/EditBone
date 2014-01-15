@@ -43,6 +43,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Header.MainColumn = -1
       TabOrder = 0
       Visible = False
+      OnClick = VirtualDrawTreeClick
       OnDrawNode = VirtualDrawTreeDrawNode
       OnFreeNode = VirtualDrawTreeFreeNode
       OnGetImageIndex = VirtualDrawTreeGetImageIndex

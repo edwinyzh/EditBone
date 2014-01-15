@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls,
   Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, VirtualTrees, SynEdit, BCControls.SynEdit, Xml.XMLIntf, Xml.Win.msxmldom,
-  Xml.XMLDoc, Vcl.ActnList, SynEditHighlighter, SynURIOpener, SynHighlighterURI, SynCompletionProposal, Xml.xmldom;
+  Xml.XMLDoc, Vcl.ActnList, SynEditHighlighter, SynURIOpener, SynHighlighterURI, SynCompletionProposal, Xml.xmldom,
+  BCControls.ProgressBar;
 
 type
   PXMLTreeRec = ^TXMLTreeRec;
@@ -14,6 +15,8 @@ type
     NodeType: TNodeType;
     NodeName: string;
     NodeValue: string;
+    BlockBegin: TBufferCoord;
+    BlockEnd: TBufferCoord;
   end;
 
   TDocTabSheetFrame = class(TFrame)
@@ -42,9 +45,12 @@ type
       var x, y: Integer; var CanExecute: Boolean);
     procedure SynEditRightEdgeMouseUp(Sender: TObject);
     procedure SplitSynEditRightEdgeMouseUp(Sender: TObject);
+    procedure VirtualDrawTreeClick(Sender: TObject);
   private
     { Private declarations }
     FModified: Boolean;
+    FProgressBar: TBCProgressBar;
+    FXMLNodeCount: Integer;
     function GetSplitVisible: Boolean;
     function GetMinimapVisible: Boolean;
     function GetXMLTreeVisible: Boolean;
@@ -52,6 +58,7 @@ type
     procedure SetSplitVisible(Value: Boolean);
     procedure SetMinimapVisible(Value: Boolean);
     procedure SetXMLTreeVisible(Value: Boolean);
+    procedure SetBlockData;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -60,6 +67,7 @@ type
     property SplitVisible: Boolean read GetSplitVisible write SetSplitVisible;
     property MinimapVisible: Boolean read GetMinimapVisible write SetMinimapVisible;
     property XMLTreeVisible: Boolean read GetXMLTreeVisible write SetXMLTreeVisible;
+    property ProgressBar: TBCProgressBar read FProgressBar write FProgressBar;
   end;
 
 implementation
@@ -67,7 +75,8 @@ implementation
 {$R *.dfm}
 
 uses
-  Vcl.Themes, BCCommon.OptionsContainer, BCCommon.StyleUtils, BCCommon.StringUtils, System.Math, BCCommon.Math;
+  Vcl.Themes, BCCommon.OptionsContainer, BCCommon.StyleUtils, BCCommon.StringUtils, System.Math, BCCommon.Math,
+  SynEditTypes;
 
 const
   TAG_ZERO = 0;
@@ -96,6 +105,7 @@ end;
 function TDocTabSheetFrame.GetXMLTreeVisible: Boolean;
 begin
   Result := VirtualDrawTree.Visible;
+  Application.ProcessMessages;
 end;
 
 procedure TDocTabSheetFrame.SetXMLTreeVisible(Value: Boolean);
@@ -135,6 +145,64 @@ end;
 function IsNameNodeType(NodeType: TNodeType): Boolean;
 begin
   Result := (Ord(NodeType) <> 3) and (Ord(NodeType) <> 4) and (Ord(NodeType) <> 8);
+end;
+
+procedure TDocTabSheetFrame.SetBlockData;
+var
+  S: string;
+  Data: PXMLTreeRec;
+  Node: PVirtualNode;
+
+  procedure SetData(Node: PVirtualNode);
+  begin
+    Data := VirtualDrawTree.GetNodeData(Node);
+
+    if IsNameNodeType(Data.NodeType) then
+      S := Data.NodeName
+    else
+      S := Data.NodeValue;
+
+    if Data.NodeType = ntElement then
+      S := '<' + S;
+
+    SynEdit.SearchReplace(S, '', [], True);
+
+    Data.BlockBegin := SynEdit.BlockBegin;
+    Data.BlockEnd := SynEdit.BlockEnd;
+
+    if Data.NodeType = ntElement then
+      Inc(Data.BlockBegin.Char);
+  end;
+
+begin
+  SynEdit.SetCaretXYEx(False, BufferCoord(0, 0));
+  FProgressBar.Count := FXMLNodeCount;
+  FProgressBar.Show;
+  Node := VirtualDrawTree.GetFirst;
+  while Assigned(Node) do
+  begin
+    SetData(Node);
+    FProgressBar.StepIt;
+    Application.ProcessMessages;
+    Node := VirtualDrawTree.GetNext(Node);
+  end;
+  FProgressBar.Hide;
+end;
+
+procedure TDocTabSheetFrame.VirtualDrawTreeClick(Sender: TObject);
+var
+  SelectedNode: PVirtualNode;
+  Data: PXMLTreeRec;
+begin
+  SelectedNode := VirtualDrawTree.GetFirstSelected;
+  if Assigned(SelectedNode) then
+  begin
+    Data := VirtualDrawTree.GetNodeData(SelectedNode);
+    SynEdit.SetCaretXYEx(True, Data.BlockBegin);
+    SynEdit.EnsureCursorPosVisibleEx(True);
+    SynEdit.BlockBegin := Data.BlockBegin;
+    SynEdit.BlockEnd := Data.BlockEnd;
+  end;
 end;
 
 procedure TDocTabSheetFrame.VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree;
@@ -214,31 +282,31 @@ end;
 procedure TDocTabSheetFrame.VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
   Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
 var
-  TreeNode: PXMLTreeRec;
+  Data: PXMLTreeRec;
 begin
   if Kind in [ikNormal, ikSelected] then
   begin
-    TreeNode := VirtualDrawTree.GetNodeData(Node);
-    ImageIndex := Ord(TreeNode.NodeType);
+    Data := VirtualDrawTree.GetNodeData(Node);
+    ImageIndex := Ord(Data.NodeType);
   end;
 end;
 
 procedure TDocTabSheetFrame.VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas;
   Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
 var
-  TreeNode: PXMLTreeRec;
+  Data: PXMLTreeRec;
   AMargin: Integer;
 begin
   with Sender as TVirtualDrawTree do
   begin
     AMargin := TextMargin;
-    TreeNode := Sender.GetNodeData(Node);
-    if Assigned(TreeNode) then
+    Data := Sender.GetNodeData(Node);
+    if Assigned(Data) then
     begin
-      if IsNameNodeType(TreeNode.NodeType) then
-        NodeWidth := Canvas.TextWidth(TreeNode.NodeName) + 2 * AMargin
+      if IsNameNodeType(Data.NodeType) then
+        NodeWidth := Canvas.TextWidth(Data.NodeName) + 2 * AMargin
       else
-        NodeWidth := Canvas.TextWidth(TreeNode.NodeValue) + 2 * AMargin
+        NodeWidth := Canvas.TextWidth(Data.NodeValue) + 2 * AMargin
     end;
   end;
 end;
@@ -251,12 +319,12 @@ end;
 procedure TDocTabSheetFrame.VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
   Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
 var
-  TreeNode: PXMLTreeRec;
+  Data: PXMLTreeRec;
 begin
   inherited;
-  TreeNode := VirtualDrawTree.GetNodeData(Node);
-  if Assigned(TreeNode) then
-    if TreeNode.HasChildNodes then //or (UpperCase(TreeNode.Data.NodeName) = 'XML') then
+  Data := VirtualDrawTree.GetNodeData(Node);
+  if Assigned(Data) then
+    if Data.HasChildNodes then //or (UpperCase(TreeNode.Data.NodeName) = 'XML') then
       Include(InitialStates, ivsHasChildren);
 end;
 
@@ -286,22 +354,23 @@ end;
 function TDocTabSheetFrame.ProcessNode(Node: IXMLNode; TreeNode: PVirtualNode): PVirtualNode;
 var
   i: Integer;
-  NodeData: PXMLTreeRec;
+  Data: PXMLTreeRec;
 begin
+  Inc(FXMLNodeCount);
   Result := VirtualDrawTree.AddChild(TreeNode);
 
-  NodeData := VirtualDrawTree.GetNodeData(Result);
-  NodeData.HasChildNodes := Node.HasChildNodes; // and (Node.NodeType <> ntAttribute);
-  NodeData.NodeType := Node.NodeType;
-  NodeData.NodeName := Node.NodeName;
+  Data := VirtualDrawTree.GetNodeData(Result);
+  Data.HasChildNodes := Node.HasChildNodes; // and (Node.NodeType <> ntAttribute);
+  Data.NodeType := Node.NodeType;
+  Data.NodeName := Node.NodeName;
   if Node.NodeName = '#text' then
-    NodeData.NodeValue := Node.NodeValue;
+    Data.NodeValue := Node.NodeValue;
 
   { attributes }
   for i := 0 to Node.AttributeNodes.Count - 1 do
     ProcessNode(Node.AttributeNodes.Get(i), Result);
 
-  if Assigned(TreeNode) and NodeData.HasChildNodes then
+  if Assigned(TreeNode) and Data.HasChildNodes then
     for i := 0 to Node.ChildNodes.Count - 1 do
       ProcessNode(Node.ChildNodes.Get(i), Result);
 end;
@@ -313,6 +382,7 @@ var
   Node: PVirtualNode;
 begin
   try
+    FXMLNodeCount := 0;
     XMLDocument.LoadFromXML(XML);
 
     VirtualDrawTree.Clear;
@@ -324,7 +394,6 @@ begin
     while Assigned(XMLNode) do
     begin
       Node := ProcessNode(XMLNode, Node);
-
       if XMLNode.HasChildNodes then
         for i := 0 to XMLNode.ChildNodes.Count - 1 do
           ProcessNode(XMLNode.ChildNodes.Get(i), Node);
@@ -333,6 +402,8 @@ begin
     VirtualDrawTree.Expanded[VirtualDrawTree.GetFirst] := True;
   finally
     VirtualDrawTree.EndUpdate;
+    Application.ProcessMessages;
+    SetBlockData;
   end;
 end;
 

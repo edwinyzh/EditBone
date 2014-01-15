@@ -1378,6 +1378,7 @@ begin
   { Style change will call the FormShow }
   if FOnStartUp then
   begin
+    CreateProgressBar;
     if not FDocumentFrame.ReadIniOpenFiles and (ParamCount = 0) or
       (ParamCount = 1) and (ParamStr(1) = PARAM_NO_INI) then
       FDocumentFrame.New;
@@ -1394,7 +1395,6 @@ begin
     CreateLanguageMenu;
     CreateStyleMenu;
     CreateFileReopenList;
-    CreateProgressBar;
 
     UpdateControls;
 
