@@ -820,6 +820,13 @@ object MainForm: TMainForm
           item
             Items = <
               item
+                Action = ToolsOptionsAction
+                ImageIndex = 136
+              end
+              item
+                Caption = '-'
+              end
+              item
                 Action = CompareFilesAction
                 ImageIndex = 31
               end
@@ -841,13 +848,6 @@ object MainForm: TMainForm
               item
                 Action = ToolsLanguageEditorAction
                 ImageIndex = 117
-              end
-              item
-                Caption = '-'
-              end
-              item
-                Action = ToolsOptionsAction
-                ImageIndex = 136
               end>
             Caption = '&Tools'
           end

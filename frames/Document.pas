@@ -1480,9 +1480,7 @@ var
   DocTabSheetFrame: TDocTabSheetFrame;
   SynEdit: TBCSynEdit;
 begin
-  SearchPanel.Show; // Visible := True;
-  //if SearchPanel.Visible then
-  //begin
+  SearchPanel.Show;
   DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
   if DocTabSheetFrame.SplitSynEdit.Focused then
     SynEdit := DocTabSheetFrame.SplitSynEdit
@@ -1497,7 +1495,6 @@ begin
     SynEdit.CaretXY := BufferCoord(0, 0);
     DoSearch(SynEdit);
   end;
-  //end;
 end;
 
 procedure TDocumentFrame.DoSearch(SynEdit: TBCSynEdit);
@@ -2087,10 +2084,9 @@ end;
 
 procedure TDocumentFrame.GotoLine;
 begin
-  GotoLinePanel.Visible := not GotoLinePanel.Visible;
-  if GotoLinePanel.Visible then
-    if GotoLineNumberEdit.CanFocus then
-      GotoLineNumberEdit.SetFocus;
+  GotoLinePanel.Show;
+  if GotoLineNumberEdit.CanFocus then
+    GotoLineNumberEdit.SetFocus;
 end;
 
 procedure TDocumentFrame.GotoLineClearActionExecute(Sender: TObject);

@@ -1137,7 +1137,7 @@ begin
   if FDocumentFrame.ActiveDocumentName <> '' then
     if Assigned(FDirectoryFrame) then
       if FDirectoryFrame.IsAnyDirectory then
-        FDirectoryFrame.OpenPath(ExtractFileDrive(FDocumentFrame.ActiveDocumentName), FDocumentFrame.ActiveDocumentName,
+        FDirectoryFrame.OpenPath(ExtractFileDrive(FDocumentFrame.ActiveDocumentName), FormatFileName(FDocumentFrame.ActiveDocumentName),
           FDirectoryFrame.ExcludeOtherBranches);
 end;
 

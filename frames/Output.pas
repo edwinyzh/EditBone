@@ -246,7 +246,10 @@ begin
   begin
     Result := GetOutputTabSheetFrame(PageControl.ActivePage).VirtualDrawTree;
     if Assigned(Result) then
+    begin
       Result.Clear;
+      Result.Tag := 0;
+    end;
     Exit;
   end;
 
