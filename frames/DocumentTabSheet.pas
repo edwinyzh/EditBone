@@ -165,7 +165,7 @@ var
     if Data.NodeType = ntElement then
       S := '<' + S;
 
-    SynEdit.SearchReplace(S, '', [], True);
+    SynEdit.SearchReplace(S, '', []);
 
     Data.BlockBegin := SynEdit.BlockBegin;
     Data.BlockEnd := SynEdit.BlockEnd;
