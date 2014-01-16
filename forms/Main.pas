@@ -1266,6 +1266,20 @@ begin
     { update if changed }
     IsChanged := ReadBool('ToolBarItemsChanged', 'Changed', False);
     EraseSection('ToolBarItemsChanged');
+
+    if not SectionExists('ToolBarItems') then
+    begin
+      { if items doesn't exist in ini, create them }
+      for i := 0 to ActionBarItem.Items.Count - 1 do
+      begin
+        ActionClientItem := ActionBarItem.Items[i];
+        if Assigned(ActionClientItem.Action) then
+          WriteString('ToolBarItems', IntToStr(i), ActionClientItem.Action.Name)
+        else
+          WriteString('ToolBarItems', IntToStr(i), '-')
+      end;
+    end;
+
     if IsChanged or CreateToolBar then
     begin
       ActionToolBar.Visible := False;
@@ -1294,18 +1308,6 @@ begin
       end;
       ActionToolBar.Visible := True;
     end
-    else
-    begin
-      { if items doesn't exist in ini, create them }
-      for i := 0 to ActionBarItem.Items.Count - 1 do
-      begin
-        ActionClientItem := ActionBarItem.Items[i];
-        if Assigned(ActionClientItem.Action) then
-          WriteString('ToolBarItems', IntToStr(i), ActionClientItem.Action.Name)
-        else
-          WriteString('ToolBarItems', IntToStr(i), '-')
-      end;
-    end;
   finally
     Free;
     ToolBarItems.Free;
