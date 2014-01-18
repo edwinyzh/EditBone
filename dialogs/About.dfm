@@ -562,10 +562,12 @@ object AboutDialog: TAboutDialog
     Margins.Bottom = 2
     Align = alBottom
     BevelOuter = bvNone
+    Padding.Left = 8
     Padding.Top = 8
     Padding.Right = 8
     Padding.Bottom = 8
     TabOrder = 3
+    OnClick = BottomPanelClick
     object OKButton: TButton
       Left = 292
       Top = 8
@@ -577,6 +579,17 @@ object AboutDialog: TAboutDialog
       Default = True
       ModalResult = 1
       TabOrder = 0
+    end
+    object DonationsButton: TButton
+      Left = 8
+      Top = 8
+      Width = 75
+      Height = 25
+      Align = alLeft
+      Cancel = True
+      Caption = 'Donations'
+      TabOrder = 1
+      ExplicitTop = 16
     end
   end
 end

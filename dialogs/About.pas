@@ -23,10 +23,12 @@ type
     ThanksToPanel: TPanel;
     TopPanel: TPanel;
     VersionLabel: TLabel;
+    DonationsButton: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure LinkClick(Sender: TObject; const Link: string; LinkType: TSysLinkType);
+    procedure BottomPanelClick(Sender: TObject);
   private
     function GetVersion: string;
   public
@@ -63,6 +65,12 @@ procedure TAboutDialog.LinkClick(Sender: TObject;
   const Link: string; LinkType: TSysLinkType);
 begin
   BrowseURL(Link);
+end;
+
+procedure TAboutDialog.BottomPanelClick(Sender: TObject);
+begin
+  inherited;
+  BrowseURL(DONATION_URL);
 end;
 
 procedure TAboutDialog.FormClose(Sender: TObject; var Action: TCloseAction);

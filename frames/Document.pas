@@ -2856,7 +2856,7 @@ procedure TDocumentFrame.ToggleCase;
         SynEdit.BeginUpdate;
         SelStart := SynEdit.SelStart;
         SelEnd := SynEdit.SelEnd;
-        { UPPER/lower/toggle case/Title }
+        { UPPERCASE/lowercase/aLtErNaTiNg cAsE/Sentence case/TODO: Title Case/original text }
         case FCaseCycle of
           0: SynEdit.SelText := SynWideUpperCase(FSelectedText);
           1: SynEdit.SelText := SynWideLowerCase(FSelectedText);
