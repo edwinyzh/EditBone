@@ -2,7 +2,7 @@ program EditBone;
 
 uses
   {$ifdef DEBUG}
-  //FastMM4,
+  FastMM4,
   {$endif}
   Forms,
   Windows,

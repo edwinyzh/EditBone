@@ -651,7 +651,6 @@ object MainForm: TMainForm
                     ShortCut = 16441
                   end>
                 Action = SearchGotoBookmarksAction
-                Caption = '&Go to Bookmarks'
                 ImageIndex = 23
                 UsageCount = 1
               end
@@ -1177,7 +1176,7 @@ object MainForm: TMainForm
     end
     object FileSaveAsAction: TAction
       Category = '&File'
-      Caption = 'S&ave As...'
+      Caption = 'S&ave as...'
       Hint = 'Save the active document with a new name'
       ImageIndex = 169
       ShortCut = 49235
@@ -1185,7 +1184,7 @@ object MainForm: TMainForm
     end
     object FileSaveAllAction: TAction
       Category = '&File'
-      Caption = 'Sa&ve All'
+      Caption = 'Sa&ve all'
       Hint = 'Save all documents'
       ImageIndex = 168
       ShortCut = 24659
@@ -1201,14 +1200,14 @@ object MainForm: TMainForm
     end
     object FileCloseAllAction: TAction
       Category = '&File'
-      Caption = 'C&lose All'
+      Caption = 'C&lose all'
       Hint = 'Close all open files'
       ImageIndex = 86
       OnExecute = FileCloseAllActionExecute
     end
     object FileCloseAllOtherPagesAction: TAction
       Category = '&File'
-      Caption = 'Clos&e All Other'
+      Caption = 'Clos&e all other'
       Hint = 'Close all other pages'
       ImageIndex = 87
       ShortCut = 24691
@@ -1224,7 +1223,7 @@ object MainForm: TMainForm
     end
     object FilePrintPreviewAction: TAction
       Category = '&File'
-      Caption = 'Pr&int Preview...'
+      Caption = 'Pr&int preview...'
       Hint = 'Preview the active document'
       ImageIndex = 148
       OnExecute = FilePrintPreviewActionExecute
@@ -1305,7 +1304,7 @@ object MainForm: TMainForm
     end
     object SearchFindInFilesAction: TAction
       Category = '&Search'
-      Caption = '&Find in Files...'
+      Caption = '&Find in files...'
       Hint = 'Search for a string in multiple files'
       ImageIndex = 82
       ShortCut = 24646
@@ -1313,7 +1312,7 @@ object MainForm: TMainForm
     end
     object SearchFindNextAction: TAction
       Category = '&Search'
-      Caption = 'Find &Next'
+      Caption = 'Find &next'
       Hint = 'Find the next matching text'
       ImageIndex = 84
       ShortCut = 114
@@ -1321,7 +1320,7 @@ object MainForm: TMainForm
     end
     object SearchFindPreviousAction: TAction
       Category = '&Search'
-      Caption = 'Find &Previous'
+      Caption = 'Find &previous'
       Hint = 'Find the previous matching text'
       ImageIndex = 83
       ShortCut = 8306
@@ -1334,7 +1333,7 @@ object MainForm: TMainForm
     end
     object ViewOpenDirectoryAction: TAction
       Category = '&View'
-      Caption = '&Open Directory...'
+      Caption = '&Open directory...'
       Hint = 'Open a new directory'
       ImageIndex = 215
       ShortCut = 16452
@@ -1342,7 +1341,7 @@ object MainForm: TMainForm
     end
     object ViewCloseDirectoryAction: TAction
       Category = '&View'
-      Caption = '&Close Directory'
+      Caption = '&Close directory'
       Hint = 'Close the active directory'
       ImageIndex = 216
       ShortCut = 24644
@@ -1350,7 +1349,7 @@ object MainForm: TMainForm
     end
     object ViewEditDirectoryAction: TAction
       Category = '&View'
-      Caption = '&Edit Directory...'
+      Caption = '&Edit directory...'
       Hint = 'Edit the active directory'
       ImageIndex = 217
       ShortCut = 24645
@@ -1404,7 +1403,7 @@ object MainForm: TMainForm
     end
     object ViewStatusBarAction: TAction
       Category = '&View'
-      Caption = 'S&tatus Bar'
+      Caption = 'S&tatus bar'
       Checked = True
       Hint = 'Show or hide the status bar'
       OnExecute = ViewStatusBarActionExecute
@@ -1418,7 +1417,7 @@ object MainForm: TMainForm
     end
     object ViewXMLTreeAction: TAction
       Category = '&View'
-      Caption = '&XML Tree'
+      Caption = '&XML tree'
       Hint = 'Show or hide the XML tree'
       OnExecute = ViewXMLTreeActionExecute
     end
@@ -1436,7 +1435,7 @@ object MainForm: TMainForm
     end
     object ViewNextPageAction: TAction
       Category = '&View'
-      Caption = 'Next &Page'
+      Caption = 'Next &page'
       Hint = 'Go to next page'
       ImageIndex = 194
       ShortCut = 16393
@@ -1444,7 +1443,7 @@ object MainForm: TMainForm
     end
     object ViewPreviousPageAction: TAction
       Category = '&View'
-      Caption = 'P&revious Page'
+      Caption = 'P&revious page'
       Hint = 'Go to previous page'
       ImageIndex = 193
       ShortCut = 24585
@@ -1452,14 +1451,14 @@ object MainForm: TMainForm
     end
     object ViewWordWrapAction: TAction
       Category = '&View'
-      Caption = '&Word Wrap'
+      Caption = '&Word wrap'
       Hint = 'Toggle word wrap'
       ImageIndex = 237
       OnExecute = ViewWordWrapActionExecute
     end
     object ViewLineNumbersAction: TAction
       Category = '&View'
-      Caption = 'Line Num&bers'
+      Caption = 'Line num&bers'
       Checked = True
       Hint = 'Toggle line numbers'
       ImageIndex = 119
@@ -1477,14 +1476,14 @@ object MainForm: TMainForm
     end
     object HelpCheckForUpdatesMenuAction: TAction
       Category = '&Help'
-      Caption = '&Check for Updates'
+      Caption = '&Check for updates'
       Hint = 'Check for updates'
       ImageIndex = 72
       OnExecute = HelpCheckForUpdatesMenuActionExecute
     end
     object HelpHomeAction: TAction
       Category = '&Help'
-      Caption = '&Visit Homepage'
+      Caption = '&Visit homepage'
       Hint = 'Visit EditBone homepage - http://www.bonecode.com/'
       ImageIndex = 98
       OnExecute = HelpHomeActionExecute
@@ -1498,7 +1497,7 @@ object MainForm: TMainForm
     end
     object ViewSpecialCharsAction: TAction
       Category = '&View'
-      Caption = 'Spec&ial Chars'
+      Caption = 'Spec&ial chars'
       GroupIndex = 1
       Hint = 'Toggle special characters'
       ImageIndex = 144
@@ -1514,7 +1513,7 @@ object MainForm: TMainForm
     end
     object CompareFilesAction: TAction
       Category = '&Tools'
-      Caption = '&Compare Files...'
+      Caption = '&Compare files...'
       Hint = 'Compare files'
       ImageIndex = 31
       OnExecute = CompareFilesActionExecute
@@ -1526,7 +1525,7 @@ object MainForm: TMainForm
     end
     object ToolsWordCountAction: TAction
       Category = '&Document'
-      Caption = '&Line, Word and Character Count...'
+      Caption = '&Line, word, and character count...'
       Hint = 'Line, word and character count'
       ImageIndex = 70
       OnExecute = ToolsWordCountActionExecute
@@ -1540,7 +1539,7 @@ object MainForm: TMainForm
     end
     object ViewInBrowserAction: TAction
       Category = '&Document'
-      Caption = '&View in Browser'
+      Caption = '&View in browser'
       Hint = 'View current document in default browser'
       ImageIndex = 236
       ShortCut = 32834
@@ -1548,7 +1547,7 @@ object MainForm: TMainForm
     end
     object ViewSelectionModeAction: TAction
       Category = '&View'
-      Caption = 'Selection &Mode'
+      Caption = 'Selection &mode'
       Hint = 
         'Toggle selection mode. Also pressing Alt on editor will toggle s' +
         'election mode.'
@@ -1557,7 +1556,7 @@ object MainForm: TMainForm
     end
     object SearchToggleBookmarkAction: TAction
       Category = '&Search'
-      Caption = '&Toggle Bookmark'
+      Caption = '&Toggle bookmark'
       Hint = 
         'Set or clear bookmark at current line. Bookmarks can be also set' +
         ' by using Ctrl+Shift+0..9. Go to bookmark by using Ctrl+0..9.'
@@ -1567,7 +1566,7 @@ object MainForm: TMainForm
     end
     object EditSelectAllAction: TAction
       Category = '&Edit'
-      Caption = '&Select All'
+      Caption = '&Select all'
       Hint = 'Select all'
       ImageIndex = 172
       ShortCut = 16449
@@ -1581,7 +1580,7 @@ object MainForm: TMainForm
     end
     object EditInsertLineAction: TAction
       Category = '&Insert'
-      Caption = '&Insert Line'
+      Caption = '&Insert line'
       Hint = 'Insert line'
       ImageIndex = 109
       ShortCut = 16397
@@ -1595,7 +1594,7 @@ object MainForm: TMainForm
     end
     object EditDeleteEOLAction: TAction
       Category = '&Delete'
-      Caption = '&End of Line'
+      Caption = '&End of line'
       Hint = 'Delete end of line'
       ImageIndex = 60
       ShortCut = 24665
@@ -1667,7 +1666,7 @@ object MainForm: TMainForm
     end
     object EditToggleCaseAction: TAction
       Category = '&Edit'
-      Caption = 'To&ggle Case'
+      Caption = 'To&ggle case'
       Hint = 'Toggle case'
       ImageIndex = 25
       ShortCut = 24643
@@ -1675,19 +1674,19 @@ object MainForm: TMainForm
     end
     object SearchToggleBookmarksAction: TAction
       Category = 'T&oggle Bookmarks'
-      Caption = 'T&oggle Bookmarks'
+      Caption = 'T&oggle bookmarks'
       ImageIndex = 24
       OnExecute = DummyActionExecute
     end
     object SearchGotoBookmarksAction: TAction
       Category = 'Go to Bookmarks'
-      Caption = 'Go to Bookmarks'
+      Caption = 'Go to bookmarks'
       ImageIndex = 23
       OnExecute = DummyActionExecute
     end
     object SearchClearBookmarksAction: TAction
       Category = '&Search'
-      Caption = 'Clear &Bookmarks'
+      Caption = 'Clear &bookmarks'
       Hint = 'Clear all bookmarks'
       ImageIndex = 22
       OnExecute = SearchClearBookmarksActionExecute
@@ -1738,7 +1737,7 @@ object MainForm: TMainForm
     end
     object ToolsSelectForCompareAction: TAction
       Category = '&Tools'
-      Caption = 'Select for Compare...'
+      Caption = 'Select for compare...'
       Hint = 'Select document for compare'
       ImageIndex = 31
       OnExecute = ToolsSelectForCompareActionExecute
@@ -1755,14 +1754,14 @@ object MainForm: TMainForm
     end
     object ToolsDuplicateCheckerAction: TAction
       Category = '&Tools'
-      Caption = '&Duplicate Checker...'
+      Caption = '&Duplicate checker...'
       Hint = 'Check duplicate text blocks'
       ImageIndex = 73
       OnExecute = ToolsDuplicateCheckerActionExecute
     end
     object ToolsUnicodeCharacterMapAction: TAction
       Category = '&Tools'
-      Caption = '&Unicode Character Map...'
+      Caption = '&Unicode character map...'
       Hint = 
         'Insert unicode characters to active document by double clicking ' +
         'a character'
@@ -1771,7 +1770,7 @@ object MainForm: TMainForm
     end
     object ToolsLanguageEditorAction: TAction
       Category = '&Tools'
-      Caption = '&Language Editor...'
+      Caption = '&Language editor...'
       Hint = 'Language editor'
       ImageIndex = 117
       OnExecute = ToolsLanguageEditorActionExecute
@@ -1946,7 +1945,7 @@ object MainForm: TMainForm
     end
     object SearchGotoLineAction: TAction
       Category = '&Search'
-      Caption = 'Go to &Line'
+      Caption = 'Go to &line'
       Hint = 'Go to Line'
       ImageIndex = 97
       ShortCut = 16455
@@ -1963,7 +1962,7 @@ object MainForm: TMainForm
     end
     object EditInsertTagAction: TAction
       Category = '&Insert'
-      Caption = '&HTML/XML Tags...'
+      Caption = '&HTML/XML tags...'
       Hint = 'Insert HTML/XML tags'
       ImageIndex = 207
       ShortCut = 24660
@@ -1971,7 +1970,7 @@ object MainForm: TMainForm
     end
     object EditInsertDateTimeAction: TAction
       Category = '&Insert'
-      Caption = '&Date and Time'
+      Caption = '&Date and time'
       Hint = 'Insert date and time'
       ImageIndex = 55
       ShortCut = 41028
@@ -1979,7 +1978,7 @@ object MainForm: TMainForm
     end
     object FileSelectFromDirectoryAction: TAction
       Category = '&File'
-      Caption = 'Select from Directory'
+      Caption = 'Select from directory'
       Hint = 'Select the file from the active directory'
       ImageIndex = 214
       OnExecute = FileSelectFromDirectoryActionExecute
