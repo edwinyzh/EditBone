@@ -3,7 +3,7 @@ program EditBone;
 uses
   {$ifdef DEBUG}
   FastMM4,
-  {$endif}
+  {$endif }
   Forms,
   Windows,
   System.SysUtils,
@@ -74,7 +74,8 @@ uses
   IniPersist in '..\..\Common\units\IniPersist.pas',
   BCFrames.OptionsFrame in '..\..\Common\frames\BCFrames.OptionsFrame.pas' {OptionsFrame: TFrame},
   BCDialogs.OptionsToolBarItems in '..\..\Common\dialogs\BCDialogs.OptionsToolBarItems.pas' {OptionsToolBarItemsDialog},
-  BCFrames.OptionsToolBar in '..\..\Common\frames\BCFrames.OptionsToolBar.pas' {OptionsToolBarFrame: TFrame};
+  BCFrames.OptionsToolBar in '..\..\Common\frames\BCFrames.OptionsToolBar.pas' {OptionsToolBarFrame: TFrame},
+  MapVirtualDrives in 'forms\MapVirtualDrives.pas' {MapVirtualDrivesForm};
 
 {$R *.res}
 

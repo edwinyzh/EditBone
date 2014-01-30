@@ -651,6 +651,7 @@ object MainForm: TMainForm
                     ShortCut = 16441
                   end>
                 Action = SearchGotoBookmarksAction
+                Caption = '&Go to bookmarks'
                 ImageIndex = 23
                 UsageCount = 1
               end
