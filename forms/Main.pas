@@ -1348,6 +1348,7 @@ begin
   CreateFrames;
   UpdateStatusBar;
   ReadIniSizePositionAndState;
+  Application.ProcessMessages;
   ToolBarPanel.Visible := OptionsContainer.ToolBarVisible;
   {$IFDEF RELEASE}
   ToolsDuplicateCheckerAction.Visible := False;

@@ -122,13 +122,15 @@ end;
 procedure TUnicodeCharacterMapForm.InsertActionExecute(Sender: TObject);
 var
   SynEdit: TBCSynEdit;
-  WC: WideChar;
+  PC: PWideChar;
 begin
   SynEdit := FDocumentFrame.GetActiveSynEdit;
   if Assigned(SynEdit) then
   begin
-    WC := WideChar(StringGridCharacter.ColCount * StringGridCharacter.Row + StringGridCharacter.Col);
-    SynEdit.ExecuteCommand(ecImeStr, #0, @WC);
+    New(PC);
+    StringToWideChar(Chr(StringGridCharacter.ColCount * StringGridCharacter.Row + StringGridCharacter.Col), PC, 2);
+    SynEdit.ExecuteCommand(ecImeStr, #0, PC);
+    Dispose(PC);
   end;
 end;
 
@@ -191,21 +193,23 @@ end;
 procedure TUnicodeCharacterMapForm.StringGridCharacterDrawCell(Sender: TObject; ACol, ARow: Integer; Rect: TRect;
   State: TGridDrawState);
 var
-  WC: WideChar;
+  PC: PWideChar;
   Size: TSize;
 begin
   if StringGridCharacter.ColCount * ARow + ACol > 65535 then
     Exit;
 
-  WC := WideChar(StringGridCharacter.ColCount * ARow + ACol);
+  New(PC);
+  StringToWideChar(Chr(StringGridCharacter.ColCount * ARow + ACol), PC, 2);
 
   StringGridCharacter.Canvas.Font.Name := FontComboBox.Text;
   StringGridCharacter.Canvas.Font.Height := StringGridCharacter.DefaultRowHeight;
 
-  GetTextExtentPoint32W(StringGridCharacter.Canvas.Handle, @WC, 1, Size);
+  GetTextExtentPoint32W(StringGridCharacter.Canvas.Handle, PC, 1, Size);
 
   TextOutW(StringGridCharacter.Canvas.Handle, (Rect.Left + Rect.Right - Size.cx) div 2,
-    Rect.Top, @WC, 1)
+    Rect.Top, PC, 1);
+  Dispose(PC);
 end;
 
 procedure TUnicodeCharacterMapForm.StringGridCharacterMouseDown(Sender: TObject;

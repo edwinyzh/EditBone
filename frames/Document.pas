@@ -2741,10 +2741,12 @@ begin
         begin
           if FileExists(SynEdit.DocumentName) then
           begin
+            FProcessing := True;
             if not (DialogResult in [mrYesToAll, mrNoToAll]) then
               DialogResult := AskYesOrNoAll(Format(LanguageDataModule.GetYesOrNoMessage('DocumentTimeChanged'), [SynEdit.DocumentName]));
             if DialogResult in [mrYes, mrYesToAll] then
               Refresh(i);
+            FProcessing := False;
             PageControl.TabClosed := True; { just to avoid begin drag }
           end
           else

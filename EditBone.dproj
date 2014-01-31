@@ -319,7 +319,6 @@
         </DCCReference>
         <DCCReference Include="forms\MapVirtualDrives.pas">
             <Form>MapVirtualDrivesForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
