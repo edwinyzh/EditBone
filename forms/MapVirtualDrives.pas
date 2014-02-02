@@ -11,7 +11,7 @@ type
   PVirtualDriveRec = ^TVirtualDriveRec;
   TVirtualDriveRec = record
     Drive: Char;
-    Path: string;
+    Path: AnsiString;
   end;
 
   TMapVirtualDrivesForm = class(TForm)
@@ -46,7 +46,7 @@ type
       Column: TColumnIndex; var NodeWidth: Integer);
   private
     { Private declarations }
-    procedure AddTreeNode(Drive: Char; Path: string);
+    procedure AddTreeNode(Drive: Char; Path: AnsiString);
     procedure GetVirtualDrives;
     procedure ReadIniFile;
     procedure WriteIniFile;
@@ -62,7 +62,7 @@ implementation
 {$R *.dfm}
 
 uses
-  System.IniFiles, BCCommon.FileUtils, BCCommon.Lib, Vcl.Themes, BCCommon.LanguageUtils;
+  System.IniFiles, BCCommon.FileUtils, BCCommon.Lib, Vcl.Themes, BCCommon.LanguageUtils, System.Types;
 
 var
   FMapVirtualDrivesForm: TMapVirtualDrivesForm;
@@ -130,7 +130,7 @@ end;
 procedure TMapVirtualDrivesForm.VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
 var
   Data: PVirtualDriveRec;
-  S: UnicodeString;
+  S: AnsiString;
   R: TRect;
   Format: Cardinal;
   LStyles: TCustomStyleServices;
@@ -174,21 +174,15 @@ begin
     Dec(R.Bottom);
 
     case Column of
-      0: S := Data.Drive;
+      0: S := AnsiString(Data.Drive);
       1: S := Data.Path;
     end;
 
     if Length(S) > 0 then
     begin
-      with R do
-        if (NodeWidth - 2 * Margin) > (Right - Left) then
-          S := ShortenString(Canvas.Handle, S, Right - Left);
-
       Format := DT_TOP or DT_LEFT or DT_VCENTER or DT_SINGLELINE;
-
-      DrawTextW(Canvas.Handle, PWideChar(S), Length(S), R, Format);
+      DrawTextA(Canvas.Handle, S, Length(S), R, Format);
     end;
-
   end;
 end;
 
@@ -203,8 +197,6 @@ end;
 
 procedure TMapVirtualDrivesForm.VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
   Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
-var
-  Data: PVirtualDriveRec;
 begin
   if Kind in [ikNormal, ikSelected] then
     if Column = 0 then
@@ -251,7 +243,7 @@ begin
   end;
 end;
 
-procedure TMapVirtualDrivesForm.AddTreeNode(Drive: Char; Path: string);
+procedure TMapVirtualDrivesForm.AddTreeNode(Drive: Char; Path: AnsiString);
 var
   RootNode: PVirtualNode;
   Data: PVirtualDriveRec;
@@ -263,8 +255,15 @@ begin
 end;
 
 procedure TMapVirtualDrivesForm.GetVirtualDrives;
+var
+  i: Integer;
+  Drives: array [0..255] of Char;
+  DriveCount: Integer;
 begin
-
+  DriveCount := GetLogicalDriveStrings(255, Drives);
+  for i := 0 to DriveCount - 1 do
+    if IsVirtualDrive(Drives[i]) then
+      AddTreeNode(Drives[i], VirtualDrivePath(Drives[i]));
 end;
 
 procedure TMapVirtualDrivesForm.Open;

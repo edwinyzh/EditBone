@@ -839,6 +839,10 @@ object MainForm: TMainForm
                 ImageIndex = 73
               end
               item
+                Action = ToolsMapVirtualDrivesAction
+                ImageIndex = 248
+              end
+              item
                 Action = ToolsUnicodeCharacterMapAction
                 ImageIndex = 116
               end
@@ -1988,6 +1992,12 @@ object MainForm: TMainForm
       Category = '&Search'
       Caption = '<directory find in files action>'
       OnExecute = DirectorySearchFindInFilesActionExecute
+    end
+    object ToolsMapVirtualDrivesAction: TAction
+      Category = '&Tools'
+      Caption = '&Map virtual drives...'
+      ImageIndex = 248
+      OnExecute = ToolsMapVirtualDrivesActionExecute
     end
   end
   object ApplicationEvents: TApplicationEvents

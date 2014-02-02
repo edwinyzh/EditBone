@@ -88,7 +88,7 @@ implementation
 
 uses
   Lib, BCCommon.OptionsContainer, BCCommon.Lib, BCCommon.StyleUtils, System.Math, System.UITypes, Vcl.Clipbrd, BCCommon.Messages,
-  BCCommon.LanguageStrings, BCCommon.FileUtils, BCCommon.StringUtils;
+  BCCommon.LanguageStrings, BCCommon.FileUtils, BCCommon.StringUtils, System.Types;
 
 constructor TOutputFrame.Create(AOwner: TComponent);
 begin
@@ -355,7 +355,7 @@ begin
           S := System.SysUtils.Format('%s [%d]', [S, Node.ChildCount]);
         if Data.Level = 1 then
           S := System.SysUtils.Format('%s (%d, %d): ', [ExtractFilename(String(Data.Filename)), Data.Ln, Data.Ch]) + S;
-        DrawTextW(Canvas.Handle, PWideChar(S), Length(S), R, Format)
+        DrawText(Canvas.Handle, S, Length(S), R, Format)
       end
       else
       begin
@@ -364,18 +364,18 @@ begin
 
         S := System.SysUtils.Format('%s (%d, %d): ', [ExtractFilename(String(Data.Filename)), Data.Ln, Data.Ch]) + S;
 
-        DrawTextW(Canvas.Handle, PWideChar(S), Length(S), R, Format);
+        DrawText(Canvas.Handle, S, Length(S), R, Format);
         S := StringReplace(S, Chr(9), '', [rfReplaceAll]); { replace tabs }
         R.Left := R.Left + Canvas.TextWidth(S);
         Canvas.Font.Color := clRed;
         S := Copy(String(Data.Text), Data.TextCh, Length(Data.SearchString));
         Canvas.Font.Style := Canvas.Font.Style + [fsBold];
-        DrawTextW(Canvas.Handle, PWideChar(S), Length(S), R, Format);
+        DrawText(Canvas.Handle, S, Length(S), R, Format);
         Canvas.Font.Color := LColor;
         R.Left := R.Left + Canvas.TextWidth(S);
         Canvas.Font.Style := Canvas.Font.Style - [fsBold];
         S := System.Copy(Data.Text, Integer(Data.TextCh) + Integer(System.Length(Data.SearchString)), Length(Data.Text));
-        DrawTextW(Canvas.Handle, PWideChar(S), Length(S), R, Format);
+        DrawText(Canvas.Handle, S, Length(S), R, Format);
       end;
     end;
   end;

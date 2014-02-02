@@ -76,7 +76,7 @@ implementation
 
 uses
   Vcl.Themes, BCCommon.OptionsContainer, BCCommon.StyleUtils, BCCommon.StringUtils, System.Math, BCCommon.Math,
-  SynEditTypes;
+  SynEditTypes, System.Types;
 
 const
   TAG_ZERO = 0;
@@ -264,7 +264,7 @@ begin
           S := ShortenString(Canvas.Handle, S, Right - Left);
       end;
       Format := DT_TOP or DT_LEFT or DT_VCENTER or DT_SINGLELINE;
-      DrawTextW(Canvas.Handle, PWideChar(S), Length(S), R, Format);
+      DrawText(Canvas.Handle, S, Length(S), R, Format);
     end;
 
   end;

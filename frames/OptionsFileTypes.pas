@@ -189,7 +189,7 @@ begin
     if Length(S) > 0 then
     begin
       Format := DT_TOP or DT_LEFT or DT_VCENTER or DT_SINGLELINE;
-      DrawTextW(Canvas.Handle, PWideChar(S), Length(S), R, Format)
+      DrawText(Canvas.Handle, S, Length(S), R, Format)
     end;
   end;
 end;

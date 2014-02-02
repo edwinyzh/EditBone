@@ -177,6 +177,7 @@ type
     FileSelectFromDirectoryAction: TAction;
     SelectfromDirectory1: TMenuItem;
     DirectorySearchFindInFilesAction: TAction;
+    ToolsMapVirtualDrivesAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -278,6 +279,7 @@ type
     procedure ViewSearchForFilesActionExecute(Sender: TObject);
     procedure FileSelectFromDirectoryActionExecute(Sender: TObject);
     procedure DirectorySearchFindInFilesActionExecute(Sender: TObject);
+    procedure ToolsMapVirtualDrivesActionExecute(Sender: TObject);
   private
     { Private declarations }
     FNoIni: Boolean;
@@ -332,7 +334,7 @@ uses
   System.IOUtils, BCCommon.LanguageStrings, LanguageEditor, BCControls.SynEdit, SynUnicode, BCCommon.Encoding,
   BCCommon.LanguageUtils, BCCommon.DuplicateChecker, UnicodeCharacterMap, DuplicateCheckerOptions, Winapi.ShellAPI,
   System.Types, BCCommon.Messages, BCCommon.Lib, BCCommon.StringUtils, Winapi.CommCtrl, BCForms.Convert,
-  BCForms.SearchForFiles;
+  BCForms.SearchForFiles, MapVirtualDrives;
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
@@ -1800,6 +1802,12 @@ procedure TMainForm.ToolsLanguageEditorActionExecute(Sender: TObject);
 begin
   LanguageEditorForm.Open;
   ReadLanguageFile(GetSelectedLanguage('English'));
+end;
+
+procedure TMainForm.ToolsMapVirtualDrivesActionExecute(Sender: TObject);
+begin
+  MapVirtualDrivesForm.Open;
+  FDirectoryFrame.Refresh;
 end;
 
 procedure TMainForm.ToolsOptionsActionExecute(Sender: TObject);

@@ -101,7 +101,7 @@ implementation
 
 uses
   System.IniFiles, BCCommon.Lib, BCCommon.LanguageStrings, BCCommon.LanguageUtils, BCCommon.Dialogs, Vcl.Themes,
-  Vcl.StdCtrls, Vcl.Menus, BCCommon.Messages, BCCommon.FileUtils;
+  Vcl.StdCtrls, Vcl.Menus, BCCommon.Messages, BCCommon.FileUtils, System.Types;
 
 var
   FLanguageEditorForm: TLanguageEditorForm;
@@ -401,7 +401,7 @@ begin
 
       Format := DT_TOP or DT_LEFT or DT_VCENTER or DT_SINGLELINE;
 
-      DrawTextW(Canvas.Handle, PWideChar(S), Length(S), R, Format);
+      DrawText(Canvas.Handle, S, Length(S), R, Format);
     end;
 
   end;
