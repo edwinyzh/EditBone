@@ -2,7 +2,6 @@ program EditBone;
 
 uses
   {$ifdef DEBUG}
-  //FastMM4,
   {$endif }
   Forms,
   Windows,
@@ -75,7 +74,8 @@ uses
   BCFrames.OptionsFrame in '..\..\Common\frames\BCFrames.OptionsFrame.pas' {OptionsFrame: TFrame},
   BCDialogs.OptionsToolBarItems in '..\..\Common\dialogs\BCDialogs.OptionsToolBarItems.pas' {OptionsToolBarItemsDialog},
   BCFrames.OptionsToolBar in '..\..\Common\frames\BCFrames.OptionsToolBar.pas' {OptionsToolBarFrame: TFrame},
-  MapVirtualDrives in 'forms\MapVirtualDrives.pas' {MapVirtualDrivesForm};
+  MapVirtualDrives in 'forms\MapVirtualDrives.pas' {MapVirtualDrivesForm},
+  VirtualDrive in 'dialogs\VirtualDrive.pas' {VirtualDriveDialog};
 
 {$R *.res}
 
@@ -94,5 +94,6 @@ begin
     TStyleManager.SetStyle(TStyleManager.LoadFromFile(Format('%sStyles\%s', [ExtractFilePath(ParamStr(0)), StyleFilename])));
   Application.Title := 'EditBone';
   Application.CreateForm(TMainForm, MainForm);
+  Application.CreateForm(TVirtualDriveDialog, VirtualDriveDialog);
   Application.Run;
 end.

@@ -1,10 +1,10 @@
-object DirectoryTabDialog: TDirectoryTabDialog
+object VirtualDriveDialog: TVirtualDriveDialog
   Left = 0
   Top = 0
   BorderStyle = bsDialog
-  Caption = 'DirectoryTabDialog'
-  ClientHeight = 155
-  ClientWidth = 488
+  Caption = 'Virtual Drive'
+  ClientHeight = 111
+  ClientWidth = 435
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,82 +13,95 @@ object DirectoryTabDialog: TDirectoryTabDialog
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object ButtonPanel: TPanel
+    Left = 0
+    Top = 79
+    Width = 435
+    Height = 32
+    Align = alBottom
+    BevelOuter = bvNone
+    Padding.Left = 8
+    Padding.Right = 8
+    Padding.Bottom = 8
+    TabOrder = 0
+    ExplicitLeft = -53
+    ExplicitTop = 123
+    ExplicitWidth = 488
+    object OKButton: TButton
+      Left = 269
+      Top = 0
+      Width = 75
+      Height = 24
+      Align = alRight
+      Default = True
+      TabOrder = 0
+      ExplicitLeft = 322
+    end
+    object CancelButton: TButton
+      Left = 352
+      Top = 0
+      Width = 75
+      Height = 24
+      Align = alRight
+      Caption = 'Cancel'
+      ModalResult = 2
+      TabOrder = 1
+      ExplicitLeft = 405
+    end
+    object ButtonDividerPanel: TPanel
+      Left = 344
+      Top = 0
+      Width = 8
+      Height = 24
+      Align = alRight
+      BevelOuter = bvNone
+      TabOrder = 2
+      ExplicitLeft = 397
+    end
+  end
   object TopPanel: TPanel
     Left = 0
     Top = 0
-    Width = 488
-    Height = 123
+    Width = 435
+    Height = 79
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 12
     Padding.Top = 12
     Padding.Right = 12
     Padding.Bottom = 8
-    TabOrder = 0
-    object TabNamePanel: TPanel
-      Left = 12
-      Top = 12
-      Width = 464
-      Height = 26
-      Align = alTop
-      BevelOuter = bvNone
-      TabOrder = 0
-      DesignSize = (
-        464
-        26)
-      object TabNameLabel: TLabel
-        Left = 0
-        Top = 9
-        Width = 48
-        Height = 13
-        Caption = 'Tab Name'
-      end
-      object TabNameEdit: TBCEdit
-        Left = 87
-        Top = 5
-        Width = 377
-        Height = 21
-        Hint = 'Tab name'
-        Anchors = [akLeft, akTop, akRight]
-        TabOrder = 0
-        Text = 'C:\'
-        EnterToTab = False
-        OnlyNumbers = False
-        NumbersWithDots = False
-        NumbersWithSpots = False
-        ErrorColor = clBlack
-        NumbersAllowNegative = False
-      end
-    end
+    TabOrder = 1
+    ExplicitLeft = -53
+    ExplicitWidth = 488
+    ExplicitHeight = 123
     object RootDirectoryPanel: TPanel
       Left = 12
       Top = 38
-      Width = 464
+      Width = 411
       Height = 26
       Align = alTop
       BevelOuter = bvNone
       Padding.Top = 4
       Padding.Bottom = 1
-      TabOrder = 1
+      TabOrder = 0
+      ExplicitWidth = 464
       DesignSize = (
-        464
+        411
         26)
       object RootDirectoryLabel: TLabel
         Left = 0
         Top = 8
-        Width = 70
+        Width = 22
         Height = 13
-        Caption = 'Root Directory'
+        Caption = 'Path'
       end
       object RootDrectoryBitBtn: TJvSpeedButton
-        Left = 443
+        Left = 390
         Top = 4
         Width = 21
         Height = 21
-        Action = RootDirectoryClickAction
         Align = alRight
         Flat = True
         Glyph.Data = {
@@ -143,11 +156,12 @@ object DirectoryTabDialog: TDirectoryTabDialog
           FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
         NumGlyphs = 2
+        ExplicitLeft = 443
       end
       object RootDirectoryEdit: TBCEdit
-        Left = 87
+        Left = 46
         Top = 4
-        Width = 354
+        Width = 342
         Height = 21
         Hint = 'Root directory'
         Anchors = [akLeft, akTop, akRight]
@@ -161,77 +175,32 @@ object DirectoryTabDialog: TDirectoryTabDialog
         NumbersAllowNegative = False
       end
     end
-    object ShowFileTypePanel: TPanel
-      Left = 12
-      Top = 90
-      Width = 464
-      Height = 26
-      Align = alTop
-      BevelOuter = bvNone
-      TabOrder = 2
-      object ShowFileTypeLabel: TLabel
-        Left = 0
-        Top = 8
-        Width = 72
-        Height = 13
-        Caption = 'Show File Type'
-      end
-      object ShowFileTypeComboBox: TBCComboBox
-        Left = 87
-        Top = 4
-        Width = 90
-        Height = 21
-        Style = csDropDownList
-        ItemIndex = 0
-        TabOrder = 0
-        Text = 'Hide'
-        Items.Strings = (
-          'Hide'
-          'Bottom'
-          'Top')
-        DeniedKeyStrokes = False
-        ReadOnly = False
-        DropDownFixedWidth = 0
-      end
-    end
     object ShowDrivesPanel: TPanel
       Left = 12
-      Top = 64
-      Width = 464
+      Top = 12
+      Width = 411
       Height = 26
       Align = alTop
       BevelOuter = bvNone
       Padding.Top = 4
       Padding.Bottom = 1
-      TabOrder = 3
+      TabOrder = 1
+      ExplicitTop = 7
       object ShowDrivesLabel: TLabel
         Left = 0
         Top = 8
-        Width = 59
+        Width = 25
         Height = 13
-        Caption = 'Show Drives'
-      end
-      object ExcludeOtherBranchesCheckBox: TBCCheckBox
-        Left = 184
-        Top = 4
-        Width = 277
-        Height = 21
-        Margins.Left = 0
-        Margins.Top = 0
-        Margins.Right = 0
-        Margins.Bottom = 0
-        Action = ExcludeOtherBranchesAction
-        TabOrder = 0
-        ReadOnly = False
+        Caption = 'Drive'
       end
       object ShowDrivesComboBox: TBCComboBox
-        Left = 87
-        Top = 4
+        Left = 46
+        Top = 3
         Width = 90
         Height = 21
         Style = csDropDownList
         ItemIndex = 1
-        TabOrder = 1
+        TabOrder = 0
         Text = 'Bottom'
         Items.Strings = (
           'Hide'
@@ -241,62 +210,6 @@ object DirectoryTabDialog: TDirectoryTabDialog
         ReadOnly = False
         DropDownFixedWidth = 0
       end
-    end
-  end
-  object ButtonPanel: TPanel
-    Left = 0
-    Top = 123
-    Width = 488
-    Height = 32
-    Align = alBottom
-    BevelOuter = bvNone
-    Padding.Left = 8
-    Padding.Right = 8
-    Padding.Bottom = 8
-    TabOrder = 1
-    object OKButton: TButton
-      Left = 322
-      Top = 0
-      Width = 75
-      Height = 24
-      Action = OKAction
-      Align = alRight
-      Default = True
-      TabOrder = 0
-    end
-    object CancelButton: TButton
-      Left = 405
-      Top = 0
-      Width = 75
-      Height = 24
-      Align = alRight
-      Caption = 'Cancel'
-      ModalResult = 2
-      TabOrder = 1
-    end
-    object ButtonDividerPanel: TPanel
-      Left = 397
-      Top = 0
-      Width = 8
-      Height = 24
-      Align = alRight
-      BevelOuter = bvNone
-      TabOrder = 2
-    end
-  end
-  object ActionList: TActionList
-    Left = 416
-    Top = 76
-    object OKAction: TAction
-      Caption = '&OK'
-      OnExecute = OKActionExecute
-    end
-    object ExcludeOtherBranchesAction: TAction
-      Caption = ' Exclude Other Directory Branches'
-      OnExecute = ExcludeOtherBranchesActionExecute
-    end
-    object RootDirectoryClickAction: TAction
-      OnExecute = RootDirectoryClickActionExecute
     end
   end
 end

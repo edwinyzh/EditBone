@@ -100,7 +100,7 @@ implementation
 
 uses
   DirectoryTab, BCCommon.StyleUtils, BigIni, BCCommon.LanguageStrings, BCCommon.OptionsContainer, JclShell,
-  System.Math, BCCommon.FileUtils, BCCommon.Messages, BCCommon.Dialogs, BCCommon.StringUtils;
+  System.Math, BCCommon.FileUtils, BCCommon.Messages, BCCommon.Dialogs, BCCommon.StringUtils, BCDialogs.Dlg;
 
 procedure TDirectoryFrame.DirectoryContextMenuActionExecute(Sender: TObject);
 var

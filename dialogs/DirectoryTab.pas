@@ -8,8 +8,6 @@ uses
   JvSpeedButton;
 
 type
-  TDirectoryTabDialogType = (dtOpen, dtEdit);
-
   TDirectoryTabDialog = class(TDialog)
     ActionList: TActionList;
     ButtonDividerPanel: TPanel;
@@ -53,7 +51,7 @@ type
     procedure SetTabName(Value: string);
   public
     { Public declarations }
-    function Open(DialogType: TDirectoryTabDialogType): Boolean;
+    function Open(DialogType: TDialogType): Boolean;
     property ExcludeOtherBranches: Boolean read GetExcludeOtherBranches write SetExcludeOtherBranches;
     property RootDirectory: string read GetRootDirectory write SetRootDirectory;
     property ShowDrives: Byte read GetShowDrives write SetShowDrives;
@@ -92,7 +90,7 @@ begin
   ModalResult := mrOk;
 end;
 
-function TDirectoryTabDialog.Open(DialogType: TDirectoryTabDialogType): Boolean;
+function TDirectoryTabDialog.Open(DialogType: TDialogType): Boolean;
 
   procedure AddConstants(ComboBox: TBCComboBox);
   var
