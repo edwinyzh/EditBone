@@ -117,14 +117,14 @@ object MapVirtualDrivesForm: TMapVirtualDrivesForm
       Header.Font.Name = 'Tahoma'
       Header.Font.Style = []
       Header.Height = 20
-      Header.Options = [hoColumnResize, hoShowSortGlyphs, hoVisible]
+      Header.Options = [hoAutoResize, hoColumnResize, hoShowSortGlyphs, hoVisible, hoAutoSpring]
       Images = ImagesDataModule.ImageList
       ParentCtl3D = False
       TabOrder = 0
       TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand]
       TreeOptions.MiscOptions = [toFullRepaintOnResize, toGridExtensions, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
-      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedSelection]
-      TreeOptions.SelectionOptions = [toDisableDrawSelection, toExtendedFocus, toFullRowSelect, toMiddleClickSelect, toRightClickSelect]
+      TreeOptions.PaintOptions = [toHideFocusRect, toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedSelection]
+      TreeOptions.SelectionOptions = [toDisableDrawSelection, toFullRowSelect, toMiddleClickSelect, toRightClickSelect]
       WantTabs = True
       OnCompareNodes = VirtualDrawTreeCompareNodes
       OnDblClick = VirtualDrawTreeDblClick
@@ -134,9 +134,16 @@ object MapVirtualDrivesForm: TMapVirtualDrivesForm
       OnGetNodeWidth = VirtualDrawTreeGetNodeWidth
       Columns = <
         item
+          Options = [coEnabled, coParentBidiMode, coParentColor, coVisible, coFixed]
           Position = 0
-          Width = 477
-          WideText = 'Virtual Drive'
+          Width = 41
+          WideText = 'Drive'
+        end
+        item
+          Options = [coEnabled, coParentBidiMode, coParentColor, coVisible, coAutoSpring, coSmartResize]
+          Position = 1
+          Width = 436
+          WideText = 'Path'
         end>
     end
   end

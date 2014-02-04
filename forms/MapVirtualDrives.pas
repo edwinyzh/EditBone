@@ -11,7 +11,7 @@ type
   PVirtualDriveRec = ^TVirtualDriveRec;
   TVirtualDriveRec = record
     Drive: Char;
-    Path: AnsiString;
+    Path: string;
   end;
 
   TMapVirtualDrivesForm = class(TForm)
@@ -46,7 +46,7 @@ type
       Column: TColumnIndex; var NodeWidth: Integer);
   private
     { Private declarations }
-    procedure AddTreeNode(Drive: Char; Path: AnsiString);
+    procedure AddTreeNode(Drive: Char; Path: string);
     procedure GetVirtualDrives;
     procedure ReadIniFile;
     procedure WriteIniFile;
@@ -130,7 +130,7 @@ end;
 procedure TMapVirtualDrivesForm.VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
 var
   Data: PVirtualDriveRec;
-  S: AnsiString;
+  S: string;
   R: TRect;
   Format: Cardinal;
   LStyles: TCustomStyleServices;
@@ -174,14 +174,14 @@ begin
     Dec(R.Bottom);
 
     case Column of
-      0: S := AnsiString(Data.Drive);
+      0: S := Data.Drive + ':';
       1: S := Data.Path;
     end;
 
     if Length(S) > 0 then
     begin
       Format := DT_TOP or DT_LEFT or DT_VCENTER or DT_SINGLELINE;
-      DrawTextA(Canvas.Handle, S, Length(S), R, Format);
+      DrawText(Canvas.Handle, S, Length(S), R, Format);
     end;
   end;
 end;
@@ -214,11 +214,11 @@ begin
   with TMemIniFile.Create(GetIniFilename) do
   try
     { Size }
-    Width := ReadInteger('LanguageEditorSize', 'Width', Round(Screen.Width * 0.5));
-    Height := ReadInteger('LanguageEditorSize', 'Height', Round(Screen.Height * 0.5));
+    Width := ReadInteger('MapVirtualDrivesSize', 'Width', Round(Screen.Width * 0.25));
+    Height := ReadInteger('MapVirtualDrivesSize', 'Height', Round(Screen.Height * 0.5));
     { Position }
-    Left := ReadInteger('LanguageEditorPosition', 'Left', (Screen.Width - Width) div 2);
-    Top := ReadInteger('LanguageEditorPosition', 'Top', (Screen.Height - Height) div 2);
+    Left := ReadInteger('MapVirtualDrivesPosition', 'Left', (Screen.Width - Width) div 2);
+    Top := ReadInteger('MapVirtualDrivesPosition', 'Top', (Screen.Height - Height) div 2);
     { Check if the form is outside the workarea }
     Left := SetFormInsideWorkArea(Left, Width);
   finally
@@ -232,18 +232,18 @@ begin
   with TMemIniFile.Create(GetIniFilename) do
   try
     { Position }
-    WriteInteger('LanguageEditorPosition', 'Left', Left);
-    WriteInteger('LanguageEditorPosition', 'Top', Top);
+    WriteInteger('MapVirtualDrivesPosition', 'Left', Left);
+    WriteInteger('MapVirtualDrivesPosition', 'Top', Top);
     { Size }
-    WriteInteger('LanguageEditorSize', 'Width', Width);
-    WriteInteger('LanguageEditorSize', 'Height', Height);
+    WriteInteger('MapVirtualDrivesSize', 'Width', Width);
+    WriteInteger('MapVirtualDrivesSize', 'Height', Height);
   finally
     UpdateFile;
     Free;
   end;
 end;
 
-procedure TMapVirtualDrivesForm.AddTreeNode(Drive: Char; Path: AnsiString);
+procedure TMapVirtualDrivesForm.AddTreeNode(Drive: Char; Path: string);
 var
   RootNode: PVirtualNode;
   Data: PVirtualDriveRec;
