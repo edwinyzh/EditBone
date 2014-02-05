@@ -77,7 +77,7 @@ var
 
 function DirectoryTabDialog: TDirectoryTabDialog;
 begin
-  if FDirectoryTabDialog = nil then
+  if not Assigned(FDirectoryTabDialog) then
     Application.CreateForm(TDirectoryTabDialog, FDirectoryTabDialog);
   Result := FDirectoryTabDialog;
   SetStyledFormSize(Result);

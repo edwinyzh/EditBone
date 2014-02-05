@@ -38,7 +38,7 @@ var
 
 function InsertTagDialog(Sender: TComponent): TInsertTagDialog;
 begin
-  if FInsertTagDialog = nil then
+  if not Assigned(FInsertTagDialog) then
     FInsertTagDialog := TInsertTagDialog.Create(Sender);
   Result := FInsertTagDialog;
   SetStyledFormSize(Result);

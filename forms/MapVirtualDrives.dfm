@@ -165,6 +165,7 @@ object MapVirtualDrivesForm: TMapVirtualDrivesForm
       Caption = 'EditAction'
       Hint = 'Edit selected virtual drive'
       ImageIndex = 251
+      OnExecute = EditActionExecute
     end
     object CloseAction: TAction
       Caption = 'CloseAction'
@@ -172,5 +173,10 @@ object MapVirtualDrivesForm: TMapVirtualDrivesForm
       ImageIndex = 76
       OnExecute = CloseActionExecute
     end
+  end
+  object ApplicationEvents: TApplicationEvents
+    OnMessage = ApplicationEventsMessage
+    Left = 182
+    Top = 148
   end
 end

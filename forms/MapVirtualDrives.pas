@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, BCCommon.Images,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VirtualTrees, Vcl.ComCtrls, Vcl.ToolWin, BCControls.ToolBar, Vcl.ExtCtrls,
-  System.Actions, Vcl.ActnList;
+  System.Actions, Vcl.ActnList, Vcl.AppEvnts;
 
 type
   PVirtualDriveRec = ^TVirtualDriveRec;
@@ -31,6 +31,7 @@ type
     EditAction: TAction;
     CloseAction: TAction;
     ToolButton1: TToolButton;
+    ApplicationEvents: TApplicationEvents;
     procedure VirtualDrawTreeDblClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure CloseActionExecute(Sender: TObject);
@@ -44,6 +45,8 @@ type
       Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
     procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode;
       Column: TColumnIndex; var NodeWidth: Integer);
+    procedure EditActionExecute(Sender: TObject);
+    procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
   private
     { Private declarations }
     procedure AddTreeNode(Drive: Char; Path: string);
@@ -62,7 +65,8 @@ implementation
 {$R *.dfm}
 
 uses
-  System.IniFiles, BCCommon.FileUtils, BCCommon.Lib, Vcl.Themes, BCCommon.LanguageUtils, System.Types;
+  System.IniFiles, BCCommon.FileUtils, BCCommon.Lib, Vcl.Themes, BCCommon.LanguageUtils, System.Types, VirtualDrive,
+  BCDialogs.Dlg;
 
 var
   FMapVirtualDrivesForm: TMapVirtualDrivesForm;
@@ -74,9 +78,36 @@ begin
   Result := FMapVirtualDrivesForm;
 end;
 
+procedure TMapVirtualDrivesForm.ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
+begin
+  DeleteAction.Enabled := VirtualDrawTree.SelectedCount > 0;
+  EditAction.Enabled := DeleteAction.Enabled;
+end;
+
 procedure TMapVirtualDrivesForm.CloseActionExecute(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TMapVirtualDrivesForm.EditActionExecute(Sender: TObject);
+var
+  Node: PVirtualNode;
+  Data: PVirtualDriveRec;
+begin
+  Node := VirtualDrawTree.GetFirstSelected;
+  if not Assigned(Node) then
+    Exit;
+  Data := VirtualDrawTree.GetNodeData(Node);
+  with VirtualDriveDialog do
+  begin
+    Drive := Data.Drive;
+    Path := Data.Path;
+    if Open(dtEdit) then
+    begin
+      Data.Drive := Drive;
+      Data.Path := Path;
+    end;
+  end;
 end;
 
 procedure TMapVirtualDrivesForm.FormClose(Sender: TObject; var Action: TCloseAction);

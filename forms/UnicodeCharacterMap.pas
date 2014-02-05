@@ -68,7 +68,7 @@ var
 
 function UnicodeCharacterMapForm: TUnicodeCharacterMapForm;
 begin
-  if FUnicodeCharacterMapForm = nil then
+  if not Assigned(FUnicodeCharacterMapForm) then
     Application.CreateForm(TUnicodeCharacterMapForm, FUnicodeCharacterMapForm);
   Result := FUnicodeCharacterMapForm;
 end;

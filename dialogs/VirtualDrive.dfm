@@ -13,6 +13,7 @@ object VirtualDriveDialog: TVirtualDriveDialog
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object ButtonPanel: TPanel
@@ -26,18 +27,15 @@ object VirtualDriveDialog: TVirtualDriveDialog
     Padding.Right = 8
     Padding.Bottom = 8
     TabOrder = 0
-    ExplicitLeft = -53
-    ExplicitTop = 123
-    ExplicitWidth = 488
     object OKButton: TButton
       Left = 269
       Top = 0
       Width = 75
       Height = 24
+      Action = OKAction
       Align = alRight
       Default = True
       TabOrder = 0
-      ExplicitLeft = 322
     end
     object CancelButton: TButton
       Left = 352
@@ -48,7 +46,6 @@ object VirtualDriveDialog: TVirtualDriveDialog
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 405
     end
     object ButtonDividerPanel: TPanel
       Left = 344
@@ -58,7 +55,6 @@ object VirtualDriveDialog: TVirtualDriveDialog
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 2
-      ExplicitLeft = 397
     end
   end
   object TopPanel: TPanel
@@ -73,10 +69,7 @@ object VirtualDriveDialog: TVirtualDriveDialog
     Padding.Right = 12
     Padding.Bottom = 8
     TabOrder = 1
-    ExplicitLeft = -53
-    ExplicitWidth = 488
-    ExplicitHeight = 123
-    object RootDirectoryPanel: TPanel
+    object PathPanel: TPanel
       Left = 12
       Top = 38
       Width = 411
@@ -86,22 +79,22 @@ object VirtualDriveDialog: TVirtualDriveDialog
       Padding.Top = 4
       Padding.Bottom = 1
       TabOrder = 0
-      ExplicitWidth = 464
       DesignSize = (
         411
         26)
-      object RootDirectoryLabel: TLabel
+      object PathLabel: TLabel
         Left = 0
-        Top = 8
+        Top = 7
         Width = 22
         Height = 13
         Caption = 'Path'
       end
-      object RootDrectoryBitBtn: TJvSpeedButton
+      object PathBitBtn: TJvSpeedButton
         Left = 390
         Top = 4
         Width = 21
         Height = 21
+        Action = FolderButtonClickAction
         Align = alRight
         Flat = True
         Glyph.Data = {
@@ -158,7 +151,7 @@ object VirtualDriveDialog: TVirtualDriveDialog
         NumGlyphs = 2
         ExplicitLeft = 443
       end
-      object RootDirectoryEdit: TBCEdit
+      object PathEdit: TBCEdit
         Left = 46
         Top = 4
         Width = 342
@@ -166,7 +159,6 @@ object VirtualDriveDialog: TVirtualDriveDialog
         Hint = 'Root directory'
         Anchors = [akLeft, akTop, akRight]
         TabOrder = 0
-        Text = 'C:\'
         EnterToTab = False
         OnlyNumbers = False
         NumbersWithDots = False
@@ -175,7 +167,7 @@ object VirtualDriveDialog: TVirtualDriveDialog
         NumbersAllowNegative = False
       end
     end
-    object ShowDrivesPanel: TPanel
+    object DrivePanel: TPanel
       Left = 12
       Top = 12
       Width = 411
@@ -185,31 +177,36 @@ object VirtualDriveDialog: TVirtualDriveDialog
       Padding.Top = 4
       Padding.Bottom = 1
       TabOrder = 1
-      ExplicitTop = 7
-      object ShowDrivesLabel: TLabel
+      object DriveLabel: TLabel
         Left = 0
-        Top = 8
+        Top = 6
         Width = 25
         Height = 13
         Caption = 'Drive'
       end
-      object ShowDrivesComboBox: TBCComboBox
+      object DriveComboBox: TBCComboBox
         Left = 46
         Top = 3
-        Width = 90
+        Width = 50
         Height = 21
         Style = csDropDownList
-        ItemIndex = 1
         TabOrder = 0
-        Text = 'Bottom'
-        Items.Strings = (
-          'Hide'
-          'Bottom'
-          'Top')
         DeniedKeyStrokes = False
         ReadOnly = False
         DropDownFixedWidth = 0
       end
+    end
+  end
+  object ActionList: TActionList
+    Left = 132
+    Top = 48
+    object FolderButtonClickAction: TAction
+      ImageIndex = 0
+      OnExecute = FolderButtonClickActionExecute
+    end
+    object OKAction: TAction
+      Caption = 'OK'
+      OnExecute = OKActionExecute
     end
   end
 end

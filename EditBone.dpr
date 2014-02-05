@@ -94,6 +94,5 @@ begin
     TStyleManager.SetStyle(TStyleManager.LoadFromFile(Format('%sStyles\%s', [ExtractFilePath(ParamStr(0)), StyleFilename])));
   Application.Title := 'EditBone';
   Application.CreateForm(TMainForm, MainForm);
-  Application.CreateForm(TVirtualDriveDialog, VirtualDriveDialog);
   Application.Run;
 end.
