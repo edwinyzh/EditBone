@@ -29,17 +29,17 @@ type
     procedure FormShow(Sender: TObject);
   private
     { Private declarations }
+    FDrive: Char;
+    FPath: string;
     function CheckFields: Boolean;
     function GetDrive: Char;
     function GetPath: string;
     procedure AddDrives;
-    procedure SetDrive(Value: Char);
-    procedure SetPath(Value: string);
   public
     { Public declarations }
     function Open(DialogType: TDialogType): Boolean;
-    property Drive: Char read GetDrive write SetDrive;
-    property Path: string read GetPath write SetPath;
+    property Drive: Char read GetDrive write FDrive;
+    property Path: string read GetPath write FPath;
   end;
 
 function VirtualDriveDialog: TVirtualDriveDialog;
@@ -103,6 +103,8 @@ begin
     Caption := LanguageDataModule.GetConstant('EditVirtualDrive');
 
   AddDrives;
+  DriveComboBox.ItemIndex := DriveComboBox.Items.IndexOf(FDrive + ':');
+  PathEdit.Text := FPath;
 
   Result := ShowModal = mrOk;
 end;
@@ -126,28 +128,32 @@ begin
 end;
 
 procedure TVirtualDriveDialog.AddDrives;
+var
+  DriveBits: set of 0..25;
+  DriveIndex: Integer;
+  DriveLetter: Char;
 begin
-
+  DriveComboBox.Clear;
+  Integer(DriveBits) := GetLogicalDrives;
+  for  DriveIndex := 0 TO 25 DO
+  begin
+    DriveLetter := Chr(Ord('A') + DriveIndex);
+    if not (DriveIndex in DriveBits) or (DriveLetter = FDrive) then
+      DriveComboBox.Items.Add(DriveLetter + ':');
+  end;
 end;
 
 function TVirtualDriveDialog.GetDrive: Char;
 begin
-  Result := DriveComboBox.Text[1];
+  if Length(DriveComboBox.Text) > 0 then
+    Result := DriveComboBox.Text[1]
+  else
+    Result := #0;
 end;
 
 function TVirtualDriveDialog.GetPath: string;
 begin
   Result := PathEdit.Text;
-end;
-
-procedure TVirtualDriveDialog.SetDrive(Value: Char);
-begin
-  DriveComboBox.Text := Value;
-end;
-
-procedure TVirtualDriveDialog.SetPath(Value: string);
-begin
-  PathEdit.Text := Value;
 end;
 
 end.

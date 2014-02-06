@@ -155,6 +155,7 @@ object MapVirtualDrivesForm: TMapVirtualDrivesForm
       Caption = 'AddAction'
       Hint = 'Add a virtual drive'
       ImageIndex = 249
+      OnExecute = AddActionExecute
     end
     object DeleteAction: TAction
       Caption = 'Open...'

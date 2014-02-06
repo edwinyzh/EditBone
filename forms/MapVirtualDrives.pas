@@ -47,6 +47,7 @@ type
       Column: TColumnIndex; var NodeWidth: Integer);
     procedure EditActionExecute(Sender: TObject);
     procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
+    procedure AddActionExecute(Sender: TObject);
   private
     { Private declarations }
     procedure AddTreeNode(Drive: Char; Path: string);
@@ -66,7 +67,7 @@ implementation
 
 uses
   System.IniFiles, BCCommon.FileUtils, BCCommon.Lib, Vcl.Themes, BCCommon.LanguageUtils, System.Types, VirtualDrive,
-  BCDialogs.Dlg;
+  BCDialogs.Dlg, ShellApi;
 
 var
   FMapVirtualDrivesForm: TMapVirtualDrivesForm;
@@ -274,6 +275,26 @@ begin
   end;
 end;
 
+procedure TMapVirtualDrivesForm.AddActionExecute(Sender: TObject);
+var
+  Node: PVirtualNode;
+  Data: PVirtualDriveRec;
+begin
+  with VirtualDriveDialog do
+  begin
+    Drive := #0;
+    Path := '';
+    if Open(dtOpen) then
+    begin
+      AddTreeNode(Drive, Path);
+      ShellExecute(0, nil, 'subst.exe', PWideChar(Format(' %s: %s', [Drive, Path])), nil, SW_HIDE);
+    end;
+  end;
+  // permanent
+  // HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\DOS Devices
+  // name: x: value \??\c:\temp
+end;
+
 procedure TMapVirtualDrivesForm.AddTreeNode(Drive: Char; Path: string);
 var
   RootNode: PVirtualNode;
@@ -291,6 +312,7 @@ var
   Drives: array [0..255] of Char;
   DriveCount: Integer;
 begin
+  VirtualDrawTree.Clear;
   DriveCount := GetLogicalDriveStrings(255, Drives);
   for i := 0 to DriveCount - 1 do
     if IsVirtualDrive(Drives[i]) then
