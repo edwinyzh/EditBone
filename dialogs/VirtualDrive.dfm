@@ -3,7 +3,7 @@ object VirtualDriveDialog: TVirtualDriveDialog
   Top = 0
   BorderStyle = bsDialog
   Caption = 'Virtual Drive'
-  ClientHeight = 111
+  ClientHeight = 125
   ClientWidth = 435
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,7 +18,7 @@ object VirtualDriveDialog: TVirtualDriveDialog
   TextHeight = 13
   object ButtonPanel: TPanel
     Left = 0
-    Top = 79
+    Top = 93
     Width = 435
     Height = 32
     Align = alBottom
@@ -61,7 +61,7 @@ object VirtualDriveDialog: TVirtualDriveDialog
     Left = 0
     Top = 0
     Width = 435
-    Height = 79
+    Height = 93
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 12
@@ -196,10 +196,35 @@ object VirtualDriveDialog: TVirtualDriveDialog
         DropDownFixedWidth = 0
       end
     end
+    object CheckBoxPanel: TPanel
+      Left = 12
+      Top = 64
+      Width = 411
+      Height = 21
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Align = alTop
+      BevelOuter = bvNone
+      Padding.Top = 4
+      TabOrder = 2
+      object SubstDriveCheckBox: TCheckBox
+        Left = 0
+        Top = 4
+        Width = 253
+        Height = 17
+        Align = alLeft
+        Caption = ' Subst a drive at startup'
+        Checked = True
+        State = cbChecked
+        TabOrder = 0
+      end
+    end
   end
   object ActionList: TActionList
-    Left = 132
-    Top = 48
+    Left = 258
+    Top = 24
     object FolderButtonClickAction: TAction
       ImageIndex = 0
       OnExecute = FolderButtonClickActionExecute

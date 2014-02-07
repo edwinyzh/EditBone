@@ -161,6 +161,7 @@ object MapVirtualDrivesForm: TMapVirtualDrivesForm
       Caption = 'Open...'
       Hint = 'Delete selected virtual drive'
       ImageIndex = 250
+      OnExecute = DeleteActionExecute
     end
     object EditAction: TAction
       Caption = 'EditAction'

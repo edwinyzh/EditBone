@@ -48,7 +48,8 @@ type
     procedure EditActionExecute(Sender: TObject);
     procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
     procedure AddActionExecute(Sender: TObject);
-  private
+    procedure DeleteActionExecute(Sender: TObject);
+  strict private
     { Private declarations }
     procedure AddTreeNode(Drive: Char; Path: string);
     procedure GetVirtualDrives;
@@ -67,7 +68,7 @@ implementation
 
 uses
   System.IniFiles, BCCommon.FileUtils, BCCommon.Lib, Vcl.Themes, BCCommon.LanguageUtils, System.Types, VirtualDrive,
-  BCDialogs.Dlg, ShellApi;
+  BCDialogs.Dlg, ShellApi, System.Win.Registry, Lib, BCCommon.Messages, BCCommon.LanguageStrings;
 
 var
   FMapVirtualDrivesForm: TMapVirtualDrivesForm;
@@ -88,27 +89,6 @@ end;
 procedure TMapVirtualDrivesForm.CloseActionExecute(Sender: TObject);
 begin
   Close;
-end;
-
-procedure TMapVirtualDrivesForm.EditActionExecute(Sender: TObject);
-var
-  Node: PVirtualNode;
-  Data: PVirtualDriveRec;
-begin
-  Node := VirtualDrawTree.GetFirstSelected;
-  if not Assigned(Node) then
-    Exit;
-  Data := VirtualDrawTree.GetNodeData(Node);
-  with VirtualDriveDialog do
-  begin
-    Drive := Data.Drive;
-    Path := Data.Path;
-    if Open(dtEdit) then
-    begin
-      Data.Drive := Drive;
-      Data.Path := Path;
-    end;
-  end;
 end;
 
 procedure TMapVirtualDrivesForm.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -275,10 +255,37 @@ begin
   end;
 end;
 
-procedure TMapVirtualDrivesForm.AddActionExecute(Sender: TObject);
+procedure AddRegistryKey(Drive: Char; Path: string);
 var
-  Node: PVirtualNode;
-  Data: PVirtualDriveRec;
+   Registry: TRegistry;
+begin
+  Registry := TRegistry.Create;
+  try
+    Registry.RootKey := HKEY_LOCAL_MACHINE;
+    if Registry.OpenKey(HKEY_DOS_DEVICES, False) then
+      Registry.WriteString(Drive + ':', '\??\' + Path);
+  finally
+    Registry.CloseKey;
+    Registry.Free;
+  end;
+end;
+
+procedure DeleteRegistryKey(Drive: Char);
+var
+   Registry: TRegistry;
+begin
+  Registry := TRegistry.Create;
+  try
+    Registry.RootKey := HKEY_LOCAL_MACHINE;
+    if Registry.OpenKey(HKEY_DOS_DEVICES, False) then
+      Registry.DeleteValue(Drive + ':');
+  finally
+    Registry.CloseKey;
+    Registry.Free;
+  end;
+end;
+
+procedure TMapVirtualDrivesForm.AddActionExecute(Sender: TObject);
 begin
   with VirtualDriveDialog do
   begin
@@ -287,12 +294,51 @@ begin
     if Open(dtOpen) then
     begin
       AddTreeNode(Drive, Path);
-      ShellExecute(0, nil, 'subst.exe', PWideChar(Format(' %s: %s', [Drive, Path])), nil, SW_HIDE);
+      if SubstAtStartup then
+        AddRegistryKey(Drive, Path);
+      CreateVirtualDrive(Drive, Path);
     end;
   end;
-  // permanent
-  // HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\DOS Devices
-  // name: x: value \??\c:\temp
+end;
+
+procedure TMapVirtualDrivesForm.EditActionExecute(Sender: TObject);
+var
+  Node: PVirtualNode;
+  Data: PVirtualDriveRec;
+begin
+  Node := VirtualDrawTree.GetFirstSelected;
+  if not Assigned(Node) then
+    Exit;
+  Data := VirtualDrawTree.GetNodeData(Node);
+  with VirtualDriveDialog do
+  begin
+    Drive := Data.Drive;
+    Path := Data.Path;
+    if Open(dtEdit) then
+    begin
+      Data.Drive := Drive;
+      Data.Path := Path;
+      DeleteRegistryKey(Drive);
+      if SubstAtStartup then
+        AddRegistryKey(Drive, Path);
+    end;
+  end;
+end;
+
+procedure TMapVirtualDrivesForm.DeleteActionExecute(Sender: TObject);
+var
+  Node: PVirtualNode;
+  Data: PVirtualDriveRec;
+begin
+  Node := VirtualDrawTree.GetFirstSelected;
+  if not Assigned(Node) then
+    Exit;
+  Data := VirtualDrawTree.GetNodeData(Node);
+  if not AskYesOrNo(Format(LanguageDataModule.GetYesOrNoMessage('DeleteVirtualDrive'), [Data.Drive + ':'])) then
+    Exit;
+  DeleteRegistryKey(Data.Drive);
+  DeleteVirtualDrive(Data.Drive);
+  VirtualDrawTree.DeleteNode(Node);
 end;
 
 procedure TMapVirtualDrivesForm.AddTreeNode(Drive: Char; Path: string);

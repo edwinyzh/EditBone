@@ -1354,6 +1354,7 @@ begin
   ToolBarPanel.Visible := OptionsContainer.ToolBarVisible;
   {$IFDEF RELEASE}
   ToolsDuplicateCheckerAction.Visible := False;
+  ToolsMapVirtualDrivesAction.Visible := False;
   {$ENDIF}
   { IDE can lose these properties }
   ActionManager.Images := ImagesDataModule.ImageList;
@@ -1636,7 +1637,14 @@ begin
         FindWhatComboBox.Text := SynEdit.SelText;
     if ShowModal = mrOk then
     begin
-      FProgressBar.Count := CountFilesInFolder(FolderText);
+      Screen.Cursor := crHourGlass;
+      try
+        StatusBar.Panels[3].Text := LanguageDataModule.GetConstant('CountingFiles');
+        Application.ProcessMessages;
+        FProgressBar.Count := CountFilesInFolder(FolderText);
+      finally
+        Screen.Cursor := crDefault;
+      end;
       FProgressBar.Show;
       T1 := Now;
       try

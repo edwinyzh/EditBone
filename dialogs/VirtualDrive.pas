@@ -24,22 +24,26 @@ type
     ActionList: TActionList;
     FolderButtonClickAction: TAction;
     OKAction: TAction;
+    CheckBoxPanel: TPanel;
+    SubstDriveCheckBox: TCheckBox;
     procedure OKActionExecute(Sender: TObject);
     procedure FolderButtonClickActionExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
-  private
+  strict private
     { Private declarations }
     FDrive: Char;
     FPath: string;
     function CheckFields: Boolean;
     function GetDrive: Char;
     function GetPath: string;
+    function GetSubstAtStartup: Boolean;
     procedure AddDrives;
   public
     { Public declarations }
     function Open(DialogType: TDialogType): Boolean;
     property Drive: Char read GetDrive write FDrive;
     property Path: string read GetPath write FPath;
+    property SubstAtStartup: Boolean read GetSubstAtStartup;
   end;
 
 function VirtualDriveDialog: TVirtualDriveDialog;
@@ -49,7 +53,7 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.StyleUtils, BCCommon.LanguageStrings, Math, BCCommon.Messages,
+  BCCommon.StyleUtils, BCCommon.LanguageStrings, Math, BCCommon.Messages, System.Win.Registry, Lib,
   {$WARNINGS OFF}
   Vcl.FileCtrl { warning: FileCtrl is specific to a platform }
   {$WARNINGS ON};
@@ -95,6 +99,21 @@ begin
   ModalResult := mrOk;
 end;
 
+function KeyExists(KeyName: string): Boolean;
+var
+  Registry: TRegistry;
+begin
+  Registry := TRegistry.Create(KEY_READ);
+  try
+    Registry.RootKey := HKEY_LOCAL_MACHINE;
+    Registry.OpenKeyReadOnly(HKEY_DOS_DEVICES);
+    Result := Registry.ReadString(KeyName) <> '';
+  finally
+    Registry.CloseKey;
+    Registry.Free;
+  end;
+end;
+
 function TVirtualDriveDialog.Open(DialogType: TDialogType): Boolean;
 begin
   if DialogType = dtOpen then
@@ -105,6 +124,7 @@ begin
   AddDrives;
   DriveComboBox.ItemIndex := DriveComboBox.Items.IndexOf(FDrive + ':');
   PathEdit.Text := FPath;
+  SubstDriveCheckBox.Checked := KeyExists(DriveComboBox.Text);
 
   Result := ShowModal = mrOk;
 end;
@@ -154,6 +174,11 @@ end;
 function TVirtualDriveDialog.GetPath: string;
 begin
   Result := PathEdit.Text;
+end;
+
+function TVirtualDriveDialog.GetSubstAtStartup: Boolean;
+begin
+  Result := SubstDriveCheckBox.Checked;
 end;
 
 end.
