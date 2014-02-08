@@ -9,7 +9,6 @@ uses
 type
   TAboutDialog = class(TDialog)
     BottomPanel: TPanel;
-    CopyrightLabel: TLabel;
     EditBoneImage: TImage;
     ImagePanel: TPanel;
     MemoryAvailableLabel: TLabel;
@@ -17,18 +16,24 @@ type
     OSLabel: TLabel;
     ProgramNameLabel: TLabel;
     SeparatorPanel: TPanel;
-    ThanksTo1LinkLabel: TLinkLabel;
-    ThanksTo2LinkLabel: TLinkLabel;
-    ThanksToLabel: TLabel;
+    LinkRow2Label: TLinkLabel;
+    LinkRow3Label: TLinkLabel;
+    ThirdPartyComponentsLabel: TLabel;
     ThanksToPanel: TPanel;
     TopPanel: TPanel;
     VersionLabel: TLabel;
     DonationsButton: TButton;
+    CopyrightLabel: TLabel;
+    IconsLabel: TLabel;
+    LinkRow4Label: TLinkLabel;
+    LanguageFileContributorsLabel: TLabel;
+    DevelopmentEnvironmentLabel: TLabel;
+    LinkRow1Label: TLinkLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure LinkClick(Sender: TObject; const Link: string; LinkType: TSysLinkType);
-    procedure BottomPanelClick(Sender: TObject);
+    procedure DonationsButtonClick(Sender: TObject);
   private
     function GetVersion: string;
   public
@@ -67,7 +72,7 @@ begin
   BrowseURL(Link);
 end;
 
-procedure TAboutDialog.BottomPanelClick(Sender: TObject);
+procedure TAboutDialog.DonationsButtonClick(Sender: TObject);
 begin
   inherited;
   BrowseURL(DONATION_URL);
@@ -95,6 +100,8 @@ begin
     { silent }
   end;
   CopyrightLabel.Caption := Format(CopyrightLabel.Caption, ['© 2010-2014 Lasse Rautiainen']);
+  if Width - CopyrightLabel.Left - CopyrightLabel.Width < 0 then
+    Width := CopyrightLabel.Left + CopyrightLabel.Width + 20;
   { initialize the structure }
   FillChar(MemoryStatus, SizeOf(MemoryStatus), 0);
   MemoryStatus.dwLength := SizeOf(MemoryStatus);
@@ -104,7 +111,6 @@ begin
   {$WARNINGS ON}
   OSLabel.Caption := GetOSInfo;
   MemoryAvailableLabel.Caption := Format(MemoryAvailableLabel.Caption, [FormatFloat('#,###" KB"', MemoryStatus.ullAvailPhys  div 1024)]);
-
 end;
 
 function TAboutDialog.GetVersion: string;

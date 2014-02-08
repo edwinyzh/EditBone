@@ -4,8 +4,8 @@ object AboutDialog: TAboutDialog
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = 'About EditBone'
-  ClientHeight = 256
-  ClientWidth = 375
+  ClientHeight = 361
+  ClientWidth = 353
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,16 +23,17 @@ object AboutDialog: TAboutDialog
   object TopPanel: TPanel
     Left = 0
     Top = 0
-    Width = 375
+    Width = 353
     Height = 137
     Align = alTop
     BevelOuter = bvNone
     Color = clWhite
     ParentBackground = False
     TabOrder = 0
+    StyleElements = [seFont, seBorder]
     object ProgramNameLabel: TLabel
-      Left = 11
-      Top = 11
+      Left = 134
+      Top = 9
       Width = 105
       Height = 33
       Caption = 'EditBone'
@@ -45,34 +46,60 @@ object AboutDialog: TAboutDialog
       Transparent = True
     end
     object VersionLabel: TLabel
-      Left = 11
-      Top = 48
-      Width = 117
-      Height = 16
+      Left = 134
+      Top = 46
+      Width = 98
+      Height = 13
       Caption = 'Version %s (%d-bit)'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
     end
     object OSLabel: TLabel
-      Left = 11
-      Top = 102
+      Left = 134
+      Top = 100
       Width = 39
       Height = 13
       Caption = 'OSLabel'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
     end
     object MemoryAvailableLabel: TLabel
-      Left = 11
-      Top = 118
+      Left = 134
+      Top = 116
       Width = 166
       Height = 13
       Caption = 'Memory Available to Windows: %s'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object CopyrightLabel: TLabel
+      Left = 134
+      Top = 62
+      Width = 170
+      Height = 13
+      Alignment = taCenter
+      Caption = 'Copyright %s. All Rights Reserved.'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
     end
     object ImagePanel: TPanel
-      Left = 247
+      Left = 0
       Top = 0
       Width = 128
       Height = 137
@@ -80,7 +107,7 @@ object AboutDialog: TAboutDialog
       Margins.Top = 2
       Margins.Right = 2
       Margins.Bottom = 2
-      Align = alRight
+      Align = alLeft
       BevelOuter = bvNone
       Padding.Top = 6
       Padding.Bottom = 6
@@ -478,13 +505,15 @@ object AboutDialog: TAboutDialog
           FE12264D9AF47118EAAD36090EEA0E22F01F7CF04178F2C9C20F9AF83F23F483
           A5DDABB1A00000000049454E44AE426082}
         IsControl = True
+        ExplicitLeft = -46
+        ExplicitTop = -6
       end
     end
   end
   object SeparatorPanel: TPanel
     Left = 0
     Top = 137
-    Width = 375
+    Width = 353
     Height = 1
     Align = alTop
     BevelOuter = bvNone
@@ -495,65 +524,161 @@ object AboutDialog: TAboutDialog
   object ThanksToPanel: TPanel
     Left = 0
     Top = 138
-    Width = 375
-    Height = 77
+    Width = 353
+    Height = 182
     Margins.Left = 2
     Margins.Top = 2
     Margins.Right = 2
     Margins.Bottom = 2
     Align = alClient
     BevelOuter = bvNone
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 2
-    object ThanksToLabel: TLabel
+    DesignSize = (
+      353
+      182)
+    object ThirdPartyComponentsLabel: TLabel
       Left = 11
-      Top = 6
-      Width = 47
+      Top = 49
+      Width = 108
       Height = 13
       Alignment = taCenter
-      Caption = 'Thanks to'
+      Caption = '3rd Party Components'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
     end
-    object CopyrightLabel: TLabel
-      Left = 0
-      Top = 64
-      Width = 170
-      Height = 13
-      Align = alBottom
-      Alignment = taCenter
-      Caption = 'Copyright %s. All Rights Reserved.'
-    end
-    object ThanksTo2LinkLabel: TLinkLabel
+    object IconsLabel: TLabel
       Left = 11
-      Top = 43
-      Width = 310
+      Top = 144
+      Width = 26
+      Height = 13
+      Alignment = taCenter
+      Caption = 'Icons'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object LanguageFileContributorsLabel: TLabel
+      Left = 11
+      Top = 90
+      Width = 129
+      Height = 13
+      Alignment = taCenter
+      Caption = 'Language File Contributors'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DevelopmentEnvironmentLabel: TLabel
+      Left = 10
+      Top = 8
+      Width = 118
+      Height = 13
+      Alignment = taCenter
+      Caption = 'Development Environent'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object LinkRow3Label: TLinkLabel
+      Left = 11
+      Top = 106
+      Width = 329
+      Height = 28
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = False
+      Caption = 
+        'Karel Van Dongen, nickW, netcyphe, '#920#945#957#940#963#951#962' '#922#945#964#963#945#947#949#974#961#947#951#962',, ZityiS' +
+        'oft Translator Team, bovirus, DEKO, Midas, '#1057#1077#1088#1075#1077#1081' '#1053#1086#1074#1080#1082#1086#1074', ansid' +
+        'ev'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 2
+      UseVisualStyle = True
+    end
+    object LinkRow2Label: TLinkLabel
+      Left = 11
+      Top = 65
+      Width = 296
       Height = 17
       Caption = 
-        '<a href="http://www.customicondesign.com/">Custom Icon Design</a' +
-        '>, <a href="http://angusj.com/delphi/">Angus Johnson</a>, <a hre' +
-        'f="http://www.soft-gems.net">Mike Lischke</a>, <a href="http://r' +
-        'obstechcorner.blogspot.fi/">Robert Love</a>'
-      TabOrder = 0
+        '<a href="http://www.delphi-jedi.org/">Jedi Project</a>, <a href=' +
+        '"http://synedit.svn.sourceforge.net/viewvc/synedit/">SynEdit</a>' +
+        ', <a href="http://code.google.com/p/synweb/">SynWeb</a>, <a href' +
+        '="http://angusj.com/delphi/">TDiff</a>, <a href="http://www.soft' +
+        '-gems.net">Virtual Tree</a>, <a href="http://robstechcorner.blog' +
+        'spot.fi/">IniPersist</a> '
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
       OnLinkClick = LinkClick
     end
-    object ThanksTo1LinkLabel: TLinkLabel
+    object LinkRow4Label: TLinkLabel
       Left = 11
-      Top = 26
-      Width = 357
+      Top = 160
+      Width = 172
       Height = 17
       Caption = 
+        '<a href="http://www.fatcow.com/free-icons">FatCow Icons</a>, <a ' +
+        'href="http://www.customicondesign.com/">Custom Icon Design</a>'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      OnLinkClick = LinkClick
+    end
+    object LinkRow1Label: TLinkLabel
+      Left = 11
+      Top = 24
+      Width = 365
+      Height = 17
+      AutoSize = False
+      Caption = 
         '<a href="http://www.embarcadero.com/products/rad-studio/">Embarc' +
-        'adero RAD Studio</a>, <a href="http://www.delphi-jedi.org/">Jedi' +
-        ' Project</a>, <a href="http://synedit.svn.sourceforge.net/viewvc' +
-        '/synedit/">SynEdit</a>, <a href="http://code.google.com/p/synweb' +
-        '/">SynWeb</a>, <a href="http://www.fatcow.com/free-icons">FatCow' +
-        ' Icons</a>, '
-      TabOrder = 1
+        'adero RAD Studio</a>'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
       OnLinkClick = LinkClick
     end
   end
   object BottomPanel: TPanel
     Left = 0
-    Top = 215
-    Width = 375
+    Top = 320
+    Width = 353
     Height = 41
     Margins.Left = 2
     Margins.Top = 2
@@ -566,9 +691,8 @@ object AboutDialog: TAboutDialog
     Padding.Right = 8
     Padding.Bottom = 8
     TabOrder = 3
-    OnClick = BottomPanelClick
     object OKButton: TButton
-      Left = 292
+      Left = 270
       Top = 8
       Width = 75
       Height = 25
@@ -587,8 +711,14 @@ object AboutDialog: TAboutDialog
       Align = alLeft
       Cancel = True
       Caption = 'Donations'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 1
-      ExplicitTop = 16
+      OnClick = DonationsButtonClick
     end
   end
 end
