@@ -5,7 +5,7 @@ object AboutDialog: TAboutDialog
   BorderStyle = bsDialog
   Caption = 'About EditBone'
   ClientHeight = 361
-  ClientWidth = 353
+  ClientWidth = 538
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,7 +23,7 @@ object AboutDialog: TAboutDialog
   object TopPanel: TPanel
     Left = 0
     Top = 0
-    Width = 353
+    Width = 538
     Height = 137
     Align = alTop
     BevelOuter = bvNone
@@ -513,7 +513,7 @@ object AboutDialog: TAboutDialog
   object SeparatorPanel: TPanel
     Left = 0
     Top = 137
-    Width = 353
+    Width = 538
     Height = 1
     Align = alTop
     BevelOuter = bvNone
@@ -524,7 +524,7 @@ object AboutDialog: TAboutDialog
   object ThanksToPanel: TPanel
     Left = 0
     Top = 138
-    Width = 353
+    Width = 538
     Height = 182
     Margins.Left = 2
     Margins.Top = 2
@@ -540,7 +540,7 @@ object AboutDialog: TAboutDialog
     ParentFont = False
     TabOrder = 2
     DesignSize = (
-      353
+      538
       182)
     object ThirdPartyComponentsLabel: TLabel
       Left = 11
@@ -587,10 +587,10 @@ object AboutDialog: TAboutDialog
     object DevelopmentEnvironmentLabel: TLabel
       Left = 10
       Top = 8
-      Width = 118
+      Width = 126
       Height = 13
       Alignment = taCenter
-      Caption = 'Development Environent'
+      Caption = 'Development Environment'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -601,7 +601,7 @@ object AboutDialog: TAboutDialog
     object LinkRow3Label: TLinkLabel
       Left = 11
       Top = 106
-      Width = 329
+      Width = 514
       Height = 28
       Anchors = [akLeft, akTop, akRight]
       AutoSize = False
@@ -621,15 +621,17 @@ object AboutDialog: TAboutDialog
     object LinkRow2Label: TLinkLabel
       Left = 11
       Top = 65
-      Width = 296
-      Height = 17
+      Width = 510
+      Height = 19
       Caption = 
-        '<a href="http://www.delphi-jedi.org/">Jedi Project</a>, <a href=' +
-        '"http://synedit.svn.sourceforge.net/viewvc/synedit/">SynEdit</a>' +
-        ', <a href="http://code.google.com/p/synweb/">SynWeb</a>, <a href' +
-        '="http://angusj.com/delphi/">TDiff</a>, <a href="http://www.soft' +
-        '-gems.net">Virtual Tree</a>, <a href="http://robstechcorner.blog' +
-        'spot.fi/">IniPersist</a> '
+        '<a href="http://wiki.delphi-jedi.org/index.php?title=JEDI_Code_L' +
+        'ibrary">JEDI Code Library</a>, <a href="http://jvcl.delphi-jedi.' +
+        'org/">JEDI Visual Component Library</a>, <a href="http://synedit' +
+        '.svn.sourceforge.net/viewvc/synedit/">SynEdit</a>, <a href="http' +
+        '://code.google.com/p/synweb/">SynWeb</a>, <a href="http://angusj' +
+        '.com/delphi/">TDiff</a>, <a href="http://www.soft-gems.net">Virt' +
+        'ual Tree</a>, <a href="http://robstechcorner.blogspot.fi/">IniPe' +
+        'rsist</a> '
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -637,13 +639,14 @@ object AboutDialog: TAboutDialog
       Font.Style = []
       ParentFont = False
       TabOrder = 1
+      UseVisualStyle = True
       OnLinkClick = LinkClick
     end
     object LinkRow4Label: TLinkLabel
       Left = 11
       Top = 160
-      Width = 172
-      Height = 17
+      Width = 188
+      Height = 19
       Caption = 
         '<a href="http://www.fatcow.com/free-icons">FatCow Icons</a>, <a ' +
         'href="http://www.customicondesign.com/">Custom Icon Design</a>'
@@ -654,6 +657,7 @@ object AboutDialog: TAboutDialog
       Font.Style = []
       ParentFont = False
       TabOrder = 3
+      UseVisualStyle = True
       OnLinkClick = LinkClick
     end
     object LinkRow1Label: TLinkLabel
@@ -672,13 +676,14 @@ object AboutDialog: TAboutDialog
       Font.Style = []
       ParentFont = False
       TabOrder = 0
+      UseVisualStyle = True
       OnLinkClick = LinkClick
     end
   end
   object BottomPanel: TPanel
     Left = 0
     Top = 320
-    Width = 353
+    Width = 538
     Height = 41
     Margins.Left = 2
     Margins.Top = 2
@@ -692,7 +697,7 @@ object AboutDialog: TAboutDialog
     Padding.Bottom = 8
     TabOrder = 3
     object OKButton: TButton
-      Left = 270
+      Left = 455
       Top = 8
       Width = 75
       Height = 25
