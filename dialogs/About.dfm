@@ -32,7 +32,7 @@ object AboutDialog: TAboutDialog
     TabOrder = 0
     StyleElements = [seFont, seBorder]
     object ProgramNameLabel: TLabel
-      Left = 134
+      Left = 132
       Top = 9
       Width = 105
       Height = 33
