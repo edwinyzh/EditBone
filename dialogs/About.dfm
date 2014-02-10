@@ -28,12 +28,18 @@ object AboutDialog: TAboutDialog
     Align = alTop
     BevelOuter = bvNone
     Color = clWhite
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
     ParentBackground = False
+    ParentFont = False
     TabOrder = 0
     StyleElements = [seFont, seBorder]
     object ProgramNameLabel: TLabel
-      Left = 132
-      Top = 9
+      Left = 133
+      Top = 4
       Width = 105
       Height = 33
       Caption = 'EditBone'
@@ -47,13 +53,13 @@ object AboutDialog: TAboutDialog
     end
     object VersionLabel: TLabel
       Left = 134
-      Top = 46
-      Width = 98
-      Height = 13
+      Top = 40
+      Width = 112
+      Height = 14
       Caption = 'Version %s (%d-bit)'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -12
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
@@ -86,7 +92,7 @@ object AboutDialog: TAboutDialog
     end
     object CopyrightLabel: TLabel
       Left = 134
-      Top = 62
+      Top = 58
       Width = 170
       Height = 13
       Alignment = taCenter
@@ -505,8 +511,6 @@ object AboutDialog: TAboutDialog
           FE12264D9AF47118EAAD36090EEA0E22F01F7CF04178F2C9C20F9AF83F23F483
           A5DDABB1A00000000049454E44AE426082}
         IsControl = True
-        ExplicitLeft = -46
-        ExplicitTop = -6
       end
     end
   end
@@ -543,7 +547,7 @@ object AboutDialog: TAboutDialog
       538
       182)
     object ThirdPartyComponentsLabel: TLabel
-      Left = 11
+      Left = 10
       Top = 49
       Width = 108
       Height = 13
@@ -557,8 +561,8 @@ object AboutDialog: TAboutDialog
       ParentFont = False
     end
     object IconsLabel: TLabel
-      Left = 11
-      Top = 144
+      Left = 10
+      Top = 145
       Width = 26
       Height = 13
       Alignment = taCenter
@@ -571,7 +575,7 @@ object AboutDialog: TAboutDialog
       ParentFont = False
     end
     object LanguageFileContributorsLabel: TLabel
-      Left = 11
+      Left = 10
       Top = 90
       Width = 129
       Height = 13
@@ -599,8 +603,8 @@ object AboutDialog: TAboutDialog
       ParentFont = False
     end
     object LinkRow3Label: TLinkLabel
-      Left = 11
-      Top = 106
+      Left = 16
+      Top = 107
       Width = 514
       Height = 28
       Anchors = [akLeft, akTop, akRight]
@@ -619,8 +623,8 @@ object AboutDialog: TAboutDialog
       UseVisualStyle = True
     end
     object LinkRow2Label: TLinkLabel
-      Left = 11
-      Top = 65
+      Left = 16
+      Top = 66
       Width = 510
       Height = 19
       Caption = 
@@ -643,8 +647,8 @@ object AboutDialog: TAboutDialog
       OnLinkClick = LinkClick
     end
     object LinkRow4Label: TLinkLabel
-      Left = 11
-      Top = 160
+      Left = 16
+      Top = 162
       Width = 188
       Height = 19
       Caption = 
@@ -661,8 +665,8 @@ object AboutDialog: TAboutDialog
       OnLinkClick = LinkClick
     end
     object LinkRow1Label: TLinkLabel
-      Left = 11
-      Top = 24
+      Left = 16
+      Top = 25
       Width = 365
       Height = 17
       AutoSize = False
