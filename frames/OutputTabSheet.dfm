@@ -2,14 +2,17 @@ object OutputTabSheetFrame: TOutputTabSheetFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 302
+  Height = 305
   Align = alClient
+  Color = clWindow
+  ParentBackground = False
+  ParentColor = False
   TabOrder = 0
   object Panel: TPanel
     Left = 0
     Top = 0
     Width = 451
-    Height = 302
+    Height = 305
     Align = alClient
     BevelOuter = bvNone
     Padding.Left = 1
@@ -22,7 +25,7 @@ object OutputTabSheetFrame: TOutputTabSheetFrame
       Left = 1
       Top = 1
       Width = 447
-      Height = 299
+      Height = 302
       Align = alClient
       DragOperations = []
       Header.AutoSizeIndex = 0

@@ -4,7 +4,7 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
   Caption = 'Unicode Character Map'
   ClientHeight = 402
   ClientWidth = 432
-  Color = clBtnFace
+  Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11

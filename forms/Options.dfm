@@ -4,7 +4,7 @@ object OptionsForm: TOptionsForm
   Caption = 'Options'
   ClientHeight = 495
   ClientWidth = 512
-  Color = clBtnFace
+  Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -62,6 +62,7 @@ object OptionsForm: TOptionsForm
     Padding.Left = 6
     Padding.Top = 6
     Padding.Right = 6
+    ParentColor = True
     TabOrder = 0
     object Splitter: TSplitter
       Left = 206
@@ -102,6 +103,7 @@ object OptionsForm: TOptionsForm
       Height = 448
       Align = alClient
       BevelOuter = bvNone
+      ParentColor = True
       TabOrder = 1
       object ScrollBox: TScrollBox
         Left = 0
@@ -110,6 +112,7 @@ object OptionsForm: TOptionsForm
         Height = 448
         Align = alClient
         BorderStyle = bsNone
+        ParentBackground = True
         TabOrder = 0
       end
     end

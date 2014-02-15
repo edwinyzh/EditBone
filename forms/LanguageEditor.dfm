@@ -4,7 +4,7 @@ object LanguageEditorForm: TLanguageEditorForm
   Caption = 'Language Editor - [%s]'
   ClientHeight = 474
   ClientWidth = 820
-  Color = clBtnFace
+  Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -144,6 +144,7 @@ object LanguageEditorForm: TLanguageEditorForm
     Height = 27
     Align = alTop
     BevelOuter = bvNone
+    Color = clWindow
     Padding.Left = 2
     Padding.Top = 2
     Padding.Right = 2

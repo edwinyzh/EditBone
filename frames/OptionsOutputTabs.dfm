@@ -2,14 +2,14 @@ inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
   Width = 232
   Height = 161
   Visible = False
-  ExplicitWidth = 232
-  ExplicitHeight = 161
   object Panel: TPanel
     Left = 0
     Top = 0
     Width = 232
     Height = 161
     BevelOuter = bvNone
+    Color = clWindow
+    ParentBackground = False
     TabOrder = 0
     object MultilineCheckBox: TBCCheckBox
       Left = 4

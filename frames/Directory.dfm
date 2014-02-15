@@ -4,6 +4,9 @@ object DirectoryFrame: TDirectoryFrame
   Width = 451
   Height = 305
   Align = alClient
+  Color = clWindow
+  ParentBackground = False
+  ParentColor = False
   TabOrder = 0
   object PageControl: TBCPageControl
     Left = 0

@@ -5,7 +5,7 @@ object DirectoryTabDialog: TDirectoryTabDialog
   Caption = 'DirectoryTabDialog'
   ClientHeight = 155
   ClientWidth = 488
-  Color = clBtnFace
+  Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11

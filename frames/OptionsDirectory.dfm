@@ -1,14 +1,17 @@
 inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
   Width = 201
   Height = 150
-  ExplicitWidth = 201
-  ExplicitHeight = 150
+  Color = clWindow
+  ParentBackground = False
+  ParentColor = False
   object Panel: TPanel
     Left = 0
     Top = 0
     Width = 201
     Height = 147
     BevelOuter = bvNone
+    Color = clWindow
+    ParentBackground = False
     TabOrder = 0
     object IndentLabel: TLabel
       Left = 6
@@ -89,6 +92,8 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
       Margins.Bottom = 4
       Caption = ' Show Archive Files'
       Checked = True
+      Color = clWindow
+      ParentColor = False
       State = cbChecked
       TabOrder = 3
       ReadOnly = False
@@ -104,6 +109,8 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
       Margins.Bottom = 4
       Caption = ' Show Overlay Icons'
       Checked = True
+      Color = clWindow
+      ParentColor = False
       State = cbChecked
       TabOrder = 4
       ReadOnly = False

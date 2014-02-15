@@ -5,7 +5,7 @@ object VirtualDriveDialog: TVirtualDriveDialog
   Caption = 'Virtual Drive'
   ClientHeight = 125
   ClientWidth = 435
-  Color = clBtnFace
+  Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -149,7 +149,6 @@ object VirtualDriveDialog: TVirtualDriveDialog
           FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
           00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
         NumGlyphs = 2
-        ExplicitLeft = 443
       end
       object PathEdit: TBCEdit
         Left = 46

@@ -4,7 +4,7 @@ object MapVirtualDrivesForm: TMapVirtualDrivesForm
   Caption = 'Map Virtual Drives'
   ClientHeight = 508
   ClientWidth = 489
-  Color = clBtnFace
+  Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -34,6 +34,7 @@ object MapVirtualDrivesForm: TMapVirtualDrivesForm
     Padding.Top = 2
     Padding.Right = 2
     Padding.Bottom = 2
+    ParentColor = True
     TabOrder = 1
     object ToolbarSeparator2Bevel: TBevel
       AlignWithMargins = True
@@ -46,7 +47,6 @@ object MapVirtualDrivesForm: TMapVirtualDrivesForm
       Margins.Bottom = 2
       Align = alLeft
       Shape = bsLeftLine
-      ExplicitLeft = 93
     end
     object StandardToolBar: TBCToolBar
       Left = 2

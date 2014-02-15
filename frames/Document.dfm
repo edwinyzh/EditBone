@@ -5,6 +5,9 @@ object DocumentFrame: TDocumentFrame
   Height = 305
   Align = alClient
   DoubleBuffered = False
+  Color = clWindow
+  ParentBackground = False
+  ParentColor = False
   ParentDoubleBuffered = False
   TabOrder = 0
   object SearchPanel: TPanel
@@ -26,7 +29,6 @@ object DocumentFrame: TDocumentFrame
       Align = alLeft
       Caption = 'Whole Words Only'
       Layout = tlCenter
-      ExplicitHeight = 13
     end
     object RegularExpressionLabel: TLabel
       Left = 550
@@ -36,7 +38,6 @@ object DocumentFrame: TDocumentFrame
       Align = alLeft
       Caption = 'Regular Expression'
       Layout = tlCenter
-      ExplicitHeight = 13
     end
     object WildCardLabel: TLabel
       Left = 669
@@ -46,7 +47,6 @@ object DocumentFrame: TDocumentFrame
       Align = alLeft
       Caption = 'Wild Card'
       Layout = tlCenter
-      ExplicitHeight = 13
     end
     object SearchPanel1: TPanel
       Left = 0
@@ -140,7 +140,6 @@ object DocumentFrame: TDocumentFrame
         Height = 18
         Align = alLeft
         Caption = 'Search for'
-        ExplicitHeight = 13
       end
     end
     object SearchPanel3: TPanel
@@ -354,7 +353,6 @@ object DocumentFrame: TDocumentFrame
         Align = alLeft
         Caption = 'Case Sensitive'
         Layout = tlCenter
-        ExplicitHeight = 13
       end
       object WholeWordsCheckBox: TBCCheckBox
         Left = 78
@@ -548,7 +546,6 @@ object DocumentFrame: TDocumentFrame
         Height = 20
         Align = alLeft
         Caption = 'Go to Line'
-        ExplicitHeight = 13
       end
     end
     object LineNumberPanel: TPanel

@@ -4,7 +4,7 @@ object MainForm: TMainForm
   Caption = 'EditBone'
   ClientHeight = 560
   ClientWidth = 1100
-  Color = clBtnFace
+  Color = clWindow
   TransparentColorValue = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -83,6 +83,7 @@ object MainForm: TMainForm
       Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = []
+      ParentBackground = True
       ParentShowHint = False
       ShowHint = True
       Spacing = 1
@@ -230,6 +231,7 @@ object MainForm: TMainForm
       Font.Name = 'Tahoma'
       Font.Style = []
       HorzSeparator = False
+      ParentBackground = True
       ParentFont = False
       Spacing = 0
     end

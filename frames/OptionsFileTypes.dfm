@@ -2,9 +2,10 @@ inherited OptionsFileTypesFrame: TOptionsFileTypesFrame
   Width = 451
   Height = 305
   Align = alClient
+  Color = clWindow
+  ParentBackground = False
+  ParentColor = False
   Visible = False
-  ExplicitWidth = 451
-  ExplicitHeight = 305
   object FileTypesBottomPanel: TPanel
     Left = 0
     Top = 263
@@ -13,6 +14,7 @@ inherited OptionsFileTypesFrame: TOptionsFileTypesFrame
     Align = alBottom
     BevelOuter = bvNone
     Padding.Left = 4
+    ParentColor = True
     TabOrder = 0
     DesignSize = (
       451
@@ -56,6 +58,7 @@ inherited OptionsFileTypesFrame: TOptionsFileTypesFrame
     Height = 263
     Align = alClient
     BevelOuter = bvNone
+    ParentColor = True
     TabOrder = 1
     object VirtualDrawTree: TVirtualDrawTree
       AlignWithMargins = True

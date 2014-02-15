@@ -5,7 +5,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
   Caption = 'Duplicate Checker'
   ClientHeight = 287
   ClientWidth = 456
-  Color = clBtnFace
+  Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -112,7 +112,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               Height = 22
               Align = alLeft
               Caption = 'Folder'
-              ExplicitHeight = 13
             end
           end
           object FileTypePanel: TPanel
@@ -136,7 +135,6 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               Height = 23
               Align = alLeft
               Caption = 'File type'
-              ExplicitHeight = 13
             end
           end
         end

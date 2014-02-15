@@ -965,8 +965,8 @@ begin
         SynEdit := FindOpenFile(FileName);
         if not Assigned(SynEdit) then
           SynEdit := CreateNewTabSheet(FileName);
-        SynEdit.CaretXY := BufferCoord(Ch, Ln);
         SynEdit.GotoLineAndCenter(Ln);
+        SynEdit.CaretXY := BufferCoord(Ch, Ln);
         SetBookmarks(SynEdit, Bookmarks);
         CheckHTMLErrors;
         try

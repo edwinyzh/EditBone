@@ -5,7 +5,7 @@ object InsertTagDialog: TInsertTagDialog
   Caption = 'Insert HTML/XML Tags'
   ClientHeight = 72
   ClientWidth = 170
-  Color = clBtnFace
+  Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11

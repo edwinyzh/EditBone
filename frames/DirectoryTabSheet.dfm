@@ -4,6 +4,9 @@ object DirTabSheetFrame: TDirTabSheetFrame
   Width = 451
   Height = 305
   Align = alClient
+  Color = clWindow
+  ParentBackground = False
+  ParentColor = False
   TabOrder = 0
   object Panel: TPanel
     Left = 0
