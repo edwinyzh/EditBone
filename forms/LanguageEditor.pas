@@ -659,7 +659,9 @@ end;
 
 destructor TEditLink.Destroy;
 begin
-  //FEdit.Free;
+  //FEdit.Free; This gives AV
+  if FEdit.HandleAllocated then
+    PostMessage(FEdit.Handle, CM_RELEASE, 0, 0);
   inherited;
 end;
 
