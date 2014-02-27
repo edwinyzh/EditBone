@@ -36,7 +36,6 @@ object AboutDialog: TAboutDialog
     ParentBackground = False
     ParentFont = False
     TabOrder = 0
-    StyleElements = [seFont, seBorder]
     object ProgramNameLabel: TLabel
       Left = 133
       Top = 4
