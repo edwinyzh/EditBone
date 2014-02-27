@@ -2517,9 +2517,7 @@ var
   Editor: TSynEdit;
   Pix: TPoint;
   Match: TSynTokenMatched;
-  i, p, k: Integer;
-  s: string;
-  DisplayCoord: TDisplayCoord;
+  i: Integer;
 
   function CharToPixels(P: TBufferCoord): TPoint;
   begin
@@ -2538,26 +2536,6 @@ begin
     if i <> 1 then
       Editor.InvalidateLines(Match.CloseTokenPos.Line,
         Match.CloseTokenPos.Line);
-    Exit;
-  end;
-  if Editor.SelAvail then
-  begin
-    {
-    TODO: not good idea... slow...
-    for i := Editor.TopLine to Editor.TopLine + Editor.LinesInWindow - 1 do
-    begin
-      s := Editor.Lines[i - 1];
-      p := Pos(Editor.SelText, s);
-      while p > 0 do
-      begin
-        DisplayCoord := Editor.BufferToDisplayPos(BufferCoord(k, i)); // from SynEditTypes
-        Pix := Editor.RowColumnToPixels(DisplayCoord);
-        Canvas.Brush.Color := clYellow;
-        Canvas.Font.Color := clBlack;
-        Canvas.TextOut (Pix.X, Pix.Y, Editor.SelText);
-        p := Pos(Editor.SelText, s, p + Length(Editor.SelText));
-      end;
-    end;}
     Exit;
   end;
   i := SynEditGetMatchingTokenEx(Editor, Editor.CaretXY, PasTokens, Match);

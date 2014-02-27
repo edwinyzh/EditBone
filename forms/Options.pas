@@ -41,7 +41,7 @@ type
     MainMenuAction: TAction;
     OKButton: TButton;
     OptionsPanel: TPanel;
-    OptionsVirtualStringTree: TVirtualStringTree;
+    OptionsVirtualDrawTree: TVirtualDrawTree;
     OutputAction: TAction;
     OutputTabsAction: TAction;
     PrintAction: TAction;
@@ -54,12 +54,13 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure OptionsVirtualStringTreeClick(Sender: TObject);
-    procedure OptionsVirtualStringTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
-    procedure OptionsVirtualStringTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
-    procedure OptionsVirtualStringTreeGetText(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
-    procedure OptionsVirtualStringTreePaintText(Sender: TBaseVirtualTree; const TargetCanvas: TCanvas;
-      Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType);
+    procedure OptionsVirtualDrawTreeClick(Sender: TObject);
+    procedure OptionsVirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
+    procedure OptionsVirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
+    procedure OptionsVirtualDrawTreeKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure OptionsVirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
+    procedure OptionsVirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode;
+      Column: TColumnIndex; var NodeWidth: Integer);
   private
     FActionList: TObjectList<TAction>;
     procedure CreateTree;
@@ -78,7 +79,8 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.StyleUtils, BCCommon.LanguageStrings, System.IniFiles,  BCCommon.LanguageUtils, BCCommon.Lib, Winapi.Windows;
+  BCCommon.StyleUtils, BCCommon.LanguageStrings, System.IniFiles,  BCCommon.LanguageUtils, BCCommon.Lib, Winapi.Windows,
+  System.Types;
 
 var
   FOptionsForm: TOptionsForm;
@@ -103,7 +105,7 @@ var
   Data: POptionsRec;
   Node, ChildNode: PVirtualNode;
 begin
-  with OptionsVirtualStringTree do
+  with OptionsVirtualDrawTree do
   begin
     Clear;
     i := 0;
@@ -161,9 +163,9 @@ begin
     Data.Index := PostInc(i);
     Data.ImageIndex := EditorOtherAction.ImageIndex;
     Data.Caption := EditorOtherAction.Caption;
-    Node.ChildCount := OptionsVirtualStringTree.ChildCount[Node];
-    OptionsVirtualStringTree.Selected[Node] := True;
-    OptionsVirtualStringTree.Expanded[Node] := True;
+    Node.ChildCount := OptionsVirtualDrawTree.ChildCount[Node];
+    OptionsVirtualDrawTree.Selected[Node] := True;
+    OptionsVirtualDrawTree.Expanded[Node] := True;
     { Directory }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
@@ -176,9 +178,9 @@ begin
     Data.Index := PostInc(i);
     Data.ImageIndex := DirectoryTabsAction.ImageIndex;
     Data.Caption := DirectoryTabsAction.Caption;
-    Node.ChildCount := OptionsVirtualStringTree.ChildCount[Node];
-    OptionsVirtualStringTree.Selected[Node] := True;
-    OptionsVirtualStringTree.Expanded[Node] := True;
+    Node.ChildCount := OptionsVirtualDrawTree.ChildCount[Node];
+    OptionsVirtualDrawTree.Selected[Node] := True;
+    OptionsVirtualDrawTree.Expanded[Node] := True;
     { Output }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
@@ -191,9 +193,9 @@ begin
     Data.Index := PostInc(i);
     Data.ImageIndex := OutputTabsAction.ImageIndex;
     Data.Caption := OutputTabsAction.Caption;
-    Node.ChildCount := OptionsVirtualStringTree.ChildCount[Node];
-    OptionsVirtualStringTree.Selected[Node] := True;
-    OptionsVirtualStringTree.Expanded[Node] := True;
+    Node.ChildCount := OptionsVirtualDrawTree.ChildCount[Node];
+    OptionsVirtualDrawTree.Selected[Node] := True;
+    OptionsVirtualDrawTree.Expanded[Node] := True;
     { Compare }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
@@ -231,7 +233,7 @@ begin
     Data.ImageIndex := FileTypesAction.ImageIndex;
     Data.Caption := FileTypesAction.Caption;
 
-    OptionsVirtualStringTree.Selected[OptionsVirtualStringTree.GetFirst] := True;
+    OptionsVirtualDrawTree.Selected[OptionsVirtualDrawTree.GetFirst] := True;
   end;
 end;
 
@@ -256,17 +258,72 @@ var
 begin
   with TIniFile.Create(GetIniFilename) do
   try
-    Node := OptionsVirtualStringTree.GetFirstSelected;
-    Data := OptionsVirtualStringTree.GetNodeData(Node);
+    Node := OptionsVirtualDrawTree.GetFirstSelected;
+    Data := OptionsVirtualDrawTree.GetNodeData(Node);
     WriteInteger('Options', 'OptionsSelectedItemIndex', Data.Index);
   finally
     Free;
   end;
 end;
 
-procedure TOptionsForm.OptionsVirtualStringTreeClick(Sender: TObject);
+procedure TOptionsForm.OptionsVirtualDrawTreeClick(Sender: TObject);
 begin
   SetVisibleFrame;
+end;
+
+procedure TOptionsForm.OptionsVirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
+var
+  Data: POptionsRec;
+  S: UnicodeString;
+  R: TRect;
+  Format: Cardinal;
+  LStyles: TCustomStyleServices;
+  LColor: TColor;
+begin
+  LStyles := StyleServices;
+  with Sender as TVirtualDrawTree, PaintInfo do
+  begin
+    Data := Sender.GetNodeData(Node);
+
+    if not Assigned(Data) then
+      Exit;
+
+    if not LStyles.GetElementColor(LStyles.GetElementDetails(tgCellNormal), ecTextColor, LColor) or  (LColor = clNone) then
+      LColor := LStyles.GetSystemColor(clWindowText);
+    //get and set the background color
+    Canvas.Brush.Color := LStyles.GetStyleColor(scEdit);
+    Canvas.Font.Color := LColor;
+
+    if LStyles.Enabled and (vsSelected in PaintInfo.Node.States) then
+    begin
+       Colors.FocusedSelectionColor := LStyles.GetSystemColor(clHighlight);
+       Colors.FocusedSelectionBorderColor := LStyles.GetSystemColor(clHighlight);
+       Colors.UnfocusedSelectionColor := LStyles.GetSystemColor(clHighlight);
+       Colors.UnfocusedSelectionBorderColor := LStyles.GetSystemColor(clHighlight);
+       Canvas.Brush.Color := LStyles.GetSystemColor(clHighlight);
+       Canvas.Font.Color := LStyles.GetStyleFontColor(sfMenuItemTextSelected);
+    end
+    else
+    if not LStyles.Enabled and (vsSelected in PaintInfo.Node.States) then
+    begin
+      Canvas.Brush.Color := clHighlight;
+      Canvas.Font.Color := clHighlightText;
+    end;
+
+    SetBKMode(Canvas.Handle, TRANSPARENT);
+
+    R := ContentRect;
+    InflateRect(R, -TextMargin, 0);
+    Dec(R.Right);
+    Dec(R.Bottom);
+    S := Data.Caption;
+
+    if Length(S) > 0 then
+    begin
+      Format := DT_TOP or DT_LEFT or DT_VCENTER or DT_SINGLELINE;
+      DrawText(Canvas.Handle, S, Length(S), R, Format)
+    end;
+  end;
 end;
 
 procedure TOptionsForm.SetVisibleFrame;
@@ -275,10 +332,10 @@ var
   TreeNode: PVirtualNode;
 begin
   inherited;
-  TreeNode := OptionsVirtualStringTree.GetFirstSelected;
+  TreeNode := OptionsVirtualDrawTree.GetFirstSelected;
   if Assigned(TreeNode) then
   begin
-    Level := OptionsVirtualStringTree.GetNodeLevel(TreeNode);
+    Level := OptionsVirtualDrawTree.GetNodeLevel(TreeNode);
     ParentIndex := -1;
     if Level = 1 then
       ParentIndex := TreeNode.Parent.Index;
@@ -328,7 +385,7 @@ begin
   end;
 end;
 
-procedure TOptionsForm.OptionsVirtualStringTreeFreeNode(Sender: TBaseVirtualTree;
+procedure TOptionsForm.OptionsVirtualDrawTreeFreeNode(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
 var
   Data: POptionsRec;
@@ -338,7 +395,7 @@ begin
   inherited;
 end;
 
-procedure TOptionsForm.OptionsVirtualStringTreeGetImageIndex(Sender: TBaseVirtualTree;
+procedure TOptionsForm.OptionsVirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean;
   var ImageIndex: Integer);
 var
@@ -352,28 +409,19 @@ begin
     ImageIndex := Data.ImageIndex;
 end;
 
-procedure TOptionsForm.OptionsVirtualStringTreeGetText(Sender: TBaseVirtualTree;
-  Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
+procedure TOptionsForm.OptionsVirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas;
+  Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
 var
   Data: POptionsRec;
 begin
   Data := Sender.GetNodeData(Node);
   if Assigned(Data) then
-    CellText := Data.Caption;
+    NodeWidth := Canvas.TextWidth(Trim(Data.Caption)) + 2;
 end;
 
-procedure TOptionsForm.OptionsVirtualStringTreePaintText(Sender: TBaseVirtualTree; const TargetCanvas: TCanvas;
-  Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType);
-var
-  LStyles: TCustomStyleServices;
+procedure TOptionsForm.OptionsVirtualDrawTreeKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  if TStyleManager.ActiveStyle.Name <> STYLENAME_WINDOWS then
-    if vsSelected in Node.States then
-    begin
-      LStyles := StyleServices;
-      if LStyles.Enabled then
-        TargetCanvas.Font.Color := LStyles.GetStyleFontColor(sfMenuItemTextSelected); //clHighlightText)
-    end;
+  SetVisibleFrame;
 end;
 
 procedure TOptionsForm.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -395,7 +443,7 @@ begin
     { Check if the form is outside the workarea }
     Left := SetFormInsideWorkArea(Left, Width);
     { Tree width }
-    OptionsVirtualStringTree.Width := ReadInteger('OptionsSize', 'TreeWidth', OptionsVirtualStringTree.Width);
+    OptionsVirtualDrawTree.Width := ReadInteger('OptionsSize', 'TreeWidth', OptionsVirtualDrawTree.Width);
   finally
     Free;
   end;
@@ -413,7 +461,7 @@ begin
     WriteInteger('OptionsPosition', 'Left', Left);
     WriteInteger('OptionsPosition', 'Top', Top);
     { Tree width }
-    WriteInteger('OptionsSize', 'TreeWidth', OptionsVirtualStringTree.Width);
+    WriteInteger('OptionsSize', 'TreeWidth', OptionsVirtualDrawTree.Width);
   finally
     UpdateFile;
     Free;
@@ -422,10 +470,10 @@ end;
 
 procedure TOptionsForm.FormCreate(Sender: TObject);
 begin
-  OptionsVirtualStringTree.NodeDataSize := SizeOf(TOptionsRec);
+  OptionsVirtualDrawTree.NodeDataSize := SizeOf(TOptionsRec);
   { IDE can lose these properties }
   ActionList.Images := ImagesDataModule.ImageList;
-  OptionsVirtualStringTree.Images := ImagesDataModule.ImageList;
+  OptionsVirtualDrawTree.Images := ImagesDataModule.ImageList;
 end;
 
 procedure TOptionsForm.FormShow(Sender: TObject);
@@ -437,11 +485,11 @@ var
   var
     Data: POptionsRec;
   begin
-    Data := OptionsVirtualStringTree.GetNodeData(CurrentNode);
+    Data := OptionsVirtualDrawTree.GetNodeData(CurrentNode);
     while Assigned(CurrentNode) and (Data.Index <> ItemIndex) do
     begin
-      CurrentNode := OptionsVirtualStringTree.GetNext(CurrentNode);
-      Data := OptionsVirtualStringTree.GetNodeData(CurrentNode);
+      CurrentNode := OptionsVirtualDrawTree.GetNext(CurrentNode);
+      Data := OptionsVirtualDrawTree.GetNodeData(CurrentNode);
     end;
     Result := CurrentNode;
   end;
@@ -456,9 +504,9 @@ begin
   finally
     Free;
   end;
-  Node := FindItem(OptionsVirtualStringTree.GetFirst, SelectedItemIndex);
+  Node := FindItem(OptionsVirtualDrawTree.GetFirst, SelectedItemIndex);
   if Assigned(Node) then
-    OptionsVirtualStringTree.Selected[Node] := True;
+    OptionsVirtualDrawTree.Selected[Node] := True;
   SetVisibleFrame;
 end;
 

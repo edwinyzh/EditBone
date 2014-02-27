@@ -69,7 +69,7 @@ object OptionsForm: TOptionsForm
       Top = 6
       Height = 448
     end
-    object OptionsVirtualStringTree: TVirtualStringTree
+    object OptionsVirtualDrawTree: TVirtualDrawTree
       Left = 6
       Top = 6
       Width = 200
@@ -86,14 +86,14 @@ object OptionsForm: TOptionsForm
       SelectionBlendFactor = 255
       TabOrder = 0
       TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toHideFocusRect, toShowBackground, toShowButtons, toShowDropmark, toShowRoot, toThemeAware, toUseBlendedImages, toUseBlendedSelection, toUseExplorerTheme]
+      TreeOptions.PaintOptions = [toHideFocusRect, toShowBackground, toShowButtons, toShowDropmark, toShowRoot, toThemeAware, toUseBlendedImages, toUseExplorerTheme]
       TreeOptions.SelectionOptions = [toFullRowSelect]
-      TreeOptions.StringOptions = []
-      OnClick = OptionsVirtualStringTreeClick
-      OnFreeNode = OptionsVirtualStringTreeFreeNode
-      OnGetText = OptionsVirtualStringTreeGetText
-      OnPaintText = OptionsVirtualStringTreePaintText
-      OnGetImageIndex = OptionsVirtualStringTreeGetImageIndex
+      OnClick = OptionsVirtualDrawTreeClick
+      OnDrawNode = OptionsVirtualDrawTreeDrawNode
+      OnFreeNode = OptionsVirtualDrawTreeFreeNode
+      OnGetImageIndex = OptionsVirtualDrawTreeGetImageIndex
+      OnGetNodeWidth = OptionsVirtualDrawTreeGetNodeWidth
+      OnKeyDown = OptionsVirtualDrawTreeKeyDown
       Columns = <>
     end
     object OptionsPanel: TPanel
