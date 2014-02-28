@@ -1,20 +1,20 @@
 inherited OptionsFileTypesFrame: TOptionsFileTypesFrame
   Width = 451
-  Height = 305
+  Height = 302
   Align = alClient
-  Color = clWindow
-  ParentBackground = False
-  ParentColor = False
   Visible = False
+  ExplicitWidth = 451
+  ExplicitHeight = 302
   object FileTypesBottomPanel: TPanel
     Left = 0
-    Top = 263
+    Top = 260
     Width = 451
     Height = 42
     Align = alBottom
     BevelOuter = bvNone
+    Color = clWindow
     Padding.Left = 4
-    ParentColor = True
+    ParentBackground = False
     TabOrder = 0
     DesignSize = (
       451
@@ -55,17 +55,18 @@ inherited OptionsFileTypesFrame: TOptionsFileTypesFrame
     Left = 0
     Top = 0
     Width = 451
-    Height = 263
+    Height = 260
     Align = alClient
     BevelOuter = bvNone
-    ParentColor = True
+    Color = clWindow
+    ParentBackground = False
     TabOrder = 1
     object VirtualDrawTree: TVirtualDrawTree
       AlignWithMargins = True
       Left = 4
       Top = 0
       Width = 447
-      Height = 263
+      Height = 260
       Hint = 
         'Use drag and drop to move menu items. Right click popup menu to ' +
         'insert and delete items.'

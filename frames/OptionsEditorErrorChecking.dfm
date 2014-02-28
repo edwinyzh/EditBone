@@ -1,17 +1,17 @@
 inherited OptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame
   Width = 278
-  Height = 80
-  Color = clWindow
-  ParentBackground = False
-  ParentColor = False
+  Height = 71
   Visible = False
+  ExplicitWidth = 278
+  ExplicitHeight = 71
   object Panel: TPanel
     Left = 0
     Top = 0
     Width = 278
     Height = 71
     BevelOuter = bvNone
-    ParentColor = True
+    Color = clWindow
+    ParentBackground = False
     TabOrder = 0
     object HTMLVersionLabel: TLabel
       Left = 6

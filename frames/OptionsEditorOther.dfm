@@ -1,17 +1,17 @@
 inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
-  Width = 208
-  Height = 298
-  Color = clWindow
-  ParentBackground = False
-  ParentColor = False
+  Width = 201
+  Height = 281
   Visible = False
+  ExplicitWidth = 201
+  ExplicitHeight = 281
   object Panel: TPanel
     Left = 0
     Top = 0
     Width = 201
     Height = 281
     BevelOuter = bvNone
-    ParentColor = True
+    Color = clWindow
+    ParentBackground = False
     TabOrder = 0
     object CPASHighlighterLabel: TLabel
       Left = 6

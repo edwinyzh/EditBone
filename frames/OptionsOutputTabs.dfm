@@ -2,6 +2,8 @@ inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
   Width = 232
   Height = 161
   Visible = False
+  ExplicitWidth = 232
+  ExplicitHeight = 161
   object Panel: TPanel
     Left = 0
     Top = 0

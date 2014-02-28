@@ -57,10 +57,10 @@ type
     procedure OptionsVirtualDrawTreeClick(Sender: TObject);
     procedure OptionsVirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure OptionsVirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
-    procedure OptionsVirtualDrawTreeKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure OptionsVirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
     procedure OptionsVirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode;
       Column: TColumnIndex; var NodeWidth: Integer);
+    procedure OptionsVirtualDrawTreeKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     FActionList: TObjectList<TAction>;
     procedure CreateTree;
@@ -419,7 +419,7 @@ begin
     NodeWidth := Canvas.TextWidth(Trim(Data.Caption)) + 2;
 end;
 
-procedure TOptionsForm.OptionsVirtualDrawTreeKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TOptionsForm.OptionsVirtualDrawTreeKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   SetVisibleFrame;
 end;

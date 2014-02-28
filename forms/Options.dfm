@@ -5,6 +5,7 @@ object OptionsForm: TOptionsForm
   ClientHeight = 495
   ClientWidth = 512
   Color = clWindow
+  DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -59,10 +60,12 @@ object OptionsForm: TOptionsForm
     Height = 454
     Align = alClient
     BevelOuter = bvNone
+    DoubleBuffered = True
     Padding.Left = 6
     Padding.Top = 6
     Padding.Right = 6
     ParentColor = True
+    ParentDoubleBuffered = False
     TabOrder = 0
     object Splitter: TSplitter
       Left = 206
@@ -93,7 +96,7 @@ object OptionsForm: TOptionsForm
       OnFreeNode = OptionsVirtualDrawTreeFreeNode
       OnGetImageIndex = OptionsVirtualDrawTreeGetImageIndex
       OnGetNodeWidth = OptionsVirtualDrawTreeGetNodeWidth
-      OnKeyDown = OptionsVirtualDrawTreeKeyDown
+      OnKeyUp = OptionsVirtualDrawTreeKeyUp
       Columns = <>
     end
     object OptionsPanel: TPanel
@@ -103,7 +106,9 @@ object OptionsForm: TOptionsForm
       Height = 448
       Align = alClient
       BevelOuter = bvNone
+      DoubleBuffered = True
       ParentColor = True
+      ParentDoubleBuffered = False
       TabOrder = 1
       object ScrollBox: TScrollBox
         Left = 0
@@ -112,7 +117,9 @@ object OptionsForm: TOptionsForm
         Height = 448
         Align = alClient
         BorderStyle = bsNone
+        DoubleBuffered = True
         ParentBackground = True
+        ParentDoubleBuffered = False
         TabOrder = 0
       end
     end

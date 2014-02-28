@@ -10,7 +10,6 @@ uses
   Vcl.Themes,
   Vcl.ComCtrls,
   Vcl.Styles,
-  BCCommon.Images in '..\..\Common\units\BCCommon.Images.pas' {ImagesDataModule: TDataModule},
   Main in 'forms\Main.pas' {MainForm},
   BCCommon.LanguageStrings in '..\..\Common\units\BCCommon.LanguageStrings.pas' {LanguageDataModule: TDataModule},
   Directory in 'frames\Directory.pas' {DirectoryFrame: TFrame},
@@ -75,7 +74,8 @@ uses
   BCDialogs.OptionsToolBarItems in '..\..\Common\dialogs\BCDialogs.OptionsToolBarItems.pas' {OptionsToolBarItemsDialog},
   BCFrames.OptionsToolBar in '..\..\Common\frames\BCFrames.OptionsToolBar.pas' {OptionsToolBarFrame: TFrame},
   MapVirtualDrives in 'forms\MapVirtualDrives.pas' {MapVirtualDrivesForm},
-  VirtualDrive in 'dialogs\VirtualDrive.pas' {VirtualDriveDialog};
+  VirtualDrive in 'dialogs\VirtualDrive.pas' {VirtualDriveDialog},
+  BCCommon.Images in '..\..\Common\units\BCCommon.Images.pas' {ImagesDataModule: TDataModule};
 
 {$R *.res}
 
@@ -94,5 +94,6 @@ begin
     TStyleManager.SetStyle(TStyleManager.LoadFromFile(Format('%sStyles\%s', [ExtractFilePath(ParamStr(0)), StyleFilename])));
   Application.Title := 'EditBone';
   Application.CreateForm(TMainForm, MainForm);
+  Application.CreateForm(TImagesDataModule, ImagesDataModule);
   Application.Run;
 end.

@@ -1,9 +1,8 @@
 inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
   Width = 201
-  Height = 150
-  Color = clWindow
-  ParentBackground = False
-  ParentColor = False
+  Height = 147
+  ExplicitWidth = 201
+  ExplicitHeight = 147
   object Panel: TPanel
     Left = 0
     Top = 0
