@@ -206,10 +206,12 @@ object MainForm: TMainForm
     Align = alTop
     AutoSize = True
     BevelOuter = bvNone
+    DoubleBuffered = False
     Padding.Left = 2
     Padding.Top = 2
     Padding.Right = 2
     ParentColor = True
+    ParentDoubleBuffered = False
     TabOrder = 1
     Visible = False
     object ActionToolBar: TActionToolBar
@@ -285,6 +287,7 @@ object MainForm: TMainForm
       Height = 335
       Align = alLeft
       BevelOuter = bvNone
+      Color = clWindow
       DoubleBuffered = False
       Padding.Left = 4
       Padding.Top = 4
@@ -299,11 +302,11 @@ object MainForm: TMainForm
       Height = 335
       Align = alClient
       BevelOuter = bvNone
+      Color = clWindow
       DoubleBuffered = False
       Padding.Top = 2
       Padding.Right = 3
       Padding.Bottom = 3
-      ParentColor = True
       ParentDoubleBuffered = False
       TabOrder = 2
     end

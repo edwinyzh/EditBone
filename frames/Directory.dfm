@@ -4,9 +4,11 @@ object DirectoryFrame: TDirectoryFrame
   Width = 451
   Height = 305
   Align = alClient
+  DoubleBuffered = True
   Color = clWindow
   ParentBackground = False
   ParentColor = False
+  ParentDoubleBuffered = False
   TabOrder = 0
   object PageControl: TBCPageControl
     Left = 0
@@ -14,11 +16,12 @@ object DirectoryFrame: TDirectoryFrame
     Width = 451
     Height = 305
     Align = alClient
-    DoubleBuffered = False
+    DoubleBuffered = True
     ParentDoubleBuffered = False
     PopupMenu = PopupMenu
     TabOrder = 0
     OnMouseDown = PageControlMouseDown
+    ParentColor = False
     RightClickSelect = True
     TabDragDrop = True
     HoldShiftToDragDrop = False

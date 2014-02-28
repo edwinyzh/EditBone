@@ -630,6 +630,9 @@ begin
       PopupMenu := EditorPopupMenu;
       BookMarkOptions.BookmarkImages := BookmarkImagesList;
     end;
+    { Search highlighter plugin }
+    //THighlightSearchPlugin.Create(SynEdit, FoundSearchItems);
+    //THighlightSearchPlugin.Create(SplitSynEdit, FoundSearchItems);
     { VirtualDrawTree }
     with VirtualDrawTree do
     begin

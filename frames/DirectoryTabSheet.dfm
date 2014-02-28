@@ -4,9 +4,11 @@ object DirTabSheetFrame: TDirTabSheetFrame
   Width = 451
   Height = 305
   Align = alClient
+  DoubleBuffered = True
   Color = clWindow
   ParentBackground = False
   ParentColor = False
+  ParentDoubleBuffered = False
   TabOrder = 0
   object Panel: TPanel
     Left = 0
@@ -19,11 +21,12 @@ object DirTabSheetFrame: TDirTabSheetFrame
     Margins.Bottom = 0
     Align = alClient
     BevelOuter = bvNone
+    Color = clWindow
     Padding.Left = 1
     Padding.Top = 1
     Padding.Right = 3
     Padding.Bottom = 2
-    ParentColor = True
+    ParentBackground = False
     TabOrder = 0
     object FileTreeView: TBCFileTreeView
       Left = 1

@@ -4,7 +4,7 @@ object DocumentFrame: TDocumentFrame
   Width = 451
   Height = 302
   Align = alClient
-  DoubleBuffered = False
+  DoubleBuffered = True
   Color = clWindow
   ParentBackground = False
   ParentColor = False
@@ -17,8 +17,9 @@ object DocumentFrame: TDocumentFrame
     Height = 21
     Align = alTop
     BevelOuter = bvNone
+    Color = clWindow
     FullRepaint = False
-    ParentColor = True
+    ParentBackground = False
     TabOrder = 0
     Visible = False
     ExplicitWidth = 869
@@ -57,7 +58,9 @@ object DocumentFrame: TDocumentFrame
       Align = alLeft
       AutoSize = True
       BevelOuter = bvNone
+      Color = clWindow
       Padding.Right = 2
+      ParentBackground = False
       TabOrder = 0
       object SearchCloseSpeedButton: TSpeedButton
         Left = 0
@@ -130,9 +133,11 @@ object DocumentFrame: TDocumentFrame
       Align = alLeft
       AutoSize = True
       BevelOuter = bvNone
+      Color = clWindow
       Padding.Left = 4
       Padding.Top = 3
       Padding.Right = 6
+      ParentBackground = False
       TabOrder = 1
       object SearchForLabel: TLabel
         Left = 4
@@ -141,6 +146,8 @@ object DocumentFrame: TDocumentFrame
         Height = 13
         Align = alLeft
         Caption = 'Search for'
+        Color = clWindow
+        ParentColor = False
       end
     end
     object SearchPanel3: TPanel
@@ -151,7 +158,9 @@ object DocumentFrame: TDocumentFrame
       Align = alLeft
       BevelOuter = bvNone
       Caption = 'SearchPanel3'
+      Color = clWindow
       Padding.Left = 4
+      ParentBackground = False
       TabOrder = 2
       object SearchForEdit: TButtonedEdit
         Left = 4
@@ -180,6 +189,8 @@ object DocumentFrame: TDocumentFrame
       Align = alLeft
       AutoSize = True
       BevelOuter = bvNone
+      Color = clWindow
+      ParentBackground = False
       TabOrder = 3
       object SearchFindNextSpeedButton: TSpeedButton
         Left = 0
@@ -251,7 +262,9 @@ object DocumentFrame: TDocumentFrame
       Align = alLeft
       AutoSize = True
       BevelOuter = bvNone
+      Color = clWindow
       Padding.Left = 2
+      ParentBackground = False
       TabOrder = 4
       object SearchFindPreviousSpeedButton: TSpeedButton
         Left = 2
@@ -323,8 +336,10 @@ object DocumentFrame: TDocumentFrame
       Align = alLeft
       AutoSize = True
       BevelOuter = bvNone
+      Color = clWindow
       Padding.Left = 8
       Padding.Top = 2
+      ParentBackground = False
       TabOrder = 5
       object CaseSensitiveCheckBox: TBCCheckBox
         Left = 8
@@ -332,6 +347,8 @@ object DocumentFrame: TDocumentFrame
         Width = 19
         Height = 19
         Align = alLeft
+        Color = clWindow
+        ParentColor = False
         TabOrder = 0
         ReadOnly = False
       end
@@ -344,7 +361,9 @@ object DocumentFrame: TDocumentFrame
       Align = alLeft
       AutoSize = True
       BevelOuter = bvNone
+      Color = clWindow
       Padding.Top = 2
+      ParentBackground = False
       TabOrder = 6
       object CaseSensitiveLabel: TLabel
         Left = 0
@@ -353,6 +372,8 @@ object DocumentFrame: TDocumentFrame
         Height = 13
         Align = alLeft
         Caption = 'Case Sensitive'
+        Color = clWindow
+        ParentColor = False
         Layout = tlCenter
       end
       object WholeWordsCheckBox: TBCCheckBox
@@ -371,6 +392,8 @@ object DocumentFrame: TDocumentFrame
         Height = 19
         Align = alLeft
         BevelOuter = bvNone
+        Color = clWindow
+        ParentBackground = False
         TabOrder = 1
       end
     end
@@ -381,6 +404,8 @@ object DocumentFrame: TDocumentFrame
       Height = 21
       Align = alLeft
       BevelOuter = bvNone
+      Color = clWindow
+      ParentBackground = False
       TabOrder = 7
     end
     object RegularExpressionCheckBox: TBCCheckBox
@@ -399,6 +424,8 @@ object DocumentFrame: TDocumentFrame
       Height = 21
       Align = alLeft
       BevelOuter = bvNone
+      Color = clWindow
+      ParentBackground = False
       TabOrder = 9
     end
     object WildCardCheckBox: TBCCheckBox
@@ -419,17 +446,18 @@ object DocumentFrame: TDocumentFrame
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
+    Color = clWindow
     UseDockManager = False
     Padding.Top = 2
-    ParentColor = True
+    ParentBackground = False
     TabOrder = 1
     ExplicitWidth = 869
     ExplicitHeight = 633
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 869
-      Height = 631
+      Width = 953
+      Height = 257
       Align = alClient
       DoubleBuffered = False
       ParentDoubleBuffered = False
@@ -451,9 +479,10 @@ object DocumentFrame: TDocumentFrame
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
+    Color = clWindow
     FullRepaint = False
     Padding.Top = 2
-    ParentColor = True
+    ParentBackground = False
     TabOrder = 2
     Visible = False
     ExplicitTop = 654
@@ -466,8 +495,10 @@ object DocumentFrame: TDocumentFrame
       Align = alLeft
       AutoSize = True
       BevelOuter = bvNone
+      Color = clWindow
       Padding.Right = 2
       Padding.Bottom = 2
+      ParentBackground = False
       TabOrder = 0
       object GotoLineCloseSpeedButton: TSpeedButton
         Left = 0
@@ -540,9 +571,11 @@ object DocumentFrame: TDocumentFrame
       Align = alLeft
       AutoSize = True
       BevelOuter = bvNone
+      Color = clWindow
       Padding.Left = 4
       Padding.Top = 3
       Padding.Right = 6
+      ParentBackground = False
       TabOrder = 1
       object GotoLineLabel: TLabel
         Left = 4
@@ -561,7 +594,9 @@ object DocumentFrame: TDocumentFrame
       Align = alLeft
       BevelOuter = bvNone
       Caption = 'SearchPanel3'
+      Color = clWindow
       Padding.Left = 4
+      ParentBackground = False
       TabOrder = 2
       object GotoLineNumberEdit: TButtonedEdit
         Left = 4
@@ -587,9 +622,11 @@ object DocumentFrame: TDocumentFrame
       Align = alLeft
       AutoSize = True
       BevelOuter = bvNone
+      Color = clWindow
       Padding.Left = 2
       Padding.Right = 2
       Padding.Bottom = 2
+      ParentBackground = False
       TabOrder = 3
       object GotoLineGoSpeedButton: TSpeedButton
         Left = 2
