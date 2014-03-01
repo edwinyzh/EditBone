@@ -178,6 +178,7 @@ type
     SelectfromDirectory1: TMenuItem;
     DirectorySearchFindInFilesAction: TAction;
     ToolsMapVirtualDrivesAction: TAction;
+    FormatSQLAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -280,6 +281,7 @@ type
     procedure FileSelectFromDirectoryActionExecute(Sender: TObject);
     procedure DirectorySearchFindInFilesActionExecute(Sender: TObject);
     procedure ToolsMapVirtualDrivesActionExecute(Sender: TObject);
+    procedure FormatSQLActionExecute(Sender: TObject);
   private
     { Private declarations }
     FNoIni: Boolean;
@@ -291,6 +293,7 @@ type
     FProcessingEventHandler: Boolean;
     FProgressBar: TBCProgressBar;
     FEncoding: TEncoding;
+    FSQLFormatterDLLFound: Boolean;
     function GetStringList(Filename: string): TStringList;
     function GetActionClientItem(MenuItemIndex, SubMenuItemIndex: Integer): TActionClientItem;
     procedure CreateActionToolBar(CreateToolBar: Boolean = False);
@@ -880,6 +883,7 @@ var
   InfoText: string;
   KeyState: TKeyboardState;
   SelectionFound: Boolean;
+  IsSQLDocument: Boolean;
   IsXMLDocument: Boolean;
   ReopenActionClientItem: TActionClientItem;
   BookmarkList: TSynEditMarkList;
@@ -888,6 +892,7 @@ begin
   FProcessingEventHandler := True;
   ActiveDocumentFound := FDocumentFrame.ActiveDocumentFound;
   SelectionFound := FDocumentFrame.SelectionFound;
+  IsSQLDocument := FDocumentFrame.IsSQLDocument;
   IsXMLDocument := FDocumentFrame.IsXMLDocument;
   BookmarkList := FDocumentFrame.GetActiveBookmarkList;
 
@@ -976,6 +981,7 @@ begin
   ViewSpecialCharsAction.Enabled := ViewLineNumbersAction.Enabled;
   ToolsWordCountAction.Enabled := ActiveDocumentFound;
   ToolsSelectForCompareAction.Enabled := ActiveDocumentFound and not FDocumentFrame.ActiveDocumentModified;
+  FormatSQLAction.Visible := FSQLFormatterDLLFound and ActiveDocumentFound and IsSQLDocument;
   FormatXMLAction.Visible := ActiveDocumentFound and IsXMLDocument;
 
   if OutputPanel.Visible then
@@ -1201,6 +1207,11 @@ begin
   Repaint;
 end;
 
+procedure TMainForm.FormatSQLActionExecute(Sender: TObject);
+begin
+  FDocumentFrame.FormatSQL;
+end;
+
 procedure TMainForm.FormatXMLActionExecute(Sender: TObject);
 begin
   FDocumentFrame.FormatXML;
@@ -1350,6 +1361,7 @@ begin
   CreateFrames;
   UpdateStatusBar;
   ReadIniSizePositionAndState;
+  FSQLFormatterDLLFound := FileExists(GetSQLFormatterDLLFilename);
   Application.ProcessMessages;
   ToolBarPanel.Visible := OptionsContainer.ToolBarVisible;
   {$IFDEF RELEASE}

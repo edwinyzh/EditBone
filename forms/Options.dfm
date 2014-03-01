@@ -254,5 +254,30 @@ object OptionsForm: TOptionsForm
       Caption = 'File Types'
       ImageIndex = 77
     end
+    object SQLFormatterAction: TAction
+      Caption = 'SQL Formatter'
+      ImageIndex = 91
+    end
+    object SQLAlignmentsAction: TAction
+      Caption = 'Alignments'
+    end
+    object SQLCapitalizationAction: TAction
+      Caption = 'Capitalization'
+    end
+    object SQLIndentationAction: TAction
+      Caption = 'Indentation'
+    end
+    object SQLInsertAction: TAction
+      Caption = 'Insert'
+    end
+    object SQLSelectAction: TAction
+      Caption = 'Select'
+    end
+    object SQLUpdateAction: TAction
+      Caption = 'Update'
+    end
+    object SQLWhitespaceAction: TAction
+      Caption = 'Whitespace'
+    end
   end
 end

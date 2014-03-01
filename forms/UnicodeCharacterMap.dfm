@@ -3,7 +3,7 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
   Top = 0
   Caption = 'Unicode Character Map'
   ClientHeight = 402
-  ClientWidth = 432
+  ClientWidth = 387
   Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -56,27 +56,28 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
   object StatusBar: TStatusBar
     Left = 0
     Top = 383
-    Width = 432
+    Width = 387
     Height = 19
     Panels = <>
     SimplePanel = True
   end
   object Panel: TPanel
     Left = 0
-    Top = 31
-    Width = 432
-    Height = 352
+    Top = 30
+    Width = 387
+    Height = 353
     Align = alClient
     BevelOuter = bvNone
-    Padding.Left = 6
-    Padding.Right = 6
-    Padding.Bottom = 6
     TabOrder = 1
     object StringGridCharacter: TStringGrid
+      AlignWithMargins = True
       Left = 6
-      Top = 0
-      Width = 420
-      Height = 346
+      Top = 3
+      Width = 375
+      Height = 344
+      Margins.Left = 6
+      Margins.Right = 6
+      Margins.Bottom = 6
       Align = alClient
       ColCount = 20
       DefaultColWidth = 19
@@ -122,26 +123,26 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 432
-    Height = 31
+    Width = 387
+    Height = 30
     Align = alTop
     BevelOuter = bvNone
-    Padding.Left = 6
-    Padding.Top = 6
-    Padding.Right = 6
     TabOrder = 2
     DesignSize = (
-      432
-      31)
+      387
+      30)
     object FontComboBox: TJvFontComboBox
+      AlignWithMargins = True
       Left = 6
-      Top = 5
-      Width = 420
+      Top = 6
+      Width = 375
       Height = 22
+      Margins.Left = 6
+      Margins.Right = 6
       Anchors = [akLeft, akTop, akRight]
-      DroppedDownWidth = 420
+      DroppedDownWidth = 375
       MaxMRUCount = 0
-      FontName = '@Yu Mincho Demibold'
+      FontName = 'Arial'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11

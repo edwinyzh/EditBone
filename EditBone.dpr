@@ -75,7 +75,17 @@ uses
   BCFrames.OptionsToolBar in '..\..\Common\frames\BCFrames.OptionsToolBar.pas' {OptionsToolBarFrame: TFrame},
   MapVirtualDrives in 'forms\MapVirtualDrives.pas' {MapVirtualDrivesForm},
   VirtualDrive in 'dialogs\VirtualDrive.pas' {VirtualDriveDialog},
-  BCCommon.Images in '..\..\Common\units\BCCommon.Images.pas' {ImagesDataModule: TDataModule};
+  BCCommon.Images in '..\..\Common\units\BCCommon.Images.pas' {ImagesDataModule: TDataModule},
+  BCFrames.OptionsSQLAlignments in '..\..\Common\frames\BCFrames.OptionsSQLAlignments.pas' {OptionsSQLAlignmentsFrame: TFrame},
+  BCFrames.OptionsSQLCapitalization in '..\..\Common\frames\BCFrames.OptionsSQLCapitalization.pas' {OptionsSQLCapitalizationFrame: TFrame},
+  BCFrames.OptionsSQLIndentation in '..\..\Common\frames\BCFrames.OptionsSQLIndentation.pas' {OptionsSQLIndentationFrame: TFrame},
+  BCFrames.OptionsSQLInsert in '..\..\Common\frames\BCFrames.OptionsSQLInsert.pas' {OptionsSQLInsertFrame: TFrame},
+  BCFrames.OptionsSQLSelect in '..\..\Common\frames\BCFrames.OptionsSQLSelect.pas' {OptionsSQLSelectFrame: TFrame},
+  BCFrames.OptionsSQLUpdate in '..\..\Common\frames\BCFrames.OptionsSQLUpdate.pas' {OptionsSQLUpdateFrame: TFrame},
+  BCFrames.OptionsSQLWhitespace in '..\..\Common\frames\BCFrames.OptionsSQLWhitespace.pas' {OptionsSQLWhitespaceFrame: TFrame},
+  BCFrames.OptionsSQLFormatter in '..\..\Common\frames\BCFrames.OptionsSQLFormatter.pas' {OptionsSQLFormatterFrame: TFrame},
+  BCSQL.Formatter in '..\..\Common\units\BCSQL.Formatter.pas',
+  BCSQL.Consts in '..\..\Common\units\BCSQL.Consts.pas';
 
 {$R *.res}
 

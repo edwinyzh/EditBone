@@ -194,6 +194,7 @@ type
     AfterRegularExpressionPanel: TPanel;
     WildCardCheckBox: TBCCheckBox;
     WildCardLabel: TLabel;
+    FormatSQLMenuItem: TMenuItem;
     procedure PageControlChange(Sender: TObject);
     procedure SearchCloseActionExecute(Sender: TObject);
     procedure SearchFindNextActionExecute(Sender: TObject);
@@ -282,6 +283,7 @@ type
     function InsertTag: Boolean;
     function IsMacroStopped: Boolean;
     function IsRecordingMacro: Boolean;
+    function IsSQLDocument: Boolean;
     function IsXMLDocument: Boolean;
     function Options(ActionManager: TActionManager): Boolean;
     function ReadIniOpenFiles: Boolean;
@@ -306,6 +308,7 @@ type
     procedure FindNext;
     procedure FindPrevious;
     procedure FormatXML;
+    procedure FormatSQL;
     procedure GotoBookmarks(ItemIndex: Integer);
     procedure GotoLine;
     procedure IncreaseIndent;
@@ -374,7 +377,7 @@ uses
   System.WideStrings, System.Math, Main, BigIni, Vcl.GraphUtil, SynUnicode, BCCommon.LanguageStrings, BCCommon.Dialogs,
   SynEditTextBuffer, BCCommon.Encoding, InsertTag, BCCommon.LanguageUtils, BCCommon.FileUtils, BCCommon.Messages,
   BCCommon.Lib, BCCommon.StringUtils, Winapi.CommCtrl, SynEditPrintTypes, Options, BCCommon.Images,
-  System.Generics.Collections;
+  System.Generics.Collections, BCSQL.Formatter;
 
 { TDocumentFrame }
 
@@ -440,6 +443,7 @@ begin
   SortDescendingMenuItem.Action := MainForm.EditSortDescAction;
   ToggleCaseMenuItem.Action := MainForm.EditToggleCaseAction;
   FormatXMLMenuItem.Action := MainForm.FormatXMLAction;
+  FormatSQLMenuItem.Action := MainForm.FormatSQLAction;
 
   FImages := TBCImageList.Create(Self);
   PageControl.Images := FImages;
@@ -3464,6 +3468,16 @@ begin
   end;
 end;
 
+procedure TDocumentFrame.FormatSQL;
+var
+  SynEdit: TBCSynEdit;
+begin
+  SynEdit := GetActiveSynEdit;
+  if Assigned(SynEdit) then
+    if Trim(Synedit.Text) <> '' then
+      Synedit.Text := BCSQL.Formatter.FormatSQL(Synedit.Text, TSQLVendor(SQLFormatterOptions.SQLVendor));
+end;
+
 function TDocumentFrame.IsXMLDocument: Boolean;
 var
   DocTabSheetFrame: TDocTabSheetFrame;
@@ -3472,6 +3486,16 @@ begin
   DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
   if Assigned(DocTabSheetFrame) then
     Result := DocTabSheetFrame.SynEdit.Highlighter = SynWebXmlSyn;
+end;
+
+function TDocumentFrame.IsSQLDocument: Boolean;
+var
+  DocTabSheetFrame: TDocTabSheetFrame;
+begin
+  Result := False;
+  DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+  if Assigned(DocTabSheetFrame) then
+    Result := DocTabSheetFrame.SynEdit.Highlighter = SynSQLSyn;
 end;
 
 procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);

@@ -326,6 +326,48 @@
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsSQLAlignments.pas">
+            <Form>OptionsSQLAlignmentsFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsSQLCapitalization.pas">
+            <Form>OptionsSQLCapitalizationFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsSQLIndentation.pas">
+            <Form>OptionsSQLIndentationFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsSQLInsert.pas">
+            <Form>OptionsSQLInsertFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsSQLSelect.pas">
+            <Form>OptionsSQLSelectFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsSQLUpdate.pas">
+            <Form>OptionsSQLUpdateFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsSQLWhitespace.pas">
+            <Form>OptionsSQLWhitespaceFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Common\frames\BCFrames.OptionsSQLFormatter.pas">
+            <Form>OptionsSQLFormatterFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\..\Common\units\BCSQL.Formatter.pas"/>
+        <DCCReference Include="..\..\Common\units\BCSQL.Consts.pas"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

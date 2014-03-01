@@ -46,6 +46,7 @@ type
     FDocumentFrame: TDocumentFrame;
     FOnStartUp: Boolean;
     procedure ReadIniFile;
+    procedure ReadSizePosIniFile;
     procedure UpdateFields;
     procedure WriteIniFile;
     procedure WMAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
@@ -109,6 +110,8 @@ end;
 
 procedure TUnicodeCharacterMapForm.WMAfterShow(var Msg: TMessage);
 begin
+  ReadIniFile;
+  UpdateFields;
   FOnStartUp := False;
 end;
 
@@ -140,8 +143,7 @@ begin
   FontComboBox.DropDownCount := 16;
   FDocumentFrame := DocumentFrame;
   UpdateLanguage(Self, GetSelectedLanguage);
-  ReadIniFile;
-  UpdateFields;
+  ReadSizePosIniFile;
   Show;
 end;
 
@@ -271,27 +273,32 @@ begin
   StatusBar.SimpleText := s;
 end;
 
+procedure TUnicodeCharacterMapForm.ReadSizePosIniFile;
+begin
+  with TMemIniFile.Create(GetIniFilename) do
+  try
+    { Size }
+    Width := ReadInteger('CharacterMapSize', 'Width', Width);
+    Height := ReadInteger('CharacterMapSize', 'Height', Height);
+    { Position }
+    Left := ReadInteger('CharacterMapPosition', 'Left', (Screen.Width - Width) div 2);
+    Top := ReadInteger('CharacterMapPosition', 'Top', (Screen.Height - Height) div 2);
+    { Check if the form is outside the workarea }
+    Left := SetFormInsideWorkArea(Left, Width);
+  finally
+    Free;
+  end;
+end;
+
 procedure TUnicodeCharacterMapForm.ReadIniFile;
 begin
   with TMemIniFile.Create(GetIniFilename) do
   try
-    try
-      { Size }
-      Width := ReadInteger('CharacterMapSize', 'Width', Width);
-      Height := ReadInteger('CharacterMapSize', 'Height', Height);
-      { Position }
-      Left := ReadInteger('CharacterMapPosition', 'Left', (Screen.Width - Width) div 2);
-      Top := ReadInteger('CharacterMapPosition', 'Top', (Screen.Height - Height) div 2);
-      { Check if the form is outside the workarea }
-      Left := SetFormInsideWorkArea(Left, Width);
-      StringGridCharacter.Row := ReadInteger('CharacterMapPosition', 'Row', 0);
-      StringGridCharacter.Col := ReadInteger('CharacterMapPosition', 'Col', 0);
-      FontComboBox.FontName := ReadString('CharacterMapPosition', 'FontName', 'Arial');
-    finally
-      Free;
-    end;
-  except
-
+    StringGridCharacter.Row := ReadInteger('CharacterMapPosition', 'Row', 0);
+    StringGridCharacter.Col := ReadInteger('CharacterMapPosition', 'Col', 0);
+    FontComboBox.FontName := ReadString('CharacterMapPosition', 'FontName', 'Arial');
+  finally
+    Free;
   end;
 end;
 
