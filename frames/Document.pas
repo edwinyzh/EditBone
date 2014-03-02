@@ -3476,7 +3476,7 @@ begin
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
     if Trim(Synedit.Text) <> '' then
-      Synedit.Text := BCSQL.Formatter.FormatSQL(Synedit.Text, TSQLVendor(SQLFormatterOptions.SQLVendor));
+      Synedit.Text := BCSQL.Formatter.FormatSQL(Synedit.Text, TSQLDatabase(SQLFormatterOptions.SQLDatabase));
 end;
 
 function TDocumentFrame.IsXMLDocument: Boolean;
