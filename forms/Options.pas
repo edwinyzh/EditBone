@@ -74,6 +74,7 @@ type
     procedure OptionsVirtualDrawTreeKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     FActionList: TObjectList<TAction>;
+    FSQLFormatterDLLFound: Boolean;
     procedure CreateTree;
     procedure ReadIniFile;
     procedure SaveSelectedTreeNode;
@@ -243,56 +244,61 @@ begin
     Data.Index := PostInc(i);
     Data.ImageIndex := FileTypesAction.ImageIndex;
     Data.Caption := FileTypesAction.Caption;
-    { SQL Formatter }
-    Node := AddChild(nil);
-    Data := GetNodeData(Node);
-    Data.Index := PostInc(i);
-    Data.ImageIndex := SQLFormatterAction.ImageIndex;
-    Data.Caption := SQLFormatterAction.Caption;
-    { Alignments }
-    ChildNode := AddChild(Node);
-    Data := GetNodeData(ChildNode);
-    Data.Index := PostInc(i);
-    Data.ImageIndex := SQLAlignmentsAction.ImageIndex;
-    Data.Caption := SQLAlignmentsAction.Caption;
-    { Capitalization }
-    ChildNode := AddChild(Node);
-    Data := GetNodeData(ChildNode);
-    Data.Index := PostInc(i);
-    Data.ImageIndex := SQLCapitalizationAction.ImageIndex;
-    Data.Caption := SQLCapitalizationAction.Caption;
-    { Indentation }
-    ChildNode := AddChild(Node);
-    Data := GetNodeData(ChildNode);
-    Data.Index := PostInc(i);
-    Data.ImageIndex := SQLIndentationAction.ImageIndex;
-    Data.Caption := SQLIndentationAction.Caption;
-    { Insert }
-    ChildNode := AddChild(Node);
-    Data := GetNodeData(ChildNode);
-    Data.Index := PostInc(i);
-    Data.ImageIndex := SQLInsertAction.ImageIndex;
-    Data.Caption := SQLInsertAction.Caption;
-    { Select }
-    ChildNode := AddChild(Node);
-    Data := GetNodeData(ChildNode);
-    Data.Index := PostInc(i);
-    Data.ImageIndex := SQLSelectAction.ImageIndex;
-    Data.Caption := SQLSelectAction.Caption;
-    { Update }
-    ChildNode := AddChild(Node);
-    Data := GetNodeData(ChildNode);
-    Data.Index := PostInc(i);
-    Data.ImageIndex := SQLUpdateAction.ImageIndex;
-    Data.Caption := SQLUpdateAction.Caption;
-    { Whitespace }
-    ChildNode := AddChild(Node);
-    Data := GetNodeData(ChildNode);
-    Data.Index := PostInc(i);
-    Data.ImageIndex := SQLWhitespaceAction.ImageIndex;
-    Data.Caption := SQLWhitespaceAction.Caption;
+    if FSQLFormatterDLLFound then
+    begin
+      { SQL Formatter }
+      Node := AddChild(nil);
+      Data := GetNodeData(Node);
+      Data.Index := PostInc(i);
+      Data.ImageIndex := SQLFormatterAction.ImageIndex;
+      Data.Caption := SQLFormatterAction.Caption;
+      { Alignments }
+      ChildNode := AddChild(Node);
+      Data := GetNodeData(ChildNode);
+      Data.Index := PostInc(i);
+      Data.ImageIndex := SQLAlignmentsAction.ImageIndex;
+      Data.Caption := SQLAlignmentsAction.Caption;
+      { Capitalization }
+      ChildNode := AddChild(Node);
+      Data := GetNodeData(ChildNode);
+      Data.Index := PostInc(i);
+      Data.ImageIndex := SQLCapitalizationAction.ImageIndex;
+      Data.Caption := SQLCapitalizationAction.Caption;
+      { Indentation }
+      ChildNode := AddChild(Node);
+      Data := GetNodeData(ChildNode);
+      Data.Index := PostInc(i);
+      Data.ImageIndex := SQLIndentationAction.ImageIndex;
+      Data.Caption := SQLIndentationAction.Caption;
+      { Insert }
+      ChildNode := AddChild(Node);
+      Data := GetNodeData(ChildNode);
+      Data.Index := PostInc(i);
+      Data.ImageIndex := SQLInsertAction.ImageIndex;
+      Data.Caption := SQLInsertAction.Caption;
+      { Select }
+      ChildNode := AddChild(Node);
+      Data := GetNodeData(ChildNode);
+      Data.Index := PostInc(i);
+      Data.ImageIndex := SQLSelectAction.ImageIndex;
+      Data.Caption := SQLSelectAction.Caption;
+      { Update }
+      ChildNode := AddChild(Node);
+      Data := GetNodeData(ChildNode);
+      Data.Index := PostInc(i);
+      Data.ImageIndex := SQLUpdateAction.ImageIndex;
+      Data.Caption := SQLUpdateAction.Caption;
+      { Whitespace }
+      ChildNode := AddChild(Node);
+      Data := GetNodeData(ChildNode);
+      Data.Index := PostInc(i);
+      Data.ImageIndex := SQLWhitespaceAction.ImageIndex;
+      Data.Caption := SQLWhitespaceAction.Caption;
 
-    Node.ChildCount := 7;
+      Node.ChildCount := 7;
+      OptionsVirtualDrawTree.Selected[Node] := True;
+      OptionsVirtualDrawTree.Expanded[Node] := True;
+    end;
 
     OptionsVirtualDrawTree.Selected[OptionsVirtualDrawTree.GetFirst] := True;
   end;
@@ -305,6 +311,8 @@ begin
     ReadIniFile;
     UpdateLanguage(Self, GetSelectedLanguage);
     Result := Showmodal = mrOk;
+    if Result then
+      SQLFormatterOptions.WriteIniFile; { this is written here because dll is reading settings from the ini file }
     WriteIniFile;
     SaveSelectedTreeNode;
   finally
@@ -443,23 +451,26 @@ begin
       OptionsStatusBarFrame(Self).Show;
     if (Level = 0) and (TreeNode.Index = 8) then
       OptionsFileTypesFrame(Self).Show;
-    { SQL Formatter options }
-    if (Level = 0) and (TreeNode.Index = 9) then
-      OptionsSQLFormatterFrame(Self).Show;
-    if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 0) then
-      OptionsSQLAlignmentsFrame(Self).Show;
-    if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 1) then
-      OptionsSQLCapitalizationFrame(Self).Show;
-    if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 2) then
-      OptionsSQLIndentationFrame(Self).Show;
-    if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 3) then
-      OptionsSQLInsertFrame(Self).Show;
-    if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 4) then
-      OptionsSQLSelectFrame(Self).Show;
-    if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 5) then
-      OptionsSQLUpdateFrame(Self).Show;
-    if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 6) then
-      OptionsSQLWhitespaceFrame(Self).Show;
+    if FSQLFormatterDLLFound then
+    begin
+      { SQL Formatter options }
+      if (Level = 0) and (TreeNode.Index = 9) then
+        OptionsSQLFormatterFrame(Self).Show;
+      if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 0) then
+        OptionsSQLAlignmentsFrame(Self).Show;
+      if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 1) then
+        OptionsSQLCapitalizationFrame(Self).Show;
+      if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 2) then
+        OptionsSQLIndentationFrame(Self).Show;
+      if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 3) then
+        OptionsSQLInsertFrame(Self).Show;
+      if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 4) then
+        OptionsSQLSelectFrame(Self).Show;
+      if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 5) then
+        OptionsSQLUpdateFrame(Self).Show;
+      if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 6) then
+        OptionsSQLWhitespaceFrame(Self).Show;
+    end;
   end;
 end;
 
@@ -552,6 +563,7 @@ begin
   { IDE can lose these properties }
   ActionList.Images := ImagesDataModule.ImageList;
   OptionsVirtualDrawTree.Images := ImagesDataModule.ImageList;
+  FSQLFormatterDLLFound := FileExists(GetSQLFormatterDLLFilename);
 end;
 
 procedure TOptionsForm.FormShow(Sender: TObject);

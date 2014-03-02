@@ -2007,7 +2007,6 @@ object MainForm: TMainForm
     object FormatSQLAction: TAction
       Category = '&Document'
       Caption = 'Format SQL'
-      Enabled = False
       Hint = 'Format SQL'
       ImageIndex = 91
       OnExecute = FormatSQLActionExecute

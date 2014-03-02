@@ -337,7 +337,7 @@ uses
   System.IOUtils, BCCommon.LanguageStrings, LanguageEditor, BCControls.SynEdit, SynUnicode, BCCommon.Encoding,
   BCCommon.LanguageUtils, BCCommon.DuplicateChecker, UnicodeCharacterMap, DuplicateCheckerOptions, Winapi.ShellAPI,
   System.Types, BCCommon.Messages, BCCommon.Lib, BCCommon.StringUtils, Winapi.CommCtrl, BCForms.Convert,
-  BCForms.SearchForFiles, MapVirtualDrives;
+  BCForms.SearchForFiles, MapVirtualDrives, BCSQL.Formatter;
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';
@@ -771,6 +771,7 @@ end;
 procedure TMainForm.ReadIniOptions;
 begin
   OptionsContainer.ReadIniFile;
+  SQLFormatterOptions.ReadIniFile;
 
   with TBigIniFile.Create(GetIniFilename) do
   try
