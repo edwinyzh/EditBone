@@ -4,7 +4,7 @@ object AboutDialog: TAboutDialog
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = 'About EditBone'
-  ClientHeight = 361
+  ClientHeight = 379
   ClientWidth = 538
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -36,6 +36,7 @@ object AboutDialog: TAboutDialog
     ParentBackground = False
     ParentFont = False
     TabOrder = 0
+    StyleElements = []
     object ProgramNameLabel: TLabel
       Left = 133
       Top = 4
@@ -523,12 +524,13 @@ object AboutDialog: TAboutDialog
     Color = cl3DLight
     ParentBackground = False
     TabOrder = 1
+    StyleElements = []
   end
   object ThanksToPanel: TPanel
     Left = 0
     Top = 138
     Width = 538
-    Height = 182
+    Height = 200
     Margins.Left = 2
     Margins.Top = 2
     Margins.Right = 2
@@ -542,9 +544,10 @@ object AboutDialog: TAboutDialog
     Font.Style = []
     ParentFont = False
     TabOrder = 2
+    ExplicitHeight = 182
     DesignSize = (
       538
-      182)
+      200)
     object ThirdPartyComponentsLabel: TLabel
       Left = 10
       Top = 49
@@ -561,7 +564,7 @@ object AboutDialog: TAboutDialog
     end
     object IconsLabel: TLabel
       Left = 10
-      Top = 145
+      Top = 161
       Width = 26
       Height = 13
       Alignment = taCenter
@@ -575,7 +578,7 @@ object AboutDialog: TAboutDialog
     end
     object LanguageFileContributorsLabel: TLabel
       Left = 10
-      Top = 90
+      Top = 106
       Width = 129
       Height = 13
       Alignment = taCenter
@@ -603,15 +606,15 @@ object AboutDialog: TAboutDialog
     end
     object LinkRow3Label: TLinkLabel
       Left = 16
-      Top = 107
+      Top = 123
       Width = 514
       Height = 28
       Anchors = [akLeft, akTop, akRight]
       AutoSize = False
       Caption = 
-        'Karel Van Dongen, nickW, netcyphe, '#920#945#957#940#963#951#962' '#922#945#964#963#945#947#949#974#961#947#951#962',, ZityiS' +
-        'oft Translator Team, bovirus, DEKO, Midas, '#1057#1077#1088#1075#1077#1081' '#1053#1086#1074#1080#1082#1086#1074', ansid' +
-        'ev'
+        'Karel Van Dongen,  Han Leentvaar, nickW, netcyphe, '#920#945#957#940#963#951#962' '#922#945#964#963#945 +
+        #947#949#974#961#947#951#962', ZityiSoft Translator Team, bovirus, DEKO, Midas, '#1057#1077#1088#1075#1077#1081 +
+        ' '#1053#1086#1074#1080#1082#1086#1074', ansidev'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -624,8 +627,9 @@ object AboutDialog: TAboutDialog
     object LinkRow2Label: TLinkLabel
       Left = 16
       Top = 66
-      Width = 510
-      Height = 19
+      Width = 514
+      Height = 34
+      AutoSize = False
       Caption = 
         '<a href="http://wiki.delphi-jedi.org/index.php?title=JEDI_Code_L' +
         'ibrary">JEDI Code Library</a>, <a href="http://jvcl.delphi-jedi.' +
@@ -634,7 +638,8 @@ object AboutDialog: TAboutDialog
         '://code.google.com/p/synweb/">SynWeb</a>, <a href="http://angusj' +
         '.com/delphi/">TDiff</a>, <a href="http://www.soft-gems.net">Virt' +
         'ual Tree</a>, <a href="http://robstechcorner.blogspot.fi/">IniPe' +
-        'rsist</a> '
+        'rsist</a>, <a href="http://www.sqlparser.com/">General SQL Parse' +
+        'r</a> '
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -647,7 +652,7 @@ object AboutDialog: TAboutDialog
     end
     object LinkRow4Label: TLinkLabel
       Left = 16
-      Top = 162
+      Top = 178
       Width = 188
       Height = 19
       Caption = 
@@ -672,11 +677,13 @@ object AboutDialog: TAboutDialog
       Caption = 
         '<a href="http://www.embarcadero.com/products/rad-studio/">Embarc' +
         'adero RAD Studio</a>'
+      Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = []
+      ParentColor = False
       ParentFont = False
       TabOrder = 0
       UseVisualStyle = True
@@ -685,7 +692,7 @@ object AboutDialog: TAboutDialog
   end
   object BottomPanel: TPanel
     Left = 0
-    Top = 320
+    Top = 338
     Width = 538
     Height = 41
     Margins.Left = 2
@@ -699,6 +706,7 @@ object AboutDialog: TAboutDialog
     Padding.Right = 8
     Padding.Bottom = 8
     TabOrder = 3
+    ExplicitTop = 320
     object OKButton: TButton
       Left = 455
       Top = 8
