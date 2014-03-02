@@ -2,7 +2,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 305
+  Height = 302
   Align = alClient
   Color = clWindow
   ParentBackground = False
@@ -12,7 +12,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
     Left = 0
     Top = 0
     Width = 451
-    Height = 305
+    Height = 302
     Align = alClient
     BevelOuter = bvNone
     Color = clWindow
@@ -25,15 +25,16 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 201
       Top = 1
       Width = 4
-      Height = 302
+      Height = 299
       ParentColor = False
       Visible = False
+      ExplicitHeight = 302
     end
     object VirtualDrawTree: TVirtualDrawTree
       Left = 1
       Top = 1
       Width = 200
-      Height = 302
+      Height = 299
       Align = alLeft
       DragOperations = []
       Header.AutoSizeIndex = 0
@@ -51,13 +52,14 @@ object DocTabSheetFrame: TDocTabSheetFrame
       OnGetImageIndex = VirtualDrawTreeGetImageIndex
       OnGetNodeWidth = VirtualDrawTreeGetNodeWidth
       OnInitNode = VirtualDrawTreeInitNode
+      ExplicitHeight = 302
       Columns = <>
     end
     object DocumentPanel: TPanel
       Left = 205
       Top = 1
       Width = 246
-      Height = 302
+      Height = 299
       Align = alClient
       BevelOuter = bvNone
       Color = clWindow
@@ -65,17 +67,18 @@ object DocTabSheetFrame: TDocTabSheetFrame
       TabOrder = 1
       object HorizontalSplitter: TSplitter
         Left = 0
-        Top = 21
+        Top = 18
         Width = 246
         Height = 4
         Cursor = crVSplit
         Align = alBottom
         ParentColor = False
         Visible = False
+        ExplicitTop = 21
       end
       object SplitSynEditPanel: TPanel
         Left = 0
-        Top = 25
+        Top = 22
         Width = 246
         Height = 277
         Align = alBottom
@@ -151,7 +154,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Left = 0
         Top = 0
         Width = 246
-        Height = 21
+        Height = 18
         Align = alClient
         ActiveLineColor = clSkyBlue
         CodeFolding.CaseSensitive = False

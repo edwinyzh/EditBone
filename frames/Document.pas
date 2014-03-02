@@ -767,6 +767,7 @@ begin
   Right := GetRightPadding;
   for i := 0 to PageControl.PageCount - 1 do
   begin
+    //PageControl.UpdatePageCaption(PageControl.Pages[i]);
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
     if Assigned(DocTabSheetFrame) then
     begin

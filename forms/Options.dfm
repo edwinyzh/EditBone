@@ -260,24 +260,31 @@ object OptionsForm: TOptionsForm
     end
     object SQLAlignmentsAction: TAction
       Caption = 'Alignments'
+      ImageIndex = 253
     end
     object SQLCapitalizationAction: TAction
       Caption = 'Capitalization'
+      ImageIndex = 257
     end
     object SQLIndentationAction: TAction
       Caption = 'Indentation'
+      ImageIndex = 252
     end
     object SQLInsertAction: TAction
       Caption = 'Insert'
+      ImageIndex = 206
     end
     object SQLSelectAction: TAction
       Caption = 'Select'
+      ImageIndex = 256
     end
     object SQLUpdateAction: TAction
       Caption = 'Update'
+      ImageIndex = 255
     end
     object SQLWhitespaceAction: TAction
       Caption = 'Whitespace'
+      ImageIndex = 254
     end
   end
 end
