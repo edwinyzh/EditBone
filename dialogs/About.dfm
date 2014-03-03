@@ -50,6 +50,7 @@ object AboutDialog: TAboutDialog
       Font.Style = []
       ParentFont = False
       Transparent = True
+      StyleElements = []
     end
     object VersionLabel: TLabel
       Left = 134
@@ -63,6 +64,7 @@ object AboutDialog: TAboutDialog
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
+      StyleElements = []
     end
     object OSLabel: TLabel
       Left = 134
@@ -76,6 +78,7 @@ object AboutDialog: TAboutDialog
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
+      StyleElements = []
     end
     object MemoryAvailableLabel: TLabel
       Left = 134
@@ -89,6 +92,7 @@ object AboutDialog: TAboutDialog
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
+      StyleElements = []
     end
     object CopyrightLabel: TLabel
       Left = 134
@@ -103,6 +107,7 @@ object AboutDialog: TAboutDialog
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
+      StyleElements = []
     end
     object ImagePanel: TPanel
       Left = 0
@@ -544,7 +549,6 @@ object AboutDialog: TAboutDialog
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitHeight = 182
     DesignSize = (
       538
       200)
@@ -612,9 +616,9 @@ object AboutDialog: TAboutDialog
       Anchors = [akLeft, akTop, akRight]
       AutoSize = False
       Caption = 
-        'Karel Van Dongen,  Han Leentvaar, nickW, netcyphe, '#920#945#957#940#963#951#962' '#922#945#964#963#945 +
-        #947#949#974#961#947#951#962', ZityiSoft Translator Team, bovirus, DEKO, Midas, '#1057#1077#1088#1075#1077#1081 +
-        ' '#1053#1086#1074#1080#1082#1086#1074', ansidev'
+        'Karel Van Dongen, Han Leentvaar, nickW, netcyphe, '#920#945#957#940#963#951#962' '#922#945#964#963#945#947 +
+        #949#974#961#947#951#962', ZityiSoft Translator Team, bovirus, DEKO, Midas, '#1057#1077#1088#1075#1077#1081' ' +
+        #1053#1086#1074#1080#1082#1086#1074', ansidev'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -706,7 +710,6 @@ object AboutDialog: TAboutDialog
     Padding.Right = 8
     Padding.Bottom = 8
     TabOrder = 3
-    ExplicitTop = 320
     object OKButton: TButton
       Left = 455
       Top = 8
