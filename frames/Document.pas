@@ -635,8 +635,8 @@ begin
       BookMarkOptions.BookmarkImages := BookmarkImagesList;
     end;
     { Search highlighter plugin }
-    //THighlightSearchPlugin.Create(SynEdit, FoundSearchItems);
-    //THighlightSearchPlugin.Create(SplitSynEdit, FoundSearchItems);
+//    THighlightSearchPlugin.Create(SynEdit, FoundSearchItems);
+//    THighlightSearchPlugin.Create(SplitSynEdit, FoundSearchItems);
     { VirtualDrawTree }
     with VirtualDrawTree do
     begin
@@ -767,7 +767,6 @@ begin
   Right := GetRightPadding;
   for i := 0 to PageControl.PageCount - 1 do
   begin
-    //PageControl.UpdatePageCaption(PageControl.Pages[i]);
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
     if Assigned(DocTabSheetFrame) then
     begin

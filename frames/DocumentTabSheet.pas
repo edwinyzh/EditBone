@@ -356,6 +356,8 @@ var
   i: Integer;
   Data: PXMLTreeRec;
 begin
+  if Node.NodeType = ntComment then
+    Exit(nil);
   Inc(FXMLNodeCount);
   Result := VirtualDrawTree.AddChild(TreeNode);
 

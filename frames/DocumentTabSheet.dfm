@@ -52,7 +52,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
       OnGetImageIndex = VirtualDrawTreeGetImageIndex
       OnGetNodeWidth = VirtualDrawTreeGetNodeWidth
       OnInitNode = VirtualDrawTreeInitNode
-      ExplicitHeight = 302
       Columns = <>
     end
     object DocumentPanel: TPanel
