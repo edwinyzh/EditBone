@@ -1340,6 +1340,14 @@ end;
 procedure TDocumentFrame.PageControlChange(Sender: TObject);
 var
   SynEdit: TBCSynEdit;
+
+  procedure PositionAndSearch(SynEdit: TBCSynEdit);
+  begin
+    SynEdit.RightEdge.Position := OptionsContainer.MarginRightMargin;
+    if SearchPanel.Visible then
+      DoSearch(SynEdit);
+  end;
+
 begin
   if FProcessing then
     Exit;
@@ -1350,10 +1358,10 @@ begin
     SetMainHighlighterCombo(SynEdit);
     SetMainEncodingCombo(SynEdit);
 
-    SynEdit.RightEdge.Position := OptionsContainer.MarginRightMargin;
-
-    if SearchPanel.Visible then
-      DoSearch(SynEdit);
+    PositionAndSearch(SynEdit);
+    SynEdit := GetActiveSplitSynEdit;
+    if Assigned(SynEdit) then
+      PositionAndSearch(SynEdit);
   end
   else
   begin
@@ -1554,8 +1562,8 @@ procedure TDocumentFrame.DoSearch(SynEdit: TBCSynEdit);
 var
   SynSearchOptions: TSynSearchOptions;
 begin
-  //if SearchForEdit.Text = '' then
-  //  Exit;
+  if not SearchPanel.Visible then
+    Exit;
 
   if RegularExpressionCheckBox.Checked then
     SynEdit.SearchEngine := SynEditRegexSearch
@@ -1755,6 +1763,9 @@ begin
     SearchFindNextAction.Enabled := CanFindNextPrevious;
     SearchFindPreviousAction.Enabled := SearchFindNextAction.Enabled;
     DoSearch(SynEdit);
+    SynEdit := GetActiveSplitSynEdit;
+    if Assigned(SynEdit) then
+      DoSearch(SynEdit);
   end;
 end;
 
@@ -2230,6 +2241,7 @@ begin
       ActiveSynEdit := DocTabSheetFrame.SynEdit;
       if DocTabSheetFrame.SplitVisible then
         LinesChange(DocTabSheetFrame.SplitSynEdit);
+      DoSearch(ActiveSynEdit);
     end;
   end;
 end;
@@ -2304,6 +2316,7 @@ begin
       ActiveSynEdit := DocTabSheetFrame.SplitSynEdit;
       if DocTabSheetFrame.SplitVisible then
         LinesChange(DocTabSheetFrame.SynEdit);
+      DoSearch(ActiveSynEdit);
     end;
   end;
 end;
