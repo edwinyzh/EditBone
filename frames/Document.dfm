@@ -1,8 +1,8 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 925
-  Height = 647
+  Width = 451
+  Height = 302
   Align = alClient
   DoubleBuffered = True
   Color = clWindow
@@ -10,12 +10,10 @@ object DocumentFrame: TDocumentFrame
   ParentColor = False
   ParentDoubleBuffered = False
   TabOrder = 0
-  ExplicitWidth = 451
-  ExplicitHeight = 302
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 925
+    Width = 451
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -24,7 +22,6 @@ object DocumentFrame: TDocumentFrame
     ParentBackground = False
     TabOrder = 0
     Visible = False
-    ExplicitWidth = 451
     object WholeWordsOnlyLabel: TLabel
       Left = 434
       Top = 0
@@ -448,8 +445,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 925
-    Height = 601
+    Width = 451
+    Height = 256
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -458,13 +455,11 @@ object DocumentFrame: TDocumentFrame
     Padding.Top = 2
     ParentBackground = False
     TabOrder = 1
-    ExplicitWidth = 451
-    ExplicitHeight = 256
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 925
-      Height = 599
+      Width = 451
+      Height = 254
       Align = alClient
       DoubleBuffered = False
       ParentDoubleBuffered = False
@@ -477,14 +472,12 @@ object DocumentFrame: TDocumentFrame
       ShowCloseButton = False
       OnCloseButtonClick = PageControlCloseButtonClick
       OnDblClick = PageControlDblClick
-      ExplicitWidth = 451
-      ExplicitHeight = 254
     end
   end
   object GotoLinePanel: TPanel
     Left = 0
-    Top = 622
-    Width = 925
+    Top = 277
+    Width = 451
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
@@ -494,8 +487,6 @@ object DocumentFrame: TDocumentFrame
     ParentBackground = False
     TabOrder = 2
     Visible = False
-    ExplicitTop = 277
-    ExplicitWidth = 451
     object GotoLineClosePanel: TPanel
       Left = 0
       Top = 2

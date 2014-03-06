@@ -1045,6 +1045,8 @@ procedure TDocumentFrame.CloseAll(CloseDocuments: Boolean);
 var
   Rslt, i: Integer;
 begin
+  FProcessing := True;
+  Application.ProcessMessages;
   Rslt := mrNone;
 
   if FModifiedDocuments then
@@ -1055,8 +1057,6 @@ begin
   end;
   if CloseDocuments and (Rslt <> mrCancel) then
   begin
-    FProcessing := True;
-    Application.ProcessMessages;
     Screen.Cursor := crHourGlass;
     try
       FProgressBar.Count := PageControl.PageCount;
@@ -1070,13 +1070,13 @@ begin
     finally
       Screen.Cursor := crDefault;
       FProgressBar.Hide;
-      FProcessing := False;
     end;
     FNumberOfNewDocument := 0;
   end;
   CheckModifiedDocuments;
   CheckHTMLErrors;
   PageControl.Repaint; { Icon paint bug fix }
+  FProcessing := False;
 end;
 
 procedure TDocumentFrame.CloseAllOtherPages;
@@ -1085,6 +1085,8 @@ var
   Rslt: Integer;
   SynEdit: TBCSynEdit;
 begin
+  FProcessing := True;
+  Application.ProcessMessages;
   Rslt := mrNone;
   PageControl.ActivePage.PageIndex := 0; { move the page first }
   if GetModifiedDocuments(False) then
@@ -1102,8 +1104,6 @@ begin
 
   if Rslt <> mrCancel then
   begin
-    FProcessing := True;
-    Application.ProcessMessages;
     Screen.Cursor := crHourGlass;
     try
       FProgressBar.Count := PageControl.PageCount;
@@ -1117,7 +1117,6 @@ begin
       FProgressBar.Hide;
     finally
       Screen.Cursor := crDefault;
-      FProcessing := False;
     end;
 
     if GetActiveSynEdit.DocumentName = '' then
@@ -1128,6 +1127,7 @@ begin
   CheckModifiedDocuments;
   CheckHTMLErrors;
   PageControl.Repaint; { Icon paint bug fix }
+  FProcessing := False;
 end;
 
 procedure TDocumentFrame.CheckModifiedDocuments;
@@ -1210,10 +1210,10 @@ var
   i: Integer;
   SynEdit: TBCSynEdit;
 begin
+  FProcessing := True;
+  Application.ProcessMessages;
   Screen.Cursor := crHourGlass;
   try
-    FProcessing := True;
-    Application.ProcessMessages;
     FProgressBar.Count := PageControl.PageCount;
     FProgressBar.Show;
     for i := 0 to PageControl.PageCount - 1 do
@@ -1227,8 +1227,8 @@ begin
     FProgressBar.Hide;
   finally
     Screen.Cursor := crDefault;
-    FProcessing := False;
   end;
+  FProcessing := False;
 end;
 
 function TDocumentFrame.GetActivePageCaption: string;
@@ -1621,6 +1621,8 @@ var
   SynEdit: TBCSynEdit;
   i, MResult: Integer;
 begin
+  FProcessing := True;
+  Application.ProcessMessages;
   with ReplaceDialog do
   begin
     SynEdit := GetActiveSynEdit;
@@ -1641,8 +1643,6 @@ begin
       end
       else
       begin
-        FProcessing := True;
-        Application.ProcessMessages;
         Screen.Cursor := crHourGlass;
         try
           FProgressBar.Count := PageControl.PageCount;
@@ -1664,11 +1664,11 @@ begin
         finally
           Screen.Cursor := crDefault;
           FProgressBar.Hide;
-          FProcessing := False;
         end;
       end;
     end;
   end;
+  FProcessing := False;
 end;
 
 procedure TDocumentFrame.ToggleBookmarks(ItemIndex: Integer);
