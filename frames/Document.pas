@@ -19,7 +19,7 @@ uses
   SynHighlighterSml, SynHighlighterST, SynHighlighterTclTk, SynHighlighterJava, SynHighlighterInno, SynHighlighterIni,
   SynHighlighterDWS, SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
   SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11,
-  SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch, Vcl.ActnMan;
+  SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch, Vcl.ActnMan, System.Contnrs;
 
 type
   TDocumentFrame = class(TFrame)
@@ -227,6 +227,7 @@ type
     FProcessing: Boolean;
     FProgressBar: TBCProgressBar;
     FModifiedDocuments: Boolean;
+    FFoundSearchItems: TObjectList;
     function CanFindNextPrevious: Boolean;
     function CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
     function FindHtmlVersion(Lines: TStrings): TSynWebHtmlVersion;
@@ -377,7 +378,7 @@ uses
   System.WideStrings, System.Math, Main, BigIni, Vcl.GraphUtil, SynUnicode, BCCommon.LanguageStrings, BCCommon.Dialogs,
   SynEditTextBuffer, BCCommon.Encoding, InsertTag, BCCommon.LanguageUtils, BCCommon.FileUtils, BCCommon.Messages,
   BCCommon.Lib, BCCommon.StringUtils, Winapi.CommCtrl, SynEditPrintTypes, Options, BCCommon.Images,
-  System.Generics.Collections, BCSQL.Formatter;
+  System.Generics.Collections, BCSQL.Formatter, SynEditSearchHighlighter;
 
 { TDocumentFrame }
 
@@ -395,6 +396,7 @@ begin
   FProcessing := False;
   FModifiedDocuments := False;
   FHTMLErrorList := TList.Create;
+  FFoundSearchItems := TObjectList.Create;
 
   { IDE can lose these properties }
   EditorPopupMenu.Images := ImagesDataModule.ImageList;
@@ -492,6 +494,7 @@ end;
 
 destructor TDocumentFrame.Destroy;
 begin
+  FFoundSearchItems.Free;
   if Assigned(FHTMLErrorList) then
   begin
     DestroyHTMLErrorListItems;
@@ -635,8 +638,8 @@ begin
       BookMarkOptions.BookmarkImages := BookmarkImagesList;
     end;
     { Search highlighter plugin }
-//    THighlightSearchPlugin.Create(SynEdit, FoundSearchItems);
-//    THighlightSearchPlugin.Create(SplitSynEdit, FoundSearchItems);
+    THighlightSearchPlugin.Create(SynEdit, FFoundSearchItems);
+    THighlightSearchPlugin.Create(SplitSynEdit, FFoundSearchItems);
     { VirtualDrawTree }
     with VirtualDrawTree do
     begin
@@ -1348,6 +1351,9 @@ begin
     SetMainEncodingCombo(SynEdit);
 
     SynEdit.RightEdge.Position := OptionsContainer.MarginRightMargin;
+
+    if SearchPanel.Visible then
+      DoSearch(SynEdit);
   end
   else
   begin
@@ -1504,12 +1510,52 @@ begin
   end;
 end;
 
+{procedure InvalidateHighlightedTerms(SynEdit : TSynEdit; FoundItems : TObjectList);
+var
+  i: Integer;
+  FoundItem : TFoundItem;
+begin
+  for i := 0 to FoundItems.Count - 1 do begin
+    FoundItem := FoundItems[i] as TFoundItem;
+    SynEdit.InvalidateLine(FoundItem.Start.Line);
+  end;
+end; }
+
+procedure FindSearchTerm(ATerm: string; SynEdit: TSynEdit; FoundItems: TObjectList; SearchEngine: TSynEditSearchCustom;
+  SearchOptions: TSynSearchOptions);
+var
+  i: Integer;
+  j: Integer;
+  FoundItem: TFoundItem;
+begin
+  //InvalidateHighlightedTerms(SynEdit, FoundItems);
+  //FoundItems.Clear;
+
+  if ATerm = '' then
+    Exit;
+
+  for i := 0 to SynEdit.Lines.Count - 1 do
+  begin
+    SearchEngine.Options := SearchOptions;
+    SearchEngine.Pattern := ATerm;
+    SearchEngine.FindAll(SynEdit.Lines[i]);
+    for j := 0 to SearchEngine.ResultCount - 1 do
+    begin
+      FoundItem := TFoundItem.Create;
+      FoundItem.Start := BufferCoord(SearchEngine.Results[j], i + 1);
+      FoundItem.Length := SearchEngine.Lengths[j];
+      FoundItems.Add(FoundItem);
+      SynEdit.InvalidateLine(i+1);
+    end;
+  end;
+end;
+
 procedure TDocumentFrame.DoSearch(SynEdit: TBCSynEdit);
 var
   SynSearchOptions: TSynSearchOptions;
 begin
-  if SearchForEdit.Text = '' then
-    Exit;
+  //if SearchForEdit.Text = '' then
+  //  Exit;
 
   if RegularExpressionCheckBox.Checked then
     SynEdit.SearchEngine := SynEditRegexSearch
@@ -1520,7 +1566,10 @@ begin
     SynEdit.SearchEngine := SynEditSearch;
   SynSearchOptions := SearchOptions(False);
   try
-    if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
+     FFoundSearchItems.Clear;
+     FindSearchTerm(SearchForEdit.Text, SynEdit, FFoundSearchItems, SynEdit.SearchEngine, SynSearchOptions);
+     SynEdit.Invalidate;
+    {if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
     begin
       if OptionsContainer.BeepIfSearchStringNotFound then
         MessageBeep;
@@ -1528,7 +1577,7 @@ begin
       SynEdit.CaretXY := SynEdit.BlockBegin;
       if OptionsContainer.ShowSearchStringNotFound then
         ShowMessage(Format(LanguageDataModule.GetYesOrNoMessage('SearchStringNotFound'), [SearchForEdit.Text]))
-    end;
+    end; }
   except
     { silent }
   end;
