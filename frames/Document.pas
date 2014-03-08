@@ -264,6 +264,7 @@ type
     procedure SetBookmarks(SynEdit: TBCSynEdit; Bookmarks: TStrings);
     procedure SetMainEncodingCombo(SynEdit: TBCSynEdit);
     procedure SetMainHighlighterCombo(SynEdit: TBCSynEdit);
+    procedure SetSearchMapVisible(Value: Boolean);
     procedure SynEditHTMLOnChange(Sender: TObject);
     procedure SynEditHTMLPaintTransient(Sender: TObject; Canvas: TCanvas; TransientType: TTransientType);
     procedure SynEditPASPaintTransient(Sender: TObject; Canvas: TCanvas; TransientType: TTransientType);
@@ -821,8 +822,8 @@ var
   TempList: TStringList;
   SynEdit: TBCSynEdit;
 begin
-  SearchPanel.Visible := False;
-  GotoLinePanel.Visible := False;
+  SearchCloseAction.Execute;
+  GotoLineCloseAction.Execute;
   { create list of open documents }
   TempList := TStringList.Create;
   for i := 0 to PageControl.PageCount - 1 do
@@ -997,6 +998,8 @@ begin
         try
           SetMainHighlighterCombo(SynEdit);
           SetMainEncodingCombo(SynEdit);
+          if SearchPanel.Visible then
+            DoSearch(SynEdit);
           if SynEdit.CanFocus then
             SynEdit.SetFocus;
           if not StartUp then
@@ -1049,14 +1052,18 @@ begin
       FNumberOfNewDocument := 0;
   end;
   SynEdit := GetActiveSynEdit;
-  SetMainHighlighterCombo(SynEdit);
-  SetMainEncodingCombo(SynEdit);
+  if Assigned(SynEdit) then
+  begin
+    SetMainHighlighterCombo(SynEdit);
+    SetMainEncodingCombo(SynEdit);
+    if SearchPanel.Visible then
+      DoSearch(SynEdit);
+    if SynEdit.CanFocus then
+      SynEdit.SetFocus;
+  end;
   CheckModifiedDocuments;
   CheckHTMLErrors;
   PageControl.Repaint; { Icon paint bug fix }
-  if Assigned(SynEdit) then
-    if SynEdit.CanFocus then
-      SynEdit.SetFocus;
 end;
 
 procedure TDocumentFrame.CloseAll(CloseDocuments: Boolean);
@@ -1141,6 +1148,14 @@ begin
       FNumberOfNewDocument := 1
     else
       FNumberOfNewDocument := 0
+  end;
+  SynEdit := GetActiveSynEdit;
+  if Assigned(SynEdit) then
+  begin
+    if SearchPanel.Visible then
+      DoSearch(SynEdit);
+    if SynEdit.CanFocus then
+      SynEdit.SetFocus;
   end;
   CheckModifiedDocuments;
   CheckHTMLErrors;
@@ -1380,8 +1395,8 @@ begin
   end
   else
   begin
-    SearchPanel.Visible := False;
-    GotoLinePanel.Visible := False;
+    SearchCloseAction.Execute;
+    GotoLineCloseAction.Execute;
   end;
   PageControl.Repaint;
 end;
@@ -1517,6 +1532,7 @@ var
   SynEdit: TBCSynEdit;
 begin
   SearchPanel.Show;
+  SetSearchMapVisible(True);
   DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
   if DocTabSheetFrame.SplitSynEdit.Focused then
     SynEdit := DocTabSheetFrame.SplitSynEdit
@@ -1611,9 +1627,24 @@ begin
   SearchForEdit.Text := '';
 end;
 
+procedure TDocumentFrame.SetSearchMapVisible(Value: Boolean);
+var
+  i: Integer;
+  SynEdit: TBCSynEdit;
+begin
+  for i := 0 to PageControl.PageCount - 1 do
+  begin
+    SynEdit := GetSynEdit(PageControl.Pages[i]);
+    if Assigned(SynEdit) then
+      SynEdit.SearchMap.Visible := Value;
+  end;
+end;
+
 procedure TDocumentFrame.SearchCloseActionExecute(Sender: TObject);
 begin
+  SearchForEdit.Text := '';
   SearchPanel.Hide;
+  SetSearchMapVisible(False);
 end;
 
 procedure TDocumentFrame.SearchFindNextActionExecute(Sender: TObject);
@@ -1788,7 +1819,7 @@ procedure TDocumentFrame.SearchForEditKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = #27 then
   begin
-    SearchPanel.Hide;
+    SearchCloseAction.Execute;
     Key := #0;
   end;
 end;
