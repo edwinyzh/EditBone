@@ -2,7 +2,7 @@ object OutputFrame: TOutputFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 305
+  Height = 302
   Align = alClient
   Color = clWindow
   ParentBackground = False
@@ -12,7 +12,7 @@ object OutputFrame: TOutputFrame
     Left = 0
     Top = 0
     Width = 451
-    Height = 305
+    Height = 302
     Align = alClient
     DoubleBuffered = False
     ParentDoubleBuffered = False
@@ -25,6 +25,7 @@ object OutputFrame: TOutputFrame
     ShowCloseButton = False
     OnCloseButtonClick = PageControlCloseButtonClick
     OnDblClick = PageControlDblClick
+    ExplicitHeight = 305
   end
   object OutputActionList: TActionList
     Images = ImagesDataModule.ImageList

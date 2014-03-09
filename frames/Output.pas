@@ -242,7 +242,7 @@ var
   OutputTabSheetFrame: TOutputTabSheetFrame;
 begin
   { check if there already is a tab with same name }
-  if TabFound(TabCaption) then
+  if TabFound(StringReplace(TabCaption, '&', '&&', [rfReplaceAll])) then
   begin
     Result := GetOutputTabSheetFrame(PageControl.ActivePage).VirtualDrawTree;
     if Assigned(Result) then
@@ -257,7 +257,7 @@ begin
   TabSheet.PageControl := PageControl;
   TabSheet.TabVisible := False;
   TabSheet.ImageIndex := 82; { find in files }
-  TabSheet.Caption := TabCaption;
+  TabSheet.Caption := StringReplace(TabCaption, '&', '&&', [rfReplaceAll]);
   PageControl.ActivePage := TabSheet;
 
   OutputTabSheetFrame := TOutputTabSheetFrame.Create(TabSheet);
@@ -282,7 +282,7 @@ procedure TOutputFrame.VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree;
   const PaintInfo: TVTPaintInfo);
 var
   Data: POutputRec;
-  S: UnicodeString;
+  S, Temp: UnicodeString;
   R: TRect;
   Format: Cardinal;
   LStyles: TCustomStyleServices;
@@ -369,8 +369,9 @@ begin
         R.Left := R.Left + Canvas.TextWidth(S);
         Canvas.Font.Color := clRed;
         S := Copy(String(Data.Text), Data.TextCh, Length(Data.SearchString));
+        Temp := StringReplace(S, '&', '&&', [rfReplaceAll]);
         Canvas.Font.Style := Canvas.Font.Style + [fsBold];
-        DrawText(Canvas.Handle, S, Length(S), R, Format);
+        DrawText(Canvas.Handle, Temp, Length(Temp), R, Format);
         Canvas.Font.Color := LColor;
         R.Left := R.Left + Canvas.TextWidth(S);
         Canvas.Font.Style := Canvas.Font.Style - [fsBold];
