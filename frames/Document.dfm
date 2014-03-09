@@ -165,7 +165,7 @@ object DocumentFrame: TDocumentFrame
       Padding.Left = 4
       ParentBackground = False
       TabOrder = 2
-      object SearchForEdit: TButtonedEdit
+      object SearchForEdit: TBCButtonedEdit
         Left = 4
         Top = 0
         Width = 181
@@ -599,7 +599,7 @@ object DocumentFrame: TDocumentFrame
       Padding.Left = 4
       ParentBackground = False
       TabOrder = 2
-      object GotoLineNumberEdit: TButtonedEdit
+      object GotoLineNumberEdit: TBCButtonedEdit
         Left = 4
         Top = 0
         Width = 96

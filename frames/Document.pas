@@ -19,7 +19,8 @@ uses
   SynHighlighterSml, SynHighlighterST, SynHighlighterTclTk, SynHighlighterJava, SynHighlighterInno, SynHighlighterIni,
   SynHighlighterDWS, SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
   SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11,
-  SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch, Vcl.ActnMan, System.Contnrs;
+  SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch, Vcl.ActnMan, System.Contnrs,
+  BCControls.ButtonedEdit;
 
 type
   TDocumentFrame = class(TFrame)
@@ -71,7 +72,7 @@ type
     SearchCloseAction: TAction;
     SearchFindNextAction: TAction;
     SearchFindPreviousAction: TAction;
-    SearchForEdit: TButtonedEdit;
+    SearchForEdit: TBCButtonedEdit;
     SearchForLabel: TLabel;
     SearchPanel: TPanel;
     SearchPanel1: TPanel;
@@ -171,7 +172,7 @@ type
     GotoLineLabelPanel: TPanel;
     GotoLineLabel: TLabel;
     LineNumberPanel: TPanel;
-    GotoLineNumberEdit: TButtonedEdit;
+    GotoLineNumberEdit: TBCButtonedEdit;
     GotoLineButtonPanel: TPanel;
     GotoLineGoSpeedButton: TSpeedButton;
     GotoLineAction: TAction;
@@ -630,6 +631,7 @@ begin
     with SynEdit do
     begin
       DocumentName := FileName;
+      SearchString := '';
       FileDateTime := GetFileDateTime(FileName);
       OnChange := SynEditOnChange;
       OnEnter := SynEditEnter;
@@ -786,22 +788,7 @@ begin
 end;
 
 procedure TDocumentFrame.UpdateMarginAndColors(DocTabSheetFrame: TDocTabSheetFrame);
-var
-  LStyles: TCustomStyleServices;
 begin
-  LStyles := StyleServices;
-  { TButtonedEdit style fix }
-  if LStyles.Enabled then
-  begin
-    SearchForEdit.Color := LStyles.GetStyleColor(scEdit);
-    GotoLineNumberEdit.Color := LStyles.GetStyleColor(scEdit);
-  end
-  else
-  begin
-    SearchForEdit.Color := clWindow;
-    GotoLineNumberEdit.Color := clWindow;
-  end;
-
   BCCommon.StyleUtils.UpdateMarginAndColors(DocTabSheetFrame.SynEdit);
   DocTabSheetFrame.SynEdit.ActiveLineColor := LightenColor(DocTabSheetFrame.SynEdit.Color, 1 - (10 - OptionsContainer.ColorBrightness)/10);
 
@@ -1375,7 +1362,12 @@ var
   begin
     SynEdit.RightEdge.Position := OptionsContainer.MarginRightMargin;
     if SearchPanel.Visible then
-      DoSearch(SynEdit);
+    begin
+      if OptionsContainer.DocumentSpecificSearch and (SearchForEdit.Text <> SynEdit.SearchString) then
+        SearchForEdit.Text := SynEdit.SearchString
+      else
+        DoSearch(SynEdit);
+    end;
   end;
 
 begin
@@ -1532,6 +1524,7 @@ var
   SynEdit: TBCSynEdit;
 begin
   SearchPanel.Show;
+
   SetSearchMapVisible(True);
   DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
   if DocTabSheetFrame.SplitSynEdit.Focused then
@@ -1542,50 +1535,13 @@ begin
   begin
     SearchPanel.Height := SearchForEdit.Height;
     if SynEdit.SelAvail then
-      SearchForEdit.Text := SynEdit.SelText;
+      SearchForEdit.Text := SynEdit.SelText
+    else
+    if OptionsContainer.DocumentSpecificSearch then
+      SearchForEdit.Text := SynEdit.SearchString;
     SearchForEdit.SetFocus;
     SynEdit.CaretXY := BufferCoord(0, 0);
     DoSearch(SynEdit);
-  end;
-end;
-
-{procedure InvalidateHighlightedTerms(SynEdit : TSynEdit; FoundItems : TObjectList);
-var
-  i: Integer;
-  FoundItem : TFoundItem;
-begin
-  for i := 0 to FoundItems.Count - 1 do begin
-    FoundItem := FoundItems[i] as TFoundItem;
-    SynEdit.InvalidateLine(FoundItem.Start.Line);
-  end;
-end; }
-
-procedure FindSearchTerm(ATerm: string; SynEdit: TSynEdit; FoundItems: TObjectList; SearchEngine: TSynEditSearchCustom;
-  SearchOptions: TSynSearchOptions);
-var
-  i: Integer;
-  j: Integer;
-  FoundItem: TFoundItem;
-begin
-  //InvalidateHighlightedTerms(SynEdit, FoundItems);
-  //FoundItems.Clear;
-
-  if ATerm = '' then
-    Exit;
-
-  for i := 0 to SynEdit.Lines.Count - 1 do
-  begin
-    SearchEngine.Options := SearchOptions;
-    SearchEngine.Pattern := ATerm;
-    SearchEngine.FindAll(SynEdit.Lines[i]);
-    for j := 0 to SearchEngine.ResultCount - 1 do
-    begin
-      FoundItem := TFoundItem.Create;
-      FoundItem.Start := BufferCoord(SearchEngine.Results[j], i + 1);
-      FoundItem.Length := SearchEngine.Lengths[j];
-      FoundItems.Add(FoundItem);
-      SynEdit.InvalidateLine(i+1);
-    end;
   end;
 end;
 
@@ -1595,6 +1551,8 @@ var
 begin
   if not SearchPanel.Visible then
     Exit;
+
+  SynEdit.SearchString := SearchForEdit.Text;
 
   if RegularExpressionCheckBox.Checked then
     SynEdit.SearchEngine := SynEditRegexSearch
@@ -1606,17 +1564,16 @@ begin
   SynSearchOptions := SearchOptions(False);
   try
      FFoundSearchItems.Clear;
-     FindSearchTerm(SearchForEdit.Text, SynEdit, FFoundSearchItems, SynEdit.SearchEngine, SynSearchOptions);
+     if not SynEdit.FindSearchTerm(SearchForEdit.Text, FFoundSearchItems, SynSearchOptions) then
+     begin
+       if OptionsContainer.BeepIfSearchStringNotFound then
+         MessageBeep;
+       SynEdit.CaretXY := SynEdit.BlockBegin;
+       if OptionsContainer.ShowSearchStringNotFound then
+         ShowMessage(Format(LanguageDataModule.GetYesOrNoMessage('SearchStringNotFound'), [SearchForEdit.Text]));
+       PageControl.TabClosed := True; { just to avoid begin drag }
+     end;
      SynEdit.Invalidate;
-    {if SynEdit.SearchReplace(SearchForEdit.Text, '', SynSearchOptions) = 0 then
-    begin
-      if OptionsContainer.BeepIfSearchStringNotFound then
-        MessageBeep;
-      SynEdit.BlockBegin := SynEdit.BlockEnd;
-      SynEdit.CaretXY := SynEdit.BlockBegin;
-      if OptionsContainer.ShowSearchStringNotFound then
-        ShowMessage(Format(LanguageDataModule.GetYesOrNoMessage('SearchStringNotFound'), [SearchForEdit.Text]))
-    end; }
   except
     { silent }
   end;
