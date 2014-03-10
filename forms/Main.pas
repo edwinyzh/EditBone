@@ -1657,6 +1657,7 @@ begin
         FProgressBar.Count := CountFilesInFolder(FolderText);
       finally
         Screen.Cursor := crDefault;
+        StatusBar.Panels[3].Text := '';
       end;
       FProgressBar.Show;
       T1 := Now;

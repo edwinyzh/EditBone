@@ -259,6 +259,7 @@ type
     procedure CheckModifiedDocuments;
     procedure DestroyHTMLErrorListItems;
     procedure DoSearch(SynEdit: TBCSynEdit);
+    procedure DoSearch2(SynEdit: TBCSynEdit);
     procedure InitializeSynEditPrint;
     procedure SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);
     procedure SetActivePageCaptionModified;
@@ -615,6 +616,11 @@ begin
 
   PageControl.ActivePage := TabSheet;
 
+  SetSearchMapVisible(SearchPanel.Visible);
+  if SearchPanel.Visible then
+    if OptionsContainer.DocumentSpecificSearch then
+      SearchForEdit.Text := '';
+
   { set the Caption property }
   if FileName = '' then
     PageControl.ActivePageCaption := LanguageDataModule.GetConstant('Document') + IntToStr(FNumberOfNewDocument)
@@ -954,6 +960,19 @@ begin
       Refresh(i);
 end;
 
+procedure TDocumentFrame.DoSearch2(SynEdit: TBCSynEdit);
+begin
+  SetSearchMapVisible(SearchPanel.Visible);
+  if SearchPanel.Visible then
+  begin
+    if OptionsContainer.DocumentSpecificSearch then
+      SearchForEdit.Text := SynEdit.SearchString;
+    DoSearch(SynEdit);
+  end;
+  if SynEdit.CanFocus then
+    SynEdit.SetFocus;
+end;
+
 procedure TDocumentFrame.Open(FileName: string = ''; Bookmarks: TStrings = nil;
   Ln: Integer = 0; Ch: Integer = 0; StartUp: Boolean = False);
 var
@@ -985,10 +1004,7 @@ begin
         try
           SetMainHighlighterCombo(SynEdit);
           SetMainEncodingCombo(SynEdit);
-          if SearchPanel.Visible then
-            DoSearch(SynEdit);
-          if SynEdit.CanFocus then
-            SynEdit.SetFocus;
+          DoSearch2(SynEdit);
           if not StartUp then
           begin
             AddToReopenFiles(FileName);
@@ -1043,10 +1059,7 @@ begin
   begin
     SetMainHighlighterCombo(SynEdit);
     SetMainEncodingCombo(SynEdit);
-    if SearchPanel.Visible then
-      DoSearch(SynEdit);
-    if SynEdit.CanFocus then
-      SynEdit.SetFocus;
+    DoSearch2(SynEdit);
   end;
   CheckModifiedDocuments;
   CheckHTMLErrors;
@@ -1138,12 +1151,7 @@ begin
   end;
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
-  begin
-    if SearchPanel.Visible then
-      DoSearch(SynEdit);
-    if SynEdit.CanFocus then
-      SynEdit.SetFocus;
-  end;
+    DoSearch2(SynEdit);
   CheckModifiedDocuments;
   CheckHTMLErrors;
   PageControl.Repaint; { Icon paint bug fix }
@@ -1539,7 +1547,8 @@ begin
     else
     if OptionsContainer.DocumentSpecificSearch then
       SearchForEdit.Text := SynEdit.SearchString;
-    SearchForEdit.SetFocus;
+    if SearchForEdit.CanFocus then
+      SearchForEdit.SetFocus;
     SynEdit.CaretXY := BufferCoord(0, 0);
     DoSearch(SynEdit);
   end;
