@@ -20,7 +20,7 @@ uses
   SynHighlighterDWS, SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
   SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11,
   SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch, Vcl.ActnMan, System.Contnrs,
-  BCControls.ButtonedEdit;
+  BCControls.ButtonedEdit, SynUniHighlighter;
 
 type
   TDocumentFrame = class(TFrame)
@@ -258,7 +258,7 @@ type
     procedure CheckHTMLErrors;
     procedure CheckModifiedDocuments;
     procedure DestroyHTMLErrorListItems;
-    procedure DoSearch(SynEdit: TBCSynEdit);
+    procedure DoSearch(SynEdit: TBCSynEdit; SearchOnly: Boolean = False);
     procedure DoSearch2(SynEdit: TBCSynEdit);
     procedure InitializeSynEditPrint;
     procedure SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);
@@ -1364,6 +1364,7 @@ end;
 
 procedure TDocumentFrame.PageControlChange(Sender: TObject);
 var
+  BufferCoord: TBufferCoord;
   SynEdit: TBCSynEdit;
 
   procedure PositionAndSearch(SynEdit: TBCSynEdit);
@@ -1384,11 +1385,13 @@ begin
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
   begin
+    BufferCoord := SynEdit.CaretXY;
     SynWebEngine.Options.HtmlVersion := SynEdit.HtmlVersion;
     SetMainHighlighterCombo(SynEdit);
     SetMainEncodingCombo(SynEdit);
-
     PositionAndSearch(SynEdit);
+    SynEdit.CaretXY := BufferCoord;
+
     SynEdit := GetActiveSplitSynEdit;
     if Assigned(SynEdit) then
       PositionAndSearch(SynEdit);
@@ -1554,7 +1557,7 @@ begin
   end;
 end;
 
-procedure TDocumentFrame.DoSearch(SynEdit: TBCSynEdit);
+procedure TDocumentFrame.DoSearch(SynEdit: TBCSynEdit; SearchOnly: Boolean);
 var
   SynSearchOptions: TSynSearchOptions;
 begin
@@ -1575,13 +1578,19 @@ begin
      FFoundSearchItems.Clear;
      if not SynEdit.FindSearchTerm(SearchForEdit.Text, FFoundSearchItems, SynSearchOptions) then
      begin
-       if OptionsContainer.BeepIfSearchStringNotFound then
-         MessageBeep;
-       SynEdit.CaretXY := SynEdit.BlockBegin;
-       if OptionsContainer.ShowSearchStringNotFound then
-         ShowMessage(Format(LanguageDataModule.GetYesOrNoMessage('SearchStringNotFound'), [SearchForEdit.Text]));
-       PageControl.TabClosed := True; { just to avoid begin drag }
-     end;
+       if not SearchOnly then
+       begin
+         if OptionsContainer.BeepIfSearchStringNotFound then
+           MessageBeep;
+         SynEdit.CaretXY := SynEdit.BlockBegin;
+         if OptionsContainer.ShowSearchStringNotFound then
+           ShowMessage(Format(LanguageDataModule.GetYesOrNoMessage('SearchStringNotFound'), [SearchForEdit.Text]));
+         PageControl.TabClosed := True; { just to avoid begin drag }
+       end;
+     end
+     else
+     if not SearchOnly then
+       FindNext;
      SynEdit.Invalidate;
   except
     { silent }
@@ -1788,6 +1797,8 @@ begin
     SearchCloseAction.Execute;
     Key := #0;
   end;
+  if Key = #$D then // enter
+    Key := #0;
 end;
 
 function TDocumentFrame.CanFindNextPrevious: Boolean;
@@ -2253,7 +2264,7 @@ begin
       ActiveSynEdit := DocTabSheetFrame.SynEdit;
       if DocTabSheetFrame.SplitVisible then
         LinesChange(DocTabSheetFrame.SplitSynEdit);
-      DoSearch(ActiveSynEdit);
+      DoSearch(ActiveSynEdit, True);
     end;
   end;
 end;
@@ -2328,7 +2339,7 @@ begin
       ActiveSynEdit := DocTabSheetFrame.SplitSynEdit;
       if DocTabSheetFrame.SplitVisible then
         LinesChange(DocTabSheetFrame.SynEdit);
-      DoSearch(ActiveSynEdit);
+      DoSearch(ActiveSynEdit, True);
     end;
   end;
 end;

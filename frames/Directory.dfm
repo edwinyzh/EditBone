@@ -2,7 +2,7 @@ object DirectoryFrame: TDirectoryFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 305
+  Height = 302
   Align = alClient
   DoubleBuffered = True
   Color = clWindow
@@ -14,7 +14,7 @@ object DirectoryFrame: TDirectoryFrame
     Left = 0
     Top = 0
     Width = 451
-    Height = 305
+    Height = 302
     Align = alClient
     DoubleBuffered = True
     ParentDoubleBuffered = False
@@ -28,6 +28,7 @@ object DirectoryFrame: TDirectoryFrame
     ShowCloseButton = False
     OnCloseButtonClick = PageControlCloseButtonClick
     OnDblClick = PageControlDblClick
+    ExplicitHeight = 305
   end
   object DirectoryActionList: TActionList
     Images = ImagesDataModule.ImageList
