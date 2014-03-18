@@ -1219,10 +1219,22 @@ begin
 end;
 
 procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);
+var
+  Rslt: Integer;
 begin
   if FOutputFrame.ProcessingTabSheet then
     FOutputFrame.CloseTabSheet;
-  FDocumentFrame.CloseAll(False);
+  if FDocumentFrame.ModifiedDocuments then
+  begin
+    Rslt := SaveChanges;
+    if Rslt = mrYes then
+      FDocumentFrame.SaveAll;
+    if Rslt = mrCancel then
+    begin
+      Action := caNone;
+      Exit;
+    end;
+  end;
   if FNoIni then
     Exit;
   OptionsContainer.WriteIniFile;

@@ -299,7 +299,7 @@ type
     procedure CheckFileDateTimes;
     procedure ClearBookmarks;
     procedure Close;
-    procedure CloseAll(CloseDocuments: Boolean = True);
+    procedure CloseAll;
     procedure CloseAllOtherPages;
     procedure CompareFiles(FileName: string = ''; AFileDragDrop: Boolean = False);
     procedure Copy;
@@ -997,14 +997,14 @@ begin
         SynEdit := FindOpenFile(FileName);
         if not Assigned(SynEdit) then
           SynEdit := CreateNewTabSheet(FileName);
-        SynEdit.GotoLineAndCenter(Ln);
-        SynEdit.CaretXY := BufferCoord(Ch, Ln);
         SetBookmarks(SynEdit, Bookmarks);
         CheckHTMLErrors;
         try
           SetMainHighlighterCombo(SynEdit);
           SetMainEncodingCombo(SynEdit);
           DoSearch2(SynEdit);
+          SynEdit.GotoLineAndCenter(Ln);
+          SynEdit.CaretXY := BufferCoord(Ch, Ln);
           if not StartUp then
           begin
             AddToReopenFiles(FileName);
@@ -1066,7 +1066,7 @@ begin
   PageControl.Repaint; { Icon paint bug fix }
 end;
 
-procedure TDocumentFrame.CloseAll(CloseDocuments: Boolean);
+procedure TDocumentFrame.CloseAll;
 var
   Rslt, i: Integer;
 begin
@@ -1076,11 +1076,11 @@ begin
 
   if FModifiedDocuments then
   begin
-    Rslt := SaveChanges(CloseDocuments);
+    Rslt := SaveChanges;
     if Rslt = mrYes then
       SaveAll;
   end;
-  if CloseDocuments and (Rslt <> mrCancel) then
+  if Rslt <> mrCancel then
   begin
     Screen.Cursor := crHourGlass;
     try
@@ -1108,27 +1108,30 @@ procedure TDocumentFrame.CloseAllOtherPages;
 var
   i: Integer;
   Rslt: Integer;
-  SynEdit: TBCSynEdit;
+  ActiveSynEdit, SynEdit: TBCSynEdit;
 begin
   FProcessing := True;
   Application.ProcessMessages;
   Rslt := mrNone;
-  PageControl.ActivePage.PageIndex := 0; { move the page first }
+
+  ActiveSynEdit := GetActiveSynEdit;
+
   if GetModifiedDocuments(False) then
   begin
     Rslt := SaveChanges(True);
 
     if Rslt = mrYes then
-      for i := 1 to PageControl.PageCount - 1 do
+      for i := 0 to PageControl.PageCount - 1 do
       begin
         SynEdit := GetSynEdit(PageControl.Pages[i]);
-        if Assigned(SynEdit) and SynEdit.Modified then
+        if Assigned(SynEdit) and SynEdit.Modified and (Synedit <> ActiveSynEdit) then
           Save(PageControl.Pages[i]);
       end;
   end;
 
   if Rslt <> mrCancel then
   begin
+    PageControl.ActivePage.PageIndex := 0; { move the page first }
     Screen.Cursor := crHourGlass;
     try
       FProgressBar.Count := PageControl.PageCount;
@@ -1149,9 +1152,9 @@ begin
     else
       FNumberOfNewDocument := 0
   end;
-  SynEdit := GetActiveSynEdit;
-  if Assigned(SynEdit) then
-    DoSearch2(SynEdit);
+  //SynEdit := GetActiveSynEdit;
+  if Assigned(ActiveSynEdit) then
+    DoSearch2(ActiveSynEdit);
   CheckModifiedDocuments;
   CheckHTMLErrors;
   PageControl.Repaint; { Icon paint bug fix }
@@ -1375,7 +1378,7 @@ var
       if OptionsContainer.DocumentSpecificSearch and (SearchForEdit.Text <> SynEdit.SearchString) then
         SearchForEdit.Text := SynEdit.SearchString
       else
-        DoSearch(SynEdit);
+        DoSearch(SynEdit, True);
     end;
   end;
 
@@ -1611,7 +1614,7 @@ begin
   begin
     SynEdit := GetSynEdit(PageControl.Pages[i]);
     if Assigned(SynEdit) then
-      SynEdit.SearchMap.Visible := Value;
+      SynEdit.SearchMap.Visible := OptionsContainer.ShowSearchMap and Value;
   end;
 end;
 
@@ -2399,7 +2402,7 @@ begin
 
   for i := 0 to PageControl.PageCount - 1 do
   begin
-    if CheckActive or ((PageControl.ActivePageIndex = i) and not CheckActive) then
+    if CheckActive or ((PageControl.ActivePageIndex <> i) and not CheckActive) then
     begin
       SynEdit := GetSynEdit(PageControl.Pages[i]);
       if Assigned(SynEdit) then
