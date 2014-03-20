@@ -25,7 +25,6 @@ object OutputFrame: TOutputFrame
     ShowCloseButton = False
     OnCloseButtonClick = PageControlCloseButtonClick
     OnDblClick = PageControlDblClick
-    ExplicitHeight = 305
   end
   object OutputActionList: TActionList
     Images = ImagesDataModule.ImageList

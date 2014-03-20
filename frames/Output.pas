@@ -256,7 +256,7 @@ begin
   TabSheet := TTabSheet.Create(PageControl);
   TabSheet.PageControl := PageControl;
   TabSheet.TabVisible := False;
-  TabSheet.ImageIndex := 82; { find in files }
+  TabSheet.ImageIndex := IMAGE_INDEX_FIND_IN_FILES;
   TabSheet.Caption := StringReplace(TabCaption, '&', '&&', [rfReplaceAll]);
   PageControl.ActivePage := TabSheet;
 

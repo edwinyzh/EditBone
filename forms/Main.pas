@@ -1235,13 +1235,14 @@ begin
       Exit;
     end;
   end;
-  if FNoIni then
-    Exit;
-  OptionsContainer.WriteIniFile;
-  FDocumentFrame.WriteIniFile;
-  FDirectoryFrame.WriteIniFile;
-  FOutputFrame.WriteOutputFile;
-  WriteIniFile;
+  if not FNoIni then
+  begin
+    OptionsContainer.WriteIniFile;
+    FDocumentFrame.WriteIniFile;
+    FDirectoryFrame.WriteIniFile;
+    FOutputFrame.WriteOutputFile;
+    WriteIniFile;
+  end;
   OptionsContainer.Free;
 end;
 
