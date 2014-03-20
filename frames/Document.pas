@@ -967,7 +967,7 @@ begin
   begin
     if OptionsContainer.DocumentSpecificSearch then
       SearchForEdit.Text := SynEdit.SearchString;
-    DoSearch(SynEdit);
+    DoSearch(SynEdit, True);
   end;
   if SynEdit.CanFocus then
     SynEdit.SetFocus;
@@ -1404,6 +1404,7 @@ begin
     SearchCloseAction.Execute;
     GotoLineCloseAction.Execute;
   end;
+  CheckFileDateTimes; { compare can change file datetime }
   PageControl.Repaint;
 end;
 
@@ -1578,23 +1579,24 @@ begin
     SynEdit.SearchEngine := SynEditSearch;
   SynSearchOptions := SearchOptions(False);
   try
-     FFoundSearchItems.Clear;
-     if not SynEdit.FindSearchTerm(SearchForEdit.Text, FFoundSearchItems, SynSearchOptions) then
-     begin
-       if not SearchOnly then
-       begin
-         if OptionsContainer.BeepIfSearchStringNotFound then
-           MessageBeep;
-         SynEdit.CaretXY := SynEdit.BlockBegin;
-         if OptionsContainer.ShowSearchStringNotFound then
-           ShowMessage(Format(LanguageDataModule.GetYesOrNoMessage('SearchStringNotFound'), [SearchForEdit.Text]));
-         PageControl.TabClosed := True; { just to avoid begin drag }
-       end;
-     end
-     else
-     if not SearchOnly then
-       FindNext;
-     SynEdit.Invalidate;
+    FFoundSearchItems.Clear;
+    if not SynEdit.FindSearchTerm(SearchForEdit.Text, FFoundSearchItems, SynSearchOptions) then
+    begin
+      if not SearchOnly then
+      begin
+        if OptionsContainer.BeepIfSearchStringNotFound then
+          MessageBeep;
+        SynEdit.BlockBegin := SynEdit.BlockEnd;
+        SynEdit.CaretXY := SynEdit.BlockBegin;
+        if OptionsContainer.ShowSearchStringNotFound then
+          ShowMessage(Format(LanguageDataModule.GetYesOrNoMessage('SearchStringNotFound'), [SearchForEdit.Text]));
+        PageControl.TabClosed := True; { just to avoid begin drag }
+      end;
+    end
+    else
+    if not SearchOnly then
+      FindNext;
+    SynEdit.Invalidate;
   except
     { silent }
   end;
