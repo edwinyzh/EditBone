@@ -386,14 +386,11 @@ var
   Action: TAction;
   SystemImageList: TBCImageList;
   SysImageList: THandle;
-  SHFileInfo: TSHFileInfo;
-  PathInfo: String;
   Icon: TIcon;
 begin
-  FileIconInit(True);
   SystemImageList := TBCImageList.Create(nil);
   try
-    SysImageList := SHGetFileInfo(PChar(PathInfo), 0, SHFileInfo, SizeOf(SHFileInfo), SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
+    SysImageList := GetSysImageList; //SHGetFileInfo(PChar(PathInfo), 0, SHFileInfo, SizeOf(SHFileInfo), SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
     if SysImageList <> 0 then
       SystemImageList.Handle := SysImageList;
     { Remove added images from imagelist }
@@ -428,7 +425,7 @@ begin
           { Add image to imagelist }
           Icon := TIcon.Create;
           try
-            ImageIndex := GetIconIndex(s);
+            ImageIndex := GetIconIndex(s, SHGFI_ICON or SHGFI_ADDOVERLAYS);
             SystemImageList.GetIcon(ImageIndex, Icon);
             ImageIndex := ImageList_AddIcon(ImagesDataModule.ImageList.Handle, Icon.Handle);
           finally
@@ -439,6 +436,9 @@ begin
           Inc(j);
         end;
       end;
+      { Images fix, sad but true... }
+      ActionManager.Images := nil;
+      ActionManager.Images := ImagesDataModule.ImageList;
       { Divider }
       if Files.Count > 0 then
       begin

@@ -388,8 +388,6 @@ uses
 constructor TDocumentFrame.Create(AOwner: TComponent);
 var
   SysImageList: THandle;
-  SHFileInfo: TSHFileInfo;
-  PathInfo: String;
   Icon: TIcon;
 begin
   inherited;
@@ -452,11 +450,11 @@ begin
 
   FImages := TBCImageList.Create(Self);
   PageControl.Images := FImages;
-  SysImageList := SHGetFileInfo(PChar(PathInfo), 0, SHFileInfo, SizeOf(SHFileInfo), SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
+  SysImageList := GetSysImageList;
   if SysImageList <> 0 then
   begin
     PageControl.Images.Handle := SysImageList;
-    PageControl.Images.BkColor := ClNone;
+    PageControl.Images.BkColor := clNone;
     PageControl.Images.ShareImages := True;
   end;
 
