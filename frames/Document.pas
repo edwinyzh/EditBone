@@ -1780,15 +1780,22 @@ end;
 procedure TDocumentFrame.SearchForEditChange(Sender: TObject);
 var
   SynEdit: TBCSynEdit;
+  CaretXY: TBufferCoord;
 begin
   SearchForEdit.RightButton.Visible := Trim(SearchForEdit.Text) <> '';
   SynEdit := GetActiveSynEdit;
   if Assigned(SynEdit) then
   begin
+    CaretXY := SynEdit.CaretXY;
     SynEdit.CaretXY := BufferCoord(0, 0);
     SearchFindNextAction.Enabled := CanFindNextPrevious;
     SearchFindPreviousAction.Enabled := SearchFindNextAction.Enabled;
     DoSearch(SynEdit);
+    if Trim(SearchForEdit.Text) = '' then
+    begin
+      SynEdit.GotoLineAndCenter(CaretXY.Line);
+      SynEdit.CaretXY := CaretXY;
+    end;
     SynEdit := GetActiveSplitSynEdit;
     if Assigned(SynEdit) then
       DoSearch(SynEdit);
