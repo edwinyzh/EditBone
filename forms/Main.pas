@@ -411,6 +411,7 @@ begin
       ReadSectionValues('FileReopenFiles', Files);
       { Files }
       j := 0;
+      //ActionManager.Images.BeginUpdate;
       for i := 0 to Files.Count - 1 do
       begin
         s := System.Copy(Files.Strings[i], Pos('=', Files.Strings[i]) + 1, Length(Files.Strings[i]));
@@ -436,9 +437,10 @@ begin
           Inc(j);
         end;
       end;
+
       { Images fix, sad but true... }
-      ActionManager.Images := nil;
       ActionManager.Images := ImagesDataModule.ImageList;
+     
       { Divider }
       if Files.Count > 0 then
       begin
