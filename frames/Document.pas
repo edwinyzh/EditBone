@@ -68,7 +68,7 @@ type
     RegularExpressionCheckBox: TBCCheckBox;
     RegularExpressionLabel: TLabel;
     RemoveWhiteSpaceMenuItem: TMenuItem;
-    SearchActionList: TActionList;
+    ActionList: TActionList;
     SearchCloseAction: TAction;
     SearchFindNextAction: TAction;
     SearchFindPreviousAction: TAction;
@@ -196,6 +196,10 @@ type
     WildCardCheckBox: TBCCheckBox;
     WildCardLabel: TLabel;
     FormatSQLMenuItem: TMenuItem;
+    BoxDownAction: TAction;
+    BoxLeftAction: TAction;
+    BoxRightAction: TAction;
+    BoxUpAction: TAction;
     procedure PageControlChange(Sender: TObject);
     procedure SearchCloseActionExecute(Sender: TObject);
     procedure SearchFindNextActionExecute(Sender: TObject);
@@ -216,6 +220,10 @@ type
     procedure SearchClearActionExecute(Sender: TObject);
     procedure GotoLineClearActionExecute(Sender: TObject);
     procedure SearchForEditKeyPress(Sender: TObject; var Key: Char);
+    procedure BoxDownActionExecute(Sender: TObject);
+    procedure BoxLeftActionExecute(Sender: TObject);
+    procedure BoxRightActionExecute(Sender: TObject);
+    procedure BoxUpActionExecute(Sender: TObject);
   private
     { Private declarations }
     FCaseCycle: Byte;
@@ -1810,6 +1818,87 @@ begin
   if Key = #$D then // enter
     Key := #0;
 end;
+
+procedure TDocumentFrame.BoxDownActionExecute(Sender: TObject);
+
+  procedure BoxDown(SynEdit: TBCSynEdit);
+  begin
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+      begin
+        SynEdit.Selectionmode := smColumn;
+        Keybd_Event(VK_SHIFT, MapVirtualKey(VK_SHIFT, 0), 0, 0);
+        Keybd_Event(VK_DOWN, MapVirtualKey(VK_DOWN, 0), 0, 0);
+        Keybd_Event(VK_DOWN, MapVirtualKey(VK_DOWN, 0), KEYEVENTF_KEYUP, 0);
+        Keybd_Event(VK_MENU, MapVirtualKey(VK_MENU, 0), KEYEVENTF_KEYUP, 0);
+      end;
+  end;
+
+begin
+  BoxDown(GetActiveSynEdit);
+  BoxDown(GetActiveSplitSynEdit);
+end;
+
+procedure TDocumentFrame.BoxLeftActionExecute(Sender: TObject);
+
+  procedure BoxLeft(SynEdit: TBCSynEdit);
+  begin
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+      begin
+      SynEdit.Selectionmode := smColumn;
+      Keybd_Event(VK_SHIFT, MapVirtualKey(VK_SHIFT, 0), 0, 0);
+      Keybd_Event(VK_LEFT, MapVirtualKey(VK_LEFT, 0), 0, 0);
+      Keybd_Event(VK_LEFT, MapVirtualKey(VK_LEFT, 0), KEYEVENTF_KEYUP, 0);
+      Keybd_Event(VK_MENU, MapVirtualKey(VK_MENU, 0), KEYEVENTF_KEYUP, 0);
+    end;
+  end;
+
+begin
+  BoxLeft(GetActiveSynEdit);
+  BoxLeft(GetActiveSplitSynEdit);
+end;
+
+procedure TDocumentFrame.BoxRightActionExecute(Sender: TObject);
+
+  procedure BoxRight(SynEdit: TBCSynEdit);
+  begin
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+      begin
+        SynEdit.Selectionmode := smColumn;
+        Keybd_Event(VK_SHIFT, MapVirtualKey(VK_SHIFT, 0), 0, 0);
+        Keybd_Event(VK_RIGHT, MapVirtualKey(VK_RIGHT, 0), 0, 0);
+        Keybd_Event(VK_RIGHT, MapVirtualKey(VK_RIGHT, 0), KEYEVENTF_KEYUP, 0);
+        Keybd_Event(VK_MENU, MapVirtualKey(VK_MENU, 0), KEYEVENTF_KEYUP, 0);
+      end;
+  end;
+
+begin
+  BoxRight(GetActiveSynEdit);
+  BoxRight(GetActiveSplitSynEdit);
+end;
+
+procedure TDocumentFrame.BoxUpActionExecute(Sender: TObject);
+
+  procedure BoxUp(SynEdit: TBCSynEdit);
+  begin
+    if Assigned(SynEdit) then
+      if SynEdit.Focused then
+      begin
+        SynEdit.Selectionmode := smColumn;
+        Keybd_Event(VK_SHIFT, MapVirtualKey(VK_SHIFT, 0), 0, 0);
+        Keybd_Event(VK_UP, MapVirtualKey(VK_UP, 0), 0, 0);
+        Keybd_Event(VK_UP, MapVirtualKey(VK_UP, 0), KEYEVENTF_KEYUP, 0);
+        Keybd_Event(VK_MENU ,MapVirtualKey(VK_MENU ,0), KEYEVENTF_KEYUP, 0);
+      end;
+  end;
+
+begin
+  BoxUp(GetActiveSynEdit);
+  BoxUp(GetActiveSplitSynEdit);
+end;
+
 
 function TDocumentFrame.CanFindNextPrevious: Boolean;
 begin

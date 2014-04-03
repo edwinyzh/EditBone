@@ -1,8 +1,8 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 302
+  Width = 745
+  Height = 659
   Align = alClient
   DoubleBuffered = True
   Color = clWindow
@@ -13,7 +13,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 745
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -445,8 +445,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 451
-    Height = 256
+    Width = 745
+    Height = 613
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -458,8 +458,8 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 451
-      Height = 254
+      Width = 745
+      Height = 611
       Align = alClient
       DoubleBuffered = False
       ParentDoubleBuffered = False
@@ -476,8 +476,8 @@ object DocumentFrame: TDocumentFrame
   end
   object GotoLinePanel: TPanel
     Left = 0
-    Top = 277
-    Width = 451
+    Top = 634
+    Width = 745
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
@@ -985,38 +985,69 @@ object DocumentFrame: TDocumentFrame
     Left = 36
     Top = 238
   end
-  object SearchActionList: TActionList
+  object ActionList: TActionList
     Left = 142
     Top = 44
     object SearchCloseAction: TAction
+      Category = 'Search'
       Hint = 'Close Search'
       OnExecute = SearchCloseActionExecute
     end
     object SearchFindNextAction: TAction
+      Category = 'Search'
       Enabled = False
       Hint = 'Find the next matching text'
       ShortCut = 114
       OnExecute = SearchFindNextActionExecute
     end
     object SearchFindPreviousAction: TAction
+      Category = 'Search'
       Enabled = False
       Hint = 'Find the previous matching text'
       ShortCut = 8306
       OnExecute = SearchFindPreviousActionExecute
     end
     object GotoLineAction: TAction
+      Category = 'GotoLine'
       Hint = 'Go to line'
       OnExecute = GotoLineActionExecute
     end
     object GotoLineCloseAction: TAction
+      Category = 'GotoLine'
       Hint = 'Close'
       OnExecute = GotoLineCloseActionExecute
     end
     object SearchClearAction: TAction
+      Category = 'Search'
       OnExecute = SearchClearActionExecute
     end
     object GotoLineClearAction: TAction
+      Category = 'GotoLine'
       OnExecute = GotoLineClearActionExecute
+    end
+    object BoxDownAction: TAction
+      Category = 'BoxSelection'
+      Caption = 'BoxDownAction'
+      ShortCut = 41000
+      OnExecute = BoxDownActionExecute
+    end
+    object BoxLeftAction: TAction
+      Category = 'BoxSelection'
+      Caption = 'BoxLeftAction'
+      ShortCut = 40997
+      OnExecute = BoxLeftActionExecute
+    end
+    object BoxRightAction: TAction
+      Category = 'BoxSelection'
+      Caption = 'BoxRightAction'
+      ShortCut = 40999
+      OnExecute = BoxRightActionExecute
+    end
+    object BoxUpAction: TAction
+      Category = 'BoxSelection'
+      Caption = 'BoxUpAction'
+      ShortCut = 40998
+      OnExecute = BoxUpActionExecute
     end
   end
   object BookmarkImagesList: TBCImageList
