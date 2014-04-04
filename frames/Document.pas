@@ -238,7 +238,7 @@ type
     FModifiedDocuments: Boolean;
     FFoundSearchItems: TObjectList;
     function CanFindNextPrevious: Boolean;
-    function CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
+    function CreateNewTabSheet(FileName: string = ''; ShowMinimap: Boolean = False): TBCSynEdit;
     function FindHtmlVersion(Lines: TStrings): TSynWebHtmlVersion;
     function FindOpenFile(FileName: string): TBCSynEdit;
     function GetActiveDocumentFound: Boolean;
@@ -329,7 +329,8 @@ type
     procedure LoadMacro;
     procedure New;
     procedure NextPage;
-    procedure Open(FileName: string = ''; Bookmarks: TStrings = nil; Ln: Integer = 0; Ch: Integer = 0; StartUp: Boolean = False);
+    procedure Open(FileName: string = ''; Bookmarks: TStrings = nil; Ln: Integer = 0; Ch: Integer = 0;
+      StartUp: Boolean = False; ShowMinimap: Boolean = False);
     procedure Paste;
     procedure PlaybackMacro;
     procedure PreviousPage;
@@ -606,7 +607,7 @@ begin
     Result := DocTabSheetFrame.VirtualDrawTree.Visible;
 end;
 
-function TDocumentFrame.CreateNewTabSheet(FileName: string = ''): TBCSynEdit;
+function TDocumentFrame.CreateNewTabSheet(FileName: string = ''; ShowMinimap: Boolean = False): TBCSynEdit;
 var
   TabSheet: TTabSheet;
   DocTabSheetFrame: TDocTabSheetFrame;
@@ -651,6 +652,7 @@ begin
       SearchEngine := SynEditSearch;
       PopupMenu := EditorPopupMenu;
       BookMarkOptions.BookmarkImages := BookmarkImagesList;
+      Minimap.Visible := ShowMinimap;
     end;
     { Search highlighter plugin }
     THighlightSearchPlugin.Create(SynEdit, FFoundSearchItems);
@@ -980,7 +982,7 @@ begin
 end;
 
 procedure TDocumentFrame.Open(FileName: string = ''; Bookmarks: TStrings = nil;
-  Ln: Integer = 0; Ch: Integer = 0; StartUp: Boolean = False);
+  Ln: Integer = 0; Ch: Integer = 0; StartUp: Boolean = False; ShowMinimap: Boolean = False);
 var
   i: Integer;
   SynEdit: TBCSynEdit;
@@ -1002,7 +1004,7 @@ begin
       begin
         SynEdit := FindOpenFile(FileName);
         if not Assigned(SynEdit) then
-          SynEdit := CreateNewTabSheet(FileName);
+          SynEdit := CreateNewTabSheet(FileName, ShowMinimap);
         SetBookmarks(SynEdit, Bookmarks);
         CheckHTMLErrors;
         try
@@ -2018,13 +2020,11 @@ function TDocumentFrame.ReadIniOpenFiles: Boolean;
 var
   i: Integer;
   FName: string;
-  FileNames, Bookmarks, Minimaps: TStrings;
+  FileNames, Bookmarks: TStrings;
   SynEdit: TBCSynEdit;
-  DocTabSheetFrame: TDocTabSheetFrame;
 begin
   FileNames := TStringList.Create;
   Bookmarks := TStringList.Create;
-  Minimaps := TStringList.Create;
   with TBigIniFile.Create(GetIniFilename) do
   try
     PageControl.Visible := False;
@@ -2035,18 +2035,8 @@ begin
     begin
       FName := System.Copy(FileNames.Strings[i], Pos('=', FileNames.Strings[i]) + 1, Length(FileNames.Strings[i]));
       if FileExists(FName) then
-        Open(FName, Bookmarks, 0, 0, True);
-    end;
-    { Minimaps }
-    ReadSectionValues('Minimaps', Minimaps);
-    for i := 0 to Minimaps.Count - 1 do
-    begin
-      if i < PageControl.PageCount then
-      begin
-        DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
-        if Assigned(DocTabSheetFrame) then
-          DocTabSheetFrame.MinimapVisible := Pos('=1', Minimaps.Strings[i]) <> 0
-      end;
+        Open(FName, Bookmarks, ReadInteger('CaretY', IntToStr(i), 0), ReadInteger('CaretX', IntToStr(i), 0), True,
+        ReadBool('Minimaps', IntToStr(i), False));
     end;
 
     i := ReadInteger('Options', 'ActivePageIndex', 0);
@@ -2062,7 +2052,7 @@ begin
   finally
     FileNames.Free;
     Bookmarks.Free;
-    Minimaps.Free;
+    //Minimaps.Free;
     Free;
     PageControl.Visible := True;
   end;
@@ -2094,14 +2084,19 @@ begin
             IntToStr(SynEdit.Marks.Items[j].Line), IntToStr(SynEdit.Marks.Items[j].Char)]));
       end;
     end;
-    { Minimaps }
+    { Minimaps & TopRows }
     EraseSection('Minimaps');
+    EraseSection('CaretY');
     if OptionsContainer.DocSaveTabs then
     for i := 0 to PageControl.PageCount - 1 do
     begin
       DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
       if Assigned(DocTabSheetFrame) then
+      begin
         WriteBool('Minimaps', IntToStr(i), DocTabSheetFrame.MinimapVisible);
+        WriteInteger('CaretY', IntToStr(i), DocTabSheetFrame.CaretY);
+        WriteInteger('CaretX', IntToStr(i), DocTabSheetFrame.CaretX);
+      end;
     end;
     { Active document }
     WriteInteger('Options', 'ActivePageIndex', PageControl.ActivePageIndex);

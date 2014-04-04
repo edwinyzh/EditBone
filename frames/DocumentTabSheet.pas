@@ -54,6 +54,8 @@ type
     function GetSplitVisible: Boolean;
     function GetMinimapVisible: Boolean;
     function GetXMLTreeVisible: Boolean;
+    function GetCaretX: Integer;
+    function GetCaretY: Integer;
     function ProcessNode(Node: IXMLNode; TreeNode: PVirtualNode): PVirtualNode;
     procedure SetSplitVisible(Value: Boolean);
     procedure SetMinimapVisible(Value: Boolean);
@@ -68,6 +70,8 @@ type
     property MinimapVisible: Boolean read GetMinimapVisible write SetMinimapVisible;
     property XMLTreeVisible: Boolean read GetXMLTreeVisible write SetXMLTreeVisible;
     property ProgressBar: TBCProgressBar read FProgressBar write FProgressBar;
+    property CaretX: Integer read GetCaretX;
+    property CaretY: Integer read GetCaretY;
   end;
 
 implementation
@@ -349,6 +353,16 @@ begin
   SynEdit.Minimap.Visible := Value;
   SplitSynEdit.Minimap.Visible := Value;
   UpdateOptionsAndStyles(GetRightPadding);
+end;
+
+function TDocTabSheetFrame.GetCaretY: Integer;
+begin
+  Result := SynEdit.CaretY;
+end;
+
+function TDocTabSheetFrame.GetCaretX: Integer;
+begin
+  Result := SynEdit.CaretX;
 end;
 
 function TDocTabSheetFrame.ProcessNode(Node: IXMLNode; TreeNode: PVirtualNode): PVirtualNode;
