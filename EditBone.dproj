@@ -3,7 +3,7 @@
         <ProjectGuid>{E3B818CC-5E75-4FBB-9706-6F94F69C4127}</ProjectGuid>
         <ProjectVersion>15.3</ProjectVersion>
         <MainSource>EditBone.dpr</MainSource>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
         <Base>True</Base>
         <AppType>Application</AppType>
@@ -95,18 +95,18 @@
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <VerInfo_Release>3</VerInfo_Release>
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
         <DCC_Define>EDITBONE;$(DCC_Define)</DCC_Define>
         <VerInfo_MajorVer>9</VerInfo_MajorVer>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=9.0.3.0;InternalName=;LegalCopyright=Copyright © 2010-2014 Lasse Rautiainen. All Rights Reserved.;LegalTrademarks=;OriginalFilename=;ProductName=EditBone;ProductVersion=9.0.3;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=9.1.0.0;InternalName=;LegalCopyright=Copyright © 2010-2014 Lasse Rautiainen. All Rights Reserved.;LegalTrademarks=;OriginalFilename=;ProductName=EditBone;ProductVersion=9.1.0;Comments=</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
         <VerInfo_DLL>true</VerInfo_DLL>
-        <VerInfo_Release>3</VerInfo_Release>
         <DCC_Define>EDITBONE;$(DCC_Define)</DCC_Define>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=9.0.3.0;InternalName=;LegalCopyright=Copyright © 2010-2014 Lasse Rautiainen. All Rights Reserved.;LegalTrademarks=;OriginalFilename=;ProductName=EditBone;ProductVersion=9.0.3;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=9.1.0.0;InternalName=;LegalCopyright=Copyright © 2010-2014 Lasse Rautiainen. All Rights Reserved.;LegalTrademarks=;OriginalFilename=;ProductName=EditBone;ProductVersion=9.1.0;Comments=</VerInfo_Keys>
         <VerInfo_MajorVer>9</VerInfo_MajorVer>
         <DCC_UnitSearchPath>..\..\Components\src\UniSynEdit\Source;..\..\Components\src\SynWeb\Source;..\..\Components\src\VirtualTree\Source;..\..\Components\src\Controls;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>

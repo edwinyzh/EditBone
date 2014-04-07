@@ -296,6 +296,7 @@ type
     FSQLFormatterDLLFound: Boolean;
     function GetStringList(Filename: string): TStringList;
     function GetActionClientItem(MenuItemIndex, SubMenuItemIndex: Integer): TActionClientItem;
+    function Processing: Boolean;
     procedure CreateActionToolBar(CreateToolBar: Boolean = False);
     procedure CreateFrames;
     procedure CreateLanguageMenu;
@@ -856,8 +857,22 @@ begin
     FDocumentFrame.Open(CmdLine.Strings[i]);
 end;
 
+function TMainForm.Processing: Boolean;
+begin
+  Result := True;
+  if FProcessingEventHandler then
+    Exit;
+  if not Assigned(FDocumentFrame) then
+    Exit;
+  if FDocumentFrame.Processing then
+    Exit;
+  Result := False;
+end;
+
 procedure TMainForm.ApplicationEventsActivate(Sender: TObject);
 begin
+  if Processing then
+    Exit;
   FDocumentFrame.CheckFileDateTimes;
 end;
 
@@ -869,11 +884,7 @@ end;
 procedure TMainForm.ApplicationEventsMessage(var Msg: tagMSG;
   var Handled: Boolean);
 begin
-  if FProcessingEventHandler then
-    Exit;
-  if not Assigned(FDocumentFrame) then
-    Exit;
-  if FDocumentFrame.Processing then
+  if Processing then
     Exit;
   SetFields;
 end;
@@ -1496,12 +1507,15 @@ var
   Root: PVirtualNode;
   OutputTreeView: TVirtualDrawTree;
 begin
+  if Processing then
+    Exit;
   if not OptionsContainer.HTMLErrorChecking then
     Exit;
   if not Assigned(FOutputFrame) then
     Exit;
   if FOutputFrame.ProcessingTabSheet then
     Exit;
+
 
   ErrorList := FDocumentFrame.GetHTMLErrors;
   if Assigned(ErrorList) then
