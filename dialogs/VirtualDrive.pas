@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, BCDialogs.Dlg,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, BCControls.ComboBox, BCControls.Edit, JvExControls, JvSpeedButton,
-  Vcl.ExtCtrls, System.Actions, Vcl.ActnList;
+  Vcl.ExtCtrls, System.Actions, Vcl.ActnList, BCControls.CheckBox;
 
 type
   TVirtualDriveDialog = class(TDialog)
@@ -25,7 +25,7 @@ type
     FolderButtonClickAction: TAction;
     OKAction: TAction;
     CheckBoxPanel: TPanel;
-    SubstDriveCheckBox: TCheckBox;
+    SubstDriveCheckBox: TBCCheckBox;
     procedure OKActionExecute(Sender: TObject);
     procedure FolderButtonClickActionExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);

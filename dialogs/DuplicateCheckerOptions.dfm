@@ -355,15 +355,17 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
             end
           end
         end
-        object RemoveCommentsCheckBox: TCheckBox
+        object RemoveCommentsCheckBox: TBCCheckBox
           Left = 12
           Top = 69
-          Width = 346
-          Height = 17
+          Width = 114
+          Height = 15
           Caption = ' Remove Comments'
           Checked = True
           State = cbChecked
           TabOrder = 1
+          AutoSize = True
+          ReadOnly = False
         end
       end
     end
@@ -412,15 +414,17 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 1
-          object LaunchAfterCreationCheckBox: TCheckBox
+          object LaunchAfterCreationCheckBox: TBCCheckBox
             Left = 0
             Top = 27
-            Width = 141
-            Height = 17
+            Width = 128
+            Height = 15
             Caption = ' Launch After Creation'
             Checked = True
             State = cbChecked
             TabOrder = 1
+            AutoSize = True
+            ReadOnly = False
           end
           object FileEditPanel: TPanel
             Left = 0

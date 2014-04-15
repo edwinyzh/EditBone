@@ -26,7 +26,6 @@ type
   TDocumentFrame = class(TFrame)
     BookmarkImagesList: TBCImageList;
     CaseSensitiveCheckBox: TBCCheckBox;
-    CaseSensitiveLabel: TLabel;
     ClassicCppSyn: TSynCppSyn;
     ClassicCSSyn: TSynCSSyn;
     ClassicPasSyn: TSynPasSyn;
@@ -66,7 +65,6 @@ type
     RedoMenuItem: TMenuItem;
     XMLRefreshMenuItem: TMenuItem;
     RegularExpressionCheckBox: TBCCheckBox;
-    RegularExpressionLabel: TLabel;
     RemoveWhiteSpaceMenuItem: TMenuItem;
     ActionList: TActionList;
     SearchCloseAction: TAction;
@@ -159,8 +157,7 @@ type
     TwilightCSSyn: TSynCSSyn;
     TwilightPasSyn: TSynPasSyn;
     UndoMenuItem: TMenuItem;
-    WholeWordsCheckBox: TBCCheckBox;
-    WholeWordsOnlyLabel: TLabel;
+    WholeWordsOnlyCheckBox: TBCCheckBox;
     XMLTreeImageList: TImageList;
     XMLTreePopupActionList: TActionList;
     XMLTreePopupImagesList: TBCImageList;
@@ -194,7 +191,6 @@ type
     SynDWSSyn: TSynDWSSyn;
     AfterRegularExpressionPanel: TPanel;
     WildCardCheckBox: TBCCheckBox;
-    WildCardLabel: TLabel;
     FormatSQLMenuItem: TMenuItem;
     BoxDownAction: TAction;
     BoxLeftAction: TAction;
@@ -1537,7 +1533,7 @@ begin
     Include(Result, ssoBackwards);
   if CaseSensitiveCheckBox.Checked then
     Include(Result, ssoMatchCase);
-  if WholeWordsCheckBox.Checked then
+  if WholeWordsOnlyCheckBox.Checked then
     Include(Result, ssoWholeWord);
 end;
 

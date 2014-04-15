@@ -1,7 +1,7 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 451
+  Width = 908
   Height = 302
   Align = alClient
   DoubleBuffered = True
@@ -13,7 +13,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 908
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -22,36 +22,6 @@ object DocumentFrame: TDocumentFrame
     ParentBackground = False
     TabOrder = 0
     Visible = False
-    object WholeWordsOnlyLabel: TLabel
-      Left = 434
-      Top = 0
-      Width = 89
-      Height = 21
-      Align = alLeft
-      Caption = 'Whole Words Only'
-      Layout = tlCenter
-      ExplicitHeight = 13
-    end
-    object RegularExpressionLabel: TLabel
-      Left = 550
-      Top = 0
-      Width = 92
-      Height = 21
-      Align = alLeft
-      Caption = 'Regular Expression'
-      Layout = tlCenter
-      ExplicitHeight = 13
-    end
-    object WildCardLabel: TLabel
-      Left = 669
-      Top = 0
-      Width = 46
-      Height = 21
-      Align = alLeft
-      Caption = 'Wild Card'
-      Layout = tlCenter
-      ExplicitHeight = 13
-    end
     object SearchPanel1: TPanel
       Left = 0
       Top = 0
@@ -150,7 +120,6 @@ object DocumentFrame: TDocumentFrame
         Caption = 'Search for'
         Color = clWindow
         ParentColor = False
-        ExplicitHeight = 13
       end
     end
     object SearchPanel3: TPanel
@@ -334,7 +303,7 @@ object DocumentFrame: TDocumentFrame
     object SearchPanel7: TPanel
       Left = 310
       Top = 0
-      Width = 27
+      Width = 100
       Height = 21
       Align = alLeft
       AutoSize = True
@@ -347,19 +316,21 @@ object DocumentFrame: TDocumentFrame
       object CaseSensitiveCheckBox: TBCCheckBox
         Left = 8
         Top = 2
-        Width = 19
+        Width = 92
         Height = 19
         Align = alLeft
+        Caption = ' Case Sensitive'
         Color = clWindow
         ParentColor = False
         TabOrder = 0
+        AutoSize = True
         ReadOnly = False
       end
     end
     object SearchPanel8: TPanel
-      Left = 337
+      Left = 410
       Top = 0
-      Width = 97
+      Width = 119
       Height = 21
       Align = alLeft
       AutoSize = True
@@ -368,29 +339,19 @@ object DocumentFrame: TDocumentFrame
       Padding.Top = 2
       ParentBackground = False
       TabOrder = 6
-      object CaseSensitiveLabel: TLabel
-        Left = 0
+      object WholeWordsOnlyCheckBox: TBCCheckBox
+        Left = 8
         Top = 2
-        Width = 70
+        Width = 111
         Height = 19
         Align = alLeft
-        Caption = 'Case Sensitive'
-        Color = clWindow
-        ParentColor = False
-        Layout = tlCenter
-        ExplicitHeight = 13
-      end
-      object WholeWordsCheckBox: TBCCheckBox
-        Left = 78
-        Top = 2
-        Width = 19
-        Height = 19
-        Align = alLeft
+        Caption = ' Whole Words Only'
         TabOrder = 0
+        AutoSize = True
         ReadOnly = False
       end
       object AfterCaseSensitivePanel: TPanel
-        Left = 70
+        Left = 0
         Top = 2
         Width = 8
         Height = 19
@@ -402,7 +363,7 @@ object DocumentFrame: TDocumentFrame
       end
     end
     object AfterWholeWordsOnlyPanel: TPanel
-      Left = 523
+      Left = 529
       Top = 0
       Width = 8
       Height = 21
@@ -413,16 +374,18 @@ object DocumentFrame: TDocumentFrame
       TabOrder = 7
     end
     object RegularExpressionCheckBox: TBCCheckBox
-      Left = 531
+      Left = 537
       Top = 0
-      Width = 19
+      Width = 114
       Height = 21
       Align = alLeft
+      Caption = ' Regular Expression'
       TabOrder = 8
+      AutoSize = True
       ReadOnly = False
     end
     object AfterRegularExpressionPanel: TPanel
-      Left = 642
+      Left = 651
       Top = 0
       Width = 8
       Height = 21
@@ -433,19 +396,21 @@ object DocumentFrame: TDocumentFrame
       TabOrder = 9
     end
     object WildCardCheckBox: TBCCheckBox
-      Left = 650
+      Left = 659
       Top = 0
-      Width = 19
+      Width = 68
       Height = 21
       Align = alLeft
+      Caption = ' Wild Card'
       TabOrder = 10
+      AutoSize = True
       ReadOnly = False
     end
   end
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 451
+    Width = 908
     Height = 256
     Align = alClient
     AutoSize = True
@@ -458,7 +423,7 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 451
+      Width = 908
       Height = 254
       Align = alClient
       DoubleBuffered = False
@@ -477,7 +442,7 @@ object DocumentFrame: TDocumentFrame
   object GotoLinePanel: TPanel
     Left = 0
     Top = 277
-    Width = 451
+    Width = 908
     Height = 25
     Align = alBottom
     BevelOuter = bvNone
@@ -584,7 +549,6 @@ object DocumentFrame: TDocumentFrame
         Height = 20
         Align = alLeft
         Caption = 'Go to Line'
-        ExplicitHeight = 13
       end
     end
     object LineNumberPanel: TPanel

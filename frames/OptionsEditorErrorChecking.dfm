@@ -2,8 +2,6 @@ inherited OptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame
   Width = 278
   Height = 71
   Visible = False
-  ExplicitWidth = 278
-  ExplicitHeight = 71
   object Panel: TPanel
     Left = 0
     Top = 0
@@ -23,17 +21,18 @@ inherited OptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame
     object HTMLErrorCheckingCheckBox: TBCCheckBox
       Left = 4
       Top = 0
-      Width = 278
-      Height = 21
+      Width = 60
+      Height = 15
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = 'Enabled'
+      Caption = ' Enabled'
       Checked = True
       State = cbChecked
       TabOrder = 0
       OnClick = HTMLErrorCheckingCheckBoxClick
+      AutoSize = True
       ReadOnly = False
     end
     object HTMLVersionComboBox: TBCComboBox

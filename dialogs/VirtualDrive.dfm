@@ -208,16 +208,18 @@ object VirtualDriveDialog: TVirtualDriveDialog
       BevelOuter = bvNone
       Padding.Top = 4
       TabOrder = 2
-      object SubstDriveCheckBox: TCheckBox
+      object SubstDriveCheckBox: TBCCheckBox
         Left = 0
         Top = 4
-        Width = 253
+        Width = 136
         Height = 17
         Align = alLeft
         Caption = ' Subst a drive at startup'
         Checked = True
         State = cbChecked
         TabOrder = 0
+        AutoSize = True
+        ReadOnly = False
       end
     end
   end

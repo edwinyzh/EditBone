@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, BCDialogs.Dlg, Vcl.Dialogs, Vcl.ActnList,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons, BCControls.Edit, Vcl.Mask, JvExMask, JvSpin, System.Actions,
-  BCControls.ComboBox, JvExControls, JvSpeedButton;
+  BCControls.ComboBox, JvExControls, JvSpeedButton, BCControls.CheckBox;
 
 type
   TDuplicateCheckerOptionsDialog = class(TDialog)
@@ -38,7 +38,7 @@ type
     InputGroupBox: TGroupBox;
     InputLeftPanel: TPanel;
     InputRightPanel: TPanel;
-    LaunchAfterCreationCheckBox: TCheckBox;
+    LaunchAfterCreationCheckBox: TBCCheckBox;
     MinBlockSizeLabel: TLabel;
     MinBlockSizeSpinEdit: TJvSpinEdit;
     MinCharsLabel: TLabel;
@@ -52,7 +52,7 @@ type
     OutputGroupBox: TGroupBox;
     OutputLeftPanel: TPanel;
     OutputRightPanel: TPanel;
-    RemoveCommentsCheckBox: TCheckBox;
+    RemoveCommentsCheckBox: TBCCheckBox;
     RootDirectoryClickAction: TAction;
     procedure FileButtonClickActionExecute(Sender: TObject);
     procedure FolderButtonClickActionExecute(Sender: TObject);
