@@ -1,62 +1,67 @@
 inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
-  Width = 201
-  Height = 281
+  Width = 190
+  Height = 256
+  AutoSize = True
   Visible = False
-  ExplicitWidth = 201
-  ExplicitHeight = 281
   object Panel: TPanel
-    Left = 0
+    AlignWithMargins = True
+    Left = 4
     Top = 0
-    Width = 201
-    Height = 281
+    Width = 186
+    Height = 256
+    Margins.Left = 4
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
+    AutoSize = True
     BevelOuter = bvNone
     Color = clWindow
     ParentBackground = False
     TabOrder = 0
     object CPASHighlighterLabel: TLabel
-      Left = 6
+      Left = 2
       Top = 131
-      Width = 142
-      Height = 13
+      Width = 170
+      Height = 16
       Caption = 'Default C / Pascal Highlighter '
     end
     object SQLDialectLabel: TLabel
-      Left = 6
+      Left = 2
       Top = 87
-      Width = 57
-      Height = 13
+      Width = 69
+      Height = 16
       Caption = 'SQL Dialect '
     end
     object CSSVersionLabel: TLabel
-      Left = 6
+      Left = 2
       Top = 0
-      Width = 57
-      Height = 13
+      Width = 71
+      Height = 16
       Caption = 'CSS Version'
     end
     object PHPVersionLabel: TLabel
-      Left = 6
+      Left = 2
       Top = 44
-      Width = 57
-      Height = 13
+      Width = 69
+      Height = 16
       Caption = 'PHP Version'
     end
     object DefaultEncodingLabel: TLabel
-      Left = 6
+      Left = 2
       Top = 175
-      Width = 81
-      Height = 13
+      Width = 95
+      Height = 16
       Caption = 'Default Encoding'
     end
     object DefaultHighlighterLabel: TLabel
-      Left = 6
+      Left = 2
       Top = 219
-      Width = 92
-      Height = 13
+      Width = 109
+      Height = 16
       Caption = 'Default Highlighter '
     end
     object CPASHighlighterComboBox: TBCComboBox
-      Left = 4
+      Left = 0
       Top = 146
       Width = 186
       Height = 22
@@ -72,7 +77,7 @@ inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
       DropDownFixedWidth = 0
     end
     object SQLDialectComboBox: TBCComboBox
-      Left = 4
+      Left = 0
       Top = 103
       Width = 186
       Height = 22
@@ -88,7 +93,7 @@ inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
       DropDownFixedWidth = 0
     end
     object CSSVersionComboBox: TBCComboBox
-      Left = 4
+      Left = 0
       Top = 16
       Width = 186
       Height = 22
@@ -104,7 +109,7 @@ inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
       DropDownFixedWidth = 0
     end
     object PHPVersionComboBox: TBCComboBox
-      Left = 4
+      Left = 0
       Top = 59
       Width = 186
       Height = 22
@@ -120,7 +125,7 @@ inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
       DropDownFixedWidth = 0
     end
     object DefaultEncodingComboBox: TBCComboBox
-      Left = 4
+      Left = 0
       Top = 190
       Width = 186
       Height = 22
@@ -144,7 +149,7 @@ inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
       DropDownFixedWidth = 0
     end
     object DefaultHighlighterComboBox: TBCComboBox
-      Left = 4
+      Left = 0
       Top = 234
       Width = 186
       Height = 22

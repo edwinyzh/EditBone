@@ -1,28 +1,35 @@
 inherited OptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame
-  Width = 278
-  Height = 71
+  Width = 229
+  Height = 63
+  AutoSize = True
   Visible = False
   object Panel: TPanel
-    Left = 0
+    AlignWithMargins = True
+    Left = 4
     Top = 0
-    Width = 278
-    Height = 71
+    Width = 225
+    Height = 63
+    Margins.Left = 4
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
+    AutoSize = True
     BevelOuter = bvNone
     Color = clWindow
     ParentBackground = False
     TabOrder = 0
     object HTMLVersionLabel: TLabel
-      Left = 6
+      Left = 2
       Top = 25
-      Width = 188
-      Height = 13
+      Width = 223
+      Height = 16
       Caption = 'Version When DOCTYPE Does Not Exist'
     end
     object HTMLErrorCheckingCheckBox: TBCCheckBox
-      Left = 4
+      Left = 0
       Top = 0
-      Width = 60
-      Height = 15
+      Width = 78
+      Height = 18
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
@@ -36,7 +43,7 @@ inherited OptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame
       ReadOnly = False
     end
     object HTMLVersionComboBox: TBCComboBox
-      Left = 4
+      Left = 0
       Top = 41
       Width = 186
       Height = 22

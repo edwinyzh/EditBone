@@ -870,8 +870,12 @@ begin
 end;
 
 procedure TDocumentFrame.SelectForCompare;
+var
+  SynEdit: TBCSynEdit;
 begin
-  CompareFiles(GetActiveSynEdit.DocumentName);
+  SynEdit := GetActiveSynEdit;
+  if Assigned(SynEdit) then
+    CompareFiles(SynEdit.DocumentName);
 end;
 
 function TDocumentFrame.FindOpenFile(FileName: string): TBCSynEdit;
@@ -1074,8 +1078,8 @@ procedure TDocumentFrame.CloseAll;
 var
   Rslt, i: Integer;
 begin
-  FProcessing := True;
   Application.ProcessMessages;
+  FProcessing := True;
   Rslt := mrNone;
 
   if FModifiedDocuments then
@@ -1102,6 +1106,7 @@ begin
     end;
     FNumberOfNewDocument := 0;
   end;
+  Application.ProcessMessages;
   CheckModifiedDocuments;
   CheckHTMLErrors;
   PageControl.Repaint; { Icon paint bug fix }
@@ -1114,8 +1119,9 @@ var
   Rslt: Integer;
   ActiveSynEdit, SynEdit: TBCSynEdit;
 begin
-  FProcessing := True;
   Application.ProcessMessages;
+  FProcessing := True;
+
   Rslt := mrNone;
 
   ActiveSynEdit := GetActiveSynEdit;
@@ -1150,15 +1156,15 @@ begin
     finally
       Screen.Cursor := crDefault;
     end;
-
-    if GetActiveSynEdit.DocumentName = '' then
+    SynEdit := GetActiveSynEdit;
+    if Assigned(SynEdit) and (SynEdit.DocumentName = '') then
       FNumberOfNewDocument := 1
     else
       FNumberOfNewDocument := 0
   end;
-  //SynEdit := GetActiveSynEdit;
   if Assigned(ActiveSynEdit) then
     DoSearch2(ActiveSynEdit);
+  Application.ProcessMessages;
   CheckModifiedDocuments;
   CheckHTMLErrors;
   PageControl.Repaint; { Icon paint bug fix }
@@ -1476,6 +1482,8 @@ var
 
 begin
   SynEdit := GetActiveSynEdit;
+  if not Assigned(SynEdit) then
+    Exit;
   SynEditPrint.Header.Clear;
   SynEditPrint.Footer.Clear;
 
@@ -1713,6 +1721,8 @@ begin
   with ReplaceDialog do
   begin
     SynEdit := GetActiveSynEdit;
+    if not Assigned(SynEdit) then
+      Exit;
     if SynEdit.SelAvail then
       SearchForComboBox.Text := SynEdit.SelText;
     MResult := ShowModal;
@@ -2048,8 +2058,11 @@ begin
     begin
       PageControl.ActivePageIndex := i;
       SynEdit := GetActiveSynEdit;
-      SetMainHighlighterCombo(SynEdit);
-      SetMainEncodingCombo(SynEdit);
+      if Assigned(SynEdit) then
+      begin
+        SetMainHighlighterCombo(SynEdit);
+        SetMainEncodingCombo(SynEdit);
+      end;
     end;
 
     Result := FileNames.Count > 0;
@@ -2262,9 +2275,13 @@ begin
 end;
 
 procedure TDocumentFrame.GotoLineActionExecute(Sender: TObject);
+var
+  SynEdit: TBCSynEdit;
 begin
+  SynEdit := GetActiveSynEdit;
+  if Assigned(SynEdit) then
   try
-    GetActiveSynEdit.CaretY := StrToInt(GotoLineNumberEdit.Text);
+    SynEdit.CaretY := StrToInt(GotoLineNumberEdit.Text);
   except
     { silent }
   end;
@@ -2563,6 +2580,8 @@ begin
   else
   begin
     SynEdit := GetActiveSynEdit;
+    if not Assigned(SynEdit) then
+      Exit;
     APos := SynEdit.ClientToScreen(SynEdit.RowColumnToPixels
         (SynEdit.BufferToDisplayPos(BufferCoord(Column, Line))));
 
@@ -2855,8 +2874,10 @@ function TDocumentFrame.GetCaretInfo: string;
 var
   SynEdit: TBCSynEdit;
 begin
+  Result := '';
   SynEdit := GetActiveSynEdit;
-  Result := Format('%d: %d', [SynEdit.CaretY, SynEdit.CaretX]);
+  if Assigned(SynEdit) then
+    Result := Format('%d: %d', [SynEdit.CaretY, SynEdit.CaretX]);
 end;
 
 function TDocumentFrame.GetModifiedInfo: string;
