@@ -28,7 +28,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Height = 299
       ParentColor = False
       Visible = False
-      ExplicitHeight = 302
     end
     object VirtualDrawTree: TVirtualDrawTree
       Left = 1
@@ -73,7 +72,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Align = alBottom
         ParentColor = False
         Visible = False
-        ExplicitTop = 21
       end
       object SplitSynEditPanel: TPanel
         Left = 0
@@ -115,6 +113,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
           Font.Name = 'Courier New'
           Font.Style = []
           TabOrder = 0
+          OnMouseDown = SplitSynEditMouseDown
           Gutter.ShowLineModified = True
           Gutter.LineModifiedColor = clYellow
           Gutter.LineNormalColor = clLime
@@ -170,6 +169,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Font.Name = 'Courier New'
         Font.Style = []
         TabOrder = 1
+        OnMouseDown = SynEditMouseDown
         Gutter.ShowLineModified = True
         Gutter.LineModifiedColor = clYellow
         Gutter.LineNormalColor = clLime

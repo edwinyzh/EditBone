@@ -46,6 +46,8 @@ type
     procedure SynEditRightEdgeMouseUp(Sender: TObject);
     procedure SplitSynEditRightEdgeMouseUp(Sender: TObject);
     procedure VirtualDrawTreeClick(Sender: TObject);
+    procedure SynEditMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure SplitSynEditMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
     FModified: Boolean;
@@ -57,6 +59,7 @@ type
     function GetCaretX: Integer;
     function GetCaretY: Integer;
     function ProcessNode(Node: IXMLNode; TreeNode: PVirtualNode): PVirtualNode;
+    procedure NormalSelectionMode(SynEdit: TBCSynEdit);
     procedure SetSplitVisible(Value: Boolean);
     procedure SetMinimapVisible(Value: Boolean);
     procedure SetXMLTreeVisible(Value: Boolean);
@@ -100,6 +103,21 @@ begin
   UpdateOptionsAndStyles(Panel.Padding.Right);
 end;
 
+procedure TDocTabSheetFrame.NormalSelectionMode(SynEdit: TBCSynEdit);
+begin
+  if OptionsContainer.EnableSelectionMode and (eoAltSetsColumnMode in SynEdit.Options) then
+  begin
+    OptionsContainer.EnableSelectionMode := False;
+    SynEdit.Options := SynEdit.Options - [eoAltSetsColumnMode];
+    SynEdit.Selectionmode := smNormal;
+  end;
+end;
+
+procedure TDocTabSheetFrame.SynEditMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  NormalSelectionMode(SynEdit);
+end;
+
 procedure TDocTabSheetFrame.SynEditRightEdgeMouseUp(Sender: TObject);
 begin
   OptionsContainer.MarginRightMargin := SynEdit.RightEdge.Position;
@@ -138,6 +156,12 @@ begin
   MaxLengthWord := SplitTextIntoWords(SplitSynCompletionProposal, SplitSynEdit, OptionsContainer.CompletionProposalCaseSensitive);
   SynCompletionProposal.Width := SplitSynEdit.Canvas.TextWidth(MaxLengthWord);
   CanExecute := SplitSynCompletionProposal.ItemList.Count > 0;
+end;
+
+procedure TDocTabSheetFrame.SplitSynEditMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  NormalSelectionMode(SplitSynEdit);
 end;
 
 procedure TDocTabSheetFrame.SplitSynEditRightEdgeMouseUp(Sender: TObject);

@@ -1824,6 +1824,8 @@ procedure TDocumentFrame.BoxDownActionExecute(Sender: TObject);
     if Assigned(SynEdit) then
       if SynEdit.Focused then
       begin
+        OptionsContainer.EnableSelectionMode := True;
+        SynEdit.Options := SynEdit.Options + [eoAltSetsColumnMode];
         SynEdit.Selectionmode := smColumn;
         Keybd_Event(VK_SHIFT, MapVirtualKey(VK_SHIFT, 0), 0, 0);
         Keybd_Event(VK_DOWN, MapVirtualKey(VK_DOWN, 0), 0, 0);
@@ -1844,11 +1846,13 @@ procedure TDocumentFrame.BoxLeftActionExecute(Sender: TObject);
     if Assigned(SynEdit) then
       if SynEdit.Focused then
       begin
-      SynEdit.Selectionmode := smColumn;
-      Keybd_Event(VK_SHIFT, MapVirtualKey(VK_SHIFT, 0), 0, 0);
-      Keybd_Event(VK_LEFT, MapVirtualKey(VK_LEFT, 0), 0, 0);
-      Keybd_Event(VK_LEFT, MapVirtualKey(VK_LEFT, 0), KEYEVENTF_KEYUP, 0);
-      Keybd_Event(VK_MENU, MapVirtualKey(VK_MENU, 0), KEYEVENTF_KEYUP, 0);
+        OptionsContainer.EnableSelectionMode := True;
+        SynEdit.Options := SynEdit.Options + [eoAltSetsColumnMode];
+        SynEdit.Selectionmode := smColumn;
+        Keybd_Event(VK_SHIFT, MapVirtualKey(VK_SHIFT, 0), 0, 0);
+        Keybd_Event(VK_LEFT, MapVirtualKey(VK_LEFT, 0), 0, 0);
+        Keybd_Event(VK_LEFT, MapVirtualKey(VK_LEFT, 0), KEYEVENTF_KEYUP, 0);
+        Keybd_Event(VK_MENU, MapVirtualKey(VK_MENU, 0), KEYEVENTF_KEYUP, 0);
     end;
   end;
 
@@ -1864,6 +1868,8 @@ procedure TDocumentFrame.BoxRightActionExecute(Sender: TObject);
     if Assigned(SynEdit) then
       if SynEdit.Focused then
       begin
+        OptionsContainer.EnableSelectionMode := True;
+        SynEdit.Options := SynEdit.Options + [eoAltSetsColumnMode];
         SynEdit.Selectionmode := smColumn;
         Keybd_Event(VK_SHIFT, MapVirtualKey(VK_SHIFT, 0), 0, 0);
         Keybd_Event(VK_RIGHT, MapVirtualKey(VK_RIGHT, 0), 0, 0);
@@ -1884,6 +1890,8 @@ procedure TDocumentFrame.BoxUpActionExecute(Sender: TObject);
     if Assigned(SynEdit) then
       if SynEdit.Focused then
       begin
+        OptionsContainer.EnableSelectionMode := True;
+        SynEdit.Options := SynEdit.Options + [eoAltSetsColumnMode];
         SynEdit.Selectionmode := smColumn;
         Keybd_Event(VK_SHIFT, MapVirtualKey(VK_SHIFT, 0), 0, 0);
         Keybd_Event(VK_UP, MapVirtualKey(VK_UP, 0), 0, 0);
