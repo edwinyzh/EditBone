@@ -85,7 +85,8 @@ uses
   BCFrames.OptionsSQLWhitespace in '..\..\Common\frames\BCFrames.OptionsSQLWhitespace.pas' {OptionsSQLWhitespaceFrame: TFrame},
   BCFrames.OptionsSQLFormatter in '..\..\Common\frames\BCFrames.OptionsSQLFormatter.pas' {OptionsSQLFormatterFrame: TFrame},
   BCSQL.Formatter in '..\..\Common\units\BCSQL.Formatter.pas',
-  BCSQL.Consts in '..\..\Common\units\BCSQL.Consts.pas';
+  BCSQL.Consts in '..\..\Common\units\BCSQL.Consts.pas',
+  DocumentXMLTree in 'frames\DocumentXMLTree.pas' {DocumentXMLTreeFrame: TFrame};
 
 {$R *.res}
 

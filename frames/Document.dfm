@@ -1,8 +1,8 @@
 object DocumentFrame: TDocumentFrame
   Left = 0
   Top = 0
-  Width = 908
-  Height = 302
+  Width = 451
+  Height = 304
   Align = alClient
   DoubleBuffered = True
   Color = clWindow
@@ -13,7 +13,7 @@ object DocumentFrame: TDocumentFrame
   object SearchPanel: TPanel
     Left = 0
     Top = 0
-    Width = 908
+    Width = 451
     Height = 21
     Align = alTop
     BevelOuter = bvNone
@@ -410,8 +410,8 @@ object DocumentFrame: TDocumentFrame
   object DocumentPanel: TPanel
     Left = 0
     Top = 21
-    Width = 908
-    Height = 256
+    Width = 451
+    Height = 258
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -423,8 +423,8 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 908
-      Height = 254
+      Width = 451
+      Height = 256
       Align = alClient
       DoubleBuffered = False
       ParentDoubleBuffered = False
@@ -441,8 +441,8 @@ object DocumentFrame: TDocumentFrame
   end
   object GotoLinePanel: TPanel
     Left = 0
-    Top = 277
-    Width = 908
+    Top = 279
+    Width = 451
     Height = 25
     Align = alBottom
     BevelOuter = bvNone

@@ -2,7 +2,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 302
+  Height = 304
   Align = alClient
   Color = clWindow
   ParentBackground = False
@@ -12,7 +12,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
     Left = 0
     Top = 0
     Width = 451
-    Height = 302
+    Height = 304
     Align = alClient
     BevelOuter = bvNone
     Color = clWindow
@@ -22,51 +22,27 @@ object DocTabSheetFrame: TDocTabSheetFrame
     ParentBackground = False
     TabOrder = 0
     object VerticalSplitter: TSplitter
-      Left = 201
+      Left = 186
       Top = 1
       Width = 4
-      Height = 299
+      Height = 301
       ParentColor = False
       Visible = False
     end
-    object VirtualDrawTree: TVirtualDrawTree
-      Left = 1
-      Top = 1
-      Width = 200
-      Height = 299
-      Align = alLeft
-      DragOperations = []
-      Header.AutoSizeIndex = 0
-      Header.Font.Charset = DEFAULT_CHARSET
-      Header.Font.Color = clWindowText
-      Header.Font.Height = -11
-      Header.Font.Name = 'Tahoma'
-      Header.Font.Style = []
-      Header.MainColumn = -1
-      TabOrder = 0
-      Visible = False
-      OnClick = VirtualDrawTreeClick
-      OnDrawNode = VirtualDrawTreeDrawNode
-      OnFreeNode = VirtualDrawTreeFreeNode
-      OnGetImageIndex = VirtualDrawTreeGetImageIndex
-      OnGetNodeWidth = VirtualDrawTreeGetNodeWidth
-      OnInitNode = VirtualDrawTreeInitNode
-      Columns = <>
-    end
     object DocumentPanel: TPanel
-      Left = 205
+      Left = 190
       Top = 1
-      Width = 246
-      Height = 299
+      Width = 261
+      Height = 301
       Align = alClient
       BevelOuter = bvNone
       Color = clWindow
       ParentBackground = False
-      TabOrder = 1
+      TabOrder = 0
       object HorizontalSplitter: TSplitter
         Left = 0
-        Top = 18
-        Width = 246
+        Top = 20
+        Width = 261
         Height = 4
         Cursor = crVSplit
         Align = alBottom
@@ -75,8 +51,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       end
       object SplitSynEditPanel: TPanel
         Left = 0
-        Top = 22
-        Width = 246
+        Top = 24
+        Width = 261
         Height = 277
         Align = alBottom
         BevelOuter = bvNone
@@ -86,7 +62,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         object SplitSynEdit: TBCSynEdit
           Left = 0
           Top = 0
-          Width = 246
+          Width = 261
           Height = 277
           Align = alClient
           ActiveLineColor = clSkyBlue
@@ -142,8 +118,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       object SynEdit: TBCSynEdit
         Left = 0
         Top = 0
-        Width = 246
-        Height = 18
+        Width = 261
+        Height = 20
         Align = alClient
         ActiveLineColor = clSkyBlue
         CodeFolding.CaseSensitive = False
@@ -195,11 +171,16 @@ object DocTabSheetFrame: TDocTabSheetFrame
         FontSmoothing = fsmNone
       end
     end
-  end
-  object XMLDocument: TXMLDocument
-    Left = 310
-    Top = 28
-    DOMVendorDesc = 'MSXML'
+    object XMLTreePanel: TPanel
+      Left = 1
+      Top = 1
+      Width = 185
+      Height = 301
+      Align = alLeft
+      BevelOuter = bvNone
+      TabOrder = 1
+      Visible = False
+    end
   end
   object SynURISyn: TSynURISyn
     Tag = 52

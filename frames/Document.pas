@@ -20,7 +20,7 @@ uses
   SynHighlighterDWS, SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
   SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11,
   SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch, Vcl.ActnMan, System.Contnrs,
-  BCControls.ButtonedEdit, SynUniHighlighter;
+  BCControls.ButtonedEdit;
 
 type
   TDocumentFrame = class(TFrame)
@@ -248,7 +248,7 @@ type
     function GetDocTabSheetFrame(TabSheet: TTabSheet): TDocTabSheetFrame;
     function GetModifiedDocuments(CheckActive: Boolean = True): Boolean;
     function GetOpenTabSheetCount: Integer;
-    function GetOpenTabSheets: Boolean;
+    //function GetOpenTabSheets: Boolean;
     function GetSelectionFound: Boolean;
     function GetSelectionModeChecked: Boolean;
     function GetSplitChecked: Boolean;
@@ -367,7 +367,7 @@ type
     property MinimapChecked: Boolean read GetMinimapChecked;
     property ModifiedDocuments: Boolean Read FModifiedDocuments write FModifiedDocuments;
     property OpenTabSheetCount: Integer read GetOpenTabSheetCount;
-    property OpenTabSheets: Boolean read GetOpenTabSheets;
+    //property OpenTabSheets: Boolean read GetOpenTabSheets;
     property Processing: Boolean read FProcessing;
     property ProgressBar: TBCProgressBar read FProgressBar write FProgressBar;
     property SelectionFound: Boolean read GetSelectionFound;
@@ -600,7 +600,7 @@ begin
   Result := False;
   DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
   if Assigned(DocTabSheetFrame) then
-    Result := DocTabSheetFrame.VirtualDrawTree.Visible;
+    Result := DocTabSheetFrame.XMLTreeVisible;
 end;
 
 function TDocumentFrame.CreateNewTabSheet(FileName: string = ''; ShowMinimap: Boolean = False): TBCSynEdit;
@@ -654,11 +654,9 @@ begin
     THighlightSearchPlugin.Create(SynEdit, FFoundSearchItems);
     THighlightSearchPlugin.Create(SplitSynEdit, FFoundSearchItems);
     { VirtualDrawTree }
-    with VirtualDrawTree do
-    begin
-      Images := XMLTreeImageList;
-      PopupMenu := XMLTreePopupMenu;
-    end;
+    ImageList := XMLTreeImageList;
+    PopupMenu := XMLTreePopupMenu;
+
     OptionsContainer.AssignTo(SynEdit);
     SynWebEngine.Options.HtmlVersion := shvUndefined;
 
@@ -689,8 +687,8 @@ begin
 
     SynEdit.Visible := True;
 
-    if SynEdit.CanFocus then
-      SynEdit.SetFocus;
+    //if SynEdit.CanFocus then
+    //  SynEdit.SetFocus;
 
     Result := SynEdit;
   end;
@@ -2495,10 +2493,10 @@ begin
   end;
 end;
 
-function TDocumentFrame.GetOpenTabSheets: Boolean;
+{function TDocumentFrame.GetOpenTabSheets: Boolean;
 begin
   Result := PageControl.PageCount > 0;
-end;
+end; }
 
 function TDocumentFrame.GetOpenTabSheetCount: Integer;
 begin
@@ -3689,7 +3687,7 @@ begin
   Result := False;
   DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
   if Assigned(DocTabSheetFrame) then
-    Result := DocTabSheetFrame.SynEdit.Highlighter = SynWebXmlSyn;
+    Result := Assigned(DocTabSheetFrame.SynEdit.Highlighter) and (DocTabSheetFrame.SynEdit.Highlighter = SynWebXmlSyn);
 end;
 
 function TDocumentFrame.IsSQLDocument: Boolean;
@@ -3699,7 +3697,7 @@ begin
   Result := False;
   DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
   if Assigned(DocTabSheetFrame) then
-    Result := DocTabSheetFrame.SynEdit.Highlighter = SynSQLSyn;
+    Result := Assigned(DocTabSheetFrame.SynEdit.Highlighter) and (DocTabSheetFrame.SynEdit.Highlighter = SynSQLSyn);
 end;
 
 procedure TDocumentFrame.SelectHighlighter(DocTabSheetFrame: TDocTabSheetFrame; FileName: string);

@@ -904,190 +904,192 @@ var
   GotoBookmarksAction, ToggleBookmarksAction: TAction;
 begin
   FProcessingEventHandler := True;
-  ActiveDocumentFound := FDocumentFrame.ActiveDocumentFound;
-  SelectionFound := FDocumentFrame.SelectionFound;
-  IsSQLDocument := FDocumentFrame.IsSQLDocument;
-  IsXMLDocument := FDocumentFrame.IsXMLDocument;
-  BookmarkList := FDocumentFrame.GetActiveBookmarkList;
-
-  ViewToolbarAction.Checked := ToolBarPanel.Visible;
-  ViewStatusbarAction.Checked := StatusBar.Visible;
-  ViewOutputAction.Checked := OutputPanel.Visible;
-  ViewDirectoryAction.Enabled := FDirectoryFrame.IsAnyDirectory;
-  ViewDirectoryAction.Checked := DirectoryPanel.Visible;
-  HorizontalSplitter.Visible := OutputPanel.Visible;
-  { fix for rare splitter bug - set output panel under splitter }
-  if OutputPanel.Visible then
-    OutputPanel.Top := HorizontalSplitter.Top + HorizontalSplitter.Height;
-
-  ViewHighlighterSelectionAction.Checked := HighlighterComboBox.Visible;
-  ViewEncodingSelectionAction.Checked := EncodingComboBox.Visible;
-
-  ViewXMLTreeAction.Visible := ActiveDocumentFound and IsXMLDocument;
-  if ViewXMLTreeAction.Visible then
-    ViewXMLTreeAction.Checked := FDocumentFrame.XMLTreeVisible;
-
-  ActiveDocumentName := FDocumentFrame.ActiveDocumentName;
-  if ActiveDocumentName = '' then
-    ActiveDocumentName := FDocumentFrame.ActiveTabSheetCaption;
-
-  if ActiveDocumentName = '' then
-    Caption := Application.Title
-  else
-    Caption := Format(Application.Title + MAIN_CAPTION_DOCUMENT, [ActiveDocumentName]);
-  FilePropertiesAction.Enabled := ActiveDocumentFound and (ActiveDocumentName <> '');
-
-  ReopenActionClientItem := GetActionClientItem(FILE_MENU_ITEMINDEX, FILE_REOPEN_MENU_ITEMINDEX);
-  FileReopenAction.Enabled := ReopenActionClientItem.Items.Count > 0;
-  FileCloseAction.Enabled := FDocumentFrame.OpenTabSheets;
-  FileCloseAllAction.Enabled := FileCloseAction.Enabled;
-  FileCloseAllOtherPagesAction.Enabled := FileCloseAction.Enabled;
-  ViewNextPageAction.Enabled := FDocumentFrame.OpenTabSheetCount > 1;
-  ViewPreviousPageAction.Enabled := ViewNextPageAction.Enabled;
-  FileSaveAsAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
-  FileSaveAction.Enabled := FDocumentFrame.ActiveDocumentModified and ActiveDocumentFound;
-  FileSaveAllAction.Enabled := FDocumentFrame.ModifiedDocuments and ActiveDocumentFound;
-  FilePrintAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
-  FilePrintPreviewAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
-  FileSelectFromDirectoryAction.Enabled := DirectoryPanel.Visible and ActiveDocumentFound and FDirectoryFrame.IsAnyDirectory;
-  EditUndoAction.Enabled := FileCloseAction.Enabled and FDocumentFrame.CanUndo and ActiveDocumentFound;
-  EditRedoAction.Enabled := FileCloseAction.Enabled and FDocumentFrame.CanRedo and ActiveDocumentFound;
-  EditCutAction.Enabled := SelectionFound and ActiveDocumentFound;
-  EditCopyAction.Enabled := EditCutAction.Enabled and ActiveDocumentFound;
-  EditSelectAllAction.Enabled := ActiveDocumentFound;
-  EditIncreaseIndentAction.Enabled := SelectionFound;
-  EditDecreaseIndentAction.Enabled := SelectionFound;
-  EditSortAscAction.Enabled := SelectionFound;
-  EditSortDescAction.Enabled := SelectionFound;
-  EditToggleCaseAction.Enabled := SelectionFound;
-  EditInsertTagAction.Enabled := ActiveDocumentFound;
-  EditInsertDateTimeAction.Enabled := ActiveDocumentFound;
-  EditRemoveWhiteSpaceAction.Enabled := SelectionFound;
-  EditInsertLineAction.Enabled := ActiveDocumentFound;
-  EditDeleteWordAction.Enabled := ActiveDocumentFound;
-  EditDeleteLineAction.Enabled := ActiveDocumentFound;
-  EditDeleteEOLAction.Enabled := ActiveDocumentFound;
   try
+    ActiveDocumentFound := FDocumentFrame.ActiveDocumentFound;
+    SelectionFound := FDocumentFrame.SelectionFound;
+    IsSQLDocument := FDocumentFrame.IsSQLDocument;
+    IsXMLDocument := FDocumentFrame.IsXMLDocument;
+
+    ViewToolbarAction.Checked := ToolBarPanel.Visible;
+    ViewStatusbarAction.Checked := StatusBar.Visible;
+    ViewOutputAction.Checked := OutputPanel.Visible;
+    ViewDirectoryAction.Enabled := FDirectoryFrame.IsAnyDirectory;
+    ViewDirectoryAction.Checked := DirectoryPanel.Visible;
+    HorizontalSplitter.Visible := OutputPanel.Visible;
+    { fix for rare splitter bug - set output panel under splitter }
+    if OutputPanel.Visible then
+      OutputPanel.Top := HorizontalSplitter.Top + HorizontalSplitter.Height;
+
+    ViewHighlighterSelectionAction.Checked := HighlighterComboBox.Visible;
+    ViewEncodingSelectionAction.Checked := EncodingComboBox.Visible;
+
+    ViewXMLTreeAction.Visible := ActiveDocumentFound and IsXMLDocument;
+    if ViewXMLTreeAction.Visible then
+      ViewXMLTreeAction.Checked := FDocumentFrame.XMLTreeVisible;
+
+    ActiveDocumentName := FDocumentFrame.ActiveDocumentName;
+    if ActiveDocumentName = '' then
+      ActiveDocumentName := FDocumentFrame.ActiveTabSheetCaption;
+
+    if ActiveDocumentName = '' then
+      Caption := Application.Title
+    else
+      Caption := Format(Application.Title + MAIN_CAPTION_DOCUMENT, [ActiveDocumentName]);
+    FilePropertiesAction.Enabled := ActiveDocumentFound and (ActiveDocumentName <> '');
+
+    ReopenActionClientItem := GetActionClientItem(FILE_MENU_ITEMINDEX, FILE_REOPEN_MENU_ITEMINDEX);
+    FileReopenAction.Enabled := ReopenActionClientItem.Items.Count > 0;
+    FileCloseAction.Enabled := FDocumentFrame.OpenTabSheetCount > 0;
+    FileCloseAllAction.Enabled := FileCloseAction.Enabled;
+    FileCloseAllOtherPagesAction.Enabled := FileCloseAction.Enabled;
+    ViewNextPageAction.Enabled := FDocumentFrame.OpenTabSheetCount > 1;
+    ViewPreviousPageAction.Enabled := ViewNextPageAction.Enabled;
+    FileSaveAsAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
+    FileSaveAction.Enabled := FDocumentFrame.ActiveDocumentModified and ActiveDocumentFound;
+    FileSaveAllAction.Enabled := FDocumentFrame.ModifiedDocuments and ActiveDocumentFound;
+    FilePrintAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
+    FilePrintPreviewAction.Enabled := FileCloseAction.Enabled and ActiveDocumentFound;
+    FileSelectFromDirectoryAction.Enabled := DirectoryPanel.Visible and ActiveDocumentFound and FDirectoryFrame.IsAnyDirectory;
+    EditUndoAction.Enabled := FileCloseAction.Enabled and FDocumentFrame.CanUndo and ActiveDocumentFound;
+    EditRedoAction.Enabled := FileCloseAction.Enabled and FDocumentFrame.CanRedo and ActiveDocumentFound;
+    EditCutAction.Enabled := SelectionFound and ActiveDocumentFound;
+    EditCopyAction.Enabled := EditCutAction.Enabled and ActiveDocumentFound;
+    EditSelectAllAction.Enabled := ActiveDocumentFound;
+    EditIncreaseIndentAction.Enabled := SelectionFound;
+    EditDecreaseIndentAction.Enabled := SelectionFound;
+    EditSortAscAction.Enabled := SelectionFound;
+    EditSortDescAction.Enabled := SelectionFound;
+    EditToggleCaseAction.Enabled := SelectionFound;
+    EditInsertTagAction.Enabled := ActiveDocumentFound;
+    EditInsertDateTimeAction.Enabled := ActiveDocumentFound;
+    EditRemoveWhiteSpaceAction.Enabled := SelectionFound;
+    EditInsertLineAction.Enabled := ActiveDocumentFound;
+    EditDeleteWordAction.Enabled := ActiveDocumentFound;
+    EditDeleteLineAction.Enabled := ActiveDocumentFound;
+    EditDeleteEOLAction.Enabled := ActiveDocumentFound;
+
     EditPasteAction.Enabled := Clipboard.HasFormat(CF_TEXT) and ActiveDocumentFound;
+
+    ViewSelectionModeAction.Enabled := ActiveDocumentFound;
+    ViewSelectionModeAction.Checked := ActiveDocumentFound and FDocumentFrame.SelectionModeChecked;
+    ViewSplitAction.Enabled := ActiveDocumentFound;
+    ViewSplitAction.Checked := ActiveDocumentFound and FDocumentFrame.SplitChecked;
+    ViewMinimapAction.Enabled := ActiveDocumentFound;
+    ViewMinimapAction.Checked := ActiveDocumentFound and FDocumentFrame.MinimapChecked;
+
+    SearchAction.Enabled := ActiveDocumentFound;
+    SearchGotoLineAction.Enabled := ActiveDocumentFound;
+    SearchReplaceAction.Enabled := ActiveDocumentFound;
+    SearchFindInFilesAction.Enabled := Assigned(FOutputFrame) and not FOutputFrame.ProcessingTabSheet;
+    SearchFindNextAction.Enabled := ActiveDocumentFound;
+    SearchFindPreviousAction.Enabled := ActiveDocumentFound;
+    SearchToggleBookmarkAction.Enabled := OptionsContainer.MarginShowBookmarks and ActiveDocumentFound;
+    SearchToggleBookmarksAction.Enabled := SearchToggleBookmarkAction.Enabled;
+    SearchGotoBookmarksAction.Enabled := SearchToggleBookmarkAction.Enabled;
+    SearchClearBookmarksAction.Enabled := SearchToggleBookmarkAction.Enabled;
+
+    ViewWordWrapAction.Enabled := ActiveDocumentFound;
+    ViewLineNumbersAction.Enabled := Assigned(FDocumentFrame) and (FDocumentFrame.OpenTabSheetCount > 0);
+    ViewSpecialCharsAction.Enabled := ViewLineNumbersAction.Enabled;
+    ToolsWordCountAction.Enabled := ActiveDocumentFound;
+    ToolsSelectForCompareAction.Enabled := ActiveDocumentFound and not FDocumentFrame.ActiveDocumentModified;
+    FormatSQLAction.Visible := FSQLFormatterDLLFound and ActiveDocumentFound and IsSQLDocument;
+    FormatXMLAction.Visible := ActiveDocumentFound and IsXMLDocument;
+
+    if OutputPanel.Visible then
+    begin
+      DirectoryPanel.Padding.Bottom := 0;
+      DocumentPanel.Padding.Bottom := 0;
+    end
+    else
+    begin
+      DirectoryPanel.Padding.Bottom := 2;
+      DocumentPanel.Padding.Bottom := 2;
+    end;
+
+    ViewOutputAction.Enabled := FOutputFrame.IsAnyOutput;
+    if not ViewOutputAction.Enabled then { if there's no output then hide panel }
+      OutputPanel.Visible := False;
+
+    if not FDirectoryFrame.IsAnyDirectory then
+    begin
+      VerticalSplitter.Visible := False;
+      DirectoryPanel.Visible := False;
+    end;
+
+    ViewEditDirectoryAction.Enabled := DirectoryPanel.Visible;
+    ViewCloseDirectoryAction.Enabled := DirectoryPanel.Visible;
+    ViewSearchForFilesAction.Enabled := FDirectoryFrame.IsAnyDirectory and (FDirectoryFrame.SelectedPath <> '');
+
+    if DirectoryPanel.Visible then
+      DocumentPanel.Padding.Left := 0
+    else
+      DocumentPanel.Padding.Left := 3;
+
+    if ActiveDocumentFound then
+    begin
+      InfoText := FDocumentFrame.GetCaretInfo;
+      if StatusBar.Panels[0].Text <> InfoText then
+        StatusBar.Panels[0].Text := InfoText;
+      InfoText := FDocumentFrame.GetModifiedInfo;
+      if StatusBar.Panels[2].Text <> InfoText then
+        StatusBar.Panels[2].Text := InfoText;
+    end
+    else
+    begin
+      StatusBar.Panels[0].Text := '';
+      StatusBar.Panels[2].Text := '';
+    end;
+    GetKeyboardState(KeyState);
+    if KeyState[VK_INSERT] = 0 then
+      if StatusBar.Panels[1].Text <> LanguageDataModule.GetConstant('Insert') then
+        StatusBar.Panels[1].Text := LanguageDataModule.GetConstant('Insert');
+    if KeyState[VK_INSERT] = 1 then
+      if StatusBar.Panels[1].Text <> LanguageDataModule.GetConstant('Overwrite') then
+        StatusBar.Panels[1].Text := LanguageDataModule.GetConstant('Overwrite');
+    { Macro }
+    MacroRecordPauseAction.Enabled := ActiveDocumentFound;
+    MacroRecordPauseAction.ImageIndex := FDocumentFrame.GetMacroRecordPauseImageIndex;
+    MacroStopAction.Enabled := ActiveDocumentFound and FDocumentFrame.IsRecordingMacro;
+    MacroPlaybackAction.Enabled := ActiveDocumentFound and FDocumentFrame.IsMacroStopped;
+    MacroOpenAction.Enabled := ActiveDocumentFound;
+    MacroSaveAsAction.Enabled := MacroPlaybackAction.Enabled;
+    if OptionsContainer.MarginShowBookmarks then
+    begin
+      BookmarkList := FDocumentFrame.GetActiveBookmarkList;
+      { Bookmarks }
+      for i := 1 to 9 do
+      begin
+        GotoBookmarksAction := TAction(FindComponent(Format('GotoBookmarks%dAction', [i])));
+        if Assigned(GotoBookmarksAction) then
+        begin
+          GotoBookmarksAction.Enabled := False;
+          GotoBookmarksAction.Caption := Format('%s &%d', [LanguageDataModule.GetConstant('Bookmark'), i]);
+        end;
+        ToggleBookmarksAction := TAction(FindComponent(Format('ToggleBookmarks%dAction', [i])));
+        if Assigned(ToggleBookmarksAction) then
+          ToggleBookmarksAction.Caption := Format('%s &%d', [LanguageDataModule.GetConstant('Bookmark'), i]);
+      end;
+      if Assigned(BookmarkList) then
+      for i := 0 to BookmarkList.Count - 1 do
+      begin
+        GotoBookmarksAction := TAction(FindComponent(Format('GotoBookmarks%dAction', [BookmarkList.Items[i].BookmarkNumber])));
+        if Assigned(GotoBookmarksAction) then
+        begin
+          GotoBookmarksAction.Enabled := True;
+          GotoBookmarksAction.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
+            BookmarkList.Items[i].BookmarkNumber, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
+        end;
+        ToggleBookmarksAction := TAction(FindComponent(Format('ToggleBookmarks%dAction', [BookmarkList.Items[i].BookmarkNumber])));
+        if Assigned(ToggleBookmarksAction) then
+          ToggleBookmarksAction.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
+            BookmarkList.Items[i].BookmarkNumber, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
+      end;
+    end;
+    FProcessingEventHandler := False;
   except
     { silent }
   end;
-  ViewSelectionModeAction.Enabled := ActiveDocumentFound;
-  ViewSelectionModeAction.Checked := ActiveDocumentFound and FDocumentFrame.SelectionModeChecked;
-  ViewSplitAction.Enabled := ActiveDocumentFound;
-  ViewSplitAction.Checked := ActiveDocumentFound and FDocumentFrame.SplitChecked;
-  ViewMinimapAction.Enabled := ActiveDocumentFound;
-  ViewMinimapAction.Checked := ActiveDocumentFound and FDocumentFrame.MinimapChecked;
-
-  SearchAction.Enabled := ActiveDocumentFound;
-  SearchGotoLineAction.Enabled := ActiveDocumentFound;
-  SearchReplaceAction.Enabled := ActiveDocumentFound;
-  SearchFindInFilesAction.Enabled := Assigned(FOutputFrame) and not FOutputFrame.ProcessingTabSheet;
-  SearchFindNextAction.Enabled := ActiveDocumentFound;
-  SearchFindPreviousAction.Enabled := ActiveDocumentFound;
-  SearchToggleBookmarkAction.Enabled := OptionsContainer.MarginShowBookmarks and ActiveDocumentFound;
-  SearchToggleBookmarksAction.Enabled := SearchToggleBookmarkAction.Enabled;
-  SearchGotoBookmarksAction.Enabled := SearchToggleBookmarkAction.Enabled;
-  SearchClearBookmarksAction.Enabled := SearchToggleBookmarkAction.Enabled;
-
-  ViewWordWrapAction.Enabled := ActiveDocumentFound;
-  ViewLineNumbersAction.Enabled := Assigned(FDocumentFrame) and (FDocumentFrame.OpenTabSheetCount > 0);
-  ViewSpecialCharsAction.Enabled := ViewLineNumbersAction.Enabled;
-  ToolsWordCountAction.Enabled := ActiveDocumentFound;
-  ToolsSelectForCompareAction.Enabled := ActiveDocumentFound and not FDocumentFrame.ActiveDocumentModified;
-  FormatSQLAction.Visible := FSQLFormatterDLLFound and ActiveDocumentFound and IsSQLDocument;
-  FormatXMLAction.Visible := ActiveDocumentFound and IsXMLDocument;
-
-  if OutputPanel.Visible then
-  begin
-    DirectoryPanel.Padding.Bottom := 0;
-    DocumentPanel.Padding.Bottom := 0;
-  end
-  else
-  begin
-    DirectoryPanel.Padding.Bottom := 2;
-    DocumentPanel.Padding.Bottom := 2;
-  end;
-
-  ViewOutputAction.Enabled := FOutputFrame.IsAnyOutput;
-  if not ViewOutputAction.Enabled then { if there's no output then hide panel }
-    OutputPanel.Visible := False;
-
-  if not FDirectoryFrame.IsAnyDirectory then
-  begin
-    VerticalSplitter.Visible := False;
-    DirectoryPanel.Visible := False;
-  end;
-
-  ViewEditDirectoryAction.Enabled := DirectoryPanel.Visible;
-  ViewCloseDirectoryAction.Enabled := DirectoryPanel.Visible;
-  ViewSearchForFilesAction.Enabled := FDirectoryFrame.IsAnyDirectory and (FDirectoryFrame.SelectedPath <> '');
-
-  if DirectoryPanel.Visible then
-    DocumentPanel.Padding.Left := 0
-  else
-    DocumentPanel.Padding.Left := 3;
-
-  if ActiveDocumentFound then
-  begin
-    InfoText := FDocumentFrame.GetCaretInfo;
-    if StatusBar.Panels[0].Text <> InfoText then
-      StatusBar.Panels[0].Text := InfoText;
-    InfoText := FDocumentFrame.GetModifiedInfo;
-    if StatusBar.Panels[2].Text <> InfoText then
-      StatusBar.Panels[2].Text := InfoText;
-  end
-  else
-  begin
-    StatusBar.Panels[0].Text := '';
-    StatusBar.Panels[2].Text := '';
-  end;
-  GetKeyboardState(KeyState);
-  if KeyState[VK_INSERT] = 0 then
-    if StatusBar.Panels[1].Text <> LanguageDataModule.GetConstant('Insert') then
-      StatusBar.Panels[1].Text := LanguageDataModule.GetConstant('Insert');
-  if KeyState[VK_INSERT] = 1 then
-    if StatusBar.Panels[1].Text <> LanguageDataModule.GetConstant('Overwrite') then
-      StatusBar.Panels[1].Text := LanguageDataModule.GetConstant('Overwrite');
-  { Macro }
-  MacroRecordPauseAction.Enabled := ActiveDocumentFound;
-  MacroRecordPauseAction.ImageIndex := FDocumentFrame.GetMacroRecordPauseImageIndex;
-  MacroStopAction.Enabled := ActiveDocumentFound and FDocumentFrame.IsRecordingMacro;
-  MacroPlaybackAction.Enabled := ActiveDocumentFound and FDocumentFrame.IsMacroStopped;
-  MacroOpenAction.Enabled := ActiveDocumentFound;
-  MacroSaveAsAction.Enabled := MacroPlaybackAction.Enabled;
-  if OptionsContainer.MarginShowBookmarks then
-  begin
-    { Bookmarks }
-    for i := 1 to 9 do
-    begin
-      GotoBookmarksAction := TAction(FindComponent(Format('GotoBookmarks%dAction', [i])));
-      if Assigned(GotoBookmarksAction) then
-      begin
-        GotoBookmarksAction.Enabled := False;
-        GotoBookmarksAction.Caption := Format('%s &%d', [LanguageDataModule.GetConstant('Bookmark'), i]);
-      end;
-      ToggleBookmarksAction := TAction(FindComponent(Format('ToggleBookmarks%dAction', [i])));
-      if Assigned(ToggleBookmarksAction) then
-        ToggleBookmarksAction.Caption := Format('%s &%d', [LanguageDataModule.GetConstant('Bookmark'), i]);
-    end;
-    if Assigned(BookmarkList) then
-    for i := 0 to BookmarkList.Count - 1 do
-    begin
-      GotoBookmarksAction := TAction(FindComponent(Format('GotoBookmarks%dAction', [BookmarkList.Items[i].BookmarkNumber])));
-      if Assigned(GotoBookmarksAction) then
-      begin
-        GotoBookmarksAction.Enabled := True;
-        GotoBookmarksAction.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
-          BookmarkList.Items[i].BookmarkNumber, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
-      end;
-      ToggleBookmarksAction := TAction(FindComponent(Format('ToggleBookmarks%dAction', [BookmarkList.Items[i].BookmarkNumber])));
-      if Assigned(ToggleBookmarksAction) then
-        ToggleBookmarksAction.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
-          BookmarkList.Items[i].BookmarkNumber, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
-    end;
-  end;
-  FProcessingEventHandler := False;
 end;
 
 procedure TMainForm.ViewCloseDirectoryActionExecute(Sender: TObject);
