@@ -1517,6 +1517,10 @@ object MainForm: TMainForm
       Caption = 'OutputDblClickAction'
       OnExecute = OutputDblClickActionExecute
     end
+    object FileTreeViewClickAction: TAction
+      Caption = 'FileTreeViewClickAction'
+      OnExecute = FileTreeViewClickActionExecute
+    end
     object FileTreeViewDblClickAction: TAction
       Caption = 'FileTreeViewDblClickAction'
       OnExecute = FileTreeViewDblClickActionExecute

@@ -49,6 +49,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
     procedure LoadFromXML(XML: string);
     procedure UpdateOptionsAndStyles(Right: Integer);
     property ImageList: TImageList read FImageList write FImageList;
@@ -80,6 +81,13 @@ begin
   VerticalSplitter.Width := GetSplitterSize;
   HorizontalSplitter.Height := VerticalSplitter.Width;
   UpdateOptionsAndStyles(Panel.Padding.Right);
+end;
+
+destructor TDocTabSheetFrame.Destroy;
+begin
+  if Assigned(FDocumentXMLTreeFrame) then
+    FDocumentXMLTreeFrame.Free;
+  inherited;
 end;
 
 procedure TDocTabSheetFrame.NormalSelectionMode(SynEdit: TBCSynEdit);

@@ -179,6 +179,7 @@ type
     DirectorySearchFindInFilesAction: TAction;
     ToolsMapVirtualDrivesAction: TAction;
     FormatSQLAction: TAction;
+    FileTreeViewClickAction: TAction;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -282,6 +283,7 @@ type
     procedure DirectorySearchFindInFilesActionExecute(Sender: TObject);
     procedure ToolsMapVirtualDrivesActionExecute(Sender: TObject);
     procedure FormatSQLActionExecute(Sender: TObject);
+    procedure FileTreeViewClickActionExecute(Sender: TObject);
   private
     { Private declarations }
     FNoIni: Boolean;
@@ -1173,6 +1175,12 @@ begin
           FDirectoryFrame.ExcludeOtherBranches);
 end;
 
+procedure TMainForm.FileTreeViewClickActionExecute(Sender: TObject);
+begin
+  if Assigned(FDirectoryFrame) then
+    StatusBar.Panels[3].Text := FDirectoryFrame.SelectedFile;
+end;
+
 procedure TMainForm.FileTreeViewDblClickActionExecute(Sender: TObject);
 var
   Filename: string;
@@ -1380,7 +1388,8 @@ begin
   { TDirectoryFrame }
   FDirectoryFrame := TDirectoryFrame.Create(DirectoryPanel);
   FDirectoryFrame.Parent := DirectoryPanel;
-  FDirectoryFrame.OnTabsheetDblClick := FileTreeViewDblClickActionExecute;
+  FDirectoryFrame.OnFileTreeViewClick := FileTreeViewClickActionExecute;
+  FDirectoryFrame.OnFileTreeViewDblClick := FileTreeViewDblClickActionExecute;
   FDirectoryFrame.OnSearchForFilesOpenFile := DoSearchForFilesOpenFile;
   FDirectoryFrame.SearchForFilesAction := SearchFindInFilesAction;
 end;

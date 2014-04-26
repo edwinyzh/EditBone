@@ -47,7 +47,8 @@ type
     procedure DirectoryRefreshActionExecute(Sender: TObject);
     procedure DirectoryRenameActionExecute(Sender: TObject);
     procedure DriveComboChange(Sender: TObject);
-    procedure TabsheetDblClick(Sender: TObject);
+    procedure FileTreeViewClick(Sender: TObject);
+    procedure FileTreeViewDblClick(Sender: TObject);
     procedure PageControlCloseButtonClick(Sender: TObject);
     procedure PageControlDblClick(Sender: TObject);
     procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -56,7 +57,8 @@ type
     procedure DirectoryContextMenuActionExecute(Sender: TObject);
   private
     { Private declarations }
-    FTabsheetDblClick: TNotifyEvent;
+    FFileTreeViewDblClick: TNotifyEvent;
+    FFileTreeViewClick: TNotifyEvent;
     FOnSearchForFilesOpenFile: TOpenFileEvent;
     function GetActiveDriveComboBox: TBCDriveComboBox;
     function GetDrivesPanelOrientation(TabSheet: TTabSheet = nil): Byte;
@@ -87,7 +89,8 @@ type
     procedure WriteIniFile;
     property ExcludeOtherBranches: Boolean read GetActiveExcludeOtherBranches;
     property IsAnyDirectory: Boolean read GetIsAnyDirectory;
-    property OnTabsheetDblClick: TNotifyEvent read FTabsheetDblClick write FTabsheetDblClick;
+    property OnFileTreeViewClick: TNotifyEvent read FFileTreeViewClick write FFileTreeViewClick;
+    property OnFileTreeViewDblClick: TNotifyEvent read FFileTreeViewDblClick write FFileTreeViewDblClick;
     property OnSearchForFilesOpenFile: TOpenFileEvent read FOnSearchForFilesOpenFile write FOnSearchForFilesOpenFile;
     property RootDirectory: string read GetRootDirectory;
     property SelectedPath: string read GetSelectedPath;
@@ -336,10 +339,16 @@ begin
     Result := DirTabSheetFrame.FileTreeView;
 end;
 
-procedure TDirectoryFrame.TabsheetDblClick(Sender: TObject);
+procedure TDirectoryFrame.FileTreeViewClick(Sender: TObject);
 begin
-  if Assigned(FTabsheetDblClick) then
-    FTabsheetDblClick(Sender);
+  if Assigned(FFileTreeViewClick) then
+    FFileTreeViewClick(Sender);
+end;
+
+procedure TDirectoryFrame.FileTreeViewDblClick(Sender: TObject);
+begin
+  if Assigned(FFileTreeViewDblClick) then
+    FFileTreeViewDblClick(Sender);
 end;
 
 function TDirectoryFrame.GetActiveDriveComboBox: TBCDriveComboBox;
@@ -593,7 +602,8 @@ begin
     with FileTreeView do
     begin
       PopupMenu := Self.PopupMenu;
-      OnDblClick := TabsheetDblClick;
+      OnClick := FileTreeViewClick;
+      OnDblClick := FileTreeViewDblClick;
       DefaultNodeHeight := Images.Height + 2;
     end;
     DriveComboBox.OnChange := DriveComboChange;

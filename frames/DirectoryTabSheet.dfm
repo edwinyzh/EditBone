@@ -2,7 +2,7 @@ object DirTabSheetFrame: TDirTabSheetFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 305
+  Height = 304
   Align = alClient
   DoubleBuffered = True
   Color = clWindow
@@ -14,7 +14,7 @@ object DirTabSheetFrame: TDirTabSheetFrame
     Left = 0
     Top = 0
     Width = 451
-    Height = 305
+    Height = 304
     Margins.Left = 0
     Margins.Top = 0
     Margins.Right = 0
@@ -32,7 +32,7 @@ object DirTabSheetFrame: TDirTabSheetFrame
       Left = 1
       Top = 26
       Width = 447
-      Height = 253
+      Height = 252
       Align = alClient
       DragOperations = []
       EditDelay = 500
@@ -77,7 +77,7 @@ object DirTabSheetFrame: TDirTabSheetFrame
     object FileTypeComboBox: TBCFileTypeComboBox
       AlignWithMargins = True
       Left = 1
-      Top = 282
+      Top = 281
       Width = 447
       Height = 21
       Margins.Left = 0
