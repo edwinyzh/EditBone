@@ -21,7 +21,6 @@ type
     OutputCloseAllAction: TAction;
     PageControl: TBCPageControl;
     PopupMenu: TBCPopupMenu;
-    Separator1MenuItem: TMenuItem;
     Separator2MenuItem: TMenuItem;
     CopytoClipboardMenuItem: TMenuItem;
     CopyToClipboardAction: TAction;

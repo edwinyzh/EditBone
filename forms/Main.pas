@@ -1600,19 +1600,34 @@ end;
 procedure TMainForm.DragDropDrop(Sender: TObject; Pos: TPoint;
   Value: TStrings);
 var
-  i: Integer;
+  i, j: Integer;
 begin
-  if FDocumentFrame.IsCompareFilesActivePage then
-  begin
-    if Value.Count > 1 then
-      for i := 0 to Value.Count - 1 do
-        FDocumentFrame.CompareFiles(Value.Strings[i])
+  Screen.Cursor := crHourGlass;
+  try
+    j := Value.Count;
+    ProgressBar.Count := j;
+    ProgressBar.Show;
+    if FDocumentFrame.IsCompareFilesActivePage then
+    begin
+      if j > 1 then
+        for i := 0 to j - 1 do
+        begin
+          ProgressBar.StepIt;
+          FDocumentFrame.CompareFiles(Value.Strings[i]);
+        end
+      else
+        FDocumentFrame.CompareFiles(Value.Strings[0], True)
+    end
     else
-      FDocumentFrame.CompareFiles(Value.Strings[0], True)
-  end
-  else
-  for i := 0 to Value.Count - 1 do
-    FDocumentFrame.Open(Value.Strings[i]);
+    for i := 0 to j - 1 do
+    begin
+      ProgressBar.StepIt;
+      FDocumentFrame.Open(Value.Strings[i]);
+    end;
+  finally
+    ProgressBar.Hide;
+    Screen.Cursor := crDefault;
+  end;
 end;
 
 procedure TMainForm.OutputDblClickActionExecute(Sender: TObject);

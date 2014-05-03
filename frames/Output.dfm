@@ -2,7 +2,7 @@ object OutputFrame: TOutputFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 302
+  Height = 304
   Align = alClient
   Color = clWindow
   ParentBackground = False
@@ -12,7 +12,7 @@ object OutputFrame: TOutputFrame
     Left = 0
     Top = 0
     Width = 451
-    Height = 302
+    Height = 304
     Align = alClient
     DoubleBuffered = False
     ParentDoubleBuffered = False
@@ -70,9 +70,6 @@ object OutputFrame: TOutputFrame
     end
     object CloseAllMenuItem: TMenuItem
       Action = OutputCloseAllAction
-    end
-    object Separator1MenuItem: TMenuItem
-      Caption = '-'
     end
     object CloseAllOtherPagesMenuItem: TMenuItem
       Action = CloseAllOtherPagesAction
