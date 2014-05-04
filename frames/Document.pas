@@ -203,7 +203,8 @@ type
     procedure SearchForEditChange(Sender: TObject);
     procedure SynEditOnChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
-    procedure SynEditorReplaceText(Sender: TObject; const ASearch, AReplace: UnicodeString; Line, Column: Integer; var Action: TSynReplaceAction);
+    procedure SynEditorReplaceText(Sender: TObject; const ASearch, AReplace: UnicodeString; Line, Column: Integer;
+      DeleteLine: Boolean; var Action: TSynReplaceAction);
     procedure SynEditSplitOnChange(Sender: TObject);
     procedure XMLTreeRefreshActionExecute(Sender: TObject);
     procedure GotoLineCloseActionExecute(Sender: TObject);
@@ -1727,10 +1728,21 @@ begin
     if (MResult = mrOK) or (MResult = mrYes) then
     begin
       SynSearchOptions := SearchOptions(False);
-      if MResult = mrOK then
+      if PromptOnReplace then
         Include(SynSearchOptions, ssoPrompt);
-      Include(SynSearchOptions, ssoReplace);
+      if Replace then
+        Include(SynSearchOptions, ssoReplace)
+      else
+        Include(SynSearchOptions, ssoDeleteLine);
       Include(SynSearchOptions, ssoReplaceAll);
+      if RegularExpressions then
+        SynEdit.SearchEngine := SynEditRegexSearch
+      else
+      if WildCard then
+        SynEdit.SearchEngine := SynEditWildCardSearch
+      else
+        SynEdit.SearchEngine := SynEditSearch;
+
       if ReplaceInWholeFile then
       begin
         SynEdit.CaretXY := BufferCoord(0, 0);
@@ -1751,7 +1763,7 @@ begin
             begin
               SynEdit.CaretXY := BufferCoord(0, 0);
               SynEdit.SearchReplace(SearchText, ReplaceText, SynSearchOptions);
-
+              // TODO: Do we need following lines?
               PageControl.Pages[i].Caption := FormatFileName(PageControl.Pages[i].Caption, SynEdit.Modified);
               PageControl.UpdatePageCaption(PageControl.Pages[i]);
             end;
@@ -2565,13 +2577,13 @@ begin
     Result := Result or (SynEdit.RedoList.ItemCount > 0);
 end;
 
-procedure TDocumentFrame.SynEditorReplaceText(Sender: TObject; const ASearch,
-  AReplace: UnicodeString; Line, Column: Integer;
-  var Action: TSynReplaceAction);
+procedure TDocumentFrame.SynEditorReplaceText(Sender: TObject; const ASearch, AReplace: UnicodeString;
+  Line, Column: Integer; DeleteLine: Boolean; var Action: TSynReplaceAction);
 var
   APos: TPoint;
   EditRect: TRect;
   SynEdit: TBCSynEdit;
+  ConfirmText: string;
 begin
   if ASearch = AReplace then
     Action := raSkip
@@ -2580,15 +2592,18 @@ begin
     SynEdit := GetActiveSynEdit;
     if not Assigned(SynEdit) then
       Exit;
-    APos := SynEdit.ClientToScreen(SynEdit.RowColumnToPixels
-        (SynEdit.BufferToDisplayPos(BufferCoord(Column, Line))));
+    APos := SynEdit.ClientToScreen(SynEdit.RowColumnToPixels(SynEdit.BufferToDisplayPos(BufferCoord(Column, Line))));
 
     EditRect := ClientRect;
     EditRect.TopLeft := ClientToScreen(EditRect.TopLeft);
     EditRect.BottomRight := ClientToScreen(EditRect.BottomRight);
 
-    ConfirmReplaceDialog.PrepareShow(EditRect, APos.X, APos.Y, APos.Y + SynEdit.LineHeight,
-      ASearch);
+    if DeleteLine then
+      ConfirmText := LanguageDataModule.GetYesOrNoMessage('DeleteLine')
+    else
+      ConfirmText := Format(LanguageDataModule.GetYesOrNoMessage('ReplaceOccurence'), [ASearch]);
+
+    ConfirmReplaceDialog.Initialize(EditRect, APos.X, APos.Y, APos.Y + SynEdit.LineHeight, ConfirmText);
     try
       case ConfirmReplaceDialog.ShowModal of
         mrYes:
