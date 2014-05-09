@@ -490,6 +490,8 @@ begin
     OutputTreeView.Tag := OutputTreeView.Tag + 1;
   end;
   OutputTreeView.EndUpdate;
+  { fix for scrollbar resize bug }
+  SetWindowPos(OutputTreeView.Handle, 0, 0, 0, OutputTreeView.Width, OutputTreeView.Height, SWP_DRAWFRAME);
   Application.ProcessMessages;
 end;
 
