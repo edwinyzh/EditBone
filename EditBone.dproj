@@ -3,12 +3,12 @@
         <ProjectGuid>{E3B818CC-5E75-4FBB-9706-6F94F69C4127}</ProjectGuid>
         <ProjectVersion>15.4</ProjectVersion>
         <MainSource>EditBone.dpr</MainSource>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
         <Base>True</Base>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>
-        <Platform Condition="'$(Platform)'==''">Win64</Platform>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -59,6 +59,7 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
+        <Icon_MainIcon>EditBone_Icon.ico</Icon_MainIcon>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <DCC_UnitSearchPath>$(BONECODE_ROOT)\Components\src\UniSynEdit\Source;$(BONECODE_ROOT)\Components\src\SynWeb\Source;$(BONECODE_ROOT)\Components\src\Controls;$(BONECODE_ROOT)\Components\src\VirtualTree\Source;$(BONECODE_ROOT)\Components\src\UniSynEdit\Source;$(BONECODE_ROOT)\Components\src\SynWeb\Source;$(BONECODE_ROOT)\Components\src\Controls;$(BONECODE_ROOT)\Components\src\VirtualTree\Source;$(BONECODE_ROOT)\Components\src\VirtualTree\Source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <SanitizedProjectName>EditBone</SanitizedProjectName>
@@ -94,7 +95,6 @@
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Icon_MainIcon>EditBone_Icon.ico</Icon_MainIcon>
         <VerInfo_MinorVer>2</VerInfo_MinorVer>
         <DCC_Define>EDITBONE;$(DCC_Define)</DCC_Define>
         <VerInfo_MajorVer>9</VerInfo_MajorVer>
@@ -103,7 +103,6 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
-        <Icon_MainIcon>EditBone_Icon.ico</Icon_MainIcon>
         <VerInfo_MinorVer>2</VerInfo_MinorVer>
         <VerInfo_DLL>true</VerInfo_DLL>
         <DCC_Define>EDITBONE;$(DCC_Define)</DCC_Define>

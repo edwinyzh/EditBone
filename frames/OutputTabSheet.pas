@@ -11,6 +11,8 @@ type
     VirtualDrawTree: TVirtualDrawTree;
     procedure VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
       Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
+    procedure VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
+      var InitialStates: TVirtualNodeInitStates);
   private
     { Private declarations }
   public
@@ -25,6 +27,17 @@ procedure TOutputTabSheetFrame.VirtualDrawTreeGetImageIndex(Sender: TBaseVirtual
   Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
 begin
   ImageIndex := 8;
+end;
+
+procedure TOutputTabSheetFrame.VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
+  var InitialStates: TVirtualNodeInitStates);
+begin
+  with Sender do
+  if GetNodeLevel(Node) = 0 then
+  begin
+    CheckType[Node] := ctCheckBox;
+    CheckState[Node] := csCheckedNormal;
+  end;
 end;
 
 end.

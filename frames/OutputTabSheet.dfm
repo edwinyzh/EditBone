@@ -2,7 +2,7 @@ object OutputTabSheetFrame: TOutputTabSheetFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 305
+  Height = 304
   Align = alClient
   Color = clWindow
   ParentBackground = False
@@ -12,7 +12,7 @@ object OutputTabSheetFrame: TOutputTabSheetFrame
     Left = 0
     Top = 0
     Width = 451
-    Height = 305
+    Height = 304
     Align = alClient
     BevelOuter = bvNone
     Color = clWindow
@@ -26,7 +26,7 @@ object OutputTabSheetFrame: TOutputTabSheetFrame
       Left = 1
       Top = 1
       Width = 447
-      Height = 302
+      Height = 301
       Align = alClient
       DragOperations = []
       Header.AutoSizeIndex = 0
@@ -39,9 +39,10 @@ object OutputTabSheetFrame: TOutputTabSheetFrame
       Header.Options = []
       TabOrder = 0
       TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScroll, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
-      TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
+      TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
       TreeOptions.PaintOptions = [toShowButtons, toShowRoot, toThemeAware, toUseBlendedSelection]
       OnGetImageIndex = VirtualDrawTreeGetImageIndex
+      OnInitNode = VirtualDrawTreeInitNode
       Columns = <>
     end
   end
