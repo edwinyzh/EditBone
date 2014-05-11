@@ -23,9 +23,19 @@ type
     PopupMenu: TBCPopupMenu;
     Separator2MenuItem: TMenuItem;
     CopytoClipboardMenuItem: TMenuItem;
-    CopyToClipboardAction: TAction;
+    CopyAllToClipboardAction: TAction;
     OpenAllMenuItem: TMenuItem;
     OpenAllAction: TAction;
+    N1: TMenuItem;
+    OpenSelectedAction: TAction;
+    OpenSelectedAction1: TMenuItem;
+    CopySelectedToClipboardAction: TAction;
+    CopyselectedtoClipboard1: TMenuItem;
+    SelectAllAction: TAction;
+    UnselectAllAction: TAction;
+    N2: TMenuItem;
+    Selectall1: TMenuItem;
+    Unselectall1: TMenuItem;
     procedure CloseAllOtherPagesActionExecute(Sender: TObject);
     procedure OutputCloseActionExecute(Sender: TObject);
     procedure OutputCloseAllActionExecute(Sender: TObject);
@@ -35,9 +45,10 @@ type
     procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
     procedure PageControlCloseButtonClick(Sender: TObject);
     procedure PageControlDblClick(Sender: TObject);
-    procedure CopyToClipboardActionExecute(Sender: TObject);
+    procedure CopyAllToClipboardActionExecute(Sender: TObject);
     procedure OpenAllActionExecute(Sender: TObject);
     procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure OpenSelectedActionExecute(Sender: TObject);
   private
     { Private declarations }
     FCancelSearch: Boolean;
@@ -55,7 +66,7 @@ type
     procedure CloseAllTabSheets;
     procedure CopyToClipboard;
     procedure SetProcessingTabSheet(Value: Boolean);
-    procedure OpenAllFiles;
+    procedure OpenFiles(OnlySelected: Boolean = False);
     function CheckCancel: Boolean;
   public
     { Public declarations }
@@ -99,7 +110,7 @@ end;
 
 procedure TOutputFrame.OpenAllActionExecute(Sender: TObject);
 begin
-  OpenAllFiles;
+  OpenFiles;
 end;
 
 procedure TOutputFrame.OutputCloseActionExecute(Sender: TObject);
@@ -135,7 +146,7 @@ begin
     FTabsheetDblClick(Sender);
 end;
 
-procedure TOutputFrame.OpenAllFiles;
+procedure TOutputFrame.OpenFiles(OnlySelected: Boolean);
 var
   FileNames: TStrings;
 
@@ -149,8 +160,11 @@ var
     Node := OutputTreeView.GetFirst;
     while Assigned(Node) do
     begin
-      Data := OutputTreeView.GetNodeData(Node);
-      FileNames.Add(Data.FileName);
+      if not OnlySelected or OnlySelected and (OutputTreeView.CheckState[Node] = csCheckedNormal) then
+      begin
+        Data := OutputTreeView.GetNodeData(Node);
+        FileNames.Add(Data.FileName);
+      end;
       Node := Node.NextSibling;
     end;
   end;
@@ -166,6 +180,11 @@ begin
       FileNames.Free;
     end;
   end;
+end;
+
+procedure TOutputFrame.OpenSelectedActionExecute(Sender: TObject);
+begin
+  OpenFiles(True);
 end;
 
 function TOutputFrame.TabFound(TabCaption: string): Boolean;
@@ -590,7 +609,7 @@ begin
   end;
 end;
 
-procedure TOutputFrame.CopyToClipboardActionExecute(Sender: TObject);
+procedure TOutputFrame.CopyAllToClipboardActionExecute(Sender: TObject);
 begin
   CopyToClipboard;
 end;

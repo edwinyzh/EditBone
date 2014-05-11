@@ -48,17 +48,38 @@ object OutputFrame: TOutputFrame
       ImageIndex = 87
       OnExecute = CloseAllOtherPagesActionExecute
     end
-    object CopyToClipboardAction: TAction
-      Caption = 'C&opy to Clipboard'
-      Hint = 'Copy to clipboard'
+    object CopyAllToClipboardAction: TAction
+      Caption = 'C&opy all to Clipboard'
+      Hint = 'Copy all to clipboard'
       ImageIndex = 40
-      OnExecute = CopyToClipboardActionExecute
+      OnExecute = CopyAllToClipboardActionExecute
+    end
+    object CopySelectedToClipboardAction: TAction
+      Caption = 'Cop&y selected to Clipboard'
+      Hint = 'Copy selected to clipboard'
+      ImageIndex = 259
     end
     object OpenAllAction: TAction
-      Caption = '&Open All'
+      Caption = 'O&pen All'
       Hint = 'Open all files'
       ImageIndex = 135
       OnExecute = OpenAllActionExecute
+    end
+    object OpenSelectedAction: TAction
+      Caption = 'Op&en selected'
+      Hint = 'Open selected files'
+      ImageIndex = 258
+      OnExecute = OpenSelectedActionExecute
+    end
+    object SelectAllAction: TAction
+      Caption = 'Select all'
+      Hint = 'Select all files'
+      ImageIndex = 260
+    end
+    object UnselectAllAction: TAction
+      Caption = 'Unselect all'
+      Hint = 'Unselect all files'
+      ImageIndex = 261
     end
   end
   object PopupMenu: TBCPopupMenu
@@ -78,10 +99,28 @@ object OutputFrame: TOutputFrame
       Caption = '-'
     end
     object CopytoClipboardMenuItem: TMenuItem
-      Action = CopyToClipboardAction
+      Action = CopyAllToClipboardAction
+    end
+    object CopyselectedtoClipboard1: TMenuItem
+      Action = CopySelectedToClipboardAction
+    end
+    object N1: TMenuItem
+      Caption = '-'
     end
     object OpenAllMenuItem: TMenuItem
       Action = OpenAllAction
+    end
+    object OpenSelectedAction1: TMenuItem
+      Action = OpenSelectedAction
+    end
+    object N2: TMenuItem
+      Caption = '-'
+    end
+    object Selectall1: TMenuItem
+      Action = SelectAllAction
+    end
+    object Unselectall1: TMenuItem
+      Action = UnselectAllAction
     end
   end
 end
