@@ -49,6 +49,9 @@ type
     procedure OpenAllActionExecute(Sender: TObject);
     procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure OpenSelectedActionExecute(Sender: TObject);
+    procedure CopySelectedToClipboardActionExecute(Sender: TObject);
+    procedure SelectAllActionExecute(Sender: TObject);
+    procedure UnselectAllActionExecute(Sender: TObject);
   private
     { Private declarations }
     FCancelSearch: Boolean;
@@ -64,9 +67,10 @@ type
     function TabFound(TabCaption: string): Boolean;
     procedure CloseAllOtherTabSheets;
     procedure CloseAllTabSheets;
-    procedure CopyToClipboard;
+    procedure CopyToClipboard(OnlySelected: Boolean = False);
     procedure SetProcessingTabSheet(Value: Boolean);
     procedure OpenFiles(OnlySelected: Boolean = False);
+    procedure SelectAll(Value: TCheckState);
     function CheckCancel: Boolean;
   public
     { Public declarations }
@@ -526,6 +530,11 @@ begin
   end;
 end;}
 
+procedure TOutputFrame.SelectAllActionExecute(Sender: TObject);
+begin
+  SelectAll(csCheckedNormal);
+end;
+
 function TOutputFrame.SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
 var
   Node: PVirtualNode;
@@ -575,7 +584,7 @@ begin
   Result := OutputTreeView.Tag;
 end;
 
-procedure TOutputFrame.CopyToClipboard;
+procedure TOutputFrame.CopyToClipboard(OnlySelected: Boolean);
 var
   OutputTreeView: TVirtualDrawTree;
   Node, ChildNode: PVirtualNode;
@@ -590,17 +599,20 @@ begin
       Node := OutputTreeView.GetFirst;
       while Assigned(Node) do
       begin
-        Data := OutputTreeView.GetNodeData(Node);
-        StringList.Add(Data.FileName);
-        ChildNode := Node.FirstChild;
-         while Assigned(ChildNode) do
-         begin
-           ChildData := OutputTreeView.GetNodeData(ChildNode);
-           StringList.Add(System.SysUtils.Format('  %s (%d, %d): %s', [ExtractFilename(String(ChildData.Filename)),
-             ChildData.Ln, ChildData.Ch, ChildData.Text]));
-           ChildNode := ChildNode.NextSibling;
-         end;
-         Node := Node.NextSibling;
+        if not OnlySelected or OnlySelected and (OutputTreeView.CheckState[Node] = csCheckedNormal) then
+        begin
+          Data := OutputTreeView.GetNodeData(Node);
+          StringList.Add(Data.FileName);
+          ChildNode := Node.FirstChild;
+          while Assigned(ChildNode) do
+          begin
+            ChildData := OutputTreeView.GetNodeData(ChildNode);
+            StringList.Add(System.SysUtils.Format('  %s (%d, %d): %s', [ExtractFilename(String(ChildData.Filename)),
+              ChildData.Ln, ChildData.Ch, ChildData.Text]));
+            ChildNode := ChildNode.NextSibling;
+          end;
+        end;
+        Node := Node.NextSibling;
       end;
     finally
       Clipboard.AsText := StringList.Text;
@@ -612,6 +624,11 @@ end;
 procedure TOutputFrame.CopyAllToClipboardActionExecute(Sender: TObject);
 begin
   CopyToClipboard;
+end;
+
+procedure TOutputFrame.CopySelectedToClipboardActionExecute(Sender: TObject);
+begin
+  CopyToClipboard(True);
 end;
 
 function TOutputFrame.GetIsAnyOutput: Boolean;
@@ -706,6 +723,7 @@ procedure TOutputFrame.SetOptions;
 var
   i: Integer;
   VirtualDrawTree: TVirtualDrawTree;
+  Node: PVirtualNode;
 begin
   PageControl.DoubleBuffered := OptionsContainer.OutputDoubleBuffered;
   PageControl.MultiLine := OptionsContainer.OutputMultiLine;
@@ -723,8 +741,39 @@ begin
     if OptionsContainer.OutputShowTreeLines then
       VirtualDrawTree.TreeOptions.PaintOptions := VirtualDrawTree.TreeOptions.PaintOptions + [toShowTreeLines]
     else
-      VirtualDrawTree.TreeOptions.PaintOptions := VirtualDrawTree.TreeOptions.PaintOptions - [toShowTreeLines]
+      VirtualDrawTree.TreeOptions.PaintOptions := VirtualDrawTree.TreeOptions.PaintOptions - [toShowTreeLines];
+    { check boxes }
+    Node := VirtualDrawTree.GetFirst;
+    while Assigned(Node) do
+    begin
+      VirtualDrawTree.ReinitNode(Node, False);
+      Node := VirtualDrawTree.GetNextSibling(Node);
+    end;
   end;
+
+  CopySelectedToClipboardAction.Visible := OptionsContainer.OutputShowCheckBox;
+  OpenSelectedAction.Visible := OptionsContainer.OutputShowCheckBox;
+  SelectAllAction.Visible := OptionsContainer.OutputShowCheckBox;
+  UnselectAllAction.Visible := OptionsContainer.OutputShowCheckBox;
+end;
+
+procedure TOutputFrame.SelectAll(Value: TCheckState);
+var
+  OutputTreeView: TVirtualDrawTree;
+  Node: PVirtualNode;
+begin
+  OutputTreeView := GetOutputTabSheetFrame(PageControl.ActivePage).VirtualDrawTree;
+  Node := OutputTreeView.GetFirst;
+  while Assigned(Node) do
+  begin
+    OutputTreeView.CheckState[Node] := Value;
+    Node := Node.NextSibling;
+  end;
+end;
+
+procedure TOutputFrame.UnselectAllActionExecute(Sender: TObject);
+begin
+  SelectAll(csUncheckedNormal);
 end;
 
 procedure TOutputFrame.UpdateControls;
@@ -754,7 +803,7 @@ begin
   begin
     OutputTabSheetFrame := GetOutputTabSheetFrame(PageControl.Pages[i]);
     if Assigned(OutputTabSheetFrame) then
-      OutputTabSheetFrame.Panel.Padding.Right := Right
+      OutputTabSheetFrame.Panel.Padding.Right := Right;
   end;
 end;
 

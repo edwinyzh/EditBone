@@ -58,6 +58,7 @@ object OutputFrame: TOutputFrame
       Caption = 'Cop&y selected to Clipboard'
       Hint = 'Copy selected to clipboard'
       ImageIndex = 259
+      OnExecute = CopySelectedToClipboardActionExecute
     end
     object OpenAllAction: TAction
       Caption = 'O&pen All'
@@ -75,11 +76,13 @@ object OutputFrame: TOutputFrame
       Caption = 'Select all'
       Hint = 'Select all files'
       ImageIndex = 260
+      OnExecute = SelectAllActionExecute
     end
     object UnselectAllAction: TAction
       Caption = 'Unselect all'
       Hint = 'Unselect all files'
       ImageIndex = 261
+      OnExecute = UnselectAllActionExecute
     end
   end
   object PopupMenu: TBCPopupMenu
