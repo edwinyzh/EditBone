@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, BCDialogs.Dlg, Vcl.Dialogs, Vcl.ActnList,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons, BCControls.Edit, Vcl.Mask, JvExMask, JvSpin, System.Actions,
-  BCControls.ComboBox, JvExControls, JvSpeedButton, BCControls.CheckBox;
+  BCControls.ComboBox, JvExControls, JvSpeedButton, BCControls.CheckBox, JvExStdCtrls, JvCheckBox;
 
 type
   TDuplicateCheckerOptionsDialog = class(TDialog)

@@ -83,7 +83,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
         Width = 444
         Height = 74
         Align = alClient
-        Caption = ' Input '
+        Caption = 'Input '
         TabOrder = 0
         object InputLeftPanel: TPanel
           Left = 2
@@ -112,6 +112,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               Height = 22
               Align = alLeft
               Caption = 'Folder'
+              ExplicitHeight = 13
             end
           end
           object FileTypePanel: TPanel
@@ -135,6 +136,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
               Height = 23
               Align = alLeft
               Caption = 'File type'
+              ExplicitHeight = 13
             end
           end
         end
@@ -290,7 +292,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
         Width = 444
         Height = 97
         Align = alClient
-        Caption = ' Options '
+        Caption = 'Options '
         TabOrder = 0
         object OptionsPanel: TPanel
           Left = 2
@@ -358,14 +360,15 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
         object RemoveCommentsCheckBox: TBCCheckBox
           Left = 12
           Top = 69
-          Width = 114
-          Height = 15
-          Caption = ' Remove Comments'
+          Width = 113
+          Height = 17
+          Caption = 'Remove Comments'
           Checked = True
+          Color = clWindow
+          ParentColor = False
           State = cbChecked
           TabOrder = 1
-          AutoSize = True
-          ReadOnly = False
+          LinkedControls = <>
         end
       end
     end
@@ -386,7 +389,7 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
         Width = 444
         Height = 67
         Align = alClient
-        Caption = ' Output '
+        Caption = 'Output '
         TabOrder = 0
         object OutputLeftPanel: TPanel
           Left = 2
@@ -417,14 +420,15 @@ object DuplicateCheckerOptionsDialog: TDuplicateCheckerOptionsDialog
           object LaunchAfterCreationCheckBox: TBCCheckBox
             Left = 0
             Top = 27
-            Width = 128
-            Height = 15
-            Caption = ' Launch After Creation'
+            Width = 127
+            Height = 17
+            Caption = 'Launch After Creation'
             Checked = True
+            Color = clWindow
+            ParentColor = False
             State = cbChecked
             TabOrder = 1
-            AutoSize = True
-            ReadOnly = False
+            LinkedControls = <>
           end
           object FileEditPanel: TPanel
             Left = 0

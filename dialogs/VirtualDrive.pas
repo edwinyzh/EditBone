@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, BCDialogs.Dlg,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, BCControls.ComboBox, BCControls.Edit, JvExControls, JvSpeedButton,
-  Vcl.ExtCtrls, System.Actions, Vcl.ActnList, BCControls.CheckBox;
+  Vcl.ExtCtrls, System.Actions, Vcl.ActnList, BCControls.CheckBox, JvExStdCtrls, JvCheckBox;
 
 type
   TVirtualDriveDialog = class(TDialog)

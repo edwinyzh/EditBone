@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, BCDialogs.Dlg, Vcl.StdCtrls, BCControls.Edit,
   Vcl.ActnList, Vcl.ExtCtrls, BCControls.CheckBox, Vcl.Buttons, System.Actions, BCControls.ComboBox, JvExControls,
-  JvSpeedButton;
+  JvSpeedButton, JvExStdCtrls, JvCheckBox;
 
 type
   TDirectoryTabDialog = class(TDialog)

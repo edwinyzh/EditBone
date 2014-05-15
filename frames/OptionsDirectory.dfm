@@ -26,15 +26,15 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
     object ShowTreeLinesCheckBox: TBCCheckBox
       Left = 4
       Top = 0
-      Width = 201
-      Height = 21
+      Width = 99
+      Height = 17
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Show Tree Lines'
+      Caption = 'Show Tree Lines'
       TabOrder = 0
-      ReadOnly = False
+      LinkedControls = <>
     end
     object IndentEdit: TBCEdit
       Left = 4
@@ -57,62 +57,62 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
     object ShowHiddenFilesCheckBox: TBCCheckBox
       Left = 4
       Top = 20
-      Width = 201
-      Height = 21
+      Width = 107
+      Height = 17
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Show Hidden Files'
+      Caption = 'Show Hidden Files'
       TabOrder = 1
-      ReadOnly = False
+      LinkedControls = <>
     end
     object ShowSystemFilesCheckBox: TBCCheckBox
       Left = 4
       Top = 40
-      Width = 201
-      Height = 21
+      Width = 109
+      Height = 17
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Show System Files'
+      Caption = 'Show System Files'
       TabOrder = 2
-      ReadOnly = False
+      LinkedControls = <>
     end
     object ShowArchiveFilesCheckBox: TBCCheckBox
       Left = 4
       Top = 60
-      Width = 201
-      Height = 21
+      Width = 110
+      Height = 17
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Show Archive Files'
+      Caption = 'Show Archive Files'
       Checked = True
       Color = clWindow
       ParentColor = False
       State = cbChecked
       TabOrder = 3
-      ReadOnly = False
+      LinkedControls = <>
     end
     object ShowOverlayIconsCheckBox: TBCCheckBox
       Left = 4
       Top = 80
-      Width = 201
-      Height = 21
+      Width = 117
+      Height = 17
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Show Overlay Icons'
+      Caption = 'Show Overlay Icons'
       Checked = True
       Color = clWindow
       ParentColor = False
       State = cbChecked
       TabOrder = 4
-      ReadOnly = False
+      LinkedControls = <>
     end
   end
 end

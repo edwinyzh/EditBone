@@ -20,7 +20,7 @@ uses
   SynHighlighterDWS, SynHighlighterEiffel, SynHighlighterFortran, SynHighlighterCAC, SynHighlighterCpp,
   SynHighlighterCS, SynHighlighterBaan, SynHighlighterAWK, SynEditHighlighter, SynHighlighterHC11,
   SynHighlighterYAML, SynHighlighterWebIDL, SynHighlighterLLVM, SynEditWildcardSearch, Vcl.ActnMan, System.Contnrs,
-  BCControls.ButtonedEdit;
+  BCControls.ButtonedEdit, JvExStdCtrls, JvCheckBox;
 
 type
   TDocumentFrame = class(TFrame)

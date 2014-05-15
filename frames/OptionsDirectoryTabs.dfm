@@ -16,112 +16,112 @@ inherited OptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame
     object MultilineCheckBox: TBCCheckBox
       Left = 4
       Top = 60
-      Width = 232
-      Height = 21
+      Width = 59
+      Height = 17
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Multiline'
+      Caption = 'Multiline'
       TabOrder = 3
-      ReadOnly = False
+      LinkedControls = <>
     end
     object ShowCloseButtonCheckBox: TBCCheckBox
       Left = 4
       Top = 100
-      Width = 218
-      Height = 21
+      Width = 111
+      Height = 17
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Show Close Button'
+      Caption = 'Show Close Button'
       TabOrder = 5
-      ReadOnly = False
+      LinkedControls = <>
     end
     object ShowImageCheckBox: TBCCheckBox
       Left = 4
       Top = 120
-      Width = 218
-      Height = 21
+      Width = 80
+      Height = 17
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Show Image'
+      Caption = 'Show Image'
       TabOrder = 6
-      ReadOnly = False
+      LinkedControls = <>
     end
     object CloseTabByDblClickCheckBox: TBCCheckBox
       Left = 4
       Top = 0
-      Width = 218
-      Height = 21
+      Width = 144
+      Height = 17
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Close Tab by Double-Click'
+      Caption = 'Close Tab by Double-Click'
       TabOrder = 0
-      ReadOnly = False
+      LinkedControls = <>
     end
     object CloseTabByMiddleClickCheckBox: TBCCheckBox
       Left = 4
       Top = 20
-      Width = 218
-      Height = 21
+      Width = 141
+      Height = 17
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Close Tab by Middle-Click'
+      Caption = 'Close Tab by Middle-Click'
       TabOrder = 1
-      ReadOnly = False
+      LinkedControls = <>
     end
     object DoubleBufferedCheckBox: TBCCheckBox
       Left = 4
       Top = 40
-      Width = 232
-      Height = 21
+      Width = 99
+      Height = 17
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Double Buffered'
+      Caption = 'Double Buffered'
       Checked = True
       State = cbChecked
       TabOrder = 2
-      ReadOnly = False
+      LinkedControls = <>
     end
     object RightClickSelectCheckBox: TBCCheckBox
       Left = 4
       Top = 140
-      Width = 218
-      Height = 21
+      Width = 102
+      Height = 17
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Right Click Select'
+      Caption = 'Right Click Select'
       Checked = True
       State = cbChecked
       TabOrder = 7
-      ReadOnly = False
+      LinkedControls = <>
     end
     object SaveTabsCheckBox: TBCCheckBox
       Left = 4
       Top = 80
-      Width = 218
-      Height = 21
+      Width = 71
+      Height = 17
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Save Tabs'
+      Caption = 'Save Tabs'
       Checked = True
       State = cbChecked
       TabOrder = 4
-      ReadOnly = False
+      LinkedControls = <>
     end
   end
 end

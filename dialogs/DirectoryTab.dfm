@@ -214,15 +214,18 @@ object DirectoryTabDialog: TDirectoryTabDialog
       object ExcludeOtherBranchesCheckBox: TBCCheckBox
         Left = 184
         Top = 4
-        Width = 277
-        Height = 21
+        Width = 134
+        Height = 17
         Margins.Left = 0
         Margins.Top = 0
         Margins.Right = 0
         Margins.Bottom = 0
         Action = ExcludeOtherBranchesAction
+        Caption = 'Exclude other branches'
+        Color = clWindow
+        ParentColor = False
         TabOrder = 0
-        ReadOnly = False
+        LinkedControls = <>
       end
       object ShowDrivesComboBox: TBCComboBox
         Left = 87
@@ -292,7 +295,7 @@ object DirectoryTabDialog: TDirectoryTabDialog
       OnExecute = OKActionExecute
     end
     object ExcludeOtherBranchesAction: TAction
-      Caption = ' Exclude Other Directory Branches'
+      Caption = 'Exclude Other Directory Branches'
       OnExecute = ExcludeOtherBranchesActionExecute
     end
     object RootDirectoryClickAction: TAction

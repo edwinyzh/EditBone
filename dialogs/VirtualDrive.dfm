@@ -211,15 +211,16 @@ object VirtualDriveDialog: TVirtualDriveDialog
       object SubstDriveCheckBox: TBCCheckBox
         Left = 0
         Top = 4
-        Width = 136
+        Width = 135
         Height = 17
         Align = alLeft
-        Caption = ' Subst a drive at startup'
+        Caption = 'Subst a drive at startup'
         Checked = True
+        Color = clWindow
+        ParentColor = False
         State = cbChecked
         TabOrder = 0
-        AutoSize = True
-        ReadOnly = False
+        LinkedControls = <>
       end
     end
   end
