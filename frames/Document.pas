@@ -2193,6 +2193,7 @@ var
   end;
 
 begin
+  FProcessing := True;
   ActionList := GetActionList;
   try
     Result := OptionsForm.Execute(ActionList);
@@ -2219,6 +2220,7 @@ begin
   finally
     if Assigned(ActionList) then
       ActionList.Free;
+    FProcessing := False;
   end;
 end;
 

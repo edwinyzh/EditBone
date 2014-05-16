@@ -1,10 +1,9 @@
 inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
-  Width = 148
-  Height = 155
-  AutoSize = True
+  Width = 150
+  Height = 157
   Visible = False
-  ExplicitWidth = 148
-  ExplicitHeight = 155
+  ExplicitWidth = 150
+  ExplicitHeight = 157
   object Panel: TPanel
     AlignWithMargins = True
     Left = 4
@@ -15,7 +14,6 @@ inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
     Margins.Top = 0
     Margins.Right = 0
     Margins.Bottom = 0
-    AutoSize = True
     BevelOuter = bvNone
     Color = clWindow
     Font.Charset = DEFAULT_CHARSET

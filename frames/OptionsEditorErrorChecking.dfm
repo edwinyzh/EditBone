@@ -1,7 +1,6 @@
 inherited OptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame
   Width = 194
   Height = 63
-  AutoSize = True
   Visible = False
   ExplicitWidth = 194
   ExplicitHeight = 63
@@ -15,7 +14,6 @@ inherited OptionsEditorErrorCheckingFrame: TOptionsEditorErrorCheckingFrame
     Margins.Top = 0
     Margins.Right = 0
     Margins.Bottom = 0
-    AutoSize = True
     BevelOuter = bvNone
     Color = clWindow
     ParentBackground = False

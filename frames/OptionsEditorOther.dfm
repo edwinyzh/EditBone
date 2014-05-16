@@ -1,8 +1,9 @@
 inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
   Width = 190
   Height = 256
-  AutoSize = True
   Visible = False
+  ExplicitWidth = 190
+  ExplicitHeight = 256
   object Panel: TPanel
     AlignWithMargins = True
     Left = 4
@@ -13,7 +14,6 @@ inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
     Margins.Top = 0
     Margins.Right = 0
     Margins.Bottom = 0
-    AutoSize = True
     BevelOuter = bvNone
     Color = clWindow
     ParentBackground = False
@@ -21,43 +21,43 @@ inherited OptionsEditorOtherFrame: TOptionsEditorOtherFrame
     object CPASHighlighterLabel: TLabel
       Left = 2
       Top = 131
-      Width = 170
-      Height = 16
+      Width = 142
+      Height = 13
       Caption = 'Default C / Pascal Highlighter '
     end
     object SQLDialectLabel: TLabel
       Left = 2
       Top = 87
-      Width = 69
-      Height = 16
+      Width = 57
+      Height = 13
       Caption = 'SQL Dialect '
     end
     object CSSVersionLabel: TLabel
       Left = 2
       Top = 0
-      Width = 71
-      Height = 16
+      Width = 57
+      Height = 13
       Caption = 'CSS Version'
     end
     object PHPVersionLabel: TLabel
       Left = 2
       Top = 44
-      Width = 69
-      Height = 16
+      Width = 57
+      Height = 13
       Caption = 'PHP Version'
     end
     object DefaultEncodingLabel: TLabel
       Left = 2
       Top = 175
-      Width = 95
-      Height = 16
+      Width = 81
+      Height = 13
       Caption = 'Default Encoding'
     end
     object DefaultHighlighterLabel: TLabel
       Left = 2
       Top = 219
-      Width = 109
-      Height = 16
+      Width = 92
+      Height = 13
       Caption = 'Default Highlighter '
     end
     object CPASHighlighterComboBox: TBCComboBox

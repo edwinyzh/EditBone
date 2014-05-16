@@ -1,10 +1,9 @@
 inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
-  Width = 185
-  Height = 158
-  AutoSize = True
+  Width = 148
+  Height = 157
   Visible = False
-  ExplicitWidth = 185
-  ExplicitHeight = 158
+  ExplicitWidth = 148
+  ExplicitHeight = 157
   object Panel: TPanel
     AlignWithMargins = True
     Left = 4
@@ -15,7 +14,6 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
     Margins.Top = 0
     Margins.Right = 0
     Margins.Bottom = 0
-    AutoSize = True
     BevelOuter = bvNone
     Color = clWindow
     ParentBackground = False

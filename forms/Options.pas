@@ -414,62 +414,62 @@ begin
       
     { don't set the visibility value with the condition because the frame is created }
     if (Level = 0) and (TreeNode.Index = 0) then
-      OptionsEditorOptionsFrame(Self).Show; 
+      OptionsEditorOptionsFrame(Self).ShowFrame;
     if (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 0) then
-      OptionsEditorFontFrame(Self).Show;
+      OptionsEditorFontFrame(Self).ShowFrame;
     if (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 1) then
-      OptionsEditorLeftMarginFrame(Self).Show;
+      OptionsEditorLeftMarginFrame(Self).ShowFrame;
     if (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 2) then
-      OptionsEditorRightMarginFrame(Self).Show;
+      OptionsEditorRightMarginFrame(Self).ShowFrame;
     if (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 3) then
-      OptionsEditorTabsFrame(Self).Show;
+      OptionsEditorTabsFrame(Self).ShowFrame;
     if (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 4) then
-      OptionsEditorSearchFrame(Self).Show;
+      OptionsEditorSearchFrame(Self).ShowFrame;
     if (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 5) then
-      OptionsEditorCompletionProposalFrame(Self).Show;
+      OptionsEditorCompletionProposalFrame(Self).ShowFrame;
     if (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 6) then
-      OptionsEditorErrorCheckingFrame(Self).Show;
+      OptionsEditorErrorCheckingFrame(Self).ShowFrame;
     if (ParentIndex = 0) and (Level = 1) and (TreeNode.Index = 7) then
-      OptionsEditorOtherFrame(Self).Show;
+      OptionsEditorOtherFrame(Self).ShowFrame;
     if (Level = 0) and (TreeNode.Index = 1) then
-      OptionsDirectoryFrame(Self).Show;
+      OptionsDirectoryFrame(Self).ShowFrame;
     if (ParentIndex = 1) and (Level = 1) and (TreeNode.Index = 0) then
-      OptionsDirectoryTabsFrame(Self).Show;
+      OptionsDirectoryTabsFrame(Self).ShowFrame;
     if (Level = 0) and (TreeNode.Index = 2) then
-      OptionsOutputFrame(Self).Show;
+      OptionsOutputFrame(Self).ShowFrame;
     if (ParentIndex = 2) and (Level = 1) and (TreeNode.Index = 0) then
-      OptionsOutputTabsFrame(Self).Show;
+      OptionsOutputTabsFrame(Self).ShowFrame;
     if (Level = 0) and (TreeNode.Index = 3) then
-      OptionsCompareFrame(Self).Show;
+      OptionsCompareFrame(Self).ShowFrame;
     if (Level = 0) and (TreeNode.Index = 4) then
-      OptionsPrintFrame(Self).Show;
+      OptionsPrintFrame(Self).ShowFrame;
     if (Level = 0) and (TreeNode.Index = 5) then
-      OptionsMainMenuFrame(Self).Show;
+      OptionsMainMenuFrame(Self).ShowFrame;
     if (Level = 0) and (TreeNode.Index = 6) then
       OptionsToolBarFrame(Self, FActionList).Show;
     if (Level = 0) and (TreeNode.Index = 7) then
-      OptionsStatusBarFrame(Self).Show;
+      OptionsStatusBarFrame(Self).ShowFrame;
     if (Level = 0) and (TreeNode.Index = 8) then
-      OptionsFileTypesFrame(Self).Show;
+      OptionsFileTypesFrame(Self).ShowFrame;
     if FSQLFormatterDLLFound then
     begin
       { SQL Formatter options }
       if (Level = 0) and (TreeNode.Index = 9) then
-        OptionsSQLFormatterFrame(Self).Show;
+        OptionsSQLFormatterFrame(Self).ShowFrame;
       if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 0) then
-        OptionsSQLAlignmentsFrame(Self).Show;
+        OptionsSQLAlignmentsFrame(Self).ShowFrame;
       if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 1) then
-        OptionsSQLCapitalizationFrame(Self).Show;
+        OptionsSQLCapitalizationFrame(Self).ShowFrame;
       if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 2) then
-        OptionsSQLIndentationFrame(Self).Show;
+        OptionsSQLIndentationFrame(Self).ShowFrame;
       if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 3) then
-        OptionsSQLInsertFrame(Self).Show;
+        OptionsSQLInsertFrame(Self).ShowFrame;
       if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 4) then
-        OptionsSQLSelectFrame(Self).Show;
+        OptionsSQLSelectFrame(Self).ShowFrame;
       if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 5) then
-        OptionsSQLUpdateFrame(Self).Show;
+        OptionsSQLUpdateFrame(Self).ShowFrame;
       if (ParentIndex = 9) and (Level = 1) and (TreeNode.Index = 6) then
-        OptionsSQLWhitespaceFrame(Self).Show;
+        OptionsSQLWhitespaceFrame(Self).ShowFrame;
     end;
   end;
 end;

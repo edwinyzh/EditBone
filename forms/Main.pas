@@ -1895,6 +1895,7 @@ end;
 
 procedure TMainForm.ToolsOptionsActionExecute(Sender: TObject);
 begin
+
   if FDocumentFrame.Options(ActionManager) then
   begin
     UpdateMainMenuBar;

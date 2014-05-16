@@ -1,19 +1,24 @@
 inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
-  Width = 201
-  Height = 147
-  ExplicitWidth = 201
-  ExplicitHeight = 147
+  Width = 121
+  Height = 143
+  ExplicitWidth = 121
+  ExplicitHeight = 143
   object Panel: TPanel
-    Left = 0
+    AlignWithMargins = True
+    Left = 4
     Top = 0
-    Width = 201
-    Height = 147
+    Width = 117
+    Height = 143
+    Margins.Left = 4
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
     BevelOuter = bvNone
     Color = clWindow
     ParentBackground = False
     TabOrder = 0
     object IndentLabel: TLabel
-      Left = 6
+      Left = 2
       Top = 105
       Width = 32
       Height = 13
@@ -24,7 +29,7 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
       Caption = 'Indent'
     end
     object ShowTreeLinesCheckBox: TBCCheckBox
-      Left = 4
+      Left = 0
       Top = 0
       Width = 99
       Height = 17
@@ -37,7 +42,7 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
       LinkedControls = <>
     end
     object IndentEdit: TBCEdit
-      Left = 4
+      Left = 0
       Top = 122
       Width = 64
       Height = 21
@@ -55,7 +60,7 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
       NumbersAllowNegative = False
     end
     object ShowHiddenFilesCheckBox: TBCCheckBox
-      Left = 4
+      Left = 0
       Top = 20
       Width = 107
       Height = 17
@@ -68,7 +73,7 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
       LinkedControls = <>
     end
     object ShowSystemFilesCheckBox: TBCCheckBox
-      Left = 4
+      Left = 0
       Top = 40
       Width = 109
       Height = 17
@@ -81,7 +86,7 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
       LinkedControls = <>
     end
     object ShowArchiveFilesCheckBox: TBCCheckBox
-      Left = 4
+      Left = 0
       Top = 60
       Width = 110
       Height = 17
@@ -98,7 +103,7 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
       LinkedControls = <>
     end
     object ShowOverlayIconsCheckBox: TBCCheckBox
-      Left = 4
+      Left = 0
       Top = 80
       Width = 117
       Height = 17
