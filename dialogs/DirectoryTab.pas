@@ -38,7 +38,6 @@ type
     Panel5: TPanel;
     FileMaskComboBox: TBCComboBox;
     procedure ExcludeOtherBranchesActionExecute(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure OKActionExecute(Sender: TObject);
     procedure RootDirectoryClickActionExecute(Sender: TObject);
   private
@@ -118,8 +117,8 @@ begin
   else
     Caption := LanguageDataModule.GetConstant('EditDirectory');
 
-  AddConstants(ShowDrivesComboBox);
-  AddConstants(ShowFileTypeComboBox);
+  AddConstants(DrivesComboBox);
+  AddConstants(FileMaskComboBox);
 
   Result := ShowModal = mrOk;
 end;
@@ -147,24 +146,8 @@ end;
 procedure TDirectoryTabDialog.ExcludeOtherBranchesActionExecute(Sender: TObject);
 begin
   if ExcludeOtherBranchesCheckBox.Checked then
-    ShowDrivesComboBox.ItemIndex := 0;
-  ShowDrivesComboBox.ReadOnly := ExcludeOtherBranchesCheckBox.Checked;
-end;
-
-procedure TDirectoryTabDialog.FormShow(Sender: TObject);
-var
-  LeftMaxWidth: Integer;
-begin
-  inherited;
-  LeftMaxWidth := Max(Max(Max(TabNameLabel.Width, RootDirectoryLabel.Width), ShowDrivesLabel.Width), ShowFileTypeLabel.Width) + 10;
-
-  TabNameEdit.Left := LeftMaxWidth;
-  TabNameEdit.Width := TabNamePanel.Width - TabNameEdit.Left;
-  RootDirectoryEdit.Left := LeftMaxWidth;
-  RootDirectoryEdit.Width := TabNamePanel.Width - RootDirectoryEdit.Left - RootDrectoryBitBtn.Width - 4;
-  ShowDrivesComboBox.Left := LeftMaxWidth;
-  ShowFileTypeComboBox.Left := LeftMaxWidth;
-  ExcludeOtherBranchesCheckBox.Left := LeftMaxWidth + ShowDrivesComboBox.Width + 4;
+    DrivesComboBox.ItemIndex := 0;
+  DrivesComboBox.ReadOnly := ExcludeOtherBranchesCheckBox.Checked;
 end;
 
 function TDirectoryTabDialog.GetRootDirectory: string;
@@ -179,22 +162,22 @@ end;
 
 function TDirectoryTabDialog.GetShowDrives: Byte;
 begin
-  Result := ShowDrivesComboBox.ItemIndex;
+  Result := DrivesComboBox.ItemIndex;
 end;
 
 procedure TDirectoryTabDialog.SetShowDrives(Value: Byte);
 begin
-  ShowDrivesComboBox.ItemIndex := Value;
+  DrivesComboBox.ItemIndex := Value;
 end;
 
 function TDirectoryTabDialog.GetShowFileType: Byte;
 begin
-  Result := ShowFileTypeComboBox.ItemIndex;
+  Result := FileMaskComboBox.ItemIndex;
 end;
 
 procedure TDirectoryTabDialog.SetShowFileType(Value: Byte);
 begin
-  ShowFileTypeComboBox.ItemIndex := Value;
+  FileMaskComboBox.ItemIndex := Value;
 end;
 
 function TDirectoryTabDialog.GetExcludeOtherBranches: Boolean;
