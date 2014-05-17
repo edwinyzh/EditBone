@@ -317,7 +317,7 @@ begin
     begin
       DirTabSheetFrame := GetDirTabSheetFrame(PageControl.Pages[i]);
       FileTreeView := DirTabSheetFrame.FileTreeView;
-      WriteString('LastPaths', IntToStr(i), Format('%s;%s;%s;%d;%s;%d;%s', [PageControl.Pages[i].Caption,
+      WriteString('LastPaths', IntToStr(i), Format('%s;%s;%s;%d;%s;%d;%s', [Trim(PageControl.Pages[i].Caption),
         FileTreeView.RootDirectory, FileTreeView.SelectedPath, GetDrivesPanelOrientation(PageControl.Pages[i]),
         BoolToStr(FileTreeView.ExcludeOtherBranches), GetFileTypePanelOrientation(PageControl.Pages[i]),
         GetFileType(PageControl.Pages[i])]));

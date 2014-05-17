@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, BCDialogs.Dlg, Vcl.StdCtrls, BCControls.Edit,
   Vcl.ActnList, Vcl.ExtCtrls, BCControls.CheckBox, Vcl.Buttons, System.Actions, BCControls.ComboBox, JvExControls,
-  JvSpeedButton, JvExStdCtrls, JvCheckBox;
+  JvSpeedButton, JvExStdCtrls, JvCheckBox, BCControls.LayoutPanel, BCControls.GroupBox;
 
 type
   TDirectoryTabDialog = class(TDialog)
@@ -14,24 +14,29 @@ type
     ButtonPanel: TPanel;
     CancelButton: TButton;
     ExcludeOtherBranchesAction: TAction;
-    ExcludeOtherBranchesCheckBox: TBCCheckBox;
     OKAction: TAction;
     OKButton: TButton;
     RootDirectoryClickAction: TAction;
-    RootDirectoryEdit: TBCEdit;
-    RootDirectoryLabel: TLabel;
-    RootDirectoryPanel: TPanel;
-    RootDrectoryBitBtn: TJvSpeedButton;
-    ShowDrivesComboBox: TBCComboBox;
-    ShowDrivesLabel: TLabel;
-    ShowDrivesPanel: TPanel;
-    ShowFileTypeComboBox: TBCComboBox;
-    ShowFileTypeLabel: TLabel;
-    ShowFileTypePanel: TPanel;
-    TabNameEdit: TBCEdit;
-    TabNameLabel: TLabel;
     TabNamePanel: TPanel;
-    TopPanel: TPanel;
+    TabNameLabel: TLabel;
+    Panel1: TPanel;
+    TabNameEdit: TBCEdit;
+    RootDirectoryPanel: TPanel;
+    RootDirectoryLabel: TLabel;
+    Panel2: TPanel;
+    RootDirectoryEdit: TBCEdit;
+    RootDrectoryBitBtn: TJvSpeedButton;
+    OptionsGroupBox: TBCGroupBox;
+    Panel3: TPanel;
+    ExcludeOtherBranchesCheckBox: TBCCheckBox;
+    ShowDrivesPanel: TPanel;
+    DrivesLabel: TLabel;
+    Panel4: TPanel;
+    DrivesComboBox: TBCComboBox;
+    ShowFileTypePanel: TPanel;
+    FileMaskLabel: TLabel;
+    Panel5: TPanel;
+    FileMaskComboBox: TBCComboBox;
     procedure ExcludeOtherBranchesActionExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure OKActionExecute(Sender: TObject);
