@@ -9,8 +9,6 @@ type
   TOutputTabSheetFrame = class(TFrame)
     Panel: TPanel;
     VirtualDrawTree: TVirtualDrawTree;
-    procedure VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
-      Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
     procedure VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
       var InitialStates: TVirtualNodeInitStates);
   private
@@ -24,24 +22,24 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.OptionsContainer;
-
-procedure TOutputTabSheetFrame.VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
-  Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
-begin
-  ImageIndex := 8;
-end;
+  BCCommon.OptionsContainer, Lib;
 
 procedure TOutputTabSheetFrame.VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
   var InitialStates: TVirtualNodeInitStates);
+var
+  Data: POutputRec;
 begin
   with Sender do
   if OptionsContainer.OutputShowCheckBox then
   begin
     if GetNodeLevel(Node) = 0 then
     begin
-      CheckType[Node] := ctCheckBox;
-      CheckState[Node] := csCheckedNormal;
+      Data := Sender.GetNodeData(Node);
+      if Data.Level <> 2 then
+      begin
+        CheckType[Node] := ctCheckBox;
+        CheckState[Node] := csCheckedNormal;
+      end;
     end
   end
   else

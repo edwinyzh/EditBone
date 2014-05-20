@@ -70,7 +70,7 @@ type
     procedure CopyToClipboard(OnlySelected: Boolean = False);
     procedure SetProcessingTabSheet(Value: Boolean);
     procedure OpenFiles(OnlySelected: Boolean = False);
-    procedure SelectAll(Value: TCheckState);
+    procedure SetCheckedState(Value: TCheckState);
     function CheckCancel: Boolean;
   public
     { Public declarations }
@@ -532,7 +532,7 @@ end;}
 
 procedure TOutputFrame.SelectAllActionExecute(Sender: TObject);
 begin
-  SelectAll(csCheckedNormal);
+  SetCheckedState(csCheckedNormal);
 end;
 
 function TOutputFrame.SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
@@ -757,7 +757,7 @@ begin
   UnselectAllAction.Visible := OptionsContainer.OutputShowCheckBox;
 end;
 
-procedure TOutputFrame.SelectAll(Value: TCheckState);
+procedure TOutputFrame.SetCheckedState(Value: TCheckState);
 var
   OutputTreeView: TVirtualDrawTree;
   Node: PVirtualNode;
@@ -773,7 +773,7 @@ end;
 
 procedure TOutputFrame.UnselectAllActionExecute(Sender: TObject);
 begin
-  SelectAll(csUncheckedNormal);
+  SetCheckedState(csUncheckedNormal);
 end;
 
 procedure TOutputFrame.UpdateControls;
