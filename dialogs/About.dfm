@@ -616,9 +616,9 @@ object AboutDialog: TAboutDialog
       Anchors = [akLeft, akTop, akRight]
       AutoSize = False
       Caption = 
-        'Karel Van Dongen, Han Leentvaar, nickW, netcyphe, '#920#945#957#940#963#951#962' '#922#945#964#963#945#947 +
-        #949#974#961#947#951#962', ZityiSoft Translator Team, bovirus, DEKO, Midas, '#1057#1077#1088#1075#1077#1081' ' +
-        #1053#1086#1074#1080#1082#1086#1074', ansidev'
+        'Karel Van Dongen, Han Leentvaar, nickW, Christian Heinrichs, '#920#945#957 +
+        #940#963#951#962' '#922#945#964#963#945#947#949#974#961#947#951#962', ZityiSoft Translator Team, bovirus, DEKO, Mid' +
+        'as, '#1057#1077#1088#1075#1077#1081' '#1053#1086#1074#1080#1082#1086#1074', ansidev'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11

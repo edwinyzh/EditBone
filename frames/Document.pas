@@ -688,8 +688,8 @@ begin
 
     SynEdit.Visible := True;
 
-    //if SynEdit.CanFocus then
-    //  SynEdit.SetFocus;
+    if Visible and SynEdit.CanFocus then
+      SynEdit.SetFocus;
 
     Result := SynEdit;
   end;
