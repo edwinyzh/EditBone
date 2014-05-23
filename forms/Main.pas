@@ -7,7 +7,8 @@ uses
   Vcl.ActnMan, Vcl.ActnMenus, Vcl.ToolWin, Vcl.ComCtrls, Vcl.ImgList, Vcl.ExtCtrls, SynEdit, Directory, Vcl.StdCtrls,
   Vcl.Menus, Vcl.AppEvnts, Document, Output, Options, Lib, JvAppInst, VirtualTrees, JvDragDrop, BCControls.PopupMenu,
   Vcl.PlatformDefaultStyleActnCtrls, JvComponentBase, Vcl.ActnPopup, BCControls.ImageList, BCControls.ComboBox,
-  Vcl.Themes, System.Actions, BCControls.ProgressBar, Vcl.PlatformVclStylesActnCtrls, BCCommon.Images;
+  Vcl.Themes, System.Actions, BCControls.ProgressBar, Vcl.PlatformVclStylesActnCtrls, BCCommon.Images,
+  System.Win.TaskbarCore, Vcl.Taskbar;
 
 const
   { Main menu item indexes }
@@ -180,6 +181,7 @@ type
     ToolsMapVirtualDrivesAction: TAction;
     FormatSQLAction: TAction;
     FileTreeViewClickAction: TAction;
+    Taskbar: TTaskbar;
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsHint(Sender: TObject);
@@ -284,6 +286,9 @@ type
     procedure ToolsMapVirtualDrivesActionExecute(Sender: TObject);
     procedure FormatSQLActionExecute(Sender: TObject);
     procedure FileTreeViewClickActionExecute(Sender: TObject);
+    procedure TaskBarStepChange(Sender: TObject);
+    procedure TaskBarShow(Sender: TObject);
+    procedure TaskBarHide(Sender: TObject);
   private
     { Private declarations }
     FNoIni: Boolean;
@@ -1485,9 +1490,27 @@ begin
   end;
 end;
 
+procedure TMainForm.TaskBarStepChange(Sender: TObject);
+begin
+  Taskbar.ProgressValue := FProgressBar.Position;
+end;
+
+procedure TMainForm.TaskBarShow(Sender: TObject);
+begin
+  Taskbar.ProgressState := TTaskBarProgressState.Normal;
+end;
+
+procedure TMainForm.TaskBarHide(Sender: TObject);
+begin
+  Taskbar.ProgressState := TTaskBarProgressState.None;
+end;
+
 procedure TMainForm.CreateProgressBar;
 begin
   FProgressBar := TBCProgressBar.Create(StatusBar);
+  FProgressBar.OnStepChange := TaskBarStepChange;
+  FProgressBar.OnShow := TaskBarShow;
+  FProgressBar.OnHide := TaskBarHide;
   FProgressBar.Hide;
   ResizeProgressBar;
   FProgressBar.Parent := Statusbar;
