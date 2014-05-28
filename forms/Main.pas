@@ -3,12 +3,13 @@ unit Main;
 interface
 
 uses
-  Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ActnCtrls, Vcl.ActnList,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ActnCtrls,
+  Vcl.ActnList,
   Vcl.ActnMan, Vcl.ActnMenus, Vcl.ToolWin, Vcl.ComCtrls, Vcl.ImgList, Vcl.ExtCtrls, SynEdit, Directory, Vcl.StdCtrls,
   Vcl.Menus, Vcl.AppEvnts, Document, Output, Options, Lib, JvAppInst, VirtualTrees, JvDragDrop, BCControls.PopupMenu,
   Vcl.PlatformDefaultStyleActnCtrls, JvComponentBase, Vcl.ActnPopup, BCControls.ImageList, BCControls.ComboBox,
   Vcl.Themes, System.Actions, BCControls.ProgressBar, Vcl.PlatformVclStylesActnCtrls, BCCommon.Images,
-  System.Win.TaskbarCore, Vcl.Taskbar;
+  System.Win.TaskbarCore, Vcl.Taskbar, Vcl.ActnColorMaps;
 
 const
   { Main menu item indexes }
@@ -289,6 +290,9 @@ type
     procedure TaskBarStepChange(Sender: TObject);
     procedure TaskBarShow(Sender: TObject);
     procedure TaskBarHide(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure ActionToolBarGetControlClass(Sender: TCustomActionBar; AnItem: TActionClient;
+      var ControlClass: TCustomActionControlClass);
   private
     { Private declarations }
     FNoIni: Boolean;
@@ -301,6 +305,8 @@ type
     FProgressBar: TBCProgressBar;
     FEncoding: TEncoding;
     FSQLFormatterDLLFound: Boolean;
+    FSaveMenuFont: TFont; { will hold initial main menu bar's font settings }
+    FSaveColormap: TCustomActionBarColorMap;
     function GetStringList(Filename: string): TStringList;
     function GetActionClientItem(MenuItemIndex, SubMenuItemIndex: Integer): TActionClientItem;
     function Processing: Boolean;
@@ -325,6 +331,8 @@ type
     procedure UpdateStatusBar;
 //    procedure UpdateToolBar;
     procedure WriteIniFile;
+  protected
+    procedure WMSettingChange(var Message: TWMSettingChange); message WM_SETTINGCHANGE;
   public
     { Public declarations }
     procedure CreateFileReopenList;
@@ -853,6 +861,12 @@ end;
 procedure TMainForm.SearchGotoLineActionExecute(Sender: TObject);
 begin
   FDocumentFrame.GotoLine;
+end;
+
+procedure TMainForm.ActionToolBarGetControlClass(Sender: TCustomActionBar; AnItem: TActionClient;
+  var ControlClass: TCustomActionControlClass);
+begin
+  ActionToolBar.ColorMap.Assign(FSaveColormap);
 end;
 
 procedure TMainForm.AppInstancesCmdLineReceived(Sender: TObject;
@@ -1405,6 +1419,7 @@ begin
   ActionManager.ActionBars[0].Items.AutoHotKeys := False;
   ActionManager.Style := PlatformVclStylesStyle;
   ActionManager.Images := ImagesDataModule.ImageList; { IDE can lose this }
+
   BCCommon.LanguageStrings.ReadLanguageFile(GetSelectedLanguage('English'));
   FImageListCount := ImagesDataModule.ImageList.Count; { System images are appended after menu icons }
   ReadIniOptions;
@@ -1422,6 +1437,25 @@ begin
   { IDE can lose these properties }
   ActionManager.Images := ImagesDataModule.ImageList;
   DocumentPopupMenu.Images := ImagesDataModule.ImageList;
+
+  FSaveMenuFont := TFont.Create;
+  FSaveMenuFont.Assign(ActionMainMenuBar.Font);
+  FSaveColormap := TCustomActionBarColorMap.Create(Self);
+  FSaveColormap.Assign(ActionMainMenuBar.Colormap);
+  FSaveColormap.Color := clWindow;
+end;
+
+procedure TMainForm.FormDestroy(Sender: TObject);
+begin
+  FSaveMenuFont.Destroy;
+  FSaveColormap.Destroy;
+end;
+
+procedure TMainForm.WMSettingChange(var Message: TWMSettingChange);
+begin
+  inherited;
+  ActionMainMenuBar.Font.Assign(FSaveMenuFont);
+  ActionToolBar.ColorMap.Assign(FSaveColormap);
 end;
 
 procedure TMainForm.FormKeyDown(Sender: TObject; var Key: Word;

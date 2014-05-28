@@ -18,6 +18,7 @@ object MainForm: TMainForm
   OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnResize = FormResize
   OnShow = FormShow
@@ -206,7 +207,7 @@ object MainForm: TMainForm
     Align = alTop
     AutoSize = True
     BevelOuter = bvNone
-    DoubleBuffered = False
+    DoubleBuffered = True
     Padding.Left = 2
     Padding.Top = 2
     Padding.Right = 2
@@ -221,7 +222,8 @@ object MainForm: TMainForm
       Height = 26
       ActionManager = ActionManager
       Align = alClient
-      Color = clMenuBar
+      Color = clWindow
+      ColorMap.Color = clWindow
       ColorMap.DisabledFontColor = 7171437
       ColorMap.HighlightColor = clWhite
       ColorMap.BtnSelectedFont = clBlack
@@ -233,9 +235,9 @@ object MainForm: TMainForm
       Font.Name = 'Tahoma'
       Font.Style = []
       HorzSeparator = False
-      ParentBackground = True
       ParentFont = False
       Spacing = 0
+      OnGetControlClass = ActionToolBarGetControlClass
     end
   end
   object ContentPanel: TPanel
