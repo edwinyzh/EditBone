@@ -796,8 +796,9 @@ begin
     { Options }
     StatusBar.Visible := ReadBool('Options', 'ShowStatusbar', True);
     DirectoryPanel.Visible := ReadBool('Options', 'ShowDirectory', True);
-    HighlighterComboBox.Visible := ReadBool('Options', 'ShowHighlighterSelection', True);
+    HighlighterPanel.Visible := ReadBool('Options', 'ShowHighlighterSelection', True);
     EncodingComboBox.Visible := ReadBool('Options', 'ShowEncodingSelection', False);
+    EncodingComboBox.Left := 0;
     VerticalSplitter.Visible := DirectoryPanel.Visible;
 
     ViewXMLTreeAction.Checked := OptionsContainer.ShowXMLTree;
@@ -843,7 +844,7 @@ begin
     WriteBool('Options', 'ShowToolBar', ToolBarPanel.Visible);
     WriteBool('Options', 'ShowStatusbar', StatusBar.Visible);
     WriteBool('Options', 'ShowDirectory', DirectoryPanel.Visible);
-    WriteBool('Options', 'ShowHighlighterSelection', HighlighterComboBox.Visible);
+    WriteBool('Options', 'ShowHighlighterSelection', HighlighterPanel.Visible);
     WriteBool('Options', 'ShowEncodingSelection', EncodingComboBox.Visible);
     WriteBool('Options', 'ShowXMLTree', ViewXMLTreeAction.Checked);
     { Toolbar }
@@ -856,6 +857,7 @@ end;
 procedure TMainForm.ViewEncodingSelectionActionExecute(Sender: TObject);
 begin
   EncodingComboBox.Visible := not EncodingComboBox.Visible;
+  EncodingComboBox.Left := 0;
 end;
 
 procedure TMainForm.SearchGotoLineActionExecute(Sender: TObject);
@@ -941,7 +943,7 @@ begin
     if OutputPanel.Visible then
       OutputPanel.Top := HorizontalSplitter.Top + HorizontalSplitter.Height;
 
-    ViewHighlighterSelectionAction.Checked := HighlighterComboBox.Visible;
+    ViewHighlighterSelectionAction.Checked := HighlighterPanel.Visible;
     ViewEncodingSelectionAction.Checked := EncodingComboBox.Visible;
 
     ViewXMLTreeAction.Visible := ActiveDocumentFound and IsXMLDocument;
@@ -1999,7 +2001,8 @@ end;
 
 procedure TMainForm.ViewHighlighterSelectionActionExecute(Sender: TObject);
 begin
-  HighlighterComboBox.Visible := not HighlighterComboBox.Visible;
+  HighlighterPanel.Visible := not HighlighterPanel.Visible;
+  HighlighterPanel.Left := EncodingComboBox.Left + EncodingComboBox.Width + 1;
 end;
 
 procedure TMainForm.ViewInBrowserActionExecute(Sender: TObject);

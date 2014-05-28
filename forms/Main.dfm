@@ -222,8 +222,7 @@ object MainForm: TMainForm
       Height = 26
       ActionManager = ActionManager
       Align = alClient
-      Color = clWindow
-      ColorMap.Color = clWindow
+      Color = clMenuBar
       ColorMap.DisabledFontColor = 7171437
       ColorMap.HighlightColor = clWhite
       ColorMap.BtnSelectedFont = clBlack
