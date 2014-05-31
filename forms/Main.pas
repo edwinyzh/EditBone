@@ -353,7 +353,7 @@ uses
   System.IOUtils, BCCommon.LanguageStrings, LanguageEditor, BCControls.SynEdit, SynUnicode, BCCommon.Encoding,
   BCCommon.LanguageUtils, BCCommon.DuplicateChecker, UnicodeCharacterMap, DuplicateCheckerOptions, Winapi.ShellAPI,
   System.Types, BCCommon.Messages, BCCommon.Lib, BCCommon.StringUtils, Winapi.CommCtrl, BCForms.Convert,
-  BCForms.SearchForFiles, MapVirtualDrives, BCSQL.Formatter;
+  BCForms.SearchForFiles, MapVirtualDrives, BCSQL.Formatter, BCDialogs.DownloadURL;
 
 const
   MAIN_CAPTION_DOCUMENT = ' - [%s]';

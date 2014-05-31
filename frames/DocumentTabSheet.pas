@@ -138,7 +138,7 @@ var
   MaxLengthWord: string;
 begin
   SynCompletionProposal.NbLinesInWindow := 8; { Bug fix }
-  MaxLengthWord := SplitTextIntoWords(SynCompletionProposal, SynEdit, OptionsContainer.CompletionProposalCaseSensitive);
+  MaxLengthWord := SynEdit.SplitTextIntoWords(SynCompletionProposal, OptionsContainer.CompletionProposalCaseSensitive);
   SynCompletionProposal.Width := SynEdit.Canvas.TextWidth(MaxLengthWord) + 40;
   CanExecute := SynCompletionProposal.ItemList.Count > 0;
 end;
@@ -149,7 +149,7 @@ var
   MaxLengthWord: string;
 begin
   SplitSynCompletionProposal.NbLinesInWindow := 8; { Bug fix }
-  MaxLengthWord := SplitTextIntoWords(SplitSynCompletionProposal, SplitSynEdit, OptionsContainer.CompletionProposalCaseSensitive);
+  MaxLengthWord := SplitSynEdit.SplitTextIntoWords(SplitSynCompletionProposal, OptionsContainer.CompletionProposalCaseSensitive);
   SynCompletionProposal.Width := SplitSynEdit.Canvas.TextWidth(MaxLengthWord);
   CanExecute := SplitSynCompletionProposal.ItemList.Count > 0;
 end;
