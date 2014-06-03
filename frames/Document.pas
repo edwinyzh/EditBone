@@ -7,7 +7,7 @@ uses
   Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.ImgList, JvExComCtrls, JvComCtrls, Vcl.Menus, BCControls.PageControl, Vcl.Buttons,
   SynEditPrint, SynEditMiscClasses, SynEditSearch, SynEditTypes, SynEditPlugins, Vcl.StdCtrls,
   Vcl.ActnList, BCControls.CheckBox, System.Actions, BCControls.ProgressBar,
-  BCControls.ImageList, Vcl.ActnPopup, BCControls.PopupMenu, SynMacroRecorder, SynEditKeyCmds, Vcl.Themes,
+  BCControls.ImageList, Vcl.ActnPopup, SynMacroRecorder, SynEditKeyCmds, Vcl.Themes,
   SynEditRegexSearch, BCControls.SynEdit, DocumentTabSheet, BCFrames.Compare, Vcl.PlatformDefaultStyleActnCtrls,
   SynHighlighterPas, SynHighlighterCobol, SynHighlighterWebData, SynHighlighterTeX,
   SynHighlighterProgress, SynHighlighterPerl, SynHighlighterKix, SynHighlighterJScript, SynHighlighterGalaxy,
@@ -40,7 +40,7 @@ type
     DeleteLineMenuItem: TMenuItem;
     DeleteWordMenuItem: TMenuItem;
     DocumentPanel: TPanel;
-    EditorPopupMenu: TBCPopupMenu;
+    EditorPopupActionBar: TPopupActionBar;
     FormatXMLMenuItem: TMenuItem;
     GotoBookmark1MenuItem: TMenuItem;
     GotoBookmark2MenuItem: TMenuItem;
@@ -161,7 +161,7 @@ type
     XMLTreeImageList: TImageList;
     XMLTreePopupActionList: TActionList;
     XMLTreePopupImagesList: TBCImageList;
-    XMLTreePopupMenu: TPopupMenu;
+    XMLTreePopupActionBar: TPopupActionBar;
     XMLTreeRefreshAction: TAction;
     GotoLinePanel: TPanel;
     GotoLineClosePanel: TPanel;
@@ -406,7 +406,7 @@ begin
   FFoundSearchItems := TObjectList.Create;
 
   { IDE can lose these properties }
-  EditorPopupMenu.Images := ImagesDataModule.ImageList;
+  EditorPopupActionBar.Images := ImagesDataModule.ImageList;
   CutMenuItem.Action := MainForm.EditCutAction;
   CopyMenuItem.Action := MainForm.EditCopyAction;
   PasteMenuItem.Action := MainForm.EditPasteAction;
@@ -647,7 +647,7 @@ begin
       OnEnter := SynEditEnter;
       OnReplaceText := SynEditorReplaceText;
       SearchEngine := SynEditSearch;
-      PopupMenu := EditorPopupMenu;
+      PopupMenu := EditorPopupActionBar;
       BookMarkOptions.BookmarkImages := BookmarkImagesList;
       Minimap.Visible := ShowMinimap;
     end;
@@ -655,8 +655,8 @@ begin
     THighlightSearchPlugin.Create(SynEdit, FFoundSearchItems);
     THighlightSearchPlugin.Create(SplitSynEdit, FFoundSearchItems);
     { VirtualDrawTree }
-    ImageList := XMLTreeImageList;
-    PopupMenu := XMLTreePopupMenu;
+    DocTabSheetFrame.XMLTreeImageList := XMLTreeImageList;
+    DocTabSheetFrame.XMLTreePopupActionBar := XMLTreePopupActionBar;
 
     OptionsContainer.AssignTo(SynEdit);
     SynWebEngine.Options.HtmlVersion := shvUndefined;
@@ -3611,7 +3611,7 @@ begin
         OnEnter := SynEditEnter;
         OnReplaceText := SynEditorReplaceText;
         SearchEngine := SynEditSearch;
-        PopupMenu := EditorPopupMenu;
+        PopupMenu := EditorPopupActionBar;
         BookMarkOptions.BookmarkImages := BookmarkImagesList;
         Height := DocTabSheetFrame.DocumentPanel.Height div 2;
         Width := 0; // reduce flickering

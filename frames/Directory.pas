@@ -7,9 +7,8 @@ interface
 uses
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ComCtrls,
   BCControls.FileControl, Vcl.ImgList, Vcl.ActnList, Vcl.Buttons, Vcl.Menus, JvExComCtrls, JvComCtrls,
-  BCControls.PopupMenu, BCControls.PageControl, Vcl.ActnPopup, Vcl.Themes, Vcl.PlatformDefaultStyleActnCtrls,
-  VirtualTrees, DirectoryTabSheet, System.Actions, BCForms.SearchForFiles,
-  BCCommon.Images;
+  BCControls.PageControl, Vcl.ActnPopup, Vcl.Themes, Vcl.PlatformDefaultStyleActnCtrls, VirtualTrees, DirectoryTabSheet,
+  System.Actions, BCForms.SearchForFiles, BCCommon.Images;
 
 type
   TDirectoryFrame = class(TFrame)
@@ -26,7 +25,7 @@ type
     EditDirectoryMenuItem: TMenuItem;
     OpenDirectoryMenuItem: TMenuItem;
     PageControl: TBCPageControl;
-    PopupMenu: TBCPopupMenu;
+    PopupActionBar: TPopupActionBar;
     PropertiesMenuItem: TMenuItem;
     RefreshMenuItem: TMenuItem;
     RenameMenuItem: TMenuItem;
@@ -52,7 +51,7 @@ type
     procedure PageControlCloseButtonClick(Sender: TObject);
     procedure PageControlDblClick(Sender: TObject);
     procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-    procedure PopupMenuPopup(Sender: TObject);
+    procedure PopupActionBarPopup(Sender: TObject);
     procedure DirectoryFilesActionExecute(Sender: TObject);
     procedure DirectoryContextMenuActionExecute(Sender: TObject);
   private
@@ -121,7 +120,7 @@ begin
   ReadIniFile;
   { IDE can lose there properties }
   DirectoryActionList.Images := ImagesDataModule.ImageList;
-  PopupMenu.Images := ImagesDataModule.ImageList;
+  PopupActionBar.Images := ImagesDataModule.ImageList;
 end;
 
 procedure TDirectoryFrame.SetSearchForFilesAction(Action: TAction);
@@ -558,7 +557,7 @@ begin
     DirectoryCloseAction.Execute;
 end;
 
-procedure TDirectoryFrame.PopupMenuPopup(Sender: TObject);
+procedure TDirectoryFrame.PopupActionBarPopup(Sender: TObject);
 begin
   DirectoryPropertiesAction.Enabled := FileExists(SelectedFile);
 end;
@@ -601,7 +600,7 @@ begin
     Parent := TabSheet;
     with FileTreeView do
     begin
-      PopupMenu := Self.PopupMenu;
+      PopupMenu := Self.PopupActionBar;
       OnClick := FileTreeViewClick;
       OnDblClick := FileTreeViewDblClick;
       DefaultNodeHeight := Images.Height + 2;

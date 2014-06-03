@@ -16,7 +16,7 @@ object OutputFrame: TOutputFrame
     Align = alClient
     DoubleBuffered = False
     ParentDoubleBuffered = False
-    PopupMenu = PopupMenu
+    PopupMenu = PopupActionBar
     TabOrder = 0
     OnMouseDown = PageControlMouseDown
     RightClickSelect = True
@@ -85,7 +85,7 @@ object OutputFrame: TOutputFrame
       OnExecute = UnselectAllActionExecute
     end
   end
-  object PopupMenu: TBCPopupMenu
+  object PopupActionBar: TPopupActionBar
     Images = ImagesDataModule.ImageList
     Left = 266
     Top = 124

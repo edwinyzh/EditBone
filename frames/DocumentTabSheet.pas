@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls,
   Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, VirtualTrees, SynEdit, BCControls.SynEdit, Vcl.ActnList, SynEditHighlighter,
-  SynURIOpener, SynHighlighterURI, SynCompletionProposal, DocumentXMLTree, BCControls.ProgressBar, Vcl.Menus;
+  SynURIOpener, SynHighlighterURI, SynCompletionProposal, DocumentXMLTree, BCControls.ProgressBar, Vcl.Menus,
+  Vcl.PlatformDefaultStyleActnCtrls, Vcl.ActnPopup;
 
 type
   TDocTabSheetFrame = class(TFrame)
@@ -33,8 +34,8 @@ type
   private
     { Private declarations }
     FModified: Boolean;
-    FImageList: TImageList;
-    FPopupMenu: TPopupMenu;
+    FXMLTreeImageList: TImageList;
+    FXMLTreePopupActionBar: TPopupActionBar;
     FProgressBar: TBCProgressBar;
     FDocumentXMLTreeFrame: TDocumentXMLTreeFrame;
     function GetSplitVisible: Boolean;
@@ -52,8 +53,8 @@ type
     destructor Destroy; override;
     procedure LoadFromXML(XML: string);
     procedure UpdateOptionsAndStyles(Right: Integer);
-    property ImageList: TImageList read FImageList write FImageList;
-    property PopupMenu: TPopupMenu read FPopupMenu write FPopupMenu;
+    property XMLTreeImageList: TImageList read FXMLTreeImageList write FXMLTreeImageList;
+    property XMLTreePopupActionBar: TPopupActionBar read FXMLTreePopupActionBar write FXMLTreePopupActionBar;
     property SplitVisible: Boolean read GetSplitVisible write SetSplitVisible;
     property MinimapVisible: Boolean read GetMinimapVisible write SetMinimapVisible;
     property XMLTreeVisible: Boolean read GetXMLTreeVisible write SetXMLTreeVisible;
@@ -125,8 +126,8 @@ begin
     FDocumentXMLTreeFrame := TDocumentXMLTreeFrame.Create(XMLTreePanel);
     FDocumentXMLTreeFrame.ProgressBar := ProgressBar;
     FDocumentXMLTreeFrame.SynEdit := SynEdit;
-    FDocumentXMLTreeFrame.VirtualDrawTree.Images := ImageList;
-    FDocumentXMLTreeFrame.VirtualDrawTree.PopupMenu := PopupMenu;
+    FDocumentXMLTreeFrame.VirtualDrawTree.Images := XMLTreeImageList;
+    FDocumentXMLTreeFrame.VirtualDrawTree.PopupMenu := XMLTreePopupActionBar;
     FDocumentXMLTreeFrame.Parent := XMLTreePanel;
   end;
   XMLTreePanel.Visible := Value;

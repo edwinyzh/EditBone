@@ -18,7 +18,7 @@ object DirectoryFrame: TDirectoryFrame
     Align = alClient
     DoubleBuffered = True
     ParentDoubleBuffered = False
-    PopupMenu = PopupMenu
+    PopupMenu = PopupActionBar
     TabOrder = 0
     OnMouseDown = PageControlMouseDown
     ParentColor = False
@@ -94,9 +94,9 @@ object DirectoryFrame: TDirectoryFrame
       OnExecute = DirectoryContextMenuActionExecute
     end
   end
-  object PopupMenu: TBCPopupMenu
+  object PopupActionBar: TPopupActionBar
     Images = ImagesDataModule.ImageList
-    OnPopup = PopupMenuPopup
+    OnPopup = PopupActionBarPopup
     Left = 104
     Top = 156
     object OpenDirectoryMenuItem: TMenuItem

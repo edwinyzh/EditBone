@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ActnCtrls,
   Vcl.ActnList,
   Vcl.ActnMan, Vcl.ActnMenus, Vcl.ToolWin, Vcl.ComCtrls, Vcl.ImgList, Vcl.ExtCtrls, SynEdit, Directory, Vcl.StdCtrls,
-  Vcl.Menus, Vcl.AppEvnts, Document, Output, Options, Lib, JvAppInst, VirtualTrees, JvDragDrop, BCControls.PopupMenu,
+  Vcl.Menus, Vcl.AppEvnts, Document, Output, Options, Lib, JvAppInst, VirtualTrees, JvDragDrop,
   Vcl.PlatformDefaultStyleActnCtrls, JvComponentBase, Vcl.ActnPopup, BCControls.ImageList, BCControls.ComboBox,
   Vcl.Themes, System.Actions, BCControls.ProgressBar, Vcl.PlatformVclStylesActnCtrls, BCCommon.Images,
   System.Win.TaskbarCore, Vcl.Taskbar, Vcl.ActnColorMaps;
@@ -38,7 +38,7 @@ type
     DirectoryPanel: TPanel;
     DocumentMenuAction: TAction;
     DocumentPanel: TPanel;
-    DocumentPopupMenu: TBCPopupMenu;
+    DocumentPopupActionBar: TPopupActionBar;
     DragDrop: TJvDragDrop;
     EditCopyAction: TAction;
     EditCutAction: TAction;
@@ -1405,7 +1405,7 @@ begin
   { TDocumentFrame }
   FDocumentFrame := TDocumentFrame.Create(DocumentPanel);
   FDocumentFrame.Parent := DocumentPanel;
-  FDocumentFrame.PopupMenu := DocumentPopupMenu;
+  FDocumentFrame.PopupMenu := DocumentPopupActionBar;
   { TDirectoryFrame }
   FDirectoryFrame := TDirectoryFrame.Create(DirectoryPanel);
   FDirectoryFrame.Parent := DirectoryPanel;
@@ -1438,7 +1438,7 @@ begin
   {$ENDIF}
   { IDE can lose these properties }
   ActionManager.Images := ImagesDataModule.ImageList;
-  DocumentPopupMenu.Images := ImagesDataModule.ImageList;
+  DocumentPopupActionBar.Images := ImagesDataModule.ImageList;
 
   FSaveMenuFont := TFont.Create;
   FSaveMenuFont.Assign(ActionMainMenuBar.Font);

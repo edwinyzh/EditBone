@@ -2024,7 +2024,7 @@ object MainForm: TMainForm
     Left = 24
     Top = 188
   end
-  object DocumentPopupMenu: TBCPopupMenu
+  object DocumentPopupActionBar: TPopupActionBar
     Images = ImagesDataModule.ImageList
     Left = 154
     Top = 134

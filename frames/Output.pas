@@ -4,9 +4,8 @@ interface
 
 uses
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Buttons, Vcl.ComCtrls,
-  Vcl.ActnList, Vcl.ImgList, JvExComCtrls, JvComCtrls, Vcl.Menus, BCControls.PopupMenu, VirtualTrees,
-  Vcl.PlatformDefaultStyleActnCtrls, Vcl.ActnPopup, Vcl.Themes, OutputTabSheet, BCControls.PageControl, System.Actions,
-  BCCommon.Images;
+  Vcl.ActnList, Vcl.ImgList, JvExComCtrls, JvComCtrls, Vcl.Menus, VirtualTrees, Vcl.PlatformDefaultStyleActnCtrls,
+  Vcl.ActnPopup, Vcl.Themes, OutputTabSheet, BCControls.PageControl, System.Actions, BCCommon.Images;
 
 type
   TOpenAllEvent = procedure(var FileNames: TStrings);
@@ -20,7 +19,7 @@ type
     OutputCloseAction: TAction;
     OutputCloseAllAction: TAction;
     PageControl: TBCPageControl;
-    PopupMenu: TBCPopupMenu;
+    PopupActionBar: TPopupActionBar;
     Separator2MenuItem: TMenuItem;
     CopytoClipboardMenuItem: TMenuItem;
     CopyAllToClipboardAction: TAction;
@@ -109,7 +108,7 @@ begin
   inherited;
   { IDE can lose there properties }
   OutputActionList.Images := ImagesDataModule.ImageList;
-  PopupMenu.Images := ImagesDataModule.ImageList;
+  PopupActionBar.Images := ImagesDataModule.ImageList;
 end;
 
 procedure TOutputFrame.OpenAllActionExecute(Sender: TObject);
