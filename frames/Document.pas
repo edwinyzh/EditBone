@@ -655,8 +655,8 @@ begin
     THighlightSearchPlugin.Create(SynEdit, FFoundSearchItems);
     THighlightSearchPlugin.Create(SplitSynEdit, FFoundSearchItems);
     { VirtualDrawTree }
-    DocTabSheetFrame.XMLTreeImageList := XMLTreeImageList;
-    DocTabSheetFrame.XMLTreePopupActionBar := XMLTreePopupActionBar;
+    DocTabSheetFrame.XMLTreeImageList := Self.XMLTreeImageList;
+    DocTabSheetFrame.XMLTreePopupActionBar := Self.XMLTreePopupActionBar;
 
     OptionsContainer.AssignTo(SynEdit);
     SynWebEngine.Options.HtmlVersion := shvUndefined;

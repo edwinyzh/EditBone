@@ -115,12 +115,11 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 50
-        Height = 18
+        Height = 13
         Align = alLeft
         Caption = 'Search for'
         Color = clWindow
         ParentColor = False
-        ExplicitHeight = 13
       end
     end
     object SearchPanel3: TPanel
@@ -325,6 +324,7 @@ object DocumentFrame: TDocumentFrame
         ParentColor = False
         TabOrder = 0
         LinkedControls = <>
+        ExplicitHeight = 17
       end
     end
     object SearchPanel8: TPanel
@@ -348,6 +348,7 @@ object DocumentFrame: TDocumentFrame
         Caption = 'Whole Words Only'
         TabOrder = 0
         LinkedControls = <>
+        ExplicitHeight = 17
       end
       object AfterCaseSensitivePanel: TPanel
         Left = 0
@@ -381,6 +382,7 @@ object DocumentFrame: TDocumentFrame
       Caption = 'Regular Expression'
       TabOrder = 8
       LinkedControls = <>
+      ExplicitHeight = 17
     end
     object AfterRegularExpressionPanel: TPanel
       Left = 648
@@ -402,6 +404,7 @@ object DocumentFrame: TDocumentFrame
       Caption = 'Wild Card'
       TabOrder = 10
       LinkedControls = <>
+      ExplicitHeight = 17
     end
   end
   object DocumentPanel: TPanel
@@ -420,8 +423,8 @@ object DocumentFrame: TDocumentFrame
     object PageControl: TBCPageControl
       Left = 0
       Top = 2
-      Width = 451
-      Height = 256
+      Width = 911
+      Height = 669
       Align = alClient
       DoubleBuffered = False
       ParentDoubleBuffered = False
@@ -434,6 +437,8 @@ object DocumentFrame: TDocumentFrame
       ShowCloseButton = False
       OnCloseButtonClick = PageControlCloseButtonClick
       OnDblClick = PageControlDblClick
+      ExplicitWidth = 451
+      ExplicitHeight = 256
     end
   end
   object GotoLinePanel: TPanel
@@ -543,10 +548,9 @@ object DocumentFrame: TDocumentFrame
         Left = 4
         Top = 3
         Width = 48
-        Height = 20
+        Height = 13
         Align = alLeft
         Caption = 'Go to Line'
-        ExplicitHeight = 13
       end
     end
     object LineNumberPanel: TPanel
@@ -635,7 +639,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 112
     Bitmap = {
-      494C010105000900240010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101050009002C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1017,7 +1021,7 @@ object DocumentFrame: TDocumentFrame
     Left = 144
     Top = 282
     Bitmap = {
-      494C01010A000D00240010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D002C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1565,7 +1569,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 168
     Bitmap = {
-      494C010102000500240014001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101020005002C0014001400FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000500000001400000001002000000000000019
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1785,7 +1789,7 @@ object DocumentFrame: TDocumentFrame
     Left = 142
     Top = 224
     Bitmap = {
-      494C010102000500240018001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101020005002C0018001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000001800000001002000000000000024
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2714,7 +2718,7 @@ object DocumentFrame: TDocumentFrame
     Left = 746
     Top = 190
     Bitmap = {
-      494C010109000D00240010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010109000D002C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3129,7 +3133,7 @@ object DocumentFrame: TDocumentFrame
     Left = 744
     Top = 316
     Bitmap = {
-      494C010101000500240010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101010005002C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

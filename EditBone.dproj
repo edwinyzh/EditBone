@@ -3,12 +3,12 @@
         <ProjectGuid>{E3B818CC-5E75-4FBB-9706-6F94F69C4127}</ProjectGuid>
         <ProjectVersion>15.4</ProjectVersion>
         <MainSource>EditBone.dpr</MainSource>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
         <Base>True</Base>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -61,7 +61,7 @@
     <PropertyGroup Condition="'$(Base)'!=''">
         <Icon_MainIcon>EditBone_Icon.ico</Icon_MainIcon>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
-        <DCC_UnitSearchPath>$(BONECODE_ROOT)\Components\src\UniSynEdit\Source;$(BONECODE_ROOT)\Components\src\SynWeb\Source;$(BONECODE_ROOT)\Components\src\Controls;$(BONECODE_ROOT)\Components\src\VirtualTree\Source;$(BONECODE_ROOT)\Components\src\UniSynEdit\Source;$(BONECODE_ROOT)\Components\src\SynWeb\Source;$(BONECODE_ROOT)\Components\src\Controls;$(BONECODE_ROOT)\Components\src\VirtualTree\Source;$(BONECODE_ROOT)\Components\src\VirtualTree\Source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>$(BONECODE_ROOT)\Components\src\UniSynEdit\Source;$(BONECODE_ROOT)\Components\src\Controls;$(BONECODE_ROOT)\Components\src\VirtualTree\Source;$(BONECODE_ROOT)\Components\src\UniSynEdit\Source;$(BONECODE_ROOT)\Components\src\Controls;$(BONECODE_ROOT)\Components\src\VirtualTree\Source;$(BONECODE_ROOT)\Components\src\VirtualTree\Source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <SanitizedProjectName>EditBone</SanitizedProjectName>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1035</VerInfo_Locale>
@@ -424,6 +424,8 @@
                     <Source Name="MainSource">EditBone.dpr</Source>
                 </Source>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\14.0\Bpl\SynWeb_DXE6.bpl">SynWeb component suite</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\DataExplorerDBXPluginEnt200.bpl">DBExpress Enterprise Data Explorer Integration</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k200.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp200.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k200.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
