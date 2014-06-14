@@ -61,6 +61,7 @@ var
   S: string;
   Data: PXMLTreeRec;
   Node: PVirtualNode;
+  TempSynEdit: TBCSynEdit;
 
   procedure SetData(Node: PVirtualNode);
   begin
@@ -74,28 +75,35 @@ var
     if Data.NodeType = ntElement then
       S := '<' + S;
 
-    SynEdit.SearchReplace(S, '', []);
+    TempSynEdit.SearchReplace(S, '', []);
 
-    Data.BlockBegin := SynEdit.BlockBegin;
-    Data.BlockEnd := SynEdit.BlockEnd;
+    Data.BlockBegin := TempSynEdit.BlockBegin;
+    Data.BlockEnd := TempSynEdit.BlockEnd;
 
     if Data.NodeType = ntElement then
       Inc(Data.BlockBegin.Char);
   end;
 
 begin
-  SynEdit.SetCaretXYEx(False, BufferCoord(0, 0));
-  FProgressBar.Count := FXMLNodeCount;
-  FProgressBar.Show;
-  Node := VirtualDrawTree.GetFirst;
-  while Assigned(Node) do
-  begin
-    SetData(Node);
-    FProgressBar.StepIt;
-    Application.ProcessMessages;
-    Node := VirtualDrawTree.GetNext(Node);
+  TempSynEdit := TBCSynEdit.Create(nil);
+  try
+    TempSynEdit.Text := SynEdit.Text;
+    TempSynEdit.SearchEngine := SynEdit.SearchEngine;
+    TempSynEdit.SetCaretXYEx(False, BufferCoord(0, 0));
+    FProgressBar.Count := FXMLNodeCount;
+    FProgressBar.Show;
+    Node := VirtualDrawTree.GetFirst;
+    while Assigned(Node) do
+    begin
+      SetData(Node);
+      FProgressBar.StepIt;
+      Application.ProcessMessages;
+      Node := VirtualDrawTree.GetNext(Node);
+    end;
+    FProgressBar.Hide;
+  finally
+    TempSynEdit.Free;
   end;
-  FProgressBar.Hide;
 end;
 
 procedure TDocumentXMLTreeFrame.VirtualDrawTreeClick(Sender: TObject);
