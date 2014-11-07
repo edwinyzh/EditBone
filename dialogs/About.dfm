@@ -4,7 +4,7 @@ object AboutDialog: TAboutDialog
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = 'About EditBone'
-  ClientHeight = 379
+  ClientHeight = 390
   ClientWidth = 538
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -535,7 +535,7 @@ object AboutDialog: TAboutDialog
     Left = 0
     Top = 138
     Width = 538
-    Height = 200
+    Height = 211
     Margins.Left = 2
     Margins.Top = 2
     Margins.Right = 2
@@ -551,7 +551,7 @@ object AboutDialog: TAboutDialog
     TabOrder = 2
     DesignSize = (
       538
-      200)
+      211)
     object ThirdPartyComponentsLabel: TLabel
       Left = 10
       Top = 49
@@ -568,7 +568,7 @@ object AboutDialog: TAboutDialog
     end
     object IconsLabel: TLabel
       Left = 10
-      Top = 161
+      Top = 175
       Width = 26
       Height = 13
       Alignment = taCenter
@@ -612,13 +612,14 @@ object AboutDialog: TAboutDialog
       Left = 16
       Top = 123
       Width = 514
-      Height = 28
+      Height = 50
       Anchors = [akLeft, akTop, akRight]
       AutoSize = False
       Caption = 
-        'Karel Van Dongen, Han Leentvaar, nickW, Christian Heinrichs, '#920#945#957 +
-        #940#963#951#962' '#922#945#964#963#945#947#949#974#961#947#951#962', ZityiSoft Translator Team, bovirus, DEKO, Mid' +
-        'as, '#1057#1077#1088#1075#1077#1081' '#1053#1086#1074#1080#1082#1086#1074', ansidev'
+        'Ma Xiaoguang, Karel Van Dongen, Han Leentvaar, Jos Berkers, nick' +
+        'W, Christian Heinrichs, '#920#945#957#940#963#951#962' '#922#945#964#963#945#947#949#974#961#947#951#962', ZityiSoft Translat' +
+        'or Team, bovirus, DEKO, Midas, '#1057#1077#1088#1075#1077#1081' '#1053#1086#1074#1080#1082#1086#1074', Satit Archanusorn' +
+        ', ansidev'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -656,7 +657,7 @@ object AboutDialog: TAboutDialog
     end
     object LinkRow4Label: TLinkLabel
       Left = 16
-      Top = 178
+      Top = 192
       Width = 188
       Height = 19
       Caption = 
@@ -696,7 +697,7 @@ object AboutDialog: TAboutDialog
   end
   object BottomPanel: TPanel
     Left = 0
-    Top = 338
+    Top = 349
     Width = 538
     Height = 41
     Margins.Left = 2

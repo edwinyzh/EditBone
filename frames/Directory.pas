@@ -6,9 +6,9 @@ interface
 
 uses
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ComCtrls,
-  BCControls.FileControl, Vcl.ImgList, Vcl.ActnList, Vcl.Buttons, Vcl.Menus, JvExComCtrls, JvComCtrls,
+  BCControls.FileControl, Vcl.ImgList, Vcl.ActnList, Vcl.Buttons, Vcl.Menus,
   BCControls.PageControl, Vcl.ActnPopup, Vcl.Themes, Vcl.PlatformDefaultStyleActnCtrls, VirtualTrees, DirectoryTabSheet,
-  System.Actions, BCForms.SearchForFiles, BCCommon.Images;
+  System.Actions, BCForms.SearchForFiles, BCCommon.Images, JvExComCtrls, JvComCtrls;
 
 type
   TDirectoryFrame = class(TFrame)
