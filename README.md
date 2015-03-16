@@ -35,3 +35,12 @@ Powerful text editing tool that comes with syntax highlighting support for over 
   * <a href="http://code.google.com/p/bonecode-bceditor/">bonecode-bceditor</a> (EditBone v. 10.0.0)
   * <a href="http://code.google.com/p/bonecode-common/">bonecode-common</a>
   * <a href="http://code.google.com/p/bonecode-components/">bonecode-components</a>
+
+<img src="http://www.bonecode.com/images/EditBone1.png">
+<img src="http://www.bonecode.com/images/EditBone2.png">
+<img src="http://www.bonecode.com/images/EditBone3.png">
+<img src="http://www.bonecode.com/images/EditBone4.png">
+<img src="http://www.bonecode.com/images/EditBone5.png">
+<img src="http://www.bonecode.com/images/EditBone6.png">
+<img src="http://www.bonecode.com/images/EditBone7.png">
+<img src="http://www.bonecode.com/images/EditBone8.png">
