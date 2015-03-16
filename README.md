@@ -1,3 +1,5 @@
+Powerful text editing tool that comes with syntax highlighting support for over 50 languages and scripts, customizable with over 100 options, 29 ready made styles, a handy file comparison feature, unicode character map, numerical unit convert tool, SQL formatter, and support for multiple directories and search results.
+
 <h3>Downloads</h3>
 
   * <a href="http://www.bonecode.com/downloads/EditBone.zip">32-bit Windows</a>, <a href="http://www.bonecode.com/downloads/EditBone64.zip">64-bit Windows</a> - EditBone v. <a href="http://bonecode.com/downloads/EditBone/changes.html" target="_blank">9.3.4</a>
