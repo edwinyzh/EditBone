@@ -30,7 +30,7 @@ Powerful text editing tool that comes with syntax highlighting support for over 
 
   * <a href="http://jcl.sourceforge.net/daily/">JEDI Code Library</a>
   * <a href="http://jvcl.sourceforge.net/daily/">JEDI Visual Component Library</a>
-  * <a href="http://code.google.com/p/virtual-treeview/">Virtual Treeview</a>
+  * <a href="https://github.com/Virtual-TreeView/">Virtual Treeview</a>
   * <a href="http://www.sqlparser.com/">General SQL Parser</a> (commercial)
   * <a href="http://code.google.com/p/bonecode-bceditor/">bonecode-bceditor</a> (EditBone v. 10.0.0)
   * <a href="https://github.com/bonecode/Common">Common</a>
