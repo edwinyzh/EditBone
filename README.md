@@ -9,6 +9,6 @@
   * <a href="http://jvcl.sourceforge.net/daily/">JEDI Visual Component Library</a>
   * <a href="http://code.google.com/p/virtual-treeview/">Virtual Treeview</a>
   * <a href="http://www.sqlparser.com/">General SQL Parser</a> (commercial)
-  * <a href="http://code.google.com/p/bonecode-bceditor/">bonecode-bceditor</a> (!EditBone v. 10.0.0)
+  * <a href="http://code.google.com/p/bonecode-bceditor/">bonecode-bceditor</a> (EditBone v. 10.0.0)
   * <a href="http://code.google.com/p/bonecode-common/">bonecode-common</a>
   * <a href="http://code.google.com/p/bonecode-components/">bonecode-components</a>
