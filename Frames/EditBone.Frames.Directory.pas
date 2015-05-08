@@ -14,8 +14,8 @@ uses
 
 type
   TDirectoryFrame = class(TFrame)
-    CloseDirectoryMenuItem: TMenuItem;
-    DeleteMenuItem: TMenuItem;
+    MenuItemCloseDirectory: TMenuItem;
+    MenuItemDelete: TMenuItem;
     ActionList: TActionList;
     ActionDirectoryClose: TAction;
     ActionDirectoryDelete: TAction;
@@ -24,24 +24,24 @@ type
     ActionDirectoryProperties: TAction;
     ActionDirectoryRefresh: TAction;
     ActionDirectoryRename: TAction;
-    EditDirectoryMenuItem: TMenuItem;
-    OpenDirectoryMenuItem: TMenuItem;
+    MenuItemEditDirectory: TMenuItem;
+    MenuItemOpenDirectory: TMenuItem;
     PageControl: TBCPageControl;
     PopupMenu: TPopupMenu;
-    PropertiesMenuItem: TMenuItem;
-    RefreshMenuItem: TMenuItem;
-    RenameMenuItem: TMenuItem;
-    Separator1MenuItem: TMenuItem;
-    Separator2MenuItem: TMenuItem;
-    Separator3MenuItem: TMenuItem;
+    MenuItemProperties: TMenuItem;
+    MenuItemRefresh: TMenuItem;
+    MenuItemRename: TMenuItem;
+    MenuItemSeparator3: TMenuItem;
+    MenuItemSeparator2: TMenuItem;
+    MenuItemSeparator4: TMenuItem;
     ActionDirectoryFiles: TAction;
-    FilesMenuItem: TMenuItem;
+    MenuItemFiles: TMenuItem;
     ActionDirectoryFindInFiles: TAction;
-    FindinFilesMenuItem: TMenuItem;
+    MenuItemFindinFiles: TMenuItem;
     ActionDirectoryContextMenu: TAction;
-    ContextMenu1: TMenuItem;
+    MenuItemContextMenu: TMenuItem;
     FrameAdapter: TsFrameAdapter;
-    N1: TMenuItem;
+    MenuItemSeparator1: TMenuItem;
     procedure ActionDirectoryCloseExecute(Sender: TObject);
     procedure ActionDirectoryDeleteExecute(Sender: TObject);
     procedure ActionDirectoryEditExecute(Sender: TObject);

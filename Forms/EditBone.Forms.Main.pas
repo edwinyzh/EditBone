@@ -518,9 +518,9 @@ type
     TabSheetSearch: TsTabSheet;
     TabSheetTools: TsTabSheet;
     TabSheetView: TsTabSheet;
-    ToggleBookmarkMenuItem: TMenuItem;
-    ToggleBookmarksMenuItem: TMenuItem;
-    ToggleCaseMenuItem: TMenuItem;
+    MenuItemToggleBookmark: TMenuItem;
+    MenuItemToggleBookmarks: TMenuItem;
+    MenuItemToggleCase: TMenuItem;
     MenuItemToolsSelectForCompare: TMenuItem;
     MenuItemFileSelectFromDirectory: TMenuItem;
     MenuItemPopupMenuDocumentDivider5: TMenuItem;
@@ -1432,7 +1432,7 @@ var
   IsSQLDocument: Boolean;
   IsXMLDocument: Boolean;
   BookmarkList: TBCEditorBookmarkList;
-  GotoBookmarksAction, ToggleBookmarksAction: TAction;
+  LActionGotoBookmarks, LActionToggleBookmarks: TAction;
 begin
   FProcessingEventHandler := True;
   try
@@ -1579,29 +1579,29 @@ begin
       { Bookmarks }
       for i := 1 to 9 do
       begin
-        GotoBookmarksAction := TAction(FindComponent(Format('ActionGotoBookmarks%d', [i])));
-        if Assigned(GotoBookmarksAction) then
+        LActionGotoBookmarks := TAction(FindComponent(Format('ActionGotoBookmarks%d', [i])));
+        if Assigned(LActionGotoBookmarks) then
         begin
-          GotoBookmarksAction.Enabled := False;
-          GotoBookmarksAction.Caption := Format('%s &%d', [LanguageDataModule.GetConstant('Bookmark'), i]);
+          LActionGotoBookmarks.Enabled := False;
+          LActionGotoBookmarks.Caption := Format('%s &%d', [LanguageDataModule.GetConstant('Bookmark'), i]);
         end;
-        ToggleBookmarksAction := TAction(FindComponent(Format('ActionToggleBookmarks%d', [i])));
-        if Assigned(ToggleBookmarksAction) then
-          ToggleBookmarksAction.Caption := Format('%s &%d', [LanguageDataModule.GetConstant('Bookmark'), i]);
+        LActionToggleBookmarks := TAction(FindComponent(Format('ActionToggleBookmarks%d', [i])));
+        if Assigned(LActionToggleBookmarks) then
+          LActionToggleBookmarks.Caption := Format('%s &%d', [LanguageDataModule.GetConstant('Bookmark'), i]);
       end;
       if Assigned(BookmarkList) then
       for i := 0 to BookmarkList.Count - 1 do
       begin
-        GotoBookmarksAction := TAction(FindComponent(Format('ActionGotoBookmarks%d', [BookmarkList.Items[i].BookmarkNumber])));
-        if Assigned(GotoBookmarksAction) then
+        LActionGotoBookmarks := TAction(FindComponent(Format('ActionGotoBookmarks%d', [BookmarkList.Items[i].BookmarkNumber])));
+        if Assigned(LActionGotoBookmarks) then
         begin
-          GotoBookmarksAction.Enabled := True;
-          GotoBookmarksAction.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
+          LActionGotoBookmarks.Enabled := True;
+          LActionGotoBookmarks.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
             BookmarkList.Items[i].BookmarkNumber, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
         end;
-        ToggleBookmarksAction := TAction(FindComponent(Format('ActionToggleBookmarks%d', [BookmarkList.Items[i].BookmarkNumber])));
-        if Assigned(ToggleBookmarksAction) then
-          ToggleBookmarksAction.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
+        LActionToggleBookmarks := TAction(FindComponent(Format('ActionToggleBookmarks%d', [BookmarkList.Items[i].BookmarkNumber])));
+        if Assigned(LActionToggleBookmarks) then
+          LActionToggleBookmarks.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
             BookmarkList.Items[i].BookmarkNumber, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
       end;
     end;
@@ -1623,7 +1623,7 @@ end;
 procedure TMainForm.CreateLanguageMenu(AMenuItem: TMenuItem);
 var
   LanguagePath, FileName, ExtractedFileName, LanguageName: string;
-  MenuItem: TMenuItem;
+  LMenuItem: TMenuItem;
 begin
   ActionToolBarMenuLanguage.Enabled := False;
   AMenuItem.Clear;
@@ -1635,13 +1635,13 @@ begin
   LanguageName := GetSelectedLanguage('English');
   for FileName in TDirectory.GetFiles(LanguagePath, '*.lng') do
   begin
-    MenuItem := TMenuItem.Create(Application);
+    LMenuItem := TMenuItem.Create(Application);
     ExtractedFileName := ExtractFilename(ChangeFileExt(FileName, ''));
-    MenuItem.Caption := ExtractedFileName;
-    MenuItem.OnClick := LanguageMenuClick;
-    MenuItem.Checked := LanguageName = ExtractedFileName;
-    MenuItem.RadioItem := True;
-    AMenuItem.Add(MenuItem);
+    LMenuItem.Caption := ExtractedFileName;
+    LMenuItem.OnClick := LanguageMenuClick;
+    LMenuItem.Checked := LanguageName = ExtractedFileName;
+    LMenuItem.RadioItem := True;
+    AMenuItem.Add(LMenuItem);
   end;
   ActionToolBarMenuLanguage.Enabled := AMenuItem.Count > 0;
 end;

@@ -112,51 +112,51 @@ object DirectoryFrame: TDirectoryFrame
     OnPopup = PopupMenuPopup
     Left = 82
     Top = 136
-    object OpenDirectoryMenuItem: TMenuItem
+    object MenuItemOpenDirectory: TMenuItem
       Action = ActionDirectoryOpen
       Hint = 'Open a new directory'
       ShortCut = 16452
     end
-    object CloseDirectoryMenuItem: TMenuItem
+    object MenuItemCloseDirectory: TMenuItem
       Action = ActionDirectoryClose
       Hint = 'Close the active directory'
       ShortCut = 24644
     end
-    object EditDirectoryMenuItem: TMenuItem
+    object MenuItemEditDirectory: TMenuItem
       Action = ActionDirectoryEdit
       ShortCut = 24645
     end
-    object N1: TMenuItem
+    object MenuItemSeparator1: TMenuItem
       Caption = '-'
     end
-    object FilesMenuItem: TMenuItem
+    object MenuItemFiles: TMenuItem
       Action = ActionDirectoryFiles
     end
-    object FindinFilesMenuItem: TMenuItem
+    object MenuItemFindinFiles: TMenuItem
       Action = ActionDirectoryFindInFiles
     end
-    object Separator2MenuItem: TMenuItem
+    object MenuItemSeparator2: TMenuItem
       Caption = '-'
     end
-    object RefreshMenuItem: TMenuItem
+    object MenuItemRefresh: TMenuItem
       Action = ActionDirectoryRefresh
     end
-    object Separator1MenuItem: TMenuItem
+    object MenuItemSeparator3: TMenuItem
       Caption = '-'
     end
-    object RenameMenuItem: TMenuItem
+    object MenuItemRename: TMenuItem
       Action = ActionDirectoryRename
     end
-    object DeleteMenuItem: TMenuItem
+    object MenuItemDelete: TMenuItem
       Action = ActionDirectoryDelete
     end
-    object Separator3MenuItem: TMenuItem
+    object MenuItemSeparator4: TMenuItem
       Caption = '-'
     end
-    object ContextMenu1: TMenuItem
+    object MenuItemContextMenu: TMenuItem
       Action = ActionDirectoryContextMenu
     end
-    object PropertiesMenuItem: TMenuItem
+    object MenuItemProperties: TMenuItem
       Action = ActionDirectoryProperties
     end
   end

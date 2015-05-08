@@ -4620,10 +4620,10 @@ inherited MainForm: TMainForm
     object MenuItemSeparator2: TMenuItem
       Caption = '-'
     end
-    object ToggleBookmarkMenuItem: TMenuItem
+    object MenuItemToggleBookmark: TMenuItem
       Action = ActionSearchToggleBookmark
     end
-    object ToggleBookmarksMenuItem: TMenuItem
+    object MenuItemToggleBookmarks: TMenuItem
       Action = ActionSearchToggleBookmarks
       object MenuItemToggleBookmark1: TMenuItem
         Tag = 1
@@ -4770,7 +4770,7 @@ inherited MainForm: TMainForm
     object MenuItemSeparator6: TMenuItem
       Caption = '-'
     end
-    object ToggleCaseMenuItem: TMenuItem
+    object MenuItemToggleCase: TMenuItem
       Action = ActionEditToggleCase
     end
   end
