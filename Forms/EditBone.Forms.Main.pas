@@ -1995,6 +1995,8 @@ begin
     if not SectionExists('ToolBarItems') then
       for i := 1 to Length(ToolBarItemsArray) do
          WriteString('ToolBarItems', IntToStr(i - 1), ToolBarItemsArray[i]);
+
+    SkinManager.SkinName := ReadString('Options', 'SelectedSkin', 'MetroUI');
   finally
     Free;
   end;
@@ -2405,6 +2407,7 @@ begin
     WriteBool('Options', 'ShowHighlighterSelection', TitleBar.Items[4].Visible);
     WriteBool('Options', 'ShowHighlighterColorSelection', TitleBar.Items[6].Visible);
     WriteBool('Options', 'ShowXMLTree', ActionViewXMLTree.Checked);
+    WriteString('Options', 'SelectedSkin', SkinManager.SkinName);
   finally
     Free;
   end;

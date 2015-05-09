@@ -1102,44 +1102,27 @@ end;
 
 procedure TDocumentFrame.Replace;
 var
-  Editor: TBCEditor;
+  i: Integer;
+  LEditor: TBCEditor;
+  LResult: Integer;
 begin
-  Editor := GetActiveEditor;
-  if not Assigned(Editor) then
-    Exit;
-  TReplaceDialog.ClassShowModal(Editor);
- { FProcessing := True;
-  Application.ProcessMessages;
+  FProcessing := True;
+
   with ReplaceDialog do
   begin
-    Editor := GetActiveEditor;
-    if not Assigned(Editor) then
+    LEditor := GetActiveEditor;
+    if not Assigned(LEditor) then
       Exit;
-    if Editor.SelectionAvailable then
-      SearchForComboBox.Text := Editor.SelText;
-    MResult := ShowModal;
-    if (MResult = mrOK) or (MResult = mrYes) then
+    if LEditor.SelectionAvailable then
+      ComboBoxSearchFor.Text := LEditor.SelectedText;
+    LResult := ShowModal;
+    if (LResult = mrOK) or (LResult = mrYes) then
     begin
-      SynSearchOptions := SearchOptions(False);
-      if PromptOnReplace then
-        Include(SynSearchOptions, ssoPrompt);
-      if Replace then
-        Include(SynSearchOptions, ssoReplace)
-      else
-        Include(SynSearchOptions, ssoDeleteLine);
-      Include(SynSearchOptions, ssoReplaceAll);
-      if RegularExpressions then
-        Editor.SearchEngine := EditorRegexSearch
-      else
-      if WildCard then
-        Editor.SearchEngine := EditorWildCardSearch
-      else
-        Editor.SearchEngine := EditorSearch;
-
       if ReplaceInWholeFile then
       begin
-        Editor.CaretXY := BufferCoord(0, 0);
-        Editor.SearchReplace(SearchText, ReplaceText, SynSearchOptions);
+        GetOptions(LEditor);
+        LEditor.CaretZero;
+        LEditor.ReplaceText(ComboBoxSearchFor.Text, ComboBoxReplaceWith.Text);
       end
       else
       begin
@@ -1151,14 +1134,13 @@ begin
           begin
             ProgressBar.StepIt;
             Application.ProcessMessages;
-            Editor := GetEditor(PageControl.Pages[i]);
-            if Assigned(Editor) then
+            LEditor := GetEditor(PageControl.Pages[i]);
+            if Assigned(LEditor) then
             begin
-              Editor.CaretXY := BufferCoord(0, 0);
-              Editor.SearchReplace(SearchText, ReplaceText, SynSearchOptions);
-              // TODO: Do we need following lines?
-              PageControl.Pages[i].Caption := FormatFileName(PageControl.Pages[i].Caption, Editor.Modified);
-              PageControl.UpdatePageCaption(PageControl.Pages[i]);
+              GetOptions(LEditor);
+              LEditor.CaretZero;
+              LEditor.ReplaceText(ComboBoxSearchFor.Text, ComboBoxReplaceWith.Text);
+              PageControl.Pages[i].Caption := FormatFileName(PageControl.Pages[i].Caption, LEditor.Modified);
             end;
           end;
         finally
@@ -1167,7 +1149,7 @@ begin
         end;
       end;
     end;
-  end;         }
+  end;
   FProcessing := False;
 end;
 
