@@ -10,7 +10,6 @@ uses
   EditBone.Frames.Document in 'Frames\EditBone.Frames.Document.pas' {DocumentFrame: TFrame},
   EditBone.Frames.Document.TabSheet in 'Frames\EditBone.Frames.Document.TabSheet.pas' {DocTabSheetFrame: TFrame},
   EditBone.Frames.Document.TabSheet.XMLTree in 'Frames\EditBone.Frames.Document.TabSheet.XMLTree.pas' {DocumentXMLTreeFrame: TFrame},
-  EditBone.Dialogs.InsertTag in 'Dialogs\EditBone.Dialogs.InsertTag.pas' {InsertTagDialog},
   EditBone.Forms.Options in 'Forms\EditBone.Forms.Options.pas' {OptionsForm},
   EditBone.Frames.Options.Editor.Tabs in 'Frames\EditBone.Frames.Options.Editor.Tabs.pas' {OptionsEditorTabsFrame: TFrame},
   EditBone.Frames.Options.Editor.Defaults in 'Frames\EditBone.Frames.Options.Editor.Defaults.pas' {OptionsEditorDefaultsFrame: TFrame},

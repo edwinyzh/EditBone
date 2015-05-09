@@ -21,7 +21,7 @@ implementation
 
 {$R *.dfm}
 
-class function TInsertTagDialog.ClassShowModal(AOwner: TComponent; var ATagName: string): Integer;
+class function TInsertTagDialog.ClassShowModal(AOwner: TComponent; const ACaption: string; var ATagName: string): Integer;
 begin
   with TInsertTagDialog.Create(AOwner) do
   try

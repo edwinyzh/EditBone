@@ -211,7 +211,7 @@ implementation
 uses
   BCCommon.Forms.Print.Preview, BCCommon.Options.Container, BCCommon.Dialogs.ConfirmReplace, BCEditor.Print.Types,
   Vcl.ActnMenus, System.Types, System.WideStrings, System.Math, BigIni, Vcl.GraphUtil,
-  BCCommon.Language.Strings, EditBone.Dialogs.InsertTag, BCCommon.Language.Utils, BCCommon.Dialogs.Replace,
+  BCCommon.Language.Strings, BCCommon.Dialogs.InputQuery, BCCommon.Language.Utils, BCCommon.Dialogs.Replace,
   BCCommon.FileUtils, BCCommon.Messages, BCCommon.StringUtils, Winapi.CommCtrl, EditBone.Forms.Options,
   BCCommon.Images, System.Generics.Collections, BCCommon.SQL.Formatter, BCEditor.Editor.KeyCommands, EditBone.Forms.Main,
   BCControls.Utils, BCEditor.Editor.Utils, BCCommon.Consts, BCEditor.Encoding,
@@ -1483,7 +1483,7 @@ var
   LEditor: TBCEditor;
   LTagName: string;
 begin
-  if TInsertTagDialog.ClassShowModal(Self, LTagName) = mrOk then
+  if TInputQueryDialog.ClassShowModal(Self, LanguageDataModule.GetConstant('InsertTags'), LTagName) = mrOk then
   begin
     LEditor := GetActiveEditor;
     if Assigned(LEditor) then
@@ -1627,9 +1627,16 @@ begin
 end;
 
 procedure TDocumentFrame.GotoLine;
+var
+  LEditor: TBCEditor;
+  LRow: Integer;
 begin
-  // TODO: input dialog
-
+  if TInputQueryDialog.ClassShowModal(Self, LanguageDataModule.GetConstant('GoToLine'), LRow) = mrOk then
+  begin
+    LEditor := GetActiveEditor;
+    if Assigned(LEditor) then
+      LEditor.GotoLineAndCenter(LRow);
+  end;
 end;
 
 function TDocumentFrame.GetActiveSplitEditor: TBCEditor;
@@ -1811,11 +1818,6 @@ begin
         Result := FormatFileName(Editor.DocumentName, Editor.Modified);
   end;
 end;
-
-{function TDocumentFrame.GetOpenTabSheets: Boolean;
-begin
-  Result := PageControl.PageCount > 0;
-end; }
 
 function TDocumentFrame.GetOpenTabSheetCount: Integer;
 begin

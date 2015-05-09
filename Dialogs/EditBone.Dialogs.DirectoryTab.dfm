@@ -147,7 +147,6 @@ object DirectoryTabDialog: TDirectoryTabDialog
         Margins.Bottom = 5
         Align = alBottom
         TabOrder = 0
-        Text = '0'
         SkinData.SkinSection = 'EDIT'
         BoundLabel.Active = True
         BoundLabel.Caption = 'Root directory'
@@ -166,7 +165,6 @@ object DirectoryTabDialog: TDirectoryTabDialog
         NumbersWithSpots = False
         ErrorColor = clBlack
         NumbersAllowNegative = False
-        ValueInt = 0
       end
     end
   end
@@ -275,7 +273,6 @@ object DirectoryTabDialog: TDirectoryTabDialog
     Margins.Right = 0
     Align = alTop
     TabOrder = 3
-    Text = '0'
     SkinData.SkinSection = 'EDIT'
     BoundLabel.Active = True
     BoundLabel.Caption = 'Tab name'
@@ -294,7 +291,6 @@ object DirectoryTabDialog: TDirectoryTabDialog
     NumbersWithSpots = False
     ErrorColor = clBlack
     NumbersAllowNegative = False
-    ValueInt = 0
   end
   object ActionList: TActionList
     Left = 428

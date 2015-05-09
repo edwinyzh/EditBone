@@ -60,7 +60,6 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
       NumbersWithSpots = False
       ErrorColor = 14803198
       NumbersAllowNegative = False
-      ValueInt = 20
     end
     object CheckBoxShowHiddenFiles: TBCCheckBox
       Left = 0

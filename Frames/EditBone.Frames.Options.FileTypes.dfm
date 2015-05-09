@@ -26,7 +26,6 @@ inherited OptionsFileTypesFrame: TOptionsFileTypesFrame
       Margins.Bottom = 4
       Align = alBottom
       TabOrder = 0
-      Text = '0'
       OnChange = EditExtensionsChange
       SkinData.SkinSection = 'EDIT'
       BoundLabel.Active = True
@@ -46,7 +45,6 @@ inherited OptionsFileTypesFrame: TOptionsFileTypesFrame
       NumbersWithSpots = False
       ErrorColor = 14803198
       NumbersAllowNegative = False
-      ValueInt = 0
     end
   end
   object FileTypesTopPanel: TBCPanel [1]

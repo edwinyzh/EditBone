@@ -159,10 +159,6 @@
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Dialogs\EditBone.Dialogs.InsertTag.pas">
-            <Form>InsertTagDialog</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="Forms\EditBone.Forms.Options.pas">
             <Form>OptionsForm</Form>
             <FormType>dfm</FormType>

@@ -1053,6 +1053,7 @@ object DocumentFrame: TDocumentFrame
       00000000000000000000000000000000}
   end
   object PopupMenuXMLTree: TPopupMenu
+    Images = ImagesDataModule.ImageListSmall
     Left = 240
     Top = 114
     object MenuItemXMLRefresh: TMenuItem
