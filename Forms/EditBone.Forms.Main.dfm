@@ -98,7 +98,7 @@ inherited MainForm: TMainForm
       Margins.Top = 4
       Margins.Right = 0
       Margins.Bottom = 0
-      ActivePage = TabSheetView
+      ActivePage = TabSheetFile
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -114,7 +114,7 @@ inherited MainForm: TMainForm
       TabSpacing = 12
       SkinData.SkinSection = 'RIBBONPAGE'
       SkinData.OuterEffects.Visibility = ovAlways
-      ActivePageCaption = 'View'
+      ActivePageCaption = 'File'
       HoldShiftToDragDrop = False
       TabDragDrop = False
       object TabSheetButton: TsTabSheet
@@ -187,8 +187,8 @@ inherited MainForm: TMainForm
             Top = 0
             Width = 70
             Height = 58
+            Action = ActionFileReopen
             Align = alLeft
-            Caption = 'Reopen'
             Flat = True
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
@@ -645,8 +645,8 @@ inherited MainForm: TMainForm
             Top = 0
             Width = 70
             Height = 58
+            Action = ActionEditInsert
             Align = alLeft
-            Caption = 'Insert'
             Flat = True
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
@@ -666,8 +666,8 @@ inherited MainForm: TMainForm
             Top = 0
             Width = 70
             Height = 58
+            Action = ActionEditDelete
             Align = alLeft
-            Caption = 'Delete'
             Flat = True
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
@@ -711,8 +711,8 @@ inherited MainForm: TMainForm
             Top = 0
             Width = 70
             Height = 58
+            Action = ActionEditSort
             Align = alLeft
-            Caption = 'Sort'
             Flat = True
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
@@ -732,8 +732,8 @@ inherited MainForm: TMainForm
             Top = 0
             Width = 70
             Height = 58
+            Action = ActionEditIndent
             Align = alLeft
-            Caption = 'Indent'
             Flat = True
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
@@ -918,9 +918,8 @@ inherited MainForm: TMainForm
             Top = 0
             Width = 94
             Height = 58
-            Hint = 'Toggle bookmarks'
+            Action = ActionSearchToggleBookmarks
             Align = alLeft
-            Caption = 'Toggle bookmarks'
             Flat = True
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
@@ -940,9 +939,8 @@ inherited MainForm: TMainForm
             Top = 0
             Width = 94
             Height = 58
-            Hint = 'Go to bookmarks'
+            Action = ActionSearchGoToBookmarks
             Align = alLeft
-            Caption = 'Goto bookmarks'
             Flat = True
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
@@ -1491,9 +1489,8 @@ inherited MainForm: TMainForm
             Top = 0
             Width = 76
             Height = 58
-            Hint = 'Format'
+            Action = ActionDocumentFormat
             Align = alLeft
-            Caption = 'Format'
             Flat = True
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
@@ -3417,6 +3414,7 @@ inherited MainForm: TMainForm
       Category = 'Edit'
       Caption = 'Insert'
       ImageIndex = 18
+      OnExecute = ActionDummyExecute
     end
     object ActionEditInsertLine: TAction
       Category = 'Edit'
@@ -3446,6 +3444,7 @@ inherited MainForm: TMainForm
       Category = 'Edit'
       Caption = 'Delete'
       ImageIndex = 22
+      OnExecute = ActionDummyExecute
     end
     object ActionEditDeleteLine: TAction
       Category = 'Edit'
@@ -3483,6 +3482,7 @@ inherited MainForm: TMainForm
       Category = 'Edit'
       Caption = 'Indent'
       ImageIndex = 27
+      OnExecute = ActionDummyExecute
     end
     object ActionEditIndentIncrease: TAction
       Category = 'Edit'
@@ -3504,6 +3504,7 @@ inherited MainForm: TMainForm
       Category = 'Edit'
       Caption = 'Sort'
       ImageIndex = 30
+      OnExecute = ActionDummyExecute
     end
     object ActionEditSortAsc: TAction
       Category = 'Edit'

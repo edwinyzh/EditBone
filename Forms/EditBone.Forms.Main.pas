@@ -1098,7 +1098,7 @@ end;
 procedure TMainForm.ActionToolsLanguageEditorExecute(Sender: TObject);
 begin
   LanguageEditorForm.Open;
-  ReadLanguageFile(GetSelectedLanguage('English'));
+  Self.ReadLanguageFile(GetSelectedLanguage('English'));
 end;
 
 procedure TMainForm.CreateToolBar(ACreate: Boolean = False);
@@ -1702,9 +1702,39 @@ begin
 end;
 
 procedure TMainForm.ReadLanguageFile(ALanguage: string);
+
+  procedure InitializeSpeedButtons(Panels: array of TBCPanel);
+  var
+    i, j: Integer;
+    s: string;
+    LSpeedButton: TBCSpeedButton;
+    LTextWidth: Integer;
+  begin
+    for j := 0 to Length(Panels) - 1 do
+      for i := 0 to Panels[j].ControlCount - 1 do
+      if Panels[j].Controls[i] is TBCSpeedButton then
+      begin
+        LSpeedButton := TBCSpeedButton(Panels[j].Controls[i]);
+        LSpeedButton.Images := ImagesDataModule.ImageList;
+        if LSpeedButton.ButtonStyle <> tbsDivider then
+        begin
+          s := LSpeedButton.Caption;
+          s := StringReplace(s, '.', '', [rfReplaceAll]);
+          s := StringReplace(s, '&', '', [rfReplaceAll]);
+          LSpeedButton.Caption := s;
+          LTextWidth := LSpeedButton.Canvas.TextWidth(s);
+          LSpeedButton.Width := Max(60, LTextWidth + 8);
+          if LSpeedButton.ButtonStyle = tbsDropDown then
+            LSpeedButton.Width := LSpeedButton.Width + 12;
+          LSpeedButton.Width := LSpeedButton.Width - s.CountChar(',') * LSpeedButton.Canvas.TextWidth(',')
+        end;
+      end;
+  end;
+
 begin
   if ALanguage = '' then
     Exit;
+
   { language constants }
   BCCommon.Language.Strings.ReadLanguageFile(ALanguage);
   { mainform }
@@ -1713,6 +1743,9 @@ begin
   UpdateLanguage(TForm(FDirectoryFrame), ALanguage);
   FDocumentFrame.UpdateLanguage(ALanguage);
   UpdateLanguage(TForm(FOutputFrame), ALanguage);
+
+  InitializeSpeedButtons([PanelFileButtons, PanelEditButtons, PanelSearchButtons, PanelViewButtons,
+    PanelDocumentButtons, PanelToolsButtons, PanelHelpButtons]);
 end;
 
 procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -1753,39 +1786,12 @@ begin
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
-
-  procedure InitializeSpeedButtons(Panels: array of TBCPanel);
-  var
-    i, j: Integer;
-    s: string;
-    LSpeedButton: TBCSpeedButton;
-    LTextWidth: Integer;
-  begin
-    for j := 0 to Length(Panels) - 1 do
-      for i := 0 to Panels[j].ControlCount - 1 do
-      if Panels[j].Controls[i] is TBCSpeedButton then
-      begin
-        LSpeedButton := TBCSpeedButton(Panels[j].Controls[i]);
-        LSpeedButton.Images := ImagesDataModule.ImageList;
-        if LSpeedButton.ButtonStyle <> tbsDivider then
-        begin
-          s := LSpeedButton.Caption;
-          LTextWidth := LSpeedButton.Canvas.TextWidth(s);
-          LSpeedButton.Width := Max(60, LTextWidth + 8);
-          if LSpeedButton.ButtonStyle = tbsDropDown then
-            LSpeedButton.Width := LSpeedButton.Width + 12;
-          LSpeedButton.Width := LSpeedButton.Width - s.CountChar(',') * LSpeedButton.Canvas.TextWidth(',')
-        end;
-      end;
-  end;
-
 begin
   inherited;
 
   PageControlToolBar.ActivePage := TabSheetFile;
 
   FImageListCount := ImagesDataModule.ImageListSmall.Count; { System images are appended after menu icons for file reopen }
-  BCCommon.Language.Strings.ReadLanguageFile(GetSelectedLanguage('English'));
   ReadIniOptions;
   CreateToolBar(True);
   CreateFrames;
@@ -1794,9 +1800,6 @@ begin
   SetMargins;
 
   FSQLFormatterDLLFound := FileExists(GetSQLFormatterDLLFilename);
-
-  InitializeSpeedButtons([PanelFileButtons, PanelEditButtons, PanelSearchButtons, PanelViewButtons,
-    PanelDocumentButtons, PanelToolsButtons, PanelHelpButtons]);
 
   CreateLanguageMenu(MenuItemToolBarMenuLanguage);
   CreateSkinsMenu(MenuItemToolBarMenuSkin);
@@ -1903,7 +1906,8 @@ begin
       FDocumentFrame.Open(ParamStr(i), nil, 0, 0, True);
   end;
 
-  ReadLanguageFile(GetSelectedLanguage);
+  Self.ReadLanguageFile(GetSelectedLanguage('English'));
+
   CreateFileReopenList;
 
   Editor := FDocumentFrame.GetActiveEditor;
