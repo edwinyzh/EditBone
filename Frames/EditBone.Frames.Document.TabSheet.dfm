@@ -178,9 +178,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
       inherited PanelRight: TBCPanel
         Left = 373
         Width = 56
-        inherited LabelSearchCount: TBCLabelFX
+        inherited LabelSearchResultCount: TBCLabelFX
           Left = 44
-          Height = 21
         end
       end
       inherited PanelToolBar: TBCPanel
