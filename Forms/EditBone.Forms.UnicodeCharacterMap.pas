@@ -175,7 +175,6 @@ begin
   Result.Canvas.Font.Height := BitmapSize;
 
   GetTextExtentPoint32W(RESULT.Canvas.Handle, @w, 1, Size);
-
   TextOutW(Result.Canvas.Handle, (Result.Width - size.cx) DIV 2, 0, @w, 1)
 end;
 
@@ -257,7 +256,7 @@ begin
       s := '0' + s;
     s := 'U+' + s;
   end;
-  StatusBar.SimpleText := s;
+  StatusBar.Panels[0].Text := s;
 end;
 
 procedure TUnicodeCharacterMapForm.ReadSizePosIniFile;

@@ -5,16 +5,16 @@ interface
 uses
   System.SysUtils, Winapi.Windows, System.Classes, Vcl.Graphics, Vcl.Forms, Vcl.Controls, Vcl.StdCtrls, Vcl.Buttons,
   Vcl.ExtCtrls, Vcl.Imaging.pngimage, BCCommon.Dialogs.Base, BCControls.Panel, sPanel, BCControls.GroupLabel, sLabel,
-  acImage;
+  acImage, BCControls.Labels;
 
 type
   TAboutDialog = class(TBCBaseDialog)
     ButtonDonations: TButton;
     ButtonOK: TButton;
-    GroupLabelDevelopmentEnvironment: TBCGroupLabel;
-    GroupLabelIcons: TBCGroupLabel;
-    GroupLabelLanguageFileContributors: TBCGroupLabel;
-    GroupLabelThirdPartyComponents: TBCGroupLabel;
+    LabelDevelopmentEnvironment: TBCLabel;
+    LabelIcons: TBCLabel;
+    LabelLanguageFileContributors: TBCLabel;
+    LabelThirdPartyComponents: TBCLabel;
     HTMLLabel3rdPartyComponents: TsHTMLLabel;
     HTMLLabelDevelopmentEnvironment: TsHTMLLabel;
     HTMLLabelIcons: TsHTMLLabel;
@@ -33,18 +33,13 @@ type
     PanelThanksTo: TBCPanel;
     PanelTop: TBCPanel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure FormDestroy(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure LinkClick(Sender: TObject; const Link: string; LinkType: TSysLinkType);
     procedure ButtonDonationsClick(Sender: TObject);
   private
-    function GetVersion: string;
+    procedure Initialize;
   public
-    procedure Open;
-    property Version: string read GetVersion;
+    class procedure ClassShowModal(AOwner: TComponent);
   end;
-
-function AboutDialog: TAboutDialog;
 
 implementation
 
@@ -53,19 +48,15 @@ implementation
 uses
   BCCommon.Utils, BCCommon.Consts, BCCommon.FileUtils;
 
-var
-  FAboutDialog: TAboutDialog;
-
-function AboutDialog: TAboutDialog;
+class procedure TAboutDialog.ClassShowModal(AOwner: TComponent);
 begin
-  if not Assigned(FAboutDialog) then
-    Application.CreateForm(TAboutDialog, FAboutDialog);
-  Result := FAboutDialog;
-end;
-
-procedure TAboutDialog.Open;
-begin
-  ShowModal;
+  with TAboutDialog.Create(AOwner) do
+  try
+    Initialize;
+    ShowModal;
+  finally
+    Free;
+  end;
 end;
 
 procedure TAboutDialog.LinkClick(Sender: TObject;
@@ -85,12 +76,7 @@ begin
   Action := caFree;
 end;
 
-procedure TAboutDialog.FormDestroy(Sender: TObject);
-begin
-  FAboutDialog := nil
-end;
-
-procedure TAboutDialog.FormShow(Sender: TObject);
+procedure TAboutDialog.Initialize;
 var
   MemoryStatus: TMemoryStatusEx;
 begin
@@ -113,11 +99,6 @@ begin
   {$WARNINGS ON}
   LabelOperatingSystem.Caption := GetOSInfo;
   LabelMemoryAvailable.Caption := Format(LabelMemoryAvailable.Caption, [FormatFloat('#,###" KB"', MemoryStatus.ullAvailPhys  div 1024)]);
-end;
-
-function TAboutDialog.GetVersion: string;
-begin
-  Result := GetFileVersion(Application.ExeName);
 end;
 
 end.

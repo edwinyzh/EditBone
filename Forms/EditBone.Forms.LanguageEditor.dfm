@@ -264,7 +264,7 @@ object LanguageEditorForm: TLanguageEditorForm
       Top = 2
       Width = 60
       Height = 54
-      Action = ActionClose
+      Action = ActionExit
       Align = alLeft
       Flat = True
       Font.Charset = DEFAULT_CHARSET
@@ -302,11 +302,11 @@ object LanguageEditorForm: TLanguageEditorForm
       ImageIndex = 3
       OnExecute = ActionFileSaveExecute
     end
-    object ActionClose: TAction
+    object ActionExit: TAction
       Caption = 'Exit'
       Hint = 'Exit the language editor'
       ImageIndex = 11
-      OnExecute = ActionCloseExecute
+      OnExecute = ActionExitExecute
     end
   end
   object ApplicationEvents: TApplicationEvents

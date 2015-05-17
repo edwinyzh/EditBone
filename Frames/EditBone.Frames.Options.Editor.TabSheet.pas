@@ -1,4 +1,4 @@
-unit EditBone.Frames.Options.Editor.Tabs;
+unit EditBone.Frames.Options.Editor.TabSheet;
 
 interface
 

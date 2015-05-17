@@ -11,7 +11,7 @@ uses
   EditBone.Frames.Document.TabSheet in 'Frames\EditBone.Frames.Document.TabSheet.pas' {DocTabSheetFrame: TFrame},
   EditBone.Frames.Document.TabSheet.XMLTree in 'Frames\EditBone.Frames.Document.TabSheet.XMLTree.pas' {DocumentXMLTreeFrame: TFrame},
   EditBone.Forms.Options in 'Forms\EditBone.Forms.Options.pas' {OptionsForm},
-  EditBone.Frames.Options.Editor.Tabs in 'Frames\EditBone.Frames.Options.Editor.Tabs.pas' {OptionsEditorTabsFrame: TFrame},
+  EditBone.Frames.Options.Editor.TabSheet in 'Frames\EditBone.Frames.Options.Editor.TabSheet.pas' {OptionsEditorTabsFrame: TFrame},
   EditBone.Frames.Options.Editor.Defaults in 'Frames\EditBone.Frames.Options.Editor.Defaults.pas' {OptionsEditorDefaultsFrame: TFrame},
   EditBone.Frames.Options.FileTypes in 'Frames\EditBone.Frames.Options.FileTypes.pas' {OptionsFileTypesFrame: TFrame},
   EditBone.Frames.Options.Directory in 'Frames\EditBone.Frames.Options.Directory.pas' {OptionsDirectoryFrame: TFrame},

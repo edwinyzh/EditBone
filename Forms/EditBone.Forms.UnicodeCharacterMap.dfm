@@ -58,8 +58,10 @@ object UnicodeCharacterMapForm: TUnicodeCharacterMapForm
     Top = 383
     Width = 387
     Height = 19
-    Panels = <>
-    SimplePanel = True
+    Panels = <
+      item
+        Width = 150
+      end>
     SkinData.SkinSection = 'STATUSBAR'
   end
   object ComboBoxFont: TBCFontComboBox

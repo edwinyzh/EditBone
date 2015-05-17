@@ -171,6 +171,18 @@ object OptionsForm: TOptionsForm
     Images = ImagesDataModule.ImageList
     Left = 136
     Top = 36
+    object ActionCompare: TAction
+      Caption = 'Compare Files'
+      ImageIndex = 69
+    end
+    object ActionDirectory: TAction
+      Caption = 'Directory'
+      ImageIndex = 116
+    end
+    object ActionDirectoryTabs: TAction
+      Caption = 'Tabs'
+      ImageIndex = 113
+    end
     object ActionEditor: TAction
       Caption = 'Editor'
       ImageIndex = 104
@@ -188,7 +200,7 @@ object OptionsForm: TOptionsForm
       ImageIndex = 83
     end
     object ActionEditorCompletionProposal: TAction
-      Caption = 'Completion Proposal'
+      Caption = 'Completion proposal'
       ImageIndex = 107
     end
     object ActionEditorDefaults: TAction
@@ -200,7 +212,7 @@ object OptionsForm: TOptionsForm
       ImageIndex = 108
     end
     object ActionEditorLeftMargin: TAction
-      Caption = 'Left Margin'
+      Caption = 'Left margin'
       ImageIndex = 109
     end
     object ActionEditorMatchingPair: TAction
@@ -239,13 +251,13 @@ object OptionsForm: TOptionsForm
       Caption = 'Tabulator'
       ImageIndex = 114
     end
-    object ActionDirectory: TAction
-      Caption = 'Directory'
-      ImageIndex = 116
+    object ActionFileTypes: TAction
+      Caption = 'File Types'
+      ImageIndex = 120
     end
-    object ActionDirectoryTabs: TAction
-      Caption = 'Tabs'
-      ImageIndex = 113
+    object ActionMainMenu: TAction
+      Caption = 'Main Menu'
+      ImageIndex = 117
     end
     object ActionOutput: TAction
       Caption = 'Output'
@@ -255,33 +267,13 @@ object OptionsForm: TOptionsForm
       Caption = 'Tabs'
       ImageIndex = 113
     end
-    object ActionCompare: TAction
-      Caption = 'Compare Files'
-      ImageIndex = 69
-    end
     object ActionPrint: TAction
       Caption = 'Print'
       ImageIndex = 9
     end
-    object ActionMainMenu: TAction
-      Caption = 'Main Menu'
-      ImageIndex = 117
-    end
-    object ActionToolBar: TAction
-      Caption = 'Tool Bar'
-      ImageIndex = 118
-    end
     object ActionStatusBar: TAction
-      Caption = 'Status Bar'
+      Caption = 'Status bar'
       ImageIndex = 119
-    end
-    object ActionFileTypes: TAction
-      Caption = 'File Types'
-      ImageIndex = 120
-    end
-    object ActionSQLFormatter: TAction
-      Caption = 'SQL Formatter'
-      ImageIndex = 65
     end
     object ActionSQLAlignments: TAction
       Caption = 'Alignments'
@@ -290,6 +282,10 @@ object OptionsForm: TOptionsForm
     object ActionSQLCapitalization: TAction
       Caption = 'Capitalization'
       ImageIndex = 122
+    end
+    object ActionSQLFormatter: TAction
+      Caption = 'SQL Formatter'
+      ImageIndex = 65
     end
     object ActionSQLIndentation: TAction
       Caption = 'Indentation'
@@ -310,6 +306,10 @@ object OptionsForm: TOptionsForm
     object ActionSQLWhitespace: TAction
       Caption = 'Whitespace'
       ImageIndex = 126
+    end
+    object ActionToolBar: TAction
+      Caption = 'Tool Bar'
+      ImageIndex = 118
     end
   end
   object SkinProvider: TsSkinProvider

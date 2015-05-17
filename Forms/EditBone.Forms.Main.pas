@@ -124,7 +124,7 @@ type
     ActionViewEditDirectory: TAction;
     ActionViewEncodingSelection: TAction;
     ActionViewFiles: TAction;
-    ActionViewHighlighterColorSelection: TAction;
+    ActionViewColorSelection: TAction;
     ActionViewHighlighterSelection: TAction;
     ActionViewLineNumbers: TAction;
     ActionViewMainMenu: TAction;
@@ -525,6 +525,13 @@ type
     MenuItemFileSelectFromDirectory: TMenuItem;
     MenuItemPopupMenuDocumentDivider5: TMenuItem;
     MenuItemFileProperties: TMenuItem;
+    ActionEncodingASCII: TAction;
+    ActionEncodingANSI: TAction;
+    ActionEncodingBigEndianUnicode: TAction;
+    ActionEncodingUnicode: TAction;
+    ActionEncodingUTF7: TAction;
+    ActionEncodingUTF8: TAction;
+    ActionEncodingUTF8WithoutBOM: TAction;
     procedure ActionFileNewExecute(Sender: TObject);
     procedure ActionFileOpenExecute(Sender: TObject);
     procedure ActionFileSaveAllExecute(Sender: TObject);
@@ -631,13 +638,12 @@ type
     procedure ActionViewMainMenuExecute(Sender: TObject);
     procedure ActionSelectHighlighterColorExecute(Sender: TObject);
     procedure ActionSelectHighlighterExecute(Sender: TObject);
-    procedure MenuItemEncodingClick(Sender: TObject);
     procedure ActionSelectEncodingExecute(Sender: TObject);
     procedure TitleBarItems4MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure TitleBarItems6MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure TitleBarItems2MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure ActionViewHighlighterSelectionExecute(Sender: TObject);
-    procedure ActionViewHighlighterColorSelectionExecute(Sender: TObject);
+    procedure ActionViewColorSelectionExecute(Sender: TObject);
     procedure ChangeSkin(Sender: TObject);
   private
     FNoIni: Boolean;
@@ -664,6 +670,7 @@ type
     procedure SetImages;
     procedure SetMargins;
     procedure SetOptions;
+    procedure UpdateMenuBarLanguage;
     procedure WriteIniFile;
     procedure GetHighlighters;
     procedure GetHighlighterColors;
@@ -982,12 +989,12 @@ end;
 
 procedure TMainForm.ActionHelpAboutEditBoneExecute(Sender: TObject);
 begin
-  AboutDialog.Open;
+  TAboutDialog.ClassShowModal(Self);
 end;
 
 procedure TMainForm.ActionHelpCheckForUpdatesExecute(Sender: TObject);
 begin
-  CheckForUpdates(Application.Title, AboutDialog.Version);
+  CheckForUpdates(Application.Title, GetFileVersion(Application.ExeName));
 end;
 
 procedure TMainForm.ActionHelpVisitHomepageExecute(Sender: TObject);
@@ -1262,9 +1269,9 @@ begin
   end;
 end;
 
-procedure TMainForm.ActionViewHighlighterColorSelectionExecute(Sender: TObject);
+procedure TMainForm.ActionViewColorSelectionExecute(Sender: TObject);
 begin
-  ActionViewHighlighterColorSelection.Checked := not ActionViewHighlighterColorSelection.Checked
+  ActionViewColorSelection.Checked := not ActionViewColorSelection.Checked
 end;
 
 procedure TMainForm.ActionViewHighlighterSelectionExecute(Sender: TObject);
@@ -1456,7 +1463,7 @@ begin
     TitleBar.Items[3].Visible := TitleBar.Items[2].Visible;
     TitleBar.Items[4].Visible := ActionViewHighlighterSelection.Checked;
     TitleBar.Items[5].Visible := TitleBar.Items[4].Visible;
-    TitleBar.Items[6].Visible := ActionViewHighlighterColorSelection.Checked;
+    TitleBar.Items[6].Visible := ActionViewColorSelection.Checked;
     TitleBar.Items[7].Visible := TitleBar.Items[6].Visible;
 
     ActionViewXMLTree.Enabled := ActiveDocumentFound and IsXMLDocument;
@@ -1696,41 +1703,7 @@ begin
   Self.ReadLanguageFile(LCaption);
 end;
 
-procedure TMainForm.MenuItemEncodingClick(Sender: TObject);
-begin
-  ActionSelectEncodingExecute(Sender);
-end;
-
 procedure TMainForm.ReadLanguageFile(ALanguage: string);
-
-  procedure InitializeSpeedButtons(Panels: array of TBCPanel);
-  var
-    i, j: Integer;
-    s: string;
-    LSpeedButton: TBCSpeedButton;
-    LTextWidth: Integer;
-  begin
-    for j := 0 to Length(Panels) - 1 do
-      for i := 0 to Panels[j].ControlCount - 1 do
-      if Panels[j].Controls[i] is TBCSpeedButton then
-      begin
-        LSpeedButton := TBCSpeedButton(Panels[j].Controls[i]);
-        LSpeedButton.Images := ImagesDataModule.ImageList;
-        if LSpeedButton.ButtonStyle <> tbsDivider then
-        begin
-          s := LSpeedButton.Caption;
-          s := StringReplace(s, '.', '', [rfReplaceAll]);
-          s := StringReplace(s, '&', '', [rfReplaceAll]);
-          LSpeedButton.Caption := s;
-          LTextWidth := LSpeedButton.Canvas.TextWidth(s);
-          LSpeedButton.Width := Max(60, LTextWidth + 8);
-          if LSpeedButton.ButtonStyle = tbsDropDown then
-            LSpeedButton.Width := LSpeedButton.Width + 12;
-          LSpeedButton.Width := LSpeedButton.Width - s.CountChar(',') * LSpeedButton.Canvas.TextWidth(',')
-        end;
-      end;
-  end;
-
 begin
   if ALanguage = '' then
     Exit;
@@ -1743,7 +1716,68 @@ begin
   UpdateLanguage(TForm(FDirectoryFrame), ALanguage);
   FDocumentFrame.UpdateLanguage(ALanguage);
   UpdateLanguage(TForm(FOutputFrame), ALanguage);
+  { menubar }
+  UpdateMenuBarLanguage;
 
+  if PageControlToolBar.Visible then
+  begin
+    { This is fucking stupid but Invalidate, Repaint, Resize etc. won't paint the menubar correctly }
+    Height := Height + 1;
+    Height := Height - 1; { TODO: Find a better solution }
+  end;
+end;
+
+procedure TMainForm.UpdateMenuBarLanguage;
+
+  procedure InitializeSpeedButtons(Panels: array of TBCPanel);
+  var
+    i, j: Integer;
+    s: string;
+    LSpeedButton: TBCSpeedButton;
+    LTextWidth: Integer;
+    LAction: TBasicAction;
+  begin
+    for j := 0 to Length(Panels) - 1 do
+      for i := 0 to Panels[j].ControlCount - 1 do
+      if Panels[j].Controls[i] is TBCSpeedButton then
+      begin
+        LSpeedButton := TBCSpeedButton(Panels[j].Controls[i]);
+        LSpeedButton.Images := ImagesDataModule.ImageList;
+        if LSpeedButton.ButtonStyle <> tbsDivider then
+        begin
+          { Menubar items are not updated, if the action is not set }
+          LAction := LSpeedButton.Action;
+          LSpeedButton.Action := nil;
+          LSpeedButton.Action := LAction;
+
+          s := LSpeedButton.Caption;
+          s := StringReplace(s, '.', '', [rfReplaceAll]);
+          s := StringReplace(s, '&', '', [rfReplaceAll]);
+          LSpeedButton.Caption := s;
+          LTextWidth := LSpeedButton.Canvas.TextWidth(s);
+          LSpeedButton.Width := Max(60, LTextWidth + 8);
+          if LSpeedButton.ButtonStyle = tbsDropDown then
+            LSpeedButton.Width := LSpeedButton.Width + 12;
+          LSpeedButton.Width := LSpeedButton.Width - s.CountChar(',') * LSpeedButton.Canvas.TextWidth(',');
+        end;
+      end;
+  end;
+
+  function RemoveShortCut(AText: string): string;
+  begin
+    Result := StringReplace(AText, '&', '', [rfReplaceAll]);
+  end;
+
+begin
+  { Captions }
+  TabSheetFile.Caption := RemoveShortCut(ActionFile.Caption);
+  TabSheetEdit.Caption := RemoveShortCut(ActionEdit.Caption);
+  TabSheetSearch.Caption := RemoveShortCut(ActionSearch.Caption);
+  TabSheetView.Caption := RemoveShortCut(ActionView.Caption);
+  TabSheetDocument.Caption := RemoveShortCut(ActionDocument.Caption);
+  TabSheetTools.Caption := RemoveShortCut(ActionTools.Caption);
+  TabSheetHelp.Caption := RemoveShortCut(ActionHelp.Caption);
+  { Buttons }
   InitializeSpeedButtons([PanelFileButtons, PanelEditButtons, PanelSearchButtons, PanelViewButtons,
     PanelDocumentButtons, PanelToolsButtons, PanelHelpButtons]);
 end;
@@ -1993,7 +2027,7 @@ begin
     ActionViewSelectionMode.Checked := OptionsContainer.EnableSelectionMode;
     ActionViewEncodingSelection.Checked := TitleBar.Items[2].Visible;
     ActionViewHighlighterSelection.Checked := TitleBar.Items[4].Visible;
-    ActionViewHighlighterColorSelection.Checked := TitleBar.Items[6].Visible;
+    ActionViewColorSelection.Checked := TitleBar.Items[6].Visible;
 
     { if items doesn't exist in ini, create them }
     if not SectionExists('ToolBarItems') then
@@ -2391,7 +2425,7 @@ procedure TMainForm.WriteIniFile;
 begin
   with TBigIniFile.Create(GetIniFilename) do
   try
-    WriteString(Application.Title, 'Version', AboutDialog.Version);
+    WriteString(Application.Title, 'Version', GetFileVersion(Application.ExeName));
     if WindowState = wsNormal  then
     begin
       { Position }

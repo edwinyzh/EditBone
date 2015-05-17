@@ -34,7 +34,7 @@ inherited OptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame
     end
     object CheckBoxShowCloseButton: TBCCheckBox
       Left = 0
-      Top = 100
+      Top = 120
       Width = 111
       Height = 20
       Margins.Left = 4
@@ -42,14 +42,14 @@ inherited OptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = ' Show close button'
-      TabOrder = 5
+      TabOrder = 6
       SkinData.SkinSection = 'CHECKBOX'
       ImgChecked = 0
       ImgUnchecked = 0
     end
     object CheckBoxShowImage: TBCCheckBox
       Left = 0
-      Top = 120
+      Top = 140
       Width = 80
       Height = 20
       Margins.Left = 4
@@ -57,7 +57,7 @@ inherited OptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame
       Margins.Right = 4
       Margins.Bottom = 4
       Caption = ' Show image'
-      TabOrder = 6
+      TabOrder = 7
       SkinData.SkinSection = 'CHECKBOX'
       ImgChecked = 0
       ImgUnchecked = 0
@@ -111,7 +111,7 @@ inherited OptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame
     end
     object CheckBoxRightClickSelect: TBCCheckBox
       Left = 0
-      Top = 140
+      Top = 80
       Width = 101
       Height = 20
       Margins.Left = 4
@@ -121,14 +121,14 @@ inherited OptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame
       Caption = ' Right click select'
       Checked = True
       State = cbChecked
-      TabOrder = 7
+      TabOrder = 4
       SkinData.SkinSection = 'CHECKBOX'
       ImgChecked = 0
       ImgUnchecked = 0
     end
     object CheckBoxSaveTabs: TBCCheckBox
       Left = 0
-      Top = 80
+      Top = 100
       Width = 71
       Height = 20
       Margins.Left = 4
@@ -138,7 +138,7 @@ inherited OptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame
       Caption = ' Save tabs'
       Checked = True
       State = cbChecked
-      TabOrder = 4
+      TabOrder = 5
       SkinData.SkinSection = 'CHECKBOX'
       ImgChecked = 0
       ImgUnchecked = 0

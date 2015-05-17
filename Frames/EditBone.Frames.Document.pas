@@ -2325,7 +2325,7 @@ begin
   if Assigned(Editor) then
   with Editor do
   begin
-    Highlighter.LoadFromFile(Format('%sHighlighters\%s.json', [ExtractFilePath(Application.ExeName), AHighlighterName]));
+    Highlighter.LoadFromFile(Format('%s.json', [AHighlighterName]));
     ClearCodeFolding;
     InitCodeFolding;
     if Highlighter.CodeFoldingRegions.Count > 0 then
@@ -2344,7 +2344,7 @@ begin
     Editor := GetEditor(PageControl.Pages[i]);
     if Assigned(Editor) then
     begin
-      Editor.Highlighter.LoadColorsFromFile(Editor.Highlighter.Colors.FileName);
+      Editor.Highlighter.Colors.LoadFromFile(Editor.Highlighter.Colors.FileName);
       SetSkinColors(Editor);
     end;
   end;
@@ -2397,7 +2397,7 @@ begin
   if Assigned(Editor) then
   with Editor do
   begin
-    Highlighter.LoadColorsFromFile(Format('%sColors\%s.json', [ExtractFilePath(Application.ExeName), AColorName]));
+    Highlighter.Colors.LoadFromFile(Format('%s.json', [AColorName]));
     SetSkinColors(Editor);
     Invalidate;
   end;

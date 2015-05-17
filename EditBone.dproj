@@ -163,7 +163,7 @@
             <Form>OptionsForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Frames\EditBone.Frames.Options.Editor.Tabs.pas">
+        <DCCReference Include="Frames\EditBone.Frames.Options.Editor.TabSheet.pas">
             <Form>OptionsEditorTabsFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
@@ -216,6 +216,7 @@
             <Form>LanguageEditorForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <None Include="..\..\Shifter\Source\Shifter.dpr"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -249,6 +250,12 @@
                 <DeployFile LocalName="Win32\Debug\EditBone.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>EditBone.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\Shifter\Source\Shifter.dpr" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

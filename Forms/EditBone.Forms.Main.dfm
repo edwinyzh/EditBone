@@ -3183,8 +3183,7 @@ inherited MainForm: TMainForm
       Action = ActionToolBarMenuView
       SubMenuImages = ImagesDataModule.ImageListSmall
       object MenuItemToolBarMenuViewColor: TMenuItem
-        Action = ActionViewHighlighterColorSelection
-        Caption = 'Color'
+        Action = ActionViewColorSelection
         Hint = 'Show or hide the color selection'
       end
       object MenuItemToolBarMenuViewDirectory: TMenuItem
@@ -3224,46 +3223,39 @@ inherited MainForm: TMainForm
   object PopupMenuEncoding: TPopupMenu [20]
     Left = 444
     Top = 264
-    object MenuItemEncodingASCII: TMenuItem
-      Caption = 'ASCII'
-      RadioItem = True
-      OnClick = MenuItemEncodingClick
-    end
     object MenuItemEncodingANSI: TMenuItem
       Tag = 1
-      Caption = 'ANSI'
+      Action = ActionEncodingANSI
       RadioItem = True
-      OnClick = MenuItemEncodingClick
+    end
+    object MenuItemEncodingASCII: TMenuItem
+      Action = ActionEncodingASCII
+      RadioItem = True
     end
     object MenuItemEncodingBigEndianUnicode: TMenuItem
       Tag = 2
-      Caption = 'Big Endian Unicode'
+      Action = ActionEncodingBigEndianUnicode
       RadioItem = True
-      OnClick = MenuItemEncodingClick
     end
     object MenuItemEncodingUnicode: TMenuItem
       Tag = 3
-      Caption = 'Unicode'
+      Action = ActionEncodingUnicode
       RadioItem = True
-      OnClick = MenuItemEncodingClick
     end
     object MenuItemEncodingUTF7: TMenuItem
       Tag = 4
-      Caption = 'UTF-7'
+      Action = ActionEncodingUTF7
       RadioItem = True
-      OnClick = MenuItemEncodingClick
     end
     object MenuItemEncodingUTF8: TMenuItem
       Tag = 5
-      Caption = 'UTF-8'
+      Action = ActionEncodingUTF8
       RadioItem = True
-      OnClick = MenuItemEncodingClick
     end
     object MenuItemEncodingUTF8WithoutBOM: TMenuItem
       Tag = 6
-      Caption = 'UTF-8 without BOM'
+      Action = ActionEncodingUTF8WithoutBOM
       RadioItem = True
-      OnClick = MenuItemEncodingClick
     end
   end
   inherited ActionList: TActionList
@@ -4034,11 +4026,11 @@ inherited MainForm: TMainForm
       Hint = 'Show or hide the highlighter selection'
       OnExecute = ActionViewHighlighterSelectionExecute
     end
-    object ActionViewHighlighterColorSelection: TAction
+    object ActionViewColorSelection: TAction
       Category = 'View'
-      Caption = 'Highlighter color'
+      Caption = 'Color'
       Hint = 'Show or hide the highlighter color selection'
-      OnExecute = ActionViewHighlighterColorSelectionExecute
+      OnExecute = ActionViewColorSelectionExecute
     end
     object ActionViewToolbar: TAction
       Category = 'View'
@@ -4182,6 +4174,34 @@ inherited MainForm: TMainForm
     object ActionSelectHighlighterColor: TAction
       Caption = 'ActionSelectHighlighterColor'
       OnExecute = ActionSelectHighlighterColorExecute
+    end
+    object ActionEncodingASCII: TAction
+      Caption = 'ASCII'
+      OnExecute = ActionSelectEncodingExecute
+    end
+    object ActionEncodingANSI: TAction
+      Caption = 'ANSI'
+      OnExecute = ActionSelectEncodingExecute
+    end
+    object ActionEncodingBigEndianUnicode: TAction
+      Caption = 'Big Endian Unicode'
+      OnExecute = ActionSelectEncodingExecute
+    end
+    object ActionEncodingUnicode: TAction
+      Caption = 'Unicode'
+      OnExecute = ActionSelectEncodingExecute
+    end
+    object ActionEncodingUTF7: TAction
+      Caption = 'UTF-7'
+      OnExecute = ActionSelectEncodingExecute
+    end
+    object ActionEncodingUTF8: TAction
+      Caption = 'UTF-8'
+      OnExecute = ActionSelectEncodingExecute
+    end
+    object ActionEncodingUTF8WithoutBOM: TAction
+      Caption = 'UTF-8 without BOM'
+      OnExecute = ActionSelectEncodingExecute
     end
   end
   inherited Taskbar: TTaskbar

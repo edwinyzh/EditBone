@@ -16,8 +16,6 @@ object AboutDialog: TAboutDialog
   OldCreateOrder = True
   Position = poMainFormCenter
   OnClose = FormClose
-  OnDestroy = FormDestroy
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object PanelTop: TBCPanel
@@ -501,7 +499,6 @@ object AboutDialog: TAboutDialog
         D7289F52627F6742B5629143359B17A0725B39034CFB0C020D28553C18F4CB5F
         FE12264D9AF47118EAAD36090EEA0E22F01F7CF04178F2C9C20F9AF83F23F483
         A5DDABB1A00000000049454E44AE426082}
-      Blend = 85
       SkinData.SkinSection = 'CHECKBOX'
       UseFullSize = True
       IsControl = True
@@ -528,53 +525,77 @@ object AboutDialog: TAboutDialog
     ParentFont = False
     TabOrder = 1
     SkinData.SkinSection = 'CHECKBOX'
-    object GroupLabelThirdPartyComponents: TBCGroupLabel
+    object LabelThirdPartyComponents: TBCLabel
       AlignWithMargins = True
       Left = 10
-      Top = 51
-      Width = 147
-      Height = 18
+      Top = 46
+      Width = 449
+      Height = 13
       Margins.Left = 10
       Margins.Right = 10
+      Align = alTop
       Caption = '3rd Party Components'
-      Align = alTop
+      ParentFont = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
     end
-    object GroupLabelIcons: TBCGroupLabel
+    object LabelIcons: TBCLabel
       AlignWithMargins = True
       Left = 10
-      Top = 175
-      Width = 36
-      Height = 18
+      Top = 160
+      Width = 449
+      Height = 13
       Margins.Left = 10
       Margins.Right = 10
+      Align = alTop
       Caption = 'Icons'
-      Align = alTop
+      ParentFont = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
     end
-    object GroupLabelLanguageFileContributors: TBCGroupLabel
+    object LabelLanguageFileContributors: TBCLabel
       AlignWithMargins = True
       Left = 10
-      Top = 99
-      Width = 171
-      Height = 18
+      Top = 89
+      Width = 449
+      Height = 13
       Margins.Left = 10
       Margins.Right = 10
-      Caption = 'Language File Contributors'
       Align = alTop
+      Caption = 'Language File Contributors'
+      ParentFont = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
     end
-    object GroupLabelDevelopmentEnvironment: TBCGroupLabel
+    object LabelDevelopmentEnvironment: TBCLabel
       AlignWithMargins = True
       Left = 10
       Top = 3
-      Width = 172
-      Height = 18
+      Width = 449
+      Height = 13
       Margins.Left = 10
       Margins.Right = 10
-      Caption = 'Development Environment'
       Align = alTop
+      Caption = 'Development Environment'
+      ParentFont = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
     end
     object Panel3rdPartyComponents: TBCPanel
       Left = 0
-      Top = 72
+      Top = 62
       Width = 469
       Height = 24
       Align = alTop
@@ -587,12 +608,13 @@ object AboutDialog: TAboutDialog
         Width = 416
         Height = 13
         Caption = 
-          '<a href="http://www.alphaskins.com/">AlphaSkins</a>, BigIni, <a ' +
-          'href="http://www.sqlparser.com/">General SQL Parser</a>, <a href' +
-          '="http://robstechcorner.blogspot.fi/">IniPersist</a>, <a href="h' +
-          'ttps://github.com/ahausladen/JsonDataObjects">JsonDataObjects</a' +
-          '>, <a href="http://angusj.com/delphi/">TDiff</a>, <a href="http:' +
-          '//www.soft-gems.net">Virtual Tree</a>'
+          '<a href="http://www.alphaskins.com/">AlphaSkins</a>, <a href="ht' +
+          'tp://www.hinzen.de/delphi/index.html">BigIni</a>, <a href="http:' +
+          '//www.sqlparser.com/">General SQL Parser</a>, <a href="http://ro' +
+          'bstechcorner.blogspot.fi/">IniPersist</a>, <a href="https://gith' +
+          'ub.com/ahausladen/JsonDataObjects">JsonDataObjects</a>, <a href=' +
+          '"http://angusj.com/delphi/">TDiff</a>, <a href="http://www.soft-' +
+          'gems.net">Virtual Tree</a>'
         ParentFont = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -603,7 +625,7 @@ object AboutDialog: TAboutDialog
     end
     object PanelLanguageFileContributors: TBCPanel
       Left = 0
-      Top = 120
+      Top = 105
       Width = 469
       Height = 52
       Align = alTop
@@ -631,7 +653,7 @@ object AboutDialog: TAboutDialog
     end
     object PanelIcons: TBCPanel
       Left = 0
-      Top = 196
+      Top = 176
       Width = 469
       Height = 24
       Align = alTop
@@ -656,7 +678,7 @@ object AboutDialog: TAboutDialog
     end
     object PanelDevelopmentEnvironment: TBCPanel
       Left = 0
-      Top = 24
+      Top = 19
       Width = 469
       Height = 24
       Align = alTop

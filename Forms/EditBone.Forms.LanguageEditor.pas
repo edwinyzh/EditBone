@@ -23,7 +23,7 @@ type
     ActionList: TActionList;
     ApplicationEvents: TApplicationEvents;
     ButtonPanel: TBCPanel;
-    ActionClose: TAction;
+    ActionExit: TAction;
     ActionFileNew: TAction;
     ActionFileOpen: TAction;
     ActionFileSave: TAction;
@@ -41,7 +41,7 @@ type
     SpeedButtonClose: TBCSpeedButton;
     procedure ApplicationEventsHint(Sender: TObject);
     procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
-    procedure ActionCloseExecute(Sender: TObject);
+    procedure ActionExitExecute(Sender: TObject);
     procedure ActionFileNewExecute(Sender: TObject);
     procedure ActionFileOpenExecute(Sender: TObject);
     procedure ActionFileSaveExecute(Sender: TObject);
@@ -137,7 +137,7 @@ begin
       StatusBar.Panels[0].Text := ' ' + LanguageDataModule.GetConstant('Overwrite');
 end;
 
-procedure TLanguageEditorForm.ActionCloseExecute(Sender: TObject);
+procedure TLanguageEditorForm.ActionExitExecute(Sender: TObject);
 begin
   Close;
 end;
