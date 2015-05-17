@@ -42,7 +42,7 @@ object DocumentFrame: TDocumentFrame
     OnChange = PageControlChange
     OnMouseDown = PageControlMouseDown
     ShowCloseBtns = True
-    TabPadding = 2
+    TabMargin = 2
     SkinData.SkinSection = 'PAGECONTROL'
     SkinData.OuterEffects.Visibility = ovAlways
     OnDblClick = PageControlDblClick

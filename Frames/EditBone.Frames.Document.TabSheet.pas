@@ -52,6 +52,7 @@ type
     procedure PasteToSearch(AText: string);
     procedure SearchSelectAll;
     procedure ShowSearch;
+    procedure UpdateLanguage(SelectedLanguage: string);
     property ImageListXMLTree: TImageList read FImageListXMLTree write FImageListXMLTree;
     property PopupMenuXMLTree: TPopupMenu read FPopupMenuXMLTree write FPopupMenuXMLTree;
     property SplitVisible: Boolean read GetSplitVisible write SetSplitVisible;
@@ -67,7 +68,7 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.Options.Container, System.Math, BCEditor.Types, BigIni, BCCommon.FileUtils;
+  BCCommon.Options.Container, System.Math, BCEditor.Types, BigIni, BCCommon.FileUtils, BCCommon.Language.Utils;
 
 procedure TDocTabSheetFrame.ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 begin
@@ -87,6 +88,11 @@ begin
   if Assigned(FDocumentXMLTreeFrame) then
     FDocumentXMLTreeFrame.Free;
   inherited;
+end;
+
+procedure TDocTabSheetFrame.UpdateLanguage(SelectedLanguage: string);
+begin
+  BCCommon.Language.Utils.UpdateLanguage(TForm(Self), SelectedLanguage);
 end;
 
 procedure TDocTabSheetFrame.NormalSelectionMode(Editor: TBCEditor);
@@ -135,17 +141,30 @@ end;
 procedure TDocTabSheetFrame.ShowSearch;
 var
   LOldCaretPosition: TBCEditorTextPosition;
-  LWordAtCursor: string;
+  LOldSelectionBeginPosition, LOldSelectionEndPosition: TBCEditorTextPosition;
+  LSelectedText: string;
+  LSelectionAvailable: Boolean;
 begin
   LOldCaretPosition := Editor.CaretPosition;
+  LSelectionAvailable := Editor.SelectionAvailable;
+  if LSelectionAvailable then
+  begin
+    LOldSelectionBeginPosition := Editor.SelectionBeginPosition;
+    LOldSelectionEndPosition := Editor.SelectionEndPosition;
+  end;
   ReadIniFile;
   Editor.Search.Enabled := True;
   Editor.CaretPosition := LOldCaretPosition;
-  Application.ProcessMessages;
-  LWordAtCursor := Editor.WordAtCursor;
-  if LWordAtCursor <> '' then
+  if LSelectionAvailable then
   begin
-    Editor.Search.SearchText := LWordAtCursor;
+    Editor.SelectionBeginPosition := LOldSelectionBeginPosition;
+    Editor.SelectionEndPosition := LOldSelectionEndPosition;
+  end;
+  Application.ProcessMessages;
+  LSelectedText := Editor.SelectedText;
+  if LSelectedText <> '' then
+  begin
+    Editor.Search.SearchText := LSelectedText;
     SearchFrame.ComboBoxSearchText.Text := Editor.Search.SearchText;
   end;
   if SearchFrame.ComboBoxSearchText.CanFocus then

@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, BCCommon.Dialogs.Base, Vcl.StdCtrls, BCControls.Edit,
   Vcl.ActnList, Vcl.ExtCtrls, BCControls.CheckBox, Vcl.Buttons, System.Actions, BCControls.ComboBox,
   sComboBox, sCheckBox, sEdit, sSpeedButton, BCControls.SpeedButton, BCControls.Panel,
-  sPanel, sGroupBox, BCControls.GroupBox;
+  sPanel, sGroupBox, BCControls.GroupBox, sLabel, acSlider;
 
 type
   TDirectoryTabDialog = class(TBCBaseDialog)
@@ -18,13 +18,14 @@ type
     ButtonCancel: TButton;
     ButtonOK: TButton;
     ButtonPanel: TBCPanel;
-    CheckBoxExcludeOtherBranches: TBCCheckBox;
     ComboBoxDrives: TBCComboBox;
     ComboBoxFileMask: TBCComboBox;
     EditRootDirectory: TBCEdit;
     EditTabName: TBCEdit;
     GroupBoxOptions: TBCGroupBox;
     PanelRootDirectoryAndButton: TBCPanel;
+    SliderExcludeOtherBranches: TsSlider;
+    StickyLabelExcludeOtherBranches: TsStickyLabel;
     procedure ActionExcludeOtherBranchesExecute(Sender: TObject);
     procedure ActionOKExecute(Sender: TObject);
     procedure ActionRootDirectoryClickExecute(Sender: TObject);
@@ -118,9 +119,9 @@ end;
 
 procedure TDirectoryTabDialog.ActionExcludeOtherBranchesExecute(Sender: TObject);
 begin
-  if CheckBoxExcludeOtherBranches.Checked then
+  if SliderExcludeOtherBranches.SliderOn then
     ComboBoxDrives.ItemIndex := 0;
-  ComboBoxDrives.ReadOnly := CheckBoxExcludeOtherBranches.Checked;
+  ComboBoxDrives.ReadOnly := SliderExcludeOtherBranches.SliderOn;
 end;
 
 function TDirectoryTabDialog.GetRootDirectory: string;
@@ -155,12 +156,12 @@ end;
 
 function TDirectoryTabDialog.GetExcludeOtherBranches: Boolean;
 begin
-  Result := CheckBoxExcludeOtherBranches.Checked;
+  Result := SliderExcludeOtherBranches.SliderOn;
 end;
 
 procedure TDirectoryTabDialog.SetExcludeOtherBranches(Value: Boolean);
 begin
-  CheckBoxExcludeOtherBranches.Checked := Value;
+  SliderExcludeOtherBranches.SliderOn := Value;
 end;
 
 function TDirectoryTabDialog.CheckFields: Boolean;

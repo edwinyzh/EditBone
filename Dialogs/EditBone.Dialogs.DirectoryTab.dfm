@@ -178,23 +178,14 @@ object DirectoryTabDialog: TDirectoryTabDialog
     TabOrder = 2
     SkinData.SkinSection = 'GROUPBOX'
     Checked = False
-    object CheckBoxExcludeOtherBranches: TBCCheckBox
-      AlignWithMargins = True
-      Left = 12
-      Top = 66
-      Width = 182
-      Height = 20
-      Margins.Left = 12
-      Margins.Top = 6
-      Margins.Right = 12
-      Caption = ' Exclude other directory branches'
-      Action = ActionExcludeOtherBranches
-      Color = clBtnFace
-      ParentColor = False
-      TabOrder = 0
-      SkinData.SkinSection = 'CHECKBOX'
-      ImgChecked = 0
-      ImgUnchecked = 0
+    object StickyLabelExcludeOtherBranches: TsStickyLabel
+      Left = 10
+      Top = 67
+      Width = 159
+      Height = 13
+      Caption = 'Exclude other directory branches'
+      AttachTo = SliderExcludeOtherBranches
+      Gap = 8
     end
     object ComboBoxDrives: TBCComboBox
       AlignWithMargins = True
@@ -221,7 +212,7 @@ object DirectoryTabDialog: TDirectoryTabDialog
       VerticalAlignment = taAlignTop
       Style = csDropDownList
       ItemIndex = 1
-      TabOrder = 1
+      TabOrder = 0
       Text = 'Bottom'
       Items.Strings = (
         'Hide'
@@ -253,12 +244,37 @@ object DirectoryTabDialog: TDirectoryTabDialog
       VerticalAlignment = taAlignTop
       Style = csDropDownList
       ItemIndex = 0
-      TabOrder = 2
+      TabOrder = 1
       Text = 'Hide'
       Items.Strings = (
         'Hide'
         'Bottom'
         'Top')
+    end
+    object SliderExcludeOtherBranches: TsSlider
+      Left = 177
+      Top = 63
+      Width = 50
+      AutoSize = True
+      TabOrder = 2
+      BoundLabel.Indent = 0
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = []
+      BoundLabel.Layout = sclLeft
+      BoundLabel.MaxWidth = 0
+      BoundLabel.UseSkinColor = True
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
     end
   end
   object EditTabName: TBCEdit

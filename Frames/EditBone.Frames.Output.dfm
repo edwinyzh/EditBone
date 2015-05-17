@@ -21,7 +21,7 @@ object OutputFrame: TOutputFrame
     TabHeight = 22
     TabOrder = 0
     OnMouseDown = PageControlMouseDown
-    TabPadding = 2
+    TabMargin = 2
     SkinData.SkinSection = 'PAGECONTROL'
     OnDblClick = PageControlDblClick
     OnCloseBtnClick = PageControlCloseButtonClick

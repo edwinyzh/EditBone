@@ -1599,17 +1599,17 @@ begin
       if Assigned(BookmarkList) then
       for i := 0 to BookmarkList.Count - 1 do
       begin
-        LActionGotoBookmarks := TAction(FindComponent(Format('ActionGotoBookmarks%d', [BookmarkList.Items[i].BookmarkNumber])));
+        LActionGotoBookmarks := TAction(FindComponent(Format('ActionGotoBookmarks%d', [BookmarkList.Items[i].Index + 1])));
         if Assigned(LActionGotoBookmarks) then
         begin
           LActionGotoBookmarks.Enabled := True;
           LActionGotoBookmarks.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
-            BookmarkList.Items[i].BookmarkNumber, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
+            BookmarkList.Items[i].Index + 1, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
         end;
-        LActionToggleBookmarks := TAction(FindComponent(Format('ActionToggleBookmarks%d', [BookmarkList.Items[i].BookmarkNumber])));
+        LActionToggleBookmarks := TAction(FindComponent(Format('ActionToggleBookmarks%d', [BookmarkList.Items[i].Index + 1])));
         if Assigned(LActionToggleBookmarks) then
           LActionToggleBookmarks.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
-            BookmarkList.Items[i].BookmarkNumber, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
+            BookmarkList.Items[i].Index + 1, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
       end;
     end;
 

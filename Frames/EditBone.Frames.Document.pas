@@ -502,7 +502,7 @@ procedure TDocumentFrame.SetBookmarks(Editor: TBCEditor; Bookmarks: TStrings);
 var
   i: Integer;
   Temp: string;
-  BookmarkNumber, Ln, Ch: Integer;
+  LBookmarkIndex, Ln, Ch: Integer;
 begin
   if Assigned(Bookmarks) then
   begin
@@ -512,13 +512,13 @@ begin
       if Pos(Editor.DocumentName, Temp) <> 0 then
       begin
         Temp := System.Copy(Temp, Pos('=', Temp) + 1, Length(Temp));
-        BookmarkNumber := StrToInt(System.Copy(Temp, 1, Pos(';', Temp) - 1));
+        LBookmarkIndex := StrToInt(System.Copy(Temp, 1, Pos(';', Temp) - 1));
         Temp := System.Copy(Temp, Pos(';', Temp) + 1, Length(Temp));
         Ln := StrToInt(System.Copy(Temp, 1, Pos(';', Temp) - 1));
         Temp := System.Copy(Temp, Pos(';', Temp) + 1, Length(Temp));
         Ch := StrToInt(Temp);
 
-        Editor.SetBookMark(BookmarkNumber, Ch, Ln);
+        Editor.SetBookMark(LBookmarkIndex, Ch, Ln);
       end;
     end;
   end;
@@ -1444,7 +1444,7 @@ begin
           WriteString('OpenFiles', IntToStr(i), Editor.DocumentName);
         for j := 0 to Editor.Marks.Count - 1 do
           WriteString('Bookmarks', Format('%s:%s', [Editor.DocumentName, IntToStr(j)]),
-            Format('%s;%s;%s', [IntToStr(Editor.Marks.Items[j].BookmarkNumber),
+            Format('%s;%s;%s', [IntToStr(Editor.Marks.Items[j].Index),
             IntToStr(Editor.Marks.Items[j].Line), IntToStr(Editor.Marks.Items[j].Char)]));
       end;
     end;
@@ -2623,6 +2623,7 @@ procedure TDocumentFrame.UpdateLanguage(SelectedLanguage: string);
 var
   i: Integer;
   CompareFrame: TCompareFrame;
+  DocTabSheetFrame: TDocTabSheetFrame;
 begin
   BCCommon.Language.Utils.UpdateLanguage(TForm(Self), SelectedLanguage);
 
@@ -2634,6 +2635,12 @@ begin
       CompareFrame := GetCompareFrame(PageControl.Pages[i]);
       if Assigned(CompareFrame) then
         CompareFrame.UpdateLanguage(SelectedLanguage);
+    end
+    else
+    begin
+      DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+      if Assigned(DocTabSheetFrame) then
+        DocTabSheetFrame.UpdateLanguage(SelectedLanguage);
     end;
   end;
 end;
