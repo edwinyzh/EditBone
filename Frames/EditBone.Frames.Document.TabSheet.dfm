@@ -97,6 +97,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
         CompletionProposal.ShortCut = 16416
         CompletionProposal.Trigger.Chars = '.'
         CompletionProposal.Trigger.Enabled = False
+        Directories.Colors = 'Colors'
+        Directories.Highlighters = 'Highlighters'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -13
@@ -118,6 +120,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Minimap.Font.Height = -4
         Minimap.Font.Name = 'Courier New'
         Minimap.Font.Style = []
+        Minimap.Width = 140
         OnEnter = EditorEnter
         OnMouseDown = EditorMouseDown
         OnRightMarginMouseUp = EditorRightMarginMouseUp
@@ -143,51 +146,61 @@ object DocTabSheetFrame: TDocTabSheetFrame
       SkinData.SkinSection = 'CHECKBOX'
     end
   end
-  inline SearchFrame: TBCSearchFrame
+  object PanelSearchFrame: TBCPanel
     Left = 0
     Top = 279
     Width = 451
     Height = 25
     Align = alBottom
-    Color = clWindow
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    Padding.Left = 1
+    AutoSize = True
+    BevelOuter = bvNone
     Padding.Top = 2
     Padding.Bottom = 2
-    ParentBackground = False
-    ParentColor = False
-    ParentFont = False
     TabOrder = 0
-    inherited SearchPanel: TBCPanel
-      Left = 1
+    SkinData.SkinSection = 'CHECKBOX'
+    inline SearchFrame: TBCSearchFrame
+      Left = 0
       Top = 2
-      Width = 450
-      inherited SpeedButtonSearchClose: TBCSpeedButton
-        Left = 429
-      end
-      inherited Splitter: TBCSplitter
-        Left = 240
-      end
-      inherited ComboBoxSearchText: TBCComboBox
-        Width = 240
-      end
-      inherited PanelRight: TBCPanel
-        Left = 373
-        Width = 56
-        inherited LabelSearchResultCount: TBCLabelFX
-          Left = 44
+      Width = 451
+      Height = 21
+      Align = alBottom
+      Color = clWindow
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      Padding.Left = 2
+      ParentBackground = False
+      ParentColor = False
+      ParentFont = False
+      TabOrder = 0
+      inherited SearchPanel: TBCPanel
+        Left = 2
+        Width = 449
+        inherited SpeedButtonSearchClose: TBCSpeedButton
+          Left = 428
+        end
+        inherited Splitter: TBCSplitter
+          Left = 240
+        end
+        inherited ComboBoxSearchText: TBCComboBox
+          Width = 240
+        end
+        inherited PanelRight: TBCPanel
+          Left = 373
+          Width = 55
+          inherited LabelSearchResultCount: TBCLabelFX
+            Left = 43
+          end
+        end
+        inherited PanelToolBar: TBCPanel
+          Left = 246
         end
       end
-      inherited PanelToolBar: TBCPanel
-        Left = 246
+      inherited FrameAdapter: TsFrameAdapter
+        Left = 348
       end
-    end
-    inherited FrameAdapter: TsFrameAdapter
-      Left = 348
     end
   end
   object FrameAdapter: TsFrameAdapter

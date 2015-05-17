@@ -370,14 +370,14 @@ begin
     if Filename <> '' then
     begin
       SelectHighlighter(FileName);
-      SetHighlighterColor(MainForm.HighlighterColor);
+      SetHighlighterColor(OptionsContainer.DefaultColor);
       Editor.LoadFromFile(FileName);
     end
     else
     begin
       SetActiveEncoding(OptionsContainer.DefaultEncoding);
       SetHighlighter(OptionsContainer.DefaultHighlighter);
-      SetHighlighterColor(MainForm.HighlighterColor);
+      SetHighlighterColor(OptionsContainer.DefaultColor);
     end;
     MainForm.SetTitleBarMenus;
 
