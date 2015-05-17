@@ -1,3 +1,3 @@
 EditBone 10.0.0 beta coming...
 
-![image](https://cloud.githubusercontent.com/assets/11475177/7591742/341a3e52-f8d8-11e4-8820-a34f1469f119.png)
+![image](https://cloud.githubusercontent.com/assets/11475177/7670745/b6eab5de-fcb9-11e4-9a92-244876d446cd.png)
