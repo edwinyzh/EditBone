@@ -10,22 +10,22 @@ uses
 type
   TOptionsOutputTabsFrame = class(TBCOptionsBaseFrame)
     Panel: TBCPanel;
-    StickyLabelCloseTabByDblClick: TsStickyLabel;
-    SliderCloseTabByDblClick: TsSlider;
-    StickyLabelCloseTabByMiddleClick: TsStickyLabel;
-    SliderCloseTabByMiddleClick: TsSlider;
-    StickyLabelDoubleBuffered: TsStickyLabel;
-    SliderDoubleBuffered: TsSlider;
-    StickyLabelMultiline: TsStickyLabel;
-    SliderMultiline: TsSlider;
-    StickyLabelRightClickSelect: TsStickyLabel;
-    SliderRightClickSelect: TsSlider;
-    StickyLabelSaveTabs: TsStickyLabel;
-    SliderSaveTabs: TsSlider;
-    StickyLabelShowCloseButton: TsStickyLabel;
-    SliderShowCloseButton: TsSlider;
     ShowImageStickyLabelShowImage: TsStickyLabel;
+    SliderCloseTabByDblClick: TsSlider;
+    SliderCloseTabByMiddleClick: TsSlider;
+    SliderDoubleBuffered: TsSlider;
+    SliderMultiline: TsSlider;
+    SliderRightClickSelect: TsSlider;
+    SliderSaveTabs: TsSlider;
+    SliderShowCloseButton: TsSlider;
     SliderShowImage: TsSlider;
+    StickyLabelCloseTabByDblClick: TsStickyLabel;
+    StickyLabelCloseTabByMiddleClick: TsStickyLabel;
+    StickyLabelDoubleBuffered: TsStickyLabel;
+    StickyLabelMultiline: TsStickyLabel;
+    StickyLabelRightClickSelect: TsStickyLabel;
+    StickyLabelSaveTabs: TsStickyLabel;
+    StickyLabelShowCloseButton: TsStickyLabel;
   protected
     procedure GetData; override;
     procedure PutData; override;

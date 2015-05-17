@@ -3,20 +3,29 @@ unit EditBone.Frames.Options.Editor.TabSheet;
 interface
 
 uses
-  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, BCControls.CheckBox,
-  BCCommon.Options.Container, BCCommon.Frames.Options.Base, sCheckBox, BCControls.Panel, sPanel, sFrameAdapter;
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls,
+  BCCommon.Options.Container, BCCommon.Frames.Options.Base, BCControls.Panel, sPanel, sFrameAdapter,
+  acSlider, sLabel;
 
 type
   TOptionsEditorTabsFrame = class(TBCOptionsBaseFrame)
-    CheckBoxCloseTabByDblClick: TBCCheckBox;
-    CheckBoxCloseTabByMiddleClick: TBCCheckBox;
-    CheckBoxDoubleBuffered: TBCCheckBox;
-    CheckBoxMultiline: TBCCheckBox;
-    CheckBoxRightClickSelect: TBCCheckBox;
-    CheckBoxSaveTabs: TBCCheckBox;
-    CheckBoxShowCloseButton: TBCCheckBox;
-    CheckBoxShowImage: TBCCheckBox;
     Panel: TBCPanel;
+    StickyLabelCloseTabByDblClick: TsStickyLabel;
+    SliderCloseTabByDblClick: TsSlider;
+    SliderCloseTabByMiddleClick: TsSlider;
+    StickyLabelCloseTabByMiddleClick: TsStickyLabel;
+    StickyLabelDoubleBuffered: TsStickyLabel;
+    SliderDoubleBuffered: TsSlider;
+    SliderMultiline: TsSlider;
+    StickyLabelMultiline: TsStickyLabel;
+    StickyLabelRightClickSelect: TsStickyLabel;
+    SliderRightClickSelect: TsSlider;
+    SliderSaveTabs: TsSlider;
+    StickyLabelSaveTabs: TsStickyLabel;
+    StickyLabelShowCloseButton: TsStickyLabel;
+    SliderShowCloseButton: TsSlider;
+    SliderShowImage: TsSlider;
+    ShowImageStickyLabelShowImage: TsStickyLabel;
   protected
     procedure GetData; override;
     procedure PutData; override;
@@ -30,6 +39,9 @@ implementation
 
 {$R *.dfm}
 
+uses
+  BCCommon.Utils;
+
 var
   FOptionsEditorTabsFrame: TOptionsEditorTabsFrame;
 
@@ -38,6 +50,7 @@ begin
   if not Assigned(FOptionsEditorTabsFrame) then
     FOptionsEditorTabsFrame := TOptionsEditorTabsFrame.Create(AOwner);
   Result := FOptionsEditorTabsFrame;
+  AlignSliders(Result.Panel);
 end;
 
 destructor TOptionsEditorTabsFrame.Destroy;
@@ -50,14 +63,14 @@ procedure TOptionsEditorTabsFrame.GetData;
 begin
   with OptionsContainer do
   begin
-    CheckBoxCloseTabByDblClick.Checked := DocCloseTabByDblClick;
-    CheckBoxCloseTabByMiddleClick.Checked := DocCloseTabByMiddleClick;
-    CheckBoxDoubleBuffered.Checked := DocDoubleBuffered;
-    CheckBoxMultiLine.Checked := DocMultiLine;
-    CheckBoxSaveTabs.Checked := DocSaveTabs;
-    CheckBoxShowCloseButton.Checked := DocShowCloseButton;
-    CheckBoxShowImage.Checked := DocShowImage;
-    CheckBoxRightClickSelect.Checked := DocRightClickSelect;
+    SliderCloseTabByDblClick.SliderOn := DocCloseTabByDblClick;
+    SliderCloseTabByMiddleClick.SliderOn := DocCloseTabByMiddleClick;
+    SliderDoubleBuffered.SliderOn := DocDoubleBuffered;
+    SliderMultiLine.SliderOn := DocMultiLine;
+    SliderSaveTabs.SliderOn := DocSaveTabs;
+    SliderShowCloseButton.SliderOn := DocShowCloseButton;
+    SliderShowImage.SliderOn := DocShowImage;
+    SliderRightClickSelect.SliderOn := DocRightClickSelect;
   end;
 end;
 
@@ -65,14 +78,14 @@ procedure TOptionsEditorTabsFrame.PutData;
 begin
   with OptionsContainer do
   begin
-    DocCloseTabByDblClick := CheckBoxCloseTabByDblClick.Checked;
-    DocCloseTabByMiddleClick := CheckBoxCloseTabByMiddleClick.Checked;
-    DocDoubleBuffered := CheckBoxDoubleBuffered.Checked;
-    DocMultiLine := CheckBoxMultiLine.Checked;
-    DocSaveTabs := CheckBoxSaveTabs.Checked;
-    DocShowCloseButton := CheckBoxShowCloseButton.Checked;
-    DocShowImage := CheckBoxShowImage.Checked;
-    DocRightClickSelect := CheckBoxRightClickSelect.Checked;
+    DocCloseTabByDblClick := SliderCloseTabByDblClick.SliderOn;
+    DocCloseTabByMiddleClick := SliderCloseTabByMiddleClick.SliderOn;
+    DocDoubleBuffered := SliderDoubleBuffered.SliderOn;
+    DocMultiLine := SliderMultiLine.SliderOn;
+    DocSaveTabs := SliderSaveTabs.SliderOn;
+    DocShowCloseButton := SliderShowCloseButton.SliderOn;
+    DocShowImage := SliderShowImage.SliderOn;
+    DocRightClickSelect := SliderRightClickSelect.SliderOn;
   end;
 end;
 

@@ -3,20 +3,29 @@ unit EditBone.Frames.Options.Directory.TabSheet;
 interface
 
 uses
-  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, BCControls.CheckBox, Vcl.ExtCtrls,
-  BCCommon.Options.Container, BCCommon.Frames.Options.Base, sCheckBox, BCControls.Panel, sPanel, sFrameAdapter;
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  BCCommon.Options.Container, BCCommon.Frames.Options.Base, BCControls.Panel, sPanel, sFrameAdapter,
+  acSlider, sLabel;
 
 type
   TOptionsDirectoryTabsFrame = class(TBCOptionsBaseFrame)
-    CheckBoxCloseTabByDblClick: TBCCheckBox;
-    CheckBoxCloseTabByMiddleClick: TBCCheckBox;
-    CheckBoxDoubleBuffered: TBCCheckBox;
-    CheckBoxMultiline: TBCCheckBox;
-    CheckBoxRightClickSelect: TBCCheckBox;
-    CheckBoxSaveTabs: TBCCheckBox;
-    CheckBoxShowCloseButton: TBCCheckBox;
-    CheckBoxShowImage: TBCCheckBox;
     Panel: TBCPanel;
+    StickyLabelCloseTabByDblClick: TsStickyLabel;
+    SliderCloseTabByDblClick: TsSlider;
+    SliderCloseTabByMiddleClick: TsSlider;
+    StickyLabelCloseTabByMiddleClick: TsStickyLabel;
+    StickyLabelDoubleBuffered: TsStickyLabel;
+    SliderDoubleBuffered: TsSlider;
+    SliderMultiline: TsSlider;
+    StickyLabelMultiline: TsStickyLabel;
+    StickyLabelRightClickSelect: TsStickyLabel;
+    SliderRightClickSelect: TsSlider;
+    SliderSaveTabs: TsSlider;
+    StickyLabelSaveTabs: TsStickyLabel;
+    StickyLabelShowCloseButton: TsStickyLabel;
+    SliderShowCloseButton: TsSlider;
+    SliderShowImage: TsSlider;
+    ShowImageStickyLabelShowImage: TsStickyLabel;
   protected
     procedure GetData; override;
     procedure PutData; override;
@@ -30,6 +39,9 @@ implementation
 
 {$R *.dfm}
 
+uses
+  BCCommon.Utils;
+
 var
   FOptionsDirectoryTabsFrame: TOptionsDirectoryTabsFrame;
 
@@ -38,6 +50,7 @@ begin
   if not Assigned(FOptionsDirectoryTabsFrame) then
     FOptionsDirectoryTabsFrame := TOptionsDirectoryTabsFrame.Create(AOwner);
   Result := FOptionsDirectoryTabsFrame;
+  AlignSliders(Result.Panel);
 end;
 
 destructor TOptionsDirectoryTabsFrame.Destroy;
@@ -48,26 +61,26 @@ end;
 
 procedure TOptionsDirectoryTabsFrame.GetData;
 begin
-  CheckBoxCloseTabByDblClick.Checked := OptionsContainer.DirCloseTabByDblClick;
-  CheckBoxCloseTabByMiddleClick.Checked := OptionsContainer.DirCloseTabByMiddleClick;
-  CheckBoxDoubleBuffered.Checked := OptionsContainer.DirDoubleBuffered;
-  CheckBoxMultiLine.Checked := OptionsContainer.DirMultiLine;
-  CheckBoxSaveTabs.Checked := OptionsContainer.DirSaveTabs;
-  CheckBoxShowCloseButton.Checked := OptionsContainer.DirShowCloseButton;
-  CheckBoxShowImage.Checked := OptionsContainer.DirShowImage;
-  CheckBoxRightClickSelect.Checked := OptionsContainer.DirRightClickSelect;
+  SliderCloseTabByDblClick.SliderOn := OptionsContainer.DirCloseTabByDblClick;
+  SliderCloseTabByMiddleClick.SliderOn := OptionsContainer.DirCloseTabByMiddleClick;
+  SliderDoubleBuffered.SliderOn := OptionsContainer.DirDoubleBuffered;
+  SliderMultiLine.SliderOn := OptionsContainer.DirMultiLine;
+  SliderSaveTabs.SliderOn := OptionsContainer.DirSaveTabs;
+  SliderShowCloseButton.SliderOn := OptionsContainer.DirShowCloseButton;
+  SliderShowImage.SliderOn := OptionsContainer.DirShowImage;
+  SliderRightClickSelect.SliderOn := OptionsContainer.DirRightClickSelect;
 end;
 
 procedure TOptionsDirectoryTabsFrame.PutData;
 begin
-  OptionsContainer.DirCloseTabByDblClick := CheckBoxCloseTabByDblClick.Checked;
-  OptionsContainer.DirCloseTabByMiddleClick := CheckBoxCloseTabByMiddleClick.Checked;
-  OptionsContainer.DirDoubleBuffered := CheckBoxDoubleBuffered.Checked;
-  OptionsContainer.DirMultiLine := CheckBoxMultiLine.Checked;
-  OptionsContainer.DirSaveTabs := CheckBoxSaveTabs.Checked;
-  OptionsContainer.DirShowCloseButton := CheckBoxShowCloseButton.Checked;
-  OptionsContainer.DirShowImage := CheckBoxShowImage.Checked;
-  OptionsContainer.DirRightClickSelect := CheckBoxRightClickSelect.Checked;
+  OptionsContainer.DirCloseTabByDblClick := SliderCloseTabByDblClick.SliderOn;
+  OptionsContainer.DirCloseTabByMiddleClick := SliderCloseTabByMiddleClick.SliderOn;
+  OptionsContainer.DirDoubleBuffered := SliderDoubleBuffered.SliderOn;
+  OptionsContainer.DirMultiLine := SliderMultiLine.SliderOn;
+  OptionsContainer.DirSaveTabs := SliderSaveTabs.SliderOn;
+  OptionsContainer.DirShowCloseButton := SliderShowCloseButton.SliderOn;
+  OptionsContainer.DirShowImage := SliderShowImage.SliderOn;
+  OptionsContainer.DirRightClickSelect := SliderRightClickSelect.SliderOn;
 end;
 
 end.
