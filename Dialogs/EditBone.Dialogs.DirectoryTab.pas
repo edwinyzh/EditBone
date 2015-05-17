@@ -4,8 +4,8 @@ interface
 
 uses
   System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, BCCommon.Dialogs.Base, Vcl.StdCtrls, BCControls.Edit,
-  Vcl.ActnList, Vcl.ExtCtrls, BCControls.CheckBox, Vcl.Buttons, System.Actions, BCControls.ComboBox,
-  sComboBox, sCheckBox, sEdit, sSpeedButton, BCControls.SpeedButton, BCControls.Panel,
+  Vcl.ActnList, Vcl.ExtCtrls, Vcl.Buttons, System.Actions, BCControls.ComboBox,
+  sComboBox, sEdit, sSpeedButton, BCControls.SpeedButton, BCControls.Panel,
   sPanel, sGroupBox, BCControls.GroupBox, sLabel, acSlider;
 
 type

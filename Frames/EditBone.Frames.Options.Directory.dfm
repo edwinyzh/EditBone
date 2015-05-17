@@ -1,12 +1,12 @@
 inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
-  Width = 121
-  Height = 143
+  Width = 162
+  Height = 155
   object Panel: TBCPanel [0]
     AlignWithMargins = True
     Left = 4
     Top = 0
-    Width = 117
-    Height = 143
+    Width = 158
+    Height = 155
     Margins.Left = 4
     Margins.Top = 0
     Margins.Right = 0
@@ -16,24 +16,106 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
     ParentBackground = False
     TabOrder = 0
     SkinData.SkinSection = 'CHECKBOX'
-    object CheckBoxShowTreeLines: TBCCheckBox
+    object StickyLabelShowTreeLines: TsStickyLabel
       Left = 0
-      Top = 0
-      Width = 101
-      Height = 20
+      Top = 96
+      Width = 100
+      Height = 13
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Show Tree Lines'
-      TabOrder = 0
-      SkinData.SkinSection = 'CHECKBOX'
-      ImgChecked = 0
-      ImgUnchecked = 0
+      AutoSize = False
+      Caption = 'Show Tree Lines'
+      AttachTo = SliderShowTreeLines
+      Gap = 8
+    end
+    object StickyLabelShowHiddenFiles: TsStickyLabel
+      Left = 0
+      Top = 27
+      Width = 100
+      Height = 13
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      AutoSize = False
+      Caption = 'Show Hidden Files'
+      AttachTo = SliderShowHiddenFiles
+      Gap = 8
+    end
+    object StickyLabelShowSystemFiles: TsStickyLabel
+      Left = 0
+      Top = 73
+      Width = 100
+      Height = 13
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      AutoSize = False
+      Caption = 'Show System Files'
+      AttachTo = SliderShowSystemFiles
+      Gap = 8
+    end
+    object StickyLabelShowArchiveFiles: TsStickyLabel
+      Left = 0
+      Top = 4
+      Width = 100
+      Height = 13
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      AutoSize = False
+      Caption = 'Show Archive Files'
+      ParentColor = False
+      AttachTo = SliderShowArchiveFiles
+      Gap = 8
+    end
+    object StickyLabelShowOverlayIcons: TsStickyLabel
+      Left = 0
+      Top = 50
+      Width = 100
+      Height = 13
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      AutoSize = False
+      Caption = 'Show Overlay Icons'
+      ParentColor = False
+      AttachTo = SliderShowOverlayIcons
+      Gap = 8
+    end
+    object SliderShowTreeLines: TsSlider
+      Left = 108
+      Top = 92
+      Width = 50
+      AutoSize = True
+      TabOrder = 4
+      BoundLabel.Indent = 0
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = []
+      BoundLabel.Layout = sclLeft
+      BoundLabel.MaxWidth = 0
+      BoundLabel.UseSkinColor = True
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
     end
     object EditIndent: TBCEdit
       Left = 0
-      Top = 122
+      Top = 134
       Width = 64
       Height = 21
       Margins.Left = 4
@@ -61,71 +143,105 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
       ErrorColor = 14803198
       NumbersAllowNegative = False
     end
-    object CheckBoxShowHiddenFiles: TBCCheckBox
-      Left = 0
-      Top = 20
-      Width = 109
-      Height = 20
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = ' Show Hidden Files'
+    object SliderShowHiddenFiles: TsSlider
+      Left = 108
+      Top = 23
+      Width = 50
+      AutoSize = True
       TabOrder = 1
-      SkinData.SkinSection = 'CHECKBOX'
-      ImgChecked = 0
-      ImgUnchecked = 0
+      BoundLabel.Indent = 0
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = []
+      BoundLabel.Layout = sclLeft
+      BoundLabel.MaxWidth = 0
+      BoundLabel.UseSkinColor = True
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
     end
-    object CheckBoxShowSystemFiles: TBCCheckBox
-      Left = 0
-      Top = 40
-      Width = 111
-      Height = 20
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = ' Show System Files'
-      TabOrder = 2
-      SkinData.SkinSection = 'CHECKBOX'
-      ImgChecked = 0
-      ImgUnchecked = 0
-    end
-    object CheckBoxShowArchiveFiles: TBCCheckBox
-      Left = 0
-      Top = 60
-      Width = 112
-      Height = 20
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = ' Show Archive Files'
-      Checked = True
-      ParentColor = False
-      State = cbChecked
+    object SliderShowSystemFiles: TsSlider
+      Left = 108
+      Top = 69
+      Width = 50
+      AutoSize = True
       TabOrder = 3
-      SkinData.SkinSection = 'CHECKBOX'
-      ImgChecked = 0
-      ImgUnchecked = 0
+      BoundLabel.Indent = 0
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = []
+      BoundLabel.Layout = sclLeft
+      BoundLabel.MaxWidth = 0
+      BoundLabel.UseSkinColor = True
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
     end
-    object CheckBoxShowOverlayIcons: TBCCheckBox
-      Left = 0
-      Top = 80
-      Width = 119
-      Height = 20
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = ' Show Overlay Icons'
-      Checked = True
-      ParentColor = False
-      State = cbChecked
-      TabOrder = 4
-      SkinData.SkinSection = 'CHECKBOX'
-      ImgChecked = 0
-      ImgUnchecked = 0
+    object SliderShowArchiveFiles: TsSlider
+      Left = 108
+      Top = 0
+      Width = 50
+      AutoSize = True
+      TabOrder = 0
+      BoundLabel.Indent = 0
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = []
+      BoundLabel.Layout = sclLeft
+      BoundLabel.MaxWidth = 0
+      BoundLabel.UseSkinColor = True
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
+    end
+    object SliderShowOverlayIcons: TsSlider
+      Left = 108
+      Top = 46
+      Width = 50
+      AutoSize = True
+      TabOrder = 2
+      BoundLabel.Indent = 0
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = []
+      BoundLabel.Layout = sclLeft
+      BoundLabel.MaxWidth = 0
+      BoundLabel.UseSkinColor = True
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
     end
   end
 end

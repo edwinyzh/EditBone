@@ -1,13 +1,14 @@
 inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
-  Width = 150
-  Height = 157
+  Width = 226
+  Height = 182
+  AutoSize = False
   Visible = False
   object Panel: TBCPanel [0]
     AlignWithMargins = True
     Left = 4
     Top = 0
-    Width = 146
-    Height = 157
+    Width = 222
+    Height = 182
     Margins.Left = 4
     Margins.Top = 0
     Margins.Right = 0
@@ -23,131 +24,329 @@ inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
     ParentFont = False
     TabOrder = 0
     SkinData.SkinSection = 'CHECKBOX'
-    object CheckBoxMultiline: TBCCheckBox
+    object StickyLabelCloseTabByDblClick: TsStickyLabel
       Left = 0
-      Top = 60
-      Width = 61
-      Height = 20
+      Top = 4
+      Width = 164
+      Height = 13
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Multiline'
-      TabOrder = 3
-      SkinData.SkinSection = 'CHECKBOX'
-      ImgChecked = 0
-      ImgUnchecked = 0
+      AutoSize = False
+      Caption = 'Close tab by double-click'
+      ParentColor = False
+      AttachTo = SliderCloseTabByDblClick
+      Gap = 8
     end
-    object CheckBoxShowCloseButton: TBCCheckBox
+    object StickyLabelCloseTabByMiddleClick: TsStickyLabel
       Left = 0
-      Top = 121
-      Width = 111
-      Height = 20
+      Top = 27
+      Width = 164
+      Height = 13
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Show close button'
-      TabOrder = 6
-      SkinData.SkinSection = 'CHECKBOX'
-      ImgChecked = 0
-      ImgUnchecked = 0
+      AutoSize = False
+      Caption = 'Close tab by middle-clicks'
+      ParentColor = False
+      AttachTo = SliderCloseTabByMiddleClick
+      Gap = 8
     end
-    object CheckBoxShowImage: TBCCheckBox
+    object StickyLabelDoubleBuffered: TsStickyLabel
       Left = 0
-      Top = 141
-      Width = 80
-      Height = 20
+      Top = 50
+      Width = 164
+      Height = 13
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Caption = ' Show image'
-      TabOrder = 7
-      SkinData.SkinSection = 'CHECKBOX'
-      ImgChecked = 0
-      ImgUnchecked = 0
+      AutoSize = False
+      Caption = 'Double buffered'
+      ParentColor = False
+      AttachTo = SliderDoubleBuffered
+      Gap = 8
     end
-    object CheckBoxCloseTabByDblClick: TBCCheckBox
+    object StickyLabelMultiline: TsStickyLabel
       Left = 0
+      Top = 73
+      Width = 164
+      Height = 13
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      AutoSize = False
+      Caption = 'Multiline'
+      ParentColor = False
+      AttachTo = SliderMultiline
+      Gap = 8
+    end
+    object StickyLabelRightClickSelect: TsStickyLabel
+      Left = 0
+      Top = 96
+      Width = 164
+      Height = 13
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      AutoSize = False
+      Caption = 'Right click select'
+      ParentColor = False
+      AttachTo = SliderRightClickSelect
+      Gap = 8
+    end
+    object StickyLabelSaveTabs: TsStickyLabel
+      Left = 0
+      Top = 119
+      Width = 164
+      Height = 13
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      AutoSize = False
+      Caption = 'Save tabs'
+      ParentColor = False
+      AttachTo = SliderSaveTabs
+      Gap = 8
+    end
+    object StickyLabelShowCloseButton: TsStickyLabel
+      Left = 0
+      Top = 142
+      Width = 164
+      Height = 13
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      AutoSize = False
+      Caption = 'Show close button'
+      ParentColor = False
+      AttachTo = SliderShowCloseButton
+      Gap = 8
+    end
+    object ShowImageStickyLabelShowImage: TsStickyLabel
+      Left = 0
+      Top = 165
+      Width = 164
+      Height = 13
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      AutoSize = False
+      Caption = 'Show image'
+      ParentColor = False
+      AttachTo = SliderShowImage
+      Gap = 8
+    end
+    object SliderCloseTabByDblClick: TsSlider
+      Left = 172
       Top = 0
-      Width = 141
-      Height = 20
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = ' Close tab by double-click'
+      Width = 50
+      AutoSize = True
       TabOrder = 0
-      SkinData.SkinSection = 'CHECKBOX'
-      ImgChecked = 0
-      ImgUnchecked = 0
+      BoundLabel.Indent = 0
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = []
+      BoundLabel.Layout = sclLeft
+      BoundLabel.MaxWidth = 0
+      BoundLabel.UseSkinColor = True
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
     end
-    object CheckBoxCloseTabByMiddleClick: TBCCheckBox
-      Left = 0
-      Top = 20
-      Width = 144
-      Height = 20
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = ' Close tab by middle-clicks'
+    object SliderCloseTabByMiddleClick: TsSlider
+      Left = 172
+      Top = 23
+      Width = 50
+      AutoSize = True
       TabOrder = 1
-      SkinData.SkinSection = 'CHECKBOX'
-      ImgChecked = 0
-      ImgUnchecked = 0
+      BoundLabel.Indent = 0
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = []
+      BoundLabel.Layout = sclLeft
+      BoundLabel.MaxWidth = 0
+      BoundLabel.UseSkinColor = True
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
     end
-    object CheckBoxDoubleBuffered: TBCCheckBox
-      Left = 0
-      Top = 40
-      Width = 101
-      Height = 20
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = ' Double buffered'
-      Checked = True
-      State = cbChecked
+    object SliderDoubleBuffered: TsSlider
+      Left = 172
+      Top = 46
+      Width = 50
+      AutoSize = True
       TabOrder = 2
-      SkinData.SkinSection = 'CHECKBOX'
-      ImgChecked = 0
-      ImgUnchecked = 0
+      BoundLabel.Indent = 0
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = []
+      BoundLabel.Layout = sclLeft
+      BoundLabel.MaxWidth = 0
+      BoundLabel.UseSkinColor = True
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
     end
-    object CheckBoxRightClickSelect: TBCCheckBox
-      Left = 0
-      Top = 80
-      Width = 101
-      Height = 20
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = ' Right click select'
-      Checked = True
-      State = cbChecked
+    object SliderMultiline: TsSlider
+      Left = 172
+      Top = 69
+      Width = 50
+      AutoSize = True
+      TabOrder = 3
+      BoundLabel.Indent = 0
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = []
+      BoundLabel.Layout = sclLeft
+      BoundLabel.MaxWidth = 0
+      BoundLabel.UseSkinColor = True
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
+    end
+    object SliderRightClickSelect: TsSlider
+      Left = 172
+      Top = 92
+      Width = 50
+      AutoSize = True
       TabOrder = 4
-      SkinData.SkinSection = 'CHECKBOX'
-      ImgChecked = 0
-      ImgUnchecked = 0
+      BoundLabel.Indent = 0
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = []
+      BoundLabel.Layout = sclLeft
+      BoundLabel.MaxWidth = 0
+      BoundLabel.UseSkinColor = True
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
     end
-    object CheckBoxSaveTabs: TBCCheckBox
-      Left = 0
-      Top = 101
-      Width = 71
-      Height = 20
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = ' Save tabs'
-      Checked = True
-      State = cbChecked
+    object SliderSaveTabs: TsSlider
+      Left = 172
+      Top = 115
+      Width = 50
+      AutoSize = True
       TabOrder = 5
-      SkinData.SkinSection = 'CHECKBOX'
-      ImgChecked = 0
-      ImgUnchecked = 0
+      BoundLabel.Indent = 0
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = []
+      BoundLabel.Layout = sclLeft
+      BoundLabel.MaxWidth = 0
+      BoundLabel.UseSkinColor = True
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
     end
+    object SliderShowCloseButton: TsSlider
+      Left = 172
+      Top = 138
+      Width = 50
+      AutoSize = True
+      TabOrder = 6
+      BoundLabel.Indent = 0
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = []
+      BoundLabel.Layout = sclLeft
+      BoundLabel.MaxWidth = 0
+      BoundLabel.UseSkinColor = True
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
+    end
+    object SliderShowImage: TsSlider
+      Left = 172
+      Top = 161
+      Width = 50
+      AutoSize = True
+      TabOrder = 7
+      BoundLabel.Indent = 0
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = []
+      BoundLabel.Layout = sclLeft
+      BoundLabel.MaxWidth = 0
+      BoundLabel.UseSkinColor = True
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
+    end
+  end
+  inherited FrameAdapter: TsFrameAdapter
+    Left = 134
+    Top = 10
   end
 end

@@ -3,20 +3,29 @@ unit EditBone.Frames.Options.Output.TabSheet;
 interface
 
 uses
-  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, BCControls.CheckBox, Vcl.ExtCtrls,
-  BCCommon.Options.Container, BCCommon.Frames.Options.Base, sCheckBox, BCControls.Panel, sPanel, sFrameAdapter;
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  BCCommon.Options.Container, BCCommon.Frames.Options.Base, BCControls.Panel, sPanel, sFrameAdapter,
+  acSlider, sLabel;
 
 type
   TOptionsOutputTabsFrame = class(TBCOptionsBaseFrame)
-    CheckBoxCloseTabByDblClick: TBCCheckBox;
-    CheckBoxCloseTabByMiddleClick: TBCCheckBox;
-    CheckBoxDoubleBuffered: TBCCheckBox;
-    CheckBoxMultiline: TBCCheckBox;
-    CheckBoxRightClickSelect: TBCCheckBox;
-    CheckBoxSaveTabs: TBCCheckBox;
-    CheckBoxShowCloseButton: TBCCheckBox;
-    CheckBoxShowImage: TBCCheckBox;
     Panel: TBCPanel;
+    StickyLabelCloseTabByDblClick: TsStickyLabel;
+    SliderCloseTabByDblClick: TsSlider;
+    StickyLabelCloseTabByMiddleClick: TsStickyLabel;
+    SliderCloseTabByMiddleClick: TsSlider;
+    StickyLabelDoubleBuffered: TsStickyLabel;
+    SliderDoubleBuffered: TsSlider;
+    StickyLabelMultiline: TsStickyLabel;
+    SliderMultiline: TsSlider;
+    StickyLabelRightClickSelect: TsStickyLabel;
+    SliderRightClickSelect: TsSlider;
+    StickyLabelSaveTabs: TsStickyLabel;
+    SliderSaveTabs: TsSlider;
+    StickyLabelShowCloseButton: TsStickyLabel;
+    SliderShowCloseButton: TsSlider;
+    ShowImageStickyLabelShowImage: TsStickyLabel;
+    SliderShowImage: TsSlider;
   protected
     procedure GetData; override;
     procedure PutData; override;
@@ -30,6 +39,9 @@ implementation
 
 {$R *.dfm}
 
+uses
+  BCCommon.Utils;
+
 var
   FOptionsOutputTabsFrame: TOptionsOutputTabsFrame;
 
@@ -38,6 +50,7 @@ begin
   if not Assigned(FOptionsOutputTabsFrame) then
     FOptionsOutputTabsFrame := TOptionsOutputTabsFrame.Create(AOwner);
   Result := FOptionsOutputTabsFrame;
+  AlignSliders(Result.Panel);
 end;
 
 destructor TOptionsOutputTabsFrame.Destroy;
@@ -46,29 +59,28 @@ begin
   FOptionsOutputTabsFrame := nil;
 end;
 
-
 procedure TOptionsOutputTabsFrame.GetData;
 begin
-  CheckBoxCloseTabByDblClick.Checked := OptionsContainer.OutputCloseTabByDblClick;
-  CheckBoxCloseTabByMiddleClick.Checked := OptionsContainer.OutputCloseTabByMiddleClick;
-  CheckBoxDoubleBuffered.Checked := OptionsContainer.OutputDoubleBuffered;
-  CheckBoxMultiLine.Checked := OptionsContainer.OutputMultiLine;
-  CheckBoxSaveTabs.Checked := OptionsContainer.OutputSaveTabs;
-  CheckBoxShowCloseButton.Checked := OptionsContainer.OutputShowCloseButton;
-  CheckBoxShowImage.Checked := OptionsContainer.OutputShowImage;
-  CheckBoxRightClickSelect.Checked := OptionsContainer.OutputRightClickSelect;
+  SliderCloseTabByDblClick.SliderOn := OptionsContainer.OutputCloseTabByDblClick;
+  SliderCloseTabByMiddleClick.SliderOn := OptionsContainer.OutputCloseTabByMiddleClick;
+  SliderDoubleBuffered.SliderOn := OptionsContainer.OutputDoubleBuffered;
+  SliderMultiLine.SliderOn := OptionsContainer.OutputMultiLine;
+  SliderSaveTabs.SliderOn := OptionsContainer.OutputSaveTabs;
+  SliderShowCloseButton.SliderOn := OptionsContainer.OutputShowCloseButton;
+  SliderShowImage.SliderOn := OptionsContainer.OutputShowImage;
+  SliderRightClickSelect.SliderOn := OptionsContainer.OutputRightClickSelect;
 end;
 
 procedure TOptionsOutputTabsFrame.PutData;
 begin
-  OptionsContainer.OutputCloseTabByDblClick := CheckBoxCloseTabByDblClick.Checked;
-  OptionsContainer.OutputCloseTabByMiddleClick := CheckBoxCloseTabByMiddleClick.Checked;
-  OptionsContainer.OutputDoubleBuffered := CheckBoxDoubleBuffered.Checked;
-  OptionsContainer.OutputMultiLine := CheckBoxMultiLine.Checked;
-  OptionsContainer.OutputSaveTabs := CheckBoxSaveTabs.Checked;
-  OptionsContainer.OutputShowCloseButton := CheckBoxShowCloseButton.Checked;
-  OptionsContainer.OutputShowImage := CheckBoxShowImage.Checked;
-  OptionsContainer.OutputRightClickSelect := CheckBoxRightClickSelect.Checked;
+  OptionsContainer.OutputCloseTabByDblClick := SliderCloseTabByDblClick.SliderOn;
+  OptionsContainer.OutputCloseTabByMiddleClick := SliderCloseTabByMiddleClick.SliderOn;
+  OptionsContainer.OutputDoubleBuffered := SliderDoubleBuffered.SliderOn;
+  OptionsContainer.OutputMultiLine := SliderMultiLine.SliderOn;
+  OptionsContainer.OutputSaveTabs := SliderSaveTabs.SliderOn;
+  OptionsContainer.OutputShowCloseButton := SliderShowCloseButton.SliderOn;
+  OptionsContainer.OutputShowImage := SliderShowImage.SliderOn;
+  OptionsContainer.OutputRightClickSelect := SliderRightClickSelect.SliderOn;
 end;
 
 end.
