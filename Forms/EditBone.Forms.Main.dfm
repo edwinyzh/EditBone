@@ -98,7 +98,7 @@ inherited MainForm: TMainForm
       Margins.Top = 4
       Margins.Right = 0
       Margins.Bottom = 0
-      ActivePage = TabSheetFile
+      ActivePage = TabSheetEdit
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -114,7 +114,7 @@ inherited MainForm: TMainForm
       TabSpacing = 12
       SkinData.SkinSection = 'RIBBONPAGE'
       SkinData.OuterEffects.Visibility = ovAlways
-      ActivePageCaption = 'File'
+      ActivePageCaption = 'Edit'
       HoldShiftToDragDrop = False
       TabDragDrop = False
       object TabSheetButton: TsTabSheet
@@ -775,7 +775,7 @@ inherited MainForm: TMainForm
           object SpeedButtonEditToggleCase: TBCSpeedButton
             Left = 680
             Top = 0
-            Width = 60
+            Width = 76
             Height = 58
             Action = ActionEditToggleCase
             Align = alLeft
@@ -787,8 +787,9 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            ButtonStyle = tbsTextButton
+            ButtonStyle = tbsDropDown
             SkinData.SkinSection = 'TOOLBUTTON'
+            DropdownMenu = PopupMenuToggleCase
             ImageIndex = 33
             Images = ImagesDataModule.ImageList
           end
@@ -4203,6 +4204,31 @@ inherited MainForm: TMainForm
       Caption = 'UTF-8 without BOM'
       OnExecute = ActionSelectEncodingExecute
     end
+    object ActionEditToggleCaseUpper: TAction
+      Category = 'Edit'
+      Caption = 'Upper'
+      OnExecute = ActionEditToggleCaseUpperExecute
+    end
+    object ActionEditToggleCaseLower: TAction
+      Category = 'Edit'
+      Caption = 'Lower'
+      OnExecute = ActionEditToggleCaseLowerExecute
+    end
+    object ActionEditToggleCaseAlternating: TAction
+      Category = 'Edit'
+      Caption = 'Alternating'
+      OnExecute = ActionEditToggleCaseAlternatingExecute
+    end
+    object ActionEditToggleCaseSentence: TAction
+      Category = 'Edit'
+      Caption = 'Sentence'
+      OnExecute = ActionEditToggleCaseSentenceExecute
+    end
+    object ActionEditToggleCaseTitle: TAction
+      Category = 'Edit'
+      Caption = 'Title'
+      OnExecute = ActionEditToggleCaseTitleExecute
+    end
   end
   inherited Taskbar: TTaskbar
     ProgressMaxValue = 0
@@ -4793,6 +4819,25 @@ inherited MainForm: TMainForm
     end
     object MenuItemToggleCase: TMenuItem
       Action = ActionEditToggleCase
+    end
+  end
+  object PopupMenuToggleCase: TPopupMenu
+    Left = 745
+    Top = 156
+    object Upper1: TMenuItem
+      Action = ActionEditToggleCaseUpper
+    end
+    object Lower1: TMenuItem
+      Action = ActionEditToggleCaseLower
+    end
+    object Alternating1: TMenuItem
+      Action = ActionEditToggleCaseAlternating
+    end
+    object Sentence1: TMenuItem
+      Action = ActionEditToggleCaseSentence
+    end
+    object itle1: TMenuItem
+      Action = ActionEditToggleCaseTitle
     end
   end
 end

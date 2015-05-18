@@ -532,6 +532,17 @@ type
     ActionEncodingUTF7: TAction;
     ActionEncodingUTF8: TAction;
     ActionEncodingUTF8WithoutBOM: TAction;
+    PopupMenuToggleCase: TPopupMenu;
+    ActionEditToggleCaseUpper: TAction;
+    ActionEditToggleCaseLower: TAction;
+    ActionEditToggleCaseAlternating: TAction;
+    ActionEditToggleCaseSentence: TAction;
+    ActionEditToggleCaseTitle: TAction;
+    Upper1: TMenuItem;
+    Lower1: TMenuItem;
+    Alternating1: TMenuItem;
+    Sentence1: TMenuItem;
+    itle1: TMenuItem;
     procedure ActionFileNewExecute(Sender: TObject);
     procedure ActionFileOpenExecute(Sender: TObject);
     procedure ActionFileSaveAllExecute(Sender: TObject);
@@ -645,6 +656,11 @@ type
     procedure ActionViewHighlighterSelectionExecute(Sender: TObject);
     procedure ActionViewColorSelectionExecute(Sender: TObject);
     procedure ChangeSkin(Sender: TObject);
+    procedure ActionEditToggleCaseUpperExecute(Sender: TObject);
+    procedure ActionEditToggleCaseLowerExecute(Sender: TObject);
+    procedure ActionEditToggleCaseAlternatingExecute(Sender: TObject);
+    procedure ActionEditToggleCaseSentenceExecute(Sender: TObject);
+    procedure ActionEditToggleCaseTitleExecute(Sender: TObject);
   private
     FNoIni: Boolean;
     FDirectoryFrame: TDirectoryFrame;
@@ -694,11 +710,7 @@ uses
   BCCommon.Utils, BCControls.ImageList, BCControls.Utils, BCCommon.Dialogs.FindInFiles, BCEditor.Editor.Utils,
   BCEditor.Encoding, EditBone.Forms.UnicodeCharacterMap, EditBone.Dialogs.About, BCCommon.Dialogs.DownloadURL,
   BCCommon.Forms.Convert, EditBone.Forms.LanguageEditor, BCCommon.Messages, BCCommon.Forms.SearchForFiles,
-  BCCommon.StringUtils;
-
-const
-  MAIN_CAPTION_DOCUMENT = ' - [%s]';
-  STATUS_BAR_PANEL_WIDTH = 86;
+  BCCommon.StringUtils, EditBone.Types;
 
 function TMainForm.Processing: Boolean;
 begin
@@ -1215,6 +1227,36 @@ begin
   FDocumentFrame.ToggleBookMarks(Action.Tag);
 end;
 
+procedure TMainForm.ActionEditToggleCaseAlternatingExecute(Sender: TObject);
+begin
+  inherited;
+  FDocumentFrame.ToggleCase(cAlternating);
+end;
+
+procedure TMainForm.ActionEditToggleCaseLowerExecute(Sender: TObject);
+begin
+  inherited;
+  FDocumentFrame.ToggleCase(cLower);
+end;
+
+procedure TMainForm.ActionEditToggleCaseSentenceExecute(Sender: TObject);
+begin
+  inherited;
+  FDocumentFrame.ToggleCase(cSentence);
+end;
+
+procedure TMainForm.ActionEditToggleCaseTitleExecute(Sender: TObject);
+begin
+  inherited;
+  FDocumentFrame.ToggleCase(cTitle);
+end;
+
+procedure TMainForm.ActionEditToggleCaseUpperExecute(Sender: TObject);
+begin
+  inherited;
+  FDocumentFrame.ToggleCase(cUpper);
+end;
+
 procedure TMainForm.ActionGotoBookmarksExecute(Sender: TObject);
 var
   Action: TAction;
@@ -1305,6 +1347,10 @@ procedure TMainForm.ActionViewMenuBarExecute(Sender: TObject);
 begin
   OptionsContainer.MenubarVisible := not OptionsContainer.MenubarVisible;
   PanelMenubar.Visible := OptionsContainer.MenubarVisible;
+  if PanelMenubar.Visible then
+    ActionList.Images := ImagesDataModule.ImageList
+  else
+    ActionList.Images := ImagesDataModule.ImageListSmall;
   if PanelMenubar.Visible and PanelToolBar.Visible then
   begin
     OptionsContainer.ToolBarVisible := False;
@@ -1372,6 +1418,10 @@ procedure TMainForm.ActionViewToolbarExecute(Sender: TObject);
 begin
   OptionsContainer.ToolBarVisible := not OptionsContainer.ToolBarVisible;
   PanelToolBar.Visible := OptionsContainer.ToolBarVisible;
+  if PanelToolBar.Visible then
+    ActionList.Images := ImagesDataModule.ImageListSmall
+  else
+    ActionList.Images := ImagesDataModule.ImageList;
   if PanelMenubar.Visible and PanelToolBar.Visible then
   begin
     OptionsContainer.MenuBarVisible := False;
@@ -1514,8 +1564,8 @@ begin
 
     ActionViewSelectionMode.Enabled := ActiveDocumentFound;
     ActionViewSelectionMode.Checked := ActiveDocumentFound and FDocumentFrame.SelectionModeChecked;
-    ActionViewSplit.Enabled := ActiveDocumentFound;
-    ActionViewSplit.Checked := ActiveDocumentFound and FDocumentFrame.SplitChecked;
+    ActionViewSplit.Enabled := False; // TODO: not implemented ActiveDocumentFound;
+    ActionViewSplit.Checked := False; // TODO: not implemented ActiveDocumentFound and FDocumentFrame.SplitChecked;
     ActionViewMinimap.Enabled := ActiveDocumentFound;
     ActionViewMinimap.Checked := ActiveDocumentFound and FDocumentFrame.MinimapChecked;
 
@@ -1534,7 +1584,8 @@ begin
     ActionViewLineNumbers.Enabled := Assigned(FDocumentFrame) and (FDocumentFrame.OpenTabSheetCount > 0);
     ActionViewSpecialChars.Enabled := ActionViewLineNumbers.Enabled;
     ActionDocumentInfo.Enabled := ActiveDocumentFound;
-    ActionToolsSelectForCompare.Enabled := ActiveDocumentFound and not FDocumentFrame.ActiveDocumentModified;
+    ActionToolsSelectForCompare.Enabled := False; // TODO: not implemented ActiveDocumentFound and not FDocumentFrame.ActiveDocumentModified;
+    ActionToolsCompareFiles.Enabled := False; // TODO: not implemented
     ActionDocumentFormatSQL.Enabled := FSQLFormatterDLLFound and ActiveDocumentFound and IsSQLDocument;
     ActionDocumentFormatXML.Enabled := ActiveDocumentFound and IsXMLDocument;
 
@@ -1582,6 +1633,7 @@ begin
     ActionMacroSaveAs.Enabled := ActionMacroPlayback.Enabled;
     if OptionsContainer.LeftMarginShowBookmarks then
     begin
+      // TODO: move to onbookmarkchange event
       BookmarkList := FDocumentFrame.GetActiveBookmarkList;
       { Bookmarks }
       for i := 1 to 9 do
@@ -1614,12 +1666,6 @@ begin
     end;
 
     TitleBar.Items[0].Visible := not PanelMenubar.Visible;
-
-    if PanelToolBar.Visible then
-      ActionList.Images := ImagesDataModule.ImageListSmall
-    else
-      ActionList.Images := ImagesDataModule.ImageList;
-
     FProcessingEventHandler := False;
   except
     { intentionally silent }

@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.CommDlg, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
   BCEditor.Editor, Vcl.ComCtrls, Vcl.ImgList, Vcl.Menus, BCControls.PageControl, Vcl.Buttons,
   Vcl.StdCtrls, Vcl.ActnList, System.Actions, BCControls.ProgressBar, BCControls.ImageList,
-  Vcl.ActnMan, acAlphaImageList, sPageControl, BCEditor.Types,
+  Vcl.ActnMan, acAlphaImageList, sPageControl, BCEditor.Types,  EditBone.Types,
   BCEditor.MacroRecorder, BCEditor.Print, Vcl.PlatformDefaultStyleActnCtrls, EditBone.Frames.Document.TabSheet,
   BCEditor.Editor.Bookmarks, BCCommon.Frames.Compare, BCCommon.Frames.Search, sFrameAdapter, BCCommon.Frames.Base,
   Vcl.Dialogs, sDialogs;
@@ -48,7 +48,7 @@ type
     procedure PageControlCloseBtnClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
       var Action: TacCloseAction);
   private
-    FCaseCycle: Byte;
+    FCaseCycle: TBCCase;
     FCompareImageIndex, FNewImageIndex: Integer;
     //FHTMLDocumentChanged: Boolean;
     //FHTMLErrorList: TList;
@@ -178,7 +178,7 @@ type
     procedure SortDesc;
     procedure StopMacro;
     procedure ToggleBookmarks(ItemIndex: Integer);
-    procedure ToggleCase;
+    procedure ToggleCase(ACase: TBCCase = cNone);
     procedure ToggleMiniMap;
     procedure ToggleSelectionMode;
     procedure ToggleSplit;
@@ -226,7 +226,7 @@ var
 begin
   inherited;
   FNumberOfNewDocument := 0;
-  FCaseCycle := 0;
+  FCaseCycle := cUpper;
   FSelectedText := '';
   FProcessing := False;
   FModifiedDocuments := False;
@@ -2078,19 +2078,43 @@ begin
   end;
 end;
 
-procedure TDocumentFrame.ToggleCase;
+procedure TDocumentFrame.ToggleCase(ACase: TBCCase = cNone);
 
-  function Toggle(const aStr: string): string;
+  function Toggle(const AString: string): string;
   var
     i: Integer;
-    sLower: string;
+    LLower: string;
   begin
-    Result := UpperCase(aStr);
-    sLower := LowerCase(aStr);
-    for i := 1 to Length(aStr) do
+    Result := UpperCase(AString);
+    LLower := LowerCase(AString);
+    for i := 1 to Length(AString) do
     begin
-      if Result[i] = aStr[i] then
-        Result[i] := sLower[i];
+      if Result[i] = AString[i] then
+        Result[i] := LLower[i];
+    end;
+  end;
+
+  function TitleCase(const AString: string): string;
+  var
+    i, LLength: Integer;
+    s: string;
+  begin
+    i := 1;
+    LLength := Length(AString);
+    while i <= LLength do
+    begin
+      s := AString[i];
+      if i > 1 then
+      begin
+        if AString[i - 1] = ' ' then
+          s := UpperCase(s)
+        else
+          s := LowerCase(s);
+      end
+      else
+         s := UpperCase(s);
+      Result := Result + s;
+      Inc(i);
     end;
   end;
 
@@ -2103,34 +2127,36 @@ procedure TDocumentFrame.ToggleCase;
       begin
         if UpperCase(Editor.SelectedText) <> UpperCase(FSelectedText) then
         begin
-          FCaseCycle := 0;
+          FCaseCycle := cUpper;
           FSelectedText := Editor.SelectedText;
         end;
+        if ACase <> cNone then
+          FCaseCycle := ACase;
 
         Editor.BeginUpdate;
         SelStart := Editor.SelectionBeginPosition;
         SelEnd := Editor.SelectionEndPosition;
         case FCaseCycle of
-          0: Editor.SelectedText := UpperCase(FSelectedText); { UPPERCASE }
-          1: Editor.SelectedText := LowerCase(FSelectedText); { lowercase }
-          2: Editor.SelectedText := Toggle(FSelectedText); { aLtErNaTiNg cAsE }
-          3: Editor.SelectedText := UpperCase(FSelectedText[1]) + LowerCase(System.Copy(FSelectedText, 2, Length(FSelectedText))); { Sentence case }
-          // TODO: Title Case
-          4: Editor.SelectedText := FSelectedText; { Original text }
+          cUpper: Editor.SelectedText := UpperCase(FSelectedText); { UPPERCASE }
+          cLower: Editor.SelectedText := LowerCase(FSelectedText); { lowercase }
+          cAlternating: Editor.SelectedText := Toggle(FSelectedText); { aLtErNaTiNg cAsE }
+          cSentence: Editor.SelectedText := UpperCase(FSelectedText[1]) + LowerCase(System.Copy(FSelectedText, 2, Length(FSelectedText))); { Sentence case }
+          cTitle: Editor.SelectedText := TitleCase(FSelectedText); { Title Case }
+          cOriginal: Editor.SelectedText := FSelectedText; { Original text }
         end;
         Editor.SelectionBeginPosition := SelStart;
         Editor.SelectionEndPosition := SelEnd;
-
         Editor.EndUpdate;
+
         Inc(FCaseCycle);
-        if FCaseCycle > 4 then
-          FCaseCycle := 0;
+        if FCaseCycle > cOriginal then
+          FCaseCycle := cUpper;
       end;
   end;
 
 begin
   ToggleCase(GetActiveEditor);
-  ToggleCase(GetActiveSplitEditor);
+  // TODO ToggleCase(GetActiveSplitEditor);
 end;
 
 procedure TDocumentFrame.DeleteWhiteSpace;
