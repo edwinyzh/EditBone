@@ -28,8 +28,7 @@ Version 10.0.0 beta released. Use the Issues page to report bugs or send them di
   <img src="http://bonecode.com/images/languages/Russian.png" alt="Russian" />
   <img src="http://bonecode.com/images/languages/Swedish.png" alt="Swedish" />
   <img src="http://bonecode.com/images/languages/Thailand.png" alt="Thailand" />
-  <img src="http://bonecode.com/images/languages/Vietnamese.png" alt="Vietnamese" /><br/>
-  Last language file update: 29.09.2014 17:13, UTC+02:00 
+  <img src="http://bonecode.com/images/languages/Vietnamese.png" alt="Vietnamese" />
 
 <h3>Screenshots</h3>
 
