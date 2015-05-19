@@ -1,0 +1,1044 @@
+Version 10.0.0 (beta)
+
+- Note! This is a beta version - for example split and compare are not yet implemented. Updates coming daily.
+  Don't run this version on the 9.3.4 version options ini and language files. In other words, unzip files into a new directory. 
+  Use the GitHub Issues page to report bugs or send them directly to lasse@bonecode.com.
+ 
+- Changed SynEdit to own TBCEditor component with new features and much better future development possibilities
+- Highlighters and colors are separated into files 
+- Styles changed to skins - skin editor: www.alphaskins.com/sfiles/askineditor.zip 
+- Added code folding 
+- Added new optional menu bar with bigger images and captions
+- Added menu for language, skin, and view (user interface element) selection
+- Added caret, code folding, color, completion proposal, font, matching pair, minimap, scroll, selection, special chars, and tabs options
+- Encoding, highlighter and color selection moved to title bar
+- Macro moved to status bar
+- Refactored search and goto line
+- Fixed open, save, and print dialogs
+- Fixed minimap
+- Fixed print preview
+- Fixed icons
+- Fixed language files
+- Fixed options ini file
+
+Version 9.3.4 (Nov 6, 2014)
+
+- Added language file contributors to about box
+- Added Chinese language, translated by Ma Xiaoguang
+- Added Thailand language, translated by Satit Archanusorn
+- Fixed file mask in find in files
+- Fixed ITaskbarlist3 interface not supported on this OS version (XP) bug
+- Fixed word wrap selection
+- Updated development environment
+- Updated third-party components
+
+Version 9.3.3 (Jun 14, 2014)
+
+- Fixed XML tree
+- Fixed find in files dialog
+- Fixed replace dialog
+
+Version 9.3.2 (Jun 3, 2014)
+
+- Fixed toolbar options popup menu
+
+Version 9.3.1 (May 28, 2014)
+
+- Fixed search for files
+- Fixed toolbar flickering
+- Fixed toggle highlighter and encoding
+- Fixed menu font setting
+
+Version 9.3.0 (May 26, 2014)
+
+- Added progress bar synchronization for taskbar button
+- Fixed output check box
+- Fixed new document focus
+- Updated language files
+- Updated third-party components
+
+Version 9.2.0 (May 17, 2014)
+
+- Added a full file path to the status bar when a file clicked from the directory
+- Added a progress bar for multiple file drag and drop
+- Added check box (optional) to search results output
+- Added open selected, copy selected to clipboard, and select and unselect all to search result output popup menu
+- Added show check box option for output
+- Added Glossy and Tablet Dark styles
+- Added regular expressions, wild card, and prompt on replace options for replace
+- Added delete line for replace
+- Added replace and find in files options into ini file
+- Refactored find in files dialog
+- Refactored replace dialog
+- Refactored directory tab dialog
+- Refactored group box component
+- Fixed file tree view component
+- Fixed print preview scrollbar resize bug
+- Fixed output scrollbar resizing
+- Fixed editor font options
+- Fixed option frames
+- Updated styles
+- Updated language files
+- Updated third-party components
+
+Version 9.1.3 (Apr 23, 2014)
+
+- Fixed out of resources bug
+- Fixed application event handling
+- Fixed DTD is prohibited error with XML documents
+
+Version 9.1.2 (Apr 17, 2014)
+
+- Fixed box selection mode
+- Fixed close all
+- Fixed auto size of the option frames
+- Updated language files
+- Updated third-party components
+
+Version 9.1.1 (Apr 15, 2014)
+
+- Added auto size property for the check box component
+- Fixed font size bugs with check box components
+- Updated language files
+- Updated third-party components
+
+Version 9.1.0 (Apr 7, 2014)
+
+- Added box selection keyboard shortcuts (shift+alt+arrows) for column mode (thanks to DEKO)
+- Added caret position to ini
+- Fixed application event processing
+- Fixed SQL options writing to ini
+- Updated language files
+
+Version 9.0.3 (Apr 2, 2014)
+
+- Fixed slow file opening
+- Fixed go to line - only number allowed
+
+Version 9.0.2 (Apr 1, 2014)
+
+- Fixed system icons for Windows XP (Update your OS, please)
+- Fixed search
+- Fixed compare style bugs
+- Fixed reopen file icons
+- Fixed delete of characters when auto indent enabled
+
+Version 9.0.1 (Mar 20, 2014)
+
+- Fixed auto size horizontal scroll width
+- Fixed open, close, and close all files
+
+Version 9.0.0 (Mar 18, 2014)
+
+- Added show search map and show search highlighter options
+- Fixed print preview toggle line numbers and word wrap buttons
+- Fixed application exit
+- Fixed file opening from output
+- Fixed close all other
+- Updated language files
+- Updated third-party components
+
+Version 8.9.2 (Mar 15, 2014)
+
+- Fixed search bugs
+- Fixed select from directory
+- Updated third-party components
+
+Version 8.9.1 (Mar 10, 2014)
+
+- Fixed search bugs
+- Removed unsupported SQL formatter databases
+
+Version 8.9.0 (Mar 9, 2014)
+
+- Added search highlighting
+- Added search map
+- Added document-specific search option
+- Fixed find in files search with &-characters
+- Fixed buttoned label background color dark style bug
+- Fixed open, save, and close all
+
+Version 8.8.0 (Mar 5, 2014)
+
+- Added non-blinking caret font color option
+- Fixed XML tree parsing
+- Fixed about box
+
+Version 8.7.0 (Mar 2, 2014)
+
+- Added SQL formatter (separated DLL file download)
+- Fixed options
+- Fixed drag and drop in toolbar options
+- Fixed background color in Windows style
+- Fixed unicode character map opening
+- Fixed styles unregistering on closing application
+- Fixed about box
+- Updated language files
+- Updated third-party components
+
+Version 8.6.6 (Feb 11, 2014)
+
+- Fixed remote file access check
+- Updated language files
+
+Version 8.6.5 (Feb 10, 2014)
+
+- Fixed about box
+- Fixed print preview
+- Fixed language editor
+- Fixed auto indent delete bug
+- Fixed file renaming
+- Updated third-party components
+
+Version 8.6.4 (Feb 7, 2014)
+
+- Fixed search in files
+- Fixed remote file access check
+- Fixed color combo box component
+- Fixed directory drive refresh
+- Fixed checking of document time change
+- Fixed unicode character map double click
+- Fixed file tree view component
+- Updated language files
+- Updated third-party components
+
+Version 8.6.3 (Jan 16, 2014)
+
+- Fixed toolbar options
+- Updated language files
+
+Version 8.6.2 (Jan 15, 2014)
+
+- Fixed XML tree click
+- Fixed close all, close all other pages, save all, and replace progress bars
+- Fixed Tools menu
+- Fixed find in files occurences count bug
+- Fixed select from directory bug
+- Fixed go to line
+- Fixed toolbar reset bug
+
+Version 8.6.1 (Jan 14, 2014)
+
+- Fixed toolbar options
+- Updated language files
+
+Version 8.6.0 (Jan 12, 2014)
+
+- Added context menu item in directory popup menu
+- Added hour glass cursor for file counting in find in files
+- Added reset menu items for toolbar options
+- Fixed memory leaks with FastMM
+- Fixed a rare bug when the output splitter was aligned under the output panel
+- Fixed HTML error checking
+- Fixed HP48 highlighter access violation
+- Fixed output scroll bars invalidation in find in files
+- Fixed file control components
+- Fixed toolbar options
+- Refactored file types options
+- Refactored all icons into one unit
+- Updated examples
+- Updated language files
+
+Version 8.5.0 (Jan 6, 2014)
+
+- Added show overlay icons option for the directory
+- Added show line numbers after last line option for the left margin
+- Refactored tool bar options
+- Fixed insert line shortcut - was overlapping with File->New
+- Fixed begin dragging bug when document time was changed
+- Updated language files
+- Updated third-party components
+
+Version 8.4.2 (Dec 30, 2013)
+
+- Fixed options container
+- Fixed status bar auto save column size with languages
+- Fixed auto hot keys bug
+- Updated examples
+- Updated language files
+
+Version 8.4.1 (Dec 26, 2013)
+
+- Fixed VRML highlighter
+- Fixed options form
+- Updated and added examples by netcyphe
+- Updated language files
+
+Version 8.4.0 (Dec 24, 2013)
+
+- Added show scroll hint option for the editor
+- Added progress bar to view files search
+- Added -noini parameter for the application - will prevent any writing to ini file
+- Fixed minimap flickering in compare files
+- Fixed view files close bug when search in progress
+- Fixed maximized opening
+- Moved active line color brightness option to font options
+- Updated language files
+- Updated third-party components
+- Merry Christmas!
+
+Version 8.3.0 (Dec 22, 2013)
+
+- Added new styles and fixed some old ones
+- Fixed XML tree bugs
+- Fixed options form
+- Updated language files
+
+Version 8.2.0 (Dec 18, 2013)
+
+- Added auto save information to the statusbar when auto save is on
+- Added checks if the application form is outside of the screen workarea
+- Added selected option tree item to ini file
+- Fixed view in browser
+- Refactored options container
+- Updated language files
+
+Version 8.1.3 (Dec 13, 2013)
+
+- Fixed dark style active line background color
+- Updated language files
+
+Version 8.1.2 (Dec 12, 2013)
+
+- Fixed minimap invalidation
+- Fixed application closing
+- Fixed output file opening
+- Updated language files
+
+Version 8.1.1 (Dec 11, 2013)
+
+- Fixed find in files progress
+- Fixed maximized size saving
+
+Version 8.1.0 (Dec 11, 2013)
+
+- Added minimap width option
+- Fixed vertical scroll
+- Fixed minimap font change
+- Fixed directory selection drawing
+- Fixed directory initialization
+- Updated language files
+- Updated third-party components
+
+Version 8.0.0 (Dec 10, 2013)
+
+- Added minimap font option
+- Added right margin mouse move option
+- Added show bookmark panel option
+- Fixed editor component
+- Fixed show bookmarks option
+- Fixed find in files
+- Refactored minimap
+- Updated language files
+
+Version 7.9.3 (Dec 2, 2013)
+
+- Fixed find in files
+- Fixed color combobox double buffering
+- Fixed left margin border style
+- Fixed delete file/directory
+- Fixed left margin autosize
+- Updated language files
+
+Version 7.9.2 (Dec 1, 2013)
+
+- Added show bookmarks option
+- Fixed editor component
+- Fixed split
+- Updated language files
+
+Version 7.9.1 (Nov 29, 2013)
+
+- Added custom color for the non-blinking caret, line modified and line normal color options
+- Fixed pretty color names for the non-blinking caret, line modified and line normal color options
+- Fixed find in files
+- Fixed undo and redo icons
+
+Version 7.9.0 (Nov 28, 2013)
+
+- Added non-blinking caret and color option for the editor
+- Added find in files into directory popup menu
+- Fixed find showing and hiding
+- Moved minimap font size option to editor font options
+- Updated language files
+
+Version 7.8.1 (Nov 27, 2013)
+
+- Fixed line number color in dark styles
+
+Version 7.8.0 (Nov 26, 2013)
+
+- Added Show Line Modified option for the left margin
+- Added Line Modified Color and Line Normal Color option for the left margin
+- Added Line Numbers In Tens option for the left margin
+- Added Line Numbers Zero Start option for the left margin
+- Added toggle bookmark by clicking the marginal
+- Fixed margins option - divided into a left and right margin
+- Fixed toggle bookmark
+- Fixed left margin auto size
+- Fixed line spacing
+- Fixed minimap
+- Fixed undo and redo
+- Updated third-party components
+- Updated language files
+
+Version 7.7.2 (Nov 17, 2013)
+
+- Fixed tab closing drag bug
+- Fixed directory renaming
+- Fixed select from directory
+
+Version 7.7.1 (Nov 16, 2013)
+
+- Fixed triple-click row select
+- Fixed compare files language bugs
+- Fixed word wrap, line numbers, and special characters toggle bug with a new document
+- Updated third-party components
+- Updated language files
+
+Version 7.7.0 (Nov 1, 2013)
+
+- Added select from directory feature to editor popup
+- Fixed save as
+- Updated language files
+
+Version 7.6.6 (Oct 30, 2013)
+
+- Fixed opening, replacing, saving, and closing files
+- Fixed HTML error checking
+- Updated third-party components
+
+Version 7.6.5 (Oct 26, 2013)
+
+- Added directory width to ini file
+- Fixed directory popup
+- Fixed captions of editor margin options
+- Fixed find in files default folder
+- Updated language files
+- Updated third-party components
+
+Version 7.6.4 (Oct 19, 2013)
+
+- Fixed canceling find in files
+- Fixed creating of the language menu
+- Updated language files
+
+Version 7.6.3 (Oct 15, 2013)
+
+- Fixed editor other options
+- Fixed split
+- Updated language files
+
+Version 7.6.2 (Oct 14, 2013)
+
+- Fixed mouse wheel bugs
+
+Version 7.6.1 (Oct 13, 2013)
+
+- Added minimap visibility to ini file
+- Refactored minimap
+- Fixed split
+- Fixed character map font drop down count
+- Updated language files
+- Updated third-party components
+
+Version 7.6.0 (Oct 6, 2013)
+
+- Added Search for Files (Ctrl+F12) dialog
+- Fixed progress bar out of range bug
+- Fixed character map font name saving into ini file
+- Fixed toggle bookmark
+- Updated language files
+- Updated third-party components
+
+Version 7.5.1 (Sep 20, 2013)
+
+- Added yes to all and no to all buttons to a file changed message dialog
+- Fixed compare files
+- Fixed font option example editor
+- Fixed XML tree bugs
+- Added Dutch language, translated by karel van dongen
+- Updated third-party components
+
+Version 7.5.0 (Sep 14, 2013)
+
+- Added search options
+- Fixed compare files mouse wheel scrolling
+- Fixed triple-click row select
+- Fixed page control tab closing
+- Fixed icons
+- Updated language files
+
+Version 7.4.2 (Sep 5, 2013)
+
+- Fixed find next
+- Fixed file opening - error message, if file does not exist
+- Moved gutter font option to font options
+- Updated language files
+
+Version 7.4.1 (Sep 1, 2013)
+
+- Fixed page control repaint
+- Fixed completion proposal scroll bar bug
+- Fixed options tree style bugs
+- Fixed find in files
+- Fixed icons
+
+Version 7.4.0 (Aug 26, 2013)
+
+- Added triple-click row select option
+- Fixed language bugs
+- Updated language files
+
+Version 7.3.0 (Aug 26, 2013)
+
+- Added default encoding and default highlighter options
+- Fixed canceling find in files
+- Fixed editor other options
+- Fixed language bugs
+- Updated language files
+
+Version 7.2.1 (Aug 25, 2013)
+
+- Fixed print preview options to print options
+
+Version 7.2.0 (Aug 24, 2013)
+
+- Added print preview options
+- Added save tabs option for directory and output tabs
+- Fixed options tree language
+- Fixed convert tool
+- Fixed find in files
+- Fixed icons
+- Updated language files
+- Updated third-party components
+
+Version 7.1.1 (Aug 20, 2013)
+
+- Fixed style hook unregister bugs when closing application
+- Fixed canceling find in files
+- Fixed undo and redo icons
+
+Version 7.1.0 (Aug 19, 2013)
+
+- Added German language, translated by bugreporter453
+- Added right click select option for editor, directory, and output tabs
+- Fixed icons
+- Fixed main image list color depth and drawing style
+- Fixed completion proposal
+- Fixed language editor
+- Fixed convert language update
+- Updated language files
+
+Version 7.0.0 (Aug 17, 2013)
+
+- Added convert between numerical units tool
+- Added completion proposal and options for it
+- Added double buffered option for editor, directory, and output tabs
+- Added reopen file icons
+- Added close button to language editor
+- Added minimap font factor option for editor
+- Added save tabs option for editor tabs
+- Added show hidden, system, and archive files option for directory
+- Added canceling find in files
+- Fixed progress bar resize
+- Fixed compare files minimap coloring
+- Fixed page control dragging bugs
+- Fixed options tree style bugs
+- Fixed focus after creation of a new document
+- Fixed paste bug when editor unfocused
+- Fixed select all bug when search and goto edit focused
+- Fixed enabling column mode
+- Fixed toolbar resize
+- Fixed startup when document(s) given as a parameter
+- Fixed check for updates
+- Fixed directory tree to show access denied items in italics and disabled color
+- Fixed search and goto line clear buttons
+- Removed bookmark 0 due to overlapping shortcut - http://support.microsoft.com/kb/967893
+- Reordered menu items
+- Updated complete icon set
+- Updated language files
+- Updated third-party components
+- Note! Examples, languages and styles are now back in the zip file.
+  Thanks to donators, which allow me to raise the bandwidth limit.
+
+Version 6.9.1 (Aug 6, 2013)
+
+- Fixed dialog close with Esc
+- Fixed output close tab by middle-click
+- Fixed close all other documents
+- Fixed close all and close all other outputs
+- Fixed find of the HTML version
+- Fixed split editor properties
+
+Version 6.9.0 (Aug 4, 2013)
+
+- Added progress bar for opening, replacing, saving, and closing multiple files
+- Added smart tabs and smart tab delete options for editor
+- Fixed close all documents
+- Fixed file opening style bug
+- Updated language files
+
+Version 6.8.1 (Aug 2, 2013)
+
+- Fixed file saving style bug
+- Fixed view in browser to work with a filename containing a space sign
+- Fixed URI activation for text files
+
+Versoin 6.8.0 (Aug 1, 2013)
+
+- Added minimap for the editor (optional)
+- Added secondary shortcuts tab and shift+tab for increase/decrease indent
+- Fixed replace confirmation bug when replace not confirmed
+- Updated language files
+- Updated third-party components
+
+Version 6.7.0 (Jul 30, 2013)
+
+- Added undo after save option
+- Added close tab by middle-click option
+- Added file type for the directory
+- Added Hide, Bottom and Top option for the directory drive and file type
+- Fixed file saving
+- Fixed language editor
+- Updated language files
+- Updated third-party components
+
+Version 6.6.4 (Jul 22, 2013)
+
+- Fixed page control caption formatting
+
+Version 6.6.3 (Jul 22, 2013)
+
+- Fixed replace all open files
+
+Version 6.6.2 (Jul 18, 2013)
+
+- Fixed file opening
+- Fixed file saving
+
+Version 6.6.1 (Jul 16, 2013)
+
+- Fixed Find in Files
+- Fixed a tab close button bugs
+- Updated third-party components
+
+Version 6.6.0 (Jul 9, 2013)
+
+- Added open all files feature for output
+- Updated language files
+
+Version 6.5.1 (Jul 7, 2013)
+
+- Fixed classic and twilight highlighters (Windows style)
+- Fixed page control style bugs
+- Fixed Find in Files
+
+Version 6.5.0 (Jun 30, 2013)
+
+- Added Hungarian language, translated by ZityiSoft Translator Team
+- Added the number of hits after the file name in search results
+- Fixed twilight highlighter
+- Fixed editor flickering (unnecessary repaints removed)
+
+Version 6.4.0 (Jun 27, 2013)
+
+- Added Copy to Clipboard feature for search results
+- Fixed font and its size in the file renaming edit
+- Fixed document saving when Save as type used
+- Fixed the HTML error output file name before file is saved
+- Updated language files
+
+Version 6.3.4 (Jun 15, 2013)
+
+- Fixed Windows font size bugs
+- Fixed startup
+- Undo and Redo icons replaced
+- Updated third-party components
+
+Version 6.3.3 (Jun 11, 2013)
+
+- Fixed creating a new document
+- Fixed document saving
+
+Version 6.3.2 (Jun 10, 2013)
+
+- Fixed Check for Updates
+
+Version 6.3.1 (Jun 3, 2013)
+
+- Fixed third-party components (damn it)
+
+Version 6.3.0 (May 27, 2013)
+
+- Added wildcard search
+- Fixed search and find next
+- Fixed document saving
+- Fixed HC11, Baan, CAC, Cache, Fortran, Foxpro, Galaxy, GW Script, Haskell, Kix, Modelica, M3, RC, ST, Tcl/Tk snd VB Script highlighter colors
+- Updated language files
+
+Version 6.2.3 (May 23, 2013)
+
+- Fixed Compare Files (64-bit)
+- Fixed About dialog
+- Added Russian language
+- Updated language files
+- Updated third-party components
+
+Version 6.2.2 (May 15, 2013)
+
+- Fixed setting of options
+- Fixed file extension bugs
+
+Version 6.2.1 (May 14, 2013)
+
+- Fixed default highlighter
+- Updated third-party components
+
+Version 6.2.0 (May 14, 2013)
+
+- Added LLVM, Web IDL and YAML highlighters
+- Fixed check for updates (64-bit)
+- Fixed reading of file extensions from ini file
+- Fixed file extension detection
+- Fixed document saving
+- Updated language files
+
+Version 6.1.0 (May 7, 2013)
+
+- Added Insert Caret option to editor
+- Fixed menu icons
+- Fixed language constants
+- Updated language files
+
+Version 6.0.0 (May 6, 2013)
+
+- Added Close Tab by Double Click option to editor, directory and output tabs
+- Added About Language File section to language files
+- Fixed Language Editor to show sections and indents in red if translation needed
+- Fixed Unicode Character Map bugs
+- Fixed Toolbar bugs
+- Fixed Compare Files repaint bugs
+- Fixed urls in readme.txt
+- Fixed assign of options to main menu
+- Updated language files
+
+Version 5.9.0 (May 2, 2013)
+
+- Added Unicode Character Map feature
+- Updated third-party components
+- Updated language files
+
+Version 5.8.1 (April 30, 2013)
+
+- Fixed access violation on startup when directory does not exist
+
+Version 5.8.0 (April 25, 2013)
+
+- Added options for output
+- Added insert HTML/XML tags and date features
+- Added dec to hex and bin conversion features
+- Added Auto Size, Visible Right Margin and Width options for gutter
+- Added Show Image option to editor, directory and output tabs
+- Added options for toolbar
+- Added line number to bookmark menu item
+- Fixed enabling of Go to Bookmarks
+- Fixed reopen files
+- Fixed tree view border width
+- Changed language file name Suomi.lng to Finnish.lng
+- Changed language file name Svenska.lng to Swedish.lng
+- Updated third-party components
+- Updated language files
+
+Version 5.7.0 (April 12, 2013)
+
+- Added auto save option
+- Added show or hide status bar to View menu
+- Fixed enabling save action for active document
+- Updated language files
+- Note! Examples, languages and styles are from now on separated to own downloads due to asynchronous updates and limited bandwidth
+
+Version 5.6.0 (April 10, 2013)
+
+- Added options for directory and status bar
+- Fixed setting of the active page after closing a tab
+- Fixed a tab close button bugs
+- Fixed tab dragging
+- Fixed language files
+- Fixed use of system font in main menu
+- Updated third-party components
+- Updated Italian language (by bovirus)
+- Updated Portuguese language (by Midas)
+- Updated Japanese language (by DEKO)
+
+Version 5.5.3 (April 2, 2013)
+
+- Fixed directory tab close button bugs
+- Fixed repaint bugs
+- Fixed focus on startup
+
+Version 5.5.2 (March 26, 2013)
+
+- Fixed style bugs
+- Fixed a tab close button bugs
+- Fixed language files
+
+Version 5.5.1 (March 21, 2013)
+
+- Fixed HTML error checking to support Unicode
+- Updated Vietnamese language (by ansidev)
+
+Version 5.5.0 (March 20, 2013)
+
+- Added toggle line numbers and special characters for Compare Files
+- Fixed page control component bugs
+- Fixed highlighter selection bugs
+- Updated Italian language (by bovirus)
+
+Version 5.4.2 (March 19, 2013)
+
+- Fixed a tab close button bugs
+- Fixed drag and drop bugs
+
+Version 5.4.1 (March 18, 2013)
+
+- Fixed Carbon style (tab buttons)
+- Fixed language files
+- Updated Japanese language (by DEKO)
+
+Version 5.4.0 (March 16, 2013)
+
+- Reconstructed Options UI
+- Added Show Close Button option to document, directory and output tabs (only works with styles)
+- Added Ignore Case and Ignore Blanks options for Compare Files
+- Added Active Line Color Brightness option
+- Added Gutter Font option
+- Added CSS/PHP Version option
+- Added options for Main Menu
+- Added restart search dialog
+- Added Go to Line feature
+- Added alphabetic submenus to style menu
+- Added Vietnamese language, translated by ansidev
+- Added Reopen document feature
+- Fixed Select for Compare bug
+- Fixed document saving
+- Fixed Search bug when comparing files
+- Fixed Split bugs
+- Fixed default path bugs
+- Updated language files
+- Updated Japanese language (by DEKO)
+- Updated Italian language (by bovirus)
+
+Version 5.3.1 (March 7, 2013)
+
+- Updated language files - encoding to Unicode
+- Updated Japanese language (by DEKO)
+- Changed language file name FranÁais.lng to French.lng - ÅE0x80) is not defined by CP932
+- Updated third-party components
+
+Version 5.3.0 (March 5, 2013)
+
+- Added Unicode language file support
+- Fixed directory icons bug
+- Changed language file name PortuguÍs.lng to Portuguese.lng
+
+Version 5.2.5 (March 4, 2013)
+
+- Fixed HTML/CSS/PHP highlighter bugs
+- Fixed C highlighter selection bug
+
+Version 5.2.4 (March 2, 2013)
+
+- Fixed HTML error checking
+- Fixed output style bugs
+
+Version 5.2.3 (February 28, 2013)
+
+- Fixed a new file highlighter bug
+- Fixed sort
+
+Version 5.2.2 (February 27, 2013)
+
+- Updated Japanese language (by DEKO)
+- Updated Italian language (by bovirus)
+- Fixed language related UI bugs
+
+Version 5.2.1 (February 26, 2013)
+
+- Added Portuguese language, translated by Midas
+- Fixed edit directory bug
+
+Version 5.2.0 (February 24, 2013)
+
+- Added Auto Indent, Scroll Past Eof, Scroll Past Eol and Trim Trailing Spaces to Options
+- Fixed URI activation for text files
+- Fixed style bugs
+- Fixed language files
+
+Version 5.1.0 (February 21, 2013)
+
+- Added Italian language, translated by bovirus (bovirus@gmail.com)
+- Added URI detection/activation for text files
+- Fixed toggle case
+- Fixed language files
+- Updated third-party components
+
+Version 5.0.0 (February 17, 2013)
+
+- Added Japanese language, translated by DEKO
+- Added XML tree view
+- Fixed block copy compatibility with Delphi and MSDev IDE (thanks to DEKO)
+- Fixed toggle word wrap, line numbers, special chars and selection mode on startup
+- Fixed toolbar repaint on startup
+- Fixed language files
+- Fixed language file saving in Language Editor
+
+Version 4.9.0 (February 11, 2013)
+
+- Added Format XML feature
+- Fixed language files
+- Updated third-party components
+
+Version 4.8.1 (February 5, 2013)
+
+- Fixed the use of Alt in column mode
+
+Version 4.8.0 (February 5, 2013)
+
+- Added file properties feature
+- Fixed document icon after saving a new file
+- Fixed language files
+
+Version 4.7.2 (February 3, 2013)
+
+- Fixed default extension when saving a file
+
+Version 4.7.1 (February 3, 2013)
+
+- Fixed Replace dialog's Replace in item setting
+- Fixed a directory path bug when saved as
+- Updated third-party components
+
+Version 4.7.0 (January 26, 2013)
+
+- Added Remove Whitespace feature
+- Fixed search and replace to accept spaces
+- Fixed language files
+
+Version 4.6.3 (January 21, 2013)
+
+- Fixed empty file bug from find in files
+
+Version 4.6.2 (January 21, 2013)
+
+- Added FranÁais (French) language, translated by Nick
+- Fixed styled dialog sizes
+
+Version 4.6.1 (January 18, 2013)
+
+- Fixed Language Editor
+- Fixed Svenska (Swedish) language
+
+Version 4.6.0 (January 18, 2013)
+
+- Added Language Editor
+- Added Svenska (Swedish) language
+- Fixed owner handle to Open and Save dialogs
+
+Version 4.5.2 (January 14, 2013)
+
+- Saved window state (normal, minimized, maximized) into ini file.
+- Fixed Windows style saving into ini file
+
+Version 4.5.1 (January 14, 2013)
+
+- Fixed bug in startup without ini file
+- Updated third-party components
+
+Version 4.5.0 (January 10, 2013)
+
+- Added regular expression search
+- Added Greek language, translated by Thanassis Katsageorgis
+- Fixed English and Finnish language
+
+Version 4.4.0 (January 8, 2013)
+
+- Added Language feature and some language files - English and Suomi (Finnish)
+- Added Language Editor as an upcoming feature
+- Changed Preferences to Options
+- Fixed Delete button bug
+- Fixed main menu Alt navigation
+- Fixed properties of split editor
+- Fixed Open, Save and Print dialogs to support installed OS
+- Fixed Check for Updates canceling
+
+Version 4.3.3 (December 23, 2012)
+
+- Fixed Select for Compare feature
+- Added drag and drop support for compare files
+
+Version 4.3.2 (December 19, 2012)
+
+- Fixed Directory dialog layout
+
+Version 4.3.1 (December 16, 2012)
+
+- Fixed flickering when reading open files on startup
+
+Version 4.3.0 (December 15, 2012)
+
+- Styles removed from executable and moved to Styles directory
+- Styles can be now added and modified by Embarcadero's VCL Style Designer
+- Fixed flickering when reading open files on startup
+
+Version 4.2.7 (December 13, 2012)
+
+- Fixed drive lower case bug
+- Fixed Directory dialog layout
+
+Version 4.2.6 (December 12, 2012)
+
+- SetStyledFormSize function moved from Common.pas to StyleHooks.pas
+- Updated third-party components
+
+Version 4.2.5 (December 11, 2012)
+
+- Fixed Preferences dialog layout
+- Fixed highlighting in Windows style
+
+Version 4.2.4 (December 10, 2012)
+
+- Renamed 'C / Pascal Highlighter' groupbox (Preferences) to 'Default C / Pascal Highlighter'
+- Included changes.log
+
+Version 4.2.3 (December 7, 2012)
+
+- BrowseURL function (Common.pas) fixed to use the system temporary path
+
+Version 4.2.2 (December 5, 2012)
+
+- Temporary fix to ini file for DWScript
+
+Version 4.2.1 (December 4, 2012)
+
+- Statusbar is recreated after style change (was losing handle)
+
+Version 4.2.0 (December 2, 2012)
+
+- Update for highlighter colors for the dark styles
+
+Version 4.1.0 (November 29, 2012)
+
+- Added DWScript highlighter
+- Fixed highlighting bugs
+
+Version 4.0.1 (November 27, 2012)
+
+- Added UTF-8 encoding without BOM
+
+Version 4.0.0 (November 26, 2012)
+
+- Added encoding feature
+- Added Assign checks (Directory.pas)
+
+... subsequent changes will be updated later ...

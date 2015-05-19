@@ -169,13 +169,7 @@ begin
   OpenDialog.Filter := Trim(StringReplace(LanguageDataModule.GetFileTypes('Language'), '|', #0, [rfReplaceAll])) + #0#0;
   OpenDialog.Title := LanguageDataModule.GetConstant('Open');
   if OpenDialog.Execute(Handle) then
-  //if BCCommon.Dialogs.OpenFiles(Handle, DefaultPath, Trim(StringReplace(LanguageDataModule.GetFileTypes('Language')
-  //  , '|', #0, [rfReplaceAll])) + #0#0, LanguageDataModule.GetConstant('Open')) then
-  begin
-    //Application.ProcessMessages; { style fix }
-    //LoadLanguageFile(BCCommon.Dialogs.Files[0]);
     LoadLanguageFile(OpenDialog.Files[0]);
-  end;
 end;
 
 procedure TLanguageEditorForm.ActionFileSaveExecute(Sender: TObject);
@@ -197,8 +191,6 @@ end;
 
 procedure TLanguageEditorForm.FormCreate(Sender: TObject);
 begin
-  //StatusBar.Font.Name := 'Segoe UI';
-  //StatusBar.Font.Size := 8;
   VirtualDrawTree.NodeDataSize := SizeOf(TObjectNodeRec);
   { IDE can lose these properties }
   ActionList.Images := ImagesDataModule.ImageList;
@@ -292,8 +284,7 @@ end;
 function TLanguageEditorForm.SaveAs(FileName: string): Boolean;
 begin
   SaveDialog.InitialDir := ExtractFilePath(FileName);
-  SaveDialog.Filter := Trim(StringReplace(LanguageDataModule.GetFileTypes('Language'),
-    '|', #0, [rfReplaceAll])) + #0#0;
+  SaveDialog.Filter := Trim(StringReplace(LanguageDataModule.GetFileTypes('Language'), '|', #0, [rfReplaceAll])) + #0#0;
   SaveDialog.Title := LanguageDataModule.GetConstant('SaveAs');
   SaveDialog.FileName := ExtractFileName(FileName);
   SaveDialog.DefaultExt := 'lng';
@@ -485,18 +476,24 @@ begin
   if TranslationNeeded then
     Data.Value[4] := 'Translation needed';
   if Pos('About Language File', NodeText) <> 0 then
-    Data.ImageIndex := 107
+    Data.ImageIndex := 74
   else
   if Pos('Dialog', NodeText) <> 0 then
-    Data.ImageIndex := 1
-  else
-  if Pos('Frame', NodeText) <> 0 then
-    Data.ImageIndex := 3
+    Data.ImageIndex := 131
   else
   if Pos('Form', NodeText) <> 0 then
-    Data.ImageIndex := 2
+    Data.ImageIndex := 132
   else
-    Data.ImageIndex := 29;
+  if Pos('Frame', NodeText) <> 0 then
+    Data.ImageIndex := 133
+  else
+  if (Pos('Message', NodeText) <> 0) or (Pos('AskYes', NodeText) <> 0) then
+    Data.ImageIndex := 134
+  else
+  if Pos('FileTypes', NodeText) <> 0 then
+    Data.ImageIndex := 120
+  else
+    Data.ImageIndex := 135;
   Data.Level := 0;
 end;
 
