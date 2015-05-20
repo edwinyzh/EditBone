@@ -5,7 +5,6 @@ Version 10.0.0 beta released. Use the Issues page to report bugs or send them di
 * <a href="https://alphaskins.com">AlphaSkins</a> (commercial) 
 * <a href="https://github.com/bonecode/Common">Common</a>
 * <a href="https://github.com/bonecode/Components">Components</a>
-* <a href="https://github.com/ahausladen/JsonDataObjects">Json Data Objects</a> 
 * <a href="https://github.com/bonecode/TBCEditor">TBCEditor</a> 
 * <a href="https://github.com/Virtual-TreeView/">Virtual Treeview</a>
 
