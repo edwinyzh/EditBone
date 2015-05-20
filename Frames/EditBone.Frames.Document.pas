@@ -9,7 +9,7 @@ uses
   Vcl.ActnMan, acAlphaImageList, sPageControl, BCEditor.Types,  EditBone.Types,
   BCEditor.MacroRecorder, BCEditor.Print, Vcl.PlatformDefaultStyleActnCtrls, EditBone.Frames.Document.TabSheet,
   BCEditor.Editor.Bookmarks, BCCommon.Frames.Compare, BCCommon.Frames.Search, sFrameAdapter, BCCommon.Frames.Base,
-  Vcl.Dialogs, sDialogs;
+  Vcl.Dialogs, sDialogs, System.ImageList;
 
 type
   TDocumentFrame = class(TFrame)
@@ -2354,8 +2354,7 @@ begin
     Highlighter.LoadFromFile(Format('%s.json', [AHighlighterName]));
     ClearCodeFolding;
     InitCodeFolding;
-    if Highlighter.CodeFoldingRegions.Count > 0 then
-      CodeFolding.Visible := OptionsContainer.ShowCodeFolding;
+    CodeFolding.Visible := OptionsContainer.ShowCodeFolding and (Editor.Highlighter.CodeFoldingRegions.Count > 0);
     Invalidate;
   end;
 end;
