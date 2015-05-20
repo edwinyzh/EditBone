@@ -33,3 +33,4 @@ Version 10.0.0 beta released. Use the Issues page to report bugs or send them di
 
 ![image](https://cloud.githubusercontent.com/assets/11475177/7670748/e9989f82-fcb9-11e4-918c-26e3d3c85ef5.png)
 ![image](https://cloud.githubusercontent.com/assets/11475177/7670754/1d5b94be-fcba-11e4-8938-e0759a83c7f4.png)
+![image](https://cloud.githubusercontent.com/assets/11475177/7719058/b10e48ae-fec3-11e4-9ed3-42f480324fd8.png)
