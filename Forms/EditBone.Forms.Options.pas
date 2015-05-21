@@ -671,7 +671,10 @@ begin
   end;
   Node := FindItem(VirtualDrawTreeOptions.GetFirst, SelectedItemIndex);
   if Assigned(Node) then
+  begin
     VirtualDrawTreeOptions.Selected[Node] := True;
+    VirtualDrawTreeOptions.ScrollIntoView(Node, True);
+  end;
   SetVisibleFrame;
 end;
 

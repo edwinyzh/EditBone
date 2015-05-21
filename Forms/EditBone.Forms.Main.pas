@@ -10,7 +10,7 @@ uses
   sPageControl, BCControls.PageControl, BCCommon.Images, BCControls.SpeedButton, Vcl.Buttons, sSpeedButton,
   EditBone.Frames.Directory, EditBone.Frames.Document, EditBone.Frames.Output, VirtualTrees,
   System.Win.TaskbarCore, Vcl.Taskbar, Vcl.ActnMan, Vcl.ActnMenus, BCComponents.DragDrop,
-  Vcl.PlatformDefaultStyleActnCtrls, Vcl.StdCtrls;
+  Vcl.PlatformDefaultStyleActnCtrls, Vcl.StdCtrls, BCComponents.ApplicationInstance, JvAppInst;
 
 type
   TMainForm = class(TBCForm)
@@ -543,6 +543,7 @@ type
     Alternating1: TMenuItem;
     Sentence1: TMenuItem;
     itle1: TMenuItem;
+    AppInstances: TJvAppInstances;
     procedure ActionFileNewExecute(Sender: TObject);
     procedure ActionFileOpenExecute(Sender: TObject);
     procedure ActionFileSaveAllExecute(Sender: TObject);
@@ -661,6 +662,7 @@ type
     procedure ActionEditToggleCaseAlternatingExecute(Sender: TObject);
     procedure ActionEditToggleCaseSentenceExecute(Sender: TObject);
     procedure ActionEditToggleCaseTitleExecute(Sender: TObject);
+    procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
   private
     FNoIni: Boolean;
     FDirectoryFrame: TDirectoryFrame;
@@ -1437,6 +1439,14 @@ end;
 procedure TMainForm.ActionViewXMLTreeExecute(Sender: TObject);
 begin
   ActionViewXMLTree.Checked := FDocumentFrame.ToggleXMLTree;
+end;
+
+procedure TMainForm.AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
+var
+  i: Integer;
+begin
+  for i := 0 to CmdLine.Count - 1 do
+    FDocumentFrame.Open(CmdLine.Strings[i]);
 end;
 
 procedure TMainForm.ApplicationEventsActivate(Sender: TObject);
