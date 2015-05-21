@@ -1172,7 +1172,7 @@ begin
   end;
   Editor := GetActiveEditor;
   if Assigned(Editor) then
-    Editor.ExecuteCommand(EditorCommand, Char(ItemIndex), nil);
+    Editor.CommandProcessor(EditorCommand, Char(ItemIndex), nil);
 end;
 
 procedure TDocumentFrame.ActionSelectionBoxDownExecute(Sender: TObject);
@@ -1488,7 +1488,7 @@ begin
     LEditor := GetActiveEditor;
     if Assigned(LEditor) then
     begin
-      LEditor.ExecuteCommand(ecImeStr, #0, PWideChar(Format('<%s></%s>', [LTagName, LTagName])));
+      LEditor.CommandProcessor(ecImeStr, #0, PWideChar(Format('<%s></%s>', [LTagName, LTagName])));
       LEditor.CaretX := LEditor.CaretX - Length(LTagName) - 3; { -3 from </> }
     end;
   end;
@@ -1500,7 +1500,7 @@ var
 begin
   Editor := GetActiveEditor;
   if Assigned(Editor) then
-    Editor.ExecuteCommand(ecImeStr, #0, PWideChar(DateTimeToStr(Now)));
+    Editor.CommandProcessor(ecImeStr, #0, PWideChar(DateTimeToStr(Now)));
 end;
 
 function TDocumentFrame.Options(AActionList: TActionList): Boolean;
@@ -1623,7 +1623,7 @@ begin
   end;
   Editor := GetActiveEditor;
   if Assigned(Editor) then
-    Editor.ExecuteCommand(EditorCommand, Char(ItemIndex), nil);
+    Editor.CommandProcessor(EditorCommand, Char(ItemIndex), nil);
 end;
 
 procedure TDocumentFrame.GotoLine;
@@ -2044,7 +2044,7 @@ var
 begin
   Editor := GetActiveEditor;
   if Assigned(Editor) then
-    Editor.ExecuteCommand(ecBlockUnindent, 'U', nil);
+    Editor.CommandProcessor(ecBlockUnindent, 'U', nil);
 end;
 
 procedure TDocumentFrame.IncreaseIndent;
@@ -2053,7 +2053,7 @@ var
 begin
   Editor := GetActiveEditor;
   if Assigned(Editor) then
-    Editor.ExecuteCommand(ecBlockIndent, 'I', nil);
+    Editor.CommandProcessor(ecBlockIndent, 'I', nil);
 end;
 
 procedure TDocumentFrame.SelectAll;
@@ -2251,7 +2251,7 @@ procedure TDocumentFrame.InsertLine;
   begin
     if Assigned(Editor) then
       if Editor.Focused then
-        Editor.ExecuteCommand(ecInsertLine, 'N', nil);
+        Editor.CommandProcessor(ecInsertLine, 'N', nil);
   end;
 
 begin
@@ -2265,7 +2265,7 @@ procedure TDocumentFrame.DeleteWord;
   begin
     if Assigned(Editor) then
       if Editor.Focused then
-        Editor.ExecuteCommand(ecDeleteWord, 'T', nil);
+        Editor.CommandProcessor(ecDeleteWord, 'T', nil);
   end;
 
 begin
@@ -2279,7 +2279,7 @@ procedure TDocumentFrame.DeleteLine;
   begin
     if Assigned(Editor) then
       if Editor.Focused then
-        Editor.ExecuteCommand(ecDeleteLine, 'Y', nil);
+        Editor.CommandProcessor(ecDeleteLine, 'Y', nil);
   end;
 
 begin
@@ -2293,7 +2293,7 @@ procedure TDocumentFrame.DeleteEndOfLine;
   begin
     if Assigned(Editor) then
       if Editor.Focused then
-        Editor.ExecuteCommand(ecDeleteEndOfLine, 'Y', nil);
+        Editor.CommandProcessor(ecDeleteEndOfLine, 'Y', nil);
   end;
 
 begin

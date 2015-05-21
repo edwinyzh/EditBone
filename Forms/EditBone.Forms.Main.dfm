@@ -7,6 +7,8 @@ inherited MainForm: TMainForm
   OnClose = FormClose
   OnKeyDown = FormKeyDown
   OnShow = FormShow
+  ExplicitWidth = 1127
+  ExplicitHeight = 700
   PixelsPerInch = 96
   TextHeight = 13
   object SplitterHorizontal: TBCSplitter [0]
@@ -127,10 +129,6 @@ inherited MainForm: TMainForm
         TabSkin = 'MENUBTN'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheetFile: TsTabSheet
         Caption = 'File'
@@ -138,10 +136,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelFileButtons: TBCPanel
           Left = 0
           Top = 0
@@ -474,10 +468,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelEditButtons: TBCPanel
           Left = 0
           Top = 0
@@ -816,10 +806,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelSearchButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1047,10 +1033,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelViewButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1409,10 +1391,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelDocumentButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1541,10 +1519,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelToolsButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1712,10 +1686,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelHelpButtons: TBCPanel
           Left = 0
           Top = 0
@@ -4242,26 +4212,31 @@ inherited MainForm: TMainForm
     object ActionEditToggleCaseUpper: TAction
       Category = 'Edit'
       Caption = 'Upper'
+      ImageIndex = 33
       OnExecute = ActionEditToggleCaseUpperExecute
     end
     object ActionEditToggleCaseLower: TAction
       Category = 'Edit'
       Caption = 'Lower'
+      ImageIndex = 33
       OnExecute = ActionEditToggleCaseLowerExecute
     end
     object ActionEditToggleCaseAlternating: TAction
       Category = 'Edit'
       Caption = 'Alternating'
+      ImageIndex = 33
       OnExecute = ActionEditToggleCaseAlternatingExecute
     end
     object ActionEditToggleCaseSentence: TAction
       Category = 'Edit'
       Caption = 'Sentence'
+      ImageIndex = 33
       OnExecute = ActionEditToggleCaseSentenceExecute
     end
     object ActionEditToggleCaseTitle: TAction
       Category = 'Edit'
       Caption = 'Title'
+      ImageIndex = 33
       OnExecute = ActionEditToggleCaseTitleExecute
     end
   end
@@ -4321,7 +4296,6 @@ inherited MainForm: TMainForm
     end
   end
   object DragDrop: TBCDragDrop [24]
-    AcceptDrag = False
     DropTarget = Owner
     OnDrop = DragDropDrop
     Left = 36
