@@ -2381,46 +2381,44 @@ begin
           ProgressBar.StepIt;
           Application.ProcessMessages;
 
-          if IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) then
-            if (AFileTypeText = '*.*') or IsExtInFileType(ExtractFileExt(FName), AFileTypeText) then
+          //if IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) then
+          if (AFileTypeText = '*.*') and IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) or
+            IsExtInFileType(ExtractFileExt(FName), AFileTypeText) then
+          try
+            {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
+            StringList := GetStringList(IncludeTrailingBackslash(AFolderText) + FName);
+            {$WARNINGS ON}
             try
-              {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
-              StringList := GetStringList(IncludeTrailingBackslash(AFolderText) + FName);
-              {$WARNINGS ON}
-              try
-                Root := nil;
-                if Trim(StringList.Text) <> '' then
-                for Ln := 0 to StringList.Count - 1 do
+              Root := nil;
+              if Trim(StringList.Text) <> '' then
+              for Ln := 0 to StringList.Count - 1 do
+              begin
+                Found := True;
+                Line := StringList.Strings[Ln];
+                S := Line;
+                ChPos := 0;
+                while Found do
                 begin
-                  Found := True;
-                  Line := StringList.Strings[Ln];
-                  S := Line;
-                  ChPos := 0;
-                  while Found do
+                  if ASearchCaseSensitive then
+                    Ch := Pos(WideString(AFindWhatText), S)
+                  else
+                    Ch := Pos(WideUpperCase(WideString(AFindWhatText)), WideUpperCase(S));
+                  if Ch <> 0 then
                   begin
-                    if ASearchCaseSensitive then
-                      Ch := Pos(WideString(AFindWhatText), S)
-                    else
-                      Ch := Pos(WideUpperCase(WideString(AFindWhatText)), WideUpperCase(S));
-                    if Ch <> 0 then
-                    begin
-                      Found := True;
-                      ChPos := ChPos + Ch;
-                      if FOutputFrame.CancelSearch then
-                        Break;
-                      {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
-                      FOutputFrame.AddTreeViewLine(AOutputTreeView, Root, IncludeTrailingBackslash(AFolderText) + FName, Ln + 1, ChPos, Line, AFindWhatText);
-                      {$WARNINGS ON}
-                      S := Copy(S, Ch + LongWord(Length(AFindWhatText)), Length(S));
-                      ChPos := ChPos + LongWord(Length(AFindWhatText)) - 1;
-                    end
-                    else
-                      Found := False;
-                  end;
-                end
-              finally
-                StringList.Free;
-              end;
+                    Found := True;
+                    ChPos := ChPos + Ch;
+                    if FOutputFrame.CancelSearch then
+                      Break;
+                    {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
+                    FOutputFrame.AddTreeViewLine(AOutputTreeView, Root, IncludeTrailingBackslash(AFolderText) + FName, Ln + 1, ChPos, Line, AFindWhatText);
+                    {$WARNINGS ON}
+                    S := Copy(S, Ch + LongWord(Length(AFindWhatText)), Length(S));
+                    ChPos := ChPos + LongWord(Length(AFindWhatText)) - 1;
+                  end
+                  else
+                    Found := False;
+                end;
+              end
             except
               {$WARNINGS OFF}
               { IncludeTrailingBackslash is specific to a platform }
@@ -2428,6 +2426,9 @@ begin
                 Format(LanguageDataModule.GetWarningMessage('FileAccessError'), [IncludeTrailingBackslash(AFolderText) + FName]), '');
               {$WARNINGS ON}
             end;
+          finally
+            StringList.Free;
+          end;
         end;
       end;
     until not FindNextFile(shFindFile, sWin32FD);
