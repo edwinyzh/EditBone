@@ -74,7 +74,7 @@ var
     if Data.NodeType = ntElement then
       S := '<' + S;
 
-    TempEditor.ReplaceText(S, '');
+    TempEditor.Search.SearchText := S;
 
     Data.BlockBegin := TempEditor.SelectionBeginPosition;
     Data.BlockEnd := TempEditor.SelectionEndPosition;
@@ -88,6 +88,7 @@ begin
   try
     TempEditor.Text := Editor.Text;
     TempEditor.Search.Engine := Editor.Search.Engine;
+    TempEditor.Search.Enabled := True;
     TempEditor.CaretX := 0; // SetCaretXYEx(False, BufferCoord(0, 0));
     TempEditor.CaretY := 0;
     FProgressBar.Count := FXMLNodeCount;

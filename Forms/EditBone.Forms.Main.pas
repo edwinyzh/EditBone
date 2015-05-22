@@ -10,7 +10,7 @@ uses
   sPageControl, BCControls.PageControl, BCCommon.Images, BCControls.SpeedButton, Vcl.Buttons, sSpeedButton,
   EditBone.Frames.Directory, EditBone.Frames.Document, EditBone.Frames.Output, VirtualTrees,
   System.Win.TaskbarCore, Vcl.Taskbar, Vcl.ActnMan, Vcl.ActnMenus, BCComponents.DragDrop,
-  Vcl.PlatformDefaultStyleActnCtrls, Vcl.StdCtrls, BCComponents.ApplicationInstance, JvAppInst;
+  Vcl.PlatformDefaultStyleActnCtrls, Vcl.StdCtrls, JvAppInst;
 
 type
   TMainForm = class(TBCForm)
@@ -2154,7 +2154,7 @@ begin
     { Check if the form is outside the workarea }
     Left := SetFormInsideWorkArea(Left, Width);
     { Directory }
-    PanelDirectory.Width := ReadInteger('Options', 'DirectoryWidth', 257);
+    PanelDirectory.Width := ReadInteger('Options', 'DirectoryWidth', 288);
     Application.ProcessMessages;
     { State }
     State := ReadInteger('Size', 'State', 0);
@@ -2394,50 +2394,52 @@ begin
           //if IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) then
           if (AFileTypeText = '*.*') and IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) or
             IsExtInFileType(ExtractFileExt(FName), AFileTypeText) then
-          try
+          begin
             {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
             StringList := GetStringList(IncludeTrailingBackslash(AFolderText) + FName);
             {$WARNINGS ON}
             try
-              Root := nil;
-              if Trim(StringList.Text) <> '' then
-              for Ln := 0 to StringList.Count - 1 do
-              begin
-                Found := True;
-                Line := StringList.Strings[Ln];
-                S := Line;
-                ChPos := 0;
-                while Found do
+              try
+                Root := nil;
+                if Trim(StringList.Text) <> '' then
+                for Ln := 0 to StringList.Count - 1 do
                 begin
-                  if ASearchCaseSensitive then
-                    Ch := Pos(WideString(AFindWhatText), S)
-                  else
-                    Ch := Pos(WideUpperCase(WideString(AFindWhatText)), WideUpperCase(S));
-                  if Ch <> 0 then
+                  Found := True;
+                  Line := StringList.Strings[Ln];
+                  S := Line;
+                  ChPos := 0;
+                  while Found do
                   begin
-                    Found := True;
-                    ChPos := ChPos + Ch;
-                    if FOutputFrame.CancelSearch then
-                      Break;
-                    {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
-                    FOutputFrame.AddTreeViewLine(AOutputTreeView, Root, IncludeTrailingBackslash(AFolderText) + FName, Ln + 1, ChPos, Line, AFindWhatText);
-                    {$WARNINGS ON}
-                    S := Copy(S, Ch + LongWord(Length(AFindWhatText)), Length(S));
-                    ChPos := ChPos + LongWord(Length(AFindWhatText)) - 1;
-                  end
-                  else
-                    Found := False;
-                end;
-              end
-            except
-              {$WARNINGS OFF}
-              { IncludeTrailingBackslash is specific to a platform }
-              FOutputFrame.AddTreeViewLine(AOutputTreeView, Root, '', -1, 0,
-                Format(LanguageDataModule.GetWarningMessage('FileAccessError'), [IncludeTrailingBackslash(AFolderText) + FName]), '');
-              {$WARNINGS ON}
+                    if ASearchCaseSensitive then
+                      Ch := Pos(WideString(AFindWhatText), S)
+                    else
+                      Ch := Pos(WideUpperCase(WideString(AFindWhatText)), WideUpperCase(S));
+                    if Ch <> 0 then
+                    begin
+                      Found := True;
+                      ChPos := ChPos + Ch;
+                      if FOutputFrame.CancelSearch then
+                        Break;
+                      {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
+                      FOutputFrame.AddTreeViewLine(AOutputTreeView, Root, IncludeTrailingBackslash(AFolderText) + FName, Ln + 1, ChPos, Line, AFindWhatText);
+                      {$WARNINGS ON}
+                      S := Copy(S, Ch + LongWord(Length(AFindWhatText)), Length(S));
+                      ChPos := ChPos + LongWord(Length(AFindWhatText)) - 1;
+                    end
+                    else
+                      Found := False;
+                  end;
+                end
+              except
+                {$WARNINGS OFF}
+                { IncludeTrailingBackslash is specific to a platform }
+                FOutputFrame.AddTreeViewLine(AOutputTreeView, Root, '', -1, 0,
+                  Format(LanguageDataModule.GetWarningMessage('FileAccessError'), [IncludeTrailingBackslash(AFolderText) + FName]), '');
+                {$WARNINGS ON}
+              end;
+            finally
+              StringList.Free;
             end;
-          finally
-            StringList.Free;
           end;
         end;
       end;
