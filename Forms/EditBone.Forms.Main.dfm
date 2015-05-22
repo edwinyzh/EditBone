@@ -1,19 +1,20 @@
 inherited MainForm: TMainForm
   Caption = 'EditBone'
-  ClientHeight = 642
+  ClientHeight = 662
   ClientWidth = 1111
   KeyPreview = True
   Position = poDefault
   OnClose = FormClose
+  OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   ExplicitWidth = 1127
-  ExplicitHeight = 700
+  ExplicitHeight = 720
   PixelsPerInch = 96
   TextHeight = 13
   object SplitterHorizontal: TBCSplitter [0]
     Left = 0
-    Top = 485
+    Top = 505
     Width = 1111
     Height = 6
     Cursor = crVSplit
@@ -21,9 +22,10 @@ inherited MainForm: TMainForm
     Visible = False
     ShowGrip = True
     SkinData.SkinSection = 'SPLITTER'
+    ExplicitTop = 485
   end
   inherited StatusBar: TBCStatusBar
-    Top = 617
+    Top = 637
     Width = 1111
     Height = 25
     Panels = <
@@ -44,7 +46,7 @@ inherited MainForm: TMainForm
         Width = 50
       end>
     ParentColor = True
-    ExplicitTop = 617
+    ExplicitTop = 637
     ExplicitWidth = 1111
     ExplicitHeight = 25
     object SpeedButtonMacroPlay: TBCSpeedButton
@@ -103,7 +105,7 @@ inherited MainForm: TMainForm
       Margins.Top = 4
       Margins.Right = 0
       Margins.Bottom = 0
-      ActivePage = TabSheetEdit
+      ActivePage = TabSheetView
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -119,7 +121,7 @@ inherited MainForm: TMainForm
       TabSpacing = 12
       SkinData.SkinSection = 'RIBBONPAGE'
       SkinData.OuterEffects.Visibility = ovAlways
-      ActivePageCaption = 'Edit'
+      ActivePageCaption = 'View'
       HoldShiftToDragDrop = False
       TabDragDrop = False
       object TabSheetButton: TsTabSheet
@@ -129,10 +131,6 @@ inherited MainForm: TMainForm
         TabSkin = 'MENUBTN'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheetFile: TsTabSheet
         Caption = 'File'
@@ -140,10 +138,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelFileButtons: TBCPanel
           Left = 0
           Top = 0
@@ -814,10 +808,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelSearchButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1045,10 +1035,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelViewButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1407,10 +1393,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelDocumentButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1539,10 +1521,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelToolsButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1710,10 +1688,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelHelpButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1841,7 +1815,7 @@ inherited MainForm: TMainForm
     Left = 0
     Top = 119
     Width = 1111
-    Height = 366
+    Height = 386
     Align = alClient
     BevelOuter = bvNone
     Color = clWindow
@@ -1853,17 +1827,18 @@ inherited MainForm: TMainForm
     object SplitterVertical: TBCSplitter
       Left = 255
       Top = 0
-      Height = 366
+      Height = 386
       Visible = False
       ShowGrip = True
       SkinData.SkinSection = 'SPLITTER'
+      ExplicitHeight = 366
     end
     object PanelDirectory: TBCPanel
       AlignWithMargins = True
       Left = 0
       Top = 5
       Width = 255
-      Height = 356
+      Height = 376
       Margins.Left = 0
       Margins.Top = 5
       Margins.Right = 0
@@ -1881,7 +1856,7 @@ inherited MainForm: TMainForm
       Left = 261
       Top = 5
       Width = 850
-      Height = 356
+      Height = 376
       Margins.Left = 0
       Margins.Top = 5
       Margins.Right = 0
@@ -1897,7 +1872,7 @@ inherited MainForm: TMainForm
   object PanelOutput: TBCPanel [4]
     AlignWithMargins = True
     Left = 0
-    Top = 491
+    Top = 511
     Width = 1111
     Height = 121
     Margins.Left = 0
@@ -3760,6 +3735,7 @@ inherited MainForm: TMainForm
     end
     object ActionViewLineNumbers: TAction
       Category = 'View'
+      AutoCheck = True
       Caption = 'Line numbers'
       GroupIndex = 2
       Hint = 'Toggle line numbers'
@@ -3788,6 +3764,7 @@ inherited MainForm: TMainForm
     end
     object ActionViewMinimap: TAction
       Category = 'View'
+      AutoCheck = True
       Caption = 'Minimap'
       GroupIndex = 5
       Hint = 'Show or hide the minimap'
@@ -3796,6 +3773,7 @@ inherited MainForm: TMainForm
     end
     object ActionViewSplit: TAction
       Category = 'View'
+      AutoCheck = True
       Caption = 'Split'
       GroupIndex = 6
       Hint = 'Split the document'
@@ -3804,6 +3782,7 @@ inherited MainForm: TMainForm
     end
     object ActionViewXMLTree: TAction
       Category = 'View'
+      AutoCheck = True
       Caption = 'XML tree'
       GroupIndex = 7
       Hint = 'Show or hide the XML tree'
@@ -4575,6 +4554,7 @@ inherited MainForm: TMainForm
       end
       object MenuItemMainMenuViewLineNumbers: TMenuItem
         Action = ActionViewLineNumbers
+        AutoCheck = True
       end
       object MenuItemMainMenuViewSpecialChars: TMenuItem
         Action = ActionViewSpecialChars
@@ -4586,9 +4566,11 @@ inherited MainForm: TMainForm
       end
       object MenuItemMainMenuViewMinimap: TMenuItem
         Action = ActionViewMinimap
+        AutoCheck = True
       end
       object MenuItemMainMenuViewSplit: TMenuItem
         Action = ActionViewSplit
+        AutoCheck = True
       end
       object MenuItemMainMenuViewXMLTree: TMenuItem
         Action = ActionViewXMLTree

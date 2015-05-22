@@ -663,6 +663,7 @@ type
     procedure ActionEditToggleCaseSentenceExecute(Sender: TObject);
     procedure ActionEditToggleCaseTitleExecute(Sender: TObject);
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
+    procedure FormDestroy(Sender: TObject);
   private
     FNoIni: Boolean;
     FDirectoryFrame: TDirectoryFrame;
@@ -1172,7 +1173,13 @@ begin
           begin
             LSpeedButton.Action := FindItemByName(s);
             LSpeedButton.ShowCaption := False;
-            LSpeedButton.ButtonStyle := tbsTextButton;
+            if Assigned(LSpeedButton.Action) and TAction(LSpeedButton.Action).AutoCheck then
+            begin
+              LSpeedButton.AllowAllUp := True;
+              LSpeedButton.Down := TAction(LSpeedButton.Action).Checked;
+            end
+            else
+              LSpeedButton.ButtonStyle := tbsTextButton;
             LSpeedButton.Width := 26;
           end
           else
@@ -1332,7 +1339,11 @@ procedure TMainForm.ActionViewMainMenuExecute(Sender: TObject);
 begin
   OptionsContainer.MainMenuVisible := not OptionsContainer.MainMenuVisible;
   if OptionsContainer.MainMenuVisible then
-    Menu := MainMenu
+  begin
+    Menu := MainMenu;
+    Height := Height + 1;
+    Height := Height - 1;
+  end
   else
     Menu := nil;
   if PanelMenubar.Visible and Assigned(Menu) then
@@ -1340,9 +1351,6 @@ begin
     OptionsContainer.MenuBarVisible := False;
     PanelMenuBar.Visible := False;
   end;
-  { This is fucking stupid but Invalidate, Repaint, Resize etc. won't paint the form correctly when the Menu is set. }
-  Height := Height + 1;
-  Height := Height - 1; { TODO: Find a better solution }
 end;
 
 procedure TMainForm.ActionViewMenuBarExecute(Sender: TObject);
@@ -1774,13 +1782,7 @@ begin
   UpdateLanguage(TForm(FOutputFrame), ALanguage);
   { menubar }
   UpdateMenuBarLanguage;
-
-  if PageControlToolBar.Visible then
-  begin
-    { This is fucking stupid but Invalidate, Repaint, Resize etc. won't paint the menubar correctly }
-    Height := Height + 1;
-    Height := Height - 1; { TODO: Find a better solution }
-  end;
+  SendMessage(Application.MainForm.Handle, WM_SIZE, 0, 0);
 end;
 
 procedure TMainForm.UpdateMenuBarLanguage;
@@ -1855,15 +1857,6 @@ begin
       Exit;
     end;
   end;
-  if not FNoIni then
-  begin
-    OptionsContainer.WriteIniFile;
-    FDocumentFrame.WriteIniFile;
-    FDirectoryFrame.WriteIniFile;
-    FOutputFrame.WriteOutputFile;
-    WriteIniFile;
-  end;
-  OptionsContainer.Free;
 end;
 
 function TMainForm.GetStringList(APopupMenu: TPopupMenu): TStringList;
@@ -1902,6 +1895,20 @@ begin
 
   MainMenu.Images := ImagesDataModule.ImageListSmall;
   OnSkinChange := ChangeSkin;
+end;
+
+procedure TMainForm.FormDestroy(Sender: TObject);
+begin
+  if not FNoIni then
+  begin
+    OptionsContainer.WriteIniFile;
+    FDocumentFrame.WriteIniFile;
+    FDirectoryFrame.WriteIniFile;
+    FOutputFrame.WriteOutputFile;
+    WriteIniFile;
+  end;
+  OptionsContainer.Free;
+  inherited;
 end;
 
 procedure TMainForm.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -2290,11 +2297,7 @@ begin
   with FindInFilesDialog do
   begin
     if AFolder <> '' then
-      FolderText := AFolder
-    else
-    if FolderText = '' then
-      if Assigned(FDirectoryFrame) then
-        FolderText := FDirectoryFrame.SelectedPath;
+      FolderText := AFolder;
     Extensions := OptionsContainer.Extensions;
     LEditor := FDocumentFrame.GetActiveEditor;
     if Assigned(LEditor) then
@@ -2341,6 +2344,7 @@ begin
         end;
         FOutputFrame.PageControl.EndDrag(False); { if close button pressed and search canceled, dragging will stay... }
         FOutputFrame.ProcessingTabSheet := False;
+        SetFields;
       end;
     end;
   end;
@@ -2503,7 +2507,6 @@ begin
     WriteBool('Options', 'ShowEncodingSelection', TitleBar.Items[2].Visible);
     WriteBool('Options', 'ShowHighlighterSelection', TitleBar.Items[4].Visible);
     WriteBool('Options', 'ShowHighlighterColorSelection', TitleBar.Items[6].Visible);
-    WriteBool('Options', 'ShowXMLTree', ActionViewXMLTree.Checked);
     WriteString('Options', 'SelectedSkin', SkinManager.SkinName);
   finally
     Free;

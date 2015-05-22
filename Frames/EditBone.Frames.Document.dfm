@@ -1127,4 +1127,9 @@ object DocumentFrame: TDocumentFrame
     Left = 52
     Top = 202
   end
+  object Timer: TTimer
+    OnTimer = TimerTimer
+    Left = 370
+    Top = 134
+  end
 end

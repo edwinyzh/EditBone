@@ -9,7 +9,7 @@ uses
   Vcl.ActnMan, acAlphaImageList, sPageControl, BCEditor.Types,  EditBone.Types,
   BCEditor.MacroRecorder, BCEditor.Print, Vcl.PlatformDefaultStyleActnCtrls, EditBone.Frames.Document.TabSheet,
   BCEditor.Editor.Bookmarks, BCCommon.Frames.Compare, BCCommon.Frames.Search, sFrameAdapter, BCCommon.Frames.Base,
-  Vcl.Dialogs, sDialogs, System.ImageList;
+  Vcl.Dialogs, sDialogs, System.ImageList, Vcl.ExtCtrls;
 
 type
   TDocumentFrame = class(TFrame)
@@ -33,9 +33,9 @@ type
     PrintDialog: TPrintDialog;
     SaveDialog: TsSaveDialog;
     EditorPrint: TBCEditorPrint;
+    Timer: TTimer;
     procedure PageControlChange(Sender: TObject);
     procedure EditorOnChange(Sender: TObject);
-    procedure EditorEnter(Sender: TObject);
     procedure EditorReplaceText(Sender: TObject; const ASearch, AReplace: string; Line, Column: Integer; DeleteLine: Boolean; var Action: TBCEditorReplaceAction);
     procedure EditorSplitOnChange(Sender: TObject);
     procedure ActionXMLTreeRefreshExecute(Sender: TObject);
@@ -47,6 +47,7 @@ type
     procedure ActionSelectionBoxUpExecute(Sender: TObject);
     procedure PageControlCloseBtnClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
       var Action: TacCloseAction);
+    procedure TimerTimer(Sender: TObject);
   private
     FCaseCycle: TBCCase;
     FCompareImageIndex, FNewImageIndex: Integer;
@@ -400,11 +401,6 @@ begin
 
     Result := Editor;
   end;
-end;
-
-procedure TDocumentFrame.EditorEnter(Sender: TObject);
-begin
-  CheckFileDateTimes;
 end;
 
 procedure TDocumentFrame.CompareFiles(FileName: string; AFileDragDrop: Boolean);
@@ -934,7 +930,6 @@ begin
     Exit;
 
   MainForm.SetTitleBarMenus;
-  CheckFileDateTimes; { compare can change file datetime }
 end;
 
 procedure TDocumentFrame.PageControlCloseBtnClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
@@ -1151,6 +1146,11 @@ begin
     end;
   end;
   FProcessing := False;
+end;
+
+procedure TDocumentFrame.TimerTimer(Sender: TObject);
+begin
+  CheckFileDateTimes;
 end;
 
 procedure TDocumentFrame.ToggleBookmarks(ItemIndex: Integer);
@@ -1982,6 +1982,7 @@ begin
   DialogResult := mrNo;
   if FProcessing then
     Exit;
+  FProcessing := True;
   for i := 0 to PageControl.PageCount - 1 do
   begin
     Editor := GetEditor(PageControl.Pages[i]);
@@ -1994,12 +1995,10 @@ begin
           if FileExists(Editor.DocumentName) then
           begin
             PageControl.TabClosed := True; { just to avoid begin drag }
-            FProcessing := True;
             if not (DialogResult in [mrYesToAll, mrNoToAll]) then
               DialogResult := AskYesOrNoAll(Format(LanguageDataModule.GetYesOrNoMessage('DocumentTimeChanged'), [Editor.DocumentName]));
             if DialogResult in [mrYes, mrYesToAll] then
               Refresh(i);
-            FProcessing := False;
           end
           else
           begin
@@ -2015,6 +2014,7 @@ begin
         end;
       end;
   end;
+  FProcessing := False;
 end;
 
 procedure TDocumentFrame.Refresh(Page: Integer);
