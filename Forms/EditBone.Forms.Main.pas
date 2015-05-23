@@ -10,7 +10,8 @@ uses
   sPageControl, BCControls.PageControl, BCCommon.Images, BCControls.SpeedButton, Vcl.Buttons, sSpeedButton,
   EditBone.Frames.Directory, EditBone.Frames.Document, EditBone.Frames.Output, VirtualTrees,
   System.Win.TaskbarCore, Vcl.Taskbar, Vcl.ActnMan, Vcl.ActnMenus, BCComponents.DragDrop,
-  Vcl.PlatformDefaultStyleActnCtrls, Vcl.StdCtrls, JvAppInst;
+  Vcl.PlatformDefaultStyleActnCtrls, Vcl.StdCtrls, JvAppInst, acPNG, acImage, System.ImageList, Vcl.ImgList,
+  acAlphaImageList;
 
 type
   TMainForm = class(TBCForm)
@@ -544,6 +545,7 @@ type
     Sentence1: TMenuItem;
     itle1: TMenuItem;
     AppInstances: TJvAppInstances;
+    AlphaImageList: TsAlphaImageList;
     procedure ActionFileNewExecute(Sender: TObject);
     procedure ActionFileOpenExecute(Sender: TObject);
     procedure ActionFileSaveAllExecute(Sender: TObject);
@@ -664,6 +666,7 @@ type
     procedure ActionEditToggleCaseTitleExecute(Sender: TObject);
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure FormDestroy(Sender: TObject);
+    procedure StatusBarDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel; const Rect: TRect);
   private
     FNoIni: Boolean;
     FDirectoryFrame: TDirectoryFrame;
@@ -1623,16 +1626,17 @@ begin
 
     if ActiveDocumentFound then
     begin
-      InfoText := FDocumentFrame.GetCaretInfo;
-      if StatusBar.Panels[1].Text <> InfoText then
-        StatusBar.Panels[1].Text := InfoText;
+      //InfoText := FDocumentFrame.GetCaretInfo;
+      //if StatusBar.Panels[1].Text <> InfoText then
+      //  StatusBar.Panels[1].Text := InfoText;
+
       InfoText := FDocumentFrame.GetModifiedInfo;
       if StatusBar.Panels[3].Text <> InfoText then
         StatusBar.Panels[3].Text := InfoText;
     end
     else
     begin
-      StatusBar.Panels[1].Text := '';
+      //StatusBar.Panels[1].Text := '';
       StatusBar.Panels[3].Text := '';
     end;
     GetKeyboardState(KeyState);
@@ -2039,6 +2043,16 @@ begin
     LineVisible := False;
 end;
 
+procedure TMainForm.StatusBarDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel; const Rect: TRect);
+begin
+  inherited;
+  if Panel.Index = 1 then
+  begin
+    AlphaImageList.Draw(StatusBar.Canvas, Rect.Left, Rect.Top + 2, 0);
+    StatusBar.Canvas.TextOut(Rect.Left + AlphaImageList.Width + 4, Rect.Top + 4, FDocumentFrame.CaretInfo);
+  end;
+end;
+
 procedure TMainForm.TitleBarItems2MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   LMenuItem: TMenuItem;
@@ -2137,6 +2151,7 @@ begin
   FDocumentFrame.Parent := PanelDocument;
   FDocumentFrame.PopupMenu := PopupMenuDocument;
   FDocumentFrame.ProgressBar := ProgressBar;
+  FDocumentFrame.StatusBar := StatusBar;
   { TDirectoryFrame }
   FDirectoryFrame := TDirectoryFrame.Create(PanelDirectory);
   FDirectoryFrame.Parent := PanelDirectory;

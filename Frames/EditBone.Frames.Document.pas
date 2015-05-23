@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.CommDlg, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
   BCEditor.Editor, Vcl.ComCtrls, Vcl.ImgList, Vcl.Menus, BCControls.PageControl, Vcl.Buttons,
   Vcl.StdCtrls, Vcl.ActnList, System.Actions, BCControls.ProgressBar, BCControls.ImageList,
-  Vcl.ActnMan, acAlphaImageList, sPageControl, BCEditor.Types,  EditBone.Types,
+  Vcl.ActnMan, acAlphaImageList, sPageControl, BCEditor.Types,  EditBone.Types, BCControls.StatusBar,
   BCEditor.MacroRecorder, BCEditor.Print, Vcl.PlatformDefaultStyleActnCtrls, EditBone.Frames.Document.TabSheet,
   BCEditor.Editor.Bookmarks, BCCommon.Frames.Compare, BCCommon.Frames.Search, sFrameAdapter, BCCommon.Frames.Base,
   Vcl.Dialogs, sDialogs, System.ImageList, Vcl.ExtCtrls;
@@ -34,6 +34,7 @@ type
     SaveDialog: TsSaveDialog;
     EditorPrint: TBCEditorPrint;
     Timer: TTimer;
+    TabSheetNew: TsTabSheet;
     procedure PageControlChange(Sender: TObject);
     procedure EditorOnChange(Sender: TObject);
     procedure EditorReplaceText(Sender: TObject; const ASearch, AReplace: string; Line, Column: Integer; DeleteLine: Boolean; var Action: TBCEditorReplaceAction);
@@ -48,7 +49,9 @@ type
     procedure PageControlCloseBtnClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
       var Action: TacCloseAction);
     procedure TimerTimer(Sender: TObject);
+    procedure EditorCaretChanged(Sender: TObject; X, Y: Integer);
   private
+    FCaretInfo: string;
     FCaseCycle: TBCCase;
     FCompareImageIndex, FNewImageIndex: Integer;
     //FHTMLDocumentChanged: Boolean;
@@ -59,6 +62,7 @@ type
     FProcessing: Boolean;
     FProgressBar: TBCProgressBar;
     FModifiedDocuments: Boolean;
+    FStatusBar: TBCStatusBar;
     //FFoundSearchItems: TObjectList;
     //function CanFindNextPrevious: Boolean;
     function CreateNewTabSheet(FileName: string = ''; ShowMinimap: Boolean = False): TBCEditor;
@@ -109,7 +113,6 @@ type
     destructor Destroy; override;
     function GetActiveSplitEditor: TBCEditor;
     function GetActiveEditor: TBCEditor;
-    function GetCaretInfo: string;
     //function GetHTMLErrors: TList;
     function GetMacroRecordPauseImageIndex: Integer;
     function GetModifiedInfo: string;
@@ -193,6 +196,7 @@ type
     property ActiveTabSheetCaption: string read GetActiveTabSheetCaption;
     property CanRedo: Boolean read GetCanRedo;
     property CanUndo: Boolean read GetCanUndo;
+    property CaretInfo: string read FCaretInfo;
     property MinimapChecked: Boolean read GetMinimapChecked;
     property ModifiedDocuments: Boolean Read FModifiedDocuments write FModifiedDocuments;
     property OpenTabSheetCount: Integer read GetOpenTabSheetCount;
@@ -202,6 +206,7 @@ type
     property SelectionFound: Boolean read GetSelectionFound;
     property SelectionModeChecked: Boolean read GetSelectionModeChecked;
     property SplitChecked: Boolean read GetSplitChecked;
+    property StatusBar: TBCStatusBar write FStatusBar;
     property XMLTreeVisible: Boolean read GetXMLTreeVisible;
   end;
 
@@ -251,25 +256,31 @@ begin
       begin
         { smaller }
         ImageList16.GetIcon(0, Icon);
-        FCompareImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle); //PageControl.Images.AddIcon(Icon);
+        FCompareImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle);
         ImageList16.GetIcon(1, Icon);
-        FNewImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle); //PageControl.Images.AddIcon(Icon);
+        FNewImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle);
+        ImageList16.GetIcon(2, Icon);
+        TabSheetNew.ImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle);
       end;
       20:
       begin
         { medium }
         ImageList20.GetIcon(0, Icon);
-        FCompareImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle); //PageControl.Images.AddIcon(Icon);
+        FCompareImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle);
         ImageList20.GetIcon(1, Icon);
-        FNewImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle); //PageControl.Images.AddIcon(Icon);
+        FNewImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle);
+        ImageList20.GetIcon(2, Icon);
+        TabSheetNew.ImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle);
       end;
       24:
       begin
         { larger }
         ImageList24.GetIcon(0, Icon);
-        FCompareImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle); //PageControl.Images.AddIcon(Icon);
+        FCompareImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle);
         ImageList24.GetIcon(1, Icon);
-        FNewImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle); //PageControl.Images.AddIcon(Icon);
+        FNewImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle);
+        ImageList24.GetIcon(2, Icon);
+        TabSheetNew.ImageIndex := ImageList_AddIcon(PageControl.Images.Handle, Icon.Handle);
       end;
     end;
   finally
@@ -358,6 +369,7 @@ begin
       FileDateTime := GetFileDateTime(FileName);
       OnChange := EditorOnChange;
       OnEnter := EditorEnter;
+      OnCaretChanged := EditorCaretChanged;
       OnReplaceText := EditorReplaceText;
       PopupMenu := MainForm.PopupMenuEditor;
       Minimap.Visible := ShowMinimap;
@@ -1913,14 +1925,11 @@ begin
   end;
 end;
 
-function TDocumentFrame.GetCaretInfo: string;
-var
-  Editor: TBCEditor;
+procedure TDocumentFrame.EditorCaretChanged(Sender: TObject; X, Y: Integer);
 begin
-  Result := '';
-  Editor := GetActiveEditor;
-  if Assigned(Editor) then
-    Result := Format('%d: %d', [Editor.CaretY, Editor.CaretX]);
+  inherited;
+  FCaretInfo := Format('%d: %d', [Y, X]);
+  FStatusBar.Repaint;
 end;
 
 function TDocumentFrame.GetModifiedInfo: string;
