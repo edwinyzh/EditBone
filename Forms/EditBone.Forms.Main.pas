@@ -716,7 +716,7 @@ uses
   BCCommon.Utils, BCControls.ImageList, BCControls.Utils, BCCommon.Dialogs.FindInFiles, BCEditor.Editor.Utils,
   BCEditor.Encoding, EditBone.Forms.UnicodeCharacterMap, EditBone.Dialogs.About, BCCommon.Dialogs.DownloadURL,
   BCCommon.Forms.Convert, EditBone.Forms.LanguageEditor, BCCommon.Messages, BCCommon.Forms.SearchForFiles,
-  BCCommon.StringUtils, EditBone.Types;
+  BCCommon.StringUtils, BCEditor.Types;
 
 function TMainForm.Processing: Boolean;
 begin
@@ -729,19 +729,6 @@ begin
     Exit;
   Result := False;
 end;
-
-{procedure TMainForm.RecreateDragDrop;
-begin
-  if Assigned(DragDrop) then
-  begin
-    DragDrop.Free;
-    DragDrop := nil
-  end;
-  DragDrop := TBCDragDrop.Create(MainForm);
-  DragDrop.DropTarget := MainForm;
-  DragDrop.OnDrop := DragDropDrop;
-  DragDrop.AcceptDrag := True;
-end; }
 
 procedure TMainForm.ActionDocumentViewInBrowserExecute(Sender: TObject);
 begin
@@ -1076,21 +1063,21 @@ end;
 
 procedure TMainForm.ActionSelectEncodingExecute(Sender: TObject);
 begin
-  TitleBar.Items[2].Caption := TAction(Sender).Caption;
+  TitleBar.Items[2].Caption := TAction(Sender).Caption; // TODO: const for item
   TAction(Sender).Checked := True;
   FDocumentFrame.SetActiveEncoding(TAction(Sender).Tag);
 end;
 
 procedure TMainForm.ActionSelectHighlighterColorExecute(Sender: TObject);
 begin
-  TitleBar.Items[6].Caption := TAction(Sender).Caption;
+  TitleBar.Items[6].Caption := TAction(Sender).Caption; // TODO: const for item
   TAction(Sender).Checked := True;
   FDocumentFrame.SetHighlighterColor(TAction(Sender).Caption);
 end;
 
 procedure TMainForm.ActionSelectHighlighterExecute(Sender: TObject);
 begin
-  TitleBar.Items[4].Caption := TAction(Sender).Caption;
+  TitleBar.Items[4].Caption := TAction(Sender).Caption; // TODO: const for item
   TAction(Sender).Checked := True;
   FDocumentFrame.SetHighlighter(TAction(Sender).Caption);
 end;
@@ -2004,6 +1991,9 @@ begin
     if ParamStr(i) = PARAM_NO_INI then
       FNoIni := True
     else
+    if ParamStr(i) = PARAM_NO_SKIN then
+      SkinManager.Active := False
+    else
       FDocumentFrame.Open(ParamStr(i), nil, 0, 0, True);
   end;
 
@@ -2484,7 +2474,7 @@ begin
       if WithBom then
         FEncoding := TEncoding.UTF8
       else
-        FEncoding := TEncoding.UTF8WithoutBOM;
+        FEncoding := BCEditor.Encoding.TEncoding.UTF8WithoutBOM;
     end
     else
     begin
@@ -2625,7 +2615,7 @@ begin
     if LEditor.Encoding = TEncoding.UTF8 then
       TitleBar.Items[2].Caption := 'UTF.8'
     else
-    if LEditor.Encoding = TEncoding.UTF8WithoutBOM then
+    if LEditor.Encoding = BCEditor.Encoding.TEncoding.UTF8WithoutBOM then
       TitleBar.Items[2].Caption := 'UTF-8 without BOM'
     else
       TitleBar.Items[2].Caption := 'ANSI';
