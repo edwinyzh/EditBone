@@ -4,7 +4,7 @@ object AboutDialog: TAboutDialog
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = 'About EditBone'
-  ClientHeight = 400
+  ClientHeight = 376
   ClientWidth = 469
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -16,6 +16,7 @@ object AboutDialog: TAboutDialog
   OldCreateOrder = True
   Position = poMainFormCenter
   OnClose = FormClose
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object PanelTop: TBCPanel
@@ -508,7 +509,7 @@ object AboutDialog: TAboutDialog
     Left = 0
     Top = 137
     Width = 469
-    Height = 222
+    Height = 198
     Margins.Left = 2
     Margins.Top = 2
     Margins.Right = 2
@@ -525,6 +526,7 @@ object AboutDialog: TAboutDialog
     ParentFont = False
     TabOrder = 1
     SkinData.SkinSection = 'CHECKBOX'
+    ExplicitHeight = 222
     object LabelThirdPartyComponents: TBCLabel
       AlignWithMargins = True
       Left = 10
@@ -541,6 +543,7 @@ object AboutDialog: TAboutDialog
       Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
+      ExplicitWidth = 117
     end
     object LabelIcons: TBCLabel
       AlignWithMargins = True
@@ -558,6 +561,7 @@ object AboutDialog: TAboutDialog
       Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
+      ExplicitWidth = 27
     end
     object LabelLanguageFileContributors: TBCLabel
       AlignWithMargins = True
@@ -575,6 +579,7 @@ object AboutDialog: TAboutDialog
       Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
+      ExplicitWidth = 142
     end
     object LabelDevelopmentEnvironment: TBCLabel
       AlignWithMargins = True
@@ -592,6 +597,7 @@ object AboutDialog: TAboutDialog
       Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
+      ExplicitWidth = 140
     end
     object Panel3rdPartyComponents: TBCPanel
       Left = 0
@@ -704,7 +710,7 @@ object AboutDialog: TAboutDialog
   end
   object PanelButtons: TBCPanel
     Left = 0
-    Top = 359
+    Top = 335
     Width = 469
     Height = 41
     Margins.Left = 2
@@ -721,6 +727,7 @@ object AboutDialog: TAboutDialog
     ParentBackground = False
     TabOrder = 2
     SkinData.SkinSection = 'CHECKBOX'
+    ExplicitTop = 359
     object ButtonOK: TButton
       Left = 386
       Top = 8

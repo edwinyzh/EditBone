@@ -106,7 +106,7 @@ inherited MainForm: TMainForm
       Margins.Top = 4
       Margins.Right = 0
       Margins.Bottom = 0
-      ActivePage = TabSheetView
+      ActivePage = TabSheetEdit
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -122,7 +122,7 @@ inherited MainForm: TMainForm
       TabSpacing = 12
       SkinData.SkinSection = 'RIBBONPAGE'
       SkinData.OuterEffects.Visibility = ovAlways
-      ActivePageCaption = 'View'
+      ActivePageCaption = 'Edit'
       HoldShiftToDragDrop = False
       TabDragDrop = False
       object TabSheetButton: TsTabSheet
@@ -4845,7 +4845,7 @@ inherited MainForm: TMainForm
     end
   end
   object PopupMenuToggleCase: TPopupMenu
-    Images = AlphaImageListStatusBar
+    Images = ImagesDataModule.ImageList
     Left = 745
     Top = 156
     object Upper1: TMenuItem

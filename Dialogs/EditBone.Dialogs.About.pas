@@ -35,6 +35,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure LinkClick(Sender: TObject; const Link: string; LinkType: TSysLinkType);
     procedure ButtonDonationsClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     procedure Initialize;
   public
@@ -52,7 +53,6 @@ class procedure TAboutDialog.ClassShowModal(AOwner: TComponent);
 begin
   with TAboutDialog.Create(AOwner) do
   try
-    Initialize;
     ShowModal;
   finally
     Free;
@@ -74,6 +74,11 @@ end;
 procedure TAboutDialog.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
+end;
+
+procedure TAboutDialog.FormShow(Sender: TObject);
+begin
+  Initialize;
 end;
 
 procedure TAboutDialog.Initialize;
