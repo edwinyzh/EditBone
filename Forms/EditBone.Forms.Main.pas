@@ -545,7 +545,7 @@ type
     Sentence1: TMenuItem;
     itle1: TMenuItem;
     AppInstances: TJvAppInstances;
-    AlphaImageList: TsAlphaImageList;
+    AlphaImageListStatusBar: TsAlphaImageList;
     procedure ActionFileNewExecute(Sender: TObject);
     procedure ActionFileOpenExecute(Sender: TObject);
     procedure ActionFileSaveAllExecute(Sender: TObject);
@@ -698,6 +698,7 @@ type
     procedure GetHighlighterColors;
   public
     procedure CreateFileReopenList;
+    procedure SetBookmarks;
     procedure SetTitleBarMenus;
     property HighlighterColor: string read GetHighlighterColor;
   end;
@@ -716,7 +717,7 @@ uses
   BCCommon.Utils, BCControls.ImageList, BCControls.Utils, BCCommon.Dialogs.FindInFiles, BCEditor.Editor.Utils,
   BCEditor.Encoding, EditBone.Forms.UnicodeCharacterMap, EditBone.Dialogs.About, BCCommon.Dialogs.DownloadURL,
   BCCommon.Forms.Convert, EditBone.Forms.LanguageEditor, BCCommon.Messages, BCCommon.Forms.SearchForFiles,
-  BCCommon.StringUtils, BCEditor.Types;
+  BCCommon.StringUtils, BCEditor.Types, sGraphUtils, sConst;
 
 function TMainForm.Processing: Boolean;
 begin
@@ -1488,7 +1489,6 @@ end;
 
 procedure TMainForm.SetFields;
 var
-  i: Integer;
   ActiveDocumentName: string;
   ActiveDocumentFound: Boolean;
   InfoText: string;
@@ -1496,8 +1496,6 @@ var
   SelectionFound: Boolean;
   IsSQLDocument: Boolean;
   IsXMLDocument: Boolean;
-  BookmarkList: TBCEditorBookmarkList;
-  LActionGotoBookmarks, LActionToggleBookmarks: TAction;
 begin
   FProcessingEventHandler := True;
   try
@@ -1640,40 +1638,6 @@ begin
     ActionMacroPlayback.Enabled := ActiveDocumentFound and FDocumentFrame.IsMacroStopped;
     ActionMacroOpen.Enabled := ActiveDocumentFound;
     ActionMacroSaveAs.Enabled := ActionMacroPlayback.Enabled;
-    if OptionsContainer.LeftMarginShowBookmarks then
-    begin
-      // TODO: move to onbookmarkchange event
-      BookmarkList := FDocumentFrame.GetActiveBookmarkList;
-      { Bookmarks }
-      for i := 1 to 9 do
-      begin
-        LActionGotoBookmarks := TAction(FindComponent(Format('ActionGotoBookmarks%d', [i])));
-        if Assigned(LActionGotoBookmarks) then
-        begin
-          LActionGotoBookmarks.Enabled := False;
-          LActionGotoBookmarks.Caption := Format('%s &%d', [LanguageDataModule.GetConstant('Bookmark'), i]);
-        end;
-        LActionToggleBookmarks := TAction(FindComponent(Format('ActionToggleBookmarks%d', [i])));
-        if Assigned(LActionToggleBookmarks) then
-          LActionToggleBookmarks.Caption := Format('%s &%d', [LanguageDataModule.GetConstant('Bookmark'), i]);
-      end;
-      if Assigned(BookmarkList) then
-      for i := 0 to BookmarkList.Count - 1 do
-      begin
-        LActionGotoBookmarks := TAction(FindComponent(Format('ActionGotoBookmarks%d', [BookmarkList.Items[i].Index + 1])));
-        if Assigned(LActionGotoBookmarks) then
-        begin
-          LActionGotoBookmarks.Enabled := True;
-          LActionGotoBookmarks.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
-            BookmarkList.Items[i].Index + 1, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
-        end;
-        LActionToggleBookmarks := TAction(FindComponent(Format('ActionToggleBookmarks%d', [BookmarkList.Items[i].Index + 1])));
-        if Assigned(LActionToggleBookmarks) then
-          LActionToggleBookmarks.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
-            BookmarkList.Items[i].Index + 1, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
-      end;
-    end;
-
     TitleBar.Items[0].Visible := not PanelMenubar.Visible;
     FProcessingEventHandler := False;
   except
@@ -1681,6 +1645,45 @@ begin
   end;
 end;
 
+procedure TMainForm.SetBookmarks;
+var
+  i: Integer;
+  BookmarkList: TBCEditorBookmarkList;
+  LActionGotoBookmarks, LActionToggleBookmarks: TAction;
+begin
+  if OptionsContainer.LeftMarginShowBookmarks then
+  begin
+    BookmarkList := FDocumentFrame.GetActiveBookmarkList;
+    { Bookmarks }
+    for i := 1 to 9 do
+    begin
+      LActionGotoBookmarks := TAction(FindComponent(Format('ActionGotoBookmarks%d', [i])));
+      if Assigned(LActionGotoBookmarks) then
+      begin
+        LActionGotoBookmarks.Enabled := False;
+        LActionGotoBookmarks.Caption := Format('%s &%d', [LanguageDataModule.GetConstant('Bookmark'), i]);
+      end;
+      LActionToggleBookmarks := TAction(FindComponent(Format('ActionToggleBookmarks%d', [i])));
+      if Assigned(LActionToggleBookmarks) then
+        LActionToggleBookmarks.Caption := Format('%s &%d', [LanguageDataModule.GetConstant('Bookmark'), i]);
+    end;
+    if Assigned(BookmarkList) then
+    for i := 0 to BookmarkList.Count - 1 do
+    begin
+      LActionGotoBookmarks := TAction(FindComponent(Format('ActionGotoBookmarks%d', [BookmarkList.Items[i].Index + 1])));
+      if Assigned(LActionGotoBookmarks) then
+      begin
+        LActionGotoBookmarks.Enabled := True;
+        LActionGotoBookmarks.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
+          BookmarkList.Items[i].Index + 1, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
+      end;
+      LActionToggleBookmarks := TAction(FindComponent(Format('ActionToggleBookmarks%d', [BookmarkList.Items[i].Index + 1])));
+      if Assigned(LActionToggleBookmarks) then
+        LActionToggleBookmarks.Caption := Format('%s &%d: %s %d', [LanguageDataModule.GetConstant('Bookmark'),
+          BookmarkList.Items[i].Index + 1, LanguageDataModule.GetConstant('Line'), BookmarkList.Items[i].Line]);
+    end;
+  end;
+end;
 
 procedure TMainForm.CreateLanguageMenu(AMenuItem: TMenuItem);
 var
@@ -2034,12 +2037,26 @@ begin
 end;
 
 procedure TMainForm.StatusBarDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel; const Rect: TRect);
+var
+  LRect: TRect;
 begin
   inherited;
   if Panel.Index = 1 then
   begin
-    AlphaImageList.Draw(StatusBar.Canvas, Rect.Left, Rect.Top + 2, 0);
-    StatusBar.Canvas.TextOut(Rect.Left + AlphaImageList.Width + 4, Rect.Top + 4, FDocumentFrame.CaretInfo);
+    AlphaImageListStatusBar.Draw(StatusBar.Canvas, Rect.Left, Rect.Top + 1, 0);
+
+    LRect := Rect;
+    LRect.Left := LRect.Left + AlphaImageListStatusBar.Width + 4;
+
+    if SkinManager.Active then
+      acWriteTextEx(StatusBar.Canvas, PACChar(FDocumentFrame.CaretInfo), True, LRect, DT_SINGLELINE or DT_VCENTER,
+        SkinProvider.SkinData, True)
+    else
+    begin
+      StatusBar.Canvas.Brush.Style := bsClear;
+      StatusBar.Canvas.Font.Assign(StatusBar.Font);
+      StatusBar.Canvas.TextOut(LRect.Left, LRect.Top + 6, FDocumentFrame.CaretInfo);
+    end;
   end;
 end;
 

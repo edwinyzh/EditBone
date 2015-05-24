@@ -81,6 +81,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Align = alClient
         Caret.NonBlinking.Enabled = False
         Caret.Options = []
+        CodeFolding.Colors.Indent = clBlack
         CodeFolding.Hint.Font.Charset = DEFAULT_CHARSET
         CodeFolding.Hint.Font.Color = clWindowText
         CodeFolding.Hint.Font.Height = -11
@@ -175,27 +176,39 @@ object DocTabSheetFrame: TDocTabSheetFrame
       ParentColor = False
       ParentFont = False
       TabOrder = 0
+      ExplicitTop = 2
+      ExplicitWidth = 451
       inherited SearchPanel: TBCPanel
         Left = 2
         Width = 449
+        ExplicitLeft = 2
+        ExplicitWidth = 449
         inherited SpeedButtonSearchClose: TBCSpeedButton
           Left = 428
+          ExplicitLeft = 428
         end
         inherited Splitter: TBCSplitter
           Left = 240
+          ExplicitLeft = 240
         end
         inherited ComboBoxSearchText: TBCComboBox
           Width = 240
+          ExplicitWidth = 240
         end
         inherited PanelRight: TBCPanel
           Left = 373
           Width = 55
+          ExplicitLeft = 373
+          ExplicitWidth = 55
           inherited LabelSearchResultCount: TBCLabelFX
             Left = 43
+            Height = 21
+            ExplicitLeft = 43
           end
         end
         inherited PanelToolBar: TBCPanel
           Left = 246
+          ExplicitLeft = 246
         end
       end
       inherited FrameAdapter: TsFrameAdapter

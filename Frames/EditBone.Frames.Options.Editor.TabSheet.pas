@@ -26,6 +26,8 @@ type
     SliderShowCloseButton: TsSlider;
     SliderShowImage: TsSlider;
     ShowImageStickyLabelShowImage: TsStickyLabel;
+    StickyLabelShowNewDocumentButton: TsStickyLabel;
+    SliderShowNewDocumentButton: TsSlider;
   protected
     procedure GetData; override;
     procedure PutData; override;
@@ -67,10 +69,11 @@ begin
     SliderCloseTabByMiddleClick.SliderOn := DocCloseTabByMiddleClick;
     SliderDoubleBuffered.SliderOn := DocDoubleBuffered;
     SliderMultiLine.SliderOn := DocMultiLine;
+    SliderRightClickSelect.SliderOn := DocRightClickSelect;
     SliderSaveTabs.SliderOn := DocSaveTabs;
     SliderShowCloseButton.SliderOn := DocShowCloseButton;
+    SliderShowNewDocumentButton.SliderOn := DocShowNewDocumentButton;
     SliderShowImage.SliderOn := DocShowImage;
-    SliderRightClickSelect.SliderOn := DocRightClickSelect;
   end;
 end;
 
@@ -82,10 +85,11 @@ begin
     DocCloseTabByMiddleClick := SliderCloseTabByMiddleClick.SliderOn;
     DocDoubleBuffered := SliderDoubleBuffered.SliderOn;
     DocMultiLine := SliderMultiLine.SliderOn;
+    DocRightClickSelect := SliderRightClickSelect.SliderOn;
     DocSaveTabs := SliderSaveTabs.SliderOn;
     DocShowCloseButton := SliderShowCloseButton.SliderOn;
+    DocShowNewDocumentButton := SliderShowNewDocumentButton.SliderOn;
     DocShowImage := SliderShowImage.SliderOn;
-    DocRightClickSelect := SliderRightClickSelect.SliderOn;
   end;
 end;
 

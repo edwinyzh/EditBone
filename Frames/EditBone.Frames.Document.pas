@@ -3,19 +3,13 @@ unit EditBone.Frames.Document;
 interface
 
 uses
-  Winapi.Windows, Winapi.CommDlg, System.SysUtils, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms,
-  BCEditor.Editor, Vcl.ComCtrls, Vcl.ImgList, Vcl.Menus, BCControls.PageControl,
-  Vcl.Buttons,
-  Vcl.StdCtrls, Vcl.ActnList, System.Actions, BCControls.ProgressBar,
-  BCControls.ImageList,
-  Vcl.ActnMan, acAlphaImageList, sPageControl, BCEditor.Types, EditBone.Types,
-  BCControls.StatusBar,
-  BCEditor.MacroRecorder, BCEditor.Print, Vcl.PlatformDefaultStyleActnCtrls,
-  EditBone.Frames.Document.TabSheet,
-  BCEditor.Editor.Bookmarks, BCCommon.Frames.Compare, BCCommon.Frames.Search,
-  sFrameAdapter, BCCommon.Frames.Base,
-  Vcl.Dialogs, sDialogs, System.ImageList, Vcl.ExtCtrls;
+  Winapi.Windows, Winapi.CommDlg, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
+  BCEditor.Editor, Vcl.ComCtrls, Vcl.ImgList, Vcl.Menus, BCControls.PageControl, Vcl.Buttons, Vcl.StdCtrls,
+  Vcl.ActnList, System.Actions, BCControls.ProgressBar, BCControls.ImageList, Vcl.ActnMan, acAlphaImageList,
+  sPageControl, BCEditor.Types, EditBone.Types, BCControls.StatusBar, BCEditor.MacroRecorder, BCEditor.Print,
+  Vcl.PlatformDefaultStyleActnCtrls, EditBone.Frames.Document.TabSheet, BCEditor.Editor.Bookmarks,
+  BCCommon.Frames.Compare, BCCommon.Frames.Search, sFrameAdapter, BCCommon.Frames.Base, Vcl.Dialogs, sDialogs,
+  System.ImageList, Vcl.ExtCtrls;
 
 type
   TDocumentFrame = class(TFrame)
@@ -59,6 +53,9 @@ type
       var CanClose: Boolean; var Action: TacCloseAction);
     procedure TimerTimer(Sender: TObject);
     procedure EditorCaretChanged(Sender: TObject; X, Y: Integer);
+    procedure EditorAfterBookmarkPlaced(Sender: TObject);
+    procedure EditorAfterClearBookmark(Sender: TObject);
+    procedure TabSheetNewClickBtn(Sender: TObject);
   private
     FCaretInfo: string;
     FCompareImageIndex, FNewImageIndex: Integer;
@@ -227,18 +224,12 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.Forms.Print.Preview, BCCommon.Options.Container,
-  BCCommon.Dialogs.ConfirmReplace, BCEditor.Print.Types,
-  Vcl.ActnMenus, System.Types, System.WideStrings, System.Math, BigIni,
-  Vcl.GraphUtil,
-  BCCommon.Language.Strings, BCCommon.Dialogs.InputQuery,
-  BCCommon.Language.Utils, BCCommon.Dialogs.Replace,
-  BCCommon.FileUtils, BCCommon.Messages, BCCommon.StringUtils, Winapi.CommCtrl,
-  EditBone.Forms.Options,
-  BCCommon.Images, System.Generics.Collections, BCCommon.SQL.Formatter,
-  BCEditor.Editor.KeyCommands, EditBone.Forms.Main,
-  BCControls.Utils, BCEditor.Editor.Utils, BCCommon.Consts, BCEditor.Encoding,
-  Vcl.Clipbrd, BCEditor.Highlighter.Colors;
+  BCCommon.Forms.Print.Preview, BCCommon.Options.Container, BCCommon.Dialogs.ConfirmReplace, BCEditor.Print.Types,
+  Vcl.ActnMenus, System.Types, System.WideStrings, System.Math, BigIni, Vcl.GraphUtil, BCCommon.Language.Strings,
+  BCCommon.Dialogs.InputQuery, BCCommon.Language.Utils, BCCommon.Dialogs.Replace, BCCommon.FileUtils, BCCommon.Messages,
+  BCCommon.StringUtils, Winapi.CommCtrl, EditBone.Forms.Options, BCCommon.Images, System.Generics.Collections,
+  BCCommon.SQL.Formatter, BCEditor.Editor.KeyCommands, EditBone.Forms.Main { TODO: Get rid of this link to main form },
+  BCControls.Utils, BCEditor.Editor.Utils, BCCommon.Consts, BCEditor.Encoding, Vcl.Clipbrd, BCEditor.Highlighter.Colors;
 
 { TDocumentFrame }
 
@@ -351,6 +342,16 @@ begin
     Result := DocTabSheetFrame.XMLTreeVisible;
 end;
 
+procedure TDocumentFrame.EditorAfterBookmarkPlaced(Sender: TObject);
+begin
+  MainForm.SetBookmarks;
+end;
+
+procedure TDocumentFrame.EditorAfterClearBookmark(Sender: TObject);
+begin
+  MainForm.SetBookmarks;
+end;
+
 function TDocumentFrame.CreateNewTabSheet(FileName: string = '';
   ShowMinimap: Boolean = False): TBCEditor;
 var
@@ -362,17 +363,14 @@ begin
   TabSheet.PageControl := PageControl;
   TabSheet.SkinData.SkinSection := 'CHECKBOX';
 
+  TabSheetNew.PageIndex := PageControl.PageCount - 1;
+
   if FileName <> '' then
     TabSheet.ImageIndex := GetIconIndex(FileName)
   else
     TabSheet.ImageIndex := FNewImageIndex;
 
   PageControl.ActivePage := TabSheet;
-
-  // SetSearchMapVisible(SearchFrame.Visible);
-  // if SearchFrame.Visible then
-  // if OptionsContainer.DocumentSpecificSearch then
-  // SearchFrame.ComboBoxSearchText.Text := '';
 
   { set the Caption property }
   if FileName = '' then
@@ -397,6 +395,8 @@ begin
       OnEnter := EditorEnter;
       OnCaretChanged := EditorCaretChanged;
       OnReplaceText := EditorReplaceText;
+      OnAfterBookmarkPlaced := EditorAfterBookmarkPlaced;
+      OnAfterClearBookmark := EditorAfterClearBookmark;
       PopupMenu := MainForm.PopupMenuEditor;
       Minimap.Visible := ShowMinimap;
     end;
@@ -973,7 +973,7 @@ procedure TDocumentFrame.PageControlChange(Sender: TObject);
 begin
   if FProcessing then
     Exit;
-
+  MainForm.SetBookmarks;
   MainForm.SetTitleBarMenus;
 end;
 
@@ -1194,6 +1194,11 @@ begin
     end;
   end;
   FProcessing := False;
+end;
+
+procedure TDocumentFrame.TabSheetNewClickBtn(Sender: TObject);
+begin
+  New;
 end;
 
 procedure TDocumentFrame.TimerTimer(Sender: TObject);
@@ -1629,6 +1634,7 @@ begin
   PageControl.MultiLine := OptionsContainer.DocMultiLine;
   PageControl.ShowCloseBtns := OptionsContainer.DocShowCloseButton;
   PageControl.RightClickSelect := OptionsContainer.DocRightClickSelect;
+  TabSheetNew.TabVisible := OptionsContainer.DocShowNewDocumentButton;
   if OptionsContainer.DocShowImage then
     PageControl.Images := FImages
   else
@@ -1875,7 +1881,8 @@ begin
   Result := '';
 
   if Assigned(PageControl.ActivePage) then
-    Result := PageControl.ActivePageCaption;
+    if PageControl.ActivePage.TabType = ttTab then
+      Result := PageControl.ActivePageCaption;
 end;
 
 function TDocumentFrame.GetActiveDocumentFound: Boolean;

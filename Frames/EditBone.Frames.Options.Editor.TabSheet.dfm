@@ -1,13 +1,15 @@
 inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
   Width = 226
-  Height = 182
+  Height = 205
   Visible = False
+  ExplicitWidth = 226
+  ExplicitHeight = 205
   object Panel: TBCPanel [0]
     AlignWithMargins = True
     Left = 4
     Top = 0
     Width = 222
-    Height = 182
+    Height = 205
     Margins.Left = 4
     Margins.Top = 0
     Margins.Right = 0
@@ -124,7 +126,7 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
     end
     object ShowImageStickyLabelShowImage: TsStickyLabel
       Left = 0
-      Top = 165
+      Top = 188
       Width = 164
       Height = 13
       Margins.Left = 4
@@ -135,6 +137,21 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
       Caption = 'Show image'
       ParentColor = False
       AttachTo = SliderShowImage
+      Gap = 8
+    end
+    object StickyLabelShowNewDocumentButton: TsStickyLabel
+      Left = 0
+      Top = 165
+      Width = 164
+      Height = 13
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      AutoSize = False
+      Caption = 'Show new document button'
+      ParentColor = False
+      AttachTo = SliderShowNewDocumentButton
       Gap = 8
     end
     object SliderCloseTabByDblClick: TsSlider
@@ -314,6 +331,31 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
     end
     object SliderShowImage: TsSlider
       Left = 172
+      Top = 184
+      Width = 50
+      AutoSize = True
+      TabOrder = 8
+      BoundLabel.Indent = 0
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = []
+      BoundLabel.Layout = sclLeft
+      BoundLabel.MaxWidth = 0
+      BoundLabel.UseSkinColor = True
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
+    end
+    object SliderShowNewDocumentButton: TsSlider
+      Left = 172
       Top = 161
       Width = 50
       AutoSize = True
@@ -337,5 +379,9 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
       SliderCaptionOn = 'Yes'
       SliderCaptionOff = 'No'
     end
+  end
+  inherited FrameAdapter: TsFrameAdapter
+    Left = 140
+    Top = 32
   end
 end
