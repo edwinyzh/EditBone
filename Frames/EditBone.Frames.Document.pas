@@ -3,12 +3,18 @@ unit EditBone.Frames.Document;
 interface
 
 uses
-  Winapi.Windows, Winapi.CommDlg, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
-  BCEditor.Editor, Vcl.ComCtrls, Vcl.ImgList, Vcl.Menus, BCControls.PageControl, Vcl.Buttons, Vcl.StdCtrls,
-  Vcl.ActnList, System.Actions, BCControls.ProgressBar, BCControls.ImageList, Vcl.ActnMan, acAlphaImageList,
-  sPageControl, BCEditor.Types, EditBone.Types, BCControls.StatusBar, BCEditor.MacroRecorder, BCEditor.Print,
-  Vcl.PlatformDefaultStyleActnCtrls, EditBone.Frames.Document.TabSheet, BCEditor.Editor.Bookmarks,
-  BCCommon.Frames.Compare, BCCommon.Frames.Search, sFrameAdapter, BCCommon.Frames.Base, Vcl.Dialogs, sDialogs,
+  Winapi.Windows, Winapi.CommDlg, System.SysUtils, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms,
+  BCEditor.Editor, Vcl.ComCtrls, Vcl.ImgList, Vcl.Menus, BCControls.PageControl,
+  Vcl.Buttons, Vcl.StdCtrls,
+  Vcl.ActnList, System.Actions, BCControls.ProgressBar, BCControls.ImageList,
+  Vcl.ActnMan, acAlphaImageList,
+  sPageControl, BCEditor.Types, EditBone.Types, BCControls.StatusBar,
+  BCEditor.MacroRecorder, BCEditor.Print,
+  Vcl.PlatformDefaultStyleActnCtrls, EditBone.Frames.Document.TabSheet,
+  BCEditor.Editor.Bookmarks,
+  BCCommon.Frames.Compare, BCCommon.Frames.Search, sFrameAdapter,
+  BCCommon.Frames.Base, Vcl.Dialogs, sDialogs,
   System.ImageList, Vcl.ExtCtrls;
 
 type
@@ -117,6 +123,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    function Close(AFreePage: Boolean = True): Integer;
     function GetActiveSplitEditor: TBCEditor;
     function GetActiveEditor: TBCEditor;
     // function GetHTMLErrors: TList;
@@ -138,7 +145,6 @@ type
     function ToggleXMLTree: Boolean;
     procedure CheckFileDateTimes;
     procedure ClearBookmarks;
-    procedure Close(AFreePage: Boolean = True);
     procedure CloseAll;
     procedure CloseAllOtherPages;
     procedure CompareFiles(FileName: string = '';
@@ -206,7 +212,7 @@ type
     property CanUndo: Boolean read GetCanUndo;
     property CaretInfo: string read FCaretInfo;
     property MinimapChecked: Boolean read GetMinimapChecked;
-    property ModifiedDocuments: Boolean Read FModifiedDocuments
+    property ModifiedDocuments: Boolean read FModifiedDocuments
       write FModifiedDocuments;
     property OpenTabSheetCount: Integer read GetOpenTabSheetCount;
     // property OpenTabSheets: Boolean read GetOpenTabSheets;
@@ -224,12 +230,18 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.Forms.Print.Preview, BCCommon.Options.Container, BCCommon.Dialogs.ConfirmReplace, BCEditor.Print.Types,
-  Vcl.ActnMenus, System.Types, System.WideStrings, System.Math, BigIni, Vcl.GraphUtil, BCCommon.Language.Strings,
-  BCCommon.Dialogs.InputQuery, BCCommon.Language.Utils, BCCommon.Dialogs.Replace, BCCommon.FileUtils, BCCommon.Messages,
-  BCCommon.StringUtils, Winapi.CommCtrl, EditBone.Forms.Options, BCCommon.Images, System.Generics.Collections,
-  BCCommon.SQL.Formatter, BCEditor.Editor.KeyCommands, EditBone.Forms.Main { TODO: Get rid of this link to main form },
-  BCControls.Utils, BCEditor.Editor.Utils, BCCommon.Consts, BCEditor.Encoding, Vcl.Clipbrd, BCEditor.Highlighter.Colors;
+  BCCommon.Forms.Print.Preview, BCCommon.Options.Container,
+  BCCommon.Dialogs.ConfirmReplace, BCEditor.Print.Types,
+  Vcl.ActnMenus, System.Types, System.WideStrings, System.Math, BigIni,
+  Vcl.GraphUtil, BCCommon.Language.Strings,
+  BCCommon.Dialogs.InputQuery, BCCommon.Language.Utils,
+  BCCommon.Dialogs.Replace, BCCommon.FileUtils, BCCommon.Messages,
+  BCCommon.StringUtils, Winapi.CommCtrl, EditBone.Forms.Options,
+  BCCommon.Images, System.Generics.Collections,
+  BCCommon.SQL.Formatter, BCEditor.Editor.KeyCommands,
+  EditBone.Forms.Main {TODO: Get rid of this link to main form} ,
+  BCControls.Utils, BCEditor.Editor.Utils, BCCommon.Consts, BCEditor.Encoding,
+  Vcl.Clipbrd, BCEditor.Highlighter.Colors;
 
 { TDocumentFrame }
 
@@ -654,35 +666,32 @@ begin
   end;
 end;
 
-procedure TDocumentFrame.Close(AFreePage: Boolean = True);
+function TDocumentFrame.Close(AFreePage: Boolean = True): Integer;
 var
-  ActivePageIndex: Integer;
-  Rslt: Integer;
+  LActivePageIndex: Integer;
   Editor: TBCEditor;
 begin
-  Rslt := mrNone;
+  Result := mrNone;
 
   Editor := GetActiveEditor;
   if Assigned(Editor) and Editor.Modified then
   begin
-    Rslt := SaveChanges;
-    if Rslt = mrYes then
+    Result := SaveChanges;
+    if Result = mrYes then
       Save;
   end;
 
-  if Rslt <> mrCancel then
+  if Result <> mrCancel then
   begin
     PageControl.TabClosed := True;
-    ActivePageIndex := PageControl.ActivePageIndex;
+    LActivePageIndex := PageControl.ActivePageIndex;
     { Fixed Delphi Bug: http://qc.embarcadero.com/wc/qcmain.aspx?d=5473 }
-    if (ActivePageIndex = PageControl.PageCount - 1) and
-      (PageControl.PageCount > 1) then
-    begin
-      Dec(ActivePageIndex);
-      PageControl.ActivePage.PageIndex := ActivePageIndex;
-    end;
+    if (LActivePageIndex = PageControl.PageCount - 2) and (PageControl.PageCount > 1) then
+      PageControl.ActivePageIndex := LActivePageIndex - 1;
     if AFreePage and (PageControl.PageCount > 0) then
-      PageControl.Pages[ActivePageIndex].Free;
+      PageControl.Pages[LActivePageIndex].Free
+    else
+      TsTabSheet(PageControl.Pages[LActivePageIndex]).TabVisible := False;
     if PageControl.PageCount = 0 then
       FNumberOfNewDocument := 0;
   end;
@@ -720,9 +729,12 @@ begin
       FProgressBar.Show;
       for i := PageControl.PageCount - 1 downto 0 do
       begin
-        ProgressBar.StepIt;
-        Application.ProcessMessages;
-        PageControl.Pages[i].Free;
+        if TsTabSheet(PageControl.Pages[i]).TabType = ttTab then
+        begin
+          ProgressBar.StepIt;
+          Application.ProcessMessages;
+          PageControl.Pages[i].Free;
+        end;
       end;
     finally
       Screen.Cursor := crDefault;
@@ -980,8 +992,11 @@ end;
 procedure TDocumentFrame.PageControlCloseBtnClick(Sender: TComponent;
   TabIndex: Integer; var CanClose: Boolean; var Action: TacCloseAction);
 begin
-  Close(False);
-  Action := acaFree;
+  PageControl.ActivePageIndex := TabIndex;
+  if Close(False) <> mrCancel then
+    Action := acaFree
+  else
+    CanClose := False;
 end;
 
 procedure TDocumentFrame.PageControlDblClick(Sender: TObject);
@@ -1006,8 +1021,7 @@ begin
   SplitEditor := GetActiveSplitEditor;
   if Assigned(Editor) and Editor.Focused then
     Editor.PasteFromClipboard
-  else
-  if Assigned(SplitEditor) and SplitEditor.Focused then
+  else if Assigned(SplitEditor) and SplitEditor.Focused then
     SplitEditor.PasteFromClipboard
   else
   begin
@@ -1924,17 +1938,16 @@ var
   Editor: TBCEditor;
 begin
   Result := True;
-
   for i := 0 to PageControl.PageCount - 1 do
   begin
-    if CheckActive or ((PageControl.ActivePageIndex <> i) and not CheckActive)
-    then
-    begin
-      Editor := GetEditor(PageControl.Pages[i]);
-      if Assigned(Editor) then
-        if Editor.Modified then
-          Exit;
-    end;
+    if (TsTabSheet(PageControl.Pages[i]).TabType = ttTab) and TsTabSheet(PageControl.Pages[i]).TabVisible then
+      if CheckActive or ((PageControl.ActivePageIndex <> i) and not CheckActive) then
+      begin
+        Editor := GetEditor(PageControl.Pages[i]);
+        if Assigned(Editor) then
+          if Editor.Modified then
+            Exit;
+      end;
   end;
   Result := False;
 end;
@@ -2183,7 +2196,7 @@ begin
   Editor := GetActiveEditor;
   if Assigned(Editor) then
     Editor.ToggleSelectedCase(ACase);
-  //ToggleCase(GetActiveEditor);
+  // ToggleCase(GetActiveEditor);
   // TODO ToggleCase(GetActiveSplitEditor);
 end;
 

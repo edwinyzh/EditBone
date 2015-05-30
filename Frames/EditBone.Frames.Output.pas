@@ -74,10 +74,10 @@ type
     function CheckCancel: Boolean;
   public
     constructor Create(AOwner: TComponent); override;
+    function CloseTabSheet(AFreePage: Boolean = True): Boolean;
     function SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
     function AddTreeView(TabCaption: string): TVirtualDrawTree;
     procedure AddTreeViewLine(OutputTreeView: TVirtualDrawTree; var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString = '');
-    procedure CloseTabSheet(AFreePage: Boolean = True);
     procedure ReadOutputFile;
     procedure SetOptions;
     procedure WriteOutputFile;
@@ -124,8 +124,11 @@ end;
 procedure TOutputFrame.PageControlCloseButtonClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
   var Action: TacCloseAction);
 begin
-  CloseTabSheet(False);
-  Action := acaFree;
+  PageControl.ActivePageIndex := TabIndex;
+  if CloseTabSheet(False) then
+    Action := acaFree
+  else
+    CanClose := False;
 end;
 
 procedure TOutputFrame.PageControlDblClick(Sender: TObject);
@@ -571,12 +574,13 @@ begin
     end;
 end;
 
-procedure TOutputFrame.CloseTabSheet(AFreePage: Boolean);
+function TOutputFrame.CloseTabSheet(AFreePage: Boolean): Boolean;
 var
   ActivePageIndex: Integer;
 begin
+  Result := True;
   if CheckCancel then
-    Exit;
+    Exit(False);
   if PageControl.PageCount > 0 then
   begin
     PageControl.TabClosed := True;

@@ -52,7 +52,9 @@ object DocumentFrame: TDocumentFrame
     TabDragDrop = True
     object TabSheetNew: TsTabSheet
       Caption = '    '
+      DoubleBuffered = False
       ImageIndex = 2
+      ParentDoubleBuffered = False
       TabType = ttButton
       TabSkin = 'CHECKBOX'
       SkinData.CustomColor = False

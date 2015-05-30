@@ -79,8 +79,8 @@ type
     procedure SetActionSearchForFiles(Action: TAction);
   public
     constructor Create(AOwner: TComponent); override;
+    function CloseDirectory(AFreePage: Boolean = True): Boolean;
     function SelectedFile: string;
-    procedure CloseDirectory(AFreePage: Boolean = True);
     procedure EditDirectory;
     procedure OpenDirectory(TabName: string; RootDirectory: string; LastPath: string; ShowDrives: Byte;
       ExcludeOtherBranches: Boolean; ShowFileType: Byte; FileType: string); overload;
@@ -362,12 +362,13 @@ begin
     Result := DirTabSheetFrame.DriveComboBox;
 end;
 
-procedure TDirectoryFrame.CloseDirectory(AFreePage: Boolean);
+function TDirectoryFrame.CloseDirectory(AFreePage: Boolean): Boolean;
 var
   ActivePageIndex: Integer;
 begin
+  Result := True;
   if not AskYesOrNo(Format(LanguageDataModule.GetYesOrNoMessage('CloseDirectory'), [PageControl.ActivePageCaption])) then
-    Exit;
+    Exit(False);
   if PageControl.PageCount > 0 then
   begin
     PageControl.TabClosed := True;
@@ -544,8 +545,11 @@ end;
 procedure TDirectoryFrame.PageControlCloseButtonClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
   var Action: TacCloseAction);
 begin
-  CloseDirectory(False);
-  Action := acaFree;
+  PageControl.ActivePageIndex := TabIndex;
+  if CloseDirectory(False) then
+    Action := acaFree
+  else
+    CanClose := False;
 end;
 
 procedure TDirectoryFrame.PageControlDblClick(Sender: TObject);
