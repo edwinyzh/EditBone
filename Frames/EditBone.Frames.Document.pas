@@ -2517,9 +2517,11 @@ begin
         Editor.MacroRecorder.RecordMacro(Editor);
       end;
     end
-    else if Editor.MacroRecorder.State = msRecording then
+    else
+    if Editor.MacroRecorder.State = msRecording then
       Editor.MacroRecorder.Pause
-    else if Editor.MacroRecorder.State = msPaused then
+    else
+    if Editor.MacroRecorder.State = msPaused then
       Editor.MacroRecorder.Resume
   end;
 end;

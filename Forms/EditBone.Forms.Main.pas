@@ -890,6 +890,7 @@ end;
 procedure TMainForm.ActionMacroRecordPauseExecute(Sender: TObject);
 begin
   FDocumentFrame.RecordMacro;
+  SpeedButtonMacroRecordPause.ImageIndex := FDocumentFrame.GetMacroRecordPauseImageIndex;
 end;
 
 procedure TMainForm.ActionMacroSaveAsExecute(Sender: TObject);
@@ -1633,7 +1634,6 @@ begin
         StatusBar.Panels[2].Text := LanguageDataModule.GetConstant('Overwrite');
     { Macro }
     ActionMacroRecordPause.Enabled := ActiveDocumentFound;
-    ActionMacroRecordPause.ImageIndex := FDocumentFrame.GetMacroRecordPauseImageIndex;
     ActionMacroStop.Enabled := ActiveDocumentFound and FDocumentFrame.IsRecordingMacro;
     ActionMacroPlayback.Enabled := ActiveDocumentFound and FDocumentFrame.IsMacroStopped;
     ActionMacroOpen.Enabled := ActiveDocumentFound;
