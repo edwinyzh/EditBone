@@ -87,6 +87,8 @@ object DocTabSheetFrame: TDocTabSheetFrame
         CodeFolding.Hint.Font.Height = -11
         CodeFolding.Hint.Font.Name = 'Courier New'
         CodeFolding.Hint.Font.Style = []
+        CodeFolding.Padding = 2
+        CodeFolding.Width = 14
         CodeFolding.Visible = True
         CompletionProposal.CloseChars = '()[]. '
         CompletionProposal.Columns = <>
@@ -113,8 +115,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         LeftMargin.Width = 55
         Lines.Strings = (
           '')
-        LineSpacing.Rule = lsSpecified
-        LineSpacing.Spacing = 0
+        LineSpacing.Spacing = 1
         MatchingPair.Enabled = True
         Minimap.Font.Charset = DEFAULT_CHARSET
         Minimap.Font.Color = clWindowText

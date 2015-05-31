@@ -123,7 +123,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    function Close(AFreePage: Boolean = True): Integer;
+    function Close(AFreePage: Boolean = True; ATabIndex: Integer = -1): Integer;
     function GetActiveSplitEditor: TBCEditor;
     function GetActiveEditor: TBCEditor;
     // function GetHTMLErrors: TList;
@@ -666,7 +666,7 @@ begin
   end;
 end;
 
-function TDocumentFrame.Close(AFreePage: Boolean = True): Integer;
+function TDocumentFrame.Close(AFreePage: Boolean = True; ATabIndex: Integer = -1): Integer;
 var
   LActivePageIndex: Integer;
   Editor: TBCEditor;
@@ -684,14 +684,20 @@ begin
   if Result <> mrCancel then
   begin
     PageControl.TabClosed := True;
-    LActivePageIndex := PageControl.ActivePageIndex;
+    if ATabIndex = -1 then
+      LActivePageIndex := PageControl.ActivePageIndex
+    else
+      LActivePageIndex := ATabIndex;
     { Fixed Delphi Bug: http://qc.embarcadero.com/wc/qcmain.aspx?d=5473 }
     if (LActivePageIndex = PageControl.PageCount - 2) and (PageControl.PageCount > 1) then
       PageControl.ActivePageIndex := LActivePageIndex - 1;
     if AFreePage and (PageControl.PageCount > 0) then
       PageControl.Pages[LActivePageIndex].Free
     else
+    begin
       TsTabSheet(PageControl.Pages[LActivePageIndex]).TabVisible := False;
+      PageControl.Pages[LActivePageIndex].PageIndex := PageControl.PageCount - 1;
+    end;
     if PageControl.PageCount = 0 then
       FNumberOfNewDocument := 0;
   end;
@@ -992,8 +998,7 @@ end;
 procedure TDocumentFrame.PageControlCloseBtnClick(Sender: TComponent;
   TabIndex: Integer; var CanClose: Boolean; var Action: TacCloseAction);
 begin
-  PageControl.ActivePageIndex := TabIndex;
-  if Close(False) <> mrCancel then
+  if Close(False, TabIndex) <> mrCancel then
     Action := acaFree
   else
     CanClose := False;

@@ -79,7 +79,7 @@ type
     procedure SetActionSearchForFiles(Action: TAction);
   public
     constructor Create(AOwner: TComponent); override;
-    function CloseDirectory(AFreePage: Boolean = True): Boolean;
+    function CloseDirectory(AFreePage: Boolean = True; ATabIndex: Integer = -1): Boolean;
     function SelectedFile: string;
     procedure EditDirectory;
     procedure OpenDirectory(TabName: string; RootDirectory: string; LastPath: string; ShowDrives: Byte;
@@ -362,9 +362,9 @@ begin
     Result := DirTabSheetFrame.DriveComboBox;
 end;
 
-function TDirectoryFrame.CloseDirectory(AFreePage: Boolean): Boolean;
+function TDirectoryFrame.CloseDirectory(AFreePage: Boolean = True; ATabIndex: Integer = -1): Boolean;
 var
-  ActivePageIndex: Integer;
+  LActivePageIndex: Integer;
 begin
   Result := True;
   if not AskYesOrNo(Format(LanguageDataModule.GetYesOrNoMessage('CloseDirectory'), [PageControl.ActivePageCaption])) then
@@ -372,16 +372,20 @@ begin
   if PageControl.PageCount > 0 then
   begin
     PageControl.TabClosed := True;
-    ActivePageIndex := PageControl.ActivePageIndex;
+    if ATabIndex = -1 then
+      LActivePageIndex := PageControl.ActivePageIndex
+    else
+      LActivePageIndex := ATabIndex;
     { Fixed Delphi Bug: http://qc.embarcadero.com/wc/qcmain.aspx?d=5473 }
-    if (ActivePageIndex = PageControl.PageCount - 1) and (PageControl.PageCount > 1) then
+    if (LActivePageIndex = PageControl.PageCount - 1) and (PageControl.PageCount > 1) then
+      PageControl.ActivePage.PageIndex := LActivePageIndex - 1;
+    if AFreePage and (PageControl.PageCount > 0) then
+      PageControl.Pages[LActivePageIndex].Free
+    else
     begin
-      Dec(ActivePageIndex);
-      PageControl.ActivePage.PageIndex := ActivePageIndex;
+      TsTabSheet(PageControl.Pages[LActivePageIndex]).TabVisible := False;
+      PageControl.Pages[LActivePageIndex].PageIndex := PageControl.PageCount - 1;
     end;
-    if AFreePage then
-      if PageControl.PageCount > 0 then
-        PageControl.Pages[ActivePageIndex].Free;
   end;
   { for some reason Destroy method will lose the Images property even there are still pages... }
   if PageControl.PageCount > 0 then
@@ -545,8 +549,7 @@ end;
 procedure TDirectoryFrame.PageControlCloseButtonClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
   var Action: TacCloseAction);
 begin
-  PageControl.ActivePageIndex := TabIndex;
-  if CloseDirectory(False) then
+  if CloseDirectory(False, TabIndex) then
     Action := acaFree
   else
     CanClose := False;

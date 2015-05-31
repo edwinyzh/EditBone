@@ -74,7 +74,7 @@ type
     function CheckCancel: Boolean;
   public
     constructor Create(AOwner: TComponent); override;
-    function CloseTabSheet(AFreePage: Boolean = True): Boolean;
+    function CloseTabSheet(AFreePage: Boolean = True; ATabIndex: Integer = -1): Boolean;
     function SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
     function AddTreeView(TabCaption: string): TVirtualDrawTree;
     procedure AddTreeViewLine(OutputTreeView: TVirtualDrawTree; var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString = '');
@@ -124,8 +124,7 @@ end;
 procedure TOutputFrame.PageControlCloseButtonClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
   var Action: TacCloseAction);
 begin
-  PageControl.ActivePageIndex := TabIndex;
-  if CloseTabSheet(False) then
+  if CloseTabSheet(False, TabIndex) then
     Action := acaFree
   else
     CanClose := False;
@@ -574,9 +573,9 @@ begin
     end;
 end;
 
-function TOutputFrame.CloseTabSheet(AFreePage: Boolean): Boolean;
+function TOutputFrame.CloseTabSheet(AFreePage: Boolean = True; ATabIndex: Integer = -1): Boolean;
 var
-  ActivePageIndex: Integer;
+  LActivePageIndex: Integer;
 begin
   Result := True;
   if CheckCancel then
@@ -584,17 +583,21 @@ begin
   if PageControl.PageCount > 0 then
   begin
     PageControl.TabClosed := True;
-    //Self.Clear;
-    ActivePageIndex := PageControl.ActivePageIndex;
+
+    if ATabIndex = -1 then
+      LActivePageIndex := PageControl.ActivePageIndex
+    else
+      LActivePageIndex := ATabIndex;
     { Fixed Delphi Bug: http://qc.embarcadero.com/wc/qcmain.aspx?d=5473 }
-    if (ActivePageIndex = PageControl.PageCount - 1) and (PageControl.PageCount > 1) then
+    if (LActivePageIndex = PageControl.PageCount - 1) and (PageControl.PageCount > 1) then
+      PageControl.ActivePage.PageIndex := LActivePageIndex - 1;
+    if AFreePage and (PageControl.PageCount > 0) then
+      PageControl.Pages[LActivePageIndex].Free
+    else
     begin
-      Dec(ActivePageIndex);
-      PageControl.ActivePage.PageIndex := ActivePageIndex;
+      TsTabSheet(PageControl.Pages[LActivePageIndex]).TabVisible := False;
+      PageControl.Pages[LActivePageIndex].PageIndex := PageControl.PageCount - 1;
     end;
-    if AFreePage then
-      if PageControl.PageCount > 0 then
-        PageControl.Pages[ActivePageIndex].Free;
   end;
 end;
 
