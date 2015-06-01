@@ -87,11 +87,10 @@ begin
   TempEditor := TBCEditor.Create(nil);
   try
     TempEditor.Text := Editor.Text;
-    TempEditor.Search.Engine := Editor.Search.Engine;
+    TempEditor.Search.Engine := seNormal;
     TempEditor.Search.Options := [];
     TempEditor.Search.Enabled := True;
-    TempEditor.CaretX := 0; // SetCaretXYEx(False, BufferCoord(0, 0));
-    TempEditor.CaretY := 0;
+    TempEditor.CaretZero;
     FProgressBar.Count := FXMLNodeCount;
     FProgressBar.Show;
     Node := VirtualDrawTree.GetFirst;

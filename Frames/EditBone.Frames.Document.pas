@@ -230,18 +230,12 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.Forms.Print.Preview, BCCommon.Options.Container,
-  BCCommon.Dialogs.ConfirmReplace, BCEditor.Print.Types,
-  Vcl.ActnMenus, System.Types, System.WideStrings, System.Math, BigIni,
-  Vcl.GraphUtil, BCCommon.Language.Strings,
-  BCCommon.Dialogs.InputQuery, BCCommon.Language.Utils,
-  BCCommon.Dialogs.Replace, BCCommon.FileUtils, BCCommon.Messages,
-  BCCommon.StringUtils, Winapi.CommCtrl, EditBone.Forms.Options,
-  BCCommon.Images, System.Generics.Collections,
-  BCCommon.SQL.Formatter, BCEditor.Editor.KeyCommands,
-  EditBone.Forms.Main {TODO: Get rid of this link to main form} ,
-  BCControls.Utils, BCEditor.Editor.Utils, BCCommon.Consts, BCEditor.Encoding,
-  Vcl.Clipbrd, BCEditor.Highlighter.Colors;
+  BCCommon.Forms.Print.Preview, BCCommon.Options.Container,BCCommon.Dialogs.ConfirmReplace, BCEditor.Print.Types,
+  Vcl.ActnMenus, System.Types, System.WideStrings, System.Math, BigIni, Vcl.GraphUtil, BCCommon.Language.Strings,
+  BCCommon.Dialogs.InputQuery, BCCommon.Language.Utils, BCCommon.Dialogs.Replace, BCCommon.FileUtils, BCCommon.Messages,
+  BCCommon.StringUtils, Winapi.CommCtrl, EditBone.Forms.Options, BCCommon.Images, System.Generics.Collections,
+  BCCommon.SQL.Formatter, BCEditor.Editor.KeyCommands, EditBone.Forms.Main {TODO: Get rid of this link to main form},
+  BCControls.Utils, BCEditor.Editor.Utils, BCCommon.Consts, BCEditor.Encoding, Vcl.Clipbrd, BCEditor.Highlighter.Colors;
 
 { TDocumentFrame }
 
@@ -2613,19 +2607,19 @@ begin
     with Editor do
     begin
       case Value of
-        0:
-          Encoding := TEncoding.ASCII;
-        1:
+        ENCODING_ANSI:
           Encoding := TEncoding.ANSI;
-        2:
+        ENCODING_ASCII:
+          Encoding := TEncoding.ASCII;
+        ENCODING_BIG_ENDIAN_UNICODE:
           Encoding := TEncoding.BigEndianUnicode;
-        3:
+        ENCODING_UNICODE:
           Encoding := TEncoding.Unicode;
-        4:
+        ENCODING_UTF7:
           Encoding := TEncoding.UTF7;
-        5:
+        ENCODING_UTF8:
           Encoding := TEncoding.UTF8;
-        6:
+        ENCODING_UTF_WITHOUT_BOM:
           Encoding := TEncoding.UTF8WithoutBOM;
       end;
     end;

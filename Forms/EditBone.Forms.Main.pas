@@ -2320,7 +2320,6 @@ begin
   begin
     if AFolder <> '' then
       FolderText := AFolder;
-    Extensions := OptionsContainer.Extensions;
     LEditor := FDocumentFrame.GetActiveEditor;
     if Assigned(LEditor) then
       if LEditor.SelectionAvailable then
