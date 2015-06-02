@@ -682,9 +682,6 @@ begin
       LActivePageIndex := PageControl.ActivePageIndex
     else
       LActivePageIndex := ATabIndex;
-    { Fixed Delphi Bug: http://qc.embarcadero.com/wc/qcmain.aspx?d=5473 }
-    if (LActivePageIndex = PageControl.PageCount - 2) and (PageControl.PageCount > 1) then
-      PageControl.ActivePageIndex := LActivePageIndex - 1;
     if AFreePage and (PageControl.PageCount > 0) then
       PageControl.Pages[LActivePageIndex].Free
     else
