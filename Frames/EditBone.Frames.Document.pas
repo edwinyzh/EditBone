@@ -274,8 +274,9 @@ begin
           FNewImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
             Icon.Handle);
           ImageList16.GetIcon(2, Icon);
-          TabSheetNew.ImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
-            Icon.Handle);
+          if Assigned(TabSheetNew) then
+            TabSheetNew.ImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
+              Icon.Handle);
         end;
       20:
         begin
@@ -287,8 +288,9 @@ begin
           FNewImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
             Icon.Handle);
           ImageList20.GetIcon(2, Icon);
-          TabSheetNew.ImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
-            Icon.Handle);
+          if Assigned(TabSheetNew) then
+            TabSheetNew.ImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
+              Icon.Handle);
         end;
       24:
         begin
@@ -300,8 +302,9 @@ begin
           FNewImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
             Icon.Handle);
           ImageList24.GetIcon(2, Icon);
-          TabSheetNew.ImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
-            Icon.Handle);
+          if Assigned(TabSheetNew) then
+            TabSheetNew.ImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
+              Icon.Handle);
         end;
     end;
   finally
@@ -364,12 +367,14 @@ var
   TabSheet: TsTabSheet;
   DocTabSheetFrame: TDocTabSheetFrame;
 begin
+  FProcessing := True;
   { create a TabSheet }
   TabSheet := TsTabSheet.Create(PageControl);
   TabSheet.PageControl := PageControl;
   TabSheet.SkinData.SkinSection := 'CHECKBOX';
 
-  TabSheetNew.PageIndex := PageControl.PageCount - 1;
+  if Assigned(TabSheetNew) then
+    TabSheetNew.PageIndex := PageControl.PageCount - 1;
 
   if FileName <> '' then
     TabSheet.ImageIndex := GetIconIndex(FileName)
@@ -445,6 +450,7 @@ begin
 
     Result := Editor;
   end;
+  FProcessing := False;
 end;
 
 procedure TDocumentFrame.CompareFiles(FileName: string; AFileDragDrop: Boolean);
@@ -766,8 +772,7 @@ begin
       for i := 0 to PageControl.PageCount - 1 do
       begin
         Editor := GetEditor(PageControl.Pages[i]);
-        if Assigned(Editor) and Editor.Modified and (Editor <> ActiveEditor)
-        then
+        if Assigned(Editor) and Editor.Modified and (Editor <> ActiveEditor) then
           Save(PageControl.Pages[i]);
       end;
   end;
@@ -775,11 +780,13 @@ begin
   if Rslt <> mrCancel then
   begin
     PageControl.ActivePage.PageIndex := 0; { move the page first }
+    if Assigned(TabSheetNew) then
+      TabSheetNew.PageIndex := 1;
     Screen.Cursor := crHourGlass;
     try
       FProgressBar.Count := PageControl.PageCount;
       FProgressBar.Show;
-      for i := PageControl.PageCount - 1 downto 1 do
+      for i := PageControl.PageCount - 1 downto 2 do
       begin
         ProgressBar.StepIt;
         Application.ProcessMessages;
@@ -1644,7 +1651,8 @@ begin
   PageControl.MultiLine := OptionsContainer.DocMultiLine;
   PageControl.ShowCloseBtns := OptionsContainer.DocShowCloseButton;
   PageControl.RightClickSelect := OptionsContainer.DocRightClickSelect;
-  TabSheetNew.TabVisible := OptionsContainer.DocShowNewDocumentButton;
+  if Assigned(TabSheetNew) then
+    TabSheetNew.TabVisible := OptionsContainer.DocShowNewDocumentButton;
   if OptionsContainer.DocShowImage then
     PageControl.Images := FImages
   else
@@ -2392,8 +2400,6 @@ begin
     with Editor do
     begin
       Highlighter.LoadFromFile(Format('%s.json', [AHighlighterName]));
-      ClearCodeFolding;
-      InitCodeFolding;
       CodeFolding.Visible := OptionsContainer.ShowCodeFolding and
         (Editor.Highlighter.CodeFoldingRegions.Count > 0);
       Invalidate;

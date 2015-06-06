@@ -2117,7 +2117,6 @@ begin
     if not SectionExists('ToolBarItems') then
       for i := 1 to Length(ToolBarItemsArray) do
          WriteString('ToolBarItems', IntToStr(i - 1), ToolBarItemsArray[i]);
-
     SkinManager.SkinName := ReadString('Options', 'SelectedSkin', 'MetroUI');
   finally
     Free;
@@ -2629,7 +2628,7 @@ begin
       TitleBar.Items[2].Caption := 'UTF-7'
     else
     if LEditor.Encoding = TEncoding.UTF8 then
-      TitleBar.Items[2].Caption := 'UTF.8'
+      TitleBar.Items[2].Caption := 'UTF-8'
     else
     if LEditor.Encoding = BCEditor.Encoding.TEncoding.UTF8WithoutBOM then
       TitleBar.Items[2].Caption := 'UTF-8 without BOM'
