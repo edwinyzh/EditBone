@@ -106,7 +106,7 @@ inherited MainForm: TMainForm
       Margins.Top = 4
       Margins.Right = 0
       Margins.Bottom = 0
-      ActivePage = TabSheetFile
+      ActivePage = TabSheetEdit
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -122,7 +122,7 @@ inherited MainForm: TMainForm
       TabSpacing = 12
       SkinData.SkinSection = 'RIBBONPAGE'
       SkinData.OuterEffects.Visibility = ovAlways
-      ActivePageCaption = 'File'
+      ActivePageCaption = 'Edit'
       HoldShiftToDragDrop = False
       TabDragDrop = False
       object TabSheetButton: TsTabSheet
@@ -132,10 +132,6 @@ inherited MainForm: TMainForm
         TabSkin = 'MENUBTN'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheetFile: TsTabSheet
         Caption = 'File'
@@ -475,10 +471,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelEditButtons: TBCPanel
           Left = 0
           Top = 0
@@ -817,10 +809,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelSearchButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1048,10 +1036,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelViewButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1410,10 +1394,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelDocumentButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1542,10 +1522,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelToolsButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1713,10 +1689,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelHelpButtons: TBCPanel
           Left = 0
           Top = 0
@@ -3542,7 +3514,7 @@ inherited MainForm: TMainForm
       Category = 'Edit'
       Caption = 'Sort'
       ImageIndex = 30
-      OnExecute = ActionDummyExecute
+      OnExecute = ActionEditSortExecute
     end
     object ActionEditSortAsc: TAction
       Category = 'Edit'
@@ -3965,7 +3937,6 @@ inherited MainForm: TMainForm
       OnExecute = ActionHelpAboutEditBoneExecute
     end
     object ActionToggleBookmarks1: TAction
-      Tag = 1
       Category = 'ToggleBookmarks'
       Caption = 'Bookmark 1'
       ImageIndex = 44
@@ -3973,7 +3944,7 @@ inherited MainForm: TMainForm
       OnExecute = ActionToggleBookmarksExecute
     end
     object ActionToggleBookmarks2: TAction
-      Tag = 2
+      Tag = 1
       Category = 'ToggleBookmarks'
       Caption = 'Bookmark 2'
       ImageIndex = 45
@@ -3981,7 +3952,7 @@ inherited MainForm: TMainForm
       OnExecute = ActionToggleBookmarksExecute
     end
     object ActionToggleBookmarks3: TAction
-      Tag = 3
+      Tag = 2
       Category = 'ToggleBookmarks'
       Caption = 'Bookmark 3'
       ImageIndex = 46
@@ -3989,7 +3960,7 @@ inherited MainForm: TMainForm
       OnExecute = ActionToggleBookmarksExecute
     end
     object ActionToggleBookmarks4: TAction
-      Tag = 4
+      Tag = 3
       Category = 'ToggleBookmarks'
       Caption = 'Bookmark 4'
       ImageIndex = 47
@@ -3997,7 +3968,7 @@ inherited MainForm: TMainForm
       OnExecute = ActionToggleBookmarksExecute
     end
     object ActionToggleBookmarks5: TAction
-      Tag = 5
+      Tag = 4
       Category = 'ToggleBookmarks'
       Caption = 'Bookmark 5'
       ImageIndex = 48
@@ -4005,7 +3976,7 @@ inherited MainForm: TMainForm
       OnExecute = ActionToggleBookmarksExecute
     end
     object ActionToggleBookmarks6: TAction
-      Tag = 6
+      Tag = 5
       Category = 'ToggleBookmarks'
       Caption = 'Bookmark 6'
       ImageIndex = 49
@@ -4013,7 +3984,7 @@ inherited MainForm: TMainForm
       OnExecute = ActionToggleBookmarksExecute
     end
     object ActionToggleBookmarks7: TAction
-      Tag = 7
+      Tag = 6
       Category = 'ToggleBookmarks'
       Caption = 'Bookmark 7'
       ImageIndex = 50
@@ -4021,7 +3992,7 @@ inherited MainForm: TMainForm
       OnExecute = ActionToggleBookmarksExecute
     end
     object ActionToggleBookmarks8: TAction
-      Tag = 8
+      Tag = 7
       Category = 'ToggleBookmarks'
       Caption = 'Bookmark 8'
       ImageIndex = 51
@@ -4029,7 +4000,7 @@ inherited MainForm: TMainForm
       OnExecute = ActionToggleBookmarksExecute
     end
     object ActionToggleBookmarks9: TAction
-      Tag = 9
+      Tag = 8
       Category = 'ToggleBookmarks'
       Caption = 'Bookmark 9'
       ImageIndex = 52

@@ -667,6 +667,7 @@ type
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure FormDestroy(Sender: TObject);
     procedure StatusBarDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel; const Rect: TRect);
+    procedure ActionEditSortExecute(Sender: TObject);
   private
     FNoIni: Boolean;
     FDirectoryFrame: TDirectoryFrame;
@@ -844,12 +845,18 @@ end;
 
 procedure TMainForm.ActionEditSortAscExecute(Sender: TObject);
 begin
-  FDocumentFrame.SortAsc;
+  FDocumentFrame.Sort(soAsc);
 end;
 
 procedure TMainForm.ActionEditSortDescExecute(Sender: TObject);
 begin
-  FDocumentFrame.SortDesc;
+  FDocumentFrame.Sort(soDesc);
+end;
+
+procedure TMainForm.ActionEditSortExecute(Sender: TObject);
+begin
+  inherited;
+  FDocumentFrame.Sort;
 end;
 
 procedure TMainForm.ActionEditToggleCaseExecute(Sender: TObject);
@@ -1217,7 +1224,7 @@ end;
 procedure TMainForm.ActionDummyExecute(Sender: TObject);
 begin
   inherited;
-  { dummy }
+  { Dummy }
 end;
 
 procedure TMainForm.ActionToggleBookmarksExecute(Sender: TObject);
@@ -1225,7 +1232,7 @@ var
   Action: TAction;
 begin
   Action := Sender as TAction;
-  FDocumentFrame.ToggleBookMarks(Action.Tag);
+  FDocumentFrame.ToggleBookMark(Action.Tag);
 end;
 
 procedure TMainForm.ActionEditToggleCaseAlternatingExecute(Sender: TObject);
@@ -1556,12 +1563,9 @@ begin
     ActionEditSelectAll.Enabled := ActiveDocumentFound;
     ActionEditIndentIncrease.Enabled := SelectionFound;
     ActionEditIndentDecrease.Enabled := SelectionFound;
-    ActionEditSortAsc.Enabled := SelectionFound;
-    ActionEditSortDesc.Enabled := SelectionFound;
     ActionEditToggleCase.Enabled := SelectionFound;
     ActionEditInsertTag.Enabled := ActiveDocumentFound;
     ActionEditInsertDateTime.Enabled := ActiveDocumentFound;
-    ActionEditDeleteWhiteSpace.Enabled := SelectionFound;
     ActionEditInsertLine.Enabled := ActiveDocumentFound;
     ActionEditDeleteWord.Enabled := ActiveDocumentFound;
     ActionEditDeleteLine.Enabled := ActiveDocumentFound;

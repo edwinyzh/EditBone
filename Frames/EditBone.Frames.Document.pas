@@ -192,10 +192,9 @@ type
     procedure SetHighlighterColor(AColorName: string);
     procedure SetOptions;
     procedure ShowInfo;
-    procedure SortAsc;
-    procedure SortDesc;
+    procedure Sort(ASortOrder: TBCEditorSortOrder = soToggle);
     procedure StopMacro;
-    procedure ToggleBookmarks(ItemIndex: Integer);
+    procedure ToggleBookmark(AItemIndex: Integer);
     procedure ToggleCase(ACase: TBCEditorCase = cNone);
     procedure ToggleMiniMap;
     procedure ToggleSelectionMode;
@@ -1223,35 +1222,13 @@ begin
   CheckFileDateTimes;
 end;
 
-procedure TDocumentFrame.ToggleBookmarks(ItemIndex: Integer);
+procedure TDocumentFrame.ToggleBookmark(AItemIndex: Integer);
 var
   Editor: TBCEditor;
-  EditorCommand: TBCEditorCommand;
 begin
-  EditorCommand := ecNone;
-  case ItemIndex of
-    1:
-      EditorCommand := ecSetBookmark1;
-    2:
-      EditorCommand := ecSetBookmark2;
-    3:
-      EditorCommand := ecSetBookmark3;
-    4:
-      EditorCommand := ecSetBookmark4;
-    5:
-      EditorCommand := ecSetBookmark5;
-    6:
-      EditorCommand := ecSetBookmark6;
-    7:
-      EditorCommand := ecSetBookmark7;
-    8:
-      EditorCommand := ecSetBookmark8;
-    9:
-      EditorCommand := ecSetBookmark9;
-  end;
   Editor := GetActiveEditor;
   if Assigned(Editor) then
-    Editor.CommandProcessor(EditorCommand, Char(ItemIndex), nil);
+    Editor.ToggleBookmark(AItemIndex);
 end;
 
 procedure TDocumentFrame.ActionSelectionBoxDownExecute(Sender: TObject);
@@ -2195,100 +2172,43 @@ end;
 
 procedure TDocumentFrame.ToggleCase(ACase: TBCEditorCase = cNone);
 var
-  Editor: TBCEditor;
+  LEditor: TBCEditor;
 begin
-  Editor := GetActiveEditor;
-  if Assigned(Editor) then
-    Editor.ToggleSelectedCase(ACase);
+  LEditor := GetActiveEditor;
+  if Assigned(LEditor) then
+    LEditor.ToggleSelectedCase(ACase);
   // ToggleCase(GetActiveEditor);
   // TODO ToggleCase(GetActiveSplitEditor);
 end;
 
 procedure TDocumentFrame.DeleteWhiteSpace;
-
-  procedure DeleteWhiteSpace(Editor: TBCEditor);
-  var
-    Strings: TWideStringList;
-  begin
-    if Assigned(Editor) then
-      if Editor.Focused then
-      begin
-        Strings := TWideStringList.Create;
-        Strings.Text := Editor.SelectedText;
-        Editor.SelectedText := BCCommon.StringUtils.DeleteWhiteSpace
-          (Strings.Text);
-        Strings.Free;
-      end;
-  end;
-
+var
+  LEditor: TBCEditor;
 begin
-  DeleteWhiteSpace(GetActiveEditor);
-  DeleteWhiteSpace(GetActiveSplitEditor);
+  LEditor := GetActiveEditor;
+  if Assigned(LEditor) then
+    LEditor.DeleteWhitespace;
+//  GetActiveSplitEditor.DeleteWhitespace;
 end;
 
-procedure TDocumentFrame.SortAsc;
-
-  procedure SortAsc(Editor: TBCEditor);
-  var
-    Strings: TWideStringList;
-  begin
-    if Assigned(Editor) then
-      if Editor.Focused then
-      begin
-        Strings := TWideStringList.Create;
-        Strings.Text := Editor.SelectedText;
-        Strings.Sort;
-        Editor.SelectedText := TrimRight(Strings.Text);
-        Strings.Free;
-      end;
-  end;
-
+procedure TDocumentFrame.Sort(ASortOrder: TBCEditorSortOrder = soToggle);
+var
+  LEditor: TBCEditor;
 begin
-  SortAsc(GetActiveEditor);
-  SortAsc(GetActiveSplitEditor);
-end;
-
-procedure TDocumentFrame.SortDesc;
-
-  procedure SortDesc(Editor: TBCEditor);
-  var
-    i: Integer;
-    s: WideString;
-    Strings: TWideStringList;
-  begin
-    if Assigned(Editor) then
-      if Editor.Focused then
-      begin
-        Strings := TWideStringList.Create;
-        Strings.Text := Editor.SelectedText;
-        Strings.Sort;
-        for i := Strings.Count - 1 downto 0 do
-          s := s + Strings.Strings[i] + Chr(13) + Chr(10);
-        Editor.SelectedText := TrimRight(s);
-        Strings.Free;
-      end;
-  end;
-
-begin
-  SortDesc(GetActiveEditor);
-  SortDesc(GetActiveSplitEditor);
+  LEditor := GetActiveEditor;
+  if Assigned(LEditor) then
+    LEditor.Sort(ASortOrder);
+  //GetActiveSplitEditor.Sort;
 end;
 
 procedure TDocumentFrame.ClearBookmarks;
-
-  procedure ClearBookmarks(Editor: TBCEditor);
-  var
-    i: Integer;
-  begin
-    if Assigned(Editor) then
-      if Editor.Focused then
-        for i := 0 to 9 do
-          Editor.ClearBookMark(i);
-  end;
-
+var
+  LEditor: TBCEditor;
 begin
-  ClearBookmarks(GetActiveEditor);
-  ClearBookmarks(GetActiveSplitEditor);
+  LEditor := GetActiveEditor;
+  if Assigned(LEditor) then
+    LEditor.ClearBookmarks;
+  //GetActiveSplitEditor.ClearBookmarks;
 end;
 
 procedure TDocumentFrame.InsertLine;
@@ -2347,19 +2267,20 @@ begin
   // TODO: DeleteEndOfLine(GetActiveSplitEditor);
 end;
 
-function LengthWithoutWhiteSpaces(Str: string): Integer;
-var
-  i: Integer;
-begin
-  Result := 0;
-  for i := 1 to Length(Str) do
-    if Trim(Str[i]) <> '' then
-      Inc(Result);
-end;
-
 procedure TDocumentFrame.ShowInfo;
 var
   Editor: TBCEditor;
+
+  function LengthWithoutWhiteSpaces(Str: string): Integer;
+  var
+    i: Integer;
+  begin
+    Result := 0;
+    for i := 1 to Length(Str) do
+      if Trim(Str[i]) <> '' then
+        Inc(Result);
+  end;
+
 begin
   Editor := GetActiveEditor;
   if Assigned(Editor) then
