@@ -856,7 +856,8 @@ end;
 procedure TMainForm.ActionEditSortExecute(Sender: TObject);
 begin
   inherited;
-  FDocumentFrame.Sort;
+  if Sender is TBCSpeedButton then
+    FDocumentFrame.Sort;
 end;
 
 procedure TMainForm.ActionEditToggleCaseExecute(Sender: TObject);

@@ -2365,9 +2365,9 @@ begin
   if OptionsContainer.SkinCompletionProposalSelectionBackground then
     Editor.CompletionProposal.Colors.SelectedBackground := LColor;
   if OptionsContainer.SkinLeftMarginBackground then
-    Editor.LeftMargin.Color := LColor;
+    Editor.LeftMargin.Colors.Background := LColor;
   if OptionsContainer.SkinBookmarkPanelBackground then
-    Editor.LeftMargin.Bookmarks.Panel.Color := LColor;
+    Editor.LeftMargin.Colors.BookmarkPanelBackground := LColor;
   if OptionsContainer.SkinSelectionForeground then
     Editor.Selection.Colors.Foreground :=
       FrameAdapter.SkinData.SkinManager.GetHighLightFontColor;
