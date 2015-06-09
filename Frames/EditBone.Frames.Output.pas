@@ -77,7 +77,7 @@ type
     function CloseTabSheet(AFreePage: Boolean = True; ATabIndex: Integer = -1): Boolean;
     function SelectedLine(var Filename: string; var Ln: LongWord; var Ch: LongWord): Boolean;
     function AddTreeView(TabCaption: string): TVirtualDrawTree;
-    procedure AddTreeViewLine(OutputTreeView: TVirtualDrawTree; var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString = '');
+    procedure AddTreeViewLine(OutputTreeView: TVirtualDrawTree; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString = '');
     procedure ReadOutputFile;
     procedure SetOptions;
     procedure WriteOutputFile;
@@ -375,9 +375,9 @@ begin
   inherited;
 end;
 
-procedure TOutputFrame.AddTreeViewLine(OutputTreeView: TVirtualDrawTree; var Root: PVirtualNode; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString);
+procedure TOutputFrame.AddTreeViewLine(OutputTreeView: TVirtualDrawTree; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString);
 var
-  Node: PVirtualNode;
+  Root, Node: PVirtualNode;
   NodeData: POutputRec;
   s: WideString;
 begin
@@ -388,18 +388,13 @@ begin
   if not Assigned(OutputTreeView) then
     Exit;
   OutputTreeView.BeginUpdate;
-  if not Assigned(Root) then
+  Root := OutputTreeView.GetLast;
+  if Assigned(Root) then
   begin
-    Root := OutputTreeView.GetFirst;
-    while Assigned(Root) do
-    begin
-      NodeData := OutputTreeView.GetNodeData(Root);
-      if String(NodeData.Filename) = FileName then
-        Break;
-      Root := OutputTreeView.GetNext(Root);
-    end;
+    NodeData := OutputTreeView.GetNodeData(Root);
+    if String(NodeData.Filename) <> FileName then
+      Root := nil;
   end;
-
   if not Assigned(Root) then
   begin
     Root := OutputTreeView.AddChild(nil);
@@ -706,8 +701,7 @@ var
   Filename, S: string;
   OutputFile: TextFile;
   VirtualDrawTree: TVirtualDrawTree;
-  Root: PVirtualNode;
-  AFilename, AFile, Text, SearchString: WideString;
+  AFilename, Text, SearchString: WideString;
   Ln, Ch: Cardinal;
 begin
   FProcessingTabSheet := True;
@@ -721,20 +715,12 @@ begin
     begin
       Readln(OutputFile, S);
       if Pos('s:', S) = 1 then
-      begin
-        AFile := '';
         VirtualDrawTree := AddTreeView(Format(LanguageDataModule.GetConstant('SearchFor'), [Copy(S, 3, Length(S))]))
-      end
       else
       begin
         if Assigned(VirtualDrawTree) then
         begin
           AFilename := GetNextToken(OUTPUT_FILE_SEPARATOR, S);
-          if AFile <> AFilename then
-          begin
-            AFile := AFilename;
-            Root := nil;
-          end;
           S := RemoveTokenFromStart(OUTPUT_FILE_SEPARATOR, S);
           Ln := StrToInt(GetNextToken(OUTPUT_FILE_SEPARATOR, S));
           S := RemoveTokenFromStart(OUTPUT_FILE_SEPARATOR, S);
@@ -743,7 +729,7 @@ begin
           Text := GetNextToken(OUTPUT_FILE_SEPARATOR, S);
           S := RemoveTokenFromStart(OUTPUT_FILE_SEPARATOR, S);
           SearchString := S;
-          AddTreeViewLine(VirtualDrawTree, Root, AFilename, Ln, Ch, Text, SearchString);
+          AddTreeViewLine(VirtualDrawTree, AFilename, Ln, Ch, Text, SearchString);
         end;
       end;
     end;

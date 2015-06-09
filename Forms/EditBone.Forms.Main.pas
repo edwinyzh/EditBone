@@ -9,9 +9,9 @@ uses
   Vcl.ComCtrls, sStatusBar, BCControls.StatusBar, Vcl.ExtCtrls, sPanel, BCControls.Panel, sSplitter, BCControls.Splitter,
   sPageControl, BCControls.PageControl, BCCommon.Images, BCControls.SpeedButton, Vcl.Buttons, sSpeedButton,
   EditBone.Frames.Directory, EditBone.Frames.Document, EditBone.Frames.Output, VirtualTrees,
-  System.Win.TaskbarCore, Vcl.Taskbar, Vcl.ActnMan, Vcl.ActnMenus, BCComponents.DragDrop,
+  System.Win.TaskbarCore, Vcl.Taskbar, Vcl.ActnMan, Vcl.ActnMenus, BCComponents.DragDrop, System.Diagnostics,
   Vcl.PlatformDefaultStyleActnCtrls, Vcl.StdCtrls, JvAppInst, acPNG, acImage, System.ImageList, Vcl.ImgList,
-  acAlphaImageList;
+  acAlphaImageList, BCControls.ProgressBar, EditBone.FindInFiles;
 
 type
   TMainForm = class(TBCForm)
@@ -668,6 +668,9 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure StatusBarDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel; const Rect: TRect);
     procedure ActionEditSortExecute(Sender: TObject);
+    procedure OnTerminateFindInFiles(Sender: TObject);
+    procedure OnProgressBarStepFindInFiles(Sender: TObject);
+    procedure OnAddTreeViewLine(Sender: TObject; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString = '');
   private
     FNoIni: Boolean;
     FDirectoryFrame: TDirectoryFrame;
@@ -675,16 +678,17 @@ type
     FImageListCount: Integer;
     FOutputFrame: TOutputFrame;
     FProcessingEventHandler: Boolean;
-    FEncoding: TEncoding;
+    FFindInFilesThread: TFindInFilesThread;
     FSQLFormatterDLLFound: Boolean;
+    FStopWatch: TStopWatch;
+    FOutputTreeView: TVirtualDrawTree;
+    function CancelSearch: Boolean;
     function GetHighlighterColor: string;
-    function GetStringList(AFilename: string): TStringList; overload;
-    function GetStringList(APopupMenu: TPopupMenu): TStringList; overload;
+    function GetStringList(APopupMenu: TPopupMenu): TStringList;
     function Processing: Boolean;
     procedure CreateFrames;
     procedure CreateLanguageMenu(AMenuItem: TMenuItem);
     procedure CreateToolBar(ACreate: Boolean = False);
-    procedure FindInFiles(AOutputTreeView: TVirtualDrawTree; AFindWhatText, AFileTypeText, AFolderText: string; ASearchCaseSensitive, ALookInSubfolders: Boolean);
     procedure ReadIniOptions;
     procedure ReadIniSizePositionAndState;
     procedure ReadLanguageFile(ALanguage: string);
@@ -856,7 +860,7 @@ end;
 procedure TMainForm.ActionEditSortExecute(Sender: TObject);
 begin
   inherited;
-  if Sender is TBCSpeedButton then
+  if PanelMenubar.Visible then
     FDocumentFrame.Sort;
 end;
 
@@ -2310,16 +2314,21 @@ begin
     FDocumentFrame.Open(Filename);
 end;
 
+procedure TMainForm.OnAddTreeViewLine(Sender: TObject; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString);
+begin
+  FOutputFrame.AddTreeViewLine(FOutputTreeView, Filename, Ln, Ch, Text, SearchString);
+end;
+
+procedure TMainForm.OnProgressBarStepFindInFiles(Sender: TObject);
+begin
+  ProgressBar.StepIt;
+end;
+
 procedure TMainForm.SearchFindInFiles(AFolder: string = '');
 var
-  T1, T2: TTime;
   LEditor: TBCEditor;
-  Min, Secs: Integer;
-  TimeDifference: string;
-  OutputTreeView: TVirtualDrawTree;
-  Root: PVirtualNode;
 begin
-  OutputTreeView := nil;
+  FOutputTreeView := nil;
   with FindInFilesDialog do
   begin
     if AFolder <> '' then
@@ -2332,181 +2341,57 @@ begin
     begin
       Screen.Cursor := crHourGlass;
       try
-        StatusBar.Panels[4].Text := LanguageDataModule.GetConstant('CountingFiles');
-        Application.ProcessMessages;
+        StatusBar.Panels[4].Text := LanguageDataModule.GetConstant('CountingFiles'); // TODO: THREAD
+        StatusBar.Invalidate;
         ProgressBar.Count := CountFilesInFolder(FolderText);
       finally
         Screen.Cursor := crDefault;
         StatusBar.Panels[4].Text := '';
       end;
       ProgressBar.Show;
-      T1 := Now;
-      try
-        PanelOutput.Visible := True;
-        OutputTreeView := FOutputFrame.AddTreeView(Format(LanguageDataModule.GetConstant('SearchFor'), [FindWhatText]));
-        FOutputFrame.ProcessingTabSheet := True;
-        Application.ProcessMessages;
-        FindInFiles(OutputTreeView, FindWhatText, FileTypeText, FolderText, SearchCaseSensitive, LookInSubfolders);
-      finally
-        ProgressBar.Hide;
-        T2 := Now;
-        if not FOutputFrame.CancelSearch then
-        begin
-          if FOutputFrame.IsEmpty then
-          begin
-            Root := nil;
-            FOutputFrame.AddTreeViewLine(OutputTreeView, Root, '', -1, 0,
-              Format(LanguageDataModule.GetMessage('CannotFindString'), [FindWhatText]));
-            StatusBar.Panels[3].Text := '';
-          end;
-          Min := StrToInt(FormatDateTime('n', T2 - T1));
-          Secs := Min * 60 + StrToInt(FormatDateTime('s', T2 - T1));
-          if Secs < 60 then
-            TimeDifference := FormatDateTime(Format('s.zzz "%s"', [LanguageDataModule.GetConstant('Second')]), T2 - T1)
-          else
-            TimeDifference := FormatDateTime(Format('n "%s" s.zzz "%s"', [LanguageDataModule.GetConstant('Minute'), LanguageDataModule.GetConstant('Second')]), T2 - T1);
-          StatusBar.Panels[4].Text := Format(LanguageDataModule.GetConstant('OccurencesFound'), [FOutputFrame.Count, TimeDifference])
-        end;
-        FOutputFrame.PageControl.EndDrag(False); { if close button pressed and search canceled, dragging will stay... }
-        FOutputFrame.ProcessingTabSheet := False;
-        SetFields;
-      end;
+      FStopWatch.Reset;
+      FStopWatch.Start;
+      FOutputTreeView := FOutputFrame.AddTreeView(Format(LanguageDataModule.GetConstant('SearchFor'), [FindWhatText]));
+      FOutputFrame.ProcessingTabSheet := True;
+      FFindInFilesThread := TFindInFilesThread.Create(FindWhatText, FileTypeText, FolderText, SearchCaseSensitive, LookInSubfolders);
+      FFindInFilesThread.OnTerminate := OnTerminateFindInFiles;
+      FFindInFilesThread.OnProgressBarStep := OnProgressBarStepFindInFiles;
+      FFindInFilesThread.CancelSearch := CancelSearch;
+      FFindInFilesThread.OnAddTreeViewLine := OnAddTreeViewLine;
+      FFindInFilesThread.Start;
+      PanelOutput.Visible := True;
     end;
   end;
 end;
 
-{ Recursive method to find files. }
-procedure TMainForm.FindInFiles(AOutputTreeView: TVirtualDrawTree; AFindWhatText, AFileTypeText, AFolderText: String; ASearchCaseSensitive, ALookInSubfolders: Boolean);
+procedure TMainForm.OnTerminateFindInFiles(Sender: TObject);
 var
-  shFindFile: THandle;
-  sWin32FD: TWin32FindData;
-  S, Line: WideString;
-  FName: string;
-  Ln, Ch, ChPos: LongWord;
-  Found: Boolean;
-  StringList: TStringList;
-  Root: PVirtualNode;
-
-  function IsDirectory(dWin32FD: TWin32FindData): Boolean;
-  var
-    TmpAttr: DWORD;
+  TimeDifference: string;
+begin
+  ProgressBar.Hide;
+  FStopWatch.Stop;
+  if not FOutputFrame.CancelSearch then
   begin
-    with dWin32FD do
+    if FOutputFrame.IsEmpty then
     begin
-      TmpAttr := dwFileAttributes and (FILE_ATTRIBUTE_READONLY or FILE_ATTRIBUTE_HIDDEN or FILE_ATTRIBUTE_SYSTEM or FILE_ATTRIBUTE_ARCHIVE or FILE_ATTRIBUTE_NORMAL or FILE_ATTRIBUTE_DIRECTORY);
-
-      Result := (TmpAttr and FILE_ATTRIBUTE_DIRECTORY = FILE_ATTRIBUTE_DIRECTORY);
+      FOutputFrame.AddTreeViewLine(FOutputTreeView, '', -1, 0,
+        Format(LanguageDataModule.GetMessage('CannotFindString'), [FFindInFilesThread.FindWhatText]));
+      StatusBar.Panels[3].Text := '';
     end;
+    if StrToInt(FormatDateTime('n', FStopWatch.ElapsedMilliseconds / MSecsPerDay)) < 1 then
+      TimeDifference := FormatDateTime(Format('s.zzz "%s"', [LanguageDataModule.GetConstant('Second')]), FStopWatch.ElapsedMilliseconds / MSecsPerDay)
+    else
+      TimeDifference := FormatDateTime(Format('n "%s" s.zzz "%s"', [LanguageDataModule.GetConstant('Minute'), LanguageDataModule.GetConstant('Second')]), FStopWatch.ElapsedMilliseconds / MSecsPerDay);
+    StatusBar.Panels[4].Text := Format(LanguageDataModule.GetConstant('OccurencesFound'), [FOutputFrame.Count, TimeDifference])
   end;
-begin
-  {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
-  shFindFile := FindFirstFile(PChar(IncludeTrailingBackslash(AFolderText) + '*.*'), sWin32FD);
-  {$WARNINGS ON}
-  if shFindFile <> INVALID_HANDLE_VALUE then
-  try
-    repeat
-      if FOutputFrame.CancelSearch then
-        Exit;
-      FName := StrPas(sWin32FD.cFileName);
-
-      if (FName <> '.') and (FName <> '..') then
-      begin
-        if ALookInSubfolders and IsDirectory(sWin32FD) then
-          {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
-          FindInFiles(AOutputTreeView, AFindWhatText, AFileTypeText, IncludeTrailingBackslash(AFolderText) + FName, ASearchCaseSensitive, ALookInSubfolders)
-          {$WARNINGS ON}
-        else
-        begin
-          ProgressBar.StepIt;
-          Application.ProcessMessages;
-
-          //if IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) then
-          if (AFileTypeText = '*.*') and IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) or
-            IsExtInFileType(ExtractFileExt(FName), AFileTypeText) then
-          begin
-            {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
-            StringList := GetStringList(IncludeTrailingBackslash(AFolderText) + FName);
-            {$WARNINGS ON}
-            try
-              try
-                Root := nil;
-                if Trim(StringList.Text) <> '' then
-                for Ln := 0 to StringList.Count - 1 do
-                begin
-                  Found := True;
-                  Line := StringList.Strings[Ln];
-                  S := Line;
-                  ChPos := 0;
-                  while Found do
-                  begin
-                    if ASearchCaseSensitive then
-                      Ch := Pos(WideString(AFindWhatText), S)
-                    else
-                      Ch := Pos(WideUpperCase(WideString(AFindWhatText)), WideUpperCase(S));
-                    if Ch <> 0 then
-                    begin
-                      Found := True;
-                      ChPos := ChPos + Ch;
-                      if FOutputFrame.CancelSearch then
-                        Break;
-                      {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
-                      FOutputFrame.AddTreeViewLine(AOutputTreeView, Root, IncludeTrailingBackslash(AFolderText) + FName, Ln + 1, ChPos, Line, AFindWhatText);
-                      {$WARNINGS ON}
-                      S := Copy(S, Ch + LongWord(Length(AFindWhatText)), Length(S));
-                      ChPos := ChPos + LongWord(Length(AFindWhatText)) - 1;
-                    end
-                    else
-                      Found := False;
-                  end;
-                end
-              except
-                {$WARNINGS OFF}
-                { IncludeTrailingBackslash is specific to a platform }
-                FOutputFrame.AddTreeViewLine(AOutputTreeView, Root, '', -1, 0,
-                  Format(LanguageDataModule.GetWarningMessage('FileAccessError'), [IncludeTrailingBackslash(AFolderText) + FName]), '');
-                {$WARNINGS ON}
-              end;
-            finally
-              StringList.Free;
-            end;
-          end;
-        end;
-      end;
-    until not FindNextFile(shFindFile, sWin32FD);
-  finally
-    Winapi.Windows.FindClose(shFindFile);
-  end;
+  FOutputFrame.PageControl.EndDrag(False); { if close button pressed and search canceled, dragging will stay... }
+  FOutputFrame.ProcessingTabSheet := False;
+  SetFields;
 end;
 
-function TMainForm.GetStringList(AFilename: string): TStringList;
-var
-  LFileStream: TFileStream;
-  LBuffer: TBytes;
-  WithBom: Boolean;
+function TMainForm.CancelSearch: Boolean;
 begin
-  Result := TStringList.Create;
-  FEncoding := nil;
-  LFileStream := TFileStream.Create(AFileName, fmOpenRead);
-  try
-    // Identify encoding
-    if IsUTF8(LFileStream, WithBom) then
-    begin
-      if WithBom then
-        FEncoding := TEncoding.UTF8
-      else
-        FEncoding := BCEditor.Encoding.TEncoding.UTF8WithoutBOM;
-    end
-    else
-    begin
-      // Read file into buffer
-      SetLength(LBuffer, LFileStream.Size);
-      LFileStream.ReadBuffer(Pointer(LBuffer)^, Length(LBuffer));
-      TEncoding.GetBufferEncoding(LBuffer, FEncoding);
-    end;
-  finally
-    LFileStream.Free;
-  end;
-  Result.LoadFromFile(AFileName, FEncoding);
+  Result := FOutputFrame.CancelSearch;
 end;
 
 procedure TMainForm.WriteIniFile;

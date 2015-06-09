@@ -61,10 +61,6 @@ object DocumentFrame: TDocumentFrame
       SkinData.CustomFont = False
       UseCloseBtn = False
       OnClickBtn = TabSheetNewClickBtn
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
     end
   end
   object ImageList16: TBCImageList

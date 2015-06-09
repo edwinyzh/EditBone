@@ -22,7 +22,8 @@ uses
   EditBone.Types in 'Units\EditBone.Types.pas',
   EditBone.Forms.UnicodeCharacterMap in 'Forms\EditBone.Forms.UnicodeCharacterMap.pas' {UnicodeCharacterMapForm},
   EditBone.Dialogs.About in 'Dialogs\EditBone.Dialogs.About.pas' {AboutDialog},
-  EditBone.Forms.LanguageEditor in 'Forms\EditBone.Forms.LanguageEditor.pas' {LanguageEditorForm};
+  EditBone.Forms.LanguageEditor in 'Forms\EditBone.Forms.LanguageEditor.pas' {LanguageEditorForm},
+  EditBone.FindInFiles in 'Units\EditBone.FindInFiles.pas';
 
 {$R *.res}
 

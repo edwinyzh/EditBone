@@ -655,10 +655,9 @@ begin
         { It is not always possible to focus... }
         // end;
       end
-      else if ExtractFileName(FileName) <> '' then
-        ShowErrorMessage
-          (Format(LanguageDataModule.GetErrorMessage('FileNotFound'),
-          [FileName]))
+      else
+      if ExtractFileName(FileName) <> '' then
+        ShowErrorMessage(Format(LanguageDataModule.GetErrorMessage('FileNotFound'), [FileName]))
     end;
   finally
     FProcessing := False;
@@ -1635,7 +1634,7 @@ begin
   else
     PageControl.Images := nil;
   { assign to every Editor }
-  for i := 0 to PageControl.PageCount - 1 do
+  for i := 0 to PageControl.PageCount - 2 do
   begin
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
     if Assigned(DocTabSheetFrame) then
