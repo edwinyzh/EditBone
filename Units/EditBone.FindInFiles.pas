@@ -38,7 +38,7 @@ uses
 
 procedure TFindInFilesThread.Execute;
 begin
-  FindInFiles(FFolderText);
+  Synchronize(procedure begin FindInFiles(FFolderText) end);
 end;
 
 constructor TFindInFilesThread.Create(AFindWhatText, AFileTypeText, AFolderText: String; ASearchCaseSensitive,
@@ -106,6 +106,7 @@ begin
             {$WARNINGS ON}
             try
               try
+                // TODO: Use pointer and UpCase
                 if Trim(StringList.Text) <> '' then
                 for Ln := 0 to StringList.Count - 1 do
                 begin

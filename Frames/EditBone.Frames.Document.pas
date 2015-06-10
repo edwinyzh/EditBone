@@ -668,7 +668,10 @@ var
 begin
   Result := mrNone;
 
-  Editor := GetActiveEditor;
+  if ATabIndex <> -1 then
+    Editor := GetEditor(PageControl.Pages[ATabIndex])
+  else
+    Editor := GetActiveEditor;
   if Assigned(Editor) and Editor.Modified then
   begin
     Result := SaveChanges;
@@ -1742,8 +1745,7 @@ end;
 
 procedure TDocumentFrame.SetActivePageCaptionModified;
 begin
-  PageControl.ActivePageCaption :=
-    FormatFileName(PageControl.ActivePageCaption, True);
+  PageControl.ActivePageCaption := FormatFileName(PageControl.ActivePageCaption, True);
 end;
 
 procedure TDocumentFrame.EditorOnChange(Sender: TObject);
@@ -1777,7 +1779,8 @@ begin
 
   if OptionsContainer.AutoSave then
     Save
-  else if not FProcessing then
+  else
+  if not FProcessing then
     SetActivePageCaptionModified;
 
   if Assigned(PageControl.ActivePage) then

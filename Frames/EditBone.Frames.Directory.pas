@@ -365,9 +365,14 @@ end;
 function TDirectoryFrame.CloseDirectory(AFreePage: Boolean = True; ATabIndex: Integer = -1): Boolean;
 var
   LActivePageIndex: Integer;
+  LTabSheet: TTabSheet;
 begin
   Result := True;
-  if not AskYesOrNo(Format(LanguageDataModule.GetYesOrNoMessage('CloseDirectory'), [PageControl.ActivePageCaption])) then
+  if ATabIndex <> -1 then
+    LTabSheet := PageControl.Pages[ATabIndex]
+  else
+    LTabSheet := PageControl.ActivePage;
+  if not AskYesOrNo(Format(LanguageDataModule.GetYesOrNoMessage('CloseDirectory'), [LTabSheet.Caption])) then
     Exit(False);
   if PageControl.PageCount > 0 then
   begin

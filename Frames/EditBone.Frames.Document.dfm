@@ -59,7 +59,6 @@ object DocumentFrame: TDocumentFrame
       TabSkin = 'CHECKBOX'
       SkinData.CustomColor = False
       SkinData.CustomFont = False
-      UseCloseBtn = False
       OnClickBtn = TabSheetNewClickBtn
     end
   end

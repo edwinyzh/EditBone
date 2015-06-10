@@ -72,7 +72,7 @@ type
     procedure SetProcessingTabSheet(Value: Boolean);
     procedure OpenFiles(OnlySelected: Boolean = False);
     procedure SetCheckedState(Value: TCheckState);
-    function CheckCancel: Boolean;
+    function CheckCancel(ATabIndex: Integer = -1): Boolean;
   public
     constructor Create(AOwner: TComponent); override;
     function CloseTabSheet(AFreePage: Boolean = True; ATabIndex: Integer = -1): Boolean;
@@ -126,7 +126,10 @@ procedure TOutputFrame.PageControlCloseButtonClick(Sender: TComponent; TabIndex:
   var Action: TacCloseAction);
 begin
   if CloseTabSheet(False, TabIndex) then
+  begin
+    Application.ProcessMessages;
     Action := acaFree
+  end
   else
     CanClose := False;
 end;
@@ -556,12 +559,18 @@ begin
     Result := PageControl.PageCount <> 0;
 end;
 
-function TOutputFrame.CheckCancel: Boolean;
+function TOutputFrame.CheckCancel(ATabIndex: Integer = -1): Boolean;
+var
+  LTabSheet: TTabSheet;
 begin
   Result := False;
   Application.ProcessMessages;
+  if ATabIndex <> -1 then
+    LTabSheet := PageControl.Pages[ATabIndex]
+  else
+    LTabSheet := PageControl.ActivePage;
   if FProcessingTabSheet then
-    if FProcessingPage = PageControl.ActivePage then
+    if FProcessingPage = LTabSheet then
     begin
       if AskYesOrNo(LanguageDataModule.GetYesOrNoMessage('CancelSearch')) then
         FCancelSearch := True
@@ -575,7 +584,7 @@ var
   LActivePageIndex: Integer;
 begin
   Result := True;
-  if CheckCancel then
+  if CheckCancel(ATabIndex) then
     Exit(False);
   if PageControl.PageCount > 0 then
   begin
