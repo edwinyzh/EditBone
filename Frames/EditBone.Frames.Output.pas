@@ -60,6 +60,7 @@ type
     FProcessingPage: TsTabSheet;
     FTabsheetDblClick: TNotifyEvent;
     FOpenAll: TOpenAllEvent;
+    FRootNode: PVirtualNode;
     function GetCount: Integer;
     function GetIsAnyOutput: Boolean;
     function GetIsEmpty: Boolean;
@@ -375,9 +376,10 @@ begin
   inherited;
 end;
 
-procedure TOutputFrame.AddTreeViewLine(OutputTreeView: TVirtualDrawTree; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString);
+procedure TOutputFrame.AddTreeViewLine(OutputTreeView: TVirtualDrawTree; Filename: WideString; Ln, Ch: LongInt;
+  Text: WideString; SearchString: WideString);
 var
-  Root, Node: PVirtualNode;
+  Node, LastNode: PVirtualNode;
   NodeData: POutputRec;
   s: WideString;
 begin
@@ -388,17 +390,17 @@ begin
   if not Assigned(OutputTreeView) then
     Exit;
   OutputTreeView.BeginUpdate;
-  Root := OutputTreeView.GetLast;
-  if Assigned(Root) then
+  LastNode := OutputTreeView.GetLast;
+  if Assigned(LastNode) then
   begin
-    NodeData := OutputTreeView.GetNodeData(Root);
-    if String(NodeData.Filename) <> FileName then
-      Root := nil;
+    NodeData := OutputTreeView.GetNodeData(LastNode);
+    if (NodeData.Filename <> FileName) or (NodeData.Ln = -1) then
+      LastNode := nil;
   end;
-  if not Assigned(Root) then
+  if not Assigned(LastNode) then
   begin
-    Root := OutputTreeView.AddChild(nil);
-    NodeData := OutputTreeView.GetNodeData(Root);
+    FRootNode := OutputTreeView.AddChild(nil);
+    NodeData := OutputTreeView.GetNodeData(FRootNode);
     NodeData.Level := 0;
     if Ln = -1 then
     begin
@@ -410,7 +412,7 @@ begin
   end;
   if Ln <> -1  then
   begin
-    Node := OutputTreeView.AddChild(Root);
+    Node := OutputTreeView.AddChild(FRootNode);
     NodeData := OutputTreeView.GetNodeData(Node);
     NodeData.Level := 1;
     NodeData.Ln := Ln;
@@ -434,8 +436,8 @@ begin
     end;
 
     if toAutoExpand in OutputTreeView.TreeOptions.AutoOptions then
-      if not OutputTreeView.Expanded[Root] then
-        OutputTreeView.FullExpand(Root);
+      if not OutputTreeView.Expanded[FRootNode] then
+        OutputTreeView.FullExpand(FRootNode);
 
     NodeData.Text := s;
     OutputTreeView.Tag := OutputTreeView.Tag + 1;

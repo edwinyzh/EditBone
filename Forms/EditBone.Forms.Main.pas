@@ -2012,6 +2012,8 @@ begin
   Self.ReadLanguageFile(GetSelectedLanguage('English'));
 
   CreateFileReopenList;
+  FOutputFrame.ReadOutputFile;
+  PanelOutput.Visible := FOutputFrame.IsAnyOutput;
 
   Editor := FDocumentFrame.GetActiveEditor;
   if Assigned(Editor) then
@@ -2159,8 +2161,6 @@ begin
   FOutputFrame.Parent := PanelOutput;
   FOutputFrame.OnTabsheetDblClick := OutputDblClickActionExecute;
   FOutputFrame.OnOpenAll := OutputOpenAllEvent;
-  FOutputFrame.ReadOutputFile;
-  PanelOutput.Visible := FOutputFrame.IsAnyOutput;
   { TDocumentFrame }
   FDocumentFrame := TDocumentFrame.Create(PanelDocument);
   FDocumentFrame.Parent := PanelDocument;
@@ -2351,15 +2351,19 @@ begin
       ProgressBar.Show;
       FStopWatch.Reset;
       FStopWatch.Start;
+
       FOutputTreeView := FOutputFrame.AddTreeView(Format(LanguageDataModule.GetConstant('SearchFor'), [FindWhatText]));
       FOutputFrame.ProcessingTabSheet := True;
+      PanelOutput.Visible := True;
+      Application.ProcessMessages;
+
       FFindInFilesThread := TFindInFilesThread.Create(FindWhatText, FileTypeText, FolderText, SearchCaseSensitive, LookInSubfolders);
       FFindInFilesThread.OnTerminate := OnTerminateFindInFiles;
       FFindInFilesThread.OnProgressBarStep := OnProgressBarStepFindInFiles;
       FFindInFilesThread.CancelSearch := CancelSearch;
       FFindInFilesThread.OnAddTreeViewLine := OnAddTreeViewLine;
       FFindInFilesThread.Start;
-      PanelOutput.Visible := True;
+
     end;
   end;
 end;
