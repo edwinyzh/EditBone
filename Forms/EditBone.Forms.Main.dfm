@@ -13,15 +13,14 @@ inherited MainForm: TMainForm
   TextHeight = 13
   object SplitterHorizontal: TBCSplitter [0]
     Left = 0
-    Top = 505
+    Top = 506
     Width = 1111
-    Height = 6
+    Height = 5
     Cursor = crVSplit
     Align = alBottom
     Visible = False
-    ShowGrip = True
     SkinData.SkinSection = 'SPLITTER'
-    ExplicitTop = 485
+    ExplicitTop = 505
   end
   inherited StatusBar: TBCStatusBar
     Top = 637
@@ -132,10 +131,6 @@ inherited MainForm: TMainForm
         TabSkin = 'MENUBTN'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheetFile: TsTabSheet
         Caption = 'File'
@@ -143,10 +138,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelFileButtons: TBCPanel
           Left = 0
           Top = 0
@@ -479,10 +470,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelEditButtons: TBCPanel
           Left = 0
           Top = 0
@@ -821,10 +808,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelSearchButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1052,10 +1035,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelViewButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1414,10 +1393,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelDocumentButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1546,10 +1521,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelToolsButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1717,10 +1688,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelHelpButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1848,7 +1815,7 @@ inherited MainForm: TMainForm
     Left = 0
     Top = 119
     Width = 1111
-    Height = 386
+    Height = 387
     Align = alClient
     BevelOuter = bvNone
     Color = clWindow
@@ -1860,18 +1827,18 @@ inherited MainForm: TMainForm
     object SplitterVertical: TBCSplitter
       Left = 255
       Top = 0
-      Height = 386
+      Width = 5
+      Height = 387
       Visible = False
-      ShowGrip = True
       SkinData.SkinSection = 'SPLITTER'
-      ExplicitHeight = 366
+      ExplicitHeight = 386
     end
     object PanelDirectory: TBCPanel
       AlignWithMargins = True
       Left = 0
       Top = 5
       Width = 255
-      Height = 376
+      Height = 377
       Margins.Left = 0
       Margins.Top = 5
       Margins.Right = 0
@@ -1888,10 +1855,10 @@ inherited MainForm: TMainForm
     end
     object PanelDocument: TBCPanel
       AlignWithMargins = True
-      Left = 261
+      Left = 260
       Top = 5
-      Width = 850
-      Height = 376
+      Width = 851
+      Height = 377
       Margins.Left = 0
       Margins.Top = 5
       Margins.Right = 0

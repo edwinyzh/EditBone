@@ -360,8 +360,7 @@ begin
   MainForm.SetBookmarks;
 end;
 
-function TDocumentFrame.CreateNewTabSheet(FileName: string = '';
-  ShowMinimap: Boolean = False): TBCEditor;
+function TDocumentFrame.CreateNewTabSheet(FileName: string = ''; ShowMinimap: Boolean = False): TBCEditor;
 var
   TabSheet: TsTabSheet;
   DocTabSheetFrame: TDocTabSheetFrame;
@@ -394,6 +393,7 @@ begin
   begin
     Editor.Visible := False;
     Parent := TabSheet;
+    DocTabSheetFrame.Visible := False;
     DocTabSheetFrame.ProgressBar := FProgressBar;
     { Editor }
     with Editor do
@@ -438,11 +438,8 @@ begin
     { reduce flickering by setting width & height }
     Editor.Width := 0;
     Editor.Height := 0;
-
-    // SetMainHighlighterCombo(Editor);
-    // SetMainEncodingCombo(Editor);
-
     Editor.Visible := True;
+    DocTabSheetFrame.Visible := True;
 
     if Visible and Editor.CanFocus then
       Editor.SetFocus;
