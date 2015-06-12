@@ -2191,7 +2191,7 @@ begin
     { Check if the form is outside the workarea }
     Left := SetFormInsideWorkArea(Left, Width);
     { Directory }
-    PanelDirectory.Width := ReadInteger('Options', 'DirectoryWidth', 288);
+    PanelDirectory.Width := ReadInteger('Options', 'DirectoryWidth', 321);
     Application.ProcessMessages;
     { State }
     State := ReadInteger('Size', 'State', 0);

@@ -3,19 +3,13 @@ unit EditBone.Frames.Document;
 interface
 
 uses
-  Winapi.Windows, Winapi.CommDlg, System.SysUtils, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms,
-  BCEditor.Editor, Vcl.ComCtrls, Vcl.ImgList, Vcl.Menus, BCControls.PageControl,
-  Vcl.Buttons, Vcl.StdCtrls,
-  Vcl.ActnList, System.Actions, BCControls.ProgressBar, BCControls.ImageList,
-  Vcl.ActnMan, acAlphaImageList,
-  sPageControl, BCEditor.Types, EditBone.Types, BCControls.StatusBar,
-  BCEditor.MacroRecorder, BCEditor.Print,
-  Vcl.PlatformDefaultStyleActnCtrls, EditBone.Frames.Document.TabSheet,
-  BCEditor.Editor.Bookmarks,
-  BCCommon.Frames.Compare, BCCommon.Frames.Search, sFrameAdapter,
-  BCCommon.Frames.Base, Vcl.Dialogs, sDialogs,
-  System.ImageList, Vcl.ExtCtrls;
+  Winapi.Windows, Winapi.CommDlg, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
+  BCEditor.Editor, Vcl.ComCtrls, Vcl.ImgList, Vcl.Menus, BCControls.PageControl, Vcl.Buttons, Vcl.StdCtrls,
+  Vcl.ActnList, System.Actions, BCControls.ProgressBar, BCControls.ImageList, Vcl.ActnMan, acAlphaImageList,
+  sPageControl, BCEditor.Types, EditBone.Types, BCControls.StatusBar, BCEditor.MacroRecorder, BCEditor.Print,
+  Vcl.PlatformDefaultStyleActnCtrls, EditBone.Frames.Document.TabSheet, BCEditor.Editor.Bookmarks,
+  BCCommon.Frames.Compare, BCCommon.Frames.Search, sFrameAdapter, BCCommon.Frames.Base, Vcl.Dialogs, sDialogs,
+  System.ImageList, Vcl.ExtCtrls, BCEditor.Print.Types;
 
 type
   TDocumentFrame = class(TFrame)
@@ -62,6 +56,8 @@ type
     procedure EditorAfterBookmarkPlaced(Sender: TObject);
     procedure EditorAfterClearBookmark(Sender: TObject);
     procedure TabSheetNewClickBtn(Sender: TObject);
+    procedure OnPrintStatus(Sender: TObject; Status: TBCEditorPrintStatus; PageNumber: Integer;
+      var Abort: Boolean);
   private
     FCaretInfo: string;
     FCompareImageIndex, FNewImageIndex: Integer;
@@ -229,7 +225,7 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.Forms.Print.Preview, BCCommon.Options.Container,BCCommon.Dialogs.ConfirmReplace, BCEditor.Print.Types,
+  BCCommon.Forms.Print.Preview, BCCommon.Options.Container,BCCommon.Dialogs.ConfirmReplace,
   Vcl.ActnMenus, System.Types, System.WideStrings, System.Math, BigIni, Vcl.GraphUtil, BCCommon.Language.Strings,
   BCCommon.Dialogs.InputQuery, BCCommon.Language.Utils, BCCommon.Dialogs.Replace, BCCommon.FileUtils, BCCommon.Messages,
   BCCommon.StringUtils, Winapi.CommCtrl, EditBone.Forms.Options, BCCommon.Images, System.Generics.Collections,
@@ -1034,8 +1030,8 @@ end;
 
 procedure TDocumentFrame.InitializeEditorPrint(EditorPrint: TBCEditorPrint);
 var
-  Editor: TBCEditor;
-  Alignment: TAlignment;
+  LEditor: TBCEditor;
+  LAlignment: TAlignment;
 
   procedure SetHeaderFooter(Option: Integer; Value: string);
   begin
@@ -1045,38 +1041,40 @@ var
         begin
           case Option of
             0:
-              Alignment := taLeftJustify;
+              LAlignment := taLeftJustify;
             1:
-              Alignment := taRightJustify;
+              LAlignment := taRightJustify;
           end;
-          Add(Value, nil, Alignment, 1);
+          Add(Value, nil, LAlignment, 1);
         end;
       2, 3:
         with EditorPrint.Header do
         begin
           case Option of
             2:
-              Alignment := taLeftJustify;
+              LAlignment := taLeftJustify;
             3:
-              Alignment := taRightJustify;
+              LAlignment := taRightJustify;
           end;
-          Add(Value, nil, Alignment, 1);
+          Add(Value, nil, LAlignment, 1);
         end;
     end;
   end;
 
 begin
-  Editor := GetActiveEditor;
-  if not Assigned(Editor) then
+  LEditor := GetActiveEditor;
+  if not Assigned(LEditor) then
     Exit;
+
+  EditorPrint.Editor := LEditor;
+  EditorPrint.Title := LEditor.DocumentName;
 
   EditorPrint.Header.Clear;
   EditorPrint.Footer.Clear;
 
-  SetHeaderFooter(0, Format(LanguageDataModule.GetConstant('PrintedBy'),
-    [Application.Title]));
+  SetHeaderFooter(0, Format(LanguageDataModule.GetConstant('PrintedBy'), [Application.Title]));
   SetHeaderFooter(1, LanguageDataModule.GetConstant('PreviewDocumentPage'));
-  SetHeaderFooter(2, Editor.DocumentName);
+  SetHeaderFooter(2, LEditor.DocumentName);
   SetHeaderFooter(3, '$DATE$ $TIME$');
 
   EditorPrint.Header.FrameTypes := [ftLine];
@@ -1085,24 +1083,31 @@ begin
   EditorPrint.LineNumbers := True;
   EditorPrint.Wrap := False;
   EditorPrint.Colors := True;
-
-  EditorPrint.Editor := Editor;
-  EditorPrint.Title := Editor.DocumentName;
 end;
 
 procedure TDocumentFrame.Print;
-var
-  PrintDlgRec: TPrintDlg;
 begin
   if PrintDialog.Execute(Handle) then
   begin
-    EditorPrint.Copies := PrintDlgRec.nCopies;
-    EditorPrint.SelectedOnly := PrintDlgRec.Flags and PD_SELECTION <> 0;
-    if PrintDlgRec.Flags and PD_PAGENUMS <> 0 then
-      EditorPrint.PrintRange(PrintDlgRec.nFromPage, PrintDlgRec.nToPage);
     InitializeEditorPrint(EditorPrint);
-    EditorPrint.Print;
+    EditorPrint.Copies := PrintDialog.Copies;
+    EditorPrint.SelectedOnly := PrintDialog.PrintRange = prSelection;
+    EditorPrint.OnPrintStatus := OnPrintStatus;
+    EditorPrint.UpdatePages(PrintPreviewDialog.Canvas);
+    FProgressBar.Count := PageControl.PageCount;
+    FProgressBar.Show;
+    if PrintDialog.PrintRange = prPageNums then
+      EditorPrint.PrintRange(PrintDialog.FromPage, PrintDialog.ToPage)
+    else
+      EditorPrint.Print;
+    FProgressBar.Hide;
   end;
+end;
+
+procedure TDocumentFrame.OnPrintStatus(Sender: TObject; Status: TBCEditorPrintStatus; PageNumber: Integer;
+  var Abort: Boolean);
+begin
+  FProgressBar.StepIt;
 end;
 
 procedure TDocumentFrame.PrintPreview;
