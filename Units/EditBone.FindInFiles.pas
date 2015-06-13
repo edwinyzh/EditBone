@@ -6,15 +6,16 @@ uses
   System.Classes;
 
 type
-  TCancelSearch = function: Boolean of object;
+  TOnCancelSearch = function: Boolean of object;
   TOnAddTreeViewLine = procedure(Sender: TObject; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString) of object;
 
   TFindInFilesThread = class(TThread)
   private
-    FCancelSearch: TCancelSearch;
+    FOnCancelSearch: TOnCancelSearch;
     FOnProgressBarStep: TNotifyEvent;
     FOnAddTreeViewLine: TOnAddTreeViewLine;
     FFindWhatText: string;
+    FFileExtensions: string;
     FFileTypeText: string;
     FFolderText: string;
     FSearchCaseSensitive: Boolean;
@@ -22,10 +23,11 @@ type
     function GetStringList(AFilename: string): TStringList;
     procedure FindInFiles(AFolderText: String);
   public
-    constructor Create(AFindWhatText, AFileTypeText, AFolderText: String; ASearchCaseSensitive, ALookInSubfolders: Boolean); overload;
+    constructor Create(AFindWhatText, AFileTypeText, AFolderText: String; ASearchCaseSensitive, ALookInSubfolders: Boolean;
+      AFileExtensions: string); overload;
     procedure Execute; override;
     property FindWhatText: string read FFindWhatText;
-    property CancelSearch: TCancelSearch read FCancelSearch write FCancelSearch;
+    property OnCancelSearch: TOnCancelSearch read FOnCancelSearch write FOnCancelSearch;
     property OnProgressBarStep: TNotifyEvent read FOnProgressBarStep write FOnProgressBarStep;
     property OnAddTreeViewLine: TOnAddTreeViewLine read FOnAddTreeViewLine write FOnAddTreeViewLine;
   end;
@@ -42,11 +44,12 @@ begin
 end;
 
 constructor TFindInFilesThread.Create(AFindWhatText, AFileTypeText, AFolderText: String; ASearchCaseSensitive,
-  ALookInSubfolders: Boolean);
+  ALookInSubfolders: Boolean; AFileExtensions: string);
 begin
   inherited Create(True);
   FreeOnTerminate := True;
   FFindWhatText := AFindWhatText;
+  FFileExtensions := AFileExtensions;
   FFileTypeText := AFileTypeText;
   FFolderText := AFolderText;
   FSearchCaseSensitive := ASearchCaseSensitive;
@@ -82,7 +85,7 @@ begin
   if shFindFile <> INVALID_HANDLE_VALUE then
   try
     repeat
-      if Assigned(FCancelSearch) and FCancelSearch then
+      if Assigned(FOnCancelSearch) and FOnCancelSearch then
         Exit;
       FName := StrPas(sWin32FD.cFileName);
 
@@ -97,8 +100,7 @@ begin
           if Assigned(FOnProgressBarStep) then
             FOnProgressBarStep(Self);
 
-          //if IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) then
-          if (FFileTypeText = '*.*') and IsExtInFileType(ExtractFileExt(FName), OptionsContainer.SupportedFileExts) or
+          if (FFileTypeText = '*.*') and IsExtInFileType(ExtractFileExt(FName), FFileExtensions) or
             IsExtInFileType(ExtractFileExt(FName), FFileTypeText) then
           begin
             {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
@@ -124,7 +126,7 @@ begin
                     begin
                       Found := True;
                       ChPos := ChPos + Ch;
-                      if Assigned(FCancelSearch) and FCancelSearch then
+                      if Assigned(FOnCancelSearch) and FOnCancelSearch then
                         Break;
                       {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
                       if Assigned(FOnAddTreeViewLine) then

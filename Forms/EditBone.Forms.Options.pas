@@ -591,7 +591,7 @@ end;
 procedure TOptionsForm.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
-  OptionsContainer.SupportedFileExts(True);
+  OptionsContainer.SupportedFileExtensions(True);
 end;
 
 procedure TOptionsForm.ReadIniFile;

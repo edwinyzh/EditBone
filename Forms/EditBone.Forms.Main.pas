@@ -682,7 +682,7 @@ type
     FSQLFormatterDLLFound: Boolean;
     FStopWatch: TStopWatch;
     FOutputTreeView: TVirtualDrawTree;
-    function CancelSearch: Boolean;
+    function OnCancelSearch: Boolean;
     function GetHighlighterColor: string;
     function GetStringList(APopupMenu: TPopupMenu): TStringList;
     function Processing: Boolean;
@@ -2327,6 +2327,7 @@ end;
 procedure TMainForm.SearchFindInFiles(AFolder: string = '');
 var
   LEditor: TBCEditor;
+  LFileExtensions: string;
 begin
   FOutputTreeView := nil;
   with FindInFilesDialog do
@@ -2357,13 +2358,14 @@ begin
       PanelOutput.Visible := True;
       Application.ProcessMessages;
 
-      FFindInFilesThread := TFindInFilesThread.Create(FindWhatText, FileTypeText, FolderText, SearchCaseSensitive, LookInSubfolders);
+      LFileExtensions := GetFileExtensions(OptionsContainer.SupportedFileExtensions);
+      FFindInFilesThread := TFindInFilesThread.Create(FindWhatText, FileTypeText, FolderText, SearchCaseSensitive,
+        LookInSubfolders, LFileExtensions);
       FFindInFilesThread.OnTerminate := OnTerminateFindInFiles;
       FFindInFilesThread.OnProgressBarStep := OnProgressBarStepFindInFiles;
-      FFindInFilesThread.CancelSearch := CancelSearch;
+      FFindInFilesThread.OnCancelSearch := OnCancelSearch;
       FFindInFilesThread.OnAddTreeViewLine := OnAddTreeViewLine;
       FFindInFilesThread.Start;
-
     end;
   end;
 end;
@@ -2393,7 +2395,7 @@ begin
   SetFields;
 end;
 
-function TMainForm.CancelSearch: Boolean;
+function TMainForm.OnCancelSearch: Boolean;
 begin
   Result := FOutputFrame.CancelSearch;
 end;
