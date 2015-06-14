@@ -2431,6 +2431,7 @@ end;
 
 procedure TMainForm.GetHighlighters;
 var
+  i: Integer;
   FindFileHandle: THandle;
   Win32FindData: TWin32FindData;
   FileName: string;
@@ -2444,7 +2445,7 @@ begin
 {$WARNINGS ON}
   if FindFileHandle <> INVALID_HANDLE_VALUE then
   try
-    //i := 1;
+    i := 0;
     repeat
       FileName := ExtractFileName(StrPas(Win32FindData.cFileName));
       FileName := Copy(FileName, 1, Pos('.', FileName) - 1);
@@ -2456,9 +2457,9 @@ begin
       LMenuItem.Action := LAction;
       LMenuItem.RadioItem := True;
       LMenuItem.AutoCheck := True;
-      //if i mod 20 = 0 then
-      //  LMenuItem.Break := mbBreak;
-      //Inc(i);
+      if (i <> 0) and (i mod 20 = 0) then
+        LMenuItem.Break := mbBreak;
+      Inc(i);
       PopupMenuHighlighters.Items.Add(LMenuItem);
     until not FindNextFile(FindFileHandle, Win32FindData);
   finally

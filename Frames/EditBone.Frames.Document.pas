@@ -2734,7 +2734,10 @@ begin
       ItemString := RemoveTokenFromStart(';', ItemString);
       if Ext = Token then
       begin
-        SetHighlighter(OptionsContainer.FileTypes.Names[i]);
+        if Pos('SQL', OptionsContainer.FileTypes.Names[i]) <> 0 then
+          SetHighlighter(OptionsContainer.DefaultSQLHighlighter)
+        else
+          SetHighlighter(OptionsContainer.FileTypes.Names[i]);
         Exit;
       end;
     end;
