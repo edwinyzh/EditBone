@@ -980,11 +980,17 @@ begin
 end;
 
 procedure TDocumentFrame.PageControlChange(Sender: TObject);
+var
+  LEditor: TBCEditor;
 begin
   if FProcessing then
     Exit;
   MainForm.SetBookmarks;
   MainForm.SetTitleBarMenus;
+  LEditor := GetActiveEditor;
+  if Assigned(LEditor) then
+    if LEditor.CanFocus then
+      LEditor.SetFocus;
 end;
 
 procedure TDocumentFrame.PageControlCloseBtnClick(Sender: TComponent;
