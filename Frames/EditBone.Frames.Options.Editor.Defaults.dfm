@@ -184,7 +184,7 @@ inherited OptionsEditorDefaultsFrame: TOptionsEditorDefaultsFrame
       Margins.Bottom = 4
       Alignment = taLeftJustify
       BoundLabel.Active = True
-      BoundLabel.Caption = 'SQL Highlighter '
+      BoundLabel.Caption = 'SQL highlighter '
       BoundLabel.Indent = 4
       BoundLabel.Font.Charset = DEFAULT_CHARSET
       BoundLabel.Font.Color = clWindowText

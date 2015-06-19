@@ -70,7 +70,6 @@ object OptionsForm: TOptionsForm
       Left = 200
       Top = 6
       Height = 495
-      ShowGrip = True
       SkinData.SkinSection = 'SPLITTER'
     end
     object VirtualDrawTreeOptions: TVirtualDrawTree

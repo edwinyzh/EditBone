@@ -23,13 +23,14 @@ object DocTabSheetFrame: TDocTabSheetFrame
     TabOrder = 1
     SkinData.SkinSection = 'CHECKBOX'
     object SplitterVertical: TBCSplitter
-      Left = 186
+      Left = 187
       Top = 1
+      Width = 5
       Height = 276
       ParentColor = False
       Visible = False
-      ShowGrip = True
       SkinData.SkinSection = 'SPLITTER'
+      ExplicitLeft = 186
     end
     object PanelDocument: TBCPanel
       Left = 192
@@ -87,8 +88,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
         CodeFolding.Hint.Font.Height = -11
         CodeFolding.Hint.Font.Name = 'Courier New'
         CodeFolding.Hint.Font.Style = []
-        CodeFolding.Padding = 2
-        CodeFolding.Width = 14
         CodeFolding.Visible = True
         CompletionProposal.CloseChars = '()[]. '
         CompletionProposal.Columns = <>
@@ -137,15 +136,23 @@ object DocTabSheetFrame: TDocTabSheetFrame
       end
     end
     object PanelXMLTree: TBCPanel
-      Left = 1
-      Top = 1
+      AlignWithMargins = True
+      Left = 2
+      Top = 2
       Width = 185
-      Height = 276
+      Height = 275
+      Margins.Left = 1
+      Margins.Top = 1
+      Margins.Right = 0
+      Margins.Bottom = 0
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 1
       Visible = False
       SkinData.SkinSection = 'CHECKBOX'
+      ExplicitLeft = 1
+      ExplicitTop = 1
+      ExplicitHeight = 276
     end
   end
   object PanelSearchFrame: TBCPanel

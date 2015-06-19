@@ -2457,7 +2457,7 @@ begin
       LMenuItem.Action := LAction;
       LMenuItem.RadioItem := True;
       LMenuItem.AutoCheck := True;
-      if (i <> 0) and (i mod 20 = 0) then
+      if (i <> 0) and (i mod 30 = 0) then
         LMenuItem.Break := mbBreak;
       Inc(i);
       PopupMenuHighlighters.Items.Add(LMenuItem);

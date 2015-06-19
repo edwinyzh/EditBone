@@ -23,6 +23,7 @@ object DocumentXMLTreeFrame: TDocumentXMLTreeFrame
     Header.Font.Style = []
     Header.MainColumn = -1
     TabOrder = 0
+    TreeOptions.PaintOptions = [toHideFocusRect, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toThemeAware, toUseBlendedImages]
     OnClick = VirtualDrawTreeClick
     OnDrawNode = VirtualDrawTreeDrawNode
     OnFreeNode = VirtualDrawTreeFreeNode
@@ -30,11 +31,6 @@ object DocumentXMLTreeFrame: TDocumentXMLTreeFrame
     OnGetNodeWidth = VirtualDrawTreeGetNodeWidth
     OnInitNode = VirtualDrawTreeInitNode
     Columns = <>
-  end
-  object XMLDocument: TXMLDocument
-    Left = 150
-    Top = 60
-    DOMVendorDesc = 'MSXML'
   end
   object FrameAdapter: TsFrameAdapter
     SkinData.SkinSection = 'CHECKBOX'
