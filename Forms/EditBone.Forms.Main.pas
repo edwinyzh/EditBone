@@ -2211,11 +2211,11 @@ var
   s: string;
   Files: TStrings;
   LMenuItem, LMenuItem2: TMenuItem;
-  LSystemImageList: TBCImageList;
+  LSystemImageList: TImageList;
   LSysImageList: THandle;
   Icon: TIcon;
 begin
-  LSystemImageList := TBCImageList.Create(nil);
+  LSystemImageList := TImageList.Create(nil);
   try
     LSysImageList := GetSysImageList;
     if LSysImageList <> 0 then
@@ -2342,8 +2342,8 @@ begin
     begin
       Screen.Cursor := crHourGlass;
       try
-        StatusBar.Panels[4].Text := LanguageDataModule.GetConstant('CountingFiles'); // TODO: THREAD
-        StatusBar.Invalidate;
+        StatusBar.Panels[4].Text := LanguageDataModule.GetConstant('CountingFiles');
+        Application.ProcessMessages;
         ProgressBar.Count := CountFilesInFolder(FolderText);
       finally
         Screen.Cursor := crDefault;

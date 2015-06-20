@@ -64,7 +64,7 @@ type
     // FHTMLDocumentChanged: Boolean;
     // FHTMLErrorList: TList;
     FNumberOfNewDocument: Integer;
-    FImages: TBCImageList;
+    FImages: TImageList;
     FProcessing: Boolean;
     FProgressBar: TBCProgressBar;
     FModifiedDocuments: Boolean;
@@ -244,7 +244,7 @@ begin
   FProcessing := False;
   FModifiedDocuments := False;
 
-  FImages := TBCImageList.Create(Self);
+  FImages := TImageList.Create(Self);
   PageControl.Images := FImages;
   SysImageList := GetSysImageList;
   if SysImageList <> 0 then

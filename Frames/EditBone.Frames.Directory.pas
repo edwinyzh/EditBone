@@ -6,11 +6,9 @@ interface
 
 uses
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ComCtrls,
-  BCControls.FileControl, Vcl.ImgList, Vcl.ActnList, Vcl.Buttons, Vcl.Menus,
-  BCControls.PageControl, VirtualTrees,
-  EditBone.Frames.Directory.TabSheet,
-  System.Actions, BCCommon.Forms.SearchForFiles, BCCommon.Images, sPageControl, sFrameAdapter,
-  Vcl.PlatformDefaultStyleActnCtrls;
+  BCControls.FileControl, Vcl.ImgList, Vcl.ActnList, Vcl.Buttons, Vcl.Menus, BCControls.PageControl, VirtualTrees,
+  EditBone.Frames.Directory.TabSheet, System.Actions, BCCommon.Forms.SearchForFiles, BCCommon.Images, sPageControl,
+  sFrameAdapter, Vcl.PlatformDefaultStyleActnCtrls;
 
 type
   TDirectoryFrame = class(TFrame)
@@ -103,8 +101,9 @@ implementation
 {$R *.dfm}
 
 uses
-  EditBone.Dialogs.DirectoryTab, BigIni, BCCommon.Language.Strings, BCCommon.Options.Container,
-  System.Math, BCCommon.FileUtils, BCCommon.Messages, BCCommon.StringUtils, BCCommon.Dialogs.Base;
+  EditBone.Dialogs.DirectoryTab, BigIni, BCCommon.Language.Strings, BCCommon.Options.Container, BCControls.Utils,
+  System.Math, BCCommon.FileUtils, BCCommon.Messages, BCCommon.StringUtils, BCCommon.Dialogs.Base, BCControls.ImageList,
+  Winapi.ShellAPI;
 
 procedure TDirectoryFrame.ActionDirectoryContextMenuExecute(Sender: TObject);
 var
@@ -594,6 +593,7 @@ procedure TDirectoryFrame.OpenDirectory(TabName: string; RootDirectory: string; 
 var
   TabSheet: TsTabSheet;
   DirTabSheetFrame: TDirTabSheetFrame;
+  SHFileInfo: TSHFileInfo;
 begin
   if not DirectoryExists(RootDirectory) then
     Exit;
@@ -622,8 +622,12 @@ begin
     DriveComboBox.OnChange := DriveComboChange;
     SetDrivesPanelOrientation(ShowDrives, DirTabSheetFrame);
     SetFileTypePanelOrientation(ShowFileType, FileType, DirTabSheetFrame);
-    PageControl.Images := DriveComboBox.SystemIconsImageList;
-    TabSheet.ImageIndex := DriveComboBox.IconIndex;
+    PageControl.Images := TImageList.Create(Self); // TODO: Destroy?
+    PageControl.Images.Handle := GetSysImageList;
+    SHGetFileInfo(PChar(RootDirectory), 0, SHFileInfo, SizeOf(SHFileInfo), SHGFI_SYSICONINDEX or SHGFI_DISPLAYNAME or SHGFI_TYPENAME);
+    TabSheet.ImageIndex := SHFileInfo.iIcon;
+    { destroy the icon, we are only using the index }
+    DestroyIcon(SHFileInfo.hIcon);
     FileTypeComboBox.Extensions := OptionsContainer.Extensions;
   end;
   PageControl.ActivePageCaption := TabName;
