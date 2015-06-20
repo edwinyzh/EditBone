@@ -210,7 +210,8 @@ var
   begin
     LData := VirtualDrawTree.GetNodeData(LNodeStack.Peek);
     if LData.NodeType = ntAttribute then
-      LNodeStack.Pop;
+      if LNodeStack.Count > 0 then
+        LNodeStack.Pop;
   end;
 
   procedure ReadAttributes;
@@ -306,22 +307,121 @@ var
 
   procedure ReadComment;
   begin
+    if LNodeStack.Count > 0 then
+      LNode := VirtualDrawTree.AddChild(LNodeStack.Peek)
+    else
+      LNode := VirtualDrawTree.AddChild(nil);
+    LData := VirtualDrawTree.GetNodeData(LNode);
+    LData.NodeType := ntComment;
+    LData.BlockBegin := GetTextPosition(LChar, LLine);
+    LData.NodeName := 'comment';
+    while (LPLineText^ <> #0) and (StrLComp(LPLineText, '-->', 3) <> 0) do
+      IncChar;
+    IncChar(3); { '-->' }
+    LData.BlockEnd := GetTextPosition(LChar, LLine);
+  end;
 
+  procedure ReadDocTypeItem;
+  begin
+    LNode := VirtualDrawTree.AddChild(LNodeStack.Peek);
+    LData := VirtualDrawTree.GetNodeData(LNode);
+    LData.NodeType := ntElement;
+    LData.BlockBegin := GetTextPosition(LChar, LLine);
+    LData.NodeName := ExtractText(LPLineText, CWHITESPACE + ['=', '/', #0, '>']);
+    LData.BlockEnd := GetTextPosition(LChar, LLine);
+
+    LNode := VirtualDrawTree.AddChild(LNode);
+    LData := VirtualDrawTree.GetNodeData(LNode);
+    LData.NodeType := ntAttribute;
+    LData.BlockBegin := GetTextPosition(LChar, LLine);
+    LData.NodeName := ExtractText(LPLineText, CWHITESPACE + ['=', '/', #0, '>']);
+    LData.BlockEnd := GetTextPosition(LChar, LLine);
+  end;
+
+  procedure ReadDocTypeItems;
+  begin
+    while (LPLineText^ <> #0) and (LPLineText^ <> ']') do
+    begin
+      if StrLComp(LPLineText, '<!--', 4) = 0 then
+        ReadComment
+      else
+      if StrLComp(LPLineText, '<!', 2) = 0 then
+        ReadDocTypeItem;
+      IncChar;
+    end;
   end;
 
   procedure ReadDoctype;
   begin
+    IncChar(2); { '<!' }
 
+    if LNodeStack.Count > 0 then
+      LNode := VirtualDrawTree.AddChild(LNodeStack.Peek)
+    else
+      LNode := VirtualDrawTree.AddChild(nil);
+    LData := VirtualDrawTree.GetNodeData(LNode);
+    LData.NodeType := ntElement;
+    LData.BlockBegin := GetTextPosition(LChar, LLine);
+    LData.NodeName := 'DOCTYPE';
+    IncChar(7); { DOCTYPE }
+    LData.BlockEnd := GetTextPosition(LChar, LLine);
+    LNodeStack.Push(LNode);
+
+    LNode := VirtualDrawTree.AddChild(LNode);
+    LData := VirtualDrawTree.GetNodeData(LNode);
+    LData.NodeType := ntAttribute;
+    LData.BlockBegin := GetTextPosition(LChar, LLine);
+    LData.NodeName := ExtractText(LPLineText, CWHITESPACE + ['=', '/', #0, '>']);
+    LData.BlockEnd := GetTextPosition(LChar, LLine);
+
+    while (LPLineText^ <> #0) and (LPLineText^ <> '>') do
+    begin
+      if StrLComp(LPLineText, '[', 1) = 0 then
+        ReadDocTypeItems;
+      IncChar;
+    end;
+    LNodeStack.Pop; { DOCTYPE }
   end;
 
   procedure ReadCData;
   begin
-    // <![CDATA[    ]]>
+    if LNodeStack.Count > 0 then
+      LNode := VirtualDrawTree.AddChild(LNodeStack.Peek)
+    else
+      LNode := VirtualDrawTree.AddChild(nil);
+    LData := VirtualDrawTree.GetNodeData(LNode);
+    LData.NodeType := ntComment;
+    LData.BlockBegin := GetTextPosition(LChar, LLine);
+    LData.NodeName := 'CDATA';
+    while (LPLineText^ <> #0) and (StrLComp(LPLineText, ']]>', 3) <> 0) do
+      IncChar;
+    IncChar(3); { ']]>' }
+    LData.BlockEnd := GetTextPosition(LChar, LLine);
   end;
 
-  procedure ReadTag;
+  procedure ReadStartTag;
   begin
+    IncChar; { '<' }
+    if LNodeStack.Count > 0 then
+      LNode := VirtualDrawTree.AddChild(LNodeStack.Peek)
+    else
+      LNode := VirtualDrawTree.AddChild(nil);
+    LData := VirtualDrawTree.GetNodeData(LNode);
+    LData.NodeType := ntElement;
+    LData.BlockBegin := GetTextPosition(LChar, LLine);
+    LData.NodeName := ExtractText(LPLineText, CWHITESPACE + ['=', '/', #0, '>']);
+    LData.BlockEnd := GetTextPosition(LChar, LLine);
+    LNodeStack.Push(LNode);
+    ReadAttributes;
+    PopAttribute;
+  end;
 
+  procedure ReadEndTag;
+  begin
+    IncChar(2); { '</' }
+    ExtractText(LPLineText, CWHITESPACE + ['=', '/', #0, '>']); { skip tag }
+    if LNodeStack.Count > 0 then
+      LNodeStack.Pop;
   end;
 
   procedure ProcessLines;
@@ -344,8 +444,12 @@ var
       if StrLComp(LPLineText, '<![CDATA[', 9) = 0 then
         ReadCData
       else
+      if StrLComp(LPLineText, '</', 2) = 0 then
+        ReadEndTag
+      else
       if StrLComp(LPLineText, '<', 1) = 0 then
-        ReadTag;
+        ReadStartTag;
+
       IncChar;
     end;
   end;
