@@ -388,9 +388,6 @@ begin
       PageControl.Pages[LActivePageIndex].PageIndex := PageControl.PageCount - 1;
     end;
   end;
-  { for some reason Destroy method will lose the Images property even there are still pages... }
-  if PageControl.PageCount > 0 then
-    PageControl.Images := GetActiveDriveComboBox.SystemIconsImageList;
 end;
 
 function TDirectoryFrame.SelectedFile: string;

@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls,
   Vcl.Forms, Vcl.Dialogs, VirtualTrees, BCEditor.Types, BCControls.ProgressBar, BCEditor.Editor, sFrameAdapter,
-  System.Generics.Collections;
+  System.Generics.Collections, System.UITypes;
 
 type
   TNodeType = (ntReserved, ntElement, ntAttribute, ntText, ntCData, ntProcessingInstr, ntComment);
@@ -26,12 +26,12 @@ type
     procedure VirtualDrawTreeClick(Sender: TObject);
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
-    procedure VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
-      Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
     procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode;
       Column: TColumnIndex; var NodeWidth: Integer);
     procedure VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
       var InitialStates: TVirtualNodeInitStates);
+    procedure VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
+      Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
   private
     FEditor: TBCEditor;
     FProgressBar: TBCProgressBar;
@@ -133,8 +133,8 @@ begin
   inherited;
 end;
 
-procedure TDocumentXMLTreeFrame.VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
-  Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
+procedure TDocumentXMLTreeFrame.VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
+  Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
 var
   Data: PXMLTreeRec;
 begin
@@ -252,7 +252,7 @@ var
           end;
         apValue:
           begin
-            if CharInSet(LPLineText^, ['"', '''']) then
+            if CharInSet(LPLineText^, ['"']) then
             begin
               IncChar; { '"' or '''' }
               LData.HasChildNodes := True; { apName }
@@ -260,17 +260,21 @@ var
               LData := VirtualDrawTree.GetNodeData(LNode);
               LData.NodeType := ntText;
               LData.BlockBegin := GetTextPosition(LChar, LLine);
-              LData.NodeName := ExtractText(LPLineText, ['"', '''']);
+              LData.NodeName := ExtractText(LPLineText, ['"']);
               LData.BlockEnd := GetTextPosition(LChar, LLine);
               IncChar; { '"' or '''' }
               AttributePhase := apName;
-            end;
-          end;
+            end
+            else
+              IncChar;
+          end
       end
       else
         IncChar; { whitespace }
     end;
     PopAttribute;
+    if (LPLineText^ = '/') or ((LPLineText + 1)^ = '/') then
+      LNodeStack.Pop;
   end;
 
   procedure ReadProlog;
@@ -411,9 +415,12 @@ var
     LData.BlockBegin := GetTextPosition(LChar, LLine);
     LData.NodeName := ExtractText(LPLineText, CWHITESPACE + ['=', '/', #0, '>']);
     LData.BlockEnd := GetTextPosition(LChar, LLine);
-    LNodeStack.Push(LNode);
-    ReadAttributes;
-    PopAttribute;
+    if LPLineText^ <> '/' then
+    begin
+      LNodeStack.Push(LNode);
+      ReadAttributes;
+      //PopAttribute;
+    end;
   end;
 
   procedure ReadEndTag;
@@ -429,6 +436,9 @@ var
     LChar := 1;
     while LPLineText^ <> #0 do
     begin
+      while CharInSet(LPLineText^, [#8, #10, #13, #32]) do
+        IncChar;
+
       if StrLComp(LPLineText, '<?xml ', 6) = 0 then
         ReadProlog
       else

@@ -100,6 +100,7 @@ type
     procedure AddToReopenFiles(FileName: string);
     // procedure CheckHTMLErrors;
     procedure CheckModifiedDocuments;
+    procedure CreateImageList;
     // procedure DestroyHTMLErrorListItems;
     // procedure DoSearch(Editor: TBCEditor; SearchOnly: Boolean = False);
     // procedure DoSearch2(Editor: TBCEditor);
@@ -234,17 +235,12 @@ uses
 
 { TDocumentFrame }
 
-constructor TDocumentFrame.Create(AOwner: TComponent);
+procedure TDocumentFrame.CreateImageList;
 var
   SysImageList: THandle;
-  Icon: TIcon;
 begin
-  inherited;
-  FNumberOfNewDocument := 0;
-  FProcessing := False;
-  FModifiedDocuments := False;
-
-  FImages := TImageList.Create(Self);
+  if not Assigned(FImages) then
+    FImages := TImageList.Create(Self);
   PageControl.Images := FImages;
   SysImageList := GetSysImageList;
   if SysImageList <> 0 then
@@ -253,6 +249,18 @@ begin
     PageControl.Images.BkColor := clNone;
     PageControl.Images.ShareImages := True;
   end;
+end;
+
+constructor TDocumentFrame.Create(AOwner: TComponent);
+var
+  Icon: TIcon;
+begin
+  inherited;
+  FNumberOfNewDocument := 0;
+  FProcessing := False;
+  FModifiedDocuments := False;
+
+  CreateImageList;
 
   { compare and new image index }
   Icon := TIcon.Create;
@@ -989,8 +997,10 @@ begin
   MainForm.SetTitleBarMenus;
   LEditor := GetActiveEditor;
   if Assigned(LEditor) then
+  begin
     if LEditor.CanFocus then
       LEditor.SetFocus;
+  end;
 end;
 
 procedure TDocumentFrame.PageControlCloseBtnClick(Sender: TComponent;
