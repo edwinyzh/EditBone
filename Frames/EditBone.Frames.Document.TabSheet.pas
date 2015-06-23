@@ -24,8 +24,6 @@ type
     procedure RefreshActionExecute(Sender: TObject);
     procedure EditorRightMarginMouseUp(Sender: TObject);
     procedure SplitEditorRightMarginMouseUp(Sender: TObject);
-    procedure EditorMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-    procedure SplitEditorMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure EditorEnter(Sender: TObject);
     procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
   private
@@ -39,7 +37,6 @@ type
     function GetXMLTreeVisible: Boolean;
     function GetCaretX: Integer;
     function GetCaretY: Integer;
-    procedure NormalSelectionMode(Editor: TBCEditor);
     procedure ReadIniFile;
     procedure SetSplitVisible(Value: Boolean);
     procedure SetMinimapVisible(Value: Boolean);
@@ -93,16 +90,6 @@ end;
 procedure TDocTabSheetFrame.UpdateLanguage(SelectedLanguage: string);
 begin
   BCCommon.Language.Utils.UpdateLanguage(TForm(Self), SelectedLanguage);
-end;
-
-procedure TDocTabSheetFrame.NormalSelectionMode(Editor: TBCEditor);
-begin
-  if OptionsContainer.EnableSelectionMode and (soALTSetsColumnMode in Editor.Selection.Options) then
-  begin
-    OptionsContainer.EnableSelectionMode := False;
-    Editor.Selection.Options := Editor.Selection.Options - [soALTSetsColumnMode];
-    Editor.Selection.Mode := smNormal;
-  end;
 end;
 
 procedure TDocTabSheetFrame.ReadIniFile;
@@ -195,11 +182,6 @@ begin
   SearchFrame.Editor := Editor;
 end;
 
-procedure TDocTabSheetFrame.EditorMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-begin
-  NormalSelectionMode(Editor);
-end;
-
 procedure TDocTabSheetFrame.EditorRightMarginMouseUp(Sender: TObject);
 begin
   OptionsContainer.RightMarginPosition := Editor.RightMargin.Position;
@@ -209,7 +191,6 @@ end;
 function TDocTabSheetFrame.GetXMLTreeVisible: Boolean;
 begin
   Result := PanelXMLTree.Visible;
-  Application.ProcessMessages;
 end;
 
 procedure TDocTabSheetFrame.SetXMLTreeVisible(Value: Boolean);
@@ -225,12 +206,6 @@ begin
     FDocumentXMLTreeFrame.Parent := PanelXMLTree;
   end;
   PanelXMLTree.Visible := Value;
-end;
-
-procedure TDocTabSheetFrame.SplitEditorMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X,
-  Y: Integer);
-begin
-  // TODO: NormalSelectionMode(SplitEditor);
 end;
 
 procedure TDocTabSheetFrame.SplitEditorRightMarginMouseUp(Sender: TObject);

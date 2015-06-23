@@ -123,7 +123,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Minimap.Font.Style = []
         Minimap.Width = 140
         OnEnter = EditorEnter
-        OnMouseDown = EditorMouseDown
         OnRightMarginMouseUp = EditorRightMarginMouseUp
         RightMargin.Position = 80
         RightMargin.Visible = True
@@ -150,9 +149,6 @@ object DocTabSheetFrame: TDocTabSheetFrame
       TabOrder = 1
       Visible = False
       SkinData.SkinSection = 'CHECKBOX'
-      ExplicitLeft = 1
-      ExplicitTop = 1
-      ExplicitHeight = 276
     end
   end
   object PanelSearchFrame: TBCPanel
@@ -193,6 +189,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         ExplicitWidth = 449
         inherited SpeedButtonSearchClose: TBCSpeedButton
           Left = 428
+          Images = nil
           ExplicitLeft = 428
         end
         inherited Splitter: TBCSplitter
@@ -217,10 +214,22 @@ object DocTabSheetFrame: TDocTabSheetFrame
         inherited PanelToolBar: TBCPanel
           Left = 246
           ExplicitLeft = 246
+          inherited SpeedButtonFindPrevious: TBCSpeedButton
+            Images = nil
+          end
+          inherited SpeedButtonFindNext: TBCSpeedButton
+            Images = nil
+          end
+          inherited SpeedButtonOptions: TBCSpeedButton
+            Images = nil
+          end
         end
       end
       inherited FrameAdapter: TsFrameAdapter
         Left = 348
+      end
+      inherited ActionList: TActionList
+        Images = nil
       end
     end
   end
