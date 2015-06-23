@@ -596,7 +596,14 @@ begin
       LActivePageIndex := ATabIndex;
 
     if AFreePage and (PageControl.PageCount > 0) then
-      PageControl.Pages[LActivePageIndex].Free
+    begin
+      PageControl.Pages[LActivePageIndex].Free;
+      if LActivePageIndex > 0 then
+        PageControl.ActivePageIndex := LActivePageIndex - 1
+      else
+      if PageControl.PageCount > 0 then
+        PageControl.ActivePageIndex := 0;
+    end
     else
     begin
       TsTabSheet(PageControl.Pages[LActivePageIndex]).TabVisible := False;
