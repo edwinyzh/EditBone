@@ -26,6 +26,7 @@ type
     procedure SplitEditorRightMarginMouseUp(Sender: TObject);
     procedure EditorEnter(Sender: TObject);
     procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
+    procedure DoOnSearchText(Sender: TObject);
   private
     FModified: Boolean;
     FImageListXMLTree: TImageList;
@@ -78,12 +79,20 @@ begin
   inherited Create(AOwner);
 
   SearchFrame.Editor := Editor;
+  SearchFrame.OnSearchText := DoOnSearchText;
   { IDE losing these }
   SearchFrame.ActionList.Images := ImagesDataModule.ImageListSmall;
   SearchFrame.SpeedButtonFindPrevious.Images := ImagesDataModule.ImageListSmall;
   SearchFrame.SpeedButtonFindNext.Images := ImagesDataModule.ImageListSmall;
   SearchFrame.SpeedButtonOptions.Images := ImagesDataModule.ImageListSmall;
   FModified := False;
+end;
+
+procedure TDocTabSheetFrame.DoOnSearchText(Sender: TObject);
+begin
+  OptionsContainer.DocumentSpecificSearchText := '';
+  if OptionsContainer.DocumentSpecificSearch then
+    OptionsContainer.DocumentSpecificSearchText := Editor.Search.SearchText
 end;
 
 destructor TDocTabSheetFrame.Destroy;
@@ -154,10 +163,18 @@ begin
     Editor.SelectionEndPosition := LOldSelectionEndPosition;
   end;
   Application.ProcessMessages;
+
   LSelectedText := Editor.SelectedText;
   if LSelectedText <> '' then
   begin
     Editor.Search.SearchText := LSelectedText;
+    SearchFrame.ComboBoxSearchText.Text := Editor.Search.SearchText;
+    SearchFrame.ComboBoxSearchText.OnChange(nil);
+  end
+  else
+  if OptionsContainer.DocumentSpecificSearch then
+  begin
+    Editor.Search.SearchText := OptionsContainer.DocumentSpecificSearchText;
     SearchFrame.ComboBoxSearchText.Text := Editor.Search.SearchText;
   end;
   if SearchFrame.ComboBoxSearchText.CanFocus then
