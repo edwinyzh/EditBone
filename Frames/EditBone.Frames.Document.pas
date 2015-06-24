@@ -238,22 +238,68 @@ uses
 procedure TDocumentFrame.CreateImageList;
 var
   SysImageList: THandle;
+  Icon: TIcon;
 begin
   if not Assigned(FImages) then
     FImages := TImageList.Create(Self);
-  PageControl.Images := FImages;
   SysImageList := GetSysImageList;
   if SysImageList <> 0 then
   begin
-    PageControl.Images.Handle := SysImageList;
-    PageControl.Images.BkColor := clNone;
-    PageControl.Images.ShareImages := True;
+    FImages.Handle := SysImageList;
+    FImages.BkColor := clNone;
+    FImages.ShareImages := True;
+  end;
+    { compare and new image index }
+  Icon := TIcon.Create;
+  try
+    { Windows font size causing a problem: Icon size will be smaller than PageControl.Images size }
+    case FImages.Height of
+      16:
+        begin
+          { smaller }
+          ImageList16.GetIcon(0, Icon);
+          FCompareImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          ImageList16.GetIcon(1, Icon);
+          FNewImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          if Assigned(TabSheetNew) then
+          begin
+            ImageList16.GetIcon(2, Icon);
+            TabSheetNew.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          end;
+        end;
+      20:
+        begin
+          { medium }
+          ImageList20.GetIcon(0, Icon);
+          FCompareImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          ImageList20.GetIcon(1, Icon);
+          FNewImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          if Assigned(TabSheetNew) then
+          begin
+            ImageList20.GetIcon(2, Icon);
+            TabSheetNew.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          end;
+        end;
+      24:
+        begin
+          { larger }
+          ImageList24.GetIcon(0, Icon);
+          FCompareImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          ImageList24.GetIcon(1, Icon);
+          FNewImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          if Assigned(TabSheetNew) then
+          begin
+            ImageList24.GetIcon(2, Icon);
+            TabSheetNew.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          end;
+        end;
+    end;
+  finally
+    Icon.Free;
   end;
 end;
 
 constructor TDocumentFrame.Create(AOwner: TComponent);
-var
-  Icon: TIcon;
 begin
   inherited;
   FNumberOfNewDocument := 0;
@@ -262,57 +308,6 @@ begin
 
   CreateImageList;
 
-  { compare and new image index }
-  Icon := TIcon.Create;
-  try
-    { Windows font size causing a problem: Icon size will be smaller than PageControl.Images size }
-    case PageControl.Images.Height of
-      16:
-        begin
-          { smaller }
-          ImageList16.GetIcon(0, Icon);
-          FCompareImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
-            Icon.Handle);
-          ImageList16.GetIcon(1, Icon);
-          FNewImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
-            Icon.Handle);
-          ImageList16.GetIcon(2, Icon);
-          if Assigned(TabSheetNew) then
-            TabSheetNew.ImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
-              Icon.Handle);
-        end;
-      20:
-        begin
-          { medium }
-          ImageList20.GetIcon(0, Icon);
-          FCompareImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
-            Icon.Handle);
-          ImageList20.GetIcon(1, Icon);
-          FNewImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
-            Icon.Handle);
-          ImageList20.GetIcon(2, Icon);
-          if Assigned(TabSheetNew) then
-            TabSheetNew.ImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
-              Icon.Handle);
-        end;
-      24:
-        begin
-          { larger }
-          ImageList24.GetIcon(0, Icon);
-          FCompareImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
-            Icon.Handle);
-          ImageList24.GetIcon(1, Icon);
-          FNewImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
-            Icon.Handle);
-          ImageList24.GetIcon(2, Icon);
-          if Assigned(TabSheetNew) then
-            TabSheetNew.ImageIndex := ImageList_AddIcon(PageControl.Images.Handle,
-              Icon.Handle);
-        end;
-    end;
-  finally
-    Icon.Free;
-  end;
   SetOptions;
 end;
 
@@ -330,7 +325,7 @@ var
   DocTabSheetFrame: TDocTabSheetFrame;
 begin
   Result := False;
-  for i := 0 to PageControl.PageCount - 1 do
+  for i := 0 to PageControl.PageCount - 2 do
   begin
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
     if Assigned(DocTabSheetFrame) then
@@ -463,7 +458,7 @@ var
 begin
   { create list of open documents }
   TempList := TStringList.Create;
-  for i := 0 to PageControl.PageCount - 1 do
+  for i := 0 to PageControl.PageCount - 2 do
   begin
     Editor := GetEditor(PageControl.Pages[i]);
     if Assigned(Editor) then
@@ -472,7 +467,7 @@ begin
   if FileName <> '' then
   begin
     { find compare tab }
-    for i := 0 to PageControl.PageCount - 1 do
+    for i := 0 to PageControl.PageCount - 2 do
       if PageControl.Pages[i].ImageIndex = FCompareImageIndex then
       begin
         Frame := GetCompareFrame(PageControl.Pages[i]);
@@ -525,7 +520,7 @@ var
   Editor: TBCEditor;
 begin
   Result := nil;
-  for i := 0 to PageControl.PageCount - 1 do
+  for i := 0 to PageControl.PageCount - 2 do
   begin
     Editor := GetEditor(PageControl.Pages[i]);
     if Assigned(Editor) then
@@ -605,7 +600,7 @@ begin
       Free;
     end;
   { if ini file is open in editor reload it because time has changed }
-  for i := 0 to PageControl.PageCount - 1 do
+  for i := 0 to PageControl.PageCount - 2 do
     if PageControl.Pages[i].Caption = ExtractFileName(IniFile) then
       Refresh(i);
 end;
@@ -702,7 +697,7 @@ begin
     else
     begin
       TsTabSheet(PageControl.Pages[LActivePageIndex]).TabVisible := False;
-      PageControl.Pages[LActivePageIndex].PageIndex := PageControl.PageCount - 1;
+      PageControl.Pages[LActivePageIndex].PageIndex := PageControl.PageCount - 2;
     end;
     if PageControl.PageCount = 0 then
       FNumberOfNewDocument := 0;
@@ -732,7 +727,7 @@ begin
     try
       FProgressBar.Count := PageControl.PageCount;
       FProgressBar.Show;
-      for i := PageControl.PageCount - 1 downto 0 do
+      for i := PageControl.PageCount - 2 downto 0 do
       begin
         if TsTabSheet(PageControl.Pages[i]).TabType = ttTab then
         begin
@@ -771,7 +766,7 @@ begin
     Rslt := SaveChanges(True);
 
     if Rslt = mrYes then
-      for i := 0 to PageControl.PageCount - 1 do
+      for i := 0 to PageControl.PageCount - 2 do
       begin
         Editor := GetEditor(PageControl.Pages[i]);
         if Assigned(Editor) and Editor.Modified and (Editor <> ActiveEditor) then
@@ -788,7 +783,7 @@ begin
     try
       FProgressBar.Count := PageControl.PageCount;
       FProgressBar.Show;
-      for i := PageControl.PageCount - 1 downto 2 do
+      for i := PageControl.PageCount - 2 downto 2 do
       begin
         ProgressBar.StepIt;
         Application.ProcessMessages;
@@ -905,7 +900,7 @@ begin
   try
     FProgressBar.Count := PageControl.PageCount;
     FProgressBar.Show;
-    for i := 0 to PageControl.PageCount - 1 do
+    for i := 0 to PageControl.PageCount - 2 do
     begin
       ProgressBar.StepIt;
       Application.ProcessMessages;
@@ -1110,7 +1105,7 @@ begin
     EditorPrint.SelectedOnly := PrintDialog.PrintRange = prSelection;
     EditorPrint.OnPrintStatus := OnPrintStatus;
     EditorPrint.UpdatePages(PrintPreviewDialog.Canvas);
-    FProgressBar.Count := PageControl.PageCount;
+    FProgressBar.Count := PageControl.PageCount - 1;
     FProgressBar.Show;
     if PrintDialog.PrintRange = prPageNums then
       EditorPrint.PrintRange(PrintDialog.FromPage, PrintDialog.ToPage)
@@ -1205,9 +1200,9 @@ begin
       begin
         Screen.Cursor := crHourGlass;
         try
-          FProgressBar.Count := PageControl.PageCount;
+          FProgressBar.Count := PageControl.PageCount - 1;
           FProgressBar.Show;
-          for i := 0 to PageControl.PageCount - 1 do
+          for i := 0 to PageControl.PageCount - 2 do
           begin
             ProgressBar.StepIt;
             Application.ProcessMessages;
@@ -1355,7 +1350,7 @@ var
 begin
   OptionsContainer.EnableWordWrap := not OptionsContainer.EnableWordWrap;
   Result := OptionsContainer.EnableWordWrap;
-  for i := 0 to PageControl.PageCount - 1 do
+  for i := 0 to PageControl.PageCount - 2 do
   begin
     Editor := GetEditor(PageControl.Pages[i]);
     if Assigned(Editor) then
@@ -1374,7 +1369,7 @@ begin
   OptionsContainer.EnableSpecialChars :=
     not OptionsContainer.EnableSpecialChars;
   Result := OptionsContainer.EnableSpecialChars;
-  for i := 0 to PageControl.PageCount - 1 do
+  for i := 0 to PageControl.PageCount - 2 do
   begin
     Editor := GetEditor(PageControl.Pages[i]);
     if Assigned(Editor) then
@@ -1433,7 +1428,7 @@ var
 begin
   OptionsContainer.EnableSelectionMode :=
     not OptionsContainer.EnableSelectionMode;
-  for i := 0 to PageControl.PageCount - 1 do
+  for i := 0 to PageControl.PageCount - 2 do
   begin
     ToggleSelectionMode(GetEditor(PageControl.Pages[i]));
     // ToggleSelectionMode(GetSplitEditor(PageControl.Pages[i]));
@@ -1447,7 +1442,7 @@ var
 begin
   OptionsContainer.EnableLineNumbers := not OptionsContainer.EnableLineNumbers;
   Result := OptionsContainer.EnableLineNumbers;
-  for i := 0 to PageControl.PageCount - 1 do
+  for i := 0 to PageControl.PageCount - 2 do
   begin
     Editor := GetEditor(PageControl.Pages[i]);
     if Assigned(Editor) then
@@ -1522,7 +1517,7 @@ begin
       EraseSection('Bookmarks');
       { Open documents and bookmarks }
       if OptionsContainer.DocSaveTabs then
-        for i := 0 to PageControl.PageCount - 1 do
+        for i := 0 to PageControl.PageCount - 2 do
         begin
           Editor := GetEditor(PageControl.Pages[i]);
           if Assigned(Editor) then
@@ -1541,7 +1536,7 @@ begin
       EraseSection('Minimaps');
       EraseSection('CaretY');
       if OptionsContainer.DocSaveTabs then
-        for i := 0 to PageControl.PageCount - 1 do
+        for i := 0 to PageControl.PageCount - 2 do
         begin
           DocTabSheetFrame := GetDocTabSheetFrame(PageControl.Pages[i]);
           if Assigned(DocTabSheetFrame) then
@@ -1930,7 +1925,7 @@ end;
 
 function TDocumentFrame.GetOpenTabSheetCount: Integer;
 begin
-  Result := PageControl.PageCount;
+  Result := PageControl.PageCount - 1;
 end;
 
 function TDocumentFrame.GetModifiedDocuments(CheckActive: Boolean): Boolean;
@@ -1939,7 +1934,7 @@ var
   Editor: TBCEditor;
 begin
   Result := True;
-  for i := 0 to PageControl.PageCount - 1 do
+  for i := 0 to PageControl.PageCount - 2 do
   begin
     if (TsTabSheet(PageControl.Pages[i]).TabType = ttTab) and TsTabSheet(PageControl.Pages[i]).TabVisible then
       if CheckActive or ((PageControl.ActivePageIndex <> i) and not CheckActive) then
@@ -2061,7 +2056,7 @@ begin
   if Assigned(PageControl) then
   begin
     i := PageControl.ActivePageIndex + 1;
-    if i >= PageControl.PageCount then
+    if i >= PageControl.PageCount - 1 then
       i := 0;
     PageControl.ActivePage := PageControl.Pages[i] as TsTabSheet;
   end;
@@ -2075,7 +2070,7 @@ begin
   begin
     i := PageControl.ActivePageIndex - 1;
     if i < 0 then
-      i := PageControl.PageCount - 1;
+      i := PageControl.PageCount - 2;
     PageControl.ActivePage := PageControl.Pages[i] as TsTabSheet;;
   end;
 end;
@@ -2091,7 +2086,7 @@ begin
   if FProcessing then
     Exit;
   FProcessing := True;
-  for i := 0 to PageControl.PageCount - 1 do
+  for i := 0 to PageControl.PageCount - 2 do
   begin
     Editor := GetEditor(PageControl.Pages[i]);
     if Assigned(Editor) then
@@ -2352,7 +2347,7 @@ var
   i: Integer;
   Editor: TBCEditor;
 begin
-  for i := 0 to PageControl.PageCount - 1 do
+  for i := 0 to PageControl.PageCount - 2 do
   begin
     Editor := GetEditor(PageControl.Pages[i]);
     if Assigned(Editor) then
@@ -2659,7 +2654,7 @@ begin
   BCCommon.Language.Utils.UpdateLanguage(TForm(Self), SelectedLanguage);
 
   { compare frames }
-  for i := 0 to PageControl.PageCount - 1 do
+  for i := 0 to PageControl.PageCount - 2 do
   begin
     if PageControl.Pages[i].ImageIndex = FCompareImageIndex then
     begin

@@ -8,7 +8,7 @@ uses
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ComCtrls,
   BCControls.FileControl, Vcl.ImgList, Vcl.ActnList, Vcl.Buttons, Vcl.Menus, BCControls.PageControl, VirtualTrees,
   EditBone.Frames.Directory.TabSheet, System.Actions, BCCommon.Forms.SearchForFiles, BCCommon.Images, sPageControl,
-  sFrameAdapter, Vcl.PlatformDefaultStyleActnCtrls;
+  sFrameAdapter, Vcl.PlatformDefaultStyleActnCtrls, System.ImageList, acAlphaImageList, BCControls.ImageList;
 
 type
   TDirectoryFrame = class(TFrame)
@@ -40,6 +40,10 @@ type
     MenuItemContextMenu: TMenuItem;
     FrameAdapter: TsFrameAdapter;
     MenuItemSeparator1: TMenuItem;
+    TabSheetOpen: TsTabSheet;
+    ImageList16: TBCImageList;
+    ImageList20: TBCImageList;
+    ImageList24: TBCImageList;
     procedure ActionDirectoryCloseExecute(Sender: TObject);
     procedure ActionDirectoryDeleteExecute(Sender: TObject);
     procedure ActionDirectoryEditExecute(Sender: TObject);
@@ -57,9 +61,11 @@ type
     procedure PopupMenuPopup(Sender: TObject);
     procedure ActionDirectoryFilesExecute(Sender: TObject);
     procedure ActionDirectoryContextMenuExecute(Sender: TObject);
+    procedure TabSheetOpenClickBtn(Sender: TObject);
   private
     FFileTreeViewDblClick: TNotifyEvent;
     FFileTreeViewClick: TNotifyEvent;
+    FImages: TImageList;
     FOnSearchForFilesOpenFile: TOpenFileEvent;
     function GetActiveDriveComboBox: TBCDriveComboBox;
     function GetDrivesPanelOrientation(TabSheet: TTabSheet = nil): Byte;
@@ -72,6 +78,7 @@ type
     function GetRootDirectory: string;
     function GetSelectedPath: string;
     function ReadIniFile: Boolean;
+    procedure CreateImageList;
     procedure SetDrivesPanelOrientation(ShowDrives: Byte; TabSheetFrame: TDirTabSheetFrame = nil);
     procedure SetFileTypePanelOrientation(ShowFileType: Byte; FileType: string = ''; TabSheetFrame: TDirTabSheetFrame = nil);
     procedure SetActionSearchForFiles(Action: TAction);
@@ -102,8 +109,8 @@ implementation
 
 uses
   EditBone.Dialogs.DirectoryTab, BigIni, BCCommon.Language.Strings, BCCommon.Options.Container, BCControls.Utils,
-  System.Math, BCCommon.FileUtils, BCCommon.Messages, BCCommon.StringUtils, BCCommon.Dialogs.Base, BCControls.ImageList,
-  Winapi.ShellAPI;
+  System.Math, BCCommon.FileUtils, BCCommon.Messages, BCCommon.StringUtils, BCCommon.Dialogs.Base,
+  Winapi.ShellAPI, Winapi.CommCtrl;
 
 procedure TDirectoryFrame.ActionDirectoryContextMenuExecute(Sender: TObject);
 var
@@ -115,10 +122,57 @@ begin
   DisplayContextMenu(Handle, s, ScreenToClient(Mouse.CursorPos));
 end;
 
+procedure TDirectoryFrame.CreateImageList;
+var
+  SysImageList: THandle;
+  Icon: TIcon;
+begin
+  if not Assigned(FImages) then
+    FImages := TImageList.Create(Self);
+  SysImageList := GetSysImageList;
+  if SysImageList <> 0 then
+  begin
+    FImages.Handle := SysImageList;
+    FImages.BkColor := clNone;
+    FImages.ShareImages := True;
+  end;
+  { open image index }
+  Icon := TIcon.Create;
+  try
+    { Windows font size causing a problem: Icon size will be smaller than PageControl.Images size }
+    case FImages.Height of
+      16:
+        { smaller }
+        if Assigned(TabSheetOpen) then
+        begin
+          ImageList16.GetIcon(0, Icon);
+          TabSheetOpen.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+        end;
+      20:
+        { medium }
+        if Assigned(TabSheetOpen) then
+        begin
+          ImageList20.GetIcon(0, Icon);
+          TabSheetOpen.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+        end;
+      24:
+        { larger }
+        if Assigned(TabSheetOpen) then
+        begin
+          ImageList24.GetIcon(0, Icon);
+          TabSheetOpen.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+        end;
+    end;
+  finally
+    Icon.Free;
+  end;
+end;
+
 constructor TDirectoryFrame.Create(AOwner: TComponent);
 begin
   inherited;
   ReadIniFile;
+  CreateImageList;
   { IDE can lose there properties }
   ActionList.Images := ImagesDataModule.ImageListSmall;
   PopupMenu.Images := ImagesDataModule.ImageListSmall;
@@ -313,7 +367,7 @@ begin
     EraseSection('LastPaths');
     { Open directories }
     if OptionsContainer.DirSaveTabs then
-    for i := 0 to PageControl.PageCount - 1 do
+    for i := 0 to PageControl.PageCount - 2 do
     begin
       DirTabSheetFrame := GetDirTabSheetFrame(PageControl.Pages[i]);
       FileTreeView := DirTabSheetFrame.FileTreeView;
@@ -605,8 +659,12 @@ begin
     Exit;
 
   TabSheet := TsTabSheet.Create(PageControl);
-  TabSheet.SkinData.SkinSection := 'CHECKBOX';
   TabSheet.PageControl := PageControl;
+  TabSheet.SkinData.SkinSection := 'CHECKBOX';
+
+  if Assigned(TabSheetOpen) then
+    TabSheetOpen.PageIndex := PageControl.PageCount - 1;
+
   TabSheet.Visible := False;
   TabSheet.ImageIndex := -1;
   PageControl.ActivePage := TabSheet;
@@ -626,8 +684,6 @@ begin
     DriveComboBox.OnChange := DriveComboChange;
     SetDrivesPanelOrientation(ShowDrives, DirTabSheetFrame);
     SetFileTypePanelOrientation(ShowFileType, FileType, DirTabSheetFrame);
-    PageControl.Images := TImageList.Create(Self); // TODO: Destroy?
-    PageControl.Images.Handle := GetSysImageList;
     SHGetFileInfo(PChar(RootDirectory), 0, SHFileInfo, SizeOf(SHFileInfo), SHGFI_SYSICONINDEX or SHGFI_DISPLAYNAME or SHGFI_TYPENAME);
     TabSheet.ImageIndex := SHFileInfo.iIcon;
     { destroy the icon, we are only using the index }
@@ -652,21 +708,18 @@ procedure TDirectoryFrame.SetOptions;
 var
   i: Integer;
   FileTreeView: TBCFileTreeView;
-  DriveComboBox: TBCDriveComboBox;
 begin
   PageControl.DoubleBuffered := OptionsContainer.DirDoubleBuffered;
   PageControl.MultiLine := OptionsContainer.DirMultiLine;
   PageControl.ShowCloseBtns := OptionsContainer.DirShowCloseButton;
   PageControl.RightClickSelect := OptionsContainer.DirRightClickSelect;
+  if Assigned(TabSheetOpen) then
+    TabSheetOpen.TabVisible := OptionsContainer.DirShowOpenDirectoryButton;
   if OptionsContainer.DirShowImage then
-  begin
-    DriveComboBox := GetActiveDriveComboBox;
-    if Assigned(DriveComboBox) then
-      PageControl.Images := DriveComboBox.SystemIconsImageList
-  end
+    PageControl.Images := FImages
   else
     PageControl.Images := nil;
-  for i := 0 to PageControl.PageCount - 1 do
+  for i := 0 to PageControl.PageCount - 2 do
   begin
     FileTreeView := TDirTabSheetFrame(PageControl.Pages[i].Components[0]).FileTreeView;
     FileTreeView.Indent := OptionsContainer.DirIndent;
@@ -679,6 +732,11 @@ begin
     else
       FileTreeView.TreeOptions.PaintOptions := FileTreeView.TreeOptions.PaintOptions - [toShowTreeLines]
   end;
+end;
+
+procedure TDirectoryFrame.TabSheetOpenClickBtn(Sender: TObject);
+begin
+  OpenDirectory;
 end;
 
 end.

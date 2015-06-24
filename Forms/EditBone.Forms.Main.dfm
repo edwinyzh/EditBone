@@ -105,7 +105,7 @@ inherited MainForm: TMainForm
       Margins.Top = 4
       Margins.Right = 0
       Margins.Bottom = 0
-      ActivePage = TabSheetFile
+      ActivePage = TabSheetView
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -121,7 +121,7 @@ inherited MainForm: TMainForm
       TabSpacing = 12
       SkinData.SkinSection = 'RIBBONPAGE'
       SkinData.OuterEffects.Visibility = ovAlways
-      ActivePageCaption = 'File'
+      ActivePageCaption = 'View'
       HoldShiftToDragDrop = False
       TabDragDrop = False
       object TabSheetButton: TsTabSheet
@@ -131,10 +131,6 @@ inherited MainForm: TMainForm
         TabSkin = 'MENUBTN'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheetFile: TsTabSheet
         Caption = 'File'
@@ -474,10 +470,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelEditButtons: TBCPanel
           Left = 0
           Top = 0
@@ -816,10 +808,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelSearchButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1047,10 +1035,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelViewButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1409,10 +1393,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelDocumentButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1541,10 +1521,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelToolsButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1687,7 +1663,7 @@ inherited MainForm: TMainForm
           object SpeedButtonToolsLanguageEditor: TBCSpeedButton
             Left = 260
             Top = 0
-            Width = 60
+            Width = 65
             Height = 58
             Action = ActionToolsLanguageEditor
             Align = alLeft
@@ -1712,10 +1688,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelHelpButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1728,7 +1700,7 @@ inherited MainForm: TMainForm
           object SpeedButtonHelpCheckForUpdates: TBCSpeedButton
             Left = 0
             Top = 0
-            Width = 60
+            Width = 81
             Height = 58
             Action = ActionHelpCheckForUpdates
             Align = alLeft
@@ -1748,9 +1720,9 @@ inherited MainForm: TMainForm
             Images = ImagesDataModule.ImageList
           end
           object SpeedButtonHelpVisitHomepage: TBCSpeedButton
-            Left = 70
+            Left = 91
             Top = 0
-            Width = 60
+            Width = 68
             Height = 58
             Action = ActionHelpVisitHomepage
             Align = alLeft
@@ -1766,10 +1738,11 @@ inherited MainForm: TMainForm
             SkinData.SkinSection = 'TOOLBUTTON'
             ImageIndex = 73
             Images = ImagesDataModule.ImageList
+            ExplicitLeft = 70
           end
           object SpeedButtonHelpDivider1: TBCSpeedButton
             AlignWithMargins = True
-            Left = 60
+            Left = 81
             Top = 4
             Width = 10
             Height = 50
@@ -1790,11 +1763,12 @@ inherited MainForm: TMainForm
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
+            ExplicitLeft = 60
           end
           object SpeedButtonHelpAboutEditBone: TBCSpeedButton
-            Left = 140
+            Left = 169
             Top = 0
-            Width = 60
+            Width = 74
             Height = 58
             Action = ActionHelpAboutEditBone
             Align = alLeft
@@ -1813,7 +1787,7 @@ inherited MainForm: TMainForm
           end
           object SpeedButtonHelpDivider2: TBCSpeedButton
             AlignWithMargins = True
-            Left = 130
+            Left = 159
             Top = 4
             Width = 10
             Height = 50
@@ -1834,6 +1808,7 @@ inherited MainForm: TMainForm
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
+            ExplicitLeft = 130
           end
         end
       end
@@ -3124,8 +3099,8 @@ inherited MainForm: TMainForm
   end
   object PopupMenuFileReopen: TPopupMenu [12]
     Images = ImagesDataModule.ImageListSmall
-    Left = 278
-    Top = 93
+    Left = 338
+    Top = 117
   end
   object PopupMenuEditIndent: TPopupMenu [13]
     Images = ImagesDataModule.ImageList

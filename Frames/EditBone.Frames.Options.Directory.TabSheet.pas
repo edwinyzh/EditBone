@@ -26,6 +26,8 @@ type
     SliderShowCloseButton: TsSlider;
     SliderShowImage: TsSlider;
     ShowImageStickyLabelShowImage: TsStickyLabel;
+    SliderShowOpenDirectoryButton: TsSlider;
+    StickyLabelShowOpenDirectoryButton: TsStickyLabel;
   protected
     procedure GetData; override;
     procedure PutData; override;
@@ -68,6 +70,7 @@ begin
   SliderSaveTabs.SliderOn := OptionsContainer.DirSaveTabs;
   SliderShowCloseButton.SliderOn := OptionsContainer.DirShowCloseButton;
   SliderShowImage.SliderOn := OptionsContainer.DirShowImage;
+  SliderShowOpenDirectoryButton.SliderOn := OptionsContainer.DirShowOpenDirectoryButton;
   SliderRightClickSelect.SliderOn := OptionsContainer.DirRightClickSelect;
 end;
 
@@ -80,6 +83,7 @@ begin
   OptionsContainer.DirSaveTabs := SliderSaveTabs.SliderOn;
   OptionsContainer.DirShowCloseButton := SliderShowCloseButton.SliderOn;
   OptionsContainer.DirShowImage := SliderShowImage.SliderOn;
+  OptionsContainer.DirShowOpenDirectoryButton := SliderShowOpenDirectoryButton.SliderOn;
   OptionsContainer.DirRightClickSelect := SliderRightClickSelect.SliderOn;
 end;
 

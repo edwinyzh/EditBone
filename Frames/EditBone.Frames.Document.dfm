@@ -53,17 +53,13 @@ object DocumentFrame: TDocumentFrame
     object TabSheetNew: TsTabSheet
       Caption = '    '
       DoubleBuffered = False
-      ImageIndex = 2
+      ImageIndex = -1
       ParentDoubleBuffered = False
       TabType = ttButton
       TabSkin = 'CHECKBOX'
       SkinData.CustomColor = False
       SkinData.CustomFont = False
       OnClickBtn = TabSheetNewClickBtn
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
     end
   end
   object ImageList16: TBCImageList
