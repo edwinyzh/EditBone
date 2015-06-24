@@ -697,7 +697,7 @@ begin
     else
     begin
       TsTabSheet(PageControl.Pages[LActivePageIndex]).TabVisible := False;
-      PageControl.Pages[LActivePageIndex].PageIndex := PageControl.PageCount - 2;
+      PageControl.Pages[LActivePageIndex].PageIndex := LActivePageIndex + 1;
     end;
     if PageControl.PageCount = 0 then
       FNumberOfNewDocument := 0;
@@ -1408,26 +1408,24 @@ var
   procedure ToggleSelectionMode(Editor: TBCEditor);
   begin
     if Assigned(Editor) then
-      if Editor.Focused then
+    begin
+      if OptionsContainer.EnableSelectionMode then
       begin
-        if OptionsContainer.EnableSelectionMode then
-        begin
-          Editor.Selection.Options := Editor.Selection.Options -
-            [soALTSetsColumnMode];
-          Editor.Selection.Mode := smColumn;
-        end
-        else
-        begin
-          Editor.Selection.Options := Editor.Selection.Options +
-            [soALTSetsColumnMode];
-          Editor.Selection.Mode := smNormal
-        end;
+        Editor.Selection.Options := Editor.Selection.Options -
+          [soALTSetsColumnMode];
+        Editor.Selection.Mode := smColumn;
+      end
+      else
+      begin
+        Editor.Selection.Options := Editor.Selection.Options +
+          [soALTSetsColumnMode];
+        Editor.Selection.Mode := smNormal
       end;
+    end;
   end;
 
 begin
-  OptionsContainer.EnableSelectionMode :=
-    not OptionsContainer.EnableSelectionMode;
+  OptionsContainer.EnableSelectionMode := not OptionsContainer.EnableSelectionMode;
   for i := 0 to PageControl.PageCount - 2 do
   begin
     ToggleSelectionMode(GetEditor(PageControl.Pages[i]));

@@ -455,7 +455,7 @@ begin
     else
     begin
       TsTabSheet(PageControl.Pages[LActivePageIndex]).TabVisible := False;
-      PageControl.Pages[LActivePageIndex].PageIndex := PageControl.PageCount - 1;
+      PageControl.Pages[LActivePageIndex].PageIndex := LActivePageIndex + 1;
     end;
   end;
 end;
