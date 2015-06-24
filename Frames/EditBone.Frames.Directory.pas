@@ -84,6 +84,7 @@ type
     procedure SetActionSearchForFiles(Action: TAction);
   public
     constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
     function CloseDirectory(AFreePage: Boolean = True; ATabIndex: Integer = -1): Boolean;
     function SelectedFile: string;
     procedure EditDirectory;
@@ -111,6 +112,14 @@ uses
   EditBone.Dialogs.DirectoryTab, BigIni, BCCommon.Language.Strings, BCCommon.Options.Container, BCControls.Utils,
   System.Math, BCCommon.FileUtils, BCCommon.Messages, BCCommon.StringUtils, BCCommon.Dialogs.Base,
   Winapi.ShellAPI, Winapi.CommCtrl;
+
+destructor TDirectoryFrame.Destroy;
+begin
+  if Assigned(FImages) then
+    FImages.Free;
+
+  inherited Destroy;
+end;
 
 procedure TDirectoryFrame.ActionDirectoryContextMenuExecute(Sender: TObject);
 var
