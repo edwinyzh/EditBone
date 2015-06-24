@@ -65,7 +65,8 @@ implementation
 {$R *.dfm}
 
 uses
-  BCCommon.Options.Container, System.Math, BCEditor.Types, BigIni, BCCommon.FileUtils, BCCommon.Language.Utils;
+  BCCommon.Options.Container, System.Math, BCEditor.Types, BigIni, BCCommon.FileUtils, BCCommon.Language.Utils,
+  BCCommon.Images;
 
 procedure TDocTabSheetFrame.ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 begin
@@ -77,6 +78,11 @@ begin
   inherited Create(AOwner);
 
   SearchFrame.Editor := Editor;
+  { IDE losing these }
+  SearchFrame.ActionList.Images := ImagesDataModule.ImageListSmall;
+  SearchFrame.SpeedButtonFindPrevious.Images := ImagesDataModule.ImageListSmall;
+  SearchFrame.SpeedButtonFindNext.Images := ImagesDataModule.ImageListSmall;
+  SearchFrame.SpeedButtonOptions.Images := ImagesDataModule.ImageListSmall;
   FModified := False;
 end;
 
