@@ -71,8 +71,8 @@ type
     FStatusBar: TBCStatusBar;
     // FFoundSearchItems: TObjectList;
     // function CanFindNextPrevious: Boolean;
-    function CreateNewTabSheet(FileName: string = '';
-      ShowMinimap: Boolean = False): TBCEditor;
+    function CreateNewTabSheet(FileName: string = ''; ShowMinimap: Boolean = False; AHighlighter: string = '';
+      AColor: string = ''): TBCEditor;
     // function FindHtmlVersion(Lines: TStrings): TSynWebHtmlVersion;
     function FindOpenFile(FileName: string): TBCEditor;
     function GetActiveDocumentFound: Boolean;
@@ -166,9 +166,8 @@ type
     procedure LoadMacro;
     procedure New;
     procedure NextPage;
-    procedure Open(FileName: string = ''; Bookmarks: TStrings = nil;
-      Ln: Integer = 0; Ch: Integer = 0; StartUp: Boolean = False;
-      ShowMinimap: Boolean = False);
+    procedure Open(FileName: string = ''; Bookmarks: TStrings = nil; Ln: Integer = 0; Ch: Integer = 0;
+      StartUp: Boolean = False; ShowMinimap: Boolean = False; AHighlighter: string = ''; AColor: string = '');
     procedure Paste;
     procedure PlaybackMacro;
     procedure PreviousPage;
@@ -359,7 +358,8 @@ begin
   MainForm.SetBookmarks;
 end;
 
-function TDocumentFrame.CreateNewTabSheet(FileName: string = ''; ShowMinimap: Boolean = False): TBCEditor;
+function TDocumentFrame.CreateNewTabSheet(FileName: string = ''; ShowMinimap: Boolean = False;
+  AHighlighter: string = ''; AColor: string = ''): TBCEditor;
 var
   TabSheet: TsTabSheet;
   DocTabSheetFrame: TDocTabSheetFrame;
@@ -382,8 +382,7 @@ begin
 
   { set the Caption property }
   if FileName = '' then
-    PageControl.ActivePageCaption := LanguageDataModule.GetConstant('Document')
-      + IntToStr(FNumberOfNewDocument)
+    PageControl.ActivePageCaption := LanguageDataModule.GetConstant('Document') + IntToStr(FNumberOfNewDocument)
   else
     PageControl.ActivePageCaption := ExtractFileName(FileName);
 
@@ -417,8 +416,14 @@ begin
 
     if FileName <> '' then
     begin
-      SelectHighlighter(FileName);
-      SetHighlighterColor(OptionsContainer.DefaultColor);
+      if AHighlighter <> '' then
+        SetHighlighter(AHighlighter)
+      else
+        SelectHighlighter(FileName);
+      if AColor <> '' then
+        SetHighlighterColor(AColor)
+      else
+        SetHighlighterColor(OptionsContainer.DefaultColor);
       Editor.LoadFromFile(FileName);
     end
     else
@@ -605,9 +610,8 @@ begin
       Refresh(i);
 end;
 
-procedure TDocumentFrame.Open(FileName: string = ''; Bookmarks: TStrings = nil;
-  Ln: Integer = 0; Ch: Integer = 0; StartUp: Boolean = False;
-  ShowMinimap: Boolean = False);
+procedure TDocumentFrame.Open(FileName: string = ''; Bookmarks: TStrings = nil; Ln: Integer = 0; Ch: Integer = 0;
+  StartUp: Boolean = False; ShowMinimap: Boolean = False; AHighlighter: string = ''; AColor: string = '');
 var
   i: Integer;
   Editor: TBCEditor;
@@ -620,13 +624,8 @@ begin
       OpenDialog.Title := LanguageDataModule.GetConstant('Open');
       // if BCCommon.Dialogs.OpenFiles(Handle, '', OptionsContainer.Filters, LanguageDataModule.GetConstant('Open')) then
       if OpenDialog.Execute(Handle) then
-      begin
-        // Application.ProcessMessages; { style fix }
-        // for i := 0 to BCCommon.Dialogs.Files.Count - 1 do
-        // Open(BCCommon.Dialogs.Files[i])
         for i := 0 to OpenDialog.Files.Count - 1 do
           Open(OpenDialog.Files[i])
-      end;
     end
     else
     begin
@@ -634,12 +633,9 @@ begin
       begin
         Editor := FindOpenFile(FileName);
         if not Assigned(Editor) then
-          Editor := CreateNewTabSheet(FileName, ShowMinimap);
+          Editor := CreateNewTabSheet(FileName, ShowMinimap, AHighlighter, AColor);
         SetBookmarks(Editor, Bookmarks);
-        // try
-        // SetMainHighlighterCombo(Editor);
-        // SetMainEncodingCombo(Editor);
-        // DoSearch2(Editor);
+
         Editor.GotoLineAndCenter(Ln);
         Editor.CaretPosition := GetTextPosition(Ch, Ln);
         if not StartUp then
@@ -647,9 +643,6 @@ begin
           AddToReopenFiles(FileName);
           MainForm.CreateFileReopenList;
         end;
-        // except
-        { It is not always possible to focus... }
-        // end;
       end
       else
       if ExtractFileName(FileName) <> '' then
@@ -1457,49 +1450,55 @@ end;
 function TDocumentFrame.ReadIniOpenFiles: Boolean;
 var
   i: Integer;
-  FName: string;
+  s, LFileName, LHighlighter, LColor: string;
   FileNames, Bookmarks: TStrings;
   // Editor: TBCEditor;
 begin
   FileNames := TStringList.Create;
   Bookmarks := TStringList.Create;
   with TBigIniFile.Create(GetIniFilename) do
-    try
-      PageControl.Visible := False;
-      { Open Files }
-      ReadSectionValues('OpenFiles', FileNames);
-      ReadSectionValues('Bookmarks', Bookmarks);
-      for i := 0 to FileNames.Count - 1 do
+  try
+    PageControl.Visible := False;
+    { Open Files }
+    ReadSectionValues('OpenFiles', FileNames);
+    ReadSectionValues('Bookmarks', Bookmarks);
+    for i := 0 to FileNames.Count - 1 do
+    begin
+      s := RemoveTokenFromStart('=', FileNames.Strings[i]);
+      LFileName := GetNextToken(';', s);
+      if FileExists(LFileName) then
       begin
-        FName := System.Copy(FileNames.Strings[i],
-          Pos('=', FileNames.Strings[i]) + 1, Length(FileNames.Strings[i]));
-        if FileExists(FName) then
-          Open(FName, Bookmarks, ReadInteger('CaretY', IntToStr(i), 0),
-            ReadInteger('CaretX', IntToStr(i), 0), True,
-            ReadBool('Minimaps', IntToStr(i), False));
+        s := RemoveTokenFromStart(';', s);
+        LHighlighter := GetNextToken(';', s);
+        s := RemoveTokenFromStart(';', s);
+        LColor := GetNextToken(';', s);
+        Open(LFileName, Bookmarks, ReadInteger('CaretY', IntToStr(i), 0),
+          ReadInteger('CaretX', IntToStr(i), 0), True, ReadBool('Minimaps', IntToStr(i), False),
+          LHighlighter, LColor);
       end;
-
-      i := ReadInteger('Options', 'ActivePageIndex', 0);
-      if i < PageControl.PageCount then
-      begin
-        PageControl.ActivePageIndex := i;
-        MainForm.SetTitleBarMenus;
-        { Editor := GetActiveEditor;
-          if Assigned(Editor) then
-          begin
-          SetMainHighlighterCombo(Editor);
-          SetMainEncodingCombo(Editor);
-          end; }
-      end;
-
-      Result := FileNames.Count > 0;
-    finally
-      FileNames.Free;
-      Bookmarks.Free;
-      // Minimaps.Free;
-      Free;
-      PageControl.Visible := True;
     end;
+
+    i := ReadInteger('Options', 'ActivePageIndex', 0);
+    if i < PageControl.PageCount then
+    begin
+      PageControl.ActivePageIndex := i;
+      MainForm.SetTitleBarMenus;
+      { Editor := GetActiveEditor;
+        if Assigned(Editor) then
+        begin
+        SetMainHighlighterCombo(Editor);
+        SetMainEncodingCombo(Editor);
+        end; }
+    end;
+
+    Result := FileNames.Count > 0;
+  finally
+    FileNames.Free;
+    Bookmarks.Free;
+    // Minimaps.Free;
+    Free;
+    PageControl.Visible := True;
+  end;
 end;
 
 procedure TDocumentFrame.WriteIniFile;
@@ -1521,7 +1520,8 @@ begin
           if Assigned(Editor) then
           begin
             if Trim(Editor.DocumentName) <> '' then
-              WriteString('OpenFiles', IntToStr(i), Editor.DocumentName);
+              WriteString('OpenFiles', IntToStr(i), Format('%s;%s;%s;', [Editor.DocumentName,
+                Editor.Highlighter.Name, Editor.Highlighter.Colors.Name]));
             for j := 0 to Editor.Marks.Count - 1 do
               WriteString('Bookmarks', Format('%s:%s', [Editor.DocumentName,
                 IntToStr(j)]), Format('%s;%s;%s',
