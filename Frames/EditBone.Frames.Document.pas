@@ -40,7 +40,7 @@ type
     procedure EditorReplaceText(Sender: TObject;
       const ASearch, AReplace: string; Line, Column: Integer;
       DeleteLine: Boolean; var Action: TBCEditorReplaceAction);
-    procedure EditorSplitOnChange(Sender: TObject);
+    //procedure EditorSplitOnChange(Sender: TObject);
     procedure ActionXMLTreeRefreshExecute(Sender: TObject);
     procedure PageControlDblClick(Sender: TObject);
     procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton;
@@ -106,7 +106,7 @@ type
     // procedure DoSearch2(Editor: TBCEditor);
     procedure InitializeEditorPrint(EditorPrint: TBCEditorPrint);
     procedure SelectHighlighter(FileName: string);
-    procedure SetActivePageCaptionModified;
+    procedure SetActivePageCaptionModified(AModified: Boolean);
     procedure SetBookmarks(Editor: TBCEditor; Bookmarks: TStrings);
     // procedure SetMainEncodingCombo(Editor: TBCEditor);
     // procedure SetMainHighlighterCombo(Editor: TBCEditor);
@@ -776,7 +776,7 @@ begin
     try
       FProgressBar.Count := PageControl.PageCount;
       FProgressBar.Show;
-      for i := PageControl.PageCount - 2 downto 2 do
+      for i := PageControl.PageCount - 1 downto 2 do
       begin
         ProgressBar.StepIt;
         Application.ProcessMessages;
@@ -1757,17 +1757,17 @@ begin
     Result := nil;
 end;
 
-procedure TDocumentFrame.SetActivePageCaptionModified;
+procedure TDocumentFrame.SetActivePageCaptionModified(AModified: Boolean);
 begin
-  PageControl.ActivePageCaption := FormatFileName(PageControl.ActivePageCaption, True);
+  PageControl.ActivePageCaption := FormatFileName(PageControl.ActivePageCaption, AModified);
 end;
 
 procedure TDocumentFrame.EditorOnChange(Sender: TObject);
 var
-  ActiveEditor: TBCEditor;
-  DocTabSheetFrame: TDocTabSheetFrame;
+  LEditor: TBCEditor;
+  LDocTabSheetFrame: TDocTabSheetFrame;
 
-  procedure LinesChange(Editor: TBCEditor);
+  {procedure LinesChange(Editor: TBCEditor);
   var
     i: Integer;
   begin
@@ -1785,19 +1785,25 @@ var
       Editor.EndUpdate;
       Editor.Repaint;
     end;
-  end;
+  end;}
 
 begin
   inherited;
-  FModifiedDocuments := True;
+  LDocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+  if Assigned(LDocTabSheetFrame) then
+  begin
+    LEditor := LDocTabSheetFrame.Editor;
+    if not FModifiedDocuments then
+      FModifiedDocuments := LEditor.Modified;
 
-  if OptionsContainer.AutoSave then
-    Save
-  else
-  if not FProcessing then
-    SetActivePageCaptionModified;
+    if OptionsContainer.AutoSave then
+      Save
+    else
+    if not FProcessing then
+      SetActivePageCaptionModified(LEditor.Modified);
+  end;
 
-  if Assigned(PageControl.ActivePage) then
+  (*if Assigned(PageControl.ActivePage) then
   begin
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
     if Assigned(DocTabSheetFrame) then
@@ -1807,9 +1813,9 @@ begin
         LinesChange(DocTabSheetFrame.SplitEditor);
         DoSearch(ActiveEditor, True); }
     end;
-  end;
+  end; *)
 end;
-
+(*
 procedure TDocumentFrame.EditorSplitOnChange(Sender: TObject);
 { var
   i: Integer;
@@ -1868,7 +1874,8 @@ begin
 
   if OptionsContainer.AutoSave then
     Save
-  else if not FProcessing then
+  else
+  if not FProcessing then
     SetActivePageCaptionModified;
 
   { if Assigned(PageControl.ActivePage) then
@@ -1882,7 +1889,7 @@ begin
     DoSearch(ActiveEditor, True);
     end;
     end; }
-end;
+end;  *)
 
 function TDocumentFrame.GetActiveTabSheetCaption: string;
 begin
