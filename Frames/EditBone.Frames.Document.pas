@@ -1015,15 +1015,16 @@ end;
 
 procedure TDocumentFrame.Paste;
 var
-  Editor, SplitEditor: TBCEditor;
+  Editor{, SplitEditor}: TBCEditor;
   DocTabSheetFrame: TDocTabSheetFrame;
 begin
   Editor := GetActiveEditor;
-  SplitEditor := GetActiveSplitEditor;
+//  SplitEditor := GetActiveSplitEditor;
   if Assigned(Editor) and Editor.Focused then
     Editor.PasteFromClipboard
-  else if Assigned(SplitEditor) and SplitEditor.Focused then
-    SplitEditor.PasteFromClipboard
+  {else
+  if Assigned(SplitEditor) and SplitEditor.Focused then
+    SplitEditor.PasteFromClipboard }
   else
   begin
     DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);

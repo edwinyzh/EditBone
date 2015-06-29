@@ -186,6 +186,8 @@ begin
   if Editor.Search.Enabled then
   begin
     Editor.Search.SearchText := AText;
+    if OptionsContainer.DocumentSpecificSearch then
+      OptionsContainer.DocumentSpecificSearchText := AText;
     SearchFrame.ComboBoxSearchText.Text := Editor.Search.SearchText;
   end;
 end;

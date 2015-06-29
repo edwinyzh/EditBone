@@ -1,20 +1,18 @@
 object DocTabSheetFrame: TDocTabSheetFrame
   Left = 0
   Top = 0
-  Width = 761
-  Height = 376
+  Width = 451
+  Height = 304
   Align = alClient
   Color = clWindow
   ParentBackground = False
   ParentColor = False
   TabOrder = 0
-  ExplicitWidth = 451
-  ExplicitHeight = 304
   object Panel: TBCPanel
     Left = 0
     Top = 0
-    Width = 761
-    Height = 351
+    Width = 451
+    Height = 279
     Align = alClient
     BevelOuter = bvNone
     Color = clWindow
@@ -24,36 +22,31 @@ object DocTabSheetFrame: TDocTabSheetFrame
     ParentBackground = False
     TabOrder = 1
     SkinData.SkinSection = 'CHECKBOX'
-    ExplicitWidth = 451
-    ExplicitHeight = 279
     object SplitterVertical: TBCSplitter
       Left = 187
       Top = 1
       Width = 5
-      Height = 348
+      Height = 276
       ParentColor = False
       Visible = False
       SkinData.SkinSection = 'SPLITTER'
       ExplicitLeft = 186
-      ExplicitHeight = 276
     end
     object PanelDocument: TBCPanel
       Left = 192
       Top = 1
-      Width = 569
-      Height = 348
+      Width = 259
+      Height = 276
       Align = alClient
       BevelOuter = bvNone
       Color = clWindow
       ParentBackground = False
       TabOrder = 0
       SkinData.SkinSection = 'CHECKBOX'
-      ExplicitWidth = 259
-      ExplicitHeight = 276
       object SplitterHorizontal: TBCSplitter
         Left = 0
-        Top = 65
-        Width = 569
+        Top = -7
+        Width = 259
         Height = 6
         Cursor = crVSplit
         Align = alBottom
@@ -61,13 +54,11 @@ object DocTabSheetFrame: TDocTabSheetFrame
         Visible = False
         ShowGrip = True
         SkinData.SkinSection = 'SPLITTER'
-        ExplicitTop = -7
-        ExplicitWidth = 259
       end
       object PanelSplitEditor: TBCPanel
         Left = 0
-        Top = 71
-        Width = 569
+        Top = -1
+        Width = 259
         Height = 277
         Align = alBottom
         BevelOuter = bvNone
@@ -75,14 +66,12 @@ object DocTabSheetFrame: TDocTabSheetFrame
         TabOrder = 0
         Visible = False
         SkinData.SkinSection = 'CHECKBOX'
-        ExplicitTop = -1
-        ExplicitWidth = 259
       end
       object Editor: TBCEditor
         AlignWithMargins = True
         Left = 1
         Top = 1
-        Width = 566
+        Width = 256
         Height = 64
         Cursor = crIBeam
         Margins.Left = 1
@@ -143,8 +132,36 @@ object DocTabSheetFrame: TDocTabSheetFrame
         WordWrap.Enabled = False
         WordWrap.Position = 80
         WordWrap.Style = wwsClientWidth
-        ExplicitWidth = 256
-        ExplicitHeight = 111
+        WordWrap.Indicator.Glyph.Data = {
+          7E030000424D7E0300000000000036000000280000000F0000000E0000000100
+          2000000000004803000000000000000000000000000000000000FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF000000
+          000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0080000000FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0000000000000000000000
+          0000FFFFFF00FFFFFF00FFFFFF00FFFFFF008000000080000000FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF008000000080000000800000008000000080000000FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00000000000000000000000000FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF008000000080000000FFFFFF00FFFFFF0080000000FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF0080000000FFFFFF00FFFFFF0080000000FFFFFF00FFFF
+          FF00FFFFFF000000000000000000000000000000000000000000FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0080000000FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF0080000000FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00800000008000000080000000800000008000
+          00008000000080000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00}
       end
     end
     object PanelXMLTree: TBCPanel
@@ -152,7 +169,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
       Left = 2
       Top = 2
       Width = 185
-      Height = 347
+      Height = 275
       Margins.Left = 1
       Margins.Top = 1
       Margins.Right = 0
@@ -162,13 +179,12 @@ object DocTabSheetFrame: TDocTabSheetFrame
       TabOrder = 1
       Visible = False
       SkinData.SkinSection = 'CHECKBOX'
-      ExplicitHeight = 275
     end
   end
   object PanelSearchFrame: TBCPanel
     Left = 0
-    Top = 351
-    Width = 761
+    Top = 279
+    Width = 451
     Height = 25
     Align = alBottom
     AutoSize = True
@@ -177,12 +193,10 @@ object DocTabSheetFrame: TDocTabSheetFrame
     Padding.Bottom = 2
     TabOrder = 0
     SkinData.SkinSection = 'CHECKBOX'
-    ExplicitTop = 279
-    ExplicitWidth = 451
     inline SearchFrame: TBCSearchFrame
       Left = 0
       Top = 2
-      Width = 761
+      Width = 451
       Height = 21
       Align = alBottom
       Color = clWindow
@@ -200,12 +214,11 @@ object DocTabSheetFrame: TDocTabSheetFrame
       ExplicitWidth = 451
       inherited SearchPanel: TBCPanel
         Left = 2
-        Width = 759
+        Width = 449
         ExplicitLeft = 2
         ExplicitWidth = 449
         inherited SpeedButtonSearchClose: TBCSpeedButton
-          Left = 738
-          Images = nil
+          Left = 428
           ExplicitLeft = 428
         end
         inherited Splitter: TBCSplitter
@@ -218,7 +231,7 @@ object DocTabSheetFrame: TDocTabSheetFrame
         end
         inherited PanelRight: TBCPanel
           Left = 373
-          Width = 365
+          Width = 55
           ExplicitLeft = 373
           ExplicitWidth = 55
           inherited LabelSearchResultCount: TBCLabelFX

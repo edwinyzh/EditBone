@@ -75,7 +75,7 @@ type
     ActionHelpVisitHomepage: TAction;
     ActionMacroOpen: TAction;
     ActionMacroPlayback: TAction;
-    ActionMacroRecordPause: TAction;
+    ActionMacroRecord: TAction;
     ActionMacroSaveAs: TAction;
     ActionMacroStop: TAction;
     ActionMenuDocument: TAction;
@@ -546,6 +546,25 @@ type
     itle1: TMenuItem;
     AppInstances: TJvAppInstances;
     AlphaImageListStatusBar: TsAlphaImageList;
+    SpeedButtonDocumentMacro: TBCSpeedButton;
+    ActionMacro: TAction;
+    PopupMenuDocumentMacro: TPopupMenu;
+    MenuItemMacroPlayback: TMenuItem;
+    MenuItemMacroRecordPause: TMenuItem;
+    MenuItemMacroStop: TMenuItem;
+    N1: TMenuItem;
+    MenuItemMacroOpen: TMenuItem;
+    MenuItemMacroSaveAs: TMenuItem;
+    ActionMacroPause: TAction;
+    N2: TMenuItem;
+    N3: TMenuItem;
+    Macro1: TMenuItem;
+    Playback1: TMenuItem;
+    MenuItemMainMenuMacroRecordPause: TMenuItem;
+    Saveas1: TMenuItem;
+    N5: TMenuItem;
+    Open1: TMenuItem;
+    Saveas2: TMenuItem;
     procedure ActionFileNewExecute(Sender: TObject);
     procedure ActionFileOpenExecute(Sender: TObject);
     procedure ActionFileSaveAllExecute(Sender: TObject);
@@ -621,7 +640,7 @@ type
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
     procedure ActionMacroPlaybackExecute(Sender: TObject);
-    procedure ActionMacroRecordPauseExecute(Sender: TObject);
+    procedure ActionMacroRecordExecute(Sender: TObject);
     procedure ActionMacroStopExecute(Sender: TObject);
     procedure ActionFileSelectFromDirectoryExecute(Sender: TObject);
     procedure ActionFilePropertiesExecute(Sender: TObject);
@@ -672,6 +691,7 @@ type
     procedure OnProgressBarStepFindInFiles(Sender: TObject);
     procedure OnAddTreeViewLine(Sender: TObject; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString = '');
     procedure ActionToolBarMenuSkinExecute(Sender: TObject);
+    procedure ActionMacroPauseExecute(Sender: TObject);
   private
     FNoIni: Boolean;
     FDirectoryFrame: TDirectoryFrame;
@@ -895,15 +915,30 @@ begin
   FDocumentFrame.LoadMacro;
 end;
 
+procedure TMainForm.ActionMacroPauseExecute(Sender: TObject);
+begin
+  inherited;
+  FDocumentFrame.RecordMacro;
+  SpeedButtonMacroRecordPause.Images := nil;
+  SpeedButtonMacroRecordPause.Action := ActionMacroRecord;
+  SpeedButtonMacroRecordPause.Images := ImagesDataModule.ImageListSmall;
+  MenuItemMacroRecordPause.Action := ActionMacroRecord;
+   MenuItemMainMenuMacroRecordPause.Action := ActionMacroRecord;
+end;
+
 procedure TMainForm.ActionMacroPlaybackExecute(Sender: TObject);
 begin
   FDocumentFrame.PlaybackMacro;
 end;
 
-procedure TMainForm.ActionMacroRecordPauseExecute(Sender: TObject);
+procedure TMainForm.ActionMacroRecordExecute(Sender: TObject);
 begin
   FDocumentFrame.RecordMacro;
-  SpeedButtonMacroRecordPause.ImageIndex := FDocumentFrame.GetMacroRecordPauseImageIndex;
+  SpeedButtonMacroRecordPause.Images := nil;
+  SpeedButtonMacroRecordPause.Action := ActionMacroPause;
+  SpeedButtonMacroRecordPause.Images := ImagesDataModule.ImageListSmall;
+  MenuItemMacroRecordPause.Action := ActionMacroPause;
+  MenuItemMainMenuMacroRecordPause.Action := ActionMacroPause;
 end;
 
 procedure TMainForm.ActionMacroSaveAsExecute(Sender: TObject);
@@ -914,6 +949,11 @@ end;
 procedure TMainForm.ActionMacroStopExecute(Sender: TObject);
 begin
   FDocumentFrame.StopMacro;
+  SpeedButtonMacroRecordPause.Images := nil;
+  SpeedButtonMacroRecordPause.Action := ActionMacroRecord;
+  SpeedButtonMacroRecordPause.Images := ImagesDataModule.ImageListSmall;
+  MenuItemMacroRecordPause.Action := ActionMacroRecord;
+  MenuItemMainMenuMacroRecordPause.Action := ActionMacroRecord;
 end;
 
 procedure TMainForm.ActionMenuDocumentExecute(Sender: TObject);
@@ -1649,13 +1689,23 @@ begin
       if StatusBar.Panels[2].Text <> LanguageDataModule.GetConstant('Overwrite') then
         StatusBar.Panels[2].Text := LanguageDataModule.GetConstant('Overwrite');
     { Macro }
-    ActionMacroRecordPause.Enabled := ActiveDocumentFound;
+    ActionMacroRecord.Enabled := ActiveDocumentFound;
+    ActionMacroPause.Enabled := ActiveDocumentFound;
     ActionMacroStop.Enabled := ActiveDocumentFound and FDocumentFrame.IsRecordingMacro;
     ActionMacroPlayback.Enabled := ActiveDocumentFound and FDocumentFrame.IsMacroStopped;
     ActionMacroOpen.Enabled := ActiveDocumentFound;
     ActionMacroSaveAs.Enabled := ActionMacroPlayback.Enabled;
     TitleBar.Items[0].Visible := not PanelMenubar.Visible;
     FProcessingEventHandler := False;
+
+    if FDocumentFrame.PageControl.PageCount > 1 then
+      FDocumentFrame.PageControl.SkinData.SkinSection := 'PAGECONTROL'
+    else
+      FDocumentFrame.PageControl.SkinData.SkinSection := 'CHECKBOX';
+    if FDirectoryFrame.PageControl.PageCount > 1 then
+      FDirectoryFrame.PageControl.SkinData.SkinSection := 'PAGECONTROL'
+    else
+      FDirectoryFrame.PageControl.SkinData.SkinSection := 'CHECKBOX';
   except
     { intentionally silent }
   end;

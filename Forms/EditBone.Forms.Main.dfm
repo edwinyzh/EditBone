@@ -58,7 +58,7 @@ inherited MainForm: TMainForm
       Flat = True
       SkinData.SkinSection = 'TOOLBUTTON'
       ImageIndex = 87
-      Images = ImagesDataModule.ImageList
+      Images = ImagesDataModule.ImageListSmall
       ShowCaption = False
     end
     object SpeedButtonMacroRecordPause: TBCSpeedButton
@@ -66,11 +66,11 @@ inherited MainForm: TMainForm
       Top = 3
       Width = 16
       Height = 16
-      Action = ActionMacroRecordPause
+      Action = ActionMacroRecord
       Flat = True
       SkinData.SkinSection = 'TOOLBUTTON'
       ImageIndex = 88
-      Images = ImagesDataModule.ImageList
+      Images = ImagesDataModule.ImageListSmall
       ShowCaption = False
     end
     object SpeedButtonMacroStop: TBCSpeedButton
@@ -82,7 +82,7 @@ inherited MainForm: TMainForm
       Flat = True
       SkinData.SkinSection = 'TOOLBUTTON'
       ImageIndex = 90
-      Images = ImagesDataModule.ImageList
+      Images = ImagesDataModule.ImageListSmall
       ShowCaption = False
     end
   end
@@ -105,7 +105,7 @@ inherited MainForm: TMainForm
       Margins.Top = 4
       Margins.Right = 0
       Margins.Bottom = 0
-      ActivePage = TabSheetView
+      ActivePage = TabSheetDocument
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -121,7 +121,7 @@ inherited MainForm: TMainForm
       TabSpacing = 12
       SkinData.SkinSection = 'RIBBONPAGE'
       SkinData.OuterEffects.Visibility = ovAlways
-      ActivePageCaption = 'View'
+      ActivePageCaption = 'Document'
       HoldShiftToDragDrop = False
       TabDragDrop = False
       object TabSheetButton: TsTabSheet
@@ -1447,11 +1447,13 @@ inherited MainForm: TMainForm
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
+            ExplicitLeft = 47
+            ExplicitTop = -4
           end
           object SpeedButtonDocumentViewInBrowser: TBCSpeedButton
-            Left = 70
+            Left = 232
             Top = 0
-            Width = 60
+            Width = 82
             Height = 58
             Action = ActionDocumentViewInBrowser
             Align = alLeft
@@ -1470,7 +1472,7 @@ inherited MainForm: TMainForm
           end
           object SpeedButtonDocumentDivider2: TBCSpeedButton
             AlignWithMargins = True
-            Left = 130
+            Left = 222
             Top = 4
             Width = 10
             Height = 50
@@ -1491,9 +1493,11 @@ inherited MainForm: TMainForm
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
+            ExplicitLeft = 232
+            ExplicitTop = 8
           end
           object SpeedButtonDocumentFormat: TBCSpeedButton
-            Left = 140
+            Left = 70
             Top = 0
             Width = 76
             Height = 58
@@ -1512,6 +1516,30 @@ inherited MainForm: TMainForm
             DropdownMenu = PopupMenuDocumentFormat
             ImageIndex = 65
             Images = ImagesDataModule.ImageList
+            ExplicitLeft = 54
+            ExplicitTop = -4
+          end
+          object SpeedButtonDocumentMacro: TBCSpeedButton
+            Left = 146
+            Top = 0
+            Width = 76
+            Height = 58
+            Action = ActionMacro
+            Align = alLeft
+            Flat = True
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -9
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            Layout = blGlyphTop
+            ParentFont = False
+            ButtonStyle = tbsDropDown
+            SkinData.SkinSection = 'TOOLBUTTON'
+            DropdownMenu = PopupMenuDocumentMacro
+            ImageIndex = 136
+            Images = ImagesDataModule.ImageList
+            ExplicitLeft = 140
           end
         end
       end
@@ -4127,6 +4155,12 @@ inherited MainForm: TMainForm
       ImageIndex = 67
       OnExecute = ActionDocumentFormatXMLExecute
     end
+    object ActionMacro: TAction
+      Category = 'Macro'
+      Caption = 'Macro'
+      ImageIndex = 136
+      OnExecute = ActionDummyExecute
+    end
     object ActionMacroPlayback: TAction
       Category = 'Macro'
       Caption = 'Playback'
@@ -4135,13 +4169,20 @@ inherited MainForm: TMainForm
       ShortCut = 24656
       OnExecute = ActionMacroPlaybackExecute
     end
-    object ActionMacroRecordPause: TAction
+    object ActionMacroRecord: TAction
       Category = 'Macro'
       Caption = 'Record'
-      Hint = 'Record or pause a macro'
+      Hint = 'Record a macro'
       ImageIndex = 88
       ShortCut = 24658
-      OnExecute = ActionMacroRecordPauseExecute
+      OnExecute = ActionMacroRecordExecute
+    end
+    object ActionMacroPause: TAction
+      Category = 'Macro'
+      Caption = 'Pause'
+      Hint = 'Pause a macro'
+      ImageIndex = 89
+      OnExecute = ActionMacroPauseExecute
     end
     object ActionMacroStop: TAction
       Category = 'Macro'
@@ -4541,8 +4582,8 @@ inherited MainForm: TMainForm
       object MenuItemMainMenuDocumentInfo: TMenuItem
         Action = ActionDocumentInfo
       end
-      object MenuItemMainMenuDocumentViewInBrowser: TMenuItem
-        Action = ActionDocumentViewInBrowser
+      object N2: TMenuItem
+        Caption = '-'
       end
       object MenuItemMainMenuDocumentFormat: TMenuItem
         Action = ActionDocumentFormat
@@ -4552,6 +4593,33 @@ inherited MainForm: TMainForm
         object MenuItemMainMenuDocumentFormatXML: TMenuItem
           Action = ActionDocumentFormatXML
         end
+      end
+      object Macro1: TMenuItem
+        Action = ActionMacro
+        object Playback1: TMenuItem
+          Action = ActionMacroPlayback
+        end
+        object MenuItemMainMenuMacroRecordPause: TMenuItem
+          Action = ActionMacroRecord
+        end
+        object Saveas1: TMenuItem
+          Action = ActionMacroStop
+        end
+        object N5: TMenuItem
+          Caption = '-'
+        end
+        object Open1: TMenuItem
+          Action = ActionMacroOpen
+        end
+        object Saveas2: TMenuItem
+          Action = ActionMacroSaveAs
+        end
+      end
+      object N3: TMenuItem
+        Caption = '-'
+      end
+      object MenuItemMainMenuDocumentViewInBrowser: TMenuItem
+        Action = ActionDocumentViewInBrowser
       end
     end
     object MenuItemMainMenuTools: TMenuItem
@@ -4899,5 +4967,28 @@ inherited MainForm: TMainForm
       0000000000000000000000000000000000000000000000008000008000000080
       8000800000008000800080800000C0C0C000808080000000FF0000FF000000FF
       FF00FF000000FF00FF00FFFF0000FFFFFF0000000000}
+  end
+  object PopupMenuDocumentMacro: TPopupMenu
+    Images = ImagesDataModule.ImageList
+    Left = 270
+    Top = 491
+    object MenuItemMacroPlayback: TMenuItem
+      Action = ActionMacroPlayback
+    end
+    object MenuItemMacroRecordPause: TMenuItem
+      Action = ActionMacroRecord
+    end
+    object MenuItemMacroStop: TMenuItem
+      Action = ActionMacroStop
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemMacroOpen: TMenuItem
+      Action = ActionMacroOpen
+    end
+    object MenuItemMacroSaveAs: TMenuItem
+      Action = ActionMacroSaveAs
+    end
   end
 end
