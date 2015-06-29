@@ -14,7 +14,7 @@ uses
   acAlphaImageList, BCControls.ProgressBar, EditBone.FindInFiles;
 
 type
-  TMainForm = class(TBCForm)
+  TMainForm = class(TBCBaseForm)
     ActionDirectorySearchFindInFiles: TAction;
     ActionDocument: TAction;
     ActionDocumentFormat: TAction;
@@ -671,6 +671,7 @@ type
     procedure OnTerminateFindInFiles(Sender: TObject);
     procedure OnProgressBarStepFindInFiles(Sender: TObject);
     procedure OnAddTreeViewLine(Sender: TObject; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString = '');
+    procedure ActionToolBarMenuSkinExecute(Sender: TObject);
   private
     FNoIni: Boolean;
     FDirectoryFrame: TDirectoryFrame;
@@ -722,7 +723,7 @@ uses
   BCCommon.Utils, BCControls.ImageList, BCControls.Utils, BCCommon.Dialogs.FindInFiles, BCEditor.Editor.Utils,
   BCEditor.Encoding, EditBone.Forms.UnicodeCharacterMap, EditBone.Dialogs.About, BCCommon.Dialogs.DownloadURL,
   BCCommon.Forms.Convert, EditBone.Forms.LanguageEditor, BCCommon.Messages, BCCommon.Forms.SearchForFiles,
-  BCCommon.StringUtils, BCEditor.Types, sGraphUtils, sConst;
+  BCCommon.StringUtils, BCEditor.Types, BCCommon.Dialogs.SkinSelect, sGraphUtils, sConst;
 
 function TMainForm.Processing: Boolean;
 begin
@@ -1276,6 +1277,12 @@ var
 begin
   Action := Sender as TAction;
   FDocumentFrame.GotoBookMarks(Action.Tag);
+end;
+
+procedure TMainForm.ActionToolBarMenuSkinExecute(Sender: TObject);
+begin
+  inherited;
+  TSkinSelectDialog.ClassShowModal(SkinManager);
 end;
 
 procedure TMainForm.ActionToolsCharacterMapExecute(Sender: TObject);
@@ -1888,7 +1895,7 @@ begin
   FSQLFormatterDLLFound := FileExists(GetSQLFormatterDLLFilename);
 
   CreateLanguageMenu(MenuItemToolBarMenuLanguage);
-  CreateSkinsMenu(MenuItemToolBarMenuSkin);
+  //CreateSkinsMenu(MenuItemToolBarMenuSkin);
   GetHighlighters;
   GetHighlighterColors;
 

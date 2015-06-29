@@ -1,4 +1,4 @@
-object AboutDialog: TAboutDialog
+inherited AboutDialog: TAboutDialog
   Left = 430
   Top = 226
   BorderIcons = []
@@ -526,7 +526,6 @@ object AboutDialog: TAboutDialog
     ParentFont = False
     TabOrder = 1
     SkinData.SkinSection = 'CHECKBOX'
-    ExplicitHeight = 222
     object LabelThirdPartyComponents: TBCLabel
       AlignWithMargins = True
       Left = 10
@@ -727,7 +726,6 @@ object AboutDialog: TAboutDialog
     ParentBackground = False
     TabOrder = 2
     SkinData.SkinSection = 'CHECKBOX'
-    ExplicitTop = 359
     object ButtonOK: TButton
       Left = 386
       Top = 8

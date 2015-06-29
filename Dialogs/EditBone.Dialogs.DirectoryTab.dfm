@@ -1,21 +1,14 @@
-object DirectoryTabDialog: TDirectoryTabDialog
-  Left = 0
-  Top = 0
+inherited DirectoryTabDialog: TDirectoryTabDialog
   BorderStyle = bsDialog
   Caption = 'DirectoryTabDialog'
   ClientHeight = 238
   ClientWidth = 488
-  Color = clWindow
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
-  Font.Style = []
   Padding.Left = 6
   Padding.Top = 6
   Padding.Right = 6
-  OldCreateOrder = False
   Position = poMainFormCenter
+  ExplicitWidth = 494
+  ExplicitHeight = 266
   PixelsPerInch = 96
   TextHeight = 13
   object ButtonPanel: TBCPanel
