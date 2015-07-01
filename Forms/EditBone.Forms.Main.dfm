@@ -58,7 +58,7 @@ inherited MainForm: TMainForm
       Flat = True
       SkinData.SkinSection = 'TOOLBUTTON'
       ImageIndex = 87
-      Images = ImagesDataModule.ImageListSmall
+      Images = ImagesDataModule.ImageList
       ShowCaption = False
     end
     object SpeedButtonMacroRecordPause: TBCSpeedButton
@@ -70,7 +70,7 @@ inherited MainForm: TMainForm
       Flat = True
       SkinData.SkinSection = 'TOOLBUTTON'
       ImageIndex = 88
-      Images = ImagesDataModule.ImageListSmall
+      Images = ImagesDataModule.ImageList
       ShowCaption = False
     end
     object SpeedButtonMacroStop: TBCSpeedButton
@@ -82,7 +82,7 @@ inherited MainForm: TMainForm
       Flat = True
       SkinData.SkinSection = 'TOOLBUTTON'
       ImageIndex = 90
-      Images = ImagesDataModule.ImageListSmall
+      Images = ImagesDataModule.ImageList
       ShowCaption = False
     end
   end
@@ -105,7 +105,7 @@ inherited MainForm: TMainForm
       Margins.Top = 4
       Margins.Right = 0
       Margins.Bottom = 0
-      ActivePage = TabSheetDocument
+      ActivePage = TabSheetEdit
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -121,7 +121,7 @@ inherited MainForm: TMainForm
       TabSpacing = 12
       SkinData.SkinSection = 'RIBBONPAGE'
       SkinData.OuterEffects.Visibility = ovAlways
-      ActivePageCaption = 'Document'
+      ActivePageCaption = 'Edit'
       HoldShiftToDragDrop = False
       TabDragDrop = False
       object TabSheetButton: TsTabSheet
@@ -2931,29 +2931,9 @@ inherited MainForm: TMainForm
   end
   inherited SkinManager: TBCSkinManager
     IsDefault = False
-    ThirdParty.ThirdEdits = 'TBCEditor'#13#10'TBCEditorPrintPreview'#13#10
     ThirdParty.ThirdButtons = ' '#13#10'TButton'#13#10
-    ThirdParty.ThirdBitBtns = ' '#13#10
-    ThirdParty.ThirdCheckBoxes = ' '#13#10
-    ThirdParty.ThirdGroupBoxes = ' '#13#10
-    ThirdParty.ThirdListViews = ' '#13#10
-    ThirdParty.ThirdPanels = ' '#13#10
     ThirdParty.ThirdGrids = ' '#13#10'TStringGrid'#13#10
-    ThirdParty.ThirdTreeViews = ' '#13#10
-    ThirdParty.ThirdComboBoxes = ' '#13#10
-    ThirdParty.ThirdWWEdits = ' '#13#10
     ThirdParty.ThirdVirtualTrees = ' '#13#10'TBCFileTreeView'#13#10'TVirtualDrawTree'#13#10
-    ThirdParty.ThirdGridEh = ' '#13#10
-    ThirdParty.ThirdPageControl = ' '#13#10
-    ThirdParty.ThirdTabControl = ' '#13#10
-    ThirdParty.ThirdToolBar = ' '#13#10
-    ThirdParty.ThirdStatusBar = ' '#13#10
-    ThirdParty.ThirdSpeedButton = ' '#13#10
-    ThirdParty.ThirdScrollControl = ' '#13#10
-    ThirdParty.ThirdUpDown = ' '#13#10
-    ThirdParty.ThirdScrollBar = ' '#13#10
-    ThirdParty.ThirdStaticText = ' '#13#10
-    ThirdParty.ThirdNativePaint = ' '#13#10
     OnGetMenuExtraLineData = SkinManagerGetMenuExtraLineData
     Left = 32
     Top = 178
@@ -3545,7 +3525,7 @@ inherited MainForm: TMainForm
       Category = 'Edit'
       Caption = 'Sort'
       ImageIndex = 30
-      OnExecute = ActionEditSortExecute
+      OnExecute = ActionDummyExecute
     end
     object ActionEditSortAsc: TAction
       Category = 'Edit'

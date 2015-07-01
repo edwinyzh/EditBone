@@ -15,12 +15,12 @@ type
     FrameAdapter: TsFrameAdapter;
     Panel: TBCPanel;
     PanelDocument: TBCPanel;
-    PanelSplitEditor: TBCPanel;
     PanelXMLTree: TBCPanel;
     SplitterHorizontal: TBCSplitter;
     SplitterVertical: TBCSplitter;
     SearchFrame: TBCSearchFrame;
     ApplicationEvents: TApplicationEvents;
+    EditorSplit: TBCEditor;
     procedure RefreshActionExecute(Sender: TObject);
     procedure EditorRightMarginMouseUp(Sender: TObject);
     procedure SplitEditorRightMarginMouseUp(Sender: TObject);
@@ -85,6 +85,7 @@ begin
   SearchFrame.SpeedButtonFindPrevious.Images := ImagesDataModule.ImageListSmall;
   SearchFrame.SpeedButtonFindNext.Images := ImagesDataModule.ImageListSmall;
   SearchFrame.SpeedButtonOptions.Images := ImagesDataModule.ImageListSmall;
+
   FModified := False;
 end;
 
@@ -210,7 +211,7 @@ end;
 procedure TDocTabSheetFrame.EditorRightMarginMouseUp(Sender: TObject);
 begin
   OptionsContainer.RightMarginPosition := Editor.RightMargin.Position;
-  // TODO: SplitEditor.RightMargin.Position := Editor.RightMargin.Position;
+  EditorSplit.RightMargin.Position := Editor.RightMargin.Position;
 end;
 
 function TDocTabSheetFrame.GetXMLTreeVisible: Boolean;
@@ -235,8 +236,8 @@ end;
 
 procedure TDocTabSheetFrame.SplitEditorRightMarginMouseUp(Sender: TObject);
 begin
-  // TODO: OptionsContainer.MarginRightMargin := SplitEditor.RightMargin.Position;
-  //Editor.RightMargin.Position := SplitEditor.RightMargin.Position;
+  OptionsContainer.RightMarginPosition := EditorSplit.RightMargin.Position;
+  Editor.RightMargin.Position := EditorSplit.RightMargin.Position;
 end;
 
 procedure TDocTabSheetFrame.RefreshActionExecute(Sender: TObject);
@@ -252,13 +253,29 @@ end;
 
 function TDocTabSheetFrame.GetSplitVisible: Boolean;
 begin
-  Result := PanelSplitEditor.Visible;
+  Result := EditorSplit.Visible;
 end;
 
 procedure TDocTabSheetFrame.SetSplitVisible(Value: Boolean);
 begin
-  PanelSplitEditor.Visible := Value;
-  SplitterHorizontal.Visible := Value;
+  if Value <> EditorSplit.Visible then
+  begin
+    EditorSplit.Width := 0; { avoid flickering }
+    EditorSplit.Visible := Value;
+    SplitterHorizontal.Visible := Value;
+    SplitterHorizontal.Top := EditorSplit.Top - 1; { splitter always above }
+
+    if EditorSplit.Visible then
+    begin
+      OptionsContainer.AssignTo(EditorSplit);
+      EditorSplit.Highlighter.LoadFromFile(Editor.Highlighter.FileName);
+      EditorSplit.Highlighter.Colors.LoadFromFile(Editor.Highlighter.Colors.FileName);
+      EditorSplit.ChainEditor(Editor);
+      EditorSplit.InitCodeFolding;
+    end
+    else
+      EditorSplit.RemoveChainedEditor;
+  end;
 end;
 
 function TDocTabSheetFrame.GetMinimapVisible: Boolean;
@@ -269,7 +286,7 @@ end;
 procedure TDocTabSheetFrame.SetMinimapVisible(Value: Boolean);
 begin
   Editor.Minimap.Visible := Value;
-  //TODO: SplitEditor.Minimap.Visible := Value;
+  EditorSplit.Minimap.Visible := Value;
 end;
 
 function TDocTabSheetFrame.GetCaretY: Integer;

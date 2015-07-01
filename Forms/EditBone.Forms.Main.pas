@@ -686,7 +686,6 @@ type
     procedure AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
     procedure FormDestroy(Sender: TObject);
     procedure StatusBarDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel; const Rect: TRect);
-    procedure ActionEditSortExecute(Sender: TObject);
     procedure OnTerminateFindInFiles(Sender: TObject);
     procedure OnProgressBarStepFindInFiles(Sender: TObject);
     procedure OnAddTreeViewLine(Sender: TObject; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString = '');
@@ -878,13 +877,6 @@ begin
   FDocumentFrame.Sort(soDesc);
 end;
 
-procedure TMainForm.ActionEditSortExecute(Sender: TObject);
-begin
-  inherited;
-  if PanelMenubar.Visible then
-    FDocumentFrame.Sort;
-end;
-
 procedure TMainForm.ActionEditToggleCaseExecute(Sender: TObject);
 begin
   FDocumentFrame.ToggleCase;
@@ -923,7 +915,7 @@ begin
   SpeedButtonMacroRecordPause.Action := ActionMacroRecord;
   SpeedButtonMacroRecordPause.Images := ImagesDataModule.ImageListSmall;
   MenuItemMacroRecordPause.Action := ActionMacroRecord;
-   MenuItemMainMenuMacroRecordPause.Action := ActionMacroRecord;
+  MenuItemMainMenuMacroRecordPause.Action := ActionMacroRecord;
 end;
 
 procedure TMainForm.ActionMacroPlaybackExecute(Sender: TObject);
@@ -1108,12 +1100,12 @@ begin
   LEditor := FDocumentFrame.GetActiveEditor;
   if Assigned(LEditor) then
     LEditor.ToggleBookMark
-  else
+ { else
   begin
     LEditor := FDocumentFrame.GetActiveSplitEditor;
     if Assigned(LEditor) then
       LEditor.ToggleBookMark
-  end;
+  end;  }
 end;
 
 procedure TMainForm.ActionSelectEncodingExecute(Sender: TObject);
@@ -1627,8 +1619,8 @@ begin
 
     ActionViewSelectionMode.Enabled := ActiveDocumentFound;
     ActionViewSelectionMode.Checked := ActiveDocumentFound and FDocumentFrame.SelectionModeChecked;
-    ActionViewSplit.Enabled := False; // TODO: not implemented ActiveDocumentFound;
-    ActionViewSplit.Checked := False; // TODO: not implemented ActiveDocumentFound and FDocumentFrame.SplitChecked;
+    ActionViewSplit.Enabled := ActiveDocumentFound;
+    ActionViewSplit.Checked := ActiveDocumentFound and FDocumentFrame.SplitChecked;
     ActionViewMinimap.Enabled := ActiveDocumentFound;
     ActionViewMinimap.Checked := ActiveDocumentFound and FDocumentFrame.MinimapChecked;
 
@@ -1697,15 +1689,6 @@ begin
     ActionMacroSaveAs.Enabled := ActionMacroPlayback.Enabled;
     TitleBar.Items[0].Visible := not PanelMenubar.Visible;
     FProcessingEventHandler := False;
-
-    if FDocumentFrame.PageControl.PageCount > 1 then
-      FDocumentFrame.PageControl.SkinData.SkinSection := 'PAGECONTROL'
-    else
-      FDocumentFrame.PageControl.SkinData.SkinSection := 'CHECKBOX';
-    if FDirectoryFrame.PageControl.PageCount > 1 then
-      FDirectoryFrame.PageControl.SkinData.SkinSection := 'PAGECONTROL'
-    else
-      FDirectoryFrame.PageControl.SkinData.SkinSection := 'CHECKBOX';
   except
     { intentionally silent }
   end;
