@@ -52,6 +52,10 @@ object DirectoryFrame: TDirectoryFrame
       SkinData.CustomColor = False
       SkinData.CustomFont = False
       OnClickBtn = TabSheetOpenClickBtn
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
     end
   end
   object ActionList: TActionList

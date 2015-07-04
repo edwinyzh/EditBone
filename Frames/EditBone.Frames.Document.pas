@@ -341,7 +341,6 @@ begin
   { create a TabSheet }
   TabSheet := TsTabSheet.Create(PageControl);
   TabSheet.PageControl := PageControl;
-  TabSheet.SkinData.SkinSection := 'CHECKBOX';
 
   if Assigned(TabSheetNew) then
     TabSheetNew.PageIndex := PageControl.PageCount - 1;
@@ -464,7 +463,6 @@ begin
   { create a TabSheet }
   TabSheet := TsTabSheet.Create(PageControl);
   TabSheet.PageControl := PageControl;
-  TabSheet.SkinData.SkinSection := 'CHECKBOX';
   TabSheet.ImageIndex := FCompareImageIndex;
   TabSheet.Caption := LanguageDataModule.GetConstant('CompareFiles');
 

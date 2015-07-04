@@ -669,7 +669,6 @@ begin
 
   TabSheet := TsTabSheet.Create(PageControl);
   TabSheet.PageControl := PageControl;
-  TabSheet.SkinData.SkinSection := 'CHECKBOX';
 
   if Assigned(TabSheetOpen) then
     TabSheetOpen.PageIndex := PageControl.PageCount - 1;

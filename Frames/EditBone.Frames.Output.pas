@@ -227,7 +227,6 @@ begin
 
   TabSheet := TsTabSheet.Create(PageControl);
   TabSheet.PageControl := PageControl;
-  TabSheet.SkinData.SkinSection := 'CHECKBOX';
   TabSheet.TabVisible := False;
   TabSheet.ImageIndex := IMAGE_INDEX_FIND_IN_FILES;
   TabSheet.Caption := StringReplace(TabCaption, '&', '&&', [rfReplaceAll]);
