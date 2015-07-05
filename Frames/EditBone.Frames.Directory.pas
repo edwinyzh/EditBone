@@ -592,7 +592,7 @@ var
 begin
   FileTreeView := GetFileTreeView;
   if Assigned(FileTreeView) then
-    FileTreeView.OpenPath(RootDirectory, SelectedPath, ExcludeOtherBranches);
+    FileTreeView.OpenPath(RootDirectory, SelectedPath, ExcludeOtherBranches, True);
 end;
 
 procedure TDirectoryFrame.ActionDirectoryRenameExecute(Sender: TObject);

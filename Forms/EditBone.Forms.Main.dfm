@@ -131,6 +131,10 @@ inherited MainForm: TMainForm
         TabSkin = 'MENUBTN'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
       end
       object TabSheetFile: TsTabSheet
         Caption = 'File'
@@ -138,6 +142,10 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object PanelFileButtons: TBCPanel
           Left = 0
           Top = 0
@@ -808,6 +816,10 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object PanelSearchButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1035,6 +1047,10 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object PanelViewButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1393,6 +1409,10 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object PanelDocumentButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1549,6 +1569,10 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object PanelToolsButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1716,6 +1740,10 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object PanelHelpButtons: TBCPanel
           Left = 0
           Top = 0
