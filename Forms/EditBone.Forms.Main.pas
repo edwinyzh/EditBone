@@ -1951,6 +1951,7 @@ begin
     WriteIniFile;
   end;
   OptionsContainer.Free;
+  SQLFormatterOptionsContainer.Free;
   inherited;
 end;
 

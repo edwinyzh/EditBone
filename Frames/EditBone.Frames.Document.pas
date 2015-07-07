@@ -1593,7 +1593,7 @@ begin
   DocTabSheetFrame := GetDocTabSheetFrame(TabSheet);
   if Assigned(DocTabSheetFrame) then
     if DocTabSheetFrame.SplitVisible then
-      Result := DocTabSheetFrame.EditorSplit;
+      Result := DocTabSheetFrame.GetEditorSplit;
 end;
 
 function TDocumentFrame.GetEditor(TabSheet: TTabSheet): TBCEditor;

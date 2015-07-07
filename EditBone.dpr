@@ -1,6 +1,9 @@
 program EditBone;
 
 uses
+  {$ifdef DEBUG}
+  FastMM4,
+  {$endif }
   Vcl.Forms,
   EditBone.Forms.Main in 'Forms\EditBone.Forms.Main.pas' {MainForm},
   EditBone.Consts in 'Units\EditBone.Consts.pas',
@@ -28,6 +31,9 @@ uses
 {$R *.res}
 
 begin
+  {$ifdef DEBUG}
+  ReportMemoryLeaksOnShutdown := True;
+  {$endif}
   Application.Initialize;
   Application.Title := 'EditBone';
   Application.MainFormOnTaskbar := True;

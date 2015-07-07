@@ -131,90 +131,72 @@
         </DelphiCompile>
         <DCCReference Include="Forms\EditBone.Forms.Main.pas">
             <Form>MainForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Units\EditBone.Consts.pas"/>
         <DCCReference Include="Frames\EditBone.Frames.Directory.pas"/>
         <DCCReference Include="Frames\EditBone.Frames.Directory.TabSheet.pas">
             <Form>DirTabSheetFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Dialogs\EditBone.Dialogs.DirectoryTab.pas">
             <Form>DirectoryTabDialog</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Frames\EditBone.Frames.Document.pas">
             <Form>DocumentFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Frames\EditBone.Frames.Document.TabSheet.pas">
             <Form>DocTabSheetFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Frames\EditBone.Frames.Document.TabSheet.XMLTree.pas">
             <Form>DocumentXMLTreeFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Forms\EditBone.Forms.Options.pas">
             <Form>OptionsForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Frames\EditBone.Frames.Options.Editor.TabSheet.pas">
             <Form>OptionsEditorTabsFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Frames\EditBone.Frames.Options.Editor.Defaults.pas">
             <Form>OptionsEditorDefaultsFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Frames\EditBone.Frames.Options.FileTypes.pas">
             <Form>OptionsFileTypesFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Frames\EditBone.Frames.Options.Directory.pas">
             <Form>OptionsDirectoryFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Frames\EditBone.Frames.Options.Directory.TabSheet.pas">
             <Form>OptionsDirectoryTabsFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Frames\EditBone.Frames.Options.Output.TabSheet.pas">
             <Form>OptionsOutputTabsFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Frames\EditBone.Frames.Output.pas">
             <Form>OutputFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Frames\EditBone.Frames.Output.TabSheet.pas">
             <Form>OutputTabSheetFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Units\EditBone.Types.pas"/>
         <DCCReference Include="Forms\EditBone.Forms.UnicodeCharacterMap.pas">
             <Form>UnicodeCharacterMapForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Dialogs\EditBone.Dialogs.About.pas">
             <Form>AboutDialog</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Forms\EditBone.Forms.LanguageEditor.pas">
             <Form>LanguageEditorForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Units\EditBone.FindInFiles.pas"/>
         <None Include="..\..\Shifter\Source\Shifter.dpr"/>
@@ -632,13 +614,13 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
             </Deployment>
             <Platforms>
                 <Platform value="Win32">True</Platform>

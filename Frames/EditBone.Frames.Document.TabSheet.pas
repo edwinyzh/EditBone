@@ -20,7 +20,6 @@ type
     SplitterVertical: TBCSplitter;
     SearchFrame: TBCSearchFrame;
     ApplicationEvents: TApplicationEvents;
-    EditorSplit: TBCEditor;
     procedure RefreshActionExecute(Sender: TObject);
     procedure EditorRightMarginMouseUp(Sender: TObject);
     procedure SplitEditorRightMarginMouseUp(Sender: TObject);
@@ -33,6 +32,7 @@ type
     FPopupMenuXMLTree: TPopupMenu;
     FProgressBar: TBCProgressBar;
     FDocumentXMLTreeFrame: TDocumentXMLTreeFrame;
+    FEditorSplit: TBCEditor;
     function GetSplitVisible: Boolean;
     function GetMinimapVisible: Boolean;
     function GetXMLTreeVisible: Boolean;
@@ -45,6 +45,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    function GetEditorSplit: TBCEditor;
     function IsSearchFocused: Boolean;
     procedure LoadFromXML(XML: string);
     procedure PasteToSearch(AText: string);
@@ -211,7 +212,8 @@ end;
 procedure TDocTabSheetFrame.EditorRightMarginMouseUp(Sender: TObject);
 begin
   OptionsContainer.RightMarginPosition := Editor.RightMargin.Position;
-  EditorSplit.RightMargin.Position := Editor.RightMargin.Position;
+  if Assigned(FEditorSplit) then
+    FEditorSplit.RightMargin.Position := Editor.RightMargin.Position;
 end;
 
 function TDocTabSheetFrame.GetXMLTreeVisible: Boolean;
@@ -222,22 +224,33 @@ end;
 procedure TDocTabSheetFrame.SetXMLTreeVisible(Value: Boolean);
 begin
   SplitterVertical.Visible := Value;
-  if not Assigned(FDocumentXMLTreeFrame) then
+  if Value then
   begin
-    FDocumentXMLTreeFrame := TDocumentXMLTreeFrame.Create(PanelXMLTree);
-    FDocumentXMLTreeFrame.ProgressBar := ProgressBar;
-    FDocumentXMLTreeFrame.Editor := Editor;
-    FDocumentXMLTreeFrame.VirtualDrawTree.Images := ImageListXMLTree;
-    FDocumentXMLTreeFrame.VirtualDrawTree.PopupMenu := FPopupMenuXMLTree;
-    FDocumentXMLTreeFrame.Parent := PanelXMLTree;
+    if not Assigned(FDocumentXMLTreeFrame) then
+    begin
+      FDocumentXMLTreeFrame := TDocumentXMLTreeFrame.Create(PanelXMLTree);
+      FDocumentXMLTreeFrame.ProgressBar := ProgressBar;
+      FDocumentXMLTreeFrame.Editor := Editor;
+      FDocumentXMLTreeFrame.VirtualDrawTree.Images := ImageListXMLTree;
+      FDocumentXMLTreeFrame.VirtualDrawTree.PopupMenu := FPopupMenuXMLTree;
+      FDocumentXMLTreeFrame.Parent := PanelXMLTree;
+    end;
+  end
+  else
+  begin
+    FDocumentXMLTreeFrame.Free;
+    FDocumentXMLTreeFrame := nil;
   end;
   PanelXMLTree.Visible := Value;
 end;
 
 procedure TDocTabSheetFrame.SplitEditorRightMarginMouseUp(Sender: TObject);
 begin
-  OptionsContainer.RightMarginPosition := EditorSplit.RightMargin.Position;
-  Editor.RightMargin.Position := EditorSplit.RightMargin.Position;
+  if Assigned(FEditorSplit) then
+  begin
+    OptionsContainer.RightMarginPosition := FEditorSplit.RightMargin.Position;
+    Editor.RightMargin.Position := FEditorSplit.RightMargin.Position;
+  end;
 end;
 
 procedure TDocTabSheetFrame.RefreshActionExecute(Sender: TObject);
@@ -253,28 +266,42 @@ end;
 
 function TDocTabSheetFrame.GetSplitVisible: Boolean;
 begin
-  Result := EditorSplit.Visible;
+  Result := Assigned(FEditorSplit) and FEditorSplit.Visible;
 end;
 
 procedure TDocTabSheetFrame.SetSplitVisible(Value: Boolean);
 begin
-  if Value <> EditorSplit.Visible then
+  if Value then
   begin
-    EditorSplit.Width := 0; { avoid flickering }
-    EditorSplit.Visible := Value;
-    SplitterHorizontal.Visible := Value;
-    SplitterHorizontal.Top := EditorSplit.Top - 1; { splitter always above }
+    FEditorSplit := TBCEditor.Create(PanelDocument);
+    FEditorSplit.Visible := False;
+    FEditorSplit.Align := alBottom;
+    FEditorSplit.AlignWithMargins := True;
+    FEditorSplit.Margins.Left := 1;
+    FEditorSplit.Margins.Top := 0;
+    FEditorSplit.Margins.Right := 2;
+    FEditorSplit.Margins.Bottom := 0;
+    FEditorSplit.Parent := PanelDocument;
+    FEditorSplit.Width := 0; { avoid flickering }
 
-    if EditorSplit.Visible then
-    begin
-      OptionsContainer.AssignTo(EditorSplit);
-      EditorSplit.Highlighter.LoadFromFile(Editor.Highlighter.FileName);
-      EditorSplit.Highlighter.Colors.LoadFromFile(Editor.Highlighter.Colors.FileName);
-      EditorSplit.ChainEditor(Editor);
-      EditorSplit.InitCodeFolding;
-    end
-    else
-      EditorSplit.RemoveChainedEditor;
+    OptionsContainer.AssignTo(FEditorSplit);
+    FEditorSplit.Highlighter.LoadFromFile(Editor.Highlighter.FileName);
+    FEditorSplit.Highlighter.Colors.LoadFromFile(Editor.Highlighter.Colors.FileName);
+    FEditorSplit.ChainEditor(Editor);
+    FEditorSplit.InitCodeFolding;
+
+    FEditorSplit.Visible := True;
+    SplitterHorizontal.Visible := True;
+    SplitterHorizontal.Top := FEditorSplit.Top - 1; { splitter always above }
+  end
+  else
+  begin
+    FEditorSplit.RemoveChainedEditor;
+    FEditorSplit.Visible := False;
+    SplitterHorizontal.Visible := False;
+    FEditorSplit.Parent := nil;
+    FEditorSplit.Free;
+    FEditorSplit := nil;
   end;
 end;
 
@@ -286,7 +313,15 @@ end;
 procedure TDocTabSheetFrame.SetMinimapVisible(Value: Boolean);
 begin
   Editor.Minimap.Visible := Value;
-  EditorSplit.Minimap.Visible := Value;
+  if Assigned(FEditorSplit) then
+    FEditorSplit.Minimap.Visible := Value;
+end;
+
+function TDocTabSheetFrame.GetEditorSplit: TBCEditor;
+begin
+  Result := nil;
+  if Assigned(FEditorSplit) then
+    Result := FEditorSplit
 end;
 
 function TDocTabSheetFrame.GetCaretY: Integer;
