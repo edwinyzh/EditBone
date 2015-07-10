@@ -3,7 +3,8 @@ unit EditBone.XMLTree;
 interface
 
 uses
-  VirtualTrees, BCEditor.Editor, BCControls.ProgressBar, BCEditor.Types;
+  VirtualTrees, Vcl.Graphics, Vcl.ImgList, System.Classes, BCEditor.Editor, BCControls.ProgressBar, BCEditor.Types,
+  sCommonData;
 
 type
   TNodeType = (ntReserved, ntElement, ntAttribute, ntText, ntCData, ntProcessingInstr, ntComment);
@@ -20,31 +21,64 @@ type
 
   TEBXMLTree = class(TVirtualDrawTree)
   private
+    FCommonData: TsCtrlSkinData;
     FEditor: TBCEditor;
     FProgressBar: TBCProgressBar;
   protected
-    procedure VirtualDrawTreeClick(Sender: TObject);
-    procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
-    procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
-    procedure VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode;
-      Column: TColumnIndex; var NodeWidth: Integer);
-    procedure VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
-      var InitialStates: TVirtualNodeInitStates);
-    procedure VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
-      Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
+    procedure DoNodeClick(const HitInfo: THitInfo); override;
+    procedure DoPaintNode(var PaintInfo: TVTPaintInfo); override;
+    procedure DoFreeNode(Node: PVirtualNode); override;
+    function DoGetNodeWidth(Node: PVirtualNode; Column: TColumnIndex; Canvas: TCanvas = nil): Integer; override;
+    procedure DoInitNode(Parent, Node: PVirtualNode; var InitStates: TVirtualNodeInitStates); override;
+    function DoGetImageIndex(Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
+      var Ghosted: Boolean; var Index: TImageIndex): TCustomImageList; override;
+    procedure CreateWnd; override;
   public
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
     procedure LoadFromXML(AXML: string);
     property ProgressBar: TBCProgressBar read FProgressBar write FProgressBar;
     property Editor: TBCEditor read FEditor write FEditor;
+  published
+    property SkinData: TsCtrlSkinData read FCommonData write FCommonData;
   end;
 
 implementation
 
 uses
-   System.Classes, System.SysUtils, System.Generics.Collections, BCEditor.Editor.Utils;
+  Winapi.Windows, System.SysUtils, System.Generics.Collections, System.Types, BCEditor.Editor.Utils, VirtualTrees.Utils;
 
 const
   CWHITESPACE = [#32, #9];
+
+constructor TEBXMLTree.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+
+  FCommonData := TsCtrlSkinData.Create(Self, True);
+end;
+
+destructor TEBXMLTree.Destroy;
+begin
+  if Assigned(FCommonData) then
+    FreeAndNil(FCommonData);
+
+  inherited Destroy;
+end;
+
+procedure TEBXMLTree.CreateWnd;
+begin
+  inherited;
+  FCommonData.Loaded;
+
+  if HandleAllocated and FCommonData.Skinned then begin
+    if not FCommonData.CustomColor then
+      Color := FCommonData.SkinManager.gd[FCommonData.SkinIndex].Props[0].Color;
+
+    if not FCommonData.CustomFont then
+      Font.Color := FCommonData.SkinManager.gd[FCommonData.SkinIndex].Props[0].FontColor.Color;
+  end;
+end;
 
 procedure TEBXMLTree.LoadFromXML(AXML: string);
 var
@@ -367,15 +401,16 @@ begin
   end;
 end;
 
-procedure TEBXMLTree.VirtualDrawTreeClick(Sender: TObject);
+procedure TEBXMLTree.DoNodeClick(const HitInfo: THitInfo);
 var
   SelectedNode: PVirtualNode;
   Data: PXMLTreeRec;
 begin
-  SelectedNode := VirtualDrawTree.GetFirstSelected;
+  inherited;
+  SelectedNode := HitInfo.HitNode; //VirtualDrawTree.GetFirstSelected;
   if Assigned(SelectedNode) then
   begin
-    Data := VirtualDrawTree.GetNodeData(SelectedNode);
+    Data := GetNodeData(SelectedNode);
     Editor.CaretX := Data.BlockBegin.Char;
     Editor.CaretY := Data.BlockBegin.Line;
     Editor.EnsureCursorPositionVisible(True);
@@ -384,31 +419,31 @@ begin
   end;
 end;
 
-procedure TEBXMLTree.VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
+procedure TEBXMLTree.DoPaintNode(var PaintInfo: TVTPaintInfo);
 var
   TreeNode: PXMLTreeRec;
   S: string;
   R: TRect;
   Format: Cardinal;
 begin
-  with Sender as TVirtualDrawTree, PaintInfo do
+  with PaintInfo do
   begin
-    TreeNode := Sender.GetNodeData(Node);
+    TreeNode := GetNodeData(Node);
 
     if not Assigned(TreeNode) then
       Exit;
 
-    if Assigned(FrameAdapter.SkinData) and Assigned(FrameAdapter.SkinData.SkinManager) then
-      Canvas.Font.Color := FrameAdapter.SkinData.SkinManager.GetActiveEditFontColor
+    if Assigned(FCommonData) then
+      Canvas.Font.Color := FCommonData.SkinManager.GetActiveEditFontColor
     else
       Canvas.Font.Color := clWindowText;
 
     if vsSelected in PaintInfo.Node.States then
     begin
-      if Assigned(FrameAdapter.SkinData) and Assigned(FrameAdapter.SkinData.SkinManager) then
+      if Assigned(SkinData) and Assigned(SkinData.SkinManager) and SkinData.SkinManager.Active then
       begin
-        Canvas.Brush.Color := FrameAdapter.SkinData.SkinManager.GetHighLightColor;
-        Canvas.Font.Color := FrameAdapter.SkinData.SkinManager.GetHighLightFontColor
+        Canvas.Brush.Color := SkinData.SkinManager.GetHighLightColor;
+        Canvas.Font.Color := SkinData.SkinManager.GetHighLightFontColor
       end
       else
       begin
@@ -439,52 +474,47 @@ begin
   end;
 end;
 
-procedure TEBXMLTree.VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
+procedure TEBXMLTree.DoFreeNode(Node: PVirtualNode);
 var
   Data: PXMLTreeRec;
 begin
-  Data := Sender.GetNodeData(Node);
+  Data := GetNodeData(Node);
   Finalize(Data^);
   inherited;
 end;
 
-procedure TEBXMLTree.VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
-  Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
+function TEBXMLTree.DoGetImageIndex(Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
+  var Ghosted: Boolean; var Index: TImageIndex): TCustomImageList;
 var
   Data: PXMLTreeRec;
 begin
   if Kind in [ikNormal, ikSelected] then
   begin
-    Data := VirtualDrawTree.GetNodeData(Node);
-    ImageIndex := Ord(Data.NodeType);
+    Data := GetNodeData(Node);
+    Index := Ord(Data.NodeType);
   end;
 end;
 
-procedure TEBXMLTree.VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode;
-  Column: TColumnIndex; var NodeWidth: Integer);
+function TEBXMLTree.DoGetNodeWidth(Node: PVirtualNode; Column: TColumnIndex; Canvas: TCanvas = nil): Integer;
 var
   Data: PXMLTreeRec;
   AMargin: Integer;
 begin
-  with Sender as TVirtualDrawTree do
-  begin
-    AMargin := TextMargin;
-    Data := Sender.GetNodeData(Node);
-    if Assigned(Data) then
-      NodeWidth := Canvas.TextWidth(Data.NodeName) + 2 * AMargin
-  end;
+  AMargin := TextMargin;
+  Data := GetNodeData(Node);
+  if Assigned(Data) then
+    Result := Canvas.TextWidth(Data.NodeName) + 2 * AMargin
 end;
 
-procedure TEBXMLTree.VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
-  var InitialStates: TVirtualNodeInitStates);
+procedure TEBXMLTree.DoInitNode(Parent, Node: PVirtualNode; var InitStates: TVirtualNodeInitStates);
 var
   Data: PXMLTreeRec;
 begin
   inherited;
-  Data := VirtualDrawTree.GetNodeData(Node);
+  Data := GetNodeData(Node);
   if Assigned(Data) then
     if Data.HasChildNodes then
-      Include(InitialStates, ivsHasChildren);
+      Include(InitStates, ivsHasChildren);
 end;
 
 end.
