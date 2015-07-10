@@ -10,9 +10,6 @@ uses
   EditBone.Frames.Directory in 'Frames\EditBone.Frames.Directory.pas',
   EditBone.Frames.Directory.TabSheet in 'Frames\EditBone.Frames.Directory.TabSheet.pas' {DirTabSheetFrame: TFrame},
   EditBone.Dialogs.DirectoryTab in 'Dialogs\EditBone.Dialogs.DirectoryTab.pas' {DirectoryTabDialog},
-  EditBone.Frames.Document in 'Frames\EditBone.Frames.Document.pas' {DocumentFrame: TFrame},
-  EditBone.Frames.Document.TabSheet in 'Frames\EditBone.Frames.Document.TabSheet.pas' {DocTabSheetFrame: TFrame},
-  EditBone.Frames.Document.TabSheet.XMLTree in 'Frames\EditBone.Frames.Document.TabSheet.XMLTree.pas' {DocumentXMLTreeFrame: TFrame},
   EditBone.Forms.Options in 'Forms\EditBone.Forms.Options.pas' {OptionsForm},
   EditBone.Frames.Options.Editor.TabSheet in 'Frames\EditBone.Frames.Options.Editor.TabSheet.pas' {OptionsEditorTabsFrame: TFrame},
   EditBone.Frames.Options.Editor.Defaults in 'Frames\EditBone.Frames.Options.Editor.Defaults.pas' {OptionsEditorDefaultsFrame: TFrame},
@@ -26,7 +23,10 @@ uses
   EditBone.Forms.UnicodeCharacterMap in 'Forms\EditBone.Forms.UnicodeCharacterMap.pas' {UnicodeCharacterMapForm},
   EditBone.Dialogs.About in 'Dialogs\EditBone.Dialogs.About.pas' {AboutDialog},
   EditBone.Forms.LanguageEditor in 'Forms\EditBone.Forms.LanguageEditor.pas' {LanguageEditorForm},
-  EditBone.FindInFiles in 'Units\EditBone.FindInFiles.pas';
+  EditBone.FindInFiles in 'Units\EditBone.FindInFiles.pas',
+  EditBone.Images in 'Units\EditBone.Images.pas' {DataModuleImages: TDataModule},
+  EditBone.Document in 'Units\EditBone.Document.pas',
+  EditBone.XMLTree in 'Units\EditBone.XMLTree.pas';
 
 {$R *.res}
 
@@ -38,5 +38,6 @@ begin
   Application.Title := 'EditBone';
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TMainForm, MainForm);
+  Application.CreateForm(TDataModuleImages, DataModuleImages);
   Application.Run;
 end.

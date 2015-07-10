@@ -131,10 +131,6 @@ inherited MainForm: TMainForm
         TabSkin = 'MENUBTN'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheetFile: TsTabSheet
         Caption = 'File'
@@ -142,10 +138,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelFileButtons: TBCPanel
           Left = 0
           Top = 0
@@ -478,10 +470,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelEditButtons: TBCPanel
           Left = 0
           Top = 0
@@ -820,10 +808,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelSearchButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1051,10 +1035,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelViewButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1413,10 +1393,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelDocumentButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1573,10 +1549,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelToolsButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1744,10 +1716,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelHelpButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1935,6 +1903,40 @@ inherited MainForm: TMainForm
       ParentDoubleBuffered = False
       TabOrder = 1
       SkinData.SkinSection = 'CHECKBOX'
+      object PageControlDocument: TBCPageControl
+        Left = 0
+        Top = 0
+        Width = 777
+        Height = 377
+        Margins.Left = 0
+        Margins.Top = 5
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alClient
+        DoubleBuffered = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        HotTrack = True
+        Images = ImagesDataModule.ImageListSmall
+        MultiLine = True
+        ParentDoubleBuffered = False
+        ParentFont = False
+        TabHeight = 22
+        TabOrder = 0
+        OnChange = PageControlDocumentChange
+        OnMouseDown = PageControlDocumentMouseDown
+        ShowCloseBtns = True
+        TabMargin = 4
+        SkinData.SkinSection = 'PAGECONTROL'
+        SkinData.OuterEffects.Visibility = ovAlways
+        OnDblClick = PageControlDocumentDblClick
+        OnCloseBtnClick = PageControlDocumentCloseBtnClick
+        HoldShiftToDragDrop = False
+        TabDragDrop = True
+      end
     end
   end
   object PanelOutput: TBCPanel [4]
@@ -3139,8 +3141,8 @@ inherited MainForm: TMainForm
   end
   object PopupMenuFileReopen: TPopupMenu [12]
     Images = ImagesDataModule.ImageListSmall
-    Left = 338
-    Top = 117
+    Left = 452
+    Top = 109
   end
   object PopupMenuEditIndent: TPopupMenu [13]
     Images = ImagesDataModule.ImageList
@@ -4310,6 +4312,36 @@ inherited MainForm: TMainForm
       ImageIndex = 33
       OnExecute = ActionEditToggleCaseTitleExecute
     end
+    object ActionSelectionBoxDown: TAction
+      Category = 'BoxSelection'
+      Caption = 'ActionSelectionBoxDown'
+      ShortCut = 41000
+      OnExecute = ActionSelectionBoxDownExecute
+    end
+    object ActionSelectionBoxLeft: TAction
+      Category = 'BoxSelection'
+      Caption = 'ActionSelectionBoxLeft'
+      ShortCut = 40997
+      OnExecute = ActionSelectionBoxLeftExecute
+    end
+    object ActionSelectionBoxRight: TAction
+      Category = 'BoxSelection'
+      Caption = 'ActionSelectionBoxRight'
+      ShortCut = 40999
+      OnExecute = ActionSelectionBoxRightExecute
+    end
+    object ActionSelectionBoxUp: TAction
+      Category = 'BoxSelection'
+      Caption = 'ActionSelectionBoxUp'
+      ShortCut = 40998
+      OnExecute = ActionSelectionBoxUpExecute
+    end
+    object ActionXMLTreeRefresh: TAction
+      Caption = '&Refresh'
+      Hint = 'Refresh files'
+      ImageIndex = 93
+      OnExecute = ActionXMLTreeRefreshExecute
+    end
   end
   inherited MainMenu: TMainMenu
     Images = ImagesDataModule.ImageListSmall
@@ -5001,6 +5033,71 @@ inherited MainForm: TMainForm
     end
     object MenuItemMacroSaveAs: TMenuItem
       Action = ActionMacroSaveAs
+    end
+  end
+  object OpenDialog: TsOpenDialog
+    Options = [ofHideReadOnly, ofAllowMultiSelect, ofEnableSizing]
+    Left = 874
+    Top = 176
+  end
+  object SaveDialog: TsSaveDialog
+    Left = 874
+    Top = 228
+  end
+  object PrintDialog: TPrintDialog
+    Left = 872
+    Top = 280
+  end
+  object EditorPrint: TBCEditorPrint
+    Color = clWhite
+    Copies = 1
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Footer.DefaultFont.Charset = DEFAULT_CHARSET
+    Footer.DefaultFont.Color = clBlack
+    Footer.DefaultFont.Height = -12
+    Footer.DefaultFont.Name = 'Courier New'
+    Footer.DefaultFont.Style = []
+    Header.DefaultFont.Charset = DEFAULT_CHARSET
+    Header.DefaultFont.Color = clBlack
+    Header.DefaultFont.Height = -12
+    Header.DefaultFont.Name = 'Courier New'
+    Header.DefaultFont.Style = []
+    Margins.Bottom = 18.000000000000000000
+    Margins.Footer = 15.000000000000000000
+    Margins.Header = 15.000000000000000000
+    Margins.InternalMargin = 0.500000000000000000
+    Margins.Left = 20.000000000000000000
+    Margins.LeftTextIndent = 2.000000000000000000
+    Margins.MirrorMargins = False
+    Margins.Right = 15.000000000000000000
+    Margins.RightTextIndent = 2.000000000000000000
+    Margins.Top = 18.000000000000000000
+    OnPrintStatus = EditorPrintPrintStatus
+    TabWidth = 8
+    Left = 872
+    Top = 348
+  end
+  object EditorMacroRecorder: TBCEditorMacroRecorder
+    RecordShortCut = 24658
+    PlaybackShortCut = 24656
+    Left = 870
+    Top = 408
+  end
+  object Timer: TTimer
+    OnTimer = TimerTimer
+    Left = 958
+    Top = 180
+  end
+  object PopupMenuXMLTree: TPopupMenu
+    Images = ImagesDataModule.ImageListSmall
+    Left = 956
+    Top = 252
+    object MenuItemXMLRefresh: TMenuItem
+      Action = ActionXMLTreeRefresh
     end
   end
 end

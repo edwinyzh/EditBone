@@ -1,11 +1,9 @@
-unit EditBone.Frames.Document.TabSheet.XMLTree;
+unit EditBone.XMLTree;
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls,
-  Vcl.Forms, Vcl.Dialogs, VirtualTrees, BCEditor.Types, BCControls.ProgressBar, BCEditor.Editor, sFrameAdapter,
-  System.Generics.Collections, System.UITypes;
+  VirtualTrees, BCEditor.Editor, BCControls.ProgressBar, BCEditor.Types;
 
 type
   TNodeType = (ntReserved, ntElement, ntAttribute, ntText, ntCData, ntProcessingInstr, ntComment);
@@ -20,9 +18,11 @@ type
     BlockEnd: TBCEditorTextPosition;
   end;
 
-  TDocumentXMLTreeFrame = class(TFrame)
-    VirtualDrawTree: TVirtualDrawTree;
-    FrameAdapter: TsFrameAdapter;
+  TEBXMLTree = class(TVirtualDrawTree)
+  private
+    FEditor: TBCEditor;
+    FProgressBar: TBCProgressBar;
+  protected
     procedure VirtualDrawTreeClick(Sender: TObject);
     procedure VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
     procedure VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
@@ -32,147 +32,21 @@ type
       var InitialStates: TVirtualNodeInitStates);
     procedure VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
       Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
-  private
-    FEditor: TBCEditor;
-    FProgressBar: TBCProgressBar;
-    FXMLNodeCount: Integer;
   public
-    procedure LoadFromXML(XML: string);
+    procedure LoadFromXML(AXML: string);
     property ProgressBar: TBCProgressBar read FProgressBar write FProgressBar;
     property Editor: TBCEditor read FEditor write FEditor;
   end;
 
 implementation
 
-{$R *.dfm}
-
 uses
-  System.Types, VirtualTrees.Utils, BCEditor.Editor.Utils;
+   System.Classes, System.SysUtils, System.Generics.Collections, BCEditor.Editor.Utils;
 
 const
   CWHITESPACE = [#32, #9];
 
-procedure TDocumentXMLTreeFrame.VirtualDrawTreeClick(Sender: TObject);
-var
-  SelectedNode: PVirtualNode;
-  Data: PXMLTreeRec;
-begin
-  SelectedNode := VirtualDrawTree.GetFirstSelected;
-  if Assigned(SelectedNode) then
-  begin
-    Data := VirtualDrawTree.GetNodeData(SelectedNode);
-    Editor.CaretX := Data.BlockBegin.Char;
-    Editor.CaretY := Data.BlockBegin.Line;
-    Editor.EnsureCursorPositionVisible(True);
-    Editor.SelectionBeginPosition := Data.BlockBegin;
-    Editor.SelectionEndPosition := Data.BlockEnd;
-  end;
-end;
-
-procedure TDocumentXMLTreeFrame.VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
-var
-  TreeNode: PXMLTreeRec;
-  S: string;
-  R: TRect;
-  Format: Cardinal;
-begin
-  with Sender as TVirtualDrawTree, PaintInfo do
-  begin
-    TreeNode := Sender.GetNodeData(Node);
-
-    if not Assigned(TreeNode) then
-      Exit;
-
-    if Assigned(FrameAdapter.SkinData) and Assigned(FrameAdapter.SkinData.SkinManager) then
-      Canvas.Font.Color := FrameAdapter.SkinData.SkinManager.GetActiveEditFontColor
-    else
-      Canvas.Font.Color := clWindowText;
-
-    if vsSelected in PaintInfo.Node.States then
-    begin
-      if Assigned(FrameAdapter.SkinData) and Assigned(FrameAdapter.SkinData.SkinManager) then
-      begin
-        Canvas.Brush.Color := FrameAdapter.SkinData.SkinManager.GetHighLightColor;
-        Canvas.Font.Color := FrameAdapter.SkinData.SkinManager.GetHighLightFontColor
-      end
-      else
-      begin
-        Canvas.Brush.Color := clHighlight;
-        Canvas.Font.Color := clHighlightText;
-      end;
-    end;
-
-    SetBKMode(Canvas.Handle, TRANSPARENT);
-
-    R := ContentRect;
-    InflateRect(R, -TextMargin, 0);
-    Dec(R.Right);
-    Dec(R.Bottom);
-    S := TreeNode.NodeName;
-
-    if Length(S) > 0 then
-    begin
-      with R do
-      begin
-        if (NodeWidth - 2 * Margin) > (Right - Left) then
-          S := ShortenString(Canvas.Handle, S, Right - Left);
-      end;
-      Format := DT_TOP or DT_LEFT or DT_VCENTER or DT_SINGLELINE;
-      DrawText(Canvas.Handle, S, Length(S), R, Format);
-    end;
-
-  end;
-end;
-
-procedure TDocumentXMLTreeFrame.VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
-var
-  Data: PXMLTreeRec;
-begin
-  Data := Sender.GetNodeData(Node);
-  Finalize(Data^);
-  inherited;
-end;
-
-procedure TDocumentXMLTreeFrame.VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
-  Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
-var
-  Data: PXMLTreeRec;
-begin
-  if Kind in [ikNormal, ikSelected] then
-  begin
-    Data := VirtualDrawTree.GetNodeData(Node);
-    ImageIndex := Ord(Data.NodeType);
-  end;
-end;
-
-procedure TDocumentXMLTreeFrame.VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode;
-  Column: TColumnIndex; var NodeWidth: Integer);
-var
-  Data: PXMLTreeRec;
-  AMargin: Integer;
-begin
-  with Sender as TVirtualDrawTree do
-  begin
-    AMargin := TextMargin;
-    Data := Sender.GetNodeData(Node);
-    if Assigned(Data) then
-      NodeWidth := Canvas.TextWidth(Data.NodeName) + 2 * AMargin
-  end;
-end;
-
-procedure TDocumentXMLTreeFrame.VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
-  var InitialStates: TVirtualNodeInitStates);
-var
-  Data: PXMLTreeRec;
-begin
-  inherited;
-  Data := VirtualDrawTree.GetNodeData(Node);
-  if Assigned(Data) then
-    if Data.HasChildNodes then
-      Include(InitialStates, ivsHasChildren);
-end;
-
-procedure TDocumentXMLTreeFrame.LoadFromXML(XML: string);
+procedure TEBXMLTree.LoadFromXML(AXML: string);
 var
   LLine: Integer;
   LNode: PVirtualNode;
@@ -208,7 +82,7 @@ var
 
   procedure PopAttribute;
   begin
-    LData := VirtualDrawTree.GetNodeData(LNodeStack.Peek);
+    LData := GetNodeData(LNodeStack.Peek);
     if LData.NodeType = ntAttribute then
       if LNodeStack.Count > 0 then
         LNodeStack.Pop;
@@ -234,8 +108,8 @@ var
 
             PopAttribute;
 
-            LNode := VirtualDrawTree.AddChild(LNodeStack.Peek);
-            LData := VirtualDrawTree.GetNodeData(LNode);
+            LNode := AddChild(LNodeStack.Peek);
+            LData := GetNodeData(LNode);
             LData.NodeType := ntAttribute;
             LData.BlockBegin := GetTextPosition(LChar, LLine);
             LData.NodeName := ExtractText(LPLineText, CWHITESPACE + ['=', '/', #0, '>']);
@@ -256,8 +130,8 @@ var
             begin
               IncChar; { '"' or '''' }
               LData.HasChildNodes := True; { apName }
-              LNode := VirtualDrawTree.AddChild(LNodeStack.Pop);
-              LData := VirtualDrawTree.GetNodeData(LNode);
+              LNode := AddChild(LNodeStack.Pop);
+              LData := GetNodeData(LNode);
               LData.NodeType := ntText;
               LData.BlockBegin := GetTextPosition(LChar, LLine);
               LData.NodeName := ExtractText(LPLineText, ['"']);
@@ -280,8 +154,8 @@ var
   procedure ReadProlog;
   begin
     IncChar(2); { '<?' }
-    LNode := VirtualDrawTree.AddChild(nil);
-    LData := VirtualDrawTree.GetNodeData(LNode);
+    LNode := AddChild(nil);
+    LData := GetNodeData(LNode);
     LData.HasChildNodes := True;
     LData.NodeType := ntReserved;
     LData.BlockBegin := GetTextPosition(LChar, LLine);
@@ -297,8 +171,8 @@ var
   procedure ReadProcessingInstruction;
   begin
     IncChar(2); { '<?' }
-    LNode := VirtualDrawTree.AddChild(nil);
-    LData := VirtualDrawTree.GetNodeData(LNode);
+    LNode := AddChild(nil);
+    LData := GetNodeData(LNode);
     LData.NodeType := ntReserved;
     LData.BlockBegin := GetTextPosition(LChar, LLine);
     LData.NodeName := ExtractText(LPLineText, CWHITESPACE + ['=', '/', #0, '>']);
@@ -312,10 +186,10 @@ var
   procedure ReadComment;
   begin
     if LNodeStack.Count > 0 then
-      LNode := VirtualDrawTree.AddChild(LNodeStack.Peek)
+      LNode := AddChild(LNodeStack.Peek)
     else
-      LNode := VirtualDrawTree.AddChild(nil);
-    LData := VirtualDrawTree.GetNodeData(LNode);
+      LNode := AddChild(nil);
+    LData := GetNodeData(LNode);
     LData.NodeType := ntComment;
     LData.BlockBegin := GetTextPosition(LChar, LLine);
     LData.NodeName := 'comment';
@@ -327,15 +201,15 @@ var
 
   procedure ReadDocTypeItem;
   begin
-    LNode := VirtualDrawTree.AddChild(LNodeStack.Peek);
-    LData := VirtualDrawTree.GetNodeData(LNode);
+    LNode := AddChild(LNodeStack.Peek);
+    LData := GetNodeData(LNode);
     LData.NodeType := ntElement;
     LData.BlockBegin := GetTextPosition(LChar, LLine);
     LData.NodeName := ExtractText(LPLineText, CWHITESPACE + ['=', '/', #0, '>']);
     LData.BlockEnd := GetTextPosition(LChar, LLine);
 
-    LNode := VirtualDrawTree.AddChild(LNode);
-    LData := VirtualDrawTree.GetNodeData(LNode);
+    LNode := AddChild(LNode);
+    LData := GetNodeData(LNode);
     LData.NodeType := ntAttribute;
     LData.BlockBegin := GetTextPosition(LChar, LLine);
     LData.NodeName := ExtractText(LPLineText, CWHITESPACE + ['=', '/', #0, '>']);
@@ -360,10 +234,10 @@ var
     IncChar(2); { '<!' }
 
     if LNodeStack.Count > 0 then
-      LNode := VirtualDrawTree.AddChild(LNodeStack.Peek)
+      LNode := AddChild(LNodeStack.Peek)
     else
-      LNode := VirtualDrawTree.AddChild(nil);
-    LData := VirtualDrawTree.GetNodeData(LNode);
+      LNode := AddChild(nil);
+    LData := GetNodeData(LNode);
     LData.NodeType := ntElement;
     LData.BlockBegin := GetTextPosition(LChar, LLine);
     LData.NodeName := 'DOCTYPE';
@@ -371,8 +245,8 @@ var
     LData.BlockEnd := GetTextPosition(LChar, LLine);
     LNodeStack.Push(LNode);
 
-    LNode := VirtualDrawTree.AddChild(LNode);
-    LData := VirtualDrawTree.GetNodeData(LNode);
+    LNode := AddChild(LNode);
+    LData := GetNodeData(LNode);
     LData.NodeType := ntAttribute;
     LData.BlockBegin := GetTextPosition(LChar, LLine);
     LData.NodeName := ExtractText(LPLineText, CWHITESPACE + ['=', '/', #0, '>']);
@@ -390,10 +264,10 @@ var
   procedure ReadCData;
   begin
     if LNodeStack.Count > 0 then
-      LNode := VirtualDrawTree.AddChild(LNodeStack.Peek)
+      LNode := AddChild(LNodeStack.Peek)
     else
-      LNode := VirtualDrawTree.AddChild(nil);
-    LData := VirtualDrawTree.GetNodeData(LNode);
+      LNode := AddChild(nil);
+    LData := GetNodeData(LNode);
     LData.NodeType := ntComment;
     LData.BlockBegin := GetTextPosition(LChar, LLine);
     LData.NodeName := 'CDATA';
@@ -407,10 +281,10 @@ var
   begin
     IncChar; { '<' }
     if LNodeStack.Count > 0 then
-      LNode := VirtualDrawTree.AddChild(LNodeStack.Peek)
+      LNode := AddChild(LNodeStack.Peek)
     else
-      LNode := VirtualDrawTree.AddChild(nil);
-    LData := VirtualDrawTree.GetNodeData(LNode);
+      LNode := AddChild(nil);
+    LData := GetNodeData(LNode);
     LData.NodeType := ntElement;
     LData.BlockBegin := GetTextPosition(LChar, LLine);
     LData.NodeName := ExtractText(LPLineText, CWHITESPACE + ['=', '/', #0, '>']);
@@ -467,17 +341,16 @@ var
 begin
   LNodeStack := TStack<PVirtualNode>.Create;
   try
-    FXMLNodeCount := 0;
     LLine := 1;
-    LPLineText := pChar(XML);
+    LPLineText := PChar(AXML);
 
-    VirtualDrawTree.Clear;
-    VirtualDrawTree.NodeDataSize := SizeOf(TXMLTreeRec);
-    VirtualDrawTree.BeginUpdate;
+    Clear;
+    NodeDataSize := SizeOf(TXMLTreeRec);
+    BeginUpdate;
 
     LLines := TStringList.Create;
     try
-      LLines.Text := XML;
+      LLines.Text := AXML;
       FProgressBar.Count := LLines.Count;
     finally
       LLines.Free;
@@ -486,12 +359,132 @@ begin
     ProcessLines;
     FProgressBar.Hide;
 
-    VirtualDrawTree.Expanded[VirtualDrawTree.GetFirst] := True;
-    VirtualDrawTree.EndUpdate;
+    Expanded[GetFirst] := True;
+    EndUpdate;
     Editor.CaretZero;
   finally
     LNodeStack.Free;
   end;
+end;
+
+procedure TEBXMLTree.VirtualDrawTreeClick(Sender: TObject);
+var
+  SelectedNode: PVirtualNode;
+  Data: PXMLTreeRec;
+begin
+  SelectedNode := VirtualDrawTree.GetFirstSelected;
+  if Assigned(SelectedNode) then
+  begin
+    Data := VirtualDrawTree.GetNodeData(SelectedNode);
+    Editor.CaretX := Data.BlockBegin.Char;
+    Editor.CaretY := Data.BlockBegin.Line;
+    Editor.EnsureCursorPositionVisible(True);
+    Editor.SelectionBeginPosition := Data.BlockBegin;
+    Editor.SelectionEndPosition := Data.BlockEnd;
+  end;
+end;
+
+procedure TEBXMLTree.VirtualDrawTreeDrawNode(Sender: TBaseVirtualTree; const PaintInfo: TVTPaintInfo);
+var
+  TreeNode: PXMLTreeRec;
+  S: string;
+  R: TRect;
+  Format: Cardinal;
+begin
+  with Sender as TVirtualDrawTree, PaintInfo do
+  begin
+    TreeNode := Sender.GetNodeData(Node);
+
+    if not Assigned(TreeNode) then
+      Exit;
+
+    if Assigned(FrameAdapter.SkinData) and Assigned(FrameAdapter.SkinData.SkinManager) then
+      Canvas.Font.Color := FrameAdapter.SkinData.SkinManager.GetActiveEditFontColor
+    else
+      Canvas.Font.Color := clWindowText;
+
+    if vsSelected in PaintInfo.Node.States then
+    begin
+      if Assigned(FrameAdapter.SkinData) and Assigned(FrameAdapter.SkinData.SkinManager) then
+      begin
+        Canvas.Brush.Color := FrameAdapter.SkinData.SkinManager.GetHighLightColor;
+        Canvas.Font.Color := FrameAdapter.SkinData.SkinManager.GetHighLightFontColor
+      end
+      else
+      begin
+        Canvas.Brush.Color := clHighlight;
+        Canvas.Font.Color := clHighlightText;
+      end;
+    end;
+
+    SetBKMode(Canvas.Handle, TRANSPARENT);
+
+    R := ContentRect;
+    InflateRect(R, -TextMargin, 0);
+    Dec(R.Right);
+    Dec(R.Bottom);
+    S := TreeNode.NodeName;
+
+    if Length(S) > 0 then
+    begin
+      with R do
+      begin
+        if (NodeWidth - 2 * Margin) > (Right - Left) then
+          S := ShortenString(Canvas.Handle, S, Right - Left);
+      end;
+      Format := DT_TOP or DT_LEFT or DT_VCENTER or DT_SINGLELINE;
+      DrawText(Canvas.Handle, S, Length(S), R, Format);
+    end;
+
+  end;
+end;
+
+procedure TEBXMLTree.VirtualDrawTreeFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
+var
+  Data: PXMLTreeRec;
+begin
+  Data := Sender.GetNodeData(Node);
+  Finalize(Data^);
+  inherited;
+end;
+
+procedure TEBXMLTree.VirtualDrawTreeGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
+  Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
+var
+  Data: PXMLTreeRec;
+begin
+  if Kind in [ikNormal, ikSelected] then
+  begin
+    Data := VirtualDrawTree.GetNodeData(Node);
+    ImageIndex := Ord(Data.NodeType);
+  end;
+end;
+
+procedure TEBXMLTree.VirtualDrawTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas; Node: PVirtualNode;
+  Column: TColumnIndex; var NodeWidth: Integer);
+var
+  Data: PXMLTreeRec;
+  AMargin: Integer;
+begin
+  with Sender as TVirtualDrawTree do
+  begin
+    AMargin := TextMargin;
+    Data := Sender.GetNodeData(Node);
+    if Assigned(Data) then
+      NodeWidth := Canvas.TextWidth(Data.NodeName) + 2 * AMargin
+  end;
+end;
+
+procedure TEBXMLTree.VirtualDrawTreeInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
+  var InitialStates: TVirtualNodeInitStates);
+var
+  Data: PXMLTreeRec;
+begin
+  inherited;
+  Data := VirtualDrawTree.GetNodeData(Node);
+  if Assigned(Data) then
+    if Data.HasChildNodes then
+      Include(InitialStates, ivsHasChildren);
 end;
 
 end.

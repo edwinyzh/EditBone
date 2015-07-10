@@ -1,71 +1,7 @@
-object DocumentFrame: TDocumentFrame
-  Left = 0
-  Top = 0
-  Width = 451
-  Height = 304
-  Align = alClient
-  DoubleBuffered = True
-  Color = clWindow
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Segoe UI'
-  Font.Style = []
-  ParentBackground = False
-  ParentColor = False
-  ParentDoubleBuffered = False
-  ParentFont = False
-  TabOrder = 0
-  object PageControl: TBCPageControl
-    Left = 0
-    Top = 0
-    Width = 451
-    Height = 304
-    Margins.Left = 0
-    Margins.Top = 5
-    Margins.Right = 0
-    Margins.Bottom = 0
-    ActivePage = TabSheetNew
-    Align = alClient
-    DoubleBuffered = False
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Segoe UI'
-    Font.Style = []
-    HotTrack = True
-    Images = ImagesDataModule.ImageListSmall
-    MultiLine = True
-    ParentDoubleBuffered = False
-    ParentFont = False
-    TabHeight = 22
-    TabOrder = 0
-    OnChange = PageControlChange
-    OnMouseDown = PageControlMouseDown
-    ShowCloseBtns = True
-    TabMargin = 4
-    SkinData.SkinSection = 'PAGECONTROL'
-    SkinData.OuterEffects.Visibility = ovAlways
-    OnDblClick = PageControlDblClick
-    OnCloseBtnClick = PageControlCloseBtnClick
-    HoldShiftToDragDrop = False
-    TabDragDrop = True
-    object TabSheetNew: TsTabSheet
-      Caption = '    '
-      DoubleBuffered = False
-      ImageIndex = -1
-      ParentDoubleBuffered = False
-      TabType = ttButton
-      TabSkin = 'CHECKBOX'
-      SkinData.CustomColor = False
-      SkinData.CustomFont = False
-      OnClickBtn = TabSheetNewClickBtn
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
-    end
-  end
+object DataModuleImages: TDataModuleImages
+  OldCreateOrder = False
+  Height = 326
+  Width = 384
   object ImageList16: TBCImageList
     Items = <
       item
@@ -167,42 +103,14 @@ object DocumentFrame: TDocumentFrame
           5DA715F9278619E6B2F581B7E7867946B52C6DCBC97A33704C81E3FB835E9C38
           829A03FE032985F59809625DAE0000000049454E44AE426082}
       end>
-    Left = 142
-    Top = 112
+    Left = 78
+    Top = 104
     Bitmap = {
       494C010100000800080001000100FFFFFFFF0400FFFFFFFFFFFFFFFF424D7600
       0000000000007600000028000000040000000100000001000400000000000400
       0000000000000000000000000000000000000000000000008000008000000080
       8000800000008000800080800000C0C0C000808080000000FF0000FF000000FF
       FF00FF000000FF00FF00FFFF0000FFFFFF0000000000}
-  end
-  object ActionList: TActionList
-    Left = 142
-    Top = 44
-    object ActionSelectionBoxDown: TAction
-      Category = 'BoxSelection'
-      Caption = 'ActionSelectionBoxDown'
-      ShortCut = 41000
-      OnExecute = ActionSelectionBoxDownExecute
-    end
-    object ActionSelectionBoxLeft: TAction
-      Category = 'BoxSelection'
-      Caption = 'ActionSelectionBoxLeft'
-      ShortCut = 40997
-      OnExecute = ActionSelectionBoxLeftExecute
-    end
-    object ActionSelectionBoxRight: TAction
-      Category = 'BoxSelection'
-      Caption = 'ActionSelectionBoxRight'
-      ShortCut = 40999
-      OnExecute = ActionSelectionBoxRightExecute
-    end
-    object ActionSelectionBoxUp: TAction
-      Category = 'BoxSelection'
-      Caption = 'ActionSelectionBoxUp'
-      ShortCut = 40998
-      OnExecute = ActionSelectionBoxUpExecute
-    end
   end
   object ImageList20: TBCImageList
     Height = 20
@@ -321,8 +229,8 @@ object DocumentFrame: TDocumentFrame
           0A477132922A488218B126A3BB05C0B898B21EE1146B81AC0B4E9CF9C4F474FC
           9F0003002C84A48DFFFF1F5F0000000049454E44AE426082}
       end>
-    Left = 142
-    Top = 168
+    Left = 78
+    Top = 160
     Bitmap = {
       494C010100000800080001000100FFFFFFFF0400FFFFFFFFFFFFFFFF424D7600
       0000000000007600000028000000040000000100000001000400000000000400
@@ -455,8 +363,8 @@ object DocumentFrame: TDocumentFrame
           0A477132922A488218B126A3BB05C0B898B21EE1146B81AC0B4E9CF9C4F474FC
           9F0003002C84A48DFFFF1F5F0000000049454E44AE426082}
       end>
-    Left = 142
-    Top = 224
+    Left = 78
+    Top = 216
     Bitmap = {
       494C010100000800080001000100FFFFFFFF0400FFFFFFFFFFFFFFFF424D7600
       0000000000007600000028000000040000000100000001000400000000000400
@@ -607,93 +515,13 @@ object DocumentFrame: TDocumentFrame
           B975202936C29180C32F8D03E52F522502EFD8C851F70000000049454E44AE42
           6082}
       end>
-    Left = 244
-    Top = 54
+    Left = 80
+    Top = 28
     Bitmap = {
       494C010100000800080001000100FFFFFFFF0400FFFFFFFFFFFFFFFF424D7600
       0000000000007600000028000000040000000100000001000400000000000400
       0000000000000000000000000000000000000000000000008000008000000080
       8000800000008000800080800000C0C0C000808080000000FF0000FF000000FF
       FF00FF000000FF00FF00FFFF0000FFFFFF0000000000}
-  end
-  object PopupMenuXMLTree: TPopupMenu
-    Images = ImagesDataModule.ImageListSmall
-    Left = 240
-    Top = 114
-    object MenuItemXMLRefresh: TMenuItem
-      Action = ActionXMLTreeRefresh
-    end
-  end
-  object ActionListXMLTreePopup: TActionList
-    Images = ImagesDataModule.ImageListSmall
-    Left = 240
-    Top = 232
-    object ActionXMLTreeRefresh: TAction
-      Caption = '&Refresh'
-      Hint = 'Refresh files'
-      ImageIndex = 93
-      OnExecute = ActionXMLTreeRefreshExecute
-    end
-  end
-  object EditorMacroRecorder: TBCEditorMacroRecorder
-    RecordShortCut = 24658
-    PlaybackShortCut = 24656
-    Left = 52
-    Top = 258
-  end
-  object FrameAdapter: TsFrameAdapter
-    SkinData.SkinSection = 'CHECKBOX'
-    Left = 396
-    Top = 56
-  end
-  object OpenDialog: TsOpenDialog
-    Options = [ofHideReadOnly, ofAllowMultiSelect, ofEnableSizing]
-    Left = 32
-    Top = 22
-  end
-  object SaveDialog: TsSaveDialog
-    Left = 32
-    Top = 74
-  end
-  object PrintDialog: TPrintDialog
-    Left = 30
-    Top = 126
-  end
-  object EditorPrint: TBCEditorPrint
-    Color = clWhite
-    Copies = 1
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    Footer.DefaultFont.Charset = DEFAULT_CHARSET
-    Footer.DefaultFont.Color = clBlack
-    Footer.DefaultFont.Height = -12
-    Footer.DefaultFont.Name = 'Courier New'
-    Footer.DefaultFont.Style = []
-    Header.DefaultFont.Charset = DEFAULT_CHARSET
-    Header.DefaultFont.Color = clBlack
-    Header.DefaultFont.Height = -12
-    Header.DefaultFont.Name = 'Courier New'
-    Header.DefaultFont.Style = []
-    Margins.Bottom = 18.000000000000000000
-    Margins.Footer = 15.000000000000000000
-    Margins.Header = 15.000000000000000000
-    Margins.InternalMargin = 0.500000000000000000
-    Margins.Left = 20.000000000000000000
-    Margins.LeftTextIndent = 2.000000000000000000
-    Margins.MirrorMargins = False
-    Margins.Right = 15.000000000000000000
-    Margins.RightTextIndent = 2.000000000000000000
-    Margins.Top = 18.000000000000000000
-    TabWidth = 8
-    Left = 52
-    Top = 202
-  end
-  object Timer: TTimer
-    OnTimer = TimerTimer
-    Left = 370
-    Top = 134
   end
 end

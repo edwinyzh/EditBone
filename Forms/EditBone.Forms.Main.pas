@@ -8,10 +8,10 @@ uses
   sSkinProvider, BCComponents.SkinProvider, acTitleBar, BCComponents.TitleBar, sSkinManager, BCComponents.SkinManager,
   Vcl.ComCtrls, sStatusBar, BCControls.StatusBar, Vcl.ExtCtrls, sPanel, BCControls.Panel, sSplitter, BCControls.Splitter,
   sPageControl, BCControls.PageControl, BCCommon.Images, BCControls.SpeedButton, Vcl.Buttons, sSpeedButton,
-  EditBone.Frames.Directory, EditBone.Frames.Document, EditBone.Frames.Output, VirtualTrees,
+  EditBone.Frames.Directory, EditBone.Document, EditBone.Frames.Output, VirtualTrees,
   System.Win.TaskbarCore, Vcl.Taskbar, Vcl.ActnMan, Vcl.ActnMenus, BCComponents.DragDrop, System.Diagnostics,
   Vcl.PlatformDefaultStyleActnCtrls, Vcl.StdCtrls, JvAppInst, acPNG, acImage, System.ImageList, Vcl.ImgList,
-  acAlphaImageList, BCControls.ProgressBar, EditBone.FindInFiles;
+  acAlphaImageList, BCControls.ProgressBar, EditBone.FindInFiles, BCEditor.MacroRecorder, BCEditor.Print, sDialogs;
 
 type
   TMainForm = class(TBCBaseForm)
@@ -565,6 +565,20 @@ type
     N5: TMenuItem;
     Open1: TMenuItem;
     Saveas2: TMenuItem;
+    PageControlDocument: TBCPageControl;
+    OpenDialog: TsOpenDialog;
+    SaveDialog: TsSaveDialog;
+    PrintDialog: TPrintDialog;
+    EditorPrint: TBCEditorPrint;
+    EditorMacroRecorder: TBCEditorMacroRecorder;
+    Timer: TTimer;
+    ActionSelectionBoxDown: TAction;
+    ActionSelectionBoxLeft: TAction;
+    ActionSelectionBoxRight: TAction;
+    ActionSelectionBoxUp: TAction;
+    ActionXMLTreeRefresh: TAction;
+    PopupMenuXMLTree: TPopupMenu;
+    MenuItemXMLRefresh: TMenuItem;
     procedure ActionFileNewExecute(Sender: TObject);
     procedure ActionFileOpenExecute(Sender: TObject);
     procedure ActionFileSaveAllExecute(Sender: TObject);
@@ -691,10 +705,23 @@ type
     procedure OnAddTreeViewLine(Sender: TObject; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString = '');
     procedure ActionToolBarMenuSkinExecute(Sender: TObject);
     procedure ActionMacroPauseExecute(Sender: TObject);
+    procedure PageControlDocumentChange(Sender: TObject);
+    procedure PageControlDocumentCloseBtnClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
+      var Action: TacCloseAction);
+    procedure PageControlDocumentDblClick(Sender: TObject);
+    procedure PageControlDocumentMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure TimerTimer(Sender: TObject);
+    procedure ActionSelectionBoxDownExecute(Sender: TObject);
+    procedure ActionSelectionBoxLeftExecute(Sender: TObject);
+    procedure ActionSelectionBoxRightExecute(Sender: TObject);
+    procedure ActionSelectionBoxUpExecute(Sender: TObject);
+    procedure ActionXMLTreeRefreshExecute(Sender: TObject);
+    procedure EditorPrintPrintStatus(Sender: TObject; Status: TBCEditorPrintStatus; PageNumber: Integer;
+      var Abort: Boolean);
   private
     FNoIni: Boolean;
     FDirectoryFrame: TDirectoryFrame;
-    FDocumentFrame: TDocumentFrame;
+    FDocument: TEBDocument;
     FImageListCount: Integer;
     FOutputFrame: TOutputFrame;
     FProcessingEventHandler: Boolean;
@@ -702,11 +729,13 @@ type
     FSQLFormatterDLLFound: Boolean;
     FStopWatch: TStopWatch;
     FOutputTreeView: TVirtualDrawTree;
+    function GetActionList: TObjectList<TAction>;
     function OnCancelSearch: Boolean;
     function GetHighlighterColor: string;
     function GetStringList(APopupMenu: TPopupMenu): TStringList;
     function Processing: Boolean;
-    procedure CreateFrames;
+    procedure CreateObjects;
+    procedure CreateImageList;
     procedure CreateLanguageMenu(AMenuItem: TMenuItem);
     procedure CreateToolBar(ACreate: Boolean = False);
     procedure ReadIniOptions;
@@ -742,7 +771,113 @@ uses
   BCCommon.Utils, BCControls.ImageList, BCControls.Utils, BCCommon.Dialogs.FindInFiles, BCEditor.Editor.Utils,
   BCEditor.Encoding, EditBone.Forms.UnicodeCharacterMap, EditBone.Dialogs.About, BCCommon.Dialogs.DownloadURL,
   BCCommon.Forms.Convert, EditBone.Forms.LanguageEditor, BCCommon.Messages, BCCommon.Forms.SearchForFiles,
-  BCCommon.StringUtils, BCEditor.Types, BCCommon.Dialogs.SkinSelect, sGraphUtils, sConst;
+  BCCommon.StringUtils, BCEditor.Types, BCCommon.Dialogs.SkinSelect, sGraphUtils, sConst,
+  System.Generics.Collections;
+
+
+procedure TMainForm.CreateImageList;
+var
+  SysImageList: THandle;
+  Icon: TIcon;
+begin
+  if not Assigned(FImages) then
+    FImages := TImageList.Create(Self);
+  SysImageList := GetSysImageList;
+  if SysImageList <> 0 then
+  begin
+    FImages.Handle := SysImageList;
+    FImages.BkColor := clNone;
+    FImages.ShareImages := True;
+  end;
+  { compare and new image index }
+  Icon := TIcon.Create;
+  try
+    { Windows font size causing a problem: Icon size will be smaller than PageControl.Images size }
+    case FImages.Height of
+      16:
+        begin
+          { smaller }
+          ImageList16.GetIcon(0, Icon);
+          FCompareImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          ImageList16.GetIcon(1, Icon);
+          FNewImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          if Assigned(TabSheetNew) then
+          begin
+            ImageList16.GetIcon(2, Icon);
+            TabSheetNew.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          end;
+        end;
+      20:
+        begin
+          { medium }
+          ImageList20.GetIcon(0, Icon);
+          FCompareImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          ImageList20.GetIcon(1, Icon);
+          FNewImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          if Assigned(TabSheetNew) then
+          begin
+            ImageList20.GetIcon(2, Icon);
+            TabSheetNew.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          end;
+        end;
+      24:
+        begin
+          { larger }
+          ImageList24.GetIcon(0, Icon);
+          FCompareImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          ImageList24.GetIcon(1, Icon);
+          FNewImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          if Assigned(TabSheetNew) then
+          begin
+            ImageList24.GetIcon(2, Icon);
+            TabSheetNew.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          end;
+        end;
+    end;
+  finally
+    Icon.Free;
+  end;
+end;
+
+procedure TMainForm.PageControlDocumentChange(Sender: TObject);
+var
+  LEditor: TBCEditor;
+begin
+  if Processing then
+    Exit;
+  SetBookmarks;
+  SetTitleBarMenus;
+  LEditor := GetActiveEditor;
+  if Assigned(LEditor) then
+  begin
+    if LEditor.CanFocus then
+      LEditor.SetFocus;
+  end;
+end;
+
+procedure TMainForm.PageControlDocumentCloseBtnClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
+  var Action: TacCloseAction);
+begin
+  inherited;
+  if Close(False, TabIndex) <> mrCancel then
+    Action := acaFree
+  else
+    CanClose := False;
+end;
+
+procedure TMainForm.PageControlDocumentDblClick(Sender: TObject);
+begin
+  inherited;
+  if OptionsContainer.DocCloseTabByDblClick then
+    Close;
+end;
+
+procedure TMainForm.PageControlDocumentMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  inherited;
+  if (Button = mbMiddle) and OptionsContainer.DocCloseTabByMiddleClick then
+    Close;
+end;
 
 function TMainForm.Processing: Boolean;
 begin
@@ -1002,7 +1137,21 @@ end;
 
 procedure TMainForm.ActionFilePrintExecute(Sender: TObject);
 begin
-  FDocumentFrame.Print;
+  if PrintDialog.Execute(Handle) then
+  begin
+    FDocument.InitializeEditorPrint(EditorPrint);
+    EditorPrint.Copies := PrintDialog.Copies;
+    EditorPrint.SelectedOnly := PrintDialog.PrintRange = prSelection;
+    EditorPrint.OnPrintStatus := OnPrintStatus;
+    EditorPrint.UpdatePages(PrintPreviewDialog.Canvas);
+    ProgressBar.Count := PageControl.PageCount - 1;
+    ProgressBar.Show;
+    if PrintDialog.PrintRange = prPageNums then
+      EditorPrint.PrintRange(PrintDialog.FromPage, PrintDialog.ToPage)
+    else
+      EditorPrint.Print;
+    ProgressBar.Hide;
+  end;
 end;
 
 procedure TMainForm.ActionFilePrintPreviewExecute(Sender: TObject);
@@ -1129,6 +1278,90 @@ begin
   FDocumentFrame.SetHighlighter(TAction(Sender).Caption);
 end;
 
+procedure TMainForm.ActionSelectionBoxDownExecute(Sender: TObject);
+
+  procedure BoxDown(Editor: TBCEditor);
+  begin
+    if Assigned(Editor) then
+      if Editor.Focused then
+      begin
+        OptionsContainer.EnableSelectionMode := True;
+        Editor.Selection.Options := Editor.Selection.Options + [soALTSetsColumnMode];
+        Editor.Selection.Mode := smColumn;
+        Keybd_Event(VK_SHIFT, MapVirtualKey(VK_SHIFT, 0), 0, 0);
+        Keybd_Event(VK_DOWN, MapVirtualKey(VK_DOWN, 0), 0, 0);
+        Keybd_Event(VK_DOWN, MapVirtualKey(VK_DOWN, 0), KEYEVENTF_KEYUP, 0);
+        Keybd_Event(VK_MENU, MapVirtualKey(VK_MENU, 0), KEYEVENTF_KEYUP, 0);
+      end;
+  end;
+
+begin
+  BoxDown(GetActiveEditor);
+  BoxDown(GetActiveSplitEditor);
+end;
+
+procedure TMainForm.ActionSelectionBoxLeftExecute(Sender: TObject);
+  procedure BoxLeft(Editor: TBCEditor);
+  begin
+    if Assigned(Editor) then
+      if Editor.Focused then
+      begin
+        OptionsContainer.EnableSelectionMode := True;
+        Editor.Selection.Options := Editor.Selection.Options + [soALTSetsColumnMode];
+        Editor.Selection.Mode := smColumn;
+        Keybd_Event(VK_SHIFT, MapVirtualKey(VK_SHIFT, 0), 0, 0);
+        Keybd_Event(VK_LEFT, MapVirtualKey(VK_LEFT, 0), 0, 0);
+        Keybd_Event(VK_LEFT, MapVirtualKey(VK_LEFT, 0), KEYEVENTF_KEYUP, 0);
+        Keybd_Event(VK_MENU, MapVirtualKey(VK_MENU, 0), KEYEVENTF_KEYUP, 0);
+      end;
+  end;
+
+begin
+  BoxLeft(GetActiveEditor);
+  BoxLeft(GetActiveSplitEditor);
+end;
+
+procedure TMainForm.ActionSelectionBoxRightExecute(Sender: TObject);
+  procedure BoxRight(Editor: TBCEditor);
+  begin
+    if Assigned(Editor) then
+      if Editor.Focused then
+      begin
+        OptionsContainer.EnableSelectionMode := True;
+        Editor.Selection.Options := Editor.Selection.Options + [soALTSetsColumnMode];
+        Editor.Selection.Mode := smColumn;
+        Keybd_Event(VK_SHIFT, MapVirtualKey(VK_SHIFT, 0), 0, 0);
+        Keybd_Event(VK_RIGHT, MapVirtualKey(VK_RIGHT, 0), 0, 0);
+        Keybd_Event(VK_RIGHT, MapVirtualKey(VK_RIGHT, 0), KEYEVENTF_KEYUP, 0);
+        Keybd_Event(VK_MENU, MapVirtualKey(VK_MENU, 0), KEYEVENTF_KEYUP, 0);
+      end;
+  end;
+
+begin
+  BoxRight(GetActiveEditor);
+  BoxRight(GetActiveSplitEditor);
+end;
+
+procedure TMainForm.ActionSelectionBoxUpExecute(Sender: TObject);
+  procedure BoxUp(Editor: TBCEditor);
+  begin
+    if Assigned(Editor) then
+      if Editor.Focused then
+      begin
+        OptionsContainer.EnableSelectionMode := True;
+        Editor.Selection.Options := Editor.Selection.Options + [soALTSetsColumnMode];
+        Editor.Selection.Mode := smColumn;
+        Keybd_Event(VK_SHIFT, MapVirtualKey(VK_SHIFT, 0), 0, 0);
+        Keybd_Event(VK_UP, MapVirtualKey(VK_UP, 0), 0, 0);
+        Keybd_Event(VK_UP, MapVirtualKey(VK_UP, 0), KEYEVENTF_KEYUP, 0);
+        Keybd_Event(VK_MENU, MapVirtualKey(VK_MENU, 0), KEYEVENTF_KEYUP, 0);
+      end;
+  end;
+
+begin
+  BoxUp(GetActiveEditor);
+  BoxUp(GetActiveSplitEditor);
+end;
 procedure TMainForm.ActionSelectReopenFileExecute(Sender: TObject);
 var
   FileName: string;
@@ -1492,6 +1725,15 @@ begin
   ActionViewXMLTree.Checked := FDocumentFrame.ToggleXMLTree;
 end;
 
+procedure TMainForm.ActionXMLTreeRefreshExecute(Sender: TObject);
+var
+  DocTabSheetFrame: TDocTabSheetFrame;
+begin
+  DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
+  if Assigned(DocTabSheetFrame) then
+    DocTabSheetFrame.LoadFromXML(DocTabSheetFrame.Editor.Text);
+end;
+
 procedure TMainForm.AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
 var
   i: Integer;
@@ -1792,6 +2034,13 @@ begin
   end;
 end;
 
+procedure TMainForm.EditorPrintPrintStatus(Sender: TObject; Status: TBCEditorPrintStatus; PageNumber: Integer;
+  var Abort: Boolean);
+begin
+  inherited;
+  ProgressBar.StepIt;
+end;
+
 procedure TMainForm.LanguageMenuClick(Sender: TObject);
 var
   LCaption: string;
@@ -1920,7 +2169,8 @@ begin
   FImageListCount := ImagesDataModule.ImageListSmall.Count; { System images are appended after menu icons for file reopen }
   ReadIniOptions;
   CreateToolBar(True);
-  CreateFrames;
+  CreateImageList;
+  CreateObjects;
   ReadIniSizePositionAndState;
   SetOptions;
   SetMargins;
@@ -2112,6 +2362,12 @@ begin
   end;
 end;
 
+procedure TMainForm.TimerTimer(Sender: TObject);
+begin
+  inherited;
+  CheckFileDateTimes;
+end;
+
 procedure TMainForm.TitleBarItems2MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   LMenuItem: TMenuItem;
@@ -2195,7 +2451,24 @@ begin
   end;
 end;
 
-procedure TMainForm.CreateFrames;
+function TMainForm.GetActionList: TObjectList<TAction>;
+var
+  i: Integer;
+  Action: TAction;
+begin
+  Result := TObjectList<TAction>.Create;
+  for i := 0 to ActionList.ActionCount - 1 do
+    if (ActionList.Actions[i].ImageIndex <> -1) and (ActionList.Actions[i].Hint <> '') then
+    begin
+      Action := TAction.Create(nil);
+      Action.Name := ActionList.Actions[i].Name;
+      Action.Caption := StringReplace(ActionList.Actions[i].Caption, '&', '', []);
+      Action.ImageIndex := ActionList.Actions[i].ImageIndex;
+      Result.Add(Action);
+    end;
+end;
+
+procedure TMainForm.CreateObjects;
 begin
   { TOutputFrame }
   FOutputFrame := TOutputFrame.Create(PanelOutput);
@@ -2203,11 +2476,20 @@ begin
   FOutputFrame.OnTabsheetDblClick := OutputDblClickActionExecute;
   FOutputFrame.OnOpenAll := OutputOpenAllEvent;
   { TDocumentFrame }
-  FDocumentFrame := TDocumentFrame.Create(PanelDocument);
-  FDocumentFrame.Parent := PanelDocument;
+  FDocument := TEBDocument.Create;
+  FDocument.PageControl := PageControlDocument;
+  FDocument.PopupMenuEditor := PopupMenuEditor;
+  FDocument.PopupMenuXMLTree := PopupMenuXMLTree;
+  FDocument.SetBookmarks := SetBookmarks;
+  FDocument.SetTitleBarMenus := SetTitleBarMenus;
+  FDocument.OpenDialog := OpenDialog;
+  FDocument.SaveDialog := SaveDialog;
+  FDocument.CreateFileReopenList := CreateFileReopenList;
+  FDocument.GetActionList := GetActionList;
+ { FDocumentFrame.Parent := PanelDocument;
   FDocumentFrame.PopupMenu := PopupMenuDocument;
   FDocumentFrame.ProgressBar := ProgressBar;
-  FDocumentFrame.StatusBar := StatusBar;
+  FDocumentFrame.StatusBar := StatusBar; }
   { TDirectoryFrame }
   FDirectoryFrame := TDirectoryFrame.Create(PanelDirectory);
   FDirectoryFrame.Parent := PanelDirectory;
