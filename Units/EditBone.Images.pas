@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Classes, System.ImageList, Vcl.ImgList, Vcl.Controls, acAlphaImageList, BCControls.ImageList;
 
 type
-  TDataModuleImages = class(TDataModule)
+  TEBDataModuleImages = class(TDataModule)
     ImageList16: TBCImageList;
     ImageList20: TBCImageList;
     ImageList24: TBCImageList;
@@ -18,12 +18,17 @@ type
   end;
 
 var
-  DataModuleImages: TDataModuleImages;
+  EBDataModuleImages: TEBDataModuleImages;
 
 implementation
 
-{%CLASSGROUP 'Vcl.Controls.TControl'}
+uses
+  Forms;
 
 {$R *.dfm}
+
+initialization
+
+  Application.CreateForm(TEBDataModuleImages, EBDataModuleImages);
 
 end.

@@ -77,7 +77,7 @@ type
     procedure SetEditorBookmarks(Editor: TBCEditor; Bookmarks: TStrings);
     procedure SetSkinColors(Editor: TBCEditor);
   public
-    constructor Create;
+    constructor Create(AOwner: TBCPageControl);
     destructor Destroy; override;
     function Close(AFreePage: Boolean = True; ATabIndex: Integer = -1): Integer;
     function GetActiveSplitEditor: TBCEditor;
@@ -171,7 +171,7 @@ type
     property ModifiedDocuments: Boolean read FModifiedDocuments write FModifiedDocuments;
     property OpenDialog: TOpenDialog read FOpenDialog write FOpenDialog;
     property OpenTabSheetCount: Integer read GetOpenTabSheetCount;
-    property PageControl: TBCPageControl read FPageControl write FPageControl;
+    property PageControl: TBCPageControl read FPageControl;
     property PopupMenuEditor: TPopupMenu read FPopupMenuEditor write FPopupMenuEditor;
     property PopupMenuXMLTree: TPopupMenu read FPopupMenuXMLTree write FPopupMenuXMLTree;
     property Processing: Boolean read FProcessing;
@@ -199,9 +199,11 @@ uses
 
 { TEBDocument }
 
-constructor TEBDocument.Create;
+constructor TEBDocument.Create(AOwner: TBCPageControl);
 begin
-  inherited;
+  inherited Create;
+  FPageControl := AOwner;
+
   FNumberOfNewDocument := 0;
   FProcessing := False;
   FModifiedDocuments := False;
@@ -266,7 +268,7 @@ begin
           LXMLTree := TEBXMLTree.Create(PageControl.Pages[i]);
           LXMLTree.ProgressBar := FProgressBar;
           LXMLTree.Editor := LEditor;
-          LXMLTree.Images := DataModuleImages.ImageListXMLTree;
+          LXMLTree.Images := EBDataModuleImages.ImageListXMLTree;
           LXMLTree.PopupMenu := FPopupMenuXMLTree;
           LXMLTree.Parent := PageControl.Pages[i];
           LXMLTree.LoadFromXML(LEditor.Text);
@@ -320,18 +322,17 @@ var
 begin
   FProcessing := True;
 
-  { create a TabSheet }
+  { create new tab sheet }
   LTabSheet := TsTabSheet.Create(PageControl);
-  LTabSheet.PageControl := PageControl;
-
-  FTabSheetNew.PageIndex := PageControl.PageCount - 1;
-
   if FileName <> '' then
     LTabSheet.ImageIndex := GetIconIndex(FileName)
   else
     LTabSheet.ImageIndex := FNewImageIndex;
-
+  LTabSheet.TabVisible := False;
+  LTabSheet.PageControl := PageControl;
   PageControl.ActivePage := LTabSheet;
+  { tab sheet new always last }
+  FTabSheetNew.PageIndex := PageControl.PageCount - 1;
 
   { set the Caption property }
   if FileName = '' then
@@ -339,9 +340,11 @@ begin
   else
     PageControl.ActivePageCaption := ExtractFileName(FileName);
 
+  { create editor }
   LEditor := TBCEditor.Create(LTabSheet);
   with LEditor do
   begin
+    Align := alClient;
     Visible := False;
     Parent := LTabSheet;
     DocumentName := FileName;
@@ -356,9 +359,6 @@ begin
     Minimap.Visible := ShowMinimap;
     Tag := EDITBONE_EDITOR_TAG;
   end;
-  { VirtualDrawTree }
-  //DocTabSheetFrame.ImageListXMLTree := Self.ImageListXMLTree;
-  //DocTabSheetFrame.PopupMenuXMLTree := Self.PopupMenuXMLTree;
 
   OptionsContainer.AssignTo(LEditor);
 
@@ -398,6 +398,7 @@ begin
     LEditor.SetFocus;
 
   Result := LEditor;
+  LTabSheet.TabVisible := True;
   FProcessing := False;
 end;
  (*
@@ -1448,39 +1449,39 @@ begin
       16:
         begin
           { smaller }
-          DataModuleImages.ImageList16.GetIcon(0, Icon);
+          EBDataModuleImages.ImageList16.GetIcon(0, Icon);
           FCompareImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
-          DataModuleImages.ImageList16.GetIcon(1, Icon);
+          EBDataModuleImages.ImageList16.GetIcon(1, Icon);
           FNewImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
           if Assigned(FTabSheetNew) then
           begin
-            DataModuleImages.ImageList16.GetIcon(2, Icon);
+            EBDataModuleImages.ImageList16.GetIcon(2, Icon);
             FTabSheetNew.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
           end;
         end;
       20:
         begin
           { medium }
-          DataModuleImages.ImageList20.GetIcon(0, Icon);
+          EBDataModuleImages.ImageList20.GetIcon(0, Icon);
           FCompareImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
-          DataModuleImages.ImageList20.GetIcon(1, Icon);
+          EBDataModuleImages.ImageList20.GetIcon(1, Icon);
           FNewImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
           if Assigned(FTabSheetNew) then
           begin
-            DataModuleImages.ImageList20.GetIcon(2, Icon);
+            EBDataModuleImages.ImageList20.GetIcon(2, Icon);
             FTabSheetNew.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
           end;
         end;
       24:
         begin
           { larger }
-          DataModuleImages.ImageList24.GetIcon(0, Icon);
+          EBDataModuleImages.ImageList24.GetIcon(0, Icon);
           FCompareImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
-          DataModuleImages.ImageList24.GetIcon(1, Icon);
+          EBDataModuleImages.ImageList24.GetIcon(1, Icon);
           FNewImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
           if Assigned(FTabSheetNew) then
           begin
-            DataModuleImages.ImageList24.GetIcon(2, Icon);
+            EBDataModuleImages.ImageList24.GetIcon(2, Icon);
             FTabSheetNew.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
           end;
         end;

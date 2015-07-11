@@ -1,4 +1,4 @@
-object DataModuleImages: TDataModuleImages
+object EBDataModuleImages: TEBDataModuleImages
   OldCreateOrder = False
   Height = 326
   Width = 384

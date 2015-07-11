@@ -24,7 +24,7 @@ uses
   EditBone.Dialogs.About in 'Dialogs\EditBone.Dialogs.About.pas' {AboutDialog},
   EditBone.Forms.LanguageEditor in 'Forms\EditBone.Forms.LanguageEditor.pas' {LanguageEditorForm},
   EditBone.FindInFiles in 'Units\EditBone.FindInFiles.pas',
-  EditBone.Images in 'Units\EditBone.Images.pas' {DataModuleImages: TDataModule},
+  EditBone.Images in 'Units\EditBone.Images.pas' {EBDataModuleImages: TDataModule},
   EditBone.Document in 'Units\EditBone.Document.pas',
   EditBone.XMLTree in 'Units\EditBone.XMLTree.pas';
 
@@ -38,6 +38,5 @@ begin
   Application.Title := 'EditBone';
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TMainForm, MainForm);
-  Application.CreateForm(TDataModuleImages, DataModuleImages);
   Application.Run;
 end.

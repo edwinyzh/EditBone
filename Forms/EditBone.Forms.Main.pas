@@ -12,7 +12,7 @@ uses
   Vcl.ActnMan, Vcl.ActnMenus, BCComponents.DragDrop, System.Diagnostics,
   Vcl.PlatformDefaultStyleActnCtrls, JvAppInst, System.ImageList, Vcl.ImgList,
   acAlphaImageList, BCControls.ProgressBar, EditBone.FindInFiles, BCEditor.MacroRecorder, BCEditor.Print, sDialogs,
-  System.Generics.Collections;
+  System.Generics.Collections, Vcl.StdCtrls;
 
 type
   TMainForm = class(TBCBaseForm)
@@ -580,6 +580,7 @@ type
     ActionXMLTreeRefresh: TAction;
     PopupMenuXMLTree: TPopupMenu;
     MenuItemXMLRefresh: TMenuItem;
+    Button1: TButton;
     procedure ActionFileNewExecute(Sender: TObject);
     procedure ActionFileOpenExecute(Sender: TObject);
     procedure ActionFileSaveAllExecute(Sender: TObject);
@@ -719,6 +720,7 @@ type
     procedure ActionXMLTreeRefreshExecute(Sender: TObject);
     procedure EditorPrintPrintStatus(Sender: TObject; Status: TBCEditorPrintStatus; PageNumber: Integer;
       var Abort: Boolean);
+    procedure Button1Click(Sender: TObject);
   private
     FNoIni: Boolean;
     FDirectoryFrame: TDirectoryFrame;
@@ -1694,6 +1696,19 @@ begin
   SetImages;
 end;
 
+procedure TMainForm.Button1Click(Sender: TObject);
+var
+  LTabSheet: TsTabSheet;
+  LEditor: TBCEditor;
+begin
+  LTabSheet := TsTabSheet.Create(PAgeControlDocument);
+  LTabSheet.PageControl := PAgeControlDocument;
+
+  LEditor := TBCEditor.Create(LTabSheet);
+  LEditor.Align := alClient;
+  LEditor.Parent := LTabSheet;
+end;
+
 procedure TMainForm.SetImages;
 var
   i: Integer;
@@ -2130,6 +2145,7 @@ begin
     FOutputFrame.WriteOutputFile;
     WriteIniFile;
   end;
+  FDocument.Free;
   OptionsContainer.Free;
   SQLFormatterOptionsContainer.Free;
 
@@ -2407,8 +2423,7 @@ begin
   FOutputFrame.OnTabsheetDblClick := OutputDblClickActionExecute;
   FOutputFrame.OnOpenAll := OutputOpenAllEvent;
   { TDocumentFrame }
-  FDocument := TEBDocument.Create;
-  FDocument.PageControl := PageControlDocument;
+  FDocument := TEBDocument.Create(PageControlDocument);
   FDocument.PopupMenuEditor := PopupMenuEditor;
   FDocument.PopupMenuXMLTree := PopupMenuXMLTree;
   FDocument.SetBookmarks := SetBookmarks;
@@ -2418,10 +2433,9 @@ begin
   FDocument.CreateFileReopenList := CreateFileReopenList;
   FDocument.GetActionList := GetActionList;
   FDocument.SkinManager := SkinManager;
- { FDocument.Parent := PanelDocument;
-  FDocument.PopupMenu := PopupMenuDocument;
+  FDocument.StatusBar := StatusBar;
+  //FDocument.PopupMenu := PopupMenuDocument;
   FDocument.ProgressBar := ProgressBar;
-  FDocument.StatusBar := StatusBar; }
   { TDirectoryFrame }
   FDirectoryFrame := TDirectoryFrame.Create(PanelDirectory);
   FDirectoryFrame.Parent := PanelDirectory;

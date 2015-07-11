@@ -105,7 +105,7 @@ inherited MainForm: TMainForm
       Margins.Top = 4
       Margins.Right = 0
       Margins.Bottom = 0
-      ActivePage = TabSheetEdit
+      ActivePage = TabSheetFile
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -121,7 +121,7 @@ inherited MainForm: TMainForm
       TabSpacing = 12
       SkinData.SkinSection = 'RIBBONPAGE'
       SkinData.OuterEffects.Visibility = ovAlways
-      ActivePageCaption = 'Edit'
+      ActivePageCaption = 'File'
       HoldShiftToDragDrop = False
       TabDragDrop = False
       object TabSheetButton: TsTabSheet
@@ -461,6 +461,15 @@ inherited MainForm: TMainForm
             SkinData.SkinSection = 'TOOLBUTTON'
             ImageIndex = 11
             Images = ImagesDataModule.ImageList
+          end
+          object Button1: TButton
+            Left = 822
+            Top = 22
+            Width = 75
+            Height = 25
+            Caption = 'Button1'
+            TabOrder = 0
+            OnClick = Button1Click
           end
         end
       end
