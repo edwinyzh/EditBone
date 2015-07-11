@@ -35,7 +35,7 @@ type
 implementation
 
 uses
-  Winapi.Windows, System.SysUtils, BCControls.Utils, BCCommon.Language.Strings, BCCommon.Options.Container,
+  Winapi.Windows, System.SysUtils, BCControls.Utils, BCCommon.Language.Strings,
   BCEditor.Encoding, BCEditor.Editor.Utils;
 
 procedure TFindInFilesThread.Execute;

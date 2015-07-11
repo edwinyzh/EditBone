@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids, Vcl.StdCtrls, Vcl.ActnList, EditBone.Frames.Document, System.Actions,
+  Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Grids, Vcl.StdCtrls, Vcl.ActnList, System.Actions, BCEditor.Editor,
   BCControls.ComboBox, sComboBox, sFontCtrls, BCControls.Panel, sPanel, BCControls.Statusbar, sStatusBar;
 
 const
@@ -31,7 +31,7 @@ type
     procedure ActionInsertExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
-    FDocumentFrame: TDocumentFrame;
+    FEditor: TBCEditor;
     FOnStartUp: Boolean;
     procedure ReadIniFile;
     procedure ReadSizePosIniFile;
@@ -39,7 +39,7 @@ type
     procedure WriteIniFile;
     procedure WMAfterShow(var Msg: TMessage); message WM_AFTER_SHOW;
   public
-    procedure Open(DocumentFrame: TDocumentFrame);
+    procedure Open(AEditor: TBCEditor);
   end;
 
 function UnicodeCharacterMapForm: TUnicodeCharacterMapForm;
@@ -49,7 +49,7 @@ implementation
 {$R *.dfm}
 
 uses
-  IniFiles, BCEditor.Editor, BCEditor.Editor.KeyCommands, BCCommon.FileUtils, BCCommon.Utils, BCCommon.Language.Utils;
+  IniFiles, BCEditor.Editor.KeyCommands, BCCommon.FileUtils, BCCommon.Utils, BCCommon.Language.Utils;
 
 var
   FUnicodeCharacterMapForm: TUnicodeCharacterMapForm;
@@ -111,24 +111,22 @@ end;
 
 procedure TUnicodeCharacterMapForm.ActionInsertExecute(Sender: TObject);
 var
-  LEditor: TBCEditor;
   PC: PWideChar;
 begin
-  LEditor := FDocumentFrame.GetActiveEditor;
-  if Assigned(LEditor) then
+  if Assigned(FEditor) then
   begin
     New(PC);
     StringToWideChar(Chr(StringGridCharacter.ColCount * StringGridCharacter.Row + StringGridCharacter.Col), PC, 2);
-    LEditor.ExecuteCommand(ecImeStr, #0, PC);
+    FEditor.ExecuteCommand(ecImeStr, #0, PC);
     Dispose(PC);
   end;
 end;
 
-procedure TUnicodeCharacterMapForm.Open(DocumentFrame: TDocumentFrame);
+procedure TUnicodeCharacterMapForm.Open(AEditor: TBCEditor);
 begin
   FOnStartUp := True;
   ComboBoxFont.DropDownCount := 16;
-  FDocumentFrame := DocumentFrame;
+  FEditor := AEditor;
   UpdateLanguage(Self, GetSelectedLanguage);
   ReadSizePosIniFile;
   Show;

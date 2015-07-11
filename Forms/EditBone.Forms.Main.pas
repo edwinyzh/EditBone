@@ -8,10 +8,11 @@ uses
   sSkinProvider, BCComponents.SkinProvider, acTitleBar, BCComponents.TitleBar, sSkinManager, BCComponents.SkinManager,
   Vcl.ComCtrls, sStatusBar, BCControls.StatusBar, Vcl.ExtCtrls, sPanel, BCControls.Panel, sSplitter, BCControls.Splitter,
   sPageControl, BCControls.PageControl, BCCommon.Images, BCControls.SpeedButton, Vcl.Buttons, sSpeedButton,
-  EditBone.Frames.Directory, EditBone.Document, EditBone.Frames.Output, VirtualTrees,
-  System.Win.TaskbarCore, Vcl.Taskbar, Vcl.ActnMan, Vcl.ActnMenus, BCComponents.DragDrop, System.Diagnostics,
-  Vcl.PlatformDefaultStyleActnCtrls, Vcl.StdCtrls, JvAppInst, acPNG, acImage, System.ImageList, Vcl.ImgList,
-  acAlphaImageList, BCControls.ProgressBar, EditBone.FindInFiles, BCEditor.MacroRecorder, BCEditor.Print, sDialogs;
+  EditBone.Frames.Directory, EditBone.Document, EditBone.Frames.Output, VirtualTrees, BCEditor.Print.Types,
+  Vcl.ActnMan, Vcl.ActnMenus, BCComponents.DragDrop, System.Diagnostics,
+  Vcl.PlatformDefaultStyleActnCtrls, JvAppInst, System.ImageList, Vcl.ImgList,
+  acAlphaImageList, BCControls.ProgressBar, EditBone.FindInFiles, BCEditor.MacroRecorder, BCEditor.Print, sDialogs,
+  System.Generics.Collections;
 
 type
   TMainForm = class(TBCBaseForm)
@@ -735,7 +736,6 @@ type
     function GetStringList(APopupMenu: TPopupMenu): TStringList;
     function Processing: Boolean;
     procedure CreateObjects;
-    procedure CreateImageList;
     procedure CreateLanguageMenu(AMenuItem: TMenuItem);
     procedure CreateToolBar(ACreate: Boolean = False);
     procedure ReadIniOptions;
@@ -768,76 +768,12 @@ uses
   Winapi.CommCtrl, Winapi.ShellAPI, System.Math, System.IOUtils, EditBone.Consts, BCCommon.FileUtils,
   BCCommon.Language.Utils, BCCommon.Language.Strings, BCEditor.Editor.Bookmarks, Vcl.Clipbrd, System.Types,
   BigIni, BCEditor.Editor, BCCommon.Options.Container, BCCommon.Options.Container.SQL.Formatter, BCCommon.Consts,
-  BCCommon.Utils, BCControls.ImageList, BCControls.Utils, BCCommon.Dialogs.FindInFiles, BCEditor.Editor.Utils,
+  BCCommon.Utils, BCControls.Utils, BCCommon.Dialogs.FindInFiles,
   BCEditor.Encoding, EditBone.Forms.UnicodeCharacterMap, EditBone.Dialogs.About, BCCommon.Dialogs.DownloadURL,
   BCCommon.Forms.Convert, EditBone.Forms.LanguageEditor, BCCommon.Messages, BCCommon.Forms.SearchForFiles,
   BCCommon.StringUtils, BCEditor.Types, BCCommon.Dialogs.SkinSelect, sGraphUtils, sConst,
-  System.Generics.Collections;
+  BCCommon.Forms.Print.Preview;
 
-
-procedure TMainForm.CreateImageList;
-var
-  SysImageList: THandle;
-  Icon: TIcon;
-begin
-  if not Assigned(FImages) then
-    FImages := TImageList.Create(Self);
-  SysImageList := GetSysImageList;
-  if SysImageList <> 0 then
-  begin
-    FImages.Handle := SysImageList;
-    FImages.BkColor := clNone;
-    FImages.ShareImages := True;
-  end;
-  { compare and new image index }
-  Icon := TIcon.Create;
-  try
-    { Windows font size causing a problem: Icon size will be smaller than PageControl.Images size }
-    case FImages.Height of
-      16:
-        begin
-          { smaller }
-          ImageList16.GetIcon(0, Icon);
-          FCompareImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
-          ImageList16.GetIcon(1, Icon);
-          FNewImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
-          if Assigned(TabSheetNew) then
-          begin
-            ImageList16.GetIcon(2, Icon);
-            TabSheetNew.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
-          end;
-        end;
-      20:
-        begin
-          { medium }
-          ImageList20.GetIcon(0, Icon);
-          FCompareImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
-          ImageList20.GetIcon(1, Icon);
-          FNewImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
-          if Assigned(TabSheetNew) then
-          begin
-            ImageList20.GetIcon(2, Icon);
-            TabSheetNew.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
-          end;
-        end;
-      24:
-        begin
-          { larger }
-          ImageList24.GetIcon(0, Icon);
-          FCompareImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
-          ImageList24.GetIcon(1, Icon);
-          FNewImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
-          if Assigned(TabSheetNew) then
-          begin
-            ImageList24.GetIcon(2, Icon);
-            TabSheetNew.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
-          end;
-        end;
-    end;
-  finally
-    Icon.Free;
-  end;
-end;
 
 procedure TMainForm.PageControlDocumentChange(Sender: TObject);
 var
@@ -847,7 +783,7 @@ begin
     Exit;
   SetBookmarks;
   SetTitleBarMenus;
-  LEditor := GetActiveEditor;
+  LEditor := FDocument.GetActiveEditor;
   if Assigned(LEditor) then
   begin
     if LEditor.CanFocus then
@@ -859,7 +795,7 @@ procedure TMainForm.PageControlDocumentCloseBtnClick(Sender: TComponent; TabInde
   var Action: TacCloseAction);
 begin
   inherited;
-  if Close(False, TabIndex) <> mrCancel then
+  if FDocument.Close(False, TabIndex) <> mrCancel then
     Action := acaFree
   else
     CanClose := False;
@@ -884,16 +820,16 @@ begin
   Result := True;
   if FProcessingEventHandler then
     Exit;
-  if not Assigned(FDocumentFrame) then
+  if not Assigned(FDocument) then
     Exit;
-  if FDocumentFrame.Processing then
+  if FDocument.Processing then
     Exit;
   Result := False;
 end;
 
 procedure TMainForm.ActionDocumentViewInBrowserExecute(Sender: TObject);
 begin
-  BrowseURL(FormatFileName(FDocumentFrame.ActiveDocumentName));
+  BrowseURL(FormatFileName(FDocument.ActiveDocumentName));
 end;
 
 procedure TMainForm.ActionFileReopenClearExecute(Sender: TObject);
@@ -919,133 +855,133 @@ end;
 
 procedure TMainForm.ActionDocumentFormatSQLExecute(Sender: TObject);
 begin
-  FDocumentFrame.FormatSQL;
+  FDocument.FormatSQL;
 end;
 
 procedure TMainForm.ActionDocumentFormatXMLExecute(Sender: TObject);
 begin
-  FDocumentFrame.FormatXML;
+  FDocument.FormatXML;
 end;
 
 procedure TMainForm.ActionDocumentInfoExecute(Sender: TObject);
 begin
-  FDocumentFrame.ShowInfo;
+  FDocument.ShowInfo;
 end;
 
 procedure TMainForm.ActionEditCopyExecute(Sender: TObject);
 begin
-  FDocumentFrame.Copy;
+  FDocument.Copy;
 end;
 
 procedure TMainForm.ActionEditCutExecute(Sender: TObject);
 begin
-  FDocumentFrame.Cut;
+  FDocument.Cut;
 end;
 
 procedure TMainForm.ActionEditDeleteEndOfLineExecute(Sender: TObject);
 begin
-  FDocumentFrame.DeleteEndOfLine;
+  FDocument.DeleteEndOfLine;
 end;
 
 procedure TMainForm.ActionEditDeleteLineExecute(Sender: TObject);
 begin
-  FDocumentFrame.DeleteLine;
+  FDocument.DeleteLine;
 end;
 
 procedure TMainForm.ActionEditDeleteWhitespaceExecute(Sender: TObject);
 begin
-  FDocumentFrame.DeleteWhiteSpace;
+  FDocument.DeleteWhiteSpace;
 end;
 
 procedure TMainForm.ActionEditDeleteWordExecute(Sender: TObject);
 begin
-  FDocumentFrame.DeleteWord;
+  FDocument.DeleteWord;
 end;
 
 procedure TMainForm.ActionEditIndentDecreaseExecute(Sender: TObject);
 begin
-  FDocumentFrame.DecreaseIndent;
+  FDocument.DecreaseIndent;
 end;
 
 procedure TMainForm.ActionEditIndentIncreaseExecute(Sender: TObject);
 begin
-  FDocumentFrame.IncreaseIndent;
+  FDocument.IncreaseIndent;
 end;
 
 procedure TMainForm.ActionEditInsertDateTimeExecute(Sender: TObject);
 begin
-  FDocumentFrame.InsertDateAndTime;
+  FDocument.InsertDateAndTime;
 end;
 
 procedure TMainForm.ActionEditInsertLineExecute(Sender: TObject);
 begin
-  FDocumentFrame.InsertLine;
+  FDocument.InsertLine;
 end;
 
 procedure TMainForm.ActionEditInsertTagExecute(Sender: TObject);
 begin
-  FDocumentFrame.InsertTag;
+  FDocument.InsertTag;
 end;
 
 procedure TMainForm.ActionEditPasteExecute(Sender: TObject);
 begin
-  FDocumentFrame.Paste;
+  FDocument.Paste;
 end;
 
 procedure TMainForm.ActionEditRedoExecute(Sender: TObject);
 begin
-  FDocumentFrame.Redo;
+  FDocument.Redo;
 end;
 
 procedure TMainForm.ActionEditSelectAllExecute(Sender: TObject);
 begin
-  FDocumentFrame.SelectAll;
+  FDocument.SelectAll;
 end;
 
 procedure TMainForm.ActionEditSortAscExecute(Sender: TObject);
 begin
-  FDocumentFrame.Sort(soAsc);
+  FDocument.Sort(soAsc);
 end;
 
 procedure TMainForm.ActionEditSortDescExecute(Sender: TObject);
 begin
-  FDocumentFrame.Sort(soDesc);
+  FDocument.Sort(soDesc);
 end;
 
 procedure TMainForm.ActionEditToggleCaseExecute(Sender: TObject);
 begin
-  FDocumentFrame.ToggleCase;
+  FDocument.ToggleCase;
 end;
 
 procedure TMainForm.ActionEditUndoExecute(Sender: TObject);
 begin
-  FDocumentFrame.Undo;
+  FDocument.Undo;
 end;
 
 procedure TMainForm.ActionFileCloseAllExecute(Sender: TObject);
 begin
-  FDocumentFrame.CloseAll;
+  FDocument.CloseAll;
 end;
 
 procedure TMainForm.ActionFileCloseAllOtherExecute(Sender: TObject);
 begin
-  FDocumentFrame.CloseAllOtherPages;
+  FDocument.CloseAllOtherPages;
 end;
 
 procedure TMainForm.ActionFileCloseExecute(Sender: TObject);
 begin
-  FDocumentFrame.Close;
+  FDocument.Close;
 end;
 
 procedure TMainForm.ActionMacroOpenExecute(Sender: TObject);
 begin
-  FDocumentFrame.LoadMacro;
+  FDocument.LoadMacro;
 end;
 
 procedure TMainForm.ActionMacroPauseExecute(Sender: TObject);
 begin
   inherited;
-  FDocumentFrame.RecordMacro;
+  FDocument.RecordMacro;
   SpeedButtonMacroRecordPause.Images := nil;
   SpeedButtonMacroRecordPause.Action := ActionMacroRecord;
   SpeedButtonMacroRecordPause.Images := ImagesDataModule.ImageListSmall;
@@ -1055,12 +991,12 @@ end;
 
 procedure TMainForm.ActionMacroPlaybackExecute(Sender: TObject);
 begin
-  FDocumentFrame.PlaybackMacro;
+  FDocument.PlaybackMacro;
 end;
 
 procedure TMainForm.ActionMacroRecordExecute(Sender: TObject);
 begin
-  FDocumentFrame.RecordMacro;
+  FDocument.RecordMacro;
   SpeedButtonMacroRecordPause.Images := nil;
   SpeedButtonMacroRecordPause.Action := ActionMacroPause;
   SpeedButtonMacroRecordPause.Images := ImagesDataModule.ImageListSmall;
@@ -1070,12 +1006,12 @@ end;
 
 procedure TMainForm.ActionMacroSaveAsExecute(Sender: TObject);
 begin
-  FDocumentFrame.SaveMacro;
+  FDocument.SaveMacro;
 end;
 
 procedure TMainForm.ActionMacroStopExecute(Sender: TObject);
 begin
-  FDocumentFrame.StopMacro;
+  FDocument.StopMacro;
   SpeedButtonMacroRecordPause.Images := nil;
   SpeedButtonMacroRecordPause.Action := ActionMacroRecord;
   SpeedButtonMacroRecordPause.Images := ImagesDataModule.ImageListSmall;
@@ -1127,12 +1063,12 @@ end;
 
 procedure TMainForm.ActionFileNewExecute(Sender: TObject);
 begin
-  FDocumentFrame.New;
+  FDocument.New;
 end;
 
 procedure TMainForm.ActionFileOpenExecute(Sender: TObject);
 begin
-  FDocumentFrame.Open;
+  FDocument.Open;
 end;
 
 procedure TMainForm.ActionFilePrintExecute(Sender: TObject);
@@ -1142,9 +1078,8 @@ begin
     FDocument.InitializeEditorPrint(EditorPrint);
     EditorPrint.Copies := PrintDialog.Copies;
     EditorPrint.SelectedOnly := PrintDialog.PrintRange = prSelection;
-    EditorPrint.OnPrintStatus := OnPrintStatus;
-    EditorPrint.UpdatePages(PrintPreviewDialog.Canvas);
-    ProgressBar.Count := PageControl.PageCount - 1;
+    EditorPrint.UpdatePages(PrintPreviewDialog.Canvas); // TODO: needed?
+    ProgressBar.Count := PageControlDocument.PageCount - 1;
     ProgressBar.Show;
     if PrintDialog.PrintRange = prPageNums then
       EditorPrint.PrintRange(PrintDialog.FromPage, PrintDialog.ToPage)
@@ -1156,35 +1091,35 @@ end;
 
 procedure TMainForm.ActionFilePrintPreviewExecute(Sender: TObject);
 begin
-  FDocumentFrame.PrintPreview;
+  FDocument.PrintPreview;
 end;
 
 procedure TMainForm.ActionFilePropertiesExecute(Sender: TObject);
 begin
-  FDocumentFrame.FileProperties;
+  FDocument.FileProperties;
 end;
 
 procedure TMainForm.ActionFileSaveAllExecute(Sender: TObject);
 begin
-  FDocumentFrame.SaveAll;
+  FDocument.SaveAll;
 end;
 
 procedure TMainForm.ActionFileSaveAsExecute(Sender: TObject);
 begin
-  FDocumentFrame.SaveAs;
+  FDocument.SaveAs;
 end;
 
 procedure TMainForm.ActionFileSaveExecute(Sender: TObject);
 begin
-  FDocumentFrame.Save;
+  FDocument.Save;
 end;
 
 procedure TMainForm.ActionFileSelectFromDirectoryExecute(Sender: TObject);
 begin
-  if FDocumentFrame.ActiveDocumentName <> '' then
+  if FDocument.ActiveDocumentName <> '' then
     if Assigned(FDirectoryFrame) then
       if FDirectoryFrame.IsAnyDirectory then
-        FDirectoryFrame.OpenPath(ExtractFileDrive(FDocumentFrame.ActiveDocumentName), FormatFileName(FDocumentFrame.ActiveDocumentName),
+        FDirectoryFrame.OpenPath(ExtractFileDrive(FDocument.ActiveDocumentName), FormatFileName(FDocument.ActiveDocumentName),
           FDirectoryFrame.ExcludeOtherBranches);
 end;
 
@@ -1205,7 +1140,7 @@ end;
 
 procedure TMainForm.ActionSearchClearBookmarksExecute(Sender: TObject);
 begin
-  FDocumentFrame.ClearBookmarks;
+  FDocument.ClearBookmarks;
 end;
 
 procedure TMainForm.ActionSearchFindInFilesExecute(Sender: TObject);
@@ -1219,39 +1154,39 @@ end;
 
 procedure TMainForm.ActionSearchFindNextExecute(Sender: TObject);
 begin
-  FDocumentFrame.FindNext;
+  FDocument.FindNext;
 end;
 
 procedure TMainForm.ActionSearchFindPreviousExecute(Sender: TObject);
 begin
-  FDocumentFrame.FindPrevious;
+  FDocument.FindPrevious;
 end;
 
 procedure TMainForm.ActionSearchGoToLineExecute(Sender: TObject);
 begin
-  FDocumentFrame.GotoLine;
+  FDocument.GotoLine;
 end;
 
 procedure TMainForm.ActionSearchReplaceExecute(Sender: TObject);
 begin
-  FDocumentFrame.Replace;
+  FDocument.Replace;
 end;
 
 procedure TMainForm.ActionSearchSearchExecute(Sender: TObject);
 begin
-  FDocumentFrame.Search;
+  FDocument.Search;
 end;
 
 procedure TMainForm.ActionSearchToggleBookmarkExecute(Sender: TObject);
 var
   LEditor: TBCEditor;
 begin
-  LEditor := FDocumentFrame.GetActiveEditor;
+  LEditor := FDocument.GetActiveEditor;
   if Assigned(LEditor) then
     LEditor.ToggleBookMark
  { else
   begin
-    LEditor := FDocumentFrame.GetActiveSplitEditor;
+    LEditor := FDocument.GetActiveSplitEditor;
     if Assigned(LEditor) then
       LEditor.ToggleBookMark
   end;  }
@@ -1261,21 +1196,21 @@ procedure TMainForm.ActionSelectEncodingExecute(Sender: TObject);
 begin
   TitleBar.Items[2].Caption := TAction(Sender).Caption; // TODO: const for item
   TAction(Sender).Checked := True;
-  FDocumentFrame.SetActiveEncoding(TAction(Sender).Tag);
+  FDocument.SetActiveEncoding(TAction(Sender).Tag);
 end;
 
 procedure TMainForm.ActionSelectHighlighterColorExecute(Sender: TObject);
 begin
   TitleBar.Items[6].Caption := TAction(Sender).Caption; // TODO: const for item
   TAction(Sender).Checked := True;
-  FDocumentFrame.SetHighlighterColor(TAction(Sender).Caption);
+  FDocument.SetHighlighterColor(TAction(Sender).Caption);
 end;
 
 procedure TMainForm.ActionSelectHighlighterExecute(Sender: TObject);
 begin
   TitleBar.Items[4].Caption := TAction(Sender).Caption; // TODO: const for item
   TAction(Sender).Checked := True;
-  FDocumentFrame.SetHighlighter(TAction(Sender).Caption);
+  FDocument.SetHighlighter(TAction(Sender).Caption);
 end;
 
 procedure TMainForm.ActionSelectionBoxDownExecute(Sender: TObject);
@@ -1296,8 +1231,8 @@ procedure TMainForm.ActionSelectionBoxDownExecute(Sender: TObject);
   end;
 
 begin
-  BoxDown(GetActiveEditor);
-  BoxDown(GetActiveSplitEditor);
+  BoxDown(FDocument.GetActiveEditor);
+  BoxDown(FDocument.GetActiveSplitEditor);
 end;
 
 procedure TMainForm.ActionSelectionBoxLeftExecute(Sender: TObject);
@@ -1317,8 +1252,8 @@ procedure TMainForm.ActionSelectionBoxLeftExecute(Sender: TObject);
   end;
 
 begin
-  BoxLeft(GetActiveEditor);
-  BoxLeft(GetActiveSplitEditor);
+  BoxLeft(FDocument.GetActiveEditor);
+  BoxLeft(FDocument.GetActiveSplitEditor);
 end;
 
 procedure TMainForm.ActionSelectionBoxRightExecute(Sender: TObject);
@@ -1338,8 +1273,8 @@ procedure TMainForm.ActionSelectionBoxRightExecute(Sender: TObject);
   end;
 
 begin
-  BoxRight(GetActiveEditor);
-  BoxRight(GetActiveSplitEditor);
+  BoxRight(FDocument.GetActiveEditor);
+  BoxRight(FDocument.GetActiveSplitEditor);
 end;
 
 procedure TMainForm.ActionSelectionBoxUpExecute(Sender: TObject);
@@ -1359,8 +1294,8 @@ procedure TMainForm.ActionSelectionBoxUpExecute(Sender: TObject);
   end;
 
 begin
-  BoxUp(GetActiveEditor);
-  BoxUp(GetActiveSplitEditor);
+  BoxUp(FDocument.GetActiveEditor);
+  BoxUp(FDocument.GetActiveSplitEditor);
 end;
 procedure TMainForm.ActionSelectReopenFileExecute(Sender: TObject);
 var
@@ -1369,17 +1304,17 @@ var
 begin
   Action := Sender as TAction;
   FileName := System.Copy(Action.Caption, Pos(' ', Action.Caption) + 1, Length(Action.Caption));
-  FDocumentFrame.Open(FileName);
+  FDocument.Open(FileName);
 end;
 
 procedure TMainForm.ChangeSkin(Sender: TObject);
 begin
-  FDocumentFrame.UpdateHighlighterColors;
+  FDocument.UpdateHighlighterColors;
 end;
 
 procedure TMainForm.ActionToolsCompareFilesExecute(Sender: TObject);
 begin
-  FDocumentFrame.CompareFiles;
+  //FDocument.CompareFiles;
 end;
 
 procedure TMainForm.ActionToolsConvertExecute(Sender: TObject);
@@ -1479,7 +1414,7 @@ end;
 
 procedure TMainForm.ActionToolsOptionsExecute(Sender: TObject);
 begin
-  if FDocumentFrame.Options(ActionList) then
+  if FDocument.Options(ActionList) then
   begin
     SetOptions;
     SetMargins;
@@ -1489,7 +1424,7 @@ end;
 
 procedure TMainForm.ActionToolsSelectForCompareExecute(Sender: TObject);
 begin
- FDocumentFrame.SelectForCompare;
+ FDocument.SelectForCompare;
 end;
 
 procedure TMainForm.ActionDummyExecute(Sender: TObject);
@@ -1503,37 +1438,37 @@ var
   Action: TAction;
 begin
   Action := Sender as TAction;
-  FDocumentFrame.ToggleBookMark(Action.Tag);
+  FDocument.ToggleBookMark(Action.Tag);
 end;
 
 procedure TMainForm.ActionEditToggleCaseAlternatingExecute(Sender: TObject);
 begin
   inherited;
-  FDocumentFrame.ToggleCase(cAlternating);
+  FDocument.ToggleCase(cAlternating);
 end;
 
 procedure TMainForm.ActionEditToggleCaseLowerExecute(Sender: TObject);
 begin
   inherited;
-  FDocumentFrame.ToggleCase(cLower);
+  FDocument.ToggleCase(cLower);
 end;
 
 procedure TMainForm.ActionEditToggleCaseSentenceExecute(Sender: TObject);
 begin
   inherited;
-  FDocumentFrame.ToggleCase(cSentence);
+  FDocument.ToggleCase(cSentence);
 end;
 
 procedure TMainForm.ActionEditToggleCaseTitleExecute(Sender: TObject);
 begin
   inherited;
-  FDocumentFrame.ToggleCase(cTitle);
+  FDocument.ToggleCase(cTitle);
 end;
 
 procedure TMainForm.ActionEditToggleCaseUpperExecute(Sender: TObject);
 begin
   inherited;
-  FDocumentFrame.ToggleCase(cUpper);
+  FDocument.ToggleCase(cUpper);
 end;
 
 procedure TMainForm.ActionGotoBookmarksExecute(Sender: TObject);
@@ -1541,7 +1476,7 @@ var
   Action: TAction;
 begin
   Action := Sender as TAction;
-  FDocumentFrame.GotoBookMarks(Action.Tag);
+  FDocument.GotoBookMarks(Action.Tag);
 end;
 
 procedure TMainForm.ActionToolBarMenuSkinExecute(Sender: TObject);
@@ -1552,7 +1487,7 @@ end;
 
 procedure TMainForm.ActionToolsCharacterMapExecute(Sender: TObject);
 begin
-  UnicodeCharacterMapForm.Open(FDocumentFrame);
+  UnicodeCharacterMapForm.Open(FDocument.GetActiveEditor);
 end;
 
 procedure TMainForm.ActionViewCloseDirectoryExecute(Sender: TObject);
@@ -1584,7 +1519,7 @@ end;
 
 procedure DoSearchForFilesOpenFile(var FileName: string);
 begin
-  MainForm.FDocumentFrame.Open(FileName);
+  MainForm.FDocument.Open(FileName);
 end;
 
 procedure TMainForm.ActionViewFilesExecute(Sender: TObject);
@@ -1608,7 +1543,7 @@ end;
 
 procedure TMainForm.ActionViewLineNumbersExecute(Sender: TObject);
 begin
-  ActionViewLineNumbers.Checked := FDocumentFrame.ToggleLineNumbers;
+  ActionViewLineNumbers.Checked := FDocument.ToggleLineNumbers;
 end;
 
 procedure TMainForm.ActionViewMainMenuExecute(Sender: TObject);
@@ -1651,12 +1586,12 @@ end;
 
 procedure TMainForm.ActionViewMinimapExecute(Sender: TObject);
 begin
-  FDocumentFrame.ToggleMiniMap;
+  FDocument.ToggleMiniMap;
 end;
 
 procedure TMainForm.ActionViewNextPageExecute(Sender: TObject);
 begin
-  FDocumentFrame.NextPage;
+  FDocument.NextPage;
 end;
 
 procedure TMainForm.ActionViewOpenDirectoryExecute(Sender: TObject);
@@ -1676,22 +1611,22 @@ end;
 
 procedure TMainForm.ActionViewPreviousPageExecute(Sender: TObject);
 begin
-  FDocumentFrame.PreviousPage;
+  FDocument.PreviousPage;
 end;
 
 procedure TMainForm.ActionViewSelectionModeExecute(Sender: TObject);
 begin
-  FDocumentFrame.ToggleSelectionMode;
+  FDocument.ToggleSelectionMode;
 end;
 
 procedure TMainForm.ActionViewSpecialCharsExecute(Sender: TObject);
 begin
-  ActionViewSpecialChars.Checked := FDocumentFrame.ToggleSpecialChars;
+  ActionViewSpecialChars.Checked := FDocument.ToggleSpecialChars;
 end;
 
 procedure TMainForm.ActionViewSplitExecute(Sender: TObject);
 begin
-  FDocumentFrame.ToggleSplit;
+  FDocument.ToggleSplit;
 end;
 
 procedure TMainForm.ActionViewStatusBarExecute(Sender: TObject);
@@ -1717,21 +1652,17 @@ end;
 
 procedure TMainForm.ActionViewWordWrapExecute(Sender: TObject);
 begin
-  ActionViewWordWrap.Checked := FDocumentFrame.ToggleWordWrap;
+  ActionViewWordWrap.Checked := FDocument.ToggleWordWrap;
 end;
 
 procedure TMainForm.ActionViewXMLTreeExecute(Sender: TObject);
 begin
-  ActionViewXMLTree.Checked := FDocumentFrame.ToggleXMLTree;
+  ActionViewXMLTree.Checked := FDocument.ToggleXMLTree;
 end;
 
 procedure TMainForm.ActionXMLTreeRefreshExecute(Sender: TObject);
-var
-  DocTabSheetFrame: TDocTabSheetFrame;
 begin
-  DocTabSheetFrame := GetDocTabSheetFrame(PageControl.ActivePage);
-  if Assigned(DocTabSheetFrame) then
-    DocTabSheetFrame.LoadFromXML(DocTabSheetFrame.Editor.Text);
+  FDocument.RefreshXMLTree;
 end;
 
 procedure TMainForm.AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrings);
@@ -1739,20 +1670,20 @@ var
   i: Integer;
 begin
   for i := 0 to CmdLine.Count - 1 do
-    FDocumentFrame.Open(CmdLine.Strings[i]);
+    FDocument.Open(CmdLine.Strings[i]);
 end;
 
 procedure TMainForm.ApplicationEventsActivate(Sender: TObject);
 begin
   if Processing then
     Exit;
-  FDocumentFrame.CheckFileDateTimes;
+  FDocument.CheckFileDateTimes;
 end;
 
 procedure TMainForm.ApplicationEventsHint(Sender: TObject);
 begin
   inherited;
-  StatusBar.Panels[BCEDITOR_STATUSBAR_HINT_PANEL].Text := Application.Hint;
+  StatusBar.Panels[EDITBONE_STATUS_BAR_HINT_PANEL].Text := Application.Hint;
 end;
 
 procedure TMainForm.ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
@@ -1793,10 +1724,10 @@ var
 begin
   FProcessingEventHandler := True;
   try
-    ActiveDocumentFound := FDocumentFrame.ActiveDocumentFound;
-    SelectionFound := FDocumentFrame.SelectionFound;
-    IsSQLDocument := FDocumentFrame.IsSQLDocument;
-    IsXMLDocument := FDocumentFrame.IsXMLDocument;
+    ActiveDocumentFound := FDocument.ActiveDocumentFound;
+    SelectionFound := FDocument.SelectionFound;
+    IsSQLDocument := FDocument.IsSQLDocument;
+    IsXMLDocument := FDocument.IsXMLDocument;
 
     ActionViewMainMenu.Checked := Assigned(Menu);
     ActionViewToolbar.Checked := PanelToolBar.Visible;
@@ -1818,32 +1749,32 @@ begin
 
     ActionViewXMLTree.Enabled := ActiveDocumentFound and IsXMLDocument;
     if ActionViewXMLTree.Enabled then
-     ActionViewXMLTree.Checked := FDocumentFrame.XMLTreeVisible;
+     ActionViewXMLTree.Checked := FDocument.XMLTreeVisible;
 
-    ActiveDocumentName := FDocumentFrame.ActiveDocumentName;
+    ActiveDocumentName := FDocument.ActiveDocumentName;
     if ActiveDocumentName = '' then
-      ActiveDocumentName := FDocumentFrame.ActiveTabSheetCaption;
+      ActiveDocumentName := FDocument.ActiveTabSheetCaption;
 
     if ActiveDocumentName = '' then
       TitleBar.Items[1].Caption := Application.Title
     else
-      TitleBar.Items[1].Caption := Format(Application.Title + MAIN_CAPTION_DOCUMENT, [ActiveDocumentName]);
+      TitleBar.Items[1].Caption := Format(Application.Title + EDITBONE_MAIN_CAPTION_DOCUMENT, [ActiveDocumentName]);
     ActionFileProperties.Enabled := ActiveDocumentFound and (ActiveDocumentName <> '');
 
     ActionFileReopen.Enabled := PopupMenuFileReopen.Items.Count > 0;
-    ActionFileClose.Enabled := FDocumentFrame.OpenTabSheetCount > 0;
+    ActionFileClose.Enabled := FDocument.OpenTabSheetCount > 0;
     ActionFileCloseAll.Enabled := ActionFileClose.Enabled;
     ActionFileCloseAllOther.Enabled := ActionFileClose.Enabled;
-    ActionViewNextPage.Enabled := FDocumentFrame.OpenTabSheetCount > 1;
+    ActionViewNextPage.Enabled := FDocument.OpenTabSheetCount > 1;
     ActionViewPreviousPage.Enabled := ActionViewNextPage.Enabled;
     ActionFileSaveAs.Enabled := ActionFileClose.Enabled and ActiveDocumentFound;
-    ActionFileSave.Enabled := FDocumentFrame.ActiveDocumentModified and ActiveDocumentFound;
-    ActionFileSaveAll.Enabled := FDocumentFrame.ModifiedDocuments and ActiveDocumentFound;
+    ActionFileSave.Enabled := FDocument.ActiveDocumentModified and ActiveDocumentFound;
+    ActionFileSaveAll.Enabled := FDocument.ModifiedDocuments and ActiveDocumentFound;
     ActionFilePrint.Enabled := ActionFileClose.Enabled and ActiveDocumentFound;
     ActionFilePrintPreview.Enabled := ActionFileClose.Enabled and ActiveDocumentFound;
     ActionFileSelectFromDirectory.Enabled := PanelDirectory.Visible and ActiveDocumentFound and FDirectoryFrame.IsAnyDirectory;
-    ActionEditUndo.Enabled := ActionFileClose.Enabled and FDocumentFrame.CanUndo and ActiveDocumentFound;
-    ActionEditRedo.Enabled := ActionFileClose.Enabled and FDocumentFrame.CanRedo and ActiveDocumentFound;
+    ActionEditUndo.Enabled := ActionFileClose.Enabled and FDocument.CanUndo and ActiveDocumentFound;
+    ActionEditRedo.Enabled := ActionFileClose.Enabled and FDocument.CanRedo and ActiveDocumentFound;
     ActionEditCut.Enabled := SelectionFound and ActiveDocumentFound;
     ActionEditCopy.Enabled := ActionEditCut.Enabled and ActiveDocumentFound;
     ActionEditSelectAll.Enabled := ActiveDocumentFound;
@@ -1860,11 +1791,11 @@ begin
     ActionEditPaste.Enabled := Clipboard.HasFormat(CF_TEXT) and ActiveDocumentFound;
 
     ActionViewSelectionMode.Enabled := ActiveDocumentFound;
-    ActionViewSelectionMode.Checked := ActiveDocumentFound and FDocumentFrame.SelectionModeChecked;
+    ActionViewSelectionMode.Checked := ActiveDocumentFound and FDocument.SelectionModeChecked;
     ActionViewSplit.Enabled := ActiveDocumentFound;
-    ActionViewSplit.Checked := ActiveDocumentFound and FDocumentFrame.SplitChecked;
+    ActionViewSplit.Checked := ActiveDocumentFound and FDocument.SplitChecked;
     ActionViewMinimap.Enabled := ActiveDocumentFound;
-    ActionViewMinimap.Checked := ActiveDocumentFound and FDocumentFrame.MinimapChecked;
+    ActionViewMinimap.Checked := ActiveDocumentFound and FDocument.MinimapChecked;
 
     ActionSearchSearch.Enabled := ActiveDocumentFound;
     ActionSearchGotoLine.Enabled := ActiveDocumentFound;
@@ -1878,10 +1809,10 @@ begin
     ActionSearchClearBookmarks.Enabled := ActionSearchToggleBookmark.Enabled;
 
     ActionViewWordWrap.Enabled := ActiveDocumentFound;
-    ActionViewLineNumbers.Enabled := Assigned(FDocumentFrame) and (FDocumentFrame.OpenTabSheetCount > 0);
+    ActionViewLineNumbers.Enabled := Assigned(FDocument) and (FDocument.OpenTabSheetCount > 0);
     ActionViewSpecialChars.Enabled := ActionViewLineNumbers.Enabled;
     ActionDocumentInfo.Enabled := ActiveDocumentFound;
-    ActionToolsSelectForCompare.Enabled := False; // TODO: not implemented ActiveDocumentFound and not FDocumentFrame.ActiveDocumentModified;
+    ActionToolsSelectForCompare.Enabled := False; // TODO: not implemented ActiveDocumentFound and not FDocument.ActiveDocumentModified;
     ActionToolsCompareFiles.Enabled := False; // TODO: not implemented
     ActionDocumentFormatSQL.Enabled := FSQLFormatterDLLFound and ActiveDocumentFound and IsSQLDocument;
     ActionDocumentFormatXML.Enabled := ActiveDocumentFound and IsXMLDocument;
@@ -1902,11 +1833,11 @@ begin
 
     if ActiveDocumentFound then
     begin
-      //InfoText := FDocumentFrame.GetCaretInfo;
+      //InfoText := FDocument.GetCaretInfo;
       //if StatusBar.Panels[1].Text <> InfoText then
       //  StatusBar.Panels[1].Text := InfoText;
 
-      InfoText := FDocumentFrame.GetModifiedInfo;
+      InfoText := FDocument.GetModifiedInfo;
       if StatusBar.Panels[3].Text <> InfoText then
         StatusBar.Panels[3].Text := InfoText;
     end
@@ -1925,8 +1856,8 @@ begin
     { Macro }
     ActionMacroRecord.Enabled := ActiveDocumentFound;
     ActionMacroPause.Enabled := ActiveDocumentFound;
-    ActionMacroStop.Enabled := ActiveDocumentFound and FDocumentFrame.IsRecordingMacro;
-    ActionMacroPlayback.Enabled := ActiveDocumentFound and FDocumentFrame.IsMacroStopped;
+    ActionMacroStop.Enabled := ActiveDocumentFound and FDocument.IsRecordingMacro;
+    ActionMacroPlayback.Enabled := ActiveDocumentFound and FDocument.IsMacroStopped;
     ActionMacroOpen.Enabled := ActiveDocumentFound;
     ActionMacroSaveAs.Enabled := ActionMacroPlayback.Enabled;
     TitleBar.Items[0].Visible := not PanelMenubar.Visible;
@@ -1944,7 +1875,7 @@ var
 begin
   if OptionsContainer.LeftMarginShowBookmarks then
   begin
-    BookmarkList := FDocumentFrame.GetActiveBookmarkList;
+    BookmarkList := FDocument.GetActiveBookmarkList;
     { Bookmarks }
     for i := 1 to 9 do
     begin
@@ -2011,22 +1942,22 @@ begin
     j := Value.Count;
     ProgressBar.Count := j;
     ProgressBar.Show;
-    if FDocumentFrame.IsCompareFilesActivePage then
+   { if FDocument.IsCompareFilesActivePage then
     begin
       if j > 1 then
         for i := 0 to j - 1 do
         begin
           ProgressBar.StepIt;
-          FDocumentFrame.CompareFiles(Value.Strings[i]);
+          FDocument.CompareFiles(Value.Strings[i]);
         end
       else
-        FDocumentFrame.CompareFiles(Value.Strings[0], True)
+        FDocument.CompareFiles(Value.Strings[0], True)
     end
-    else
+    else  }
     for i := 0 to j - 1 do
     begin
       ProgressBar.StepIt;
-      FDocumentFrame.Open(Value.Strings[i]);
+      FDocument.Open(Value.Strings[i]);
     end;
   finally
     ProgressBar.Hide;
@@ -2070,7 +2001,7 @@ begin
   UpdateLanguage(Self, ALanguage);
   { frames }
   UpdateLanguage(TForm(FDirectoryFrame), ALanguage);
-  FDocumentFrame.UpdateLanguage(ALanguage);
+  //FDocument.UpdateLanguage(ALanguage);
   UpdateLanguage(TForm(FOutputFrame), ALanguage);
   { menubar }
   UpdateMenuBarLanguage;
@@ -2138,11 +2069,11 @@ var
 begin
   if FOutputFrame.ProcessingTabSheet then
     FOutputFrame.CloseTabSheet;
-  if FDocumentFrame.ModifiedDocuments then
+  if FDocument.ModifiedDocuments then
   begin
     Rslt := SaveChanges;
     if Rslt = mrYes then
-      FDocumentFrame.SaveAll;
+      FDocument.SaveAll;
     if Rslt = mrCancel then
     begin
       Action := caNone;
@@ -2169,7 +2100,6 @@ begin
   FImageListCount := ImagesDataModule.ImageListSmall.Count; { System images are appended after menu icons for file reopen }
   ReadIniOptions;
   CreateToolBar(True);
-  CreateImageList;
   CreateObjects;
   ReadIniSizePositionAndState;
   SetOptions;
@@ -2195,13 +2125,14 @@ begin
   if not FNoIni then
   begin
     OptionsContainer.WriteIniFile;
-    FDocumentFrame.WriteIniFile;
+    FDocument.WriteIniFile;
     FDirectoryFrame.WriteIniFile;
     FOutputFrame.WriteOutputFile;
     WriteIniFile;
   end;
   OptionsContainer.Free;
   SQLFormatterOptionsContainer.Free;
+
   inherited;
 end;
 
@@ -2209,7 +2140,7 @@ procedure TMainForm.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftSta
 begin
   inherited;
   if (Shift = [ssCtrl]) and (Key = 9) then
-    FDocumentFrame.NextPage;
+    FDocument.NextPage;
 end;
 
 procedure TMainForm.SetMargins;
@@ -2260,9 +2191,9 @@ begin
     Screen.MenuFont.Size := OptionsContainer.MainMenuFontSize;
   end;
   { StatusBar }
-  StatusBar.Panels[3].Width := STATUS_BAR_PANEL_WIDTH;
+  StatusBar.Panels[3].Width := EDITBONE_STATUS_BAR_PANEL_WIDTH;
   PanelWidth := StatusBar.Canvas.TextWidth(StatusBar.Panels[3].Text) + 10;
-  if PanelWidth > STATUS_BAR_PANEL_WIDTH then
+  if PanelWidth > EDITBONE_STATUS_BAR_PANEL_WIDTH then
     StatusBar.Panels[3].Width := PanelWidth;
   OptionsContainer.AssignTo(StatusBar);
   { Output }
@@ -2283,9 +2214,9 @@ var
 begin
   inherited;
 
-  if not FDocumentFrame.ReadIniOpenFiles and (ParamCount = 0) or
+  if not FDocument.ReadIniOpenFiles and (ParamCount = 0) or
     (ParamCount = 1) and (ParamStr(1) = PARAM_NO_INI) then
-    FDocumentFrame.New;
+    FDocument.New;
 
   FNoIni := False;
   if ParamCount > 0 then
@@ -2297,7 +2228,7 @@ begin
     if ParamStr(i) = PARAM_NO_SKIN then
       SkinManager.Active := False
     else
-      FDocumentFrame.Open(ParamStr(i), nil, 0, 0, True);
+      FDocument.Open(ParamStr(i), nil, 0, 0, True);
   end;
 
   Self.ReadLanguageFile(GetSelectedLanguage('English'));
@@ -2306,7 +2237,7 @@ begin
   FOutputFrame.ReadOutputFile;
   PanelOutput.Visible := FOutputFrame.IsAnyOutput;
 
-  Editor := FDocumentFrame.GetActiveEditor;
+  Editor := FDocument.GetActiveEditor;
   if Assigned(Editor) then
     if Editor.CanFocus then
       Editor.SetFocus;
@@ -2351,13 +2282,13 @@ begin
     LRect.Left := LRect.Left + AlphaImageListStatusBar.Width + 4;
 
     if SkinManager.Active then
-      acWriteTextEx(StatusBar.Canvas, PACChar(FDocumentFrame.CaretInfo), True, LRect, DT_SINGLELINE or DT_VCENTER,
+      acWriteTextEx(StatusBar.Canvas, PACChar(FDocument.CaretInfo), True, LRect, DT_SINGLELINE or DT_VCENTER,
         SkinProvider.SkinData, True)
     else
     begin
       StatusBar.Canvas.Brush.Style := bsClear;
       StatusBar.Canvas.Font.Assign(StatusBar.Font);
-      StatusBar.Canvas.TextOut(LRect.Left, LRect.Top + 6, FDocumentFrame.CaretInfo);
+      StatusBar.Canvas.TextOut(LRect.Left, LRect.Top + 6, FDocument.CaretInfo);
     end;
   end;
 end;
@@ -2365,7 +2296,7 @@ end;
 procedure TMainForm.TimerTimer(Sender: TObject);
 begin
   inherited;
-  CheckFileDateTimes;
+  FDocument.CheckFileDateTimes;
 end;
 
 procedure TMainForm.TitleBarItems2MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -2443,7 +2374,7 @@ begin
     for i := 0 to j - 1 do
     begin
       MainForm.ProgressBar.StepIt;
-      MainForm.FDocumentFrame.Open(FileNames.Strings[i]);
+      MainForm.FDocument.Open(FileNames.Strings[i]);
     end;
     MainForm.ProgressBar.Hide;
   finally
@@ -2486,10 +2417,11 @@ begin
   FDocument.SaveDialog := SaveDialog;
   FDocument.CreateFileReopenList := CreateFileReopenList;
   FDocument.GetActionList := GetActionList;
- { FDocumentFrame.Parent := PanelDocument;
-  FDocumentFrame.PopupMenu := PopupMenuDocument;
-  FDocumentFrame.ProgressBar := ProgressBar;
-  FDocumentFrame.StatusBar := StatusBar; }
+  FDocument.SkinManager := SkinManager;
+ { FDocument.Parent := PanelDocument;
+  FDocument.PopupMenu := PopupMenuDocument;
+  FDocument.ProgressBar := ProgressBar;
+  FDocument.StatusBar := StatusBar; }
   { TDirectoryFrame }
   FDirectoryFrame := TDirectoryFrame.Create(PanelDirectory);
   FDirectoryFrame.Parent := PanelDirectory;
@@ -2617,7 +2549,7 @@ var
   Ln, Ch: LongWord;
 begin
   if FOutputFrame.SelectedLine(Filename, Ln, Ch) then
-    FDocumentFrame.Open(Filename, nil, Ln, Ch);
+    FDocument.Open(Filename, nil, Ln, Ch);
 end;
 
 procedure TMainForm.FileTreeViewClickActionExecute(Sender: TObject);
@@ -2634,7 +2566,7 @@ begin
   if Assigned(FDirectoryFrame) then
     Filename := FDirectoryFrame.SelectedFile;
   if Filename <> '' then
-    FDocumentFrame.Open(Filename);
+    FDocument.Open(Filename);
 end;
 
 procedure TMainForm.OnAddTreeViewLine(Sender: TObject; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString);
@@ -2657,7 +2589,7 @@ begin
   begin
     if AFolder <> '' then
       FolderText := AFolder;
-    LEditor := FDocumentFrame.GetActiveEditor;
+    LEditor := FDocument.GetActiveEditor;
     if Assigned(LEditor) then
       if LEditor.SelectionAvailable then
         ComboBoxTextToFind.Text := LEditor.SelectedText;
@@ -2831,7 +2763,7 @@ procedure TMainForm.SetTitleBarMenus;
 var
   LEditor: TBCEditor;
 begin
-  LEditor := FDocumentFrame.GetActiveEditor;
+  LEditor := FDocument.GetActiveEditor;
   if Assigned(LEditor) then
   begin
     { Encoding }
@@ -2876,7 +2808,7 @@ begin
       try
         DuplicateChecker.Run;
         if LaunchAfterCreation then
-          FDocumentFrame.Open(OutputFileName);
+          FDocument.Open(OutputFileName);
       finally
         DuplicateChecker.Free;
       end;

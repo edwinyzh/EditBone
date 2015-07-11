@@ -2,21 +2,15 @@ inherited AboutDialog: TAboutDialog
   Left = 430
   Top = 226
   BorderIcons = []
-  BorderStyle = bsDialog
   Caption = 'About EditBone'
   ClientHeight = 376
   ClientWidth = 469
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
   Font.Name = 'Segoe UI'
-  Font.Style = []
   FormStyle = fsStayOnTop
   OldCreateOrder = True
   Position = poMainFormCenter
   OnClose = FormClose
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object PanelTop: TBCPanel
@@ -530,7 +524,7 @@ inherited AboutDialog: TAboutDialog
       AlignWithMargins = True
       Left = 10
       Top = 46
-      Width = 449
+      Width = 117
       Height = 13
       Margins.Left = 10
       Margins.Right = 10
@@ -542,13 +536,12 @@ inherited AboutDialog: TAboutDialog
       Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
-      ExplicitWidth = 117
     end
     object LabelIcons: TBCLabel
       AlignWithMargins = True
       Left = 10
       Top = 160
-      Width = 449
+      Width = 27
       Height = 13
       Margins.Left = 10
       Margins.Right = 10
@@ -560,13 +553,12 @@ inherited AboutDialog: TAboutDialog
       Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
-      ExplicitWidth = 27
     end
     object LabelLanguageFileContributors: TBCLabel
       AlignWithMargins = True
       Left = 10
       Top = 89
-      Width = 449
+      Width = 142
       Height = 13
       Margins.Left = 10
       Margins.Right = 10
@@ -578,13 +570,12 @@ inherited AboutDialog: TAboutDialog
       Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
-      ExplicitWidth = 142
     end
     object LabelDevelopmentEnvironment: TBCLabel
       AlignWithMargins = True
       Left = 10
       Top = 3
-      Width = 449
+      Width = 140
       Height = 13
       Margins.Left = 10
       Margins.Right = 10
@@ -596,7 +587,6 @@ inherited AboutDialog: TAboutDialog
       Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
-      ExplicitWidth = 140
     end
     object Panel3rdPartyComponents: TBCPanel
       Left = 0

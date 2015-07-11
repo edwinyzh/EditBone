@@ -4,7 +4,7 @@ interface
 
 uses
   VirtualTrees, Vcl.Graphics, Vcl.ImgList, System.Classes, BCEditor.Editor, BCControls.ProgressBar, BCEditor.Types,
-  sCommonData;
+  sCommonData, System.UITypes;
 
 type
   TNodeType = (ntReserved, ntElement, ntAttribute, ntText, ntCData, ntProcessingInstr, ntComment);
@@ -39,7 +39,6 @@ type
     procedure LoadFromXML(AXML: string);
     property ProgressBar: TBCProgressBar read FProgressBar write FProgressBar;
     property Editor: TBCEditor read FEditor write FEditor;
-  published
     property SkinData: TsCtrlSkinData read FCommonData write FCommonData;
   end;
 
@@ -488,6 +487,7 @@ function TEBXMLTree.DoGetImageIndex(Node: PVirtualNode; Kind: TVTImageKind; Colu
 var
   Data: PXMLTreeRec;
 begin
+  Result := nil;
   if Kind in [ikNormal, ikSelected] then
   begin
     Data := GetNodeData(Node);
@@ -500,6 +500,7 @@ var
   Data: PXMLTreeRec;
   AMargin: Integer;
 begin
+  Result := 0;
   AMargin := TextMargin;
   Data := GetNodeData(Node);
   if Assigned(Data) then
