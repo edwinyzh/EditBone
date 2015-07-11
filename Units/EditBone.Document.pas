@@ -24,7 +24,6 @@ type
     procedure EditorCaretChanged(Sender: TObject; X, Y: Integer);
     procedure EditorAfterBookmarkPlaced(Sender: TObject);
     procedure EditorAfterClearBookmark(Sender: TObject);
-    procedure TabSheetNewClickBtn(Sender: TObject);
   private
     FSkinManager: TBCSkinManager;
     FCaretInfo: string;
@@ -39,6 +38,7 @@ type
     FOpenDialog: TOpenDialog;
     FSaveDialog: TSaveDialog;
     FStatusBar: TBCStatusBar;
+    FOnNewTabSheetClickBtn: TNotifyEvent;
     FPopupMenuEditor: TPopupMenu;
     FPopupMenuXMLTree: TPopupMenu;
     FSetBookmarks: TEBSetBookmarks;
@@ -76,6 +76,7 @@ type
     procedure SetActivePageCaptionModified(AModified: Boolean);
     procedure SetEditorBookmarks(Editor: TBCEditor; Bookmarks: TStrings);
     procedure SetSkinColors(Editor: TBCEditor);
+    procedure SetOnNewTabSheetClickBtn(Value: TNotifyEvent);
   public
     constructor Create(AOwner: TBCPageControl);
     destructor Destroy; override;
@@ -169,6 +170,7 @@ type
     property GetActionList: TEBGetActionList read FGetActionList write FGetActionList;
     property MinimapChecked: Boolean read GetMinimapChecked;
     property ModifiedDocuments: Boolean read FModifiedDocuments write FModifiedDocuments;
+    property OnNewTabSheetClickBtn: TNotifyEvent read FOnNewTabSheetClickBtn write SetOnNewTabSheetClickBtn;
     property OpenDialog: TOpenDialog read FOpenDialog write FOpenDialog;
     property OpenTabSheetCount: Integer read GetOpenTabSheetCount;
     property PageControl: TBCPageControl read FPageControl;
@@ -210,13 +212,17 @@ begin
 
   FTabSheetNew := TsTabSheet.Create(PageControl);
   FTabSheetNew.PageControl := PageControl;
-  FTabSheetNew.Caption := '    ';
+  FTabSheetNew.Caption := '      ';
   FTabSheetNew.TabType := ttButton;
   FTabSheetNew.TabSkin := 'CHECKBOX';
-  FTabSheetNew.OnClickBtn := TabSheetNewClickBtn;
 
   CreateImageList;
   SetOptions;
+end;
+
+procedure TEBDocument.SetOnNewTabSheetClickBtn(Value: TNotifyEvent);
+begin
+  FTabSheetNew.OnClickBtn := Value;
 end;
 
 destructor TEBDocument.Destroy;
@@ -226,12 +232,6 @@ begin
     FImages.Free;
 
   inherited Destroy;
-end;
-
-procedure TEBDocument.TabSheetNewClickBtn(Sender: TObject);
-begin
-  inherited;
-  New;
 end;
 
 procedure TEBDocument.RefreshXMLTree;
@@ -345,6 +345,11 @@ begin
   with LEditor do
   begin
     Align := alClient;
+    AlignWithMargins := True;
+    Margins.Left := 2;
+    Margins.Top := 2;
+    Margins.Right := 2;
+    Margins.Bottom := 2;
     Visible := False;
     Parent := LTabSheet;
     DocumentName := FileName;
@@ -1496,7 +1501,6 @@ var
   i: Integer;
   LEditor: TBCEditor;
 begin
-  PageControl.DoubleBuffered := OptionsContainer.DocDoubleBuffered;
   PageControl.MultiLine := OptionsContainer.DocMultiLine;
   PageControl.ShowCloseBtns := OptionsContainer.DocShowCloseButton;
   PageControl.RightClickSelect := OptionsContainer.DocRightClickSelect;

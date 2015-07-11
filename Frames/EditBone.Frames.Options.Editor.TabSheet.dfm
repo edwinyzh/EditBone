@@ -1,15 +1,15 @@
 inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
   Width = 226
-  Height = 205
+  Height = 182
   Visible = False
   ExplicitWidth = 226
-  ExplicitHeight = 205
+  ExplicitHeight = 182
   object Panel: TBCPanel [0]
     AlignWithMargins = True
     Left = 4
     Top = 0
     Width = 222
-    Height = 205
+    Height = 182
     Margins.Left = 4
     Margins.Top = 0
     Margins.Right = 0
@@ -49,24 +49,9 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
       AttachTo = SliderCloseTabByMiddleClick
       Gap = 8
     end
-    object StickyLabelDoubleBuffered: TsStickyLabel
-      Left = 0
-      Top = 50
-      Width = 164
-      Height = 13
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      AutoSize = False
-      Caption = 'Double buffered'
-      ParentColor = False
-      AttachTo = SliderDoubleBuffered
-      Gap = 8
-    end
     object StickyLabelMultiline: TsStickyLabel
       Left = 0
-      Top = 73
+      Top = 50
       Width = 164
       Height = 13
       Margins.Left = 4
@@ -81,7 +66,7 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
     end
     object StickyLabelRightClickSelect: TsStickyLabel
       Left = 0
-      Top = 96
+      Top = 73
       Width = 164
       Height = 13
       Margins.Left = 4
@@ -96,7 +81,7 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
     end
     object StickyLabelSaveTabs: TsStickyLabel
       Left = 0
-      Top = 119
+      Top = 96
       Width = 164
       Height = 13
       Margins.Left = 4
@@ -111,7 +96,7 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
     end
     object StickyLabelShowCloseButton: TsStickyLabel
       Left = 0
-      Top = 142
+      Top = 119
       Width = 164
       Height = 13
       Margins.Left = 4
@@ -126,7 +111,7 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
     end
     object ShowImageStickyLabelShowImage: TsStickyLabel
       Left = 0
-      Top = 188
+      Top = 165
       Width = 164
       Height = 13
       Margins.Left = 4
@@ -141,7 +126,7 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
     end
     object StickyLabelShowNewDocumentButton: TsStickyLabel
       Left = 0
-      Top = 165
+      Top = 142
       Width = 164
       Height = 13
       Margins.Left = 4
@@ -204,7 +189,7 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
       SliderCaptionOn = 'Yes'
       SliderCaptionOff = 'No'
     end
-    object SliderDoubleBuffered: TsSlider
+    object SliderMultiline: TsSlider
       Left = 172
       Top = 46
       Width = 50
@@ -229,7 +214,7 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
       SliderCaptionOn = 'Yes'
       SliderCaptionOff = 'No'
     end
-    object SliderMultiline: TsSlider
+    object SliderRightClickSelect: TsSlider
       Left = 172
       Top = 69
       Width = 50
@@ -254,7 +239,7 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
       SliderCaptionOn = 'Yes'
       SliderCaptionOff = 'No'
     end
-    object SliderRightClickSelect: TsSlider
+    object SliderSaveTabs: TsSlider
       Left = 172
       Top = 92
       Width = 50
@@ -279,7 +264,7 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
       SliderCaptionOn = 'Yes'
       SliderCaptionOff = 'No'
     end
-    object SliderSaveTabs: TsSlider
+    object SliderShowCloseButton: TsSlider
       Left = 172
       Top = 115
       Width = 50
@@ -304,57 +289,7 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
       SliderCaptionOn = 'Yes'
       SliderCaptionOff = 'No'
     end
-    object SliderShowCloseButton: TsSlider
-      Left = 172
-      Top = 138
-      Width = 50
-      AutoSize = True
-      TabOrder = 6
-      BoundLabel.Indent = 0
-      BoundLabel.Font.Charset = DEFAULT_CHARSET
-      BoundLabel.Font.Color = clWindowText
-      BoundLabel.Font.Height = -11
-      BoundLabel.Font.Name = 'Tahoma'
-      BoundLabel.Font.Style = []
-      BoundLabel.Layout = sclLeft
-      BoundLabel.MaxWidth = 0
-      BoundLabel.UseSkinColor = True
-      ImageIndexOff = 0
-      ImageIndexOn = 0
-      FontOn.Charset = DEFAULT_CHARSET
-      FontOn.Color = clWindowText
-      FontOn.Height = -11
-      FontOn.Name = 'Tahoma'
-      FontOn.Style = []
-      SliderCaptionOn = 'Yes'
-      SliderCaptionOff = 'No'
-    end
     object SliderShowImage: TsSlider
-      Left = 172
-      Top = 184
-      Width = 50
-      AutoSize = True
-      TabOrder = 8
-      BoundLabel.Indent = 0
-      BoundLabel.Font.Charset = DEFAULT_CHARSET
-      BoundLabel.Font.Color = clWindowText
-      BoundLabel.Font.Height = -11
-      BoundLabel.Font.Name = 'Tahoma'
-      BoundLabel.Font.Style = []
-      BoundLabel.Layout = sclLeft
-      BoundLabel.MaxWidth = 0
-      BoundLabel.UseSkinColor = True
-      ImageIndexOff = 0
-      ImageIndexOn = 0
-      FontOn.Charset = DEFAULT_CHARSET
-      FontOn.Color = clWindowText
-      FontOn.Height = -11
-      FontOn.Name = 'Tahoma'
-      FontOn.Style = []
-      SliderCaptionOn = 'Yes'
-      SliderCaptionOff = 'No'
-    end
-    object SliderShowNewDocumentButton: TsSlider
       Left = 172
       Top = 161
       Width = 50
@@ -379,9 +314,34 @@ inherited OptionsEditorTabsFrame: TOptionsEditorTabsFrame
       SliderCaptionOn = 'Yes'
       SliderCaptionOff = 'No'
     end
+    object SliderShowNewDocumentButton: TsSlider
+      Left = 172
+      Top = 138
+      Width = 50
+      AutoSize = True
+      TabOrder = 6
+      BoundLabel.Indent = 0
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = []
+      BoundLabel.Layout = sclLeft
+      BoundLabel.MaxWidth = 0
+      BoundLabel.UseSkinColor = True
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
+    end
   end
   inherited FrameAdapter: TsFrameAdapter
-    Left = 140
-    Top = 32
+    Left = 112
+    Top = 30
   end
 end

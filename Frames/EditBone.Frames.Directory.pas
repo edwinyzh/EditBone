@@ -717,7 +717,6 @@ var
   i: Integer;
   FileTreeView: TBCFileTreeView;
 begin
-  PageControl.DoubleBuffered := OptionsContainer.DirDoubleBuffered;
   PageControl.MultiLine := OptionsContainer.DirMultiLine;
   PageControl.ShowCloseBtns := OptionsContainer.DirShowCloseButton;
   PageControl.RightClickSelect := OptionsContainer.DirRightClickSelect;

@@ -14,8 +14,6 @@ type
     SliderCloseTabByDblClick: TsSlider;
     SliderCloseTabByMiddleClick: TsSlider;
     StickyLabelCloseTabByMiddleClick: TsStickyLabel;
-    StickyLabelDoubleBuffered: TsStickyLabel;
-    SliderDoubleBuffered: TsSlider;
     SliderMultiline: TsSlider;
     StickyLabelMultiline: TsStickyLabel;
     StickyLabelRightClickSelect: TsStickyLabel;
@@ -65,7 +63,6 @@ procedure TOptionsDirectoryTabsFrame.GetData;
 begin
   SliderCloseTabByDblClick.SliderOn := OptionsContainer.DirCloseTabByDblClick;
   SliderCloseTabByMiddleClick.SliderOn := OptionsContainer.DirCloseTabByMiddleClick;
-  SliderDoubleBuffered.SliderOn := OptionsContainer.DirDoubleBuffered;
   SliderMultiLine.SliderOn := OptionsContainer.DirMultiLine;
   SliderSaveTabs.SliderOn := OptionsContainer.DirSaveTabs;
   SliderShowCloseButton.SliderOn := OptionsContainer.DirShowCloseButton;
@@ -78,7 +75,6 @@ procedure TOptionsDirectoryTabsFrame.PutData;
 begin
   OptionsContainer.DirCloseTabByDblClick := SliderCloseTabByDblClick.SliderOn;
   OptionsContainer.DirCloseTabByMiddleClick := SliderCloseTabByMiddleClick.SliderOn;
-  OptionsContainer.DirDoubleBuffered := SliderDoubleBuffered.SliderOn;
   OptionsContainer.DirMultiLine := SliderMultiLine.SliderOn;
   OptionsContainer.DirSaveTabs := SliderSaveTabs.SliderOn;
   OptionsContainer.DirShowCloseButton := SliderShowCloseButton.SliderOn;

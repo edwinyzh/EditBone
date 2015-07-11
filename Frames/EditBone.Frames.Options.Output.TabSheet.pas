@@ -13,7 +13,6 @@ type
     ShowImageStickyLabelShowImage: TsStickyLabel;
     SliderCloseTabByDblClick: TsSlider;
     SliderCloseTabByMiddleClick: TsSlider;
-    SliderDoubleBuffered: TsSlider;
     SliderMultiline: TsSlider;
     SliderRightClickSelect: TsSlider;
     SliderSaveTabs: TsSlider;
@@ -21,7 +20,6 @@ type
     SliderShowImage: TsSlider;
     StickyLabelCloseTabByDblClick: TsStickyLabel;
     StickyLabelCloseTabByMiddleClick: TsStickyLabel;
-    StickyLabelDoubleBuffered: TsStickyLabel;
     StickyLabelMultiline: TsStickyLabel;
     StickyLabelRightClickSelect: TsStickyLabel;
     StickyLabelSaveTabs: TsStickyLabel;
@@ -63,7 +61,6 @@ procedure TOptionsOutputTabsFrame.GetData;
 begin
   SliderCloseTabByDblClick.SliderOn := OptionsContainer.OutputCloseTabByDblClick;
   SliderCloseTabByMiddleClick.SliderOn := OptionsContainer.OutputCloseTabByMiddleClick;
-  SliderDoubleBuffered.SliderOn := OptionsContainer.OutputDoubleBuffered;
   SliderMultiLine.SliderOn := OptionsContainer.OutputMultiLine;
   SliderSaveTabs.SliderOn := OptionsContainer.OutputSaveTabs;
   SliderShowCloseButton.SliderOn := OptionsContainer.OutputShowCloseButton;
@@ -75,7 +72,6 @@ procedure TOptionsOutputTabsFrame.PutData;
 begin
   OptionsContainer.OutputCloseTabByDblClick := SliderCloseTabByDblClick.SliderOn;
   OptionsContainer.OutputCloseTabByMiddleClick := SliderCloseTabByMiddleClick.SliderOn;
-  OptionsContainer.OutputDoubleBuffered := SliderDoubleBuffered.SliderOn;
   OptionsContainer.OutputMultiLine := SliderMultiLine.SliderOn;
   OptionsContainer.OutputSaveTabs := SliderSaveTabs.SliderOn;
   OptionsContainer.OutputShowCloseButton := SliderShowCloseButton.SliderOn;

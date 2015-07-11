@@ -546,7 +546,6 @@ type
     Sentence1: TMenuItem;
     itle1: TMenuItem;
     AppInstances: TJvAppInstances;
-    AlphaImageListStatusBar: TsAlphaImageList;
     SpeedButtonDocumentMacro: TBCSpeedButton;
     ActionMacro: TAction;
     PopupMenuDocumentMacro: TPopupMenu;
@@ -580,7 +579,7 @@ type
     ActionXMLTreeRefresh: TAction;
     PopupMenuXMLTree: TPopupMenu;
     MenuItemXMLRefresh: TMenuItem;
-    Button1: TButton;
+    PageControl: TBCPageControl;
     procedure ActionFileNewExecute(Sender: TObject);
     procedure ActionFileOpenExecute(Sender: TObject);
     procedure ActionFileSaveAllExecute(Sender: TObject);
@@ -720,7 +719,6 @@ type
     procedure ActionXMLTreeRefreshExecute(Sender: TObject);
     procedure EditorPrintPrintStatus(Sender: TObject; Status: TBCEditorPrintStatus; PageNumber: Integer;
       var Abort: Boolean);
-    procedure Button1Click(Sender: TObject);
   private
     FNoIni: Boolean;
     FDirectoryFrame: TDirectoryFrame;
@@ -774,7 +772,7 @@ uses
   BCEditor.Encoding, EditBone.Forms.UnicodeCharacterMap, EditBone.Dialogs.About, BCCommon.Dialogs.DownloadURL,
   BCCommon.Forms.Convert, EditBone.Forms.LanguageEditor, BCCommon.Messages, BCCommon.Forms.SearchForFiles,
   BCCommon.StringUtils, BCEditor.Types, BCCommon.Dialogs.SkinSelect, sGraphUtils, sConst,
-  BCCommon.Forms.Print.Preview;
+  BCCommon.Forms.Print.Preview, EditBone.Images;
 
 
 procedure TMainForm.PageControlDocumentChange(Sender: TObject);
@@ -801,6 +799,7 @@ begin
     Action := acaFree
   else
     CanClose := False;
+  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.PageControlDocumentDblClick(Sender: TObject);
@@ -963,16 +962,19 @@ end;
 procedure TMainForm.ActionFileCloseAllExecute(Sender: TObject);
 begin
   FDocument.CloseAll;
+  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.ActionFileCloseAllOtherExecute(Sender: TObject);
 begin
   FDocument.CloseAllOtherPages;
+  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.ActionFileCloseExecute(Sender: TObject);
 begin
   FDocument.Close;
+  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.ActionMacroOpenExecute(Sender: TObject);
@@ -1066,11 +1068,13 @@ end;
 procedure TMainForm.ActionFileNewExecute(Sender: TObject);
 begin
   FDocument.New;
+  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.ActionFileOpenExecute(Sender: TObject);
 begin
   FDocument.Open;
+  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.ActionFilePrintExecute(Sender: TObject);
@@ -1123,6 +1127,7 @@ begin
       if FDirectoryFrame.IsAnyDirectory then
         FDirectoryFrame.OpenPath(ExtractFileDrive(FDocument.ActiveDocumentName), FormatFileName(FDocument.ActiveDocumentName),
           FDirectoryFrame.ExcludeOtherBranches);
+  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.ActionHelpAboutEditBoneExecute(Sender: TObject);
@@ -1307,6 +1312,7 @@ begin
   Action := Sender as TAction;
   FileName := System.Copy(Action.Caption, Pos(' ', Action.Caption) + 1, Length(Action.Caption));
   FDocument.Open(FileName);
+  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.ChangeSkin(Sender: TObject);
@@ -1530,6 +1536,7 @@ begin
   begin
     OnOpenFile := DoSearchForFilesOpenFile;
     Open(FDirectoryFrame.SelectedPath);
+    PanelDocument.Invalidate; { skin bug }
   end;
 end;
 
@@ -1694,19 +1701,6 @@ begin
     Exit;
   SetFields;
   SetImages;
-end;
-
-procedure TMainForm.Button1Click(Sender: TObject);
-var
-  LTabSheet: TsTabSheet;
-  LEditor: TBCEditor;
-begin
-  LTabSheet := TsTabSheet.Create(PAgeControlDocument);
-  LTabSheet.PageControl := PAgeControlDocument;
-
-  LEditor := TBCEditor.Create(LTabSheet);
-  LEditor.Align := alClient;
-  LEditor.Parent := LTabSheet;
 end;
 
 procedure TMainForm.SetImages;
@@ -2292,10 +2286,10 @@ begin
   inherited;
   if Panel.Index = 1 then
   begin
-    AlphaImageListStatusBar.Draw(StatusBar.Canvas, Rect.Left, Rect.Top + 1, 0);
+    EBDataModuleImages.ImageListStatusBar.Draw(StatusBar.Canvas, Rect.Left, Rect.Top + 1, 0);
 
     LRect := Rect;
-    LRect.Left := LRect.Left + AlphaImageListStatusBar.Width + 4;
+    LRect.Left := LRect.Left + EBDataModuleImages.ImageListStatusBar.Width + 4;
 
     if SkinManager.Active then
       acWriteTextEx(StatusBar.Canvas, PACChar(FDocument.CaretInfo), True, LRect, DT_SINGLELINE or DT_VCENTER,
@@ -2434,6 +2428,7 @@ begin
   FDocument.GetActionList := GetActionList;
   FDocument.SkinManager := SkinManager;
   FDocument.StatusBar := StatusBar;
+  FDocument.OnNewTabSheetClickBtn := ActionFileNewExecute;
   //FDocument.PopupMenu := PopupMenuDocument;
   FDocument.ProgressBar := ProgressBar;
   { TDirectoryFrame }
@@ -2581,6 +2576,7 @@ begin
     Filename := FDirectoryFrame.SelectedFile;
   if Filename <> '' then
     FDocument.Open(Filename);
+  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.OnAddTreeViewLine(Sender: TObject; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString);

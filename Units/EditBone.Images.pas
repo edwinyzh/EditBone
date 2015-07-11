@@ -11,6 +11,7 @@ type
     ImageList20: TBCImageList;
     ImageList24: TBCImageList;
     ImageListXMLTree: TBCImageList;
+    ImageListStatusBar: TsAlphaImageList;
   private
     { Private declarations }
   public

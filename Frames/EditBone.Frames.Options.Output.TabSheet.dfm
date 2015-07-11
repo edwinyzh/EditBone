@@ -1,14 +1,15 @@
 inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
   Width = 226
-  Height = 182
-  AutoSize = False
+  Height = 159
   Visible = False
+  ExplicitWidth = 226
+  ExplicitHeight = 159
   object Panel: TBCPanel [0]
     AlignWithMargins = True
     Left = 4
     Top = 0
     Width = 222
-    Height = 182
+    Height = 159
     Margins.Left = 4
     Margins.Top = 0
     Margins.Right = 0
@@ -54,24 +55,9 @@ inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
       AttachTo = SliderCloseTabByMiddleClick
       Gap = 8
     end
-    object StickyLabelDoubleBuffered: TsStickyLabel
-      Left = 0
-      Top = 50
-      Width = 164
-      Height = 13
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      AutoSize = False
-      Caption = 'Double buffered'
-      ParentColor = False
-      AttachTo = SliderDoubleBuffered
-      Gap = 8
-    end
     object StickyLabelMultiline: TsStickyLabel
       Left = 0
-      Top = 73
+      Top = 50
       Width = 164
       Height = 13
       Margins.Left = 4
@@ -86,7 +72,7 @@ inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
     end
     object StickyLabelRightClickSelect: TsStickyLabel
       Left = 0
-      Top = 96
+      Top = 73
       Width = 164
       Height = 13
       Margins.Left = 4
@@ -101,7 +87,7 @@ inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
     end
     object StickyLabelSaveTabs: TsStickyLabel
       Left = 0
-      Top = 119
+      Top = 96
       Width = 164
       Height = 13
       Margins.Left = 4
@@ -116,7 +102,7 @@ inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
     end
     object StickyLabelShowCloseButton: TsStickyLabel
       Left = 0
-      Top = 142
+      Top = 119
       Width = 164
       Height = 13
       Margins.Left = 4
@@ -131,7 +117,7 @@ inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
     end
     object ShowImageStickyLabelShowImage: TsStickyLabel
       Left = 0
-      Top = 165
+      Top = 142
       Width = 164
       Height = 13
       Margins.Left = 4
@@ -194,7 +180,7 @@ inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
       SliderCaptionOn = 'Yes'
       SliderCaptionOff = 'No'
     end
-    object SliderDoubleBuffered: TsSlider
+    object SliderMultiline: TsSlider
       Left = 172
       Top = 46
       Width = 50
@@ -219,7 +205,7 @@ inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
       SliderCaptionOn = 'Yes'
       SliderCaptionOff = 'No'
     end
-    object SliderMultiline: TsSlider
+    object SliderRightClickSelect: TsSlider
       Left = 172
       Top = 69
       Width = 50
@@ -244,7 +230,7 @@ inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
       SliderCaptionOn = 'Yes'
       SliderCaptionOff = 'No'
     end
-    object SliderRightClickSelect: TsSlider
+    object SliderSaveTabs: TsSlider
       Left = 172
       Top = 92
       Width = 50
@@ -269,7 +255,7 @@ inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
       SliderCaptionOn = 'Yes'
       SliderCaptionOff = 'No'
     end
-    object SliderSaveTabs: TsSlider
+    object SliderShowCloseButton: TsSlider
       Left = 172
       Top = 115
       Width = 50
@@ -294,7 +280,7 @@ inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
       SliderCaptionOn = 'Yes'
       SliderCaptionOff = 'No'
     end
-    object SliderShowCloseButton: TsSlider
+    object SliderShowImage: TsSlider
       Left = 172
       Top = 138
       Width = 50
@@ -319,34 +305,9 @@ inherited OptionsOutputTabsFrame: TOptionsOutputTabsFrame
       SliderCaptionOn = 'Yes'
       SliderCaptionOff = 'No'
     end
-    object SliderShowImage: TsSlider
-      Left = 172
-      Top = 161
-      Width = 50
-      AutoSize = True
-      TabOrder = 7
-      BoundLabel.Indent = 0
-      BoundLabel.Font.Charset = DEFAULT_CHARSET
-      BoundLabel.Font.Color = clWindowText
-      BoundLabel.Font.Height = -11
-      BoundLabel.Font.Name = 'Tahoma'
-      BoundLabel.Font.Style = []
-      BoundLabel.Layout = sclLeft
-      BoundLabel.MaxWidth = 0
-      BoundLabel.UseSkinColor = True
-      ImageIndexOff = 0
-      ImageIndexOn = 0
-      FontOn.Charset = DEFAULT_CHARSET
-      FontOn.Color = clWindowText
-      FontOn.Height = -11
-      FontOn.Name = 'Tahoma'
-      FontOn.Style = []
-      SliderCaptionOn = 'Yes'
-      SliderCaptionOff = 'No'
-    end
   end
   inherited FrameAdapter: TsFrameAdapter
-    Left = 134
-    Top = 10
+    Left = 90
+    Top = 4
   end
 end

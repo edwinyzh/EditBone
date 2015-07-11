@@ -105,7 +105,7 @@ inherited MainForm: TMainForm
       Margins.Top = 4
       Margins.Right = 0
       Margins.Bottom = 0
-      ActivePage = TabSheetFile
+      ActivePage = TabSheetButton
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -121,14 +121,13 @@ inherited MainForm: TMainForm
       TabSpacing = 12
       SkinData.SkinSection = 'RIBBONPAGE'
       SkinData.OuterEffects.Visibility = ovAlways
-      ActivePageCaption = 'File'
       HoldShiftToDragDrop = False
       TabDragDrop = False
       object TabSheetButton: TsTabSheet
         ImageIndex = 86
         TabType = ttMenu
         TabMenu = PopupMenuToolBar
-        TabSkin = 'MENUBTN'
+        TabSkin = 'CHECKBOX'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
       end
@@ -461,15 +460,6 @@ inherited MainForm: TMainForm
             SkinData.SkinSection = 'TOOLBUTTON'
             ImageIndex = 11
             Images = ImagesDataModule.ImageList
-          end
-          object Button1: TButton
-            Left = 822
-            Top = 22
-            Width = 75
-            Height = 25
-            Caption = 'Button1'
-            TabOrder = 0
-            OnClick = Button1Click
           end
         end
       end
@@ -1893,6 +1883,29 @@ inherited MainForm: TMainForm
       TabOrder = 0
       Visible = False
       SkinData.SkinSection = 'CHECKBOX'
+      object PageControl: TBCPageControl
+        Left = 0
+        Top = 0
+        Width = 329
+        Height = 377
+        Align = alClient
+        DoubleBuffered = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentDoubleBuffered = False
+        ParentFont = False
+        TabHeight = 22
+        TabOrder = 0
+        TabMargin = 4
+        TabPadding = 2
+        SkinData.SkinSection = 'PAGECONTROL'
+        HoldShiftToDragDrop = False
+        RightClickSelect = True
+        TabDragDrop = True
+      end
     end
     object PanelDocument: TBCPanel
       AlignWithMargins = True
@@ -1933,6 +1946,7 @@ inherited MainForm: TMainForm
         MultiLine = True
         ParentDoubleBuffered = False
         ParentFont = False
+        PopupMenu = PopupMenuDocument
         TabHeight = 22
         TabOrder = 0
         OnChange = PageControlDocumentChange
@@ -4989,37 +5003,8 @@ inherited MainForm: TMainForm
   end
   object AppInstances: TJvAppInstances
     OnCmdLineReceived = AppInstancesCmdLineReceived
-    Left = 789
-    Top = 246
-  end
-  object AlphaImageListStatusBar: TsAlphaImageList
-    Items = <
-      item
-        ImageFormat = ifPNG
-        ImageName = 'a'
-        ImgData = {
-          89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
-          610000000467414D410000B18F0BFC6105000000097048597300000EC100000E
-          C101B8916BED0000001874455874536F667477617265007061696E742E6E6574
-          20342E302E35658532650000011B49444154384F9D52CB6EC23010CC27B67C40
-          7FA37FD04FE8B1071471097909A9270EED6FF450824A919A0807A570201CB63B
-          1BDBDA405404238D761CEF8E27B2032212DE3F3E73E9F435F462F4F2C1E5BCE1
-          12833B3ED90DA362FDF014CAFA5205BDD3CD099CC0C94E5F432F74AC7C36CBE2
-          2CA3699250C4448DD35498E6F93460B85E2F34D1788AA228A4566529262CA5D7
-          0FE904381158144BFA5C2C4587930935CDAF687B40DF40334A622E44ABEF357D
-          ADD6A25FE7EF62822483063A411477066555D10F473E854DD837D07406665B93
-          A96BDAD48636C68806ECBEF4FAA1A104BBDDFE8CC0A08126AE0E68DB231D0EAD
-          27D680DD975E3FA413E00DFC07BBDF37D0BCC94027E087D2E0AA1015FFEBC96B
-          7C1F87E15BD74BC11FAE132904381C83A50000000049454E44AE426082}
-      end>
-    Left = 455
-    Top = 448
-    Bitmap = {
-      494C010100000800080001000100FFFFFFFF0400FFFFFFFFFFFFFFFF424D7600
-      0000000000007600000028000000040000000100000001000400000000000400
-      0000000000000000000000000000000000000000000000008000008000000080
-      8000800000008000800080800000C0C0C000808080000000FF0000FF000000FF
-      FF00FF000000FF00FF00FFFF0000FFFFFF0000000000}
+    Left = 743
+    Top = 250
   end
   object PopupMenuDocumentMacro: TPopupMenu
     Images = ImagesDataModule.ImageList

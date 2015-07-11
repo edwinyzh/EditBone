@@ -659,7 +659,6 @@ var
   VirtualDrawTree: TVirtualDrawTree;
   Node: PVirtualNode;
 begin
-  PageControl.DoubleBuffered := OptionsContainer.OutputDoubleBuffered;
   PageControl.MultiLine := OptionsContainer.OutputMultiLine;
   PageControl.ShowCloseBtns := OptionsContainer.OutputShowCloseButton;
   PageControl.RightClickSelect := OptionsContainer.OutputRightClickSelect;

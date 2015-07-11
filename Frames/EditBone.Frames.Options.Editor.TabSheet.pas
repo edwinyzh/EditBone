@@ -14,8 +14,6 @@ type
     SliderCloseTabByDblClick: TsSlider;
     SliderCloseTabByMiddleClick: TsSlider;
     StickyLabelCloseTabByMiddleClick: TsStickyLabel;
-    StickyLabelDoubleBuffered: TsStickyLabel;
-    SliderDoubleBuffered: TsSlider;
     SliderMultiline: TsSlider;
     StickyLabelMultiline: TsStickyLabel;
     StickyLabelRightClickSelect: TsStickyLabel;
@@ -67,7 +65,6 @@ begin
   begin
     SliderCloseTabByDblClick.SliderOn := DocCloseTabByDblClick;
     SliderCloseTabByMiddleClick.SliderOn := DocCloseTabByMiddleClick;
-    SliderDoubleBuffered.SliderOn := DocDoubleBuffered;
     SliderMultiLine.SliderOn := DocMultiLine;
     SliderRightClickSelect.SliderOn := DocRightClickSelect;
     SliderSaveTabs.SliderOn := DocSaveTabs;
@@ -83,7 +80,6 @@ begin
   begin
     DocCloseTabByDblClick := SliderCloseTabByDblClick.SliderOn;
     DocCloseTabByMiddleClick := SliderCloseTabByMiddleClick.SliderOn;
-    DocDoubleBuffered := SliderDoubleBuffered.SliderOn;
     DocMultiLine := SliderMultiLine.SliderOn;
     DocRightClickSelect := SliderRightClickSelect.SliderOn;
     DocSaveTabs := SliderSaveTabs.SliderOn;
