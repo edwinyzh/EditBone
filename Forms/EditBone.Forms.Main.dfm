@@ -105,7 +105,7 @@ inherited MainForm: TMainForm
       Margins.Top = 4
       Margins.Right = 0
       Margins.Bottom = 0
-      ActivePage = TabSheetButton
+      ActivePage = TabSheetFile
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -120,7 +120,7 @@ inherited MainForm: TMainForm
       TabPadding = 2
       TabSpacing = 12
       SkinData.SkinSection = 'RIBBONPAGE'
-      SkinData.OuterEffects.Visibility = ovAlways
+      ActivePageCaption = 'File'
       HoldShiftToDragDrop = False
       TabDragDrop = False
       object TabSheetButton: TsTabSheet
@@ -1954,7 +1954,6 @@ inherited MainForm: TMainForm
         ShowCloseBtns = True
         TabMargin = 4
         SkinData.SkinSection = 'PAGECONTROL'
-        SkinData.OuterEffects.Visibility = ovAlways
         OnDblClick = PageControlDocumentDblClick
         OnCloseBtnClick = PageControlDocumentCloseBtnClick
         HoldShiftToDragDrop = False

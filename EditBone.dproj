@@ -58,7 +58,6 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <Icon_MainIcon>EditBone_Icon.ico</Icon_MainIcon>
         <DCC_Define>EDITBONE;USE_ALPHASKINS;$(DCC_Define)</DCC_Define>
         <VerInfo_Locale>1035</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
@@ -197,7 +196,6 @@
         </DCCReference>
         <DCCReference Include="Units\EditBone.Document.pas"/>
         <DCCReference Include="Units\EditBone.XMLTree.pas"/>
-        <None Include="..\..\Shifter\Source\Shifter.dpr"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -224,18 +222,6 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="1">
-                <DeployFile LocalName="..\..\Shifter\Source\Shifter.dpr" Configuration="Release" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="..\..\Shifter\Source\Shifter.dpr" Configuration="Debug" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="..\Release\EditBone.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>EditBone.exe</RemoteName>
@@ -630,13 +616,13 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
             </Deployment>
             <Platforms>
                 <Platform value="Win32">True</Platform>

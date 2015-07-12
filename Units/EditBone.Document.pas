@@ -324,12 +324,13 @@ begin
 
   { create new tab sheet }
   LTabSheet := TsTabSheet.Create(PageControl);
+  LTabSheet.PageControl := PageControl;
+
   if FileName <> '' then
     LTabSheet.ImageIndex := GetIconIndex(FileName)
   else
     LTabSheet.ImageIndex := FNewImageIndex;
   LTabSheet.TabVisible := False;
-  LTabSheet.PageControl := PageControl;
   PageControl.ActivePage := LTabSheet;
   { tab sheet new always last }
   FTabSheetNew.PageIndex := PageControl.PageCount - 1;
@@ -1301,42 +1302,42 @@ begin
   FileNames := TStringList.Create;
   Bookmarks := TStringList.Create;
   with TBigIniFile.Create(GetIniFilename) do
-    try
-      PageControl.Visible := False;
-      { Open Files }
-      ReadSectionValues('OpenFiles', FileNames);
-      ReadSectionValues('Bookmarks', Bookmarks);
-      for i := 0 to FileNames.Count - 1 do
+  try
+    PageControl.Visible := False;
+    { Open Files }
+    ReadSectionValues('OpenFiles', FileNames);
+    ReadSectionValues('Bookmarks', Bookmarks);
+    for i := 0 to FileNames.Count - 1 do
+    begin
+      s := RemoveTokenFromStart('=', FileNames.Strings[i]);
+      LFileName := GetNextToken(';', s);
+      if FileExists(LFileName) then
       begin
-        s := RemoveTokenFromStart('=', FileNames.Strings[i]);
-        LFileName := GetNextToken(';', s);
-        if FileExists(LFileName) then
-        begin
-          s := RemoveTokenFromStart(';', s);
-          LHighlighter := GetNextToken(';', s);
-          s := RemoveTokenFromStart(';', s);
-          LColor := GetNextToken(';', s);
-          Open(LFileName, Bookmarks, ReadInteger('CaretY', IntToStr(i), 0), ReadInteger('CaretX', IntToStr(i), 0), True,
-            ReadBool('Minimaps', IntToStr(i), False), LHighlighter, LColor);
-        end;
+        s := RemoveTokenFromStart(';', s);
+        LHighlighter := GetNextToken(';', s);
+        s := RemoveTokenFromStart(';', s);
+        LColor := GetNextToken(';', s);
+        Open(LFileName, Bookmarks, ReadInteger('CaretY', IntToStr(i), 0), ReadInteger('CaretX', IntToStr(i), 0), True,
+          ReadBool('Minimaps', IntToStr(i), False), LHighlighter, LColor);
       end;
-
-      i := ReadInteger('Options', 'ActivePageIndex', 0);
-      if i < PageControl.PageCount then
-      begin
-        PageControl.ActivePageIndex := i;
-        if Assigned(FSetTitleBarMenus) then
-          FSetTitleBarMenus;
-      end;
-
-      Result := FileNames.Count > 0;
-    finally
-      FileNames.Free;
-      Bookmarks.Free;
-      // Minimaps.Free;
-      Free;
-      PageControl.Visible := True;
     end;
+
+    i := ReadInteger('Options', 'ActivePageIndex', 0);
+    if i < PageControl.PageCount then
+    begin
+      PageControl.ActivePageIndex := i;
+      if Assigned(FSetTitleBarMenus) then
+        FSetTitleBarMenus;
+    end;
+
+    Result := FileNames.Count > 0;
+  finally
+    FileNames.Free;
+    Bookmarks.Free;
+    // Minimaps.Free;
+    Free;
+    PageControl.Visible := True;
+  end;
 end;
 
 procedure TEBDocument.WriteIniFile;
@@ -1799,7 +1800,8 @@ procedure TEBDocument.EditorCaretChanged(Sender: TObject; X, Y: Integer);
 begin
   inherited;
   FCaretInfo := Format('%d: %d', [Y, X]);
-  FStatusBar.Repaint;
+  if Assigned(FStatusBar) then
+    FStatusBar.Repaint;
 end;
 
 function TEBDocument.GetModifiedInfo: string;
@@ -1991,10 +1993,16 @@ var
 begin
   LEditor := GetActiveEditor;
   if Assigned(LEditor) then
+  begin
     LEditor.ClearBookmarks;
+    LEditor.Invalidate;
+  end;
   LEditor := GetActiveSplitEditor;
   if Assigned(LEditor) then
+  begin
     LEditor.ClearBookmarks;
+    LEditor.Invalidate;
+  end;
 end;
 
 procedure TEBDocument.InsertLine;

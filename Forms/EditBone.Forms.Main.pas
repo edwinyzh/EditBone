@@ -799,7 +799,6 @@ begin
     Action := acaFree
   else
     CanClose := False;
-  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.PageControlDocumentDblClick(Sender: TObject);
@@ -962,19 +961,16 @@ end;
 procedure TMainForm.ActionFileCloseAllExecute(Sender: TObject);
 begin
   FDocument.CloseAll;
-  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.ActionFileCloseAllOtherExecute(Sender: TObject);
 begin
   FDocument.CloseAllOtherPages;
-  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.ActionFileCloseExecute(Sender: TObject);
 begin
   FDocument.Close;
-  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.ActionMacroOpenExecute(Sender: TObject);
@@ -1068,13 +1064,11 @@ end;
 procedure TMainForm.ActionFileNewExecute(Sender: TObject);
 begin
   FDocument.New;
-  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.ActionFileOpenExecute(Sender: TObject);
 begin
   FDocument.Open;
-  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.ActionFilePrintExecute(Sender: TObject);
@@ -1127,7 +1121,6 @@ begin
       if FDirectoryFrame.IsAnyDirectory then
         FDirectoryFrame.OpenPath(ExtractFileDrive(FDocument.ActiveDocumentName), FormatFileName(FDocument.ActiveDocumentName),
           FDirectoryFrame.ExcludeOtherBranches);
-  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.ActionHelpAboutEditBoneExecute(Sender: TObject);
@@ -1312,7 +1305,6 @@ begin
   Action := Sender as TAction;
   FileName := System.Copy(Action.Caption, Pos(' ', Action.Caption) + 1, Length(Action.Caption));
   FDocument.Open(FileName);
-  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.ChangeSkin(Sender: TObject);
@@ -1536,7 +1528,6 @@ begin
   begin
     OnOpenFile := DoSearchForFilesOpenFile;
     Open(FDirectoryFrame.SelectedPath);
-    PanelDocument.Invalidate; { skin bug }
   end;
 end;
 
@@ -2576,7 +2567,6 @@ begin
     Filename := FDirectoryFrame.SelectedFile;
   if Filename <> '' then
     FDocument.Open(Filename);
-  PanelDocument.Invalidate; { skin bug }
 end;
 
 procedure TMainForm.OnAddTreeViewLine(Sender: TObject; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString);
