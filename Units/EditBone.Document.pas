@@ -5,11 +5,11 @@ interface
 uses
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, EditBone.Consts,
   BCEditor.Editor, Vcl.ComCtrls, Vcl.ImgList, Vcl.Menus, BCControls.PageControl, Vcl.Buttons,
-  Vcl.ActnList, System.Actions, BCControls.ProgressBar, Vcl.ActnMan,
+  Vcl.ActnList, System.Actions, BCControls.ProgressBar, Vcl.ActnMan, BCControls.Panel,
   sPageControl, BCEditor.Types, BCControls.StatusBar, BCEditor.MacroRecorder, BCEditor.Print,
   Vcl.PlatformDefaultStyleActnCtrls, BCEditor.Editor.Bookmarks, Vcl.Dialogs,
   BCEditor.Print.Types, EditBone.XMLTree, BCControls.Splitter, BCControls.ComboBox,
-  System.Generics.Collections, BCComponents.SkinManager;
+  System.Generics.Collections, BCComponents.SkinManager, BCControls.Labels;
 
 type
   TEBSetBookmarks = procedure of object;
@@ -24,6 +24,8 @@ type
     procedure EditorCaretChanged(Sender: TObject; X, Y: Integer);
     procedure EditorAfterBookmarkPlaced(Sender: TObject);
     procedure EditorAfterClearBookmark(Sender: TObject);
+    procedure ComboBoxSearchTextChange(Sender: TObject);
+    procedure ComboBoxSearchTextKeyPress(Sender: TObject; var Key: Char);
   private
     FSkinManager: TBCSkinManager;
     FCaretInfo: string;
@@ -45,6 +47,9 @@ type
     FSetTitleBarMenus: TEBSetTitleBarMenus;
     FTabSheetNew: TsTabSheet;
     FImages: TImageList;
+    FActionSearchFindPrevious: TAction;
+    FActionSearchFindNext: TAction;
+    FActionSearchOptions: TAction;
     procedure CreateImageList;
     function CreateNewTabSheet(FileName: string = ''; ShowMinimap: Boolean = False; AHighlighter: string = '';
       AColor: string = ''): TBCEditor;
@@ -54,6 +59,10 @@ type
     function GetActiveDocumentName: string;
     function GetActivePageCaption: string;
     function GetActiveTabSheetCaption: string;
+    function GetActiveSearchPanel: TBCPanel;
+    function GetActiveComboBoxSearchText: TBCComboBox;
+    function GetActiveLabelSearchResultCount: TBCLabel;
+    function GetComboBoxSearchText(const ATabSheet: TTabSheet): TBCComboBox;
     function GetCanRedo: Boolean;
     function GetCanUndo: Boolean;
     //function GetCompareFrame(TabSheet: TTabSheet): TCompareFrame;
@@ -66,10 +75,10 @@ type
     function GetMinimapChecked: Boolean;
     function GetEditor(const ATabSheet: TTabSheet; const ATag: Integer = EDITBONE_EDITOR_TAG): TBCEditor;
     function GetXMLTree(const ATabSheet: TTabSheet): TEBXMLTree;
-    function GetComboBoxSearchText(const ATabSheet: TTabSheet): TBCComboBox;
     function GetXMLTreeVisible: Boolean;
     function GetSplitter(const ATabSheet: TTabSheet; const ATag: Integer): TBCSplitter;
     function Save(TabSheet: TTabSheet; ShowDialog: Boolean = False): string; overload;
+    procedure SetSearchMatchesFound;
     procedure AddToReopenFiles(FileName: string);
     procedure CheckModifiedDocuments;
     procedure SelectHighlighter(FileName: string);
@@ -141,6 +150,7 @@ type
     procedure SaveAll;
     procedure SaveMacro;
     procedure Search;
+    procedure SearchOptions;
     procedure SelectAll;
     procedure SelectForCompare;
     procedure SetActiveEncoding(Value: Integer);
@@ -187,6 +197,9 @@ type
     property SplitChecked: Boolean read GetSplitChecked;
     property StatusBar: TBCStatusBar write FStatusBar;
     property XMLTreeVisible: Boolean read GetXMLTreeVisible;
+    property ActionSearchFindPrevious: TAction read FActionSearchFindPrevious write FActionSearchFindPrevious;
+    property ActionSearchFindNext: TAction read FActionSearchFindNext write FActionSearchFindNext;
+    property ActionSearchOptions: TAction read FActionSearchOptions write FActionSearchOptions;
   end;
 
 implementation
@@ -196,8 +209,9 @@ uses
   Vcl.ActnMenus, System.Types, System.Math, BigIni, Vcl.GraphUtil, BCCommon.Language.Strings,
   BCCommon.Dialogs.InputQuery, BCCommon.Dialogs.Replace, BCCommon.FileUtils, BCCommon.Messages,
   BCCommon.StringUtils, Winapi.CommCtrl, EditBone.Forms.Options, BCCommon.Images,
-  BCCommon.SQL.Formatter, BCEditor.Editor.KeyCommands, EditBone.Images,
-  BCControls.Utils, BCEditor.Editor.Utils, BCCommon.Consts, BCEditor.Encoding, Vcl.Clipbrd, BCEditor.Highlighter.Colors;
+  BCCommon.SQL.Formatter, BCEditor.Editor.KeyCommands, EditBone.Images, BCControls.SpeedButton,
+  BCControls.Utils, BCEditor.Editor.Utils, BCCommon.Consts, BCEditor.Encoding, Vcl.Clipbrd, BCEditor.Highlighter.Colors,
+  BCCommon.Dialogs.Options.Search;
 
 { TEBDocument }
 
@@ -275,6 +289,7 @@ begin
           { vertical splitter }
           LVerticalSplitter := TBCSplitter.Create(PageControl.ActivePage);
           LVerticalSplitter.Parent := PageControl.ActivePage;
+          LVerticalSplitter.Align := alLeft;
           LVerticalSplitter.Tag := EDITBONE_VERTICAL_SPLITTER_TAG;
           LVerticalSplitter.Left := LXMLTree.Left + 1; { splitter always right }
         end
@@ -319,6 +334,10 @@ function TEBDocument.CreateNewTabSheet(FileName: string = ''; ShowMinimap: Boole
 var
   LTabSheet: TsTabSheet;
   LEditor: TBCEditor;
+  LPanelSearch: TBCPanel;
+  LComboBoxSearchText: TBCComboBox;
+  LSplitter: TBCSplitter;
+  LSpeedButton: TBCSpeedButton;
 begin
   FProcessing := True;
 
@@ -365,6 +384,91 @@ begin
     Minimap.Visible := ShowMinimap;
     Tag := EDITBONE_EDITOR_TAG;
   end;
+  { create search }
+  LPanelSearch := TBCPanel.Create(LTabSheet);
+  with LPanelSearch do
+  begin
+    Align := alBottom;
+    AlignWithMargins := True;
+    Margins.Left := 2;
+    Margins.Top := 2;
+    Margins.Right := 2;
+    Margins.Bottom := 2;
+    AutoSize := True;
+    Height := 21;
+    Visible := False;
+    Parent := LTabSheet;
+    Tag := EDITBONE_SEARCH_PANEL_TAG;
+  end;
+  LComboBoxSearchText := TBCComboBox.Create(LTabSheet);
+  with LComboBoxSearchText do
+  begin
+    Align := alLeft;
+    Parent := LPanelSearch;
+    Width := 200;
+    VerticalAlignment := taAlignTop;
+    Tag := EDITBONE_COMBOBOX_SEARCH_TEXT_TAG;
+    OnChange := ComboBoxSearchTextChange;
+    OnKeyPress := ComboBoxSearchTextKeyPress;
+  end;
+  LSplitter := TBCSplitter.Create(LTabSheet);
+  with LSplitter do
+  begin
+    Align := alLeft;
+    Parent := LPanelSearch;
+    Left := LComboBoxSearchText.Width + 1;
+  end;
+  LSpeedButton := TBCSpeedButton.Create(LTabSheet);
+  with LSpeedButton do
+  begin
+    Align := alLeft;
+    Parent := LPanelSearch;
+    Width := 21;
+    ShowCaption := False;
+    Left := LSplitter.Left + 1;
+    SkinData.SkinSection := 'TOOLBUTTON';
+    OnClick := ActionSearchFindPrevious.OnExecute;
+    ImageIndex := ActionSearchFindPrevious.ImageIndex;
+    Hint := ActionSearchFindPrevious.Hint;
+    Images := ImagesDataModule.ImageListSmall;
+  end;
+  LSpeedButton := TBCSpeedButton.Create(LTabSheet);
+  with LSpeedButton do
+  begin
+    Align := alLeft;
+    Parent := LPanelSearch;
+    Width := 21;
+    ShowCaption := False;
+    Left := LSplitter.Left + 22;
+    SkinData.SkinSection := 'TOOLBUTTON';
+    OnClick := ActionSearchFindNext.OnExecute;
+    ImageIndex := ActionSearchFindNext.ImageIndex;
+    Hint := ActionSearchFindNext.Hint;
+    Images := ImagesDataModule.ImageListSmall;
+  end;
+  LSpeedButton := TBCSpeedButton.Create(LTabSheet);
+  with LSpeedButton do
+  begin
+    Align := alLeft;
+    Parent := LPanelSearch;
+    Width := 10;
+    ButtonStyle := tbsDivider;
+    Left := LSplitter.Left + 43;
+  end;
+  LSpeedButton := TBCSpeedButton.Create(LTabSheet);
+  with LSpeedButton do
+  begin
+    Align := alLeft;
+    Parent := LPanelSearch;
+    Width := 21;
+    ShowCaption := False;
+    Left := LSplitter.Left + 64;
+    SkinData.SkinSection := 'TOOLBUTTON';
+    OnClick := ActionSearchOptions.OnExecute;
+    ImageIndex := ActionSearchOptions.ImageIndex;
+    Hint := ActionSearchOptions.Hint;
+    Images := ImagesDataModule.ImageListSmall;
+  end;
 
   OptionsContainer.AssignTo(LEditor);
 
@@ -407,6 +511,74 @@ begin
   LTabSheet.TabVisible := True;
   FProcessing := False;
 end;
+
+procedure TEBDocument.ComboBoxSearchTextKeyPress(Sender: TObject; var Key: Char);
+var
+  LEditor: TBCEditor;
+  LComboBoxSearchText: TBCComboBox;
+begin
+  if (Key = #13) or (Key = #10) then
+  begin
+    LEditor := GetActiveEditor;
+    if Assigned(LEditor) then
+      if LEditor.CanFocus then
+        LEditor.SetFocus;
+    LComboBoxSearchText := GetActiveComboBoxSearchText;
+    if Assigned(LComboBoxSearchText) then
+      if LComboBoxSearchText.Items.IndexOf(LComboBoxSearchText.Text) = -1 then
+        LComboBoxSearchText.Items.Add(LComboBoxSearchText.Text);
+    Key := #0;
+  end;
+end;
+
+procedure TEBDocument.SearchOptions;
+var
+  LEditor: TBCEditor;
+begin
+  LEditor := GetActiveEditor;
+  if Assigned(LEditor) then
+    TSearchOptionsDialog.ClassShowModal(LEditor);
+end;
+
+procedure TEBDocument.SetSearchMatchesFound;
+var
+  s: string;
+  LEditor: TBCEditor;
+  LLabelSearchResultCount: TBCLabel;
+begin
+  s := '';
+  LEditor := GetActiveEditor;
+  if Assigned(LEditor) and (LEditor.SearchResultCount > 1) then
+    s := LanguageDataModule.GetConstant('MatchFoundPluralExtension');
+  if Assigned(LEditor) and (LEditor.SearchResultCount > 0) then
+    s := Format(LanguageDataModule.GetConstant('MatchFound'), [LEditor.SearchResultCount, s]);
+
+  LLabelSearchResultCount := GetActiveLabelSearchResultCount;
+  if Assigned(LLabelSearchResultCount) then
+    LLabelSearchResultCount.Caption := s;
+end;
+
+procedure TEBDocument.ComboBoxSearchTextChange(Sender: TObject);
+var
+  LEditor: TBCEditor;
+  LComboBoxSearchText: TBCComboBox;
+begin
+  LEditor := GetActiveEditor;
+  if Assigned(LEditor) then
+  begin
+    if soSearchOnTyping in LEditor.Search.Options then
+    begin
+      LComboBoxSearchText := GetActiveComboBoxSearchText;
+      if Assigned(LComboBoxSearchText) then
+        LEditor.Search.SearchText := LComboBoxSearchText.Text;
+      SetSearchMatchesFound;
+    end;
+    OptionsContainer.DocumentSpecificSearchText := '';
+    if OptionsContainer.DocumentSpecificSearch then
+      OptionsContainer.DocumentSpecificSearchText := LEditor.Search.SearchText
+  end;
+end;
+
  (*
 procedure TEBDocument.CompareFiles(FileName: string; AFileDragDrop: Boolean);
 var
@@ -947,7 +1119,7 @@ begin
         if OptionsContainer.DocumentSpecificSearch then
           OptionsContainer.DocumentSpecificSearchText := Clipboard.AsText;
 
-        LComboBoxSearchText := GetComboBoxSearchText(PageControl.ActivePage);
+        LComboBoxSearchText := GetActiveComboBoxSearchText;
         if Assigned(LComboBoxSearchText) then
           LComboBoxSearchText.Text := LEditor.Search.SearchText;
       end;
@@ -1029,6 +1201,7 @@ var
   LSelectionAvailable: Boolean;
   LEditor: TBCEditor;
   LComboBoxSearchText: TBCComboBox;
+  LSearchPanel: TBCPanel;
 
   procedure ReadSearchOptions;
 
@@ -1082,10 +1255,13 @@ begin
       LEditor.SelectionBeginPosition := LOldSelectionBeginPosition;
       LEditor.SelectionEndPosition := LOldSelectionEndPosition;
     end;
-    Application.ProcessMessages;
+    //Application.ProcessMessages;
+    LSearchPanel := GetActiveSearchPanel;
+    if Assigned(LSearchPanel) then
+      LSearchPanel.Visible := True;
 
     LSelectedText := LEditor.SelectedText;
-    LComboBoxSearchText := GetComboBoxSearchText(PageControl.ActivePage);
+    LComboBoxSearchText := GetActiveComboBoxSearchText;
     if Assigned(LComboBoxSearchText) then
     begin
       if LSelectedText <> '' then
@@ -1548,9 +1724,24 @@ var
 begin
   Result := nil;
   for i := 0 to ATabSheet.ControlCount - 1 do
-  if ATabSheet.Controls[i].Tag = EDITBONE_COMBOBOX_TAG then
+  if ATabSheet.Controls[i].Tag = EDITBONE_COMBOBOX_SEARCH_TEXT_TAG then
   begin
     Result := ATabSheet.Controls[i] as TBCComboBox;
+    Break;
+  end;
+end;
+
+function TEBDocument.GetActiveLabelSearchResultCount: TBCLabel;
+var
+  i: Integer;
+  LTabSheet: TsTabSheet;
+begin
+  Result := nil;
+  LTabSheet := PageControl.ActivePage;
+  for i := 0 to LTabSheet.ControlCount - 1 do
+  if LTabSheet.Controls[i].Tag = EDITBONE_LABEL_SEARCH_RESULT_COUNT_TAG then
+  begin
+    Result := LTabSheet.Controls[i] as TBCLabel;
     Break;
   end;
 end;
@@ -1566,6 +1757,29 @@ begin
     Result := ATabSheet.Controls[i] as TEBXMLTree;
     Break;
   end;
+end;
+
+function TEBDocument.GetActiveSearchPanel: TBCPanel;
+var
+  i: Integer;
+  LTabSheet: TsTabSheet;
+begin
+  Result := nil;
+  LTabSheet := PageControl.ActivePage;
+  for i := 0 to LTabSheet.ControlCount - 1 do
+  if LTabSheet.Controls[i].Tag = EDITBONE_SEARCH_PANEL_TAG then
+  begin
+    Result := LTabSheet.Controls[i] as TBCPanel;
+    Break;
+  end;
+end;
+
+function TEBDocument.GetActiveComboBoxSearchText: TBCComboBox;
+begin
+  if Assigned(PageControl.ActivePage) then
+    Result := GetComboBoxSearchText(PageControl.ActivePage)
+  else
+    Result := nil;
 end;
 
 function TEBDocument.GetEditor(const ATabSheet: TTabSheet; const ATag: Integer = EDITBONE_EDITOR_TAG): TBCEditor;
@@ -1941,7 +2155,7 @@ var
   end;
 
 begin
-  LComboBoxSearchText := GetComboBoxSearchText(PageControl.ActivePage);
+  LComboBoxSearchText := GetActiveComboBoxSearchText;
   if Assigned(LComboBoxSearchText) and LComboBoxSearchText.Focused then
     LComboBoxSearchText.SelectAll
   else
@@ -2353,14 +2567,15 @@ begin
   LSplitEditor := GetEditor(PageControl.ActivePage, EDITBONE_SPLIT_EDITOR_TAG);
   if not Assigned(LSplitEditor) then
   begin
+    LEditor.Margins.Bottom := 0;
     LSplitEditor := TBCEditor.Create(PageControl.ActivePage);
     LSplitEditor.Visible := False;
     LSplitEditor.Align := alBottom;
     LSplitEditor.AlignWithMargins := True;
-    LSplitEditor.Margins.Left := 1;
+    LSplitEditor.Margins.Left := 2;
     LSplitEditor.Margins.Top := 0;
     LSplitEditor.Margins.Right := 2;
-    LSplitEditor.Margins.Bottom := 0;
+    LSplitEditor.Margins.Bottom := 2;
     LSplitEditor.Parent := PageControl.ActivePage;
     LSplitEditor.Width := 0; { avoid flickering }
     LSplitEditor.Tag := EDITBONE_SPLIT_EDITOR_TAG;
@@ -2372,12 +2587,14 @@ begin
     LSplitEditor.Visible := True;
     { horizontal splitter }
     LSplitterHorizontal := TBCSplitter.Create(PageControl.ActivePage);
+    LSplitterHorizontal.Align := alBottom;
     LSplitterHorizontal.Parent := PageControl.ActivePage;
     LSplitterHorizontal.Tag := EDITBONE_HORIZONTAL_SPLITTER_TAG;
     LSplitterHorizontal.Top := LSplitEditor.Top - 1; { splitter always above }
   end
   else
   begin
+    LEditor.Margins.Bottom := 2;
     LSplitEditor.RemoveChainedEditor;
     LSplitEditor.Visible := False;
     LSplitEditor.Parent := nil;

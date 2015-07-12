@@ -1883,29 +1883,6 @@ inherited MainForm: TMainForm
       TabOrder = 0
       Visible = False
       SkinData.SkinSection = 'CHECKBOX'
-      object PageControl: TBCPageControl
-        Left = 0
-        Top = 0
-        Width = 329
-        Height = 377
-        Align = alClient
-        DoubleBuffered = True
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentDoubleBuffered = False
-        ParentFont = False
-        TabHeight = 22
-        TabOrder = 0
-        TabMargin = 4
-        TabPadding = 2
-        SkinData.SkinSection = 'PAGECONTROL'
-        HoldShiftToDragDrop = False
-        RightClickSelect = True
-        TabDragDrop = True
-      end
     end
     object PanelDocument: TBCPanel
       AlignWithMargins = True
@@ -2989,7 +2966,7 @@ inherited MainForm: TMainForm
     IsDefault = False
     ThirdParty.ThirdButtons = ' '#13#10'TButton'#13#10
     ThirdParty.ThirdGrids = ' '#13#10'TStringGrid'#13#10
-    ThirdParty.ThirdVirtualTrees = ' '#13#10'TBCFileTreeView'#13#10'TVirtualDrawTree'#13#10
+    ThirdParty.ThirdVirtualTrees = ' '#13#10'TVirtualDrawTree'#13#10'TBCFileTreeView'#13#10
     OnGetMenuExtraLineData = SkinManagerGetMenuExtraLineData
     Left = 32
     Top = 178
@@ -4363,6 +4340,13 @@ inherited MainForm: TMainForm
       Hint = 'Refresh files'
       ImageIndex = 93
       OnExecute = ActionXMLTreeRefreshExecute
+    end
+    object ActionSearchOptions: TAction
+      Category = 'Search'
+      Caption = 'ActionSearchOptions'
+      Hint = 'Options'
+      ImageIndex = 78
+      OnExecute = ActionSearchOptionsExecute
     end
   end
   inherited MainMenu: TMainMenu

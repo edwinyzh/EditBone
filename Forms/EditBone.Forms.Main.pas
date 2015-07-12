@@ -579,7 +579,7 @@ type
     ActionXMLTreeRefresh: TAction;
     PopupMenuXMLTree: TPopupMenu;
     MenuItemXMLRefresh: TMenuItem;
-    PageControl: TBCPageControl;
+    ActionSearchOptions: TAction;
     procedure ActionFileNewExecute(Sender: TObject);
     procedure ActionFileOpenExecute(Sender: TObject);
     procedure ActionFileSaveAllExecute(Sender: TObject);
@@ -719,6 +719,7 @@ type
     procedure ActionXMLTreeRefreshExecute(Sender: TObject);
     procedure EditorPrintPrintStatus(Sender: TObject; Status: TBCEditorPrintStatus; PageNumber: Integer;
       var Abort: Boolean);
+    procedure ActionSearchOptionsExecute(Sender: TObject);
   private
     FNoIni: Boolean;
     FDirectoryFrame: TDirectoryFrame;
@@ -1167,6 +1168,11 @@ begin
   FDocument.GotoLine;
 end;
 
+procedure TMainForm.ActionSearchOptionsExecute(Sender: TObject);
+begin
+  FDocument.SearchOptions;
+end;
+
 procedure TMainForm.ActionSearchReplaceExecute(Sender: TObject);
 begin
   FDocument.Replace;
@@ -1419,6 +1425,7 @@ begin
     SetOptions;
     SetMargins;
     CreateToolbar;
+    SetTitleBarMenus;
   end;
 end;
 
@@ -2172,8 +2179,6 @@ procedure TMainForm.SetOptions;
 var
   PanelWidth: Integer;
 begin
-  TitleBar.Items[6].Caption := OptionsContainer.DefaultHighlighterColor;
-
   PanelToolbar.Visible := OptionsContainer.ToolbarVisible;
   PanelMenuBar.Visible := OptionsContainer.MenuBarVisible;
   if OptionsContainer.MainMenuVisible then
@@ -2420,6 +2425,9 @@ begin
   FDocument.SkinManager := SkinManager;
   FDocument.StatusBar := StatusBar;
   FDocument.OnNewTabSheetClickBtn := ActionFileNewExecute;
+  FDocument.ActionSearchFindPrevious := ActionSearchFindPrevious;
+  FDocument.ActionSearchFindNext := ActionSearchFindNext;
+  FDocument.ActionSearchOptions := ActionSearchOptions;
   //FDocument.PopupMenu := PopupMenuDocument;
   FDocument.ProgressBar := ProgressBar;
   { TDirectoryFrame }
