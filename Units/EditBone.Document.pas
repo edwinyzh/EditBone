@@ -50,6 +50,7 @@ type
     FActionSearchFindPrevious: TAction;
     FActionSearchFindNext: TAction;
     FActionSearchOptions: TAction;
+    FActionSearchClose: TAction;
     procedure CreateImageList;
     function CreateNewTabSheet(FileName: string = ''; ShowMinimap: Boolean = False; AHighlighter: string = '';
       AColor: string = ''): TBCEditor;
@@ -59,9 +60,10 @@ type
     function GetActiveDocumentName: string;
     function GetActivePageCaption: string;
     function GetActiveTabSheetCaption: string;
+    function GetSearchPanel(const ATabSheet: TTabSheet): TBCPanel;
     function GetActiveSearchPanel: TBCPanel;
     function GetActiveComboBoxSearchText: TBCComboBox;
-    function GetActiveLabelSearchResultCount: TBCLabel;
+    function GetActiveLabelSearchResultCount: TBCLabelFX;
     function GetComboBoxSearchText(const ATabSheet: TTabSheet): TBCComboBox;
     function GetCanRedo: Boolean;
     function GetCanUndo: Boolean;
@@ -157,6 +159,7 @@ type
     procedure SetHighlighter(AHighlighterName: string);
     procedure SetHighlighterColor(AColorName: string);
     procedure SetOptions;
+    procedure SearchClose;
     procedure ShowInfo;
     procedure Sort(ASortOrder: TBCEditorSortOrder = soToggle);
     procedure StopMacro;
@@ -200,9 +203,12 @@ type
     property ActionSearchFindPrevious: TAction read FActionSearchFindPrevious write FActionSearchFindPrevious;
     property ActionSearchFindNext: TAction read FActionSearchFindNext write FActionSearchFindNext;
     property ActionSearchOptions: TAction read FActionSearchOptions write FActionSearchOptions;
+    property ActionSearchClose: TAction read FActionSearchClose write FActionSearchClose;
   end;
 
 implementation
+
+{$R EDITBONE.DOCUMENT.RES}
 
 uses
   Vcl.Forms, BCCommon.Forms.Print.Preview, BCCommon.Options.Container, BCCommon.Dialogs.ConfirmReplace,
@@ -338,6 +344,8 @@ var
   LComboBoxSearchText: TBCComboBox;
   LSplitter: TBCSplitter;
   LSpeedButton: TBCSpeedButton;
+  LLabel: TBCLabelFX;
+  LBitmap: TBitmap;
 begin
   FProcessing := True;
 
@@ -384,7 +392,7 @@ begin
     Minimap.Visible := ShowMinimap;
     Tag := EDITBONE_EDITOR_TAG;
   end;
-  { create search }
+  { create search TODO: move to own procecure }
   LPanelSearch := TBCPanel.Create(LTabSheet);
   with LPanelSearch do
   begin
@@ -469,6 +477,35 @@ begin
     Hint := ActionSearchOptions.Hint;
     Images := ImagesDataModule.ImageListSmall;
   end;
+  LSpeedButton := TBCSpeedButton.Create(LTabSheet);
+  with LSpeedButton do
+  begin
+    Align := alRight;
+    Parent := LPanelSearch;
+    Width := 20;
+    ShowCaption := False;
+    SkinData.SkinSection := 'TOOLBUTTON';
+    //Glyph.LoadFromResourceName(hInstance, 'SEARCHGLYPH');
+    OnClick := ActionSearchClose.OnExecute;
+    Hint := ActionSearchClose.Hint;
+    Images := ImagesDataModule.ImageListSmall;
+    LBitmap := TBitmap.Create;
+    LBitmap.Width := 32;
+    LBitmap.Height := 16;
+    LBitmap.LoadFromResourceName(hInstance, 'SEARCHGLYPH');
+    Glyph := LBitmap;
+    LBitmap.Free;
+  end;
+  LLabel := TBCLabelFX.Create(LTabSheet);
+  with LLabel do
+  begin
+    Align := alRight;
+    Parent := LPanelSearch;
+    AutoSize := True;
+    Shadow.AlphaValue := 0;
+    Font.Size := 10;
+    Tag := EDITBONE_LABEL_SEARCH_RESULT_COUNT_TAG;
+  end;
 
   OptionsContainer.AssignTo(LEditor);
 
@@ -544,7 +581,7 @@ procedure TEBDocument.SetSearchMatchesFound;
 var
   s: string;
   LEditor: TBCEditor;
-  LLabelSearchResultCount: TBCLabel;
+  LLabelSearchResultCount: TBCLabelFX;
 begin
   s := '';
   LEditor := GetActiveEditor;
@@ -555,7 +592,10 @@ begin
 
   LLabelSearchResultCount := GetActiveLabelSearchResultCount;
   if Assigned(LLabelSearchResultCount) then
+  begin
     LLabelSearchResultCount.Caption := s;
+    LLabelSearchResultCount.Left := 0;
+  end;
 end;
 
 procedure TEBDocument.ComboBoxSearchTextChange(Sender: TObject);
@@ -1721,27 +1761,31 @@ end;
 function TEBDocument.GetComboBoxSearchText(const ATabSheet: TTabSheet): TBCComboBox;
 var
   i: Integer;
+  LSearchPanel: TBCPanel;
 begin
   Result := nil;
-  for i := 0 to ATabSheet.ControlCount - 1 do
-  if ATabSheet.Controls[i].Tag = EDITBONE_COMBOBOX_SEARCH_TEXT_TAG then
+  LSearchPanel := GetSearchPanel(ATabSheet);
+  if Assigned(LSearchPanel) then
+  for i := 0 to LSearchPanel.ControlCount - 1 do
+  if LSearchPanel.Controls[i].Tag = EDITBONE_COMBOBOX_SEARCH_TEXT_TAG then
   begin
-    Result := ATabSheet.Controls[i] as TBCComboBox;
+    Result := LSearchPanel.Controls[i] as TBCComboBox;
     Break;
   end;
 end;
 
-function TEBDocument.GetActiveLabelSearchResultCount: TBCLabel;
+function TEBDocument.GetActiveLabelSearchResultCount: TBCLabelFX;
 var
   i: Integer;
-  LTabSheet: TsTabSheet;
+  LSearchPanel: TBCPanel;
 begin
   Result := nil;
-  LTabSheet := PageControl.ActivePage;
-  for i := 0 to LTabSheet.ControlCount - 1 do
-  if LTabSheet.Controls[i].Tag = EDITBONE_LABEL_SEARCH_RESULT_COUNT_TAG then
+  LSearchPanel := GetActiveSearchPanel;
+  if Assigned(LSearchPanel) then
+  for i := 0 to LSearchPanel.ControlCount - 1 do
+  if LSearchPanel.Controls[i].Tag = EDITBONE_LABEL_SEARCH_RESULT_COUNT_TAG then
   begin
-    Result := LTabSheet.Controls[i] as TBCLabel;
+    Result := LSearchPanel.Controls[i] as TBCLabelFX;
     Break;
   end;
 end;
@@ -1759,19 +1803,34 @@ begin
   end;
 end;
 
-function TEBDocument.GetActiveSearchPanel: TBCPanel;
+function TEBDocument.GetSearchPanel(const ATabSheet: TTabSheet): TBCPanel;
 var
   i: Integer;
-  LTabSheet: TsTabSheet;
 begin
   Result := nil;
-  LTabSheet := PageControl.ActivePage;
-  for i := 0 to LTabSheet.ControlCount - 1 do
-  if LTabSheet.Controls[i].Tag = EDITBONE_SEARCH_PANEL_TAG then
+  for i := 0 to ATabSheet.ControlCount - 1 do
+  if ATabSheet.Controls[i].Tag = EDITBONE_SEARCH_PANEL_TAG then
   begin
-    Result := LTabSheet.Controls[i] as TBCPanel;
+    Result := ATabSheet.Controls[i] as TBCPanel;
     Break;
   end;
+end;
+
+procedure TEBDocument.SearchClose;
+var
+  LPanel: TBCPanel;
+begin
+  LPanel := GetActiveSearchPanel;
+  if Assigned(LPanel) then
+    LPanel.Visible := False;
+end;
+
+function TEBDocument.GetActiveSearchPanel: TBCPanel;
+begin
+  if Assigned(PageControl.ActivePage) then
+    Result := GetSearchPanel(PageControl.ActivePage)
+  else
+    Result := nil;
 end;
 
 function TEBDocument.GetActiveComboBoxSearchText: TBCComboBox;

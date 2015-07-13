@@ -4348,6 +4348,12 @@ inherited MainForm: TMainForm
       ImageIndex = 78
       OnExecute = ActionSearchOptionsExecute
     end
+    object ActionSearchClose: TAction
+      Category = 'Search'
+      Caption = 'ActionSearchClose'
+      Hint = 'Close'
+      OnExecute = ActionSearchCloseExecute
+    end
   end
   inherited MainMenu: TMainMenu
     Images = ImagesDataModule.ImageListSmall

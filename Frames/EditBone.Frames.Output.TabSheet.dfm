@@ -41,7 +41,7 @@ object OutputTabSheetFrame: TOutputTabSheetFrame
       Header.Options = []
       TabOrder = 0
       TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScroll, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
-      TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toToggleOnDblClick, toWheelPanning]
+      TreeOptions.MiscOptions = [toFullRepaintOnResize, toToggleOnDblClick, toWheelPanning]
       TreeOptions.PaintOptions = [toHideFocusRect, toShowButtons, toShowRoot, toThemeAware]
       OnInitNode = VirtualDrawTreeInitNode
       Columns = <>

@@ -30,8 +30,10 @@ type
     procedure DoFreeNode(Node: PVirtualNode); override;
     function DoGetNodeWidth(Node: PVirtualNode; Column: TColumnIndex; Canvas: TCanvas = nil): Integer; override;
     procedure DoInitNode(Parent, Node: PVirtualNode; var InitStates: TVirtualNodeInitStates); override;
+    //function DoGetImageIndex(Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
+     // var Ghosted: Boolean; var Index: TImageIndex): TCustomImageList; override;
     function DoGetImageIndex(Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
-      var Ghosted: Boolean; var Index: TImageIndex): TCustomImageList; override;
+      var Ghosted: Boolean; var Index: Integer): TCustomImageList; override;
     procedure CreateWnd; override;
   public
     constructor Create(AOwner: TComponent); override;
@@ -483,7 +485,9 @@ begin
 end;
 
 function TEBXMLTree.DoGetImageIndex(Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
-  var Ghosted: Boolean; var Index: TImageIndex): TCustomImageList;
+  var Ghosted: Boolean; var Index: Integer): TCustomImageList;
+//function TEBXMLTree.DoGetImageIndex(Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
+//  var Ghosted: Boolean; var Index: TImageIndex): TCustomImageList;
 var
   Data: PXMLTreeRec;
 begin

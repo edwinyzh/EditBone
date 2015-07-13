@@ -580,6 +580,7 @@ type
     PopupMenuXMLTree: TPopupMenu;
     MenuItemXMLRefresh: TMenuItem;
     ActionSearchOptions: TAction;
+    ActionSearchClose: TAction;
     procedure ActionFileNewExecute(Sender: TObject);
     procedure ActionFileOpenExecute(Sender: TObject);
     procedure ActionFileSaveAllExecute(Sender: TObject);
@@ -720,6 +721,7 @@ type
     procedure EditorPrintPrintStatus(Sender: TObject; Status: TBCEditorPrintStatus; PageNumber: Integer;
       var Abort: Boolean);
     procedure ActionSearchOptionsExecute(Sender: TObject);
+    procedure ActionSearchCloseExecute(Sender: TObject);
   private
     FNoIni: Boolean;
     FDirectoryFrame: TDirectoryFrame;
@@ -1142,6 +1144,11 @@ end;
 procedure TMainForm.ActionSearchClearBookmarksExecute(Sender: TObject);
 begin
   FDocument.ClearBookmarks;
+end;
+
+procedure TMainForm.ActionSearchCloseExecute(Sender: TObject);
+begin
+  FDocument.SearchClose;
 end;
 
 procedure TMainForm.ActionSearchFindInFilesExecute(Sender: TObject);
@@ -2428,6 +2435,7 @@ begin
   FDocument.ActionSearchFindPrevious := ActionSearchFindPrevious;
   FDocument.ActionSearchFindNext := ActionSearchFindNext;
   FDocument.ActionSearchOptions := ActionSearchOptions;
+  FDocument.ActionSearchClose := ActionSearchClose;
   //FDocument.PopupMenu := PopupMenuDocument;
   FDocument.ProgressBar := ProgressBar;
   { TDirectoryFrame }
@@ -2620,7 +2628,6 @@ begin
       FOutputFrame.ProcessingTabSheet := True;
       PanelOutput.Visible := True;
       Application.ProcessMessages;
-
       LFileExtensions := GetFileExtensions(OptionsContainer.SupportedFileExtensions);
       FFindInFilesThread := TFindInFilesThread.Create(FindWhatText, FileTypeText, FolderText, SearchCaseSensitive,
         LookInSubfolders, LFileExtensions);
@@ -2655,6 +2662,7 @@ begin
   end;
   FOutputFrame.PageControl.EndDrag(False); { if close button pressed and search canceled, dragging will stay... }
   FOutputFrame.ProcessingTabSheet := False;
+
   SetFields;
 end;
 
