@@ -507,7 +507,7 @@ begin
   Result := 0;
   AMargin := TextMargin;
   Data := GetNodeData(Node);
-  if Assigned(Data) then
+  if Assigned(Data) and Assigned(Canvas) then
     Result := Canvas.TextWidth(Data.NodeName) + 2 * AMargin
 end;
 

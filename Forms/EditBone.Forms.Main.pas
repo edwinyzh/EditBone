@@ -2356,7 +2356,7 @@ begin
     TitleBar.Items[6].Visible := ReadBool('Options', 'ShowHighlighterColorSelection', True);
     SplitterVertical.Visible := PanelDirectory.Visible;
 
-    ActionViewXMLTree.Checked := OptionsContainer.ShowXMLTree;
+    //ActionViewXMLTree.Checked := OptionsContainer.ShowXMLTree;
     ActionViewWordWrap.Checked := OptionsContainer.EnableWordWrap;
     ActionViewLineNumbers.Checked := OptionsContainer.EnableLineNumbers;
     ActionViewSpecialChars.Checked := OptionsContainer.EnableSpecialChars;

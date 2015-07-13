@@ -688,6 +688,7 @@ begin
       OnClick := FileTreeViewClick;
       OnDblClick := FileTreeViewDblClick;
       DefaultNodeHeight := Images.Height + 2;
+      SkinManager := FrameAdapter.SkinData.SkinManager;
     end;
     DriveComboBox.OnChange := DriveComboChange;
     SetDrivesPanelOrientation(ShowDrives, DirTabSheetFrame);

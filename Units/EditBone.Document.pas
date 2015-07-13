@@ -212,7 +212,7 @@ implementation
 
 uses
   Vcl.Forms, BCCommon.Forms.Print.Preview, BCCommon.Options.Container, BCCommon.Dialogs.ConfirmReplace,
-  Vcl.ActnMenus, System.Types, System.Math, BigIni, Vcl.GraphUtil, BCCommon.Language.Strings,
+  Vcl.ActnMenus, System.Types, System.Math, BigIni, Vcl.GraphUtil, BCCommon.Language.Strings, VirtualTrees,
   BCCommon.Dialogs.InputQuery, BCCommon.Dialogs.Replace, BCCommon.FileUtils, BCCommon.Messages,
   BCCommon.StringUtils, Winapi.CommCtrl, EditBone.Forms.Options, BCCommon.Images,
   BCCommon.SQL.Formatter, BCEditor.Editor.KeyCommands, EditBone.Images, BCControls.SpeedButton,
@@ -270,47 +270,59 @@ end;
 
 function TEBDocument.ToggleXMLTree: Boolean;
 var
-  i: Integer;
   LEditor: TBCEditor;
   LXMLTree: TEBXMLTree;
   LVerticalSplitter: TBCSplitter;
 begin
   Result := False;
-  for i := 0 to PageControl.PageCount - 2 do
-  begin
-    LEditor := GetEditor(PageControl.Pages[i]);
-    if Assigned(LEditor) then
-      if Pos('XML', LEditor.Highlighter.FileName) <> 0 then
+  //for i := 0 to PageControl.PageCount - 2 do
+  //begin
+  LEditor := GetActiveEditor;
+  if Assigned(LEditor) then
+    if Pos('XML', LEditor.Highlighter.FileName) <> 0 then
+    begin
+      LXMLTree := GetXMLTree(PageControl.ActivePage);
+      if not Assigned(LXMLTree) then
       begin
-        LXMLTree := GetXMLTree(PageControl.Pages[i]);
-        if not Assigned(LXMLTree) then
-        begin
-          LXMLTree := TEBXMLTree.Create(PageControl.Pages[i]);
-          LXMLTree.ProgressBar := FProgressBar;
-          LXMLTree.Editor := LEditor;
-          LXMLTree.Images := EBDataModuleImages.ImageListXMLTree;
-          LXMLTree.PopupMenu := FPopupMenuXMLTree;
-          LXMLTree.Parent := PageControl.Pages[i];
-          LXMLTree.LoadFromXML(LEditor.Text);
-          { vertical splitter }
-          LVerticalSplitter := TBCSplitter.Create(PageControl.ActivePage);
-          LVerticalSplitter.Parent := PageControl.ActivePage;
-          LVerticalSplitter.Align := alLeft;
-          LVerticalSplitter.Tag := EDITBONE_VERTICAL_SPLITTER_TAG;
-          LVerticalSplitter.Left := LXMLTree.Left + 1; { splitter always right }
-        end
-        else
-        begin
-          LXMLTree.Free;
-          LXMLTree := nil;
-          { horizontal splitter }
-          LVerticalSplitter := GetSplitter(PageControl.ActivePage, EDITBONE_VERTICAL_SPLITTER_TAG);
-          LVerticalSplitter.Parent := nil;
-          LVerticalSplitter.Free;
-        end;
-        Result := Assigned(LXMLTree);
+        LXMLTree := TEBXMLTree.Create(PageControl.ActivePage);
+        LXMLTree.Align := alLeft;
+        LXMLTree.AlignWithMargins := True;
+        LXMLTree.Margins.Left := 2;
+        LXMLTree.Margins.Top := 2;
+        LXMLTree.Margins.Right := 0;
+        LXMLTree.Margins.Bottom := 2;
+        LEditor.Margins.Left := 0;
+        LXMLTree.ProgressBar := FProgressBar;
+        LXMLTree.Editor := LEditor;
+        LXMLTree.Images := EBDataModuleImages.ImageListXMLTree;
+        LXMLTree.PopupMenu := FPopupMenuXMLTree;
+        LXMLTree.Parent := PageControl.ActivePage;
+        LXMLTree.LoadFromXML(LEditor.Text);
+        LXMLTree.TreeOptions.SelectionOptions := [];
+        LXMLTree.Tag := EDITBONE_XML_TREE_TAG;
+        LXMLTree.TreeOptions.SelectionOptions := [toFullRowSelect];
+        LXMLTree.TreeOptions.AutoOptions := [toAutoDropExpand, toAutoScroll, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale];
+        LXMLTree.TreeOptions.MiscOptions := [toFullRepaintOnResize, toToggleOnDblClick, toWheelPanning];
+        LXMLTree.TreeOptions.PaintOptions := [toHideFocusRect, toShowButtons, toShowDropmark, toShowRoot, toThemeAware];
+        { vertical splitter }
+        LVerticalSplitter := TBCSplitter.Create(PageControl.ActivePage);
+        LVerticalSplitter.Parent := PageControl.ActivePage;
+        LVerticalSplitter.Align := alLeft;
+        LVerticalSplitter.Tag := EDITBONE_VERTICAL_SPLITTER_TAG;
+        LVerticalSplitter.Left := LXMLTree.Left + 1; { splitter always right }
+      end
+      else
+      begin
+        LEditor.Margins.Left := 2;
+        LXMLTree.Free;
+        LXMLTree := nil;
+        { horizontal splitter }
+        LVerticalSplitter := GetSplitter(PageControl.ActivePage, EDITBONE_VERTICAL_SPLITTER_TAG);
+        LVerticalSplitter.Parent := nil;
+        LVerticalSplitter.Free;
       end;
-  end;
+      Result := Assigned(LXMLTree);
+    end;
 end;
 
 function TEBDocument.GetXMLTreeVisible: Boolean;
