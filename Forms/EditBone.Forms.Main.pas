@@ -808,14 +808,14 @@ procedure TMainForm.PageControlDocumentDblClick(Sender: TObject);
 begin
   inherited;
   if OptionsContainer.DocCloseTabByDblClick then
-    Close;
+    FDocument.Close;
 end;
 
 procedure TMainForm.PageControlDocumentMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   inherited;
   if (Button = mbMiddle) and OptionsContainer.DocCloseTabByMiddleClick then
-    Close;
+    FDocument.Close;
 end;
 
 function TMainForm.Processing: Boolean;
