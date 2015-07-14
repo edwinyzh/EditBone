@@ -1392,6 +1392,7 @@ begin
             if Assigned(LEditor) then
             begin
               GetOptions(LEditor);
+              PageControl.ActivePageIndex := i;
               LEditor.CaretZero;
               LEditor.ReplaceText(ComboBoxSearchFor.Text, ComboBoxReplaceWith.Text);
               PageControl.Pages[i].Caption := FormatFileName(PageControl.Pages[i].Caption, LEditor.Modified);
