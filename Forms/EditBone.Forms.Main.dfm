@@ -228,7 +228,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
@@ -312,7 +311,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
@@ -436,7 +434,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
@@ -537,7 +534,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
@@ -621,7 +617,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
@@ -707,7 +702,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
@@ -773,7 +767,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
@@ -875,7 +868,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
@@ -981,7 +973,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
@@ -1104,7 +1095,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
@@ -1189,7 +1179,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
@@ -1296,7 +1285,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
@@ -1442,7 +1430,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
@@ -1488,7 +1475,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
@@ -1618,10 +1604,10 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
+            ExplicitTop = 5
           end
           object SpeedButtonToolsConvert: TBCSpeedButton
             Left = 130
@@ -1682,7 +1668,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
@@ -1786,7 +1771,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
@@ -1831,7 +1815,6 @@ inherited MainForm: TMainForm
             Font.Style = []
             Layout = blGlyphTop
             ParentFont = False
-            OnClick = ActionFileOpenExecute
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
