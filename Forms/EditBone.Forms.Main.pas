@@ -2081,6 +2081,8 @@ procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);
 var
   Rslt: Integer;
 begin
+  //while Assigned(FFindInFilesThread) do
+  //  Application.ProcessMessages;
   if FOutputFrame.ProcessingTabSheet then
     FOutputFrame.CloseTabSheet;
   if FDocument.ModifiedDocuments then

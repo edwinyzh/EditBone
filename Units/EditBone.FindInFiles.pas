@@ -86,7 +86,10 @@ begin
   try
     repeat
       if Assigned(FOnCancelSearch) and FOnCancelSearch then
+      begin
+        Terminate;
         Exit;
+      end;
       FName := StrPas(sWin32FD.cFileName);
 
       if (FName <> '.') and (FName <> '..') then
