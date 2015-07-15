@@ -2081,10 +2081,14 @@ procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);
 var
   Rslt: Integer;
 begin
-  //while Assigned(FFindInFilesThread) do
-  //  Application.ProcessMessages;
   if FOutputFrame.ProcessingTabSheet then
-    FOutputFrame.CloseTabSheet;
+  begin
+    if AskYesOrNo(LanguageDataModule.GetYesOrNoMessage('CancelSearch')) then
+      FOutputFrame.CancelSearch := True;
+    Action := caNone;
+    Exit;
+  end;
+
   if FDocument.ModifiedDocuments then
   begin
     Rslt := SaveChanges;
@@ -2664,7 +2668,7 @@ begin
   end;
   FOutputFrame.PageControl.EndDrag(False); { if close button pressed and search canceled, dragging will stay... }
   FOutputFrame.ProcessingTabSheet := False;
-
+  FFindInFilesThread := nil;
   SetFields;
 end;
 

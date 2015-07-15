@@ -675,11 +675,8 @@ begin
       VirtualDrawTree.TreeOptions.PaintOptions := VirtualDrawTree.TreeOptions.PaintOptions + [toShowTreeLines]
     else
       VirtualDrawTree.TreeOptions.PaintOptions := VirtualDrawTree.TreeOptions.PaintOptions - [toShowTreeLines];
-    if OptionsContainer.OutputShowCheckBox then
-      VirtualDrawTree.TreeOptions.MiscOptions := VirtualDrawTree.TreeOptions.MiscOptions + [toCheckSupport]
-    else
-      VirtualDrawTree.TreeOptions.MiscOptions := VirtualDrawTree.TreeOptions.MiscOptions - [toCheckSupport];
 
+    { check box }
     Node := VirtualDrawTree.GetFirst;
     while Assigned(Node) do
     begin

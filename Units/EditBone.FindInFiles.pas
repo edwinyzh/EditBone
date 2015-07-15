@@ -40,6 +40,7 @@ uses
 
 procedure TFindInFilesThread.Execute;
 begin
+  while not Terminated do
   Synchronize(procedure begin FindInFiles(FFolderText) end);
 end;
 
@@ -130,7 +131,10 @@ begin
                       Found := True;
                       ChPos := ChPos + Ch;
                       if Assigned(FOnCancelSearch) and FOnCancelSearch then
-                        Break;
+                      begin
+                        Terminate;
+                        Exit;
+                      end;
                       {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
                       if Assigned(FOnAddTreeViewLine) then
                         FOnAddTreeViewLine(Self, IncludeTrailingBackslash(AFolderText) + FName, Ln + 1, ChPos, Line, FFindWhatText);
@@ -156,7 +160,7 @@ begin
           end;
         end;
       end;
-    until not FindNextFile(shFindFile, sWin32FD);
+    until not Terminated and not FindNextFile(shFindFile, sWin32FD);
   finally
     Winapi.Windows.FindClose(shFindFile);
   end;
