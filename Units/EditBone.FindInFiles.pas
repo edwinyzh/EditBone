@@ -40,7 +40,6 @@ uses
 
 procedure TFindInFilesThread.Execute;
 begin
-  while not Terminated do
   Synchronize(procedure begin FindInFiles(FFolderText) end);
 end;
 
