@@ -2614,7 +2614,7 @@ begin
     LEditor := FDocument.GetActiveEditor;
     if Assigned(LEditor) then
       if LEditor.SelectionAvailable then
-        ComboBoxTextToFind.Text := LEditor.SelectedText;
+        FindWhatText := LEditor.SelectedText;
     if ShowModal = mrOk then
     begin
       Screen.Cursor := crHourGlass;

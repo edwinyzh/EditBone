@@ -1368,7 +1368,7 @@ begin
     if not Assigned(LEditor) then
       Exit;
     if LEditor.SelectionAvailable then
-      ComboBoxSearchFor.Text := LEditor.SelectedText;
+      SearchFor := LEditor.SelectedText;
     LResult := ShowModal;
     if (LResult = mrOK) or (LResult = mrYes) then
     begin
@@ -1376,7 +1376,7 @@ begin
       begin
         GetOptions(LEditor);
         LEditor.CaretZero;
-        LEditor.ReplaceText(ComboBoxSearchFor.Text, ComboBoxReplaceWith.Text);
+        LEditor.ReplaceText(SearchFor, ReplaceWith);
       end
       else
       begin
@@ -1394,7 +1394,7 @@ begin
               GetOptions(LEditor);
               PageControl.ActivePageIndex := i;
               LEditor.CaretZero;
-              LEditor.ReplaceText(ComboBoxSearchFor.Text, ComboBoxReplaceWith.Text);
+              LEditor.ReplaceText(SearchFor, ReplaceWith);
               PageControl.Pages[i].Caption := FormatFileName(PageControl.Pages[i].Caption, LEditor.Modified);
             end;
           end;
