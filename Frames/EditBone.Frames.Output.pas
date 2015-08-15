@@ -312,7 +312,7 @@ begin
         if Data.Level = 0 then
           S := System.SysUtils.Format('%s [%d]', [S, Node.ChildCount]);
         if Data.Level = 1 then
-          S := System.SysUtils.Format('%s (%d, %d): ', [ExtractFilename(String(Data.Filename)), Data.Ln, Data.Ch]) + S;
+          S := System.SysUtils.Format('%s (%d, %d): ', [ExtractFilename(String(Data.Filename)), Data.Ln + OptionsContainer.LeftMarginLineNumbersStartFrom, Data.Ch]) + S;
         DrawText(Canvas.Handle, S, Length(S), R, Format)
       end
       else
@@ -320,7 +320,7 @@ begin
         S := String(Data.Text);
         S := System.Copy(S, 0, Data.TextCh - 1);
 
-        S := System.SysUtils.Format('%s (%d, %d): ', [ExtractFilename(String(Data.Filename)), Data.Ln, Data.Ch]) + S;
+        S := System.SysUtils.Format('%s (%d, %d): ', [ExtractFilename(String(Data.Filename)), Data.Ln + OptionsContainer.LeftMarginLineNumbersStartFrom, Data.Ch]) + S;
 
         DrawText(Canvas.Handle, S, Length(S), R, Format);
         S := StringReplace(S, Chr(9), '', [rfReplaceAll]); { replace tabs }

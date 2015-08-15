@@ -8,7 +8,7 @@ inherited MainForm: TMainForm
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   ExplicitWidth = 1127
-  ExplicitHeight = 720
+  ExplicitHeight = 721
   PixelsPerInch = 96
   TextHeight = 13
   object SplitterHorizontal: TBCSplitter [0]

@@ -97,7 +97,6 @@ type
     function GetMacroRecordPauseImageIndex: Integer;
     function GetModifiedInfo: string;
     function GetActiveBookmarkList: TBCEditorBookmarkList;
-    //function IsCompareFilesActivePage: Boolean;
     procedure InsertTag;
     procedure InitializeEditorPrint(EditorPrint: TBCEditorPrint);
     function IsMacroStopped: Boolean;
@@ -364,6 +363,7 @@ begin
   { create new tab sheet }
   LTabSheet := TsTabSheet.Create(PageControl);
   LTabSheet.PageControl := PageControl;
+  LTabSheet.SkinData.SkinSection := 'TABSHEET';
 
   if FileName <> '' then
     LTabSheet.ImageIndex := GetIconIndex(FileName)
@@ -379,6 +379,22 @@ begin
     PageControl.ActivePageCaption := LanguageDataModule.GetConstant('Document') + IntToStr(FNumberOfNewDocument)
   else
     PageControl.ActivePageCaption := ExtractFileName(FileName);
+
+ { LPanelSearch := TBCPanel.Create(LTabSheet);
+  with LPanelSearch do
+  begin
+    Align := alClient;
+    AlignWithMargins := True;
+    BevelOuter := bvNone;
+    Caption := '';
+    Margins.Left := 2;
+    Margins.Top := 2;
+    Margins.Right := 2;
+    Margins.Bottom := 2;
+    //Visible := False;
+    Parent := LTabSheet;
+    Tag := EDITBONE_SEARCH_PANEL_TAG;
+  end;  }
 
   { create editor }
   LEditor := TBCEditor.Create(LTabSheet);
@@ -410,6 +426,8 @@ begin
   begin
     Align := alBottom;
     AlignWithMargins := True;
+    BevelOuter := bvNone;
+    Caption := '';
     Margins.Left := 2;
     Margins.Top := 2;
     Margins.Right := 2;
@@ -722,12 +740,12 @@ begin
   CreateNewTabSheet;
 end;
 
-
 procedure TEBDocument.SetEditorBookmarks(Editor: TBCEditor; Bookmarks: TStrings);
 var
   i: Integer;
   Temp: string;
   LBookmarkIndex, Ln, Ch: Integer;
+  LTextPosition: TBCEditorTextPosition;
 begin
   if Assigned(Bookmarks) then
   begin
@@ -736,14 +754,16 @@ begin
       Temp := Bookmarks.Strings[i];
       if Pos(Editor.DocumentName, Temp) <> 0 then
       begin
+        // TODO: use function
         Temp := System.Copy(Temp, Pos('=', Temp) + 1, Length(Temp));
         LBookmarkIndex := StrToInt(System.Copy(Temp, 1, Pos(';', Temp) - 1));
         Temp := System.Copy(Temp, Pos(';', Temp) + 1, Length(Temp));
         Ln := StrToInt(System.Copy(Temp, 1, Pos(';', Temp) - 1));
         Temp := System.Copy(Temp, Pos(';', Temp) + 1, Length(Temp));
         Ch := StrToInt(Temp);
-
-        Editor.SetBookMark(LBookmarkIndex, Ch, Ln);
+        LTextPosition.Char := Ch;
+        LTextPosition.Line := Ln;
+        Editor.SetBookMark(LBookmarkIndex, LTextPosition);
       end;
     end;
   end;
@@ -818,7 +838,7 @@ begin
         SetEditorBookmarks(Editor, Bookmarks);
 
         Editor.GotoLineAndCenter(Ln);
-        Editor.CaretPosition := GetTextPosition(Ch, Ln);
+        Editor.TextCaretPosition := GetTextPosition(Ch, Ln);
         if not StartUp then
         begin
           AddToReopenFiles(FileName);
@@ -1292,7 +1312,7 @@ begin
   LEditor := GetActiveEditor;
   if Assigned(LEditor) then
   begin
-    LOldCaretPosition := LEditor.CaretPosition;
+    LOldCaretPosition := LEditor.TextCaretPosition;
     LSelectionAvailable := LEditor.SelectionAvailable;
     if LSelectionAvailable then
     begin
@@ -1301,7 +1321,7 @@ begin
     end;
     ReadSearchOptions;
     LEditor.Search.Enabled := True;
-    LEditor.CaretPosition := LOldCaretPosition;
+    LEditor.TextCaretPosition := LOldCaretPosition;
     if LSelectionAvailable then
     begin
       LEditor.SelectionBeginPosition := LOldSelectionBeginPosition;
@@ -1596,8 +1616,8 @@ begin
               Format('%s;%s;%s', [IntToStr(LEditor.Marks.Items[j].Index), IntToStr(LEditor.Marks.Items[j].Line),
               IntToStr(LEditor.Marks.Items[j].Char)]));
           WriteBool('Minimaps', IntToStr(i), LEditor.Minimap.Visible);
-          WriteInteger('CaretY', IntToStr(i), LEditor.CaretY);
-          WriteInteger('CaretX', IntToStr(i), LEditor.CaretX);
+          WriteInteger('CaretY', IntToStr(i), LEditor.DisplayCaretY);
+          WriteInteger('CaretX', IntToStr(i), LEditor.DisplayCaretX);
         end;
       end;
     { Active document }
@@ -1627,7 +1647,7 @@ begin
     if Assigned(LEditor) then
     begin
       LEditor.CommandProcessor(ecImeStr, #0, PWideChar(Format('<%s></%s>', [LTagName, LTagName])));
-      LEditor.CaretX := LEditor.CaretX - Length(LTagName) - 3; { -3 from </> }
+      LEditor.DisplayCaretX := LEditor.DisplayCaretX - Length(LTagName) - 3; { -3 from </> }
     end;
   end;
 end;

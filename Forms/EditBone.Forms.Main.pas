@@ -2375,7 +2375,7 @@ begin
     if not SectionExists('ToolBarItems') then
       for i := 1 to Length(ToolBarItemsArray) do
          WriteString('ToolBarItems', IntToStr(i - 1), ToolBarItemsArray[i]);
-    SkinManager.SkinName := ReadString('Options', 'SelectedSkin', 'MetroUI');
+    SkinManager.SkinName := ReadString('Options', 'SelectedSkin', 'Windows 10');
   finally
     Free;
   end;

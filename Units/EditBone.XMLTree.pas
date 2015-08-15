@@ -412,8 +412,8 @@ begin
   if Assigned(SelectedNode) then
   begin
     Data := GetNodeData(SelectedNode);
-    Editor.CaretX := Data.BlockBegin.Char;
-    Editor.CaretY := Data.BlockBegin.Line;
+    Editor.DisplayCaretX := Data.BlockBegin.Char;
+    Editor.DisplayCaretY := Data.BlockBegin.Line;
     Editor.EnsureCursorPositionVisible(True);
     Editor.SelectionBeginPosition := Data.BlockBegin;
     Editor.SelectionEndPosition := Data.BlockEnd;

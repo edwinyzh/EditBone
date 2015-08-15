@@ -136,7 +136,7 @@ begin
                       end;
                       {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
                       if Assigned(FOnAddTreeViewLine) then
-                        FOnAddTreeViewLine(Self, IncludeTrailingBackslash(AFolderText) + FName, Ln + 1, ChPos, Line, FFindWhatText);
+                        FOnAddTreeViewLine(Self, IncludeTrailingBackslash(AFolderText) + FName, Ln, ChPos, Line, FFindWhatText);
                       {$WARNINGS ON}
                       S := Copy(S, Ch + LongWord(Length(FFindWhatText)), Length(S));
                       ChPos := ChPos + LongWord(Length(FFindWhatText)) - 1;
