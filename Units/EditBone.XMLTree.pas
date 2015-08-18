@@ -90,6 +90,7 @@ var
   LChar: Integer;
   LNodeStack: TStack<PVirtualNode>;
   LLines: TStrings;
+  LCount: Integer;
 
   procedure IncChar(N: Integer = 1);
   begin
@@ -328,7 +329,6 @@ var
     begin
       LNodeStack.Push(LNode);
       ReadAttributes;
-      //PopAttribute;
     end;
   end;
 
@@ -386,11 +386,11 @@ begin
     LLines := TStringList.Create;
     try
       LLines.Text := AXML;
-      FProgressBar.Count := LLines.Count;
+      LCount := LLines.Count;
     finally
       LLines.Free;
     end;
-    FProgressBar.Show;
+    FProgressBar.Show(LCount);
     ProcessLines;
     FProgressBar.Hide;
 

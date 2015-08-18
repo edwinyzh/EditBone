@@ -1082,8 +1082,8 @@ begin
     EditorPrint.Copies := PrintDialog.Copies;
     EditorPrint.SelectedOnly := PrintDialog.PrintRange = prSelection;
     EditorPrint.UpdatePages(PrintPreviewDialog.Canvas); // TODO: needed?
-    ProgressBar.Count := PageControlDocument.PageCount - 1;
-    ProgressBar.Show;
+
+    ProgressBar.Show(PageControlDocument.PageCount - 1);
     if PrintDialog.PrintRange = prPageNums then
       EditorPrint.PrintRange(PrintDialog.FromPage, PrintDialog.ToPage)
     else
@@ -1954,8 +1954,7 @@ begin
   Screen.Cursor := crHourGlass;
   try
     j := Value.Count;
-    ProgressBar.Count := j;
-    ProgressBar.Show;
+    ProgressBar.Show(j);
    { if FDocument.IsCompareFilesActivePage then
     begin
       if j > 1 then
@@ -2388,8 +2387,7 @@ begin
   Screen.Cursor := crHourGlass;
   try
     j := FileNames.Count;
-    MainForm.ProgressBar.Count := j;
-    MainForm.ProgressBar.Show;
+    MainForm.ProgressBar.Show(j);
     for i := 0 to j - 1 do
     begin
       MainForm.ProgressBar.StepIt;
@@ -2605,6 +2603,7 @@ procedure TMainForm.SearchFindInFiles(AFolder: string = '');
 var
   LEditor: TBCEditor;
   LFileExtensions: string;
+  LCount: Integer;
 begin
   FOutputTreeView := nil;
   with FindInFilesDialog do
@@ -2621,12 +2620,12 @@ begin
       try
         StatusBar.Panels[4].Text := LanguageDataModule.GetConstant('CountingFiles');
         Application.ProcessMessages;
-        ProgressBar.Count := CountFilesInFolder(FolderText);
+        LCount := CountFilesInFolder(FolderText);
       finally
         Screen.Cursor := crDefault;
         StatusBar.Panels[4].Text := '';
       end;
-      ProgressBar.Show;
+      ProgressBar.Show(LCount);
       FStopWatch.Reset;
       FStopWatch.Start;
 

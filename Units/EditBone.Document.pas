@@ -921,8 +921,7 @@ begin
   begin
     Screen.Cursor := crHourGlass;
     try
-      FProgressBar.Count := PageControl.PageCount;
-      FProgressBar.Show;
+      FProgressBar.Show(PageControl.PageCount - 2);
       for i := PageControl.PageCount - 2 downto 0 do
       begin
         if TsTabSheet(PageControl.Pages[i]).TabType = ttTab then
@@ -973,13 +972,12 @@ begin
   if Rslt <> mrCancel then
   begin
     PageControl.ActivePage.PageIndex := 0; { move the page first }
-    if Assigned(FTabSheetNew) then
-      FTabSheetNew.PageIndex := 1;
+    //if Assigned(FTabSheetNew) then
+    //  FTabSheetNew.PageIndex := 1;
     Screen.Cursor := crHourGlass;
     try
-      FProgressBar.Count := PageControl.PageCount;
-      FProgressBar.Show;
-      for i := PageControl.PageCount - 1 downto 2 do
+      FProgressBar.Show(PageControl.PageCount - 3);
+      for i := PageControl.PageCount - 2 downto 1 do
       begin
         ProgressBar.StepIt;
         Application.ProcessMessages;
@@ -1085,8 +1083,7 @@ begin
   Application.ProcessMessages;
   Screen.Cursor := crHourGlass;
   try
-    FProgressBar.Count := PageControl.PageCount;
-    FProgressBar.Show;
+    FProgressBar.Show(PageControl.PageCount - 2);
     for i := 0 to PageControl.PageCount - 2 do
     begin
       ProgressBar.StepIt;
@@ -1404,8 +1401,7 @@ begin
       begin
         Screen.Cursor := crHourGlass;
         try
-          FProgressBar.Count := PageControl.PageCount - 1;
-          FProgressBar.Show;
+          FProgressBar.Show(PageControl.PageCount - 2);
           for i := 0 to PageControl.PageCount - 2 do
           begin
             ProgressBar.StepIt;
