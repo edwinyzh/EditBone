@@ -839,6 +839,8 @@ begin
 
         Editor.GotoLineAndCenter(Ln);
         Editor.TextCaretPosition := GetTextPosition(Ch, Ln);
+        if Editor.CanFocus then
+          Editor.SetFocus;
         if not StartUp then
         begin
           AddToReopenFiles(FileName);
