@@ -612,11 +612,9 @@ procedure TOutputFrame.CloseAllTabSheets;
 var
   i, j: Integer;
 begin
-  if CheckCancel then
-    Exit;
   j := PageControl.PageCount - 1;
   for i := j downto 0 do
-    PageControl.Pages[i].Free;
+    CloseTabSheet(True, j);
 end;
 
 procedure TOutputFrame.ActionCloseAllOtherPagesExecute(Sender: TObject);

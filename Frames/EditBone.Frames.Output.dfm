@@ -2,7 +2,7 @@ object OutputFrame: TOutputFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 304
+  Height = 305
   Align = alClient
   Color = clWindow
   ParentBackground = False
@@ -12,7 +12,7 @@ object OutputFrame: TOutputFrame
     Left = 0
     Top = 0
     Width = 451
-    Height = 304
+    Height = 305
     Align = alClient
     DoubleBuffered = False
     Images = ImagesDataModule.ImageListSmall
