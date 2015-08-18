@@ -1594,12 +1594,14 @@ var
   i, j: Integer;
   FileType: string;
   LEditor: TBCEditor;
+  LTextCaretPosition: TBCEditorTextPosition;
 begin
   with TBigIniFile.Create(GetIniFilename) do
   try
     EraseSection('OpenFiles');
     EraseSection('Bookmarks');
     EraseSection('Minimaps');
+    EraseSection('CaretX');
     EraseSection('CaretY');
     { Open documents and bookmarks }
     if OptionsContainer.DocSaveTabs then
@@ -1616,8 +1618,9 @@ begin
               Format('%s;%s;%s', [IntToStr(LEditor.Marks.Items[j].Index), IntToStr(LEditor.Marks.Items[j].Line),
               IntToStr(LEditor.Marks.Items[j].Char)]));
           WriteBool('Minimaps', IntToStr(i), LEditor.Minimap.Visible);
-          WriteInteger('CaretY', IntToStr(i), LEditor.DisplayCaretY);
-          WriteInteger('CaretX', IntToStr(i), LEditor.DisplayCaretX);
+          LTextCaretPosition := LEditor.TextCaretPosition;
+          WriteInteger('CaretY', IntToStr(i), LTextCaretPosition.Line);
+          WriteInteger('CaretX', IntToStr(i), LTextCaretPosition.Char);
         end;
       end;
     { Active document }
