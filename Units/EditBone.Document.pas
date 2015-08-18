@@ -53,7 +53,7 @@ type
     FActionSearchClose: TAction;
     procedure CreateImageList;
     function CreateNewTabSheet(FileName: string = ''; ShowMinimap: Boolean = False; AHighlighter: string = '';
-      AColor: string = ''): TBCEditor;
+      AColor: string = ''; ASetActivePage: Boolean = True): TBCEditor;
     function FindOpenFile(FileName: string): TBCEditor;
     function GetActiveDocumentFound: Boolean;
     function GetActiveDocumentModified: Boolean;
@@ -83,7 +83,7 @@ type
     procedure SetSearchMatchesFound;
     procedure AddToReopenFiles(FileName: string);
     procedure CheckModifiedDocuments;
-    procedure SelectHighlighter(FileName: string);
+    procedure SelectHighlighter(AEditor: TBCEditor; FileName: string);
     procedure SetActivePageCaptionModified(AModified: Boolean);
     procedure SetEditorBookmarks(Editor: TBCEditor; Bookmarks: TStrings);
     procedure SetSkinColors(Editor: TBCEditor);
@@ -135,8 +135,11 @@ type
     procedure LoadMacro;
     procedure New;
     procedure NextPage;
-    procedure Open(FileName: string = ''; Bookmarks: TStrings = nil; Ln: Integer = 0; Ch: Integer = 0;
-      StartUp: Boolean = False; ShowMinimap: Boolean = False; AHighlighter: string = ''; AColor: string = '');
+    procedure Open(Filename: string; ASetActivePage: Boolean); overload;
+    procedure Open(Filename: string; ALine: Integer; AChar: Integer); overload;
+    procedure Open(FileName: string = ''; Bookmarks: TStrings = nil; ALine: Integer = 0; AChar: Integer = 0;
+      StartUp: Boolean = False; ShowMinimap: Boolean = False; AHighlighter: string = ''; AColor: string = '';
+      ASetActivePage: Boolean = True); overload;
     procedure Paste;
     procedure PlaybackMacro;
     procedure PreviousPage;
@@ -154,9 +157,9 @@ type
     procedure SearchOptions;
     procedure SelectAll;
     procedure SelectForCompare;
-    procedure SetActiveEncoding(Value: Integer);
-    procedure SetHighlighter(AHighlighterName: string);
-    procedure SetHighlighterColor(AColorName: string);
+    procedure SetEncoding(AEditor: TBCEditor; Value: Integer);
+    procedure SetHighlighter(AEditor: TBCEditor; AHighlighterName: string);
+    procedure SetHighlighterColor(AEditor: TBCEditor; AColorName: string);
     procedure SetOptions;
     procedure SearchClose;
     procedure ShowInfo;
@@ -216,7 +219,7 @@ uses
   BCCommon.StringUtils, Winapi.CommCtrl, EditBone.Forms.Options, BCCommon.Images,
   BCCommon.SQL.Formatter, BCEditor.Editor.KeyCommands, EditBone.Images, BCControls.SpeedButton,
   BCControls.Utils, BCEditor.Editor.Utils, BCCommon.Consts, BCEditor.Encoding, Vcl.Clipbrd, BCEditor.Highlighter.Colors,
-  BCCommon.Dialogs.Options.Search;
+  BCCommon.Dialogs.Options.Search, Vcl.ValEdit;
 
 { TEBDocument }
 
@@ -347,7 +350,7 @@ begin
 end;
 
 function TEBDocument.CreateNewTabSheet(FileName: string = ''; ShowMinimap: Boolean = False;
-  AHighlighter: string = ''; AColor: string = ''): TBCEditor;
+  AHighlighter: string = ''; AColor: string = ''; ASetActivePage: Boolean = True): TBCEditor;
 var
   LTabSheet: TsTabSheet;
   LEditor: TBCEditor;
@@ -370,15 +373,18 @@ begin
   else
     LTabSheet.ImageIndex := FNewImageIndex;
   LTabSheet.TabVisible := False;
-  PageControl.ActivePage := LTabSheet;
+  if ASetActivePage then
+    PageControl.ActivePage := LTabSheet;
   { tab sheet new always last }
   FTabSheetNew.PageIndex := PageControl.PageCount - 1;
 
   { set the Caption property }
   if FileName = '' then
-    PageControl.ActivePageCaption := LanguageDataModule.GetConstant('Document') + IntToStr(FNumberOfNewDocument)
+    //PageControl.ActivePageCaption
+    LTabSheet.Caption := LanguageDataModule.GetConstant('Document') + IntToStr(FNumberOfNewDocument)
   else
-    PageControl.ActivePageCaption := ExtractFileName(FileName);
+    //PageControl.ActivePageCaption :=
+    LTabSheet.Caption := ExtractFileName(FileName);
 
  { LPanelSearch := TBCPanel.Create(LTabSheet);
   with LPanelSearch do
@@ -542,20 +548,20 @@ begin
   if FileName <> '' then
   begin
     if AHighlighter <> '' then
-      SetHighlighter(AHighlighter)
+      SetHighlighter(LEditor, AHighlighter)
     else
-      SelectHighlighter(FileName);
+      SelectHighlighter(LEditor, FileName);
     if AColor <> '' then
-      SetHighlighterColor(AColor)
+      SetHighlighterColor(LEditor, AColor)
     else
-      SetHighlighterColor(OptionsContainer.DefaultColor);
+      SetHighlighterColor(LEditor, OptionsContainer.DefaultColor);
     LEditor.LoadFromFile(FileName);
   end
   else
   begin
-    SetActiveEncoding(OptionsContainer.DefaultEncoding);
-    SetHighlighter(OptionsContainer.DefaultHighlighter);
-    SetHighlighterColor(OptionsContainer.DefaultColor);
+    SetEncoding(LEditor, OptionsContainer.DefaultEncoding);
+    SetHighlighter(LEditor, OptionsContainer.DefaultHighlighter);
+    SetHighlighterColor(LEditor, OptionsContainer.DefaultColor);
   end;
 
   if Assigned(FSetTitleBarMenus) then
@@ -812,8 +818,19 @@ begin
   end;
 end;
 
-procedure TEBDocument.Open(FileName: string = ''; Bookmarks: TStrings = nil; Ln: Integer = 0; Ch: Integer = 0;
-  StartUp: Boolean = False; ShowMinimap: Boolean = False; AHighlighter: string = ''; AColor: string = '');
+procedure TEBDocument.Open(Filename: string; ASetActivePage: Boolean);
+begin
+  Open(Filename, nil, 0, 0, False, False, '', '', ASetActivePage);
+end;
+
+procedure TEBDocument.Open(Filename: string; ALine: Integer; AChar: Integer);
+begin
+  Open(Filename, nil, ALine, AChar);
+end;
+
+procedure TEBDocument.Open(FileName: string = ''; Bookmarks: TStrings = nil; ALine: Integer = 0; AChar: Integer = 0;
+  StartUp: Boolean = False; ShowMinimap: Boolean = False; AHighlighter: string = ''; AColor: string = '';
+  ASetActivePage: Boolean = True);
 var
   i: Integer;
   Editor: TBCEditor;
@@ -834,11 +851,11 @@ begin
       begin
         Editor := FindOpenFile(FileName);
         if not Assigned(Editor) then
-          Editor := CreateNewTabSheet(FileName, ShowMinimap, AHighlighter, AColor);
+          Editor := CreateNewTabSheet(FileName, ShowMinimap, AHighlighter, AColor, ASetActivePage);
         SetEditorBookmarks(Editor, Bookmarks);
 
-        Editor.GotoLineAndCenter(Ln);
-        Editor.TextCaretPosition := GetTextPosition(Ch, Ln);
+        Editor.GotoLineAndCenter(ALine);
+        Editor.TextCaretPosition := GetTextPosition(AChar, ALine);
         if Editor.CanFocus then
           Editor.SetFocus;
         if not StartUp then
@@ -923,14 +940,15 @@ begin
     try
       FProgressBar.Show(PageControl.PageCount - 2);
       for i := PageControl.PageCount - 2 downto 0 do
-      begin
+        if TsTabSheet(PageControl.Pages[i]).TabType = ttTab then
+          PageControl.Pages[i].TabVisible := False;
+      for i := PageControl.PageCount - 2 downto 0 do
         if TsTabSheet(PageControl.Pages[i]).TabType = ttTab then
         begin
           ProgressBar.StepIt;
           Application.ProcessMessages;
           PageControl.Pages[i].Free;
         end;
-      end;
     finally
       Screen.Cursor := crDefault;
       FProgressBar.Hide;
@@ -978,6 +996,8 @@ begin
     try
       FProgressBar.Show(PageControl.PageCount - 3);
       for i := PageControl.PageCount - 2 downto 1 do
+        PageControl.Pages[i].TabVisible := False;
+      for i := PageControl.PageCount - 2 downto 1 do
       begin
         ProgressBar.StepIt;
         Application.ProcessMessages;
@@ -987,6 +1007,7 @@ begin
     finally
       Screen.Cursor := crDefault;
     end;
+    PageControl.ActivePageIndex := 0;
     Editor := GetActiveEditor;
     if Assigned(Editor) and (Editor.DocumentName = '') then
       FNumberOfNewDocument := 1
@@ -1543,20 +1564,46 @@ function TEBDocument.ReadIniOpenFiles: Boolean;
 var
   i: Integer;
   s, LFileName, LHighlighter, LColor: string;
-  FileNames, Bookmarks: TStrings;
-  // Editor: TBCEditor;
+  LFileNamesList, LBookmarksList: TStrings;
+  LCaretXList, LCaretYList, LMinimapsList: TValueListEditor;
+  LCaretX, LCaretY: Integer;
+  LMinimap: Boolean;
+
+  function GetIntegerListItem(AList: TValueListEditor; AIndex: Integer): Integer;
+  begin
+    if AIndex >= AList.RowCount then
+      Result := 0
+    else
+      Result := StrToInt(AList.Values[IntToStr(AIndex)])
+  end;
+
+  function GetBooleanListItem(AList: TValueListEditor; AIndex: Integer): Boolean;
+  begin
+    if AIndex >= AList.RowCount then
+      Result := False
+    else
+      Result := StrToBool(AList.Values[IntToStr(AIndex)])
+  end;
+
 begin
-  FileNames := TStringList.Create;
-  Bookmarks := TStringList.Create;
+  LFileNamesList := TStringList.Create;
+  LBookmarksList := TStringList.Create;
+  LCaretXList := TValueListEditor.Create(nil);
+  LCaretYList := TValueListEditor.Create(nil);
+  LMinimapsList := TValueListEditor.Create(nil);
   with TBigIniFile.Create(GetIniFilename) do
   try
     PageControl.Visible := False;
     { Open Files }
-    ReadSectionValues('OpenFiles', FileNames);
-    ReadSectionValues('Bookmarks', Bookmarks);
-    for i := 0 to FileNames.Count - 1 do
+    ReadSectionValues('OpenFiles', LFileNamesList);
+    ReadSectionValues('Bookmarks', LBookmarksList);
+    ReadSectionValues('CaretX', LCaretXList.Strings);
+    ReadSectionValues('CaretY', LCaretYList.Strings);
+    ReadSectionValues('Minimaps', LMinimapsList.Strings);
+
+    for i := 0 to LFileNamesList.Count - 1 do
     begin
-      s := RemoveTokenFromStart('=', FileNames.Strings[i]);
+      s := RemoveTokenFromStart('=', LFileNamesList.Strings[i]);
       LFileName := GetNextToken(';', s);
       if FileExists(LFileName) then
       begin
@@ -1564,8 +1611,10 @@ begin
         LHighlighter := GetNextToken(';', s);
         s := RemoveTokenFromStart(';', s);
         LColor := GetNextToken(';', s);
-        Open(LFileName, Bookmarks, ReadInteger('CaretY', IntToStr(i), 0), ReadInteger('CaretX', IntToStr(i), 0), True,
-          ReadBool('Minimaps', IntToStr(i), False), LHighlighter, LColor);
+        LCaretX := GetIntegerListItem(LCaretXList, i);
+        LCaretY := GetIntegerListItem(LCaretYList, i);
+        LMinimap := GetBooleanListItem(LMinimapsList, i);
+        Open(LFileName, LBookmarksList, LCaretY, LCaretX, True, LMinimap, LHighlighter, LColor);
       end;
     end;
 
@@ -1577,11 +1626,13 @@ begin
         FSetTitleBarMenus;
     end;
 
-    Result := FileNames.Count > 0;
+    Result := LFileNamesList.Count > 0;
   finally
-    FileNames.Free;
-    Bookmarks.Free;
-    // Minimaps.Free;
+    LFileNamesList.Free;
+    LBookmarksList.Free;
+    LCaretXList.Free;
+    LCaretYList.Free;
+    LMinimapsList.Free;
     Free;
     PageControl.Visible := True;
   end;
@@ -2412,18 +2463,16 @@ begin
       Result := Editor.MacroRecorder.State = msRecording
 end;
 
-procedure TEBDocument.SetHighlighter(AHighlighterName: string);
-var
-  Editor: TBCEditor;
+procedure TEBDocument.SetHighlighter(AEditor: TBCEditor; AHighlighterName: string);
 begin
-  Editor := GetActiveEditor;
-  if Assigned(Editor) then
-    with Editor do
-    begin
-      Highlighter.LoadFromFile(Format('%s.json', [AHighlighterName]));
-      CodeFolding.Visible := OptionsContainer.ShowCodeFolding and (Editor.Highlighter.CodeFoldingRegions.Count > 0);
+  if Assigned(AEditor) then
+  with AEditor do
+  begin
+    Highlighter.LoadFromFile(Format('%s.json', [AHighlighterName]));
+    CodeFolding.Visible := OptionsContainer.ShowCodeFolding and (Highlighter.CodeFoldingRegions.Count > 0);
+    if CanFocus then
       Invalidate;
-    end;
+  end;
 end;
 
 procedure TEBDocument.UpdateHighlighterColors;
@@ -2481,18 +2530,15 @@ begin
   Editor.Highlighter.UpdateColors;
 end;
 
-procedure TEBDocument.SetHighlighterColor(AColorName: string);
-var
-  Editor: TBCEditor;
+procedure TEBDocument.SetHighlighterColor(AEditor: TBCEditor; AColorName: string);
 begin
-  Editor := GetActiveEditor;
-  if Assigned(Editor) then
-    with Editor do
-    begin
-      Highlighter.Colors.LoadFromFile(Format('%s.json', [AColorName]));
-      SetSkinColors(Editor);
-      Invalidate;
-    end;
+  if Assigned(AEditor) then
+  with AEditor do
+  begin
+    Highlighter.Colors.LoadFromFile(Format('%s.json', [AColorName]));
+    SetSkinColors(AEditor);
+    Invalidate;
+  end;
 end;
 
 function TEBDocument.IsMacroStopped: Boolean;
@@ -2604,31 +2650,28 @@ begin
     FilePropertiesDialog(Editor.DocumentName);
 end;
 
-procedure TEBDocument.SetActiveEncoding(Value: Integer);
-var
-  Editor: TBCEditor;
+procedure TEBDocument.SetEncoding(AEditor: TBCEditor; Value: Integer);
 begin
-  Editor := GetActiveEditor;
-  if Assigned(Editor) then
-    with Editor do
-    begin
-      case Value of
-        ENCODING_ANSI:
-          Encoding := TEncoding.ANSI;
-        ENCODING_ASCII:
-          Encoding := TEncoding.ASCII;
-        ENCODING_BIG_ENDIAN_UNICODE:
-          Encoding := TEncoding.BigEndianUnicode;
-        ENCODING_UNICODE:
-          Encoding := TEncoding.Unicode;
-        ENCODING_UTF7:
-          Encoding := TEncoding.UTF7;
-        ENCODING_UTF8:
-          Encoding := TEncoding.UTF8;
-        ENCODING_UTF_WITHOUT_BOM:
-          Encoding := TEncoding.UTF8WithoutBOM;
-      end;
+  if Assigned(AEditor) then
+  with AEditor do
+  begin
+    case Value of
+      ENCODING_ANSI:
+        Encoding := TEncoding.ANSI;
+      ENCODING_ASCII:
+        Encoding := TEncoding.ASCII;
+      ENCODING_BIG_ENDIAN_UNICODE:
+        Encoding := TEncoding.BigEndianUnicode;
+      ENCODING_UNICODE:
+        Encoding := TEncoding.Unicode;
+      ENCODING_UTF7:
+        Encoding := TEncoding.UTF7;
+      ENCODING_UTF8:
+        Encoding := TEncoding.UTF8;
+      ENCODING_UTF_WITHOUT_BOM:
+        Encoding := TEncoding.UTF8WithoutBOM;
     end;
+  end;
 end;
 
 function TEBDocument.GetSplitChecked: Boolean;
@@ -2787,7 +2830,7 @@ begin
     Result := Assigned(LEditor.Highlighter) and (Pos('SQL', LEditor.Highlighter.FileName) <> 0)
 end;
 
-procedure TEBDocument.SelectHighlighter(FileName: string);
+procedure TEBDocument.SelectHighlighter(AEditor: TBCEditor; FileName: string);
 var
   Ext, ItemString, Token: string;
   i: Integer;
@@ -2804,14 +2847,14 @@ begin
       if Ext = Token then
       begin
         if Pos('SQL', OptionsContainer.FileTypes.Names[i]) <> 0 then
-          SetHighlighter(OptionsContainer.DefaultSQLHighlighter)
+          SetHighlighter(AEditor, OptionsContainer.DefaultSQLHighlighter)
         else
-          SetHighlighter(OptionsContainer.FileTypes.Names[i]);
+          SetHighlighter(AEditor, OptionsContainer.FileTypes.Names[i]);
         Exit;
       end;
     end;
   end;
-  SetHighlighter(OptionsContainer.DefaultHighlighter);
+  SetHighlighter(AEditor, OptionsContainer.DefaultHighlighter);
 end;
 
 function TEBDocument.GetActiveBookmarkList: TBCEditorBookmarkList;

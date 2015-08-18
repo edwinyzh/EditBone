@@ -12,7 +12,7 @@ uses
   Vcl.ActnMan, Vcl.ActnMenus, BCComponents.DragDrop, System.Diagnostics,
   Vcl.PlatformDefaultStyleActnCtrls, JvAppInst, System.ImageList, Vcl.ImgList,
   acAlphaImageList, BCControls.ProgressBar, EditBone.FindInFiles, BCEditor.MacroRecorder, BCEditor.Print, sDialogs,
-  System.Generics.Collections, Vcl.StdCtrls;
+  System.Generics.Collections, Vcl.StdCtrls, System.Win.TaskbarCore, Vcl.Taskbar;
 
 type
   TMainForm = class(TBCBaseForm)
@@ -1209,21 +1209,21 @@ procedure TMainForm.ActionSelectEncodingExecute(Sender: TObject);
 begin
   TitleBar.Items[2].Caption := TAction(Sender).Caption; // TODO: const for item
   TAction(Sender).Checked := True;
-  FDocument.SetActiveEncoding(TAction(Sender).Tag);
+  FDocument.SetEncoding(FDocument.GetActiveEditor, TAction(Sender).Tag);
 end;
 
 procedure TMainForm.ActionSelectHighlighterColorExecute(Sender: TObject);
 begin
   TitleBar.Items[6].Caption := TAction(Sender).Caption; // TODO: const for item
   TAction(Sender).Checked := True;
-  FDocument.SetHighlighterColor(TAction(Sender).Caption);
+  FDocument.SetHighlighterColor(FDocument.GetActiveEditor, TAction(Sender).Caption);
 end;
 
 procedure TMainForm.ActionSelectHighlighterExecute(Sender: TObject);
 begin
   TitleBar.Items[4].Caption := TAction(Sender).Caption; // TODO: const for item
   TAction(Sender).Checked := True;
-  FDocument.SetHighlighter(TAction(Sender).Caption);
+  FDocument.SetHighlighter(FDocument.GetActiveEditor, TAction(Sender).Caption);
 end;
 
 procedure TMainForm.ActionSelectionBoxDownExecute(Sender: TObject);
@@ -1310,6 +1310,7 @@ begin
   BoxUp(FDocument.GetActiveEditor);
   BoxUp(FDocument.GetActiveSplitEditor);
 end;
+
 procedure TMainForm.ActionSelectReopenFileExecute(Sender: TObject);
 var
   FileName: string;
@@ -1684,7 +1685,7 @@ var
   i: Integer;
 begin
   for i := 0 to CmdLine.Count - 1 do
-    FDocument.Open(CmdLine.Strings[i]);
+    FDocument.Open(CmdLine.Strings[i], False);
 end;
 
 procedure TMainForm.ApplicationEventsActivate(Sender: TObject);
@@ -1970,7 +1971,7 @@ begin
     for i := 0 to j - 1 do
     begin
       ProgressBar.StepIt;
-      FDocument.Open(Value.Strings[i]);
+      FDocument.Open(Value.Strings[i], False);
     end;
   finally
     ProgressBar.Hide;
@@ -2391,7 +2392,10 @@ begin
     for i := 0 to j - 1 do
     begin
       MainForm.ProgressBar.StepIt;
-      MainForm.FDocument.Open(FileNames.Strings[i]);
+      MainForm.FDocument.Open(FileNames.Strings[i], False);
+      if MainForm.PageControlDocument.ActivePageIndex = -1 then
+        MainForm.PageControlDocument.ActivePageIndex := 0;
+      Application.ProcessMessages;
     end;
     MainForm.ProgressBar.Hide;
   finally
@@ -2569,7 +2573,7 @@ var
   Ln, Ch: LongWord;
 begin
   if FOutputFrame.SelectedLine(Filename, Ln, Ch) then
-    FDocument.Open(Filename, nil, Ln, Ch);
+    FDocument.Open(Filename, Ln, Ch);
 end;
 
 procedure TMainForm.FileTreeViewClickActionExecute(Sender: TObject);

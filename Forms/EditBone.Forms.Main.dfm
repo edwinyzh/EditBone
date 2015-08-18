@@ -130,10 +130,6 @@ inherited MainForm: TMainForm
         TabSkin = 'CHECKBOX'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
       end
       object TabSheetFile: TsTabSheet
         Caption = 'File'
@@ -470,10 +466,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelEditButtons: TBCPanel
           Left = 0
           Top = 0
@@ -808,10 +800,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelSearchButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1037,10 +1025,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelViewButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1396,10 +1380,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelDocumentButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1554,10 +1534,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelToolsButtons: TBCPanel
           Left = 0
           Top = 0
@@ -1724,10 +1700,6 @@ inherited MainForm: TMainForm
         TabSkin = 'RIBBONTAB'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PanelHelpButtons: TBCPanel
           Left = 0
           Top = 0
@@ -4732,7 +4704,7 @@ inherited MainForm: TMainForm
       end
     end
   end
-  object PopupMenuDocument: TPopupMenu
+  object PopupMenuDocument: TPopupMenu [23]
     Images = ImagesDataModule.ImageListSmall
     Left = 616
     Top = 158
@@ -4782,13 +4754,13 @@ inherited MainForm: TMainForm
       Action = ActionFileProperties
     end
   end
-  object DragDrop: TBCDragDrop
+  object DragDrop: TBCDragDrop [24]
     DropTarget = Owner
     OnDrop = DragDropDrop
     Left = 36
     Top = 372
   end
-  object PopupMenuDocumentFormat: TPopupMenu
+  object PopupMenuDocumentFormat: TPopupMenu [25]
     Images = ImagesDataModule.ImageList
     Left = 272
     Top = 437
@@ -4799,7 +4771,7 @@ inherited MainForm: TMainForm
       Action = ActionDocumentFormatXML
     end
   end
-  object PopupMenuEditor: TPopupMenu
+  object PopupMenuEditor: TPopupMenu [26]
     Images = ImagesDataModule.ImageListSmall
     Left = 616
     Top = 254
@@ -4981,7 +4953,7 @@ inherited MainForm: TMainForm
       Action = ActionEditToggleCase
     end
   end
-  object PopupMenuToggleCase: TPopupMenu
+  object PopupMenuToggleCase: TPopupMenu [27]
     Images = ImagesDataModule.ImageList
     Left = 745
     Top = 156
@@ -5001,12 +4973,12 @@ inherited MainForm: TMainForm
       Action = ActionEditToggleCaseTitle
     end
   end
-  object AppInstances: TJvAppInstances
+  object AppInstances: TJvAppInstances [28]
     OnCmdLineReceived = AppInstancesCmdLineReceived
     Left = 743
     Top = 250
   end
-  object PopupMenuDocumentMacro: TPopupMenu
+  object PopupMenuDocumentMacro: TPopupMenu [29]
     Images = ImagesDataModule.ImageList
     Left = 270
     Top = 491
@@ -5029,20 +5001,20 @@ inherited MainForm: TMainForm
       Action = ActionMacroSaveAs
     end
   end
-  object OpenDialog: TsOpenDialog
+  object OpenDialog: TsOpenDialog [30]
     Options = [ofHideReadOnly, ofAllowMultiSelect, ofEnableSizing]
     Left = 874
     Top = 176
   end
-  object SaveDialog: TsSaveDialog
+  object SaveDialog: TsSaveDialog [31]
     Left = 874
     Top = 228
   end
-  object PrintDialog: TPrintDialog
+  object PrintDialog: TPrintDialog [32]
     Left = 872
     Top = 280
   end
-  object EditorPrint: TBCEditorPrint
+  object EditorPrint: TBCEditorPrint [33]
     Color = clWhite
     Copies = 1
     Font.Charset = DEFAULT_CHARSET
@@ -5075,18 +5047,18 @@ inherited MainForm: TMainForm
     Left = 872
     Top = 348
   end
-  object EditorMacroRecorder: TBCEditorMacroRecorder
+  object EditorMacroRecorder: TBCEditorMacroRecorder [34]
     RecordShortCut = 24658
     PlaybackShortCut = 24656
     Left = 870
     Top = 408
   end
-  object Timer: TTimer
+  object Timer: TTimer [35]
     OnTimer = TimerTimer
     Left = 958
     Top = 180
   end
-  object PopupMenuXMLTree: TPopupMenu
+  object PopupMenuXMLTree: TPopupMenu [36]
     Images = ImagesDataModule.ImageListSmall
     Left = 956
     Top = 252
