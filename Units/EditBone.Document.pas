@@ -1818,6 +1818,9 @@ begin
     LEditor := GetEditor(PageControl.Pages[i]);
     if Assigned(LEditor) then
       OptionsContainer.AssignTo(LEditor);
+    LEditor := GetEditor(PageControl.Pages[i], EDITBONE_SPLIT_EDITOR_TAG);
+    if Assigned(LEditor) then
+      OptionsContainer.AssignTo(LEditor);
   end;
 end;
 
@@ -2705,22 +2708,22 @@ begin
   begin
     LEditor.Margins.Bottom := 0;
     LSplitEditor := TBCEditor.Create(PageControl.ActivePage);
-    LSplitEditor.Visible := False;
     LSplitEditor.Align := alBottom;
     LSplitEditor.AlignWithMargins := True;
     LSplitEditor.Margins.Left := 2;
     LSplitEditor.Margins.Top := 0;
     LSplitEditor.Margins.Right := 2;
     LSplitEditor.Margins.Bottom := 2;
-    LSplitEditor.Parent := PageControl.ActivePage;
     LSplitEditor.Width := 0; { avoid flickering }
+    LSplitEditor.Height := LEditor.Height div 2;
     LSplitEditor.Tag := EDITBONE_SPLIT_EDITOR_TAG;
+    LSplitEditor.Parent := PageControl.ActivePage;
     OptionsContainer.AssignTo(LSplitEditor);
     LSplitEditor.Highlighter.LoadFromFile(LEditor.Highlighter.FileName);
     LSplitEditor.Highlighter.Colors.LoadFromFile(LEditor.Highlighter.Colors.FileName);
     LSplitEditor.ChainEditor(LEditor);
     LSplitEditor.InitCodeFolding;
-    LSplitEditor.Visible := True;
+    LSplitEditor.SetFocus;
     { horizontal splitter }
     LSplitterHorizontal := TBCSplitter.Create(PageControl.ActivePage);
     LSplitterHorizontal.Align := alBottom;
