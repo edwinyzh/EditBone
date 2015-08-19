@@ -1684,8 +1684,10 @@ procedure TMainForm.AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrin
 var
   i: Integer;
 begin
+  PageControlDocument.Visible := False;
   for i := 0 to CmdLine.Count - 1 do
     FDocument.Open(CmdLine.Strings[i], False);
+  PageControlDocument.Visible := True;
 end;
 
 procedure TMainForm.ApplicationEventsActivate(Sender: TObject);
@@ -2384,19 +2386,23 @@ end;
 procedure OutputOpenAllEvent(var FileNames: TStrings);
 var
   i, j: Integer;
+  LActivePageIndex: Integer;
 begin
   Screen.Cursor := crHourGlass;
   try
     j := FileNames.Count;
+    LActivePageIndex := MainForm.PageControlDocument.ActivePageIndex;
     MainForm.ProgressBar.Show(j);
+    MainForm.PageControlDocument.Visible := False;
+    Application.ProcessMessages;
     for i := 0 to j - 1 do
     begin
       MainForm.ProgressBar.StepIt;
       MainForm.FDocument.Open(FileNames.Strings[i], False);
-      if MainForm.PageControlDocument.ActivePageIndex = -1 then
+      if LActivePageIndex = -1 then
         MainForm.PageControlDocument.ActivePageIndex := 0;
-      Application.ProcessMessages;
     end;
+    MainForm.PageControlDocument.Visible := True;
     MainForm.ProgressBar.Hide;
   finally
     Screen.Cursor := crDefault;

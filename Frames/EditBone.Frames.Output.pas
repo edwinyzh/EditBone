@@ -614,7 +614,7 @@ var
 begin
   j := PageControl.PageCount - 1;
   for i := j downto 0 do
-    CloseTabSheet(True, j);
+    CloseTabSheet(True, i);
 end;
 
 procedure TOutputFrame.ActionCloseAllOtherPagesExecute(Sender: TObject);

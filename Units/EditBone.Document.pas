@@ -939,16 +939,15 @@ begin
     Screen.Cursor := crHourGlass;
     try
       FProgressBar.Show(PageControl.PageCount - 2);
-      for i := PageControl.PageCount - 2 downto 0 do
-        if TsTabSheet(PageControl.Pages[i]).TabType = ttTab then
-          PageControl.Pages[i].TabVisible := False;
+      Application.ProcessMessages;
+      PageControl.Visible := False;
       for i := PageControl.PageCount - 2 downto 0 do
         if TsTabSheet(PageControl.Pages[i]).TabType = ttTab then
         begin
           ProgressBar.StepIt;
-          Application.ProcessMessages;
           PageControl.Pages[i].Free;
         end;
+      PageControl.Visible := True;
     finally
       Screen.Cursor := crDefault;
       FProgressBar.Hide;
@@ -995,14 +994,14 @@ begin
     Screen.Cursor := crHourGlass;
     try
       FProgressBar.Show(PageControl.PageCount - 3);
-      for i := PageControl.PageCount - 2 downto 1 do
-        PageControl.Pages[i].TabVisible := False;
+      Application.ProcessMessages;
+      PageControl.Visible := False;
       for i := PageControl.PageCount - 2 downto 1 do
       begin
         ProgressBar.StepIt;
-        Application.ProcessMessages;
         PageControl.Pages[i].Free;
       end;
+      PageControl.Visible := True;
       FProgressBar.Hide;
     finally
       Screen.Cursor := crDefault;
@@ -1431,7 +1430,7 @@ begin
             if Assigned(LEditor) then
             begin
               GetOptions(LEditor);
-              PageControl.ActivePageIndex := i;
+              //PageControl.ActivePageIndex := i;
               LEditor.CaretZero;
               LEditor.ReplaceText(SearchFor, ReplaceWith);
               PageControl.Pages[i].Caption := FormatFileName(PageControl.Pages[i].Caption, LEditor.Modified);
