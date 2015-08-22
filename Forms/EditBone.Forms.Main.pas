@@ -2638,7 +2638,6 @@ begin
       ProgressBar.Show(LCount);
       FStopWatch.Reset;
       FStopWatch.Start;
-
       FOutputTreeView := FOutputFrame.AddTreeView(Format(LanguageDataModule.GetConstant('SearchFor'), [FindWhatText]));
       FOutputFrame.ProcessingTabSheet := True;
       PanelOutput.Visible := True;
