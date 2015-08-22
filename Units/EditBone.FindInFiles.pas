@@ -14,7 +14,7 @@ type
     FOnCancelSearch: TOnCancelSearch;
     FOnProgressBarStep: TNotifyEvent;
     FOnAddTreeViewLine: TOnAddTreeViewLine;
-    FFindWhatText: string;
+    FFindWhatOriginalText, FFindWhatSearchText: string;
     FFileExtensions: string;
     FFileTypeText: string;
     FFolderText: string;
@@ -26,7 +26,7 @@ type
     constructor Create(AFindWhatText, AFileTypeText, AFolderText: String; ASearchCaseSensitive, ALookInSubfolders: Boolean;
       AFileExtensions: string); overload;
     procedure Execute; override;
-    property FindWhatText: string read FFindWhatText;
+    property FindWhatText: string read FFindWhatOriginalText;
     property OnCancelSearch: TOnCancelSearch read FOnCancelSearch write FOnCancelSearch;
     property OnProgressBarStep: TNotifyEvent read FOnProgressBarStep write FOnProgressBarStep;
     property OnAddTreeViewLine: TOnAddTreeViewLine read FOnAddTreeViewLine write FOnAddTreeViewLine;
@@ -48,7 +48,11 @@ constructor TFindInFilesThread.Create(AFindWhatText, AFileTypeText, AFolderText:
 begin
   inherited Create(True);
   FreeOnTerminate := True;
-  FFindWhatText := AFindWhatText;
+  FFindWhatOriginalText := AFindWhatText;
+  if ASearchCaseSensitive then
+    FFindWhatSearchText :=  AFindWhatText
+  else
+    FFindWhatSearchText := UpperCase(AFindWhatText);
   FFileExtensions := AFileExtensions;
   FFileTypeText := AFileTypeText;
   FFolderText := AFolderText;
@@ -59,30 +63,32 @@ end;
 { Recursive method to find files. }
 procedure TFindInFilesThread.FindInFiles(AFolderText: String);
 var
-  shFindFile: THandle;
-  sWin32FD: TWin32FindData;
-  S, Line: WideString;
+  LFileHandle: THandle;
+  LWin32FindData: TWin32FindData;
+  LTextLine: string;
   FName: string;
-  Ln, Ch, ChPos: LongWord;
+  i: Integer;
   Found: Boolean;
-  StringList: TStringList;
+  LStringList: TStringList;
+  LTextPtr, LStartTextPtr, LFindWhatTextPtr, LBookmarkTextPtr: PChar;
 
-  function IsDirectory(dWin32FD: TWin32FindData): Boolean;
+  function IsDirectory(AWin32FindData: TWin32FindData): Boolean;
   var
     TmpAttr: DWORD;
   begin
-    with dWin32FD do
+    with AWin32FindData do
     begin
       TmpAttr := dwFileAttributes and (FILE_ATTRIBUTE_READONLY or FILE_ATTRIBUTE_HIDDEN or FILE_ATTRIBUTE_SYSTEM or FILE_ATTRIBUTE_ARCHIVE or FILE_ATTRIBUTE_NORMAL or FILE_ATTRIBUTE_DIRECTORY);
 
       Result := (TmpAttr and FILE_ATTRIBUTE_DIRECTORY = FILE_ATTRIBUTE_DIRECTORY);
     end;
   end;
+
 begin
   {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
-  shFindFile := FindFirstFile(PChar(IncludeTrailingBackslash(AFolderText) + '*.*'), sWin32FD);
+  LFileHandle := FindFirstFile(PChar(IncludeTrailingBackslash(AFolderText) + '*.*'), LWin32FindData);
   {$WARNINGS ON}
-  if shFindFile <> INVALID_HANDLE_VALUE then
+  if LFileHandle <> INVALID_HANDLE_VALUE then
   try
     repeat
       if Assigned(FOnCancelSearch) and FOnCancelSearch then
@@ -90,11 +96,11 @@ begin
         Terminate;
         Exit;
       end;
-      FName := StrPas(sWin32FD.cFileName);
+      FName := StrPas(LWin32FindData.cFileName);
 
       if (FName <> '.') and (FName <> '..') then
       begin
-        if FLookInSubfolders and IsDirectory(sWin32FD) then
+        if FLookInSubfolders and IsDirectory(LWin32FindData) then
           {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
           FindInFiles(IncludeTrailingBackslash(AFolderText) + FName)
           {$WARNINGS ON}
@@ -107,42 +113,47 @@ begin
             IsExtInFileType(ExtractFileExt(FName), FFileTypeText) then
           begin
             {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
-            StringList := GetStringList(IncludeTrailingBackslash(AFolderText) + FName);
+            LStringList := GetStringList(IncludeTrailingBackslash(AFolderText) + FName);
             {$WARNINGS ON}
             try
               try
-                // TODO: Use pointer and UpCase
-                if Trim(StringList.Text) <> '' then
-                for Ln := 0 to StringList.Count - 1 do
+                if Trim(LStringList.Text) <> '' then
+                for i := 0 to LStringList.Count - 1 do
                 begin
-                  Found := True;
-                  Line := StringList.Strings[Ln];
-                  S := Line;
-                  ChPos := 0;
-                  while Found do
+                  LTextLine := LStringList.Strings[i];
+                  if not FSearchCaseSensitive then
+                    LTextLine := UpperCase(LTextLine);
+                  LStartTextPtr := PChar(LTextLine);
+                  LTextPtr := LStartTextPtr;
+                  while LTextPtr^ <> #0 do
                   begin
-                    if FSearchCaseSensitive then
-                      Ch := Pos(WideString(FFindWhatText), S)
-                    else
-                      Ch := Pos(WideUpperCase(WideString(FFindWhatText)), WideUpperCase(S));
-                    if Ch <> 0 then
+                    if LTextPtr^ = PChar(FFindWhatSearchText)^ then { if the first character is a match }
                     begin
-                      Found := True;
-                      ChPos := ChPos + Ch;
-                      if Assigned(FOnCancelSearch) and FOnCancelSearch then
+                      LFindWhatTextPtr := PChar(FFindWhatSearchText);
+                      LBookmarkTextPtr := LTextPtr;
+                      { check if the keyword found }
+                      while (LTextPtr^ <> #0) and (LFindWhatTextPtr^ <> #0) and (LTextPtr^ = LFindWhatTextPtr^) do
                       begin
-                        Terminate;
-                        Exit;
+                        Inc(LTextPtr);
+                        Inc(LFindWhatTextPtr);
                       end;
-                      {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
-                      if Assigned(FOnAddTreeViewLine) then
-                        FOnAddTreeViewLine(Self, IncludeTrailingBackslash(AFolderText) + FName, Ln, ChPos, Line, FFindWhatText);
-                      {$WARNINGS ON}
-                      S := Copy(S, Ch + LongWord(Length(FFindWhatText)), Length(S));
-                      ChPos := ChPos + LongWord(Length(FFindWhatText)) - 1;
-                    end
-                    else
-                      Found := False;
+                      if LFindWhatTextPtr^ = #0 then
+                      begin
+                        if Assigned(FOnCancelSearch) and FOnCancelSearch then
+                        begin
+                          Terminate;
+                          Exit;
+                        end;
+                        {$WARNINGS OFF} { IncludeTrailingBackslash is specific to a platform }
+                        if Assigned(FOnAddTreeViewLine) then
+                          FOnAddTreeViewLine(Self, IncludeTrailingBackslash(AFolderText) + FName, i, LBookmarkTextPtr - LStartTextPtr + 1,
+                            LStringList.Strings[i], FFindWhatOriginalText);
+                        {$WARNINGS ON}
+                      end
+                      else
+                        LTextPtr := LBookmarkTextPtr; { not found, return pointer back }
+                    end;
+                    Inc(LTextPtr);
                   end;
                 end
               except
@@ -154,14 +165,14 @@ begin
                 {$WARNINGS ON}
               end;
             finally
-              StringList.Free;
+              LStringList.Free;
             end;
           end;
         end;
       end;
-    until not Terminated and not FindNextFile(shFindFile, sWin32FD);
+    until not Terminated and not FindNextFile(LFileHandle, LWin32FindData);
   finally
-    Winapi.Windows.FindClose(shFindFile);
+    Winapi.Windows.FindClose(LFileHandle);
   end;
 end;
 
