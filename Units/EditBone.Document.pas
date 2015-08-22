@@ -423,9 +423,10 @@ begin
     OnAfterBookmarkPlaced := EditorAfterBookmarkPlaced;
     OnAfterClearBookmark := EditorAfterClearBookmark;
     PopupMenu := FPopupMenuEditor;
-    Minimap.Visible := ShowMinimap;
     Tag := EDITBONE_EDITOR_TAG;
   end;
+  OptionsContainer.AssignTo(LEditor);
+  LEditor.Minimap.Visible := ShowMinimap;
   { create search TODO: move to own procecure }
   LPanelSearch := TBCPanel.Create(LTabSheet);
   with LPanelSearch do
@@ -542,8 +543,6 @@ begin
     Font.Size := 10;
     Tag := EDITBONE_LABEL_SEARCH_RESULT_COUNT_TAG;
   end;
-
-  OptionsContainer.AssignTo(LEditor);
 
   if FileName <> '' then
   begin
@@ -1570,7 +1569,7 @@ var
 
   function GetIntegerListItem(AList: TValueListEditor; AIndex: Integer): Integer;
   begin
-    if AIndex >= AList.RowCount then
+    if AIndex >= AList.Strings.Count then
       Result := 0
     else
       Result := StrToInt(AList.Values[IntToStr(AIndex)])
@@ -1578,10 +1577,10 @@ var
 
   function GetBooleanListItem(AList: TValueListEditor; AIndex: Integer): Boolean;
   begin
-    if AIndex >= AList.RowCount then
+    if AIndex >= AList.Strings.Count then
       Result := False
     else
-      Result := StrToBool(AList.Values[IntToStr(AIndex)])
+      Result := AList.Values[IntToStr(AIndex)] = '1'
   end;
 
 begin
