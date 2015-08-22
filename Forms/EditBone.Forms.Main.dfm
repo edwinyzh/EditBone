@@ -20,12 +20,18 @@ inherited MainForm: TMainForm
     Align = alBottom
     Visible = False
     SkinData.SkinSection = 'SPLITTER'
-    ExplicitTop = 505
+    ExplicitLeft = 16
+    ExplicitTop = 472
   end
   inherited StatusBar: TBCStatusBar
+    AlignWithMargins = True
     Top = 637
     Width = 1111
     Height = 25
+    Margins.Left = 0
+    Margins.Top = 5
+    Margins.Right = 0
+    Margins.Bottom = 0
     Panels = <
       item
         Width = 60
@@ -93,7 +99,7 @@ inherited MainForm: TMainForm
     Height = 91
     Align = alTop
     BevelOuter = bvNone
-    TabOrder = 4
+    TabOrder = 3
     SkinData.SkinSection = 'CHECKBOX'
     object PageControlToolBar: TBCPageControl
       AlignWithMargins = True
@@ -1825,10 +1831,15 @@ inherited MainForm: TMainForm
     end
   end
   object PanelMiddle: TBCPanel [3]
+    AlignWithMargins = True
     Left = 0
-    Top = 119
+    Top = 124
     Width = 1111
-    Height = 387
+    Height = 382
+    Margins.Left = 0
+    Margins.Top = 5
+    Margins.Right = 0
+    Margins.Bottom = 0
     Align = alClient
     BevelOuter = bvNone
     Color = clWindow
@@ -1841,18 +1852,17 @@ inherited MainForm: TMainForm
       Left = 329
       Top = 0
       Width = 5
-      Height = 387
+      Height = 382
       Visible = False
       SkinData.SkinSection = 'SPLITTER'
       ExplicitLeft = 255
       ExplicitHeight = 386
     end
     object PanelDirectory: TBCPanel
-      AlignWithMargins = True
       Left = 0
-      Top = 5
+      Top = 0
       Width = 329
-      Height = 377
+      Height = 382
       Margins.Left = 0
       Margins.Top = 5
       Margins.Right = 0
@@ -1868,11 +1878,10 @@ inherited MainForm: TMainForm
       SkinData.SkinSection = 'CHECKBOX'
     end
     object PanelDocument: TBCPanel
-      AlignWithMargins = True
       Left = 334
-      Top = 5
+      Top = 0
       Width = 777
-      Height = 377
+      Height = 382
       Margins.Left = 0
       Margins.Top = 5
       Margins.Right = 0
@@ -1889,7 +1898,7 @@ inherited MainForm: TMainForm
         Left = 0
         Top = 0
         Width = 777
-        Height = 377
+        Height = 382
         Margins.Left = 0
         Margins.Top = 5
         Margins.Right = 0
@@ -1921,25 +1930,7 @@ inherited MainForm: TMainForm
       end
     end
   end
-  object PanelOutput: TBCPanel [4]
-    AlignWithMargins = True
-    Left = 0
-    Top = 511
-    Width = 1111
-    Height = 121
-    Margins.Left = 0
-    Margins.Top = 0
-    Margins.Right = 0
-    Margins.Bottom = 5
-    Align = alBottom
-    BevelOuter = bvNone
-    Color = clWindow
-    ParentBackground = False
-    TabOrder = 3
-    Visible = False
-    SkinData.SkinSection = 'CHECKBOX'
-  end
-  object PanelToolBar: TBCPanel [5]
+  object PanelToolBar: TBCPanel [4]
     Left = 0
     Top = 0
     Width = 1111
@@ -2945,7 +2936,26 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
   end
+  object PanelOutput: TBCPanel [5]
+    AlignWithMargins = True
+    Left = 0
+    Top = 511
+    Width = 1111
+    Height = 121
+    Margins.Left = 0
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
+    Align = alBottom
+    BevelOuter = bvNone
+    Color = clWindow
+    ParentBackground = False
+    TabOrder = 4
+    Visible = False
+    SkinData.SkinSection = 'CHECKBOX'
+  end
   inherited SkinManager: TBCSkinManager
+    Effects.AllowGlowing = False
     IsDefault = False
     ThirdParty.ThirdButtons = ' '#13#10'TButton'#13#10
     ThirdParty.ThirdGrids = ' '#13#10'TStringGrid'#13#10
@@ -3083,14 +3093,7 @@ inherited MainForm: TMainForm
     Left = 32
     Top = 294
   end
-  inherited ApplicationEvents: TApplicationEvents
-    OnActivate = ApplicationEventsActivate
-    OnHint = ApplicationEventsHint
-    OnMessage = ApplicationEventsMessage
-    Left = 122
-    Top = 244
-  end
-  object PopupMenuEditInsert: TPopupMenu [10]
+  object PopupMenuEditInsert: TPopupMenu [9]
     Images = ImagesDataModule.ImageList
     Left = 276
     Top = 145
@@ -3104,7 +3107,7 @@ inherited MainForm: TMainForm
       Action = ActionEditInsertDateTime
     end
   end
-  object PopupMenuEditDelete: TPopupMenu [11]
+  object PopupMenuEditDelete: TPopupMenu [10]
     Images = ImagesDataModule.ImageList
     Left = 276
     Top = 203
@@ -3121,12 +3124,12 @@ inherited MainForm: TMainForm
       Action = ActionEditDeleteWhitespace
     end
   end
-  object PopupMenuFileReopen: TPopupMenu [12]
+  object PopupMenuFileReopen: TPopupMenu [11]
     Images = ImagesDataModule.ImageListSmall
     Left = 452
     Top = 109
   end
-  object PopupMenuEditIndent: TPopupMenu [13]
+  object PopupMenuEditIndent: TPopupMenu [12]
     Images = ImagesDataModule.ImageList
     Left = 276
     Top = 261
@@ -3137,7 +3140,7 @@ inherited MainForm: TMainForm
       Action = ActionEditIndentIncrease
     end
   end
-  object PopupMenuEditSort: TPopupMenu [14]
+  object PopupMenuEditSort: TPopupMenu [13]
     Images = ImagesDataModule.ImageList
     Left = 276
     Top = 313
@@ -3148,7 +3151,7 @@ inherited MainForm: TMainForm
       Action = ActionEditSortDesc
     end
   end
-  object PopupMenuSearchGotoBookmarks: TPopupMenu [15]
+  object PopupMenuSearchGotoBookmarks: TPopupMenu [14]
     Images = ImagesDataModule.ImageList
     Left = 445
     Top = 153
@@ -3180,7 +3183,7 @@ inherited MainForm: TMainForm
       Action = ActionGotoBookmarks9
     end
   end
-  object PopupMenuSearchToggleBookmarks: TPopupMenu [16]
+  object PopupMenuSearchToggleBookmarks: TPopupMenu [15]
     Images = ImagesDataModule.ImageList
     Left = 445
     Top = 209
@@ -3212,7 +3215,7 @@ inherited MainForm: TMainForm
       Action = ActionToggleBookmarks9
     end
   end
-  object PopupMenuToolBar: TPopupMenu [17]
+  object PopupMenuToolBar: TPopupMenu [16]
     Images = ImagesDataModule.ImageList
     Left = 277
     Top = 381
@@ -3257,15 +3260,15 @@ inherited MainForm: TMainForm
       end
     end
   end
-  object PopupMenuColors: TPopupMenu [18]
+  object PopupMenuColors: TPopupMenu [17]
     Left = 446
     Top = 366
   end
-  object PopupMenuHighlighters: TPopupMenu [19]
+  object PopupMenuHighlighters: TPopupMenu [18]
     Left = 446
     Top = 310
   end
-  object PopupMenuEncoding: TPopupMenu [20]
+  object PopupMenuEncoding: TPopupMenu [19]
     Left = 444
     Top = 264
     object MenuItemEncodingANSI: TMenuItem
@@ -3302,6 +3305,13 @@ inherited MainForm: TMainForm
       Action = ActionEncodingUTF8WithoutBOM
       RadioItem = True
     end
+  end
+  inherited ApplicationEvents: TApplicationEvents
+    OnActivate = ApplicationEventsActivate
+    OnHint = ApplicationEventsHint
+    OnMessage = ApplicationEventsMessage
+    Left = 122
+    Top = 244
   end
   inherited ActionList: TActionList
     Images = ImagesDataModule.ImageList
@@ -4338,6 +4348,368 @@ inherited MainForm: TMainForm
       OnExecute = ActionSearchCloseExecute
     end
   end
+  object PopupMenuDocument: TPopupMenu [22]
+    Images = ImagesDataModule.ImageListSmall
+    Left = 616
+    Top = 158
+    object MenuItemFileClose: TMenuItem
+      Action = ActionFileClose
+    end
+    object MenuItemFileCloseAll: TMenuItem
+      Action = ActionFileCloseAll
+    end
+    object MenuItemPopupMenuDocumentDivider1: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemFileCloseAllOther: TMenuItem
+      Action = ActionFileCloseAllOther
+    end
+    object MenuItemPopupMenuDocumentDivider2: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemFileSave: TMenuItem
+      Action = ActionFileSave
+    end
+    object MenuItemFileSaveAs: TMenuItem
+      Action = ActionFileSaveAs
+    end
+    object MenuItemPopupMenuDocumentDivider3: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemFilePrint: TMenuItem
+      Action = ActionFilePrint
+    end
+    object MenuItemFilePrintPreview: TMenuItem
+      Action = ActionFilePrintPreview
+    end
+    object MenuItemPopupMenuDocumentDivider4: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemToolsSelectForCompare: TMenuItem
+      Action = ActionToolsSelectForCompare
+    end
+    object MenuItemFileSelectFromDirectory: TMenuItem
+      Action = ActionFileSelectFromDirectory
+    end
+    object MenuItemPopupMenuDocumentDivider5: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemFileProperties: TMenuItem
+      Action = ActionFileProperties
+    end
+  end
+  object DragDrop: TBCDragDrop [23]
+    DropTarget = Owner
+    OnDrop = DragDropDrop
+    Left = 36
+    Top = 372
+  end
+  object PopupMenuDocumentFormat: TPopupMenu [24]
+    Images = ImagesDataModule.ImageList
+    Left = 272
+    Top = 437
+    object MenuItemDocumentFormatSQL: TMenuItem
+      Action = ActionDocumentFormatSQL
+    end
+    object MenuItemDocumentFormatXML: TMenuItem
+      Action = ActionDocumentFormatXML
+    end
+  end
+  object PopupMenuEditor: TPopupMenu [25]
+    Images = ImagesDataModule.ImageListSmall
+    Left = 616
+    Top = 254
+    object MenuItemCut: TMenuItem
+      Action = ActionEditCut
+    end
+    object MenuItemCopy: TMenuItem
+      Action = ActionEditCopy
+    end
+    object MenuItemPaste: TMenuItem
+      Action = ActionEditPaste
+    end
+    object MenuItemSelectAll: TMenuItem
+      Action = ActionEditSelectAll
+    end
+    object MenuItemSeparator1: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemUndo: TMenuItem
+      Action = ActionEditUndo
+    end
+    object MenuItemRedo: TMenuItem
+      Action = ActionEditRedo
+    end
+    object MenuItemSeparator2: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemToggleBookmark: TMenuItem
+      Action = ActionSearchToggleBookmark
+    end
+    object MenuItemToggleBookmarks: TMenuItem
+      Action = ActionSearchToggleBookmarks
+      object MenuItemToggleBookmark1: TMenuItem
+        Tag = 1
+        Action = ActionToggleBookmarks1
+      end
+      object MenuItemToggleBookmark2: TMenuItem
+        Tag = 2
+        Action = ActionToggleBookmarks2
+      end
+      object MenuItemToggleBookmark3: TMenuItem
+        Tag = 3
+        Action = ActionToggleBookmarks3
+      end
+      object MenuItemToggleBookmark4: TMenuItem
+        Tag = 4
+        Action = ActionToggleBookmarks4
+      end
+      object MenuItemToggleBookmark5: TMenuItem
+        Tag = 5
+        Action = ActionToggleBookmarks5
+      end
+      object MenuItemToggleBookmark6: TMenuItem
+        Tag = 6
+        Action = ActionToggleBookmarks6
+      end
+      object MenuItemToggleBookmark7: TMenuItem
+        Tag = 7
+        Action = ActionToggleBookmarks7
+      end
+      object MenuItemToggleBookmark8: TMenuItem
+        Tag = 8
+        Action = ActionToggleBookmarks8
+      end
+      object MenuItemToggleBookmark9: TMenuItem
+        Tag = 9
+        Action = ActionToggleBookmarks9
+      end
+    end
+    object MenuItemGotoBookmarks: TMenuItem
+      Action = ActionSearchGoToBookmarks
+      object MenuItemGotoBookmark1: TMenuItem
+        Tag = 1
+        Action = ActionGotoBookmarks1
+      end
+      object MenuItemGotoBookmark2: TMenuItem
+        Tag = 2
+        Action = ActionGotoBookmarks2
+      end
+      object MenuItemGotoBookmark3: TMenuItem
+        Tag = 3
+        Action = ActionGotoBookmarks3
+      end
+      object MenuItemGotoBookmark4: TMenuItem
+        Tag = 4
+        Action = ActionGotoBookmarks4
+      end
+      object MenuItemGotoBookmark5: TMenuItem
+        Tag = 5
+        Action = ActionGotoBookmarks5
+      end
+      object MenuItemGotoBookmark6: TMenuItem
+        Tag = 6
+        Action = ActionGotoBookmarks6
+      end
+      object MenuItemGotoBookmark7: TMenuItem
+        Tag = 7
+        Action = ActionGotoBookmarks7
+      end
+      object MenuItemGotoBookmark8: TMenuItem
+        Tag = 8
+        Action = ActionGotoBookmarks8
+      end
+      object MenuItemGotoBookmark9: TMenuItem
+        Tag = 9
+        Action = ActionGotoBookmarks9
+      end
+    end
+    object MenuItemClearBookmarks: TMenuItem
+      Action = ActionSearchClearBookmarks
+    end
+    object MenuItemSeparator3: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemInsert: TMenuItem
+      Action = ActionEditInsert
+      object MenuItemInsertLine: TMenuItem
+        Action = ActionEditInsertLine
+      end
+      object MenuItemInsertTag: TMenuItem
+        Action = ActionEditInsertTag
+      end
+      object MenuItemDateandTime: TMenuItem
+        Action = ActionEditInsertDateTime
+      end
+    end
+    object MenuItemDelete: TMenuItem
+      Action = ActionEditDelete
+      object MenuItemDeleteLine: TMenuItem
+        Action = ActionEditDeleteLine
+      end
+      object MenuItemDeleteEndOfLine: TMenuItem
+        Action = ActionEditDeleteEndOfLine
+      end
+      object MenuItemDeleteWord: TMenuItem
+        Action = ActionEditDeleteWord
+      end
+      object MenuItemDeleteWhiteSpace: TMenuItem
+        Action = ActionEditDeleteWhitespace
+      end
+    end
+    object MenuItemSeparator4: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemIndent: TMenuItem
+      Action = ActionEditIndent
+      object MenuItemIncreaseIndent: TMenuItem
+        Action = ActionEditIndentIncrease
+      end
+      object MenuItemDecreaseIndent: TMenuItem
+        Action = ActionEditIndentDecrease
+      end
+    end
+    object MenuItemSort: TMenuItem
+      Action = ActionEditSort
+      object MenuItemSortAscending: TMenuItem
+        Action = ActionEditSortAsc
+      end
+      object MenuItemSortDescending: TMenuItem
+        Action = ActionEditSortDesc
+      end
+    end
+    object MenuItemSeparator5: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemFormat: TMenuItem
+      Action = ActionDocumentFormat
+      object MenuItemFormatSQL: TMenuItem
+        Action = ActionDocumentFormatSQL
+      end
+      object MenuItemFormatXML: TMenuItem
+        Action = ActionDocumentFormatXML
+      end
+    end
+    object MenuItemSeparator6: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemToggleCase: TMenuItem
+      Action = ActionEditToggleCase
+    end
+  end
+  object PopupMenuToggleCase: TPopupMenu [26]
+    Images = ImagesDataModule.ImageList
+    Left = 745
+    Top = 156
+    object Upper1: TMenuItem
+      Action = ActionEditToggleCaseUpper
+    end
+    object Lower1: TMenuItem
+      Action = ActionEditToggleCaseLower
+    end
+    object Alternating1: TMenuItem
+      Action = ActionEditToggleCaseAlternating
+    end
+    object Sentence1: TMenuItem
+      Action = ActionEditToggleCaseSentence
+    end
+    object itle1: TMenuItem
+      Action = ActionEditToggleCaseTitle
+    end
+  end
+  object AppInstances: TJvAppInstances [27]
+    OnCmdLineReceived = AppInstancesCmdLineReceived
+    Left = 743
+    Top = 250
+  end
+  object PopupMenuDocumentMacro: TPopupMenu [28]
+    Images = ImagesDataModule.ImageList
+    Left = 270
+    Top = 491
+    object MenuItemMacroPlayback: TMenuItem
+      Action = ActionMacroPlayback
+    end
+    object MenuItemMacroRecordPause: TMenuItem
+      Action = ActionMacroRecord
+    end
+    object MenuItemMacroStop: TMenuItem
+      Action = ActionMacroStop
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemMacroOpen: TMenuItem
+      Action = ActionMacroOpen
+    end
+    object MenuItemMacroSaveAs: TMenuItem
+      Action = ActionMacroSaveAs
+    end
+  end
+  object OpenDialog: TsOpenDialog [29]
+    Options = [ofHideReadOnly, ofAllowMultiSelect, ofEnableSizing]
+    Left = 874
+    Top = 176
+  end
+  object SaveDialog: TsSaveDialog [30]
+    Left = 874
+    Top = 228
+  end
+  object PrintDialog: TPrintDialog [31]
+    Left = 872
+    Top = 280
+  end
+  object EditorPrint: TBCEditorPrint [32]
+    Color = clWhite
+    Copies = 1
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Footer.DefaultFont.Charset = DEFAULT_CHARSET
+    Footer.DefaultFont.Color = clBlack
+    Footer.DefaultFont.Height = -12
+    Footer.DefaultFont.Name = 'Courier New'
+    Footer.DefaultFont.Style = []
+    Header.DefaultFont.Charset = DEFAULT_CHARSET
+    Header.DefaultFont.Color = clBlack
+    Header.DefaultFont.Height = -12
+    Header.DefaultFont.Name = 'Courier New'
+    Header.DefaultFont.Style = []
+    Margins.Bottom = 18.000000000000000000
+    Margins.Footer = 15.000000000000000000
+    Margins.Header = 15.000000000000000000
+    Margins.InternalMargin = 0.500000000000000000
+    Margins.Left = 20.000000000000000000
+    Margins.LeftTextIndent = 2.000000000000000000
+    Margins.MirrorMargins = False
+    Margins.Right = 15.000000000000000000
+    Margins.RightTextIndent = 2.000000000000000000
+    Margins.Top = 18.000000000000000000
+    OnPrintStatus = EditorPrintPrintStatus
+    TabWidth = 8
+    Left = 872
+    Top = 348
+  end
+  object EditorMacroRecorder: TBCEditorMacroRecorder [33]
+    RecordShortCut = 24658
+    PlaybackShortCut = 24656
+    Left = 870
+    Top = 408
+  end
+  object Timer: TTimer [34]
+    OnTimer = TimerTimer
+    Left = 958
+    Top = 180
+  end
+  object PopupMenuXMLTree: TPopupMenu [35]
+    Images = ImagesDataModule.ImageListSmall
+    Left = 956
+    Top = 252
+    object MenuItemXMLRefresh: TMenuItem
+      Action = ActionXMLTreeRefresh
+    end
+  end
   inherited MainMenu: TMainMenu
     Images = ImagesDataModule.ImageListSmall
     Left = 117
@@ -4702,368 +5074,6 @@ inherited MainForm: TMainForm
       object MenuItemMainMenuHelpAboutEditBone: TMenuItem
         Action = ActionHelpAboutEditBone
       end
-    end
-  end
-  object PopupMenuDocument: TPopupMenu [23]
-    Images = ImagesDataModule.ImageListSmall
-    Left = 616
-    Top = 158
-    object MenuItemFileClose: TMenuItem
-      Action = ActionFileClose
-    end
-    object MenuItemFileCloseAll: TMenuItem
-      Action = ActionFileCloseAll
-    end
-    object MenuItemPopupMenuDocumentDivider1: TMenuItem
-      Caption = '-'
-    end
-    object MenuItemFileCloseAllOther: TMenuItem
-      Action = ActionFileCloseAllOther
-    end
-    object MenuItemPopupMenuDocumentDivider2: TMenuItem
-      Caption = '-'
-    end
-    object MenuItemFileSave: TMenuItem
-      Action = ActionFileSave
-    end
-    object MenuItemFileSaveAs: TMenuItem
-      Action = ActionFileSaveAs
-    end
-    object MenuItemPopupMenuDocumentDivider3: TMenuItem
-      Caption = '-'
-    end
-    object MenuItemFilePrint: TMenuItem
-      Action = ActionFilePrint
-    end
-    object MenuItemFilePrintPreview: TMenuItem
-      Action = ActionFilePrintPreview
-    end
-    object MenuItemPopupMenuDocumentDivider4: TMenuItem
-      Caption = '-'
-    end
-    object MenuItemToolsSelectForCompare: TMenuItem
-      Action = ActionToolsSelectForCompare
-    end
-    object MenuItemFileSelectFromDirectory: TMenuItem
-      Action = ActionFileSelectFromDirectory
-    end
-    object MenuItemPopupMenuDocumentDivider5: TMenuItem
-      Caption = '-'
-    end
-    object MenuItemFileProperties: TMenuItem
-      Action = ActionFileProperties
-    end
-  end
-  object DragDrop: TBCDragDrop [24]
-    DropTarget = Owner
-    OnDrop = DragDropDrop
-    Left = 36
-    Top = 372
-  end
-  object PopupMenuDocumentFormat: TPopupMenu [25]
-    Images = ImagesDataModule.ImageList
-    Left = 272
-    Top = 437
-    object MenuItemDocumentFormatSQL: TMenuItem
-      Action = ActionDocumentFormatSQL
-    end
-    object MenuItemDocumentFormatXML: TMenuItem
-      Action = ActionDocumentFormatXML
-    end
-  end
-  object PopupMenuEditor: TPopupMenu [26]
-    Images = ImagesDataModule.ImageListSmall
-    Left = 616
-    Top = 254
-    object MenuItemCut: TMenuItem
-      Action = ActionEditCut
-    end
-    object MenuItemCopy: TMenuItem
-      Action = ActionEditCopy
-    end
-    object MenuItemPaste: TMenuItem
-      Action = ActionEditPaste
-    end
-    object MenuItemSelectAll: TMenuItem
-      Action = ActionEditSelectAll
-    end
-    object MenuItemSeparator1: TMenuItem
-      Caption = '-'
-    end
-    object MenuItemUndo: TMenuItem
-      Action = ActionEditUndo
-    end
-    object MenuItemRedo: TMenuItem
-      Action = ActionEditRedo
-    end
-    object MenuItemSeparator2: TMenuItem
-      Caption = '-'
-    end
-    object MenuItemToggleBookmark: TMenuItem
-      Action = ActionSearchToggleBookmark
-    end
-    object MenuItemToggleBookmarks: TMenuItem
-      Action = ActionSearchToggleBookmarks
-      object MenuItemToggleBookmark1: TMenuItem
-        Tag = 1
-        Action = ActionToggleBookmarks1
-      end
-      object MenuItemToggleBookmark2: TMenuItem
-        Tag = 2
-        Action = ActionToggleBookmarks2
-      end
-      object MenuItemToggleBookmark3: TMenuItem
-        Tag = 3
-        Action = ActionToggleBookmarks3
-      end
-      object MenuItemToggleBookmark4: TMenuItem
-        Tag = 4
-        Action = ActionToggleBookmarks4
-      end
-      object MenuItemToggleBookmark5: TMenuItem
-        Tag = 5
-        Action = ActionToggleBookmarks5
-      end
-      object MenuItemToggleBookmark6: TMenuItem
-        Tag = 6
-        Action = ActionToggleBookmarks6
-      end
-      object MenuItemToggleBookmark7: TMenuItem
-        Tag = 7
-        Action = ActionToggleBookmarks7
-      end
-      object MenuItemToggleBookmark8: TMenuItem
-        Tag = 8
-        Action = ActionToggleBookmarks8
-      end
-      object MenuItemToggleBookmark9: TMenuItem
-        Tag = 9
-        Action = ActionToggleBookmarks9
-      end
-    end
-    object MenuItemGotoBookmarks: TMenuItem
-      Action = ActionSearchGoToBookmarks
-      object MenuItemGotoBookmark1: TMenuItem
-        Tag = 1
-        Action = ActionGotoBookmarks1
-      end
-      object MenuItemGotoBookmark2: TMenuItem
-        Tag = 2
-        Action = ActionGotoBookmarks2
-      end
-      object MenuItemGotoBookmark3: TMenuItem
-        Tag = 3
-        Action = ActionGotoBookmarks3
-      end
-      object MenuItemGotoBookmark4: TMenuItem
-        Tag = 4
-        Action = ActionGotoBookmarks4
-      end
-      object MenuItemGotoBookmark5: TMenuItem
-        Tag = 5
-        Action = ActionGotoBookmarks5
-      end
-      object MenuItemGotoBookmark6: TMenuItem
-        Tag = 6
-        Action = ActionGotoBookmarks6
-      end
-      object MenuItemGotoBookmark7: TMenuItem
-        Tag = 7
-        Action = ActionGotoBookmarks7
-      end
-      object MenuItemGotoBookmark8: TMenuItem
-        Tag = 8
-        Action = ActionGotoBookmarks8
-      end
-      object MenuItemGotoBookmark9: TMenuItem
-        Tag = 9
-        Action = ActionGotoBookmarks9
-      end
-    end
-    object MenuItemClearBookmarks: TMenuItem
-      Action = ActionSearchClearBookmarks
-    end
-    object MenuItemSeparator3: TMenuItem
-      Caption = '-'
-    end
-    object MenuItemInsert: TMenuItem
-      Action = ActionEditInsert
-      object MenuItemInsertLine: TMenuItem
-        Action = ActionEditInsertLine
-      end
-      object MenuItemInsertTag: TMenuItem
-        Action = ActionEditInsertTag
-      end
-      object MenuItemDateandTime: TMenuItem
-        Action = ActionEditInsertDateTime
-      end
-    end
-    object MenuItemDelete: TMenuItem
-      Action = ActionEditDelete
-      object MenuItemDeleteLine: TMenuItem
-        Action = ActionEditDeleteLine
-      end
-      object MenuItemDeleteEndOfLine: TMenuItem
-        Action = ActionEditDeleteEndOfLine
-      end
-      object MenuItemDeleteWord: TMenuItem
-        Action = ActionEditDeleteWord
-      end
-      object MenuItemDeleteWhiteSpace: TMenuItem
-        Action = ActionEditDeleteWhitespace
-      end
-    end
-    object MenuItemSeparator4: TMenuItem
-      Caption = '-'
-    end
-    object MenuItemIndent: TMenuItem
-      Action = ActionEditIndent
-      object MenuItemIncreaseIndent: TMenuItem
-        Action = ActionEditIndentIncrease
-      end
-      object MenuItemDecreaseIndent: TMenuItem
-        Action = ActionEditIndentDecrease
-      end
-    end
-    object MenuItemSort: TMenuItem
-      Action = ActionEditSort
-      object MenuItemSortAscending: TMenuItem
-        Action = ActionEditSortAsc
-      end
-      object MenuItemSortDescending: TMenuItem
-        Action = ActionEditSortDesc
-      end
-    end
-    object MenuItemSeparator5: TMenuItem
-      Caption = '-'
-    end
-    object MenuItemFormat: TMenuItem
-      Action = ActionDocumentFormat
-      object MenuItemFormatSQL: TMenuItem
-        Action = ActionDocumentFormatSQL
-      end
-      object MenuItemFormatXML: TMenuItem
-        Action = ActionDocumentFormatXML
-      end
-    end
-    object MenuItemSeparator6: TMenuItem
-      Caption = '-'
-    end
-    object MenuItemToggleCase: TMenuItem
-      Action = ActionEditToggleCase
-    end
-  end
-  object PopupMenuToggleCase: TPopupMenu [27]
-    Images = ImagesDataModule.ImageList
-    Left = 745
-    Top = 156
-    object Upper1: TMenuItem
-      Action = ActionEditToggleCaseUpper
-    end
-    object Lower1: TMenuItem
-      Action = ActionEditToggleCaseLower
-    end
-    object Alternating1: TMenuItem
-      Action = ActionEditToggleCaseAlternating
-    end
-    object Sentence1: TMenuItem
-      Action = ActionEditToggleCaseSentence
-    end
-    object itle1: TMenuItem
-      Action = ActionEditToggleCaseTitle
-    end
-  end
-  object AppInstances: TJvAppInstances [28]
-    OnCmdLineReceived = AppInstancesCmdLineReceived
-    Left = 743
-    Top = 250
-  end
-  object PopupMenuDocumentMacro: TPopupMenu [29]
-    Images = ImagesDataModule.ImageList
-    Left = 270
-    Top = 491
-    object MenuItemMacroPlayback: TMenuItem
-      Action = ActionMacroPlayback
-    end
-    object MenuItemMacroRecordPause: TMenuItem
-      Action = ActionMacroRecord
-    end
-    object MenuItemMacroStop: TMenuItem
-      Action = ActionMacroStop
-    end
-    object N1: TMenuItem
-      Caption = '-'
-    end
-    object MenuItemMacroOpen: TMenuItem
-      Action = ActionMacroOpen
-    end
-    object MenuItemMacroSaveAs: TMenuItem
-      Action = ActionMacroSaveAs
-    end
-  end
-  object OpenDialog: TsOpenDialog [30]
-    Options = [ofHideReadOnly, ofAllowMultiSelect, ofEnableSizing]
-    Left = 874
-    Top = 176
-  end
-  object SaveDialog: TsSaveDialog [31]
-    Left = 874
-    Top = 228
-  end
-  object PrintDialog: TPrintDialog [32]
-    Left = 872
-    Top = 280
-  end
-  object EditorPrint: TBCEditorPrint [33]
-    Color = clWhite
-    Copies = 1
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    Footer.DefaultFont.Charset = DEFAULT_CHARSET
-    Footer.DefaultFont.Color = clBlack
-    Footer.DefaultFont.Height = -12
-    Footer.DefaultFont.Name = 'Courier New'
-    Footer.DefaultFont.Style = []
-    Header.DefaultFont.Charset = DEFAULT_CHARSET
-    Header.DefaultFont.Color = clBlack
-    Header.DefaultFont.Height = -12
-    Header.DefaultFont.Name = 'Courier New'
-    Header.DefaultFont.Style = []
-    Margins.Bottom = 18.000000000000000000
-    Margins.Footer = 15.000000000000000000
-    Margins.Header = 15.000000000000000000
-    Margins.InternalMargin = 0.500000000000000000
-    Margins.Left = 20.000000000000000000
-    Margins.LeftTextIndent = 2.000000000000000000
-    Margins.MirrorMargins = False
-    Margins.Right = 15.000000000000000000
-    Margins.RightTextIndent = 2.000000000000000000
-    Margins.Top = 18.000000000000000000
-    OnPrintStatus = EditorPrintPrintStatus
-    TabWidth = 8
-    Left = 872
-    Top = 348
-  end
-  object EditorMacroRecorder: TBCEditorMacroRecorder [34]
-    RecordShortCut = 24658
-    PlaybackShortCut = 24656
-    Left = 870
-    Top = 408
-  end
-  object Timer: TTimer [35]
-    OnTimer = TimerTimer
-    Left = 958
-    Top = 180
-  end
-  object PopupMenuXMLTree: TPopupMenu [36]
-    Images = ImagesDataModule.ImageListSmall
-    Left = 956
-    Top = 252
-    object MenuItemXMLRefresh: TMenuItem
-      Action = ActionXMLTreeRefresh
     end
   end
 end

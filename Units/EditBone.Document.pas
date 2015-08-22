@@ -386,22 +386,6 @@ begin
     //PageControl.ActivePageCaption :=
     LTabSheet.Caption := ExtractFileName(FileName);
 
- { LPanelSearch := TBCPanel.Create(LTabSheet);
-  with LPanelSearch do
-  begin
-    Align := alClient;
-    AlignWithMargins := True;
-    BevelOuter := bvNone;
-    Caption := '';
-    Margins.Left := 2;
-    Margins.Top := 2;
-    Margins.Right := 2;
-    Margins.Bottom := 2;
-    //Visible := False;
-    Parent := LTabSheet;
-    Tag := EDITBONE_SEARCH_PANEL_TAG;
-  end;  }
-
   { create editor }
   LEditor := TBCEditor.Create(LTabSheet);
   with LEditor do
@@ -427,6 +411,7 @@ begin
   end;
   OptionsContainer.AssignTo(LEditor);
   LEditor.Minimap.Visible := ShowMinimap;
+
   { create search TODO: move to own procecure }
   LPanelSearch := TBCPanel.Create(LTabSheet);
   with LPanelSearch do
@@ -522,7 +507,6 @@ begin
     Width := 20;
     ShowCaption := False;
     SkinData.SkinSection := 'TOOLBUTTON';
-    //Glyph.LoadFromResourceName(hInstance, 'SEARCHGLYPH');
     OnClick := ActionSearchClose.OnExecute;
     Hint := ActionSearchClose.Hint;
     Images := ImagesDataModule.ImageListSmall;

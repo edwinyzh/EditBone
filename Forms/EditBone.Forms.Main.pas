@@ -373,7 +373,6 @@ type
     PanelHelpButtons: TBCPanel;
     PanelMenuBar: TBCPanel;
     PanelMiddle: TBCPanel;
-    PanelOutput: TBCPanel;
     PanelSearchButtons: TBCPanel;
     PanelToolBar: TBCPanel;
     PanelToolsButtons: TBCPanel;
@@ -581,6 +580,7 @@ type
     MenuItemXMLRefresh: TMenuItem;
     ActionSearchOptions: TAction;
     ActionSearchClose: TAction;
+    PanelOutput: TBCPanel;
     procedure ActionFileNewExecute(Sender: TObject);
     procedure ActionFileOpenExecute(Sender: TObject);
     procedure ActionFileSaveAllExecute(Sender: TObject);
@@ -747,7 +747,6 @@ type
     procedure SearchFindInFiles(AFolder: string = '');
     procedure SetFields;
     procedure SetImages;
-    procedure SetMargins;
     procedure SetOptions;
     procedure UpdateMenuBarLanguage;
     procedure WriteIniFile;
@@ -1431,7 +1430,6 @@ begin
   if FDocument.Options(ActionList) then
   begin
     SetOptions;
-    SetMargins;
     CreateToolbar;
     SetTitleBarMenus;
   end;
@@ -1754,8 +1752,6 @@ begin
     ActionViewDirectory.Enabled := FDirectoryFrame.IsAnyDirectory;
     ActionViewDirectory.Checked := PanelDirectory.Visible;
     SplitterHorizontal.Visible := PanelOutput.Visible;
-
-    SetMargins;
 
     TitleBar.Items[2].Visible := ActionViewEncodingSelection.Checked;
     TitleBar.Items[3].Visible := TitleBar.Items[2].Visible;
@@ -2125,12 +2121,10 @@ begin
   CreateObjects;
   ReadIniSizePositionAndState;
   SetOptions;
-  SetMargins;
 
   FSQLFormatterDLLFound := FileExists(GetSQLFormatterDLLFilename);
 
   CreateLanguageMenu(MenuItemToolBarMenuLanguage);
-  //CreateSkinsMenu(MenuItemToolBarMenuSkin);
   GetHighlighters;
   GetHighlighterColors;
 
@@ -2164,30 +2158,6 @@ begin
   inherited;
   if (Shift = [ssCtrl]) and (Key = 9) then
     FDocument.NextPage;
-end;
-
-procedure TMainForm.SetMargins;
-begin
-  if PanelToolBar.Visible then
-  begin
-    PanelDirectory.Margins.Top := 1;
-    PanelDocument.Margins.Top := 1;
-  end
-  else
-  begin
-    PanelDirectory.Margins.Top := 5;
-    PanelDocument.Margins.Top := 5;
-  end;
-  if PanelOutput.Visible then
-  begin
-    PanelDirectory.Margins.Bottom := 0;
-    PanelDocument.Margins.Bottom := 0;
-  end
-  else
-  begin
-    PanelDirectory.Margins.Bottom := 5;
-    PanelDocument.Margins.Bottom := 5;
-  end;
 end;
 
 procedure TMainForm.SetOptions;
@@ -2257,6 +2227,8 @@ begin
   CreateFileReopenList;
   FOutputFrame.ReadOutputFile;
   PanelOutput.Visible := FOutputFrame.IsAnyOutput;
+
+  //SetMargins;
 
   Editor := FDocument.GetActiveEditor;
   if Assigned(Editor) then
