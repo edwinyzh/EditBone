@@ -26,6 +26,7 @@ type
     procedure EditorAfterClearBookmark(Sender: TObject);
     procedure ComboBoxSearchTextChange(Sender: TObject);
     procedure ComboBoxSearchTextKeyPress(Sender: TObject; var Key: Char);
+    procedure DropFiles(Sender: TObject; Pos: TPoint; AFiles: TStrings);
   private
     FSkinManager: TBCSkinManager;
     FCaretInfo: string;
@@ -406,6 +407,7 @@ begin
     OnReplaceText := EditorReplaceText;
     OnAfterBookmarkPlaced := EditorAfterBookmarkPlaced;
     OnAfterClearBookmark := EditorAfterClearBookmark;
+    OnDropFiles := DropFiles;
     PopupMenu := FPopupMenuEditor;
     Tag := EDITBONE_EDITOR_TAG;
   end;
@@ -2850,6 +2852,39 @@ begin
   Editor := GetActiveEditor;
   if Assigned(Editor) then
     Result := Editor.Marks;
+end;
+
+procedure TEBDocument.DropFiles(Sender: TObject; Pos: TPoint; AFiles: TStrings);
+var
+  i, j: Integer;
+begin
+  Screen.Cursor := crHourGlass;
+  try
+    j := AFiles.Count;
+    ProgressBar.Show(j);
+   { if FDocument.IsCompareFilesActivePage then
+    begin
+      if j > 1 then
+        for i := 0 to j - 1 do
+        begin
+          ProgressBar.StepIt;
+          FDocument.CompareFiles(Value.Strings[i]);
+        end
+      else
+        FDocument.CompareFiles(Value.Strings[0], True)
+    end
+    else  }
+    ProgressBar.StepIt;
+    Open(AFiles.Strings[0], True);
+    for i := 1 to j - 1 do
+    begin
+      ProgressBar.StepIt;
+      Open(AFiles.Strings[i], False);
+    end;
+  finally
+    ProgressBar.Hide;
+    Screen.Cursor := crDefault;
+  end;
 end;
 
 (*

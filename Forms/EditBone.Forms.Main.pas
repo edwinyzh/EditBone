@@ -1947,34 +1947,8 @@ begin
 end;
 
 procedure TMainForm.DragDropDrop(Sender: TObject; Pos: TPoint; Value: TStrings);
-var
-  i, j: Integer;
 begin
-  Screen.Cursor := crHourGlass;
-  try
-    j := Value.Count;
-    ProgressBar.Show(j);
-   { if FDocument.IsCompareFilesActivePage then
-    begin
-      if j > 1 then
-        for i := 0 to j - 1 do
-        begin
-          ProgressBar.StepIt;
-          FDocument.CompareFiles(Value.Strings[i]);
-        end
-      else
-        FDocument.CompareFiles(Value.Strings[0], True)
-    end
-    else  }
-    for i := 0 to j - 1 do
-    begin
-      ProgressBar.StepIt;
-      FDocument.Open(Value.Strings[i], False);
-    end;
-  finally
-    ProgressBar.Hide;
-    Screen.Cursor := crDefault;
-  end;
+  FDocument.DropFiles(Sender, Pos, Value);
 end;
 
 procedure TMainForm.EditorPrintPrintStatus(Sender: TObject; Status: TBCEditorPrintStatus; PageNumber: Integer;
