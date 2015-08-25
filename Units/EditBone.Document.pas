@@ -89,6 +89,7 @@ type
     procedure SetEditorBookmarks(Editor: TBCEditor; Bookmarks: TStrings);
     procedure SetSkinColors(Editor: TBCEditor);
     procedure SetOnNewTabSheetClickBtn(Value: TNotifyEvent);
+    function SetDocumentSpecificSearchText(AEditor: TBCEditor): Boolean;
   public
     constructor Create(AOwner: TBCPageControl);
     destructor Destroy; override;
@@ -1358,24 +1359,49 @@ begin
   end;
 end;
 
+function TEBDocument.SetDocumentSpecificSearchText(AEditor: TBCEditor): Boolean;
+var
+  LSearchPanel: TBCPanel;
+begin
+  Result := False;
+  if OptionsContainer.DocumentSpecificSearch then
+  begin
+    LSearchPanel := GetActiveSearchPanel;
+    if Assigned(LSearchPanel) then
+      if not LSearchPanel.Visible then
+      begin
+        AEditor.Search.SearchText := OptionsContainer.DocumentSpecificSearchText;
+        Result := True;
+      end;
+  end;
+end;
+
 procedure TEBDocument.FindNext;
 var
-  Editor: TBCEditor;
+  LEditor: TBCEditor;
 begin
-  Editor := GetActiveEditor;
-  if not Assigned(Editor) then
+  LEditor := GetActiveEditor;
+  if not Assigned(LEditor) then
     Exit;
-  Editor.FindNext;
+
+  LEditor.Search.Options := LEditor.Search.Options - [soBackwards];
+
+  if not SetDocumentSpecificSearchText(LEditor) then
+    LEditor.FindNext;
 end;
 
 procedure TEBDocument.FindPrevious;
 var
-  Editor: TBCEditor;
+  LEditor: TBCEditor;
 begin
-  Editor := GetActiveEditor;
-  if not Assigned(Editor) then
+  LEditor := GetActiveEditor;
+  if not Assigned(LEditor) then
     Exit;
-  Editor.FindPrevious;
+
+  LEditor.Search.Options := LEditor.Search.Options + [soBackwards];
+
+  if not SetDocumentSpecificSearchText(LEditor) then
+    LEditor.FindPrevious;
 end;
 
 procedure TEBDocument.Replace;
