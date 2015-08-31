@@ -2482,7 +2482,7 @@ begin
   with AEditor do
   begin
     Highlighter.LoadFromFile(Format('%s.json', [AHighlighterName]));
-    CodeFolding.Visible := OptionsContainer.ShowCodeFolding and (Highlighter.CodeFoldingRegions.Count > 0);
+    CodeFolding.Visible := OptionsContainer.ShowCodeFolding and (Highlighter.CodeFoldingRangeCount > 0); // (Highlighter.CodeFoldingRegions.Count > 0);
     if CanFocus then
       Invalidate;
   end;

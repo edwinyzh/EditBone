@@ -7,8 +7,6 @@ inherited MainForm: TMainForm
   OnClose = FormClose
   OnKeyDown = FormKeyDown
   OnShow = FormShow
-  ExplicitWidth = 1127
-  ExplicitHeight = 721
   PixelsPerInch = 96
   TextHeight = 13
   object SplitterHorizontal: TBCSplitter [0]
@@ -20,8 +18,6 @@ inherited MainForm: TMainForm
     Align = alBottom
     Visible = False
     SkinData.SkinSection = 'SPLITTER'
-    ExplicitLeft = 16
-    ExplicitTop = 472
   end
   inherited StatusBar: TBCStatusBar
     AlignWithMargins = True
@@ -34,27 +30,24 @@ inherited MainForm: TMainForm
     Margins.Bottom = 0
     Panels = <
       item
-        Width = 60
+        Width = 64
       end
       item
         Alignment = taCenter
         Style = psOwnerDraw
-        Width = 90
+        Width = 88
       end
       item
-        Width = 90
+        Width = 88
       end
       item
-        Width = 90
+        Width = 88
       end
       item
         Width = 50
       end>
     ParentColor = True
     OnDrawPanel = StatusBarDrawPanel
-    ExplicitTop = 637
-    ExplicitWidth = 1111
-    ExplicitHeight = 25
     object SpeedButtonMacroPlay: TBCSpeedButton
       Left = 0
       Top = 3
@@ -1439,8 +1432,6 @@ inherited MainForm: TMainForm
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
-            ExplicitLeft = 47
-            ExplicitTop = -4
           end
           object SpeedButtonDocumentViewInBrowser: TBCSpeedButton
             Left = 232
@@ -1484,8 +1475,6 @@ inherited MainForm: TMainForm
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
-            ExplicitLeft = 232
-            ExplicitTop = 8
           end
           object SpeedButtonDocumentFormat: TBCSpeedButton
             Left = 70
@@ -1507,8 +1496,6 @@ inherited MainForm: TMainForm
             DropdownMenu = PopupMenuDocumentFormat
             ImageIndex = 65
             Images = ImagesDataModule.ImageList
-            ExplicitLeft = 54
-            ExplicitTop = -4
           end
           object SpeedButtonDocumentMacro: TBCSpeedButton
             Left = 146
@@ -1530,7 +1517,6 @@ inherited MainForm: TMainForm
             DropdownMenu = PopupMenuDocumentMacro
             ImageIndex = 136
             Images = ImagesDataModule.ImageList
-            ExplicitLeft = 140
           end
         end
       end
@@ -1613,7 +1599,6 @@ inherited MainForm: TMainForm
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
-            ExplicitTop = 5
           end
           object SpeedButtonToolsConvert: TBCSpeedButton
             Left = 130
@@ -1756,7 +1741,6 @@ inherited MainForm: TMainForm
             SkinData.SkinSection = 'TOOLBUTTON'
             ImageIndex = 73
             Images = ImagesDataModule.ImageList
-            ExplicitLeft = 70
           end
           object SpeedButtonHelpDivider1: TBCSpeedButton
             AlignWithMargins = True
@@ -1780,7 +1764,6 @@ inherited MainForm: TMainForm
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
-            ExplicitLeft = 60
           end
           object SpeedButtonHelpAboutEditBone: TBCSpeedButton
             Left = 169
@@ -1824,7 +1807,6 @@ inherited MainForm: TMainForm
             ButtonStyle = tbsDivider
             SkinData.SkinSection = 'SPEEDBUTTON'
             ImageIndex = 1
-            ExplicitLeft = 130
           end
         end
       end
@@ -1855,8 +1837,6 @@ inherited MainForm: TMainForm
       Height = 382
       Visible = False
       SkinData.SkinSection = 'SPLITTER'
-      ExplicitLeft = 255
-      ExplicitHeight = 386
     end
     object PanelDirectory: TBCPanel
       Left = 0

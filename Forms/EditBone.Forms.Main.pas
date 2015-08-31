@@ -1844,28 +1844,26 @@ begin
     ActionViewCloseDirectory.Enabled := PanelDirectory.Visible;
     ActionViewFiles.Enabled := FDirectoryFrame.IsAnyDirectory and (FDirectoryFrame.SelectedPath <> '');
 
-    if ActiveDocumentFound then
+    if ActiveDocumentFound and OptionsContainer.StatusBarShowModified then
     begin
-      //InfoText := FDocument.GetCaretInfo;
-      //if StatusBar.Panels[1].Text <> InfoText then
-      //  StatusBar.Panels[1].Text := InfoText;
-
       InfoText := FDocument.GetModifiedInfo;
       if StatusBar.Panels[3].Text <> InfoText then
         StatusBar.Panels[3].Text := InfoText;
     end
     else
-    begin
-      //StatusBar.Panels[1].Text := '';
       StatusBar.Panels[3].Text := '';
-    end;
     GetKeyboardState(KeyState);
-    if KeyState[VK_INSERT] = 0 then
-      if StatusBar.Panels[2].Text <> LanguageDataModule.GetConstant('Insert') then
-        StatusBar.Panels[2].Text := LanguageDataModule.GetConstant('Insert');
-    if KeyState[VK_INSERT] = 1 then
-      if StatusBar.Panels[2].Text <> LanguageDataModule.GetConstant('Overwrite') then
-        StatusBar.Panels[2].Text := LanguageDataModule.GetConstant('Overwrite');
+    if OptionsContainer.StatusBarShowKeyState then
+    begin
+      if KeyState[VK_INSERT] = 0 then
+        if StatusBar.Panels[2].Text <> LanguageDataModule.GetConstant('Insert') then
+          StatusBar.Panels[2].Text := LanguageDataModule.GetConstant('Insert');
+      if KeyState[VK_INSERT] = 1 then
+        if StatusBar.Panels[2].Text <> LanguageDataModule.GetConstant('Overwrite') then
+          StatusBar.Panels[2].Text := LanguageDataModule.GetConstant('Overwrite');
+    end
+    else
+      StatusBar.Panels[2].Text := '';
     { Macro }
     ActionMacroRecord.Enabled := ActiveDocumentFound;
     ActionMacroPause.Enabled := ActiveDocumentFound;
@@ -2156,10 +2154,34 @@ begin
     Screen.MenuFont.Size := OptionsContainer.MainMenuFontSize;
   end;
   { StatusBar }
-  StatusBar.Panels[3].Width := EDITBONE_STATUS_BAR_PANEL_WIDTH;
-  PanelWidth := StatusBar.Canvas.TextWidth(StatusBar.Panels[3].Text) + 10;
-  if PanelWidth > EDITBONE_STATUS_BAR_PANEL_WIDTH then
-    StatusBar.Panels[3].Width := PanelWidth;
+  if OptionsContainer.StatusBarShowMacro then
+    StatusBar.Panels[0].Width := 60
+  else
+    StatusBar.Panels[0].Width := 0;
+  SpeedButtonMacroPlay.Visible := OptionsContainer.StatusBarShowMacro;
+  SpeedButtonMacroRecordPause.Visible := OptionsContainer.StatusBarShowMacro;
+  SpeedButtonMacroStop.Visible := OptionsContainer.StatusBarShowMacro;
+
+  if OptionsContainer.StatusBarShowCaretPosition then
+    StatusBar.Panels[1].Width := 90
+  else
+    StatusBar.Panels[1].Width := 0;
+
+  if OptionsContainer.StatusBarShowKeyState then
+    StatusBar.Panels[2].Width := 90
+  else
+    StatusBar.Panels[2].Width := 0;
+
+  if OptionsContainer.StatusBarShowModified then
+  begin
+    StatusBar.Panels[3].Width := EDITBONE_STATUS_BAR_PANEL_WIDTH;
+    PanelWidth := StatusBar.Canvas.TextWidth(StatusBar.Panels[3].Text) + 10;
+    if PanelWidth > EDITBONE_STATUS_BAR_PANEL_WIDTH then
+      StatusBar.Panels[3].Width := PanelWidth;
+  end
+  else
+    StatusBar.Panels[3].Width := 0;
+
   OptionsContainer.AssignTo(StatusBar);
   { Output }
   if Assigned(FOutputFrame) then
@@ -2241,7 +2263,7 @@ var
   LRect: TRect;
 begin
   inherited;
-  if Panel.Index = 1 then
+  if (Panel.Index = 1) and OptionsContainer.StatusBarShowCaretPosition then
   begin
     EBDataModuleImages.ImageListStatusBar.Draw(StatusBar.Canvas, Rect.Left, Rect.Top + 1, 0);
 
