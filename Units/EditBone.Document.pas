@@ -2732,7 +2732,6 @@ begin
     LSplitEditor.Highlighter.LoadFromFile(LEditor.Highlighter.FileName);
     LSplitEditor.Highlighter.Colors.LoadFromFile(LEditor.Highlighter.Colors.FileName);
     LSplitEditor.ChainEditor(LEditor);
-    LSplitEditor.InitCodeFolding;
     LSplitEditor.SetFocus;
     { horizontal splitter }
     LSplitterHorizontal := TBCSplitter.Create(PageControl.ActivePage);
