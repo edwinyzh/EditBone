@@ -1,4 +1,4 @@
-unit EditBone.Dialogs.DirectoryTab;
+unit EditBone.Dialog.DirectoryTab;
 
 interface
 

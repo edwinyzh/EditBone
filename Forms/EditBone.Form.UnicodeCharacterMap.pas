@@ -1,4 +1,4 @@
-unit EditBone.Forms.UnicodeCharacterMap;
+unit EditBone.Form.UnicodeCharacterMap;
 
 interface
 

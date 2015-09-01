@@ -1,4 +1,4 @@
-unit EditBone.Forms.LanguageEditor;
+unit EditBone.Form.LanguageEditor;
 
 interface
 

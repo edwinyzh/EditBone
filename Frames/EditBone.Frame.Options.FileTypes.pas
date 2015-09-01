@@ -1,4 +1,4 @@
-unit EditBone.Frames.Options.FileTypes;
+unit EditBone.Frame.Options.FileTypes;
 
 interface
 

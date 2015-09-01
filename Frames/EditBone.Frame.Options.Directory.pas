@@ -1,4 +1,4 @@
-unit EditBone.Frames.Options.Directory;
+unit EditBone.Frame.Options.Directory;
 
 interface
 

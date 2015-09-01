@@ -1,4 +1,4 @@
-unit EditBone.Dialogs.About;
+unit EditBone.Dialog.About;
 
 interface
 

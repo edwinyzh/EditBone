@@ -1,4 +1,4 @@
-unit EditBone.Frames.Options.Editor.Defaults;
+unit EditBone.Frame.Options.Editor.Defaults;
 
 interface
 

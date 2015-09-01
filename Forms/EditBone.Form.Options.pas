@@ -1,4 +1,4 @@
-unit EditBone.Forms.Options;
+unit EditBone.Form.Options;
 
 interface
 
@@ -95,14 +95,14 @@ uses
   BCCommon.Language.Strings, System.IniFiles,  BCCommon.Language.Utils, BCCommon.Utils, Winapi.Windows,
   System.Types, BCCommon.Frames.Options.Editor.Minimap, BCCommon.Frames.Options.Editor.Scroll,
   BCCommon.Frames.Options.Editor.Selection, BCCommon.Frames.Options.Editor.SpecialChars,
-  BCCommon.Frames.Options.Editor.Tabulator, EditBone.Frames.Options.Editor.Defaults,
-  BCCommon.Options.Container.SQL.Formatter, EditBone.Frames.Options.Editor.TabSheet,
+  BCCommon.Frames.Options.Editor.Tabulator, EditBone.Frame.Options.Editor.Defaults,
+  BCCommon.Options.Container.SQL.Formatter, EditBone.Frame.Options.Editor.TabSheet,
   BCCommon.Frames.Options.Editor.CompletionProposal, BCCommon.Frames.Options.Editor.Caret,
   BCCommon.Frames.Options.Editor.CodeFolding, BCCommon.Frames.Options.Editor.MatchingPair,
   BCCommon.Frames.Options.Editor.Search, BCCommon.Frames.Options.Editor.Options, BCCommon.Frames.Options.Editor.Font,
   BCCommon.Frames.Options.Editor.LeftMargin, BCCommon.Frames.Options.Editor.RightMargin,
-  EditBone.Frames.Options.FileTypes, EditBone.Frames.Options.Directory, EditBone.Frames.Options.Directory.TabSheet,
-  EditBone.Frames.Options.Output.TabSheet, BCCommon.Frames.Options.Compare,
+  EditBone.Frame.Options.FileTypes, EditBone.Frame.Options.Directory, EditBone.Frame.Options.Directory.TabSheet,
+  EditBone.Frame.Options.Output.TabSheet, BCCommon.Frames.Options.Compare,
   BCCommon.Frames.Options.MainMenu, BCCommon.Frames.Options.StatusBar, BCCommon.Frames.Options.Output,
   BCCommon.Frames.Options.ToolBar, BCCommon.Frames.Options.Print, BCCommon.Frames.Options.SQL.Select,
   BCCommon.Frames.Options.SQL.Alignments, BCCommon.Frames.Options.SQL.Insert, BCCommon.Frames.Options.SQL.Update,

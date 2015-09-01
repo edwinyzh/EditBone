@@ -131,61 +131,61 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="Forms\EditBone.Forms.Main.pas">
+        <DCCReference Include="Forms\EditBone.Form.Main.pas">
             <Form>MainForm</Form>
         </DCCReference>
         <DCCReference Include="Units\EditBone.Consts.pas"/>
-        <DCCReference Include="Frames\EditBone.Frames.Directory.pas"/>
-        <DCCReference Include="Frames\EditBone.Frames.Directory.TabSheet.pas">
+        <DCCReference Include="Frames\EditBone.Frame.Directory.pas"/>
+        <DCCReference Include="Frames\EditBone.Frame.Directory.TabSheet.pas">
             <Form>DirTabSheetFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Dialogs\EditBone.Dialogs.DirectoryTab.pas">
+        <DCCReference Include="Dialogs\EditBone.Dialog.DirectoryTab.pas">
             <Form>DirectoryTabDialog</Form>
         </DCCReference>
-        <DCCReference Include="Forms\EditBone.Forms.Options.pas">
+        <DCCReference Include="Forms\EditBone.Form.Options.pas">
             <Form>OptionsForm</Form>
         </DCCReference>
-        <DCCReference Include="Frames\EditBone.Frames.Options.Editor.TabSheet.pas">
+        <DCCReference Include="Frames\EditBone.Frame.Options.Editor.TabSheet.pas">
             <Form>OptionsEditorTabsFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Frames\EditBone.Frames.Options.Editor.Defaults.pas">
+        <DCCReference Include="Frames\EditBone.Frame.Options.Editor.Defaults.pas">
             <Form>OptionsEditorDefaultsFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Frames\EditBone.Frames.Options.FileTypes.pas">
+        <DCCReference Include="Frames\EditBone.Frame.Options.FileTypes.pas">
             <Form>OptionsFileTypesFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Frames\EditBone.Frames.Options.Directory.pas">
+        <DCCReference Include="Frames\EditBone.Frame.Options.Directory.pas">
             <Form>OptionsDirectoryFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Frames\EditBone.Frames.Options.Directory.TabSheet.pas">
+        <DCCReference Include="Frames\EditBone.Frame.Options.Directory.TabSheet.pas">
             <Form>OptionsDirectoryTabsFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Frames\EditBone.Frames.Options.Output.TabSheet.pas">
+        <DCCReference Include="Frames\EditBone.Frame.Options.Output.TabSheet.pas">
             <Form>OptionsOutputTabsFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Frames\EditBone.Frames.Output.pas">
+        <DCCReference Include="Frames\EditBone.Frame.Output.pas">
             <Form>OutputFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Frames\EditBone.Frames.Output.TabSheet.pas">
+        <DCCReference Include="Frames\EditBone.Frame.Output.TabSheet.pas">
             <Form>OutputTabSheetFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Units\EditBone.Types.pas"/>
-        <DCCReference Include="Forms\EditBone.Forms.UnicodeCharacterMap.pas">
+        <DCCReference Include="Forms\EditBone.Form.UnicodeCharacterMap.pas">
             <Form>UnicodeCharacterMapForm</Form>
         </DCCReference>
-        <DCCReference Include="Dialogs\EditBone.Dialogs.About.pas">
+        <DCCReference Include="Dialogs\EditBone.Dialog.About.pas">
             <Form>AboutDialog</Form>
         </DCCReference>
-        <DCCReference Include="Forms\EditBone.Forms.LanguageEditor.pas">
+        <DCCReference Include="Forms\EditBone.Form.LanguageEditor.pas">
             <Form>LanguageEditorForm</Form>
         </DCCReference>
         <DCCReference Include="Units\EditBone.FindInFiles.pas"/>

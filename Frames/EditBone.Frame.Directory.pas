@@ -1,4 +1,4 @@
-unit EditBone.Frames.Directory;
+unit EditBone.Frame.Directory;
 
 {$WARN SYMBOL_PLATFORM OFF}
 
@@ -7,7 +7,7 @@ interface
 uses
   Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ComCtrls,
   BCControls.FileControl, Vcl.ImgList, Vcl.ActnList, Vcl.Buttons, Vcl.Menus, BCControls.PageControl, VirtualTrees,
-  EditBone.Frames.Directory.TabSheet, System.Actions, BCCommon.Forms.SearchForFiles, BCCommon.Images, sPageControl,
+  EditBone.Frame.Directory.TabSheet, System.Actions, BCCommon.Forms.SearchForFiles, BCCommon.Images, sPageControl,
   sFrameAdapter, Vcl.PlatformDefaultStyleActnCtrls, System.ImageList, acAlphaImageList, BCControls.ImageList;
 
 type
@@ -109,7 +109,7 @@ implementation
 {$R *.dfm}
 
 uses
-  EditBone.Dialogs.DirectoryTab, BigIni, BCCommon.Language.Strings, BCCommon.Options.Container, BCControls.Utils,
+  EditBone.Dialog.DirectoryTab, BigIni, BCCommon.Language.Strings, BCCommon.Options.Container, BCControls.Utils,
   System.Math, BCCommon.FileUtils, BCCommon.Messages, BCCommon.StringUtils, BCCommon.Dialogs.Base,
   Winapi.ShellAPI, Winapi.CommCtrl;
 
