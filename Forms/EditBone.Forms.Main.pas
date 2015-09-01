@@ -1620,6 +1620,7 @@ end;
 procedure TMainForm.ActionViewOutputExecute(Sender: TObject);
 begin
   PanelOutput.Visible := not PanelOutput.Visible;
+  PanelOutput.Top := StatusBar.Top - PanelOutput.Height; { always top of statusbar }
 end;
 
 procedure TMainForm.ActionViewPreviousPageExecute(Sender: TObject);
@@ -1752,6 +1753,7 @@ begin
     ActionViewDirectory.Enabled := FDirectoryFrame.IsAnyDirectory;
     ActionViewDirectory.Checked := PanelDirectory.Visible;
     SplitterHorizontal.Visible := PanelOutput.Visible;
+    SplitterHorizontal.Top := PanelOutput.Top - SplitterHorizontal.Height; { always top of panel output }
 
     TitleBar.Items[2].Visible := ActionViewEncodingSelection.Checked;
     TitleBar.Items[3].Visible := TitleBar.Items[2].Visible;
@@ -2154,6 +2156,7 @@ begin
     Screen.MenuFont.Size := OptionsContainer.MainMenuFontSize;
   end;
   { StatusBar }
+  // TODO: use consts instead of numbers
   if OptionsContainer.StatusBarShowMacro then
     StatusBar.Panels[0].Width := 60
   else
@@ -2223,7 +2226,8 @@ begin
   CreateFileReopenList;
   FOutputFrame.ReadOutputFile;
   PanelOutput.Visible := FOutputFrame.IsAnyOutput;
-
+  if PanelOutput.Visible then
+    PanelOutput.Top := StatusBar.Top - PanelOutput.Height; { always top of status bar }
   //SetMargins;
 
   Editor := FDocument.GetActiveEditor;
@@ -2609,6 +2613,7 @@ begin
       FOutputTreeView := FOutputFrame.AddTreeView(Format(LanguageDataModule.GetConstant('SearchFor'), [FindWhatText]));
       FOutputFrame.ProcessingTabSheet := True;
       PanelOutput.Visible := True;
+      PanelOutput.Top := StatusBar.Top - PanelOutput.Height; { always top of status bar }
       Application.ProcessMessages;
       LFileExtensions := GetFileExtensions(OptionsContainer.SupportedFileExtensions);
       FFindInFilesThread := TFindInFilesThread.Create(FindWhatText, FileTypeText, FolderText, SearchCaseSensitive,
