@@ -376,7 +376,7 @@ var
 begin
   LNodeStack := TStack<PVirtualNode>.Create;
   try
-    LLine := 1;
+    LLine := 0;
     LPLineText := PChar(AXML);
 
     Clear;
@@ -412,8 +412,7 @@ begin
   if Assigned(SelectedNode) then
   begin
     Data := GetNodeData(SelectedNode);
-    Editor.DisplayCaretX := Data.BlockBegin.Char;
-    Editor.DisplayCaretY := Data.BlockBegin.Line;
+    Editor.TextCaretPosition := GetTextPosition(Data.BlockBegin.Char, Data.BlockBegin.Line);
     Editor.EnsureCursorPositionVisible(True);
     Editor.SelectionBeginPosition := Data.BlockBegin;
     Editor.SelectionEndPosition := Data.BlockEnd;
