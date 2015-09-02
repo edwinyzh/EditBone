@@ -774,7 +774,7 @@ uses
   BCEditor.Encoding, EditBone.Form.UnicodeCharacterMap, EditBone.Dialog.About, BCCommon.Dialogs.DownloadURL,
   BCCommon.Forms.Convert, EditBone.Form.LanguageEditor, BCCommon.Messages, BCCommon.Forms.SearchForFiles,
   BCCommon.StringUtils, BCEditor.Types, BCCommon.Dialogs.SkinSelect, sGraphUtils, sConst,
-  BCCommon.Forms.Print.Preview, EditBone.Images;
+  BCCommon.Forms.Print.Preview, EditBone.DataModule.Images;
 
 
 procedure TMainForm.PageControlDocumentChange(Sender: TObject);

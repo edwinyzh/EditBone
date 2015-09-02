@@ -189,7 +189,7 @@
             <Form>LanguageEditorForm</Form>
         </DCCReference>
         <DCCReference Include="Units\EditBone.FindInFiles.pas"/>
-        <DCCReference Include="Units\EditBone.Images.pas">
+        <DCCReference Include="Units\EditBone.DataModule.Images.pas">
             <Form>EBDataModuleImages</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>

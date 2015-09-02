@@ -219,7 +219,7 @@ uses
   Vcl.ActnMenus, System.Types, System.Math, BigIni, Vcl.GraphUtil, BCCommon.Language.Strings, VirtualTrees,
   BCCommon.Dialogs.InputQuery, BCCommon.Dialogs.Replace, BCCommon.FileUtils, BCCommon.Messages,
   BCCommon.StringUtils, Winapi.CommCtrl, EditBone.Form.Options, BCCommon.Images,
-  BCCommon.SQL.Formatter, BCEditor.Editor.KeyCommands, EditBone.Images, BCControls.SpeedButton,
+  BCCommon.SQL.Formatter, BCEditor.Editor.KeyCommands, EditBone.DataModule.Images, BCControls.SpeedButton,
   BCControls.Utils, BCEditor.Editor.Utils, BCCommon.Consts, BCEditor.Encoding, Vcl.Clipbrd, BCEditor.Highlighter.Colors,
   BCCommon.Dialogs.Options.Search, Vcl.ValEdit;
 

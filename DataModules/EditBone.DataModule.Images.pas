@@ -1,4 +1,4 @@
-unit EditBone.Images;
+unit EditBone.DataModule.Images;
 
 interface
 
