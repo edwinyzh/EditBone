@@ -8,7 +8,7 @@ uses
   sSkinProvider, BCComponents.SkinProvider, acTitleBar, BCComponents.TitleBar, sSkinManager, BCComponents.SkinManager,
   Vcl.ComCtrls, sStatusBar, BCControls.StatusBar, Vcl.ExtCtrls, sPanel, BCControls.Panel, sSplitter, BCControls.Splitter,
   sPageControl, BCControls.PageControl, BCCommon.Images, BCControls.SpeedButton, Vcl.Buttons, sSpeedButton,
-  EditBone.Frame.Directory, EditBone.Document, EditBone.Frame.Output, VirtualTrees, BCEditor.Print.Types,
+  EditBone.Directory, EditBone.Document, EditBone.Frame.Output, VirtualTrees, BCEditor.Print.Types,
   Vcl.ActnMan, Vcl.ActnMenus, BCComponents.DragDrop, System.Diagnostics,
   Vcl.PlatformDefaultStyleActnCtrls, JvAppInst, System.ImageList, Vcl.ImgList,
   acAlphaImageList, BCControls.ProgressBar, EditBone.FindInFiles, BCEditor.MacroRecorder, BCEditor.Print, sDialogs,
@@ -581,6 +581,30 @@ type
     ActionSearchOptions: TAction;
     ActionSearchClose: TAction;
     PanelOutput: TBCPanel;
+    PageControl: TBCPageControl;
+    TabSheetOpen: TsTabSheet;
+    TabSheetNew: TsTabSheet;
+    PopupMenuDirectory: TPopupMenu;
+    MenuItemOpenDirectory: TMenuItem;
+    MenuItemCloseDirectory: TMenuItem;
+    MenuItemEditDirectory: TMenuItem;
+    MenuItemDirectorySeparator1: TMenuItem;
+    MenuItemFiles: TMenuItem;
+    MenuItemFindinFiles: TMenuItem;
+    MenuItemDirectorySeparator2: TMenuItem;
+    MenuItemRefresh: TMenuItem;
+    MenuItemDirectorySeparator3: TMenuItem;
+    MenuItemRename: TMenuItem;
+    MenuItemDirectoryDelete: TMenuItem;
+    MenuItemDirectorySeparator4: TMenuItem;
+    MenuItemContextMenu: TMenuItem;
+    MenuItemProperties: TMenuItem;
+    ActionDirectoryRefresh: TAction;
+    ActionDirectoryRename: TAction;
+    ActionDirectoryDelete: TAction;
+    ActionDirectoryProperties: TAction;
+    ActionDirectoryContextMenu: TAction;
+    ActionDirectoryFindInFiles: TAction;
     procedure ActionFileNewExecute(Sender: TObject);
     procedure ActionFileOpenExecute(Sender: TObject);
     procedure ActionFileSaveAllExecute(Sender: TObject);
@@ -666,7 +690,6 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ActionMacroOpenExecute(Sender: TObject);
     procedure ActionMacroSaveAsExecute(Sender: TObject);
-    procedure ActionDirectorySearchFindInFilesExecute(Sender: TObject);
     procedure ActionViewSplitExecute(Sender: TObject);
     procedure ActionViewStatusBarExecute(Sender: TObject);
     procedure ActionEditDeleteWhitespaceExecute(Sender: TObject);
@@ -722,9 +745,20 @@ type
       var Abort: Boolean);
     procedure ActionSearchOptionsExecute(Sender: TObject);
     procedure ActionSearchCloseExecute(Sender: TObject);
+    procedure ActionDirectoryFindInFilesExecute(Sender: TObject);
+    procedure ActionDirectoryRefreshExecute(Sender: TObject);
+    procedure ActionDirectoryRenameExecute(Sender: TObject);
+    procedure ActionDirectoryDeleteExecute(Sender: TObject);
+    procedure ActionDirectoryContextMenuExecute(Sender: TObject);
+    procedure ActionDirectoryPropertiesExecute(Sender: TObject);
+    procedure PageControlCloseBtnClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
+      var Action: TacCloseAction);
+    procedure PageControlDblClick(Sender: TObject);
+    procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure PopupMenuDirectoryPopup(Sender: TObject);
   private
     FNoIni: Boolean;
-    FDirectoryFrame: TDirectoryFrame;
+    FDirectory: TEBDirectory;
     FDocument: TEBDocument;
     FImageListCount: Integer;
     FOutputFrame: TOutputFrame;
@@ -777,6 +811,23 @@ uses
   BCCommon.Forms.Print.Preview, EditBone.DataModule.Images;
 
 
+procedure TMainForm.PageControlCloseBtnClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
+  var Action: TacCloseAction);
+begin
+  inherited;
+  if FDirectory.CloseDirectory(False, TabIndex) then
+    Action := acaFree
+  else
+    CanClose := False;
+end;
+
+procedure TMainForm.PageControlDblClick(Sender: TObject);
+begin
+  inherited;
+  if OptionsContainer.DirCloseTabByDblClick then
+    ActionDirectoryClose.Execute;
+end;
+
 procedure TMainForm.PageControlDocumentChange(Sender: TObject);
 var
   LEditor: TBCEditor;
@@ -817,6 +868,19 @@ begin
     FDocument.Close;
 end;
 
+procedure TMainForm.PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  inherited;
+  if (Button = mbMiddle) and OptionsContainer.DirCloseTabByMiddleClick then
+    ActionDirectoryClose.Execute;
+end;
+
+procedure TMainForm.PopupMenuDirectoryPopup(Sender: TObject);
+begin
+  inherited;
+  ActionDirectoryProperties.Enabled := FileExists(FDirectory.SelectedFile);
+end;
+
 function TMainForm.Processing: Boolean;
 begin
   Result := True;
@@ -850,9 +914,44 @@ begin
   { dummy action }
 end;
 
-procedure TMainForm.ActionDirectorySearchFindInFilesExecute(Sender: TObject);
+procedure TMainForm.ActionDirectoryContextMenuExecute(Sender: TObject);
+var
+  s: string;
 begin
-  SearchFindInFiles(FDirectoryFrame.SelectedPath);
+  s := SelectedFile;
+  if s = '' then
+    s := SelectedPath;
+  DisplayContextMenu(Handle, s, ScreenToClient(Mouse.CursorPos));
+end;
+
+procedure TMainForm.ActionDirectoryDeleteExecute(Sender: TObject);
+begin
+  inherited;
+  FDirectory.DeleteSelected;
+end;
+
+procedure TMainForm.ActionDirectoryFindInFilesExecute(Sender: TObject);
+begin
+  inherited;
+  SearchFindInFiles(FDirectory.SelectedPath);
+end;
+
+procedure TMainForm.ActionDirectoryPropertiesExecute(Sender: TObject);
+begin
+  inherited;
+  FDirectory.FileProperties;
+end;
+
+procedure TMainForm.ActionDirectoryRefreshExecute(Sender: TObject);
+begin
+  inherited;
+  FDirectory.Refresh;
+end;
+
+procedure TMainForm.ActionDirectoryRenameExecute(Sender: TObject);
+begin
+  inherited;
+  FDirectory.Rename;
 end;
 
 procedure TMainForm.ActionDocumentFormatSQLExecute(Sender: TObject);
@@ -1119,10 +1218,10 @@ end;
 procedure TMainForm.ActionFileSelectFromDirectoryExecute(Sender: TObject);
 begin
   if FDocument.ActiveDocumentName <> '' then
-    if Assigned(FDirectoryFrame) then
-      if FDirectoryFrame.IsAnyDirectory then
-        FDirectoryFrame.OpenPath(ExtractFileDrive(FDocument.ActiveDocumentName), FormatFileName(FDocument.ActiveDocumentName),
-          FDirectoryFrame.ExcludeOtherBranches);
+    if Assigned(FDirectory) then
+      if FDirectory.IsAnyDirectory then
+        FDirectory.OpenPath(ExtractFileDrive(FDocument.ActiveDocumentName), FormatFileName(FDocument.ActiveDocumentName),
+          FDirectory.ExcludeOtherBranches);
 end;
 
 procedure TMainForm.ActionHelpAboutEditBoneExecute(Sender: TObject);
@@ -1153,10 +1252,7 @@ end;
 procedure TMainForm.ActionSearchFindInFilesExecute(Sender: TObject);
 begin
   inherited;
-  if TControl(Sender).Name = 'ActionDirectoryFindInFiles' then
-    SearchFindInFiles(FDirectoryFrame.SelectedPath)
-  else
-    SearchFindInFiles;
+  SearchFindInFiles;
 end;
 
 procedure TMainForm.ActionSearchFindNextExecute(Sender: TObject);
@@ -1505,7 +1601,7 @@ end;
 
 procedure TMainForm.ActionViewCloseDirectoryExecute(Sender: TObject);
 begin
-  FDirectoryFrame.CloseDirectory;
+  FDirectory.CloseDirectory;
 end;
 
 procedure TMainForm.ActionViewDirectoryExecute(Sender: TObject);
@@ -1522,7 +1618,7 @@ end;
 
 procedure TMainForm.ActionViewEditDirectoryExecute(Sender: TObject);
 begin
-  FDirectoryFrame.EditDirectory;
+  FDirectory.EditDirectory;
 end;
 
 procedure TMainForm.ActionViewEncodingSelectionExecute(Sender: TObject);
@@ -1540,7 +1636,7 @@ begin
   with SearchForFilesForm do
   begin
     OnOpenFile := DoSearchForFilesOpenFile;
-    Open(FDirectoryFrame.SelectedPath);
+    Open(FDirectory.SelectedPath);
   end;
 end;
 
@@ -1609,7 +1705,7 @@ end;
 
 procedure TMainForm.ActionViewOpenDirectoryExecute(Sender: TObject);
 begin
-  FDirectoryFrame.OpenDirectory;
+  FDirectory.OpenDirectory;
   if not PanelDirectory.Visible then
   begin
     PanelDirectory.Visible := True;
@@ -1719,6 +1815,8 @@ begin
   SpeedButtonMacroRecordPause.Images := ImagesDataModule.ImageListSmall;
   SpeedButtonMacroStop.Images := ImagesDataModule.ImageListSmall;
   PopupMenuEditor.Images := ImagesDataModule.ImageListSmall;
+  PopupMenuDocument.Images := ImagesDataModule.ImageListSmall;
+  PopupMenuDirectory.Images := ImagesDataModule.ImageListSmall;
 
   for i := 0 to PanelToolBar.ControlCount - 1 do
   if PanelToolBar.Controls[i] is TBCSpeedButton then
@@ -1750,7 +1848,7 @@ begin
     ActionViewMenuBar.Checked := PanelMenuBar.Visible;
     ActionViewStatusbar.Checked := StatusBar.Visible;
     ActionViewOutput.Checked := PanelOutput.Visible;
-    ActionViewDirectory.Enabled := FDirectoryFrame.IsAnyDirectory;
+    ActionViewDirectory.Enabled := FDirectory.IsAnyDirectory;
     ActionViewDirectory.Checked := PanelDirectory.Visible;
     SplitterHorizontal.Visible := PanelOutput.Visible;
     SplitterHorizontal.Top := PanelOutput.Top - SplitterHorizontal.Height; { always top of panel output }
@@ -1787,7 +1885,7 @@ begin
     ActionFileSaveAll.Enabled := FDocument.ModifiedDocuments and ActiveDocumentFound;
     ActionFilePrint.Enabled := ActionFileClose.Enabled and ActiveDocumentFound;
     ActionFilePrintPreview.Enabled := ActionFileClose.Enabled and ActiveDocumentFound;
-    ActionFileSelectFromDirectory.Enabled := PanelDirectory.Visible and ActiveDocumentFound and FDirectoryFrame.IsAnyDirectory;
+    ActionFileSelectFromDirectory.Enabled := PanelDirectory.Visible and ActiveDocumentFound and FDirectory.IsAnyDirectory;
     ActionEditUndo.Enabled := ActionFileClose.Enabled and FDocument.CanUndo and ActiveDocumentFound;
     ActionEditRedo.Enabled := ActionFileClose.Enabled and FDocument.CanRedo and ActiveDocumentFound;
     ActionEditCut.Enabled := SelectionFound and ActiveDocumentFound;
@@ -1836,7 +1934,7 @@ begin
     if not ActionViewOutput.Enabled then { if there's no output then hide panel }
       PanelOutput.Visible := False;
 
-    if not FDirectoryFrame.IsAnyDirectory then
+    if not FDirectory.IsAnyDirectory then
     begin
       SplitterVertical.Visible := False;
       PanelDirectory.Visible := False;
@@ -1844,7 +1942,7 @@ begin
 
     ActionViewEditDirectory.Enabled := PanelDirectory.Visible;
     ActionViewCloseDirectory.Enabled := PanelDirectory.Visible;
-    ActionViewFiles.Enabled := FDirectoryFrame.IsAnyDirectory and (FDirectoryFrame.SelectedPath <> '');
+    ActionViewFiles.Enabled := FDirectory.IsAnyDirectory and (FDirectory.SelectedPath <> '');
 
     if ActiveDocumentFound and OptionsContainer.StatusBarShowModified then
     begin
@@ -1986,7 +2084,7 @@ begin
   { mainform }
   UpdateLanguage(Self, ALanguage);
   { frames }
-  UpdateLanguage(TForm(FDirectoryFrame), ALanguage);
+  UpdateLanguage(TForm(FDirectory), ALanguage);
   //FDocument.UpdateLanguage(ALanguage);
   UpdateLanguage(TForm(FOutputFrame), ALanguage);
   { menubar }
@@ -2116,7 +2214,7 @@ begin
   begin
     OptionsContainer.WriteIniFile;
     FDocument.WriteIniFile;
-    FDirectoryFrame.WriteIniFile;
+    FDirectory.WriteIniFile;
     FOutputFrame.WriteOutputFile;
     WriteIniFile;
   end;
@@ -2190,10 +2288,10 @@ begin
   if Assigned(FOutputFrame) then
     FOutputFrame.SetOptions;
   { Directory }
-  if Assigned(FDirectoryFrame) then
+  if Assigned(FDirectory) then
   begin
-    FDirectoryFrame.SetOptions;
-    FDirectoryFrame.ActionDirectoryRefresh.Execute;
+    FDirectory.SetOptions;
+    FDirectory.ActionDirectoryRefresh.Execute;
   end;
 end;
 
@@ -2417,20 +2515,20 @@ begin
   FDocument.GetActionList := GetActionList;
   FDocument.SkinManager := SkinManager;
   FDocument.StatusBar := StatusBar;
-  FDocument.OnNewTabSheetClickBtn := ActionFileNewExecute;
   FDocument.ActionSearchFindPrevious := ActionSearchFindPrevious;
   FDocument.ActionSearchFindNext := ActionSearchFindNext;
   FDocument.ActionSearchOptions := ActionSearchOptions;
   FDocument.ActionSearchClose := ActionSearchClose;
-  //FDocument.PopupMenu := PopupMenuDocument;
   FDocument.ProgressBar := ProgressBar;
-  { TDirectoryFrame }
-  FDirectoryFrame := TDirectoryFrame.Create(PanelDirectory);
-  FDirectoryFrame.Parent := PanelDirectory;
-  FDirectoryFrame.OnFileTreeViewClick := FileTreeViewClickActionExecute;
-  FDirectoryFrame.OnFileTreeViewDblClick := FileTreeViewDblClickActionExecute;
-  FDirectoryFrame.OnSearchForFilesOpenFile := DoSearchForFilesOpenFile;
-  FDirectoryFrame.ActionSearchForFiles := ActionSearchFindInFiles;
+  FDocument.TabSheetNew := TabSheetNew;
+  { TEBDirectory }
+  FDirectory := TEBDirectory.Create(PanelDirectory);
+  FDirectory.Parent := PanelDirectory;
+  FDirectory.OnFileTreeViewClick := FileTreeViewClickActionExecute;
+  FDirectory.OnFileTreeViewDblClick := FileTreeViewDblClickActionExecute;
+  FDirectory.OnSearchForFilesOpenFile := DoSearchForFilesOpenFile;
+  FDirectory.ActionSearchForFiles := ActionSearchFindInFiles;
+  FDirectory.TabSheetOpen := TabSheetOpen;
 end;
 
 procedure TMainForm.ReadIniSizePositionAndState;
@@ -2556,8 +2654,8 @@ end;
 
 procedure TMainForm.FileTreeViewClickActionExecute(Sender: TObject);
 begin
-  if Assigned(FDirectoryFrame) then
-    StatusBar.Panels[4].Text := FDirectoryFrame.SelectedFile;
+  if Assigned(FDirectory) then
+    StatusBar.Panels[4].Text := FDirectory.SelectedFile;
 end;
 
 procedure TMainForm.FileTreeViewDblClickActionExecute(Sender: TObject);
@@ -2565,8 +2663,8 @@ var
   Filename: string;
 begin
   Filename := '';
-  if Assigned(FDirectoryFrame) then
-    Filename := FDirectoryFrame.SelectedFile;
+  if Assigned(FDirectory) then
+    Filename := FDirectory.SelectedFile;
   if Filename <> '' then
     FDocument.Open(Filename);
 end;
@@ -2824,7 +2922,7 @@ end;
 procedure TMainForm.ToolsMapVirtualDrivesActionExecute(Sender: TObject);
 begin
   MapVirtualDrivesForm.Open;
-  FDirectoryFrame.Refresh;
+  FDirectory.Refresh;
 end;
 }
 

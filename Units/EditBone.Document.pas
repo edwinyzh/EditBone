@@ -88,7 +88,6 @@ type
     procedure SetActivePageCaptionModified(AModified: Boolean);
     procedure SetEditorBookmarks(Editor: TBCEditor; Bookmarks: TStrings);
     procedure SetSkinColors(Editor: TBCEditor);
-    procedure SetOnNewTabSheetClickBtn(Value: TNotifyEvent);
     function SetDocumentSpecificSearchText(AEditor: TBCEditor): Boolean;
   public
     constructor Create(AOwner: TBCPageControl);
@@ -187,7 +186,6 @@ type
     property GetActionList: TEBGetActionList read FGetActionList write FGetActionList;
     property MinimapChecked: Boolean read GetMinimapChecked;
     property ModifiedDocuments: Boolean read FModifiedDocuments write FModifiedDocuments;
-    property OnNewTabSheetClickBtn: TNotifyEvent read FOnNewTabSheetClickBtn write SetOnNewTabSheetClickBtn;
     property OpenDialog: TOpenDialog read FOpenDialog write FOpenDialog;
     property OpenTabSheetCount: Integer read GetOpenTabSheetCount;
     property PageControl: TBCPageControl read FPageControl;
@@ -203,6 +201,7 @@ type
     property SkinManager: TBCSkinManager read FSkinManager write FSkinManager;
     property SplitChecked: Boolean read GetSplitChecked;
     property StatusBar: TBCStatusBar write FStatusBar;
+    property TabSheetNew: TsTabSheet read FTabSheetNew write FTabSheetNew;
     property XMLTreeVisible: Boolean read GetXMLTreeVisible;
     property ActionSearchFindPrevious: TAction read FActionSearchFindPrevious write FActionSearchFindPrevious;
     property ActionSearchFindNext: TAction read FActionSearchFindNext write FActionSearchFindNext;
@@ -234,24 +233,12 @@ begin
   FProcessing := False;
   FModifiedDocuments := False;
 
-  FTabSheetNew := TsTabSheet.Create(PageControl);
-  FTabSheetNew.PageControl := PageControl;
-  FTabSheetNew.Caption := '      ';
-  FTabSheetNew.TabType := ttButton;
-  FTabSheetNew.TabSkin := 'CHECKBOX';
-
   CreateImageList;
   SetOptions;
 end;
 
-procedure TEBDocument.SetOnNewTabSheetClickBtn(Value: TNotifyEvent);
-begin
-  FTabSheetNew.OnClickBtn := Value;
-end;
-
 destructor TEBDocument.Destroy;
 begin
-  FTabSheetNew.Free;
   if Assigned(FImages) then
     FImages.Free;
 
@@ -279,8 +266,7 @@ var
   LVerticalSplitter: TBCSplitter;
 begin
   Result := False;
-  //for i := 0 to PageControl.PageCount - 2 do
-  //begin
+
   LEditor := GetActiveEditor;
   if Assigned(LEditor) then
     if Pos('XML', LEditor.Highlighter.FileName) <> 0 then
@@ -382,10 +368,8 @@ begin
 
   { set the Caption property }
   if FileName = '' then
-    //PageControl.ActivePageCaption
     LTabSheet.Caption := LanguageDataModule.GetConstant('Document') + IntToStr(FNumberOfNewDocument)
   else
-    //PageControl.ActivePageCaption :=
     LTabSheet.Caption := ExtractFileName(FileName);
 
   { create editor }
@@ -1107,7 +1091,7 @@ end;
 
 function TEBDocument.GetActivePageCaption: string;
 begin
-  Result := FormatFileName(PageControl.ActivePageCaption);
+  Result := FormatFileName(PageControl.ActivePage.Caption{ActivePageCaption});
 end;
 
 procedure TEBDocument.Undo;
@@ -1119,7 +1103,7 @@ procedure TEBDocument.Undo;
       begin
         AEditor.DoUndo;
         if AEditor.UndoList.ItemCount = 0 then
-          PageControl.ActivePageCaption := GetActivePageCaption;
+          PageControl.ActivePage.Caption{ActivePageCaption} := GetActivePageCaption;
       end;
   end;
 
@@ -1766,39 +1750,39 @@ begin
       16:
         begin
           { smaller }
-          EBDataModuleImages.ImageList16.GetIcon(0, Icon);
+          EBDataModuleImages.ImageListDocument16.GetIcon(0, Icon);
           FCompareImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
-          EBDataModuleImages.ImageList16.GetIcon(1, Icon);
+          EBDataModuleImages.ImageListDocument16.GetIcon(1, Icon);
           FNewImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
           if Assigned(FTabSheetNew) then
           begin
-            EBDataModuleImages.ImageList16.GetIcon(2, Icon);
+            EBDataModuleImages.ImageListDocument16.GetIcon(2, Icon);
             FTabSheetNew.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
           end;
         end;
       20:
         begin
           { medium }
-          EBDataModuleImages.ImageList20.GetIcon(0, Icon);
+          EBDataModuleImages.ImageListDocument20.GetIcon(0, Icon);
           FCompareImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
-          EBDataModuleImages.ImageList20.GetIcon(1, Icon);
+          EBDataModuleImages.ImageListDocument20.GetIcon(1, Icon);
           FNewImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
           if Assigned(FTabSheetNew) then
           begin
-            EBDataModuleImages.ImageList20.GetIcon(2, Icon);
+            EBDataModuleImages.ImageListDocument20.GetIcon(2, Icon);
             FTabSheetNew.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
           end;
         end;
       24:
         begin
           { larger }
-          EBDataModuleImages.ImageList24.GetIcon(0, Icon);
+          EBDataModuleImages.ImageListDocument24.GetIcon(0, Icon);
           FCompareImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
-          EBDataModuleImages.ImageList24.GetIcon(1, Icon);
+          EBDataModuleImages.ImageListDocument24.GetIcon(1, Icon);
           FNewImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
           if Assigned(FTabSheetNew) then
           begin
-            EBDataModuleImages.ImageList24.GetIcon(2, Icon);
+            EBDataModuleImages.ImageListDocument24.GetIcon(2, Icon);
             FTabSheetNew.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
           end;
         end;
@@ -2014,7 +1998,7 @@ end;
 
 procedure TEBDocument.SetActivePageCaptionModified(AModified: Boolean);
 begin
-  PageControl.ActivePageCaption := FormatFileName(PageControl.ActivePageCaption, AModified);
+  PageControl.ActivePage.Caption{ActivePageCaption} := FormatFileName(PageControl.ActivePage.Caption{ActivePageCaption}, AModified);
 end;
 
 procedure TEBDocument.EditorOnChange(Sender: TObject);
@@ -2042,7 +2026,7 @@ begin
 
   if Assigned(PageControl.ActivePage) then
     if PageControl.ActivePage.TabType = ttTab then
-      Result := PageControl.ActivePageCaption;
+      Result := PageControl.ActivePage.Caption{ActivePageCaption};
 end;
 
 function TEBDocument.GetActiveDocumentFound: Boolean;

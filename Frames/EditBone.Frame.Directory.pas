@@ -12,56 +12,10 @@ uses
 
 type
   TDirectoryFrame = class(TFrame)
-    MenuItemCloseDirectory: TMenuItem;
-    MenuItemDelete: TMenuItem;
-    ActionList: TActionList;
-    ActionDirectoryClose: TAction;
-    ActionDirectoryDelete: TAction;
-    ActionDirectoryEdit: TAction;
-    ActionDirectoryOpen: TAction;
-    ActionDirectoryProperties: TAction;
-    ActionDirectoryRefresh: TAction;
-    ActionDirectoryRename: TAction;
-    MenuItemEditDirectory: TMenuItem;
-    MenuItemOpenDirectory: TMenuItem;
-    PageControl: TBCPageControl;
-    PopupMenu: TPopupMenu;
-    MenuItemProperties: TMenuItem;
-    MenuItemRefresh: TMenuItem;
-    MenuItemRename: TMenuItem;
-    MenuItemSeparator3: TMenuItem;
-    MenuItemSeparator2: TMenuItem;
-    MenuItemSeparator4: TMenuItem;
-    ActionDirectoryFiles: TAction;
-    MenuItemFiles: TMenuItem;
-    ActionDirectoryFindInFiles: TAction;
-    MenuItemFindinFiles: TMenuItem;
-    ActionDirectoryContextMenu: TAction;
-    MenuItemContextMenu: TMenuItem;
-    FrameAdapter: TsFrameAdapter;
-    MenuItemSeparator1: TMenuItem;
-    TabSheetOpen: TsTabSheet;
-    ImageList16: TBCImageList;
-    ImageList20: TBCImageList;
-    ImageList24: TBCImageList;
-    procedure ActionDirectoryCloseExecute(Sender: TObject);
-    procedure ActionDirectoryDeleteExecute(Sender: TObject);
-    procedure ActionDirectoryEditExecute(Sender: TObject);
-    procedure ActionDirectoryOpenExecute(Sender: TObject);
-    procedure ActionDirectoryPropertiesExecute(Sender: TObject);
-    procedure ActionDirectoryRefreshExecute(Sender: TObject);
-    procedure ActionDirectoryRenameExecute(Sender: TObject);
     procedure DriveComboChange(Sender: TObject);
     procedure FileTreeViewClick(Sender: TObject);
     procedure FileTreeViewDblClick(Sender: TObject);
-    procedure PageControlCloseButtonClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
-      var Action: TacCloseAction);
-    procedure PageControlDblClick(Sender: TObject);
-    procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure PopupMenuPopup(Sender: TObject);
-    procedure ActionDirectoryFilesExecute(Sender: TObject);
-    procedure ActionDirectoryContextMenuExecute(Sender: TObject);
-    procedure TabSheetOpenClickBtn(Sender: TObject);
   private
     FFileTreeViewDblClick: TNotifyEvent;
     FFileTreeViewClick: TNotifyEvent;
@@ -87,11 +41,15 @@ type
     destructor Destroy; override;
     function CloseDirectory(AFreePage: Boolean = True; ATabIndex: Integer = -1): Boolean;
     function SelectedFile: string;
+    procedure DeleteSelected;
     procedure EditDirectory;
+    procedure FileProperties;
     procedure OpenDirectory(TabName: string; RootDirectory: string; LastPath: string; ShowDrives: Byte;
       ExcludeOtherBranches: Boolean; ShowFileType: Byte; FileType: string); overload;
     procedure OpenDirectory; overload;
     procedure OpenPath(RootDirectory: string; LastPath: string; ExcludeOtherBranches: Boolean = False);
+    procedure Refresh;
+    procedure Rename;
     procedure SetOptions;
     procedure WriteIniFile;
     property ExcludeOtherBranches: Boolean read GetActiveExcludeOtherBranches;
@@ -119,16 +77,6 @@ begin
     FImages.Free;
 
   inherited Destroy;
-end;
-
-procedure TDirectoryFrame.ActionDirectoryContextMenuExecute(Sender: TObject);
-var
-  s: string;
-begin
-  s := SelectedFile;
-  if s = '' then
-    s := SelectedPath;
-  DisplayContextMenu(Handle, s, ScreenToClient(Mouse.CursorPos));
 end;
 
 procedure TDirectoryFrame.CreateImageList;
@@ -480,12 +428,7 @@ begin
     Result := FileTreeView.SelectedPath;
 end;
 
-procedure TDirectoryFrame.ActionDirectoryCloseExecute(Sender: TObject);
-begin
-  CloseDirectory;
-end;
-
-procedure TDirectoryFrame.ActionDirectoryDeleteExecute(Sender: TObject);
+procedure TDirectoryFrame.DeleteSelected;
 var
   Result: Boolean;
   FileTreeView: TBCFileTreeView;
@@ -514,34 +457,20 @@ begin
   if Assigned(FileTreeView) then
   with TDirectoryTabDialog.Create(Self) do
   try
-    TabName := PageControl.ActivePageCaption;
+    TabName := PageControl.Caption; //ActivePageCaption;
     RootDirectory := FileTreeView.RootDirectory;
     ShowDrives := GetDrivesPanelOrientation;
     ExcludeOtherBranches := FileTreeView.ExcludeOtherBranches;
     ShowFileType := GetFileTypePanelOrientation;
     if Open(dtEdit) then
     begin
-      PageControl.ActivePageCaption := TabName;
+      PageControl.Caption {ActivePageCaption }:= TabName;
       SetDrivesPanelOrientation(ShowDrives);
       SetFileTypePanelOrientation(ShowFileType);
       FileTreeView.OpenPath(RootDirectory, SelectedPath, ExcludeOtherBranches);
     end;
   finally
     Free;
-  end;
-end;
-
-procedure TDirectoryFrame.ActionDirectoryEditExecute(Sender: TObject);
-begin
-  EditDirectory;
-end;
-
-procedure TDirectoryFrame.ActionDirectoryFilesExecute(Sender: TObject);
-begin
-  with SearchForFilesForm do
-  begin
-    OnOpenFile := FOnSearchForFilesOpenFile;
-    Open(SelectedPath);
   end;
 end;
 
@@ -561,12 +490,7 @@ begin
   end;
 end;
 
-procedure TDirectoryFrame.ActionDirectoryOpenExecute(Sender: TObject);
-begin
-  OpenDirectory;
-end;
-
-procedure TDirectoryFrame.ActionDirectoryPropertiesExecute(Sender: TObject);
+procedure TDirectoryFrame.FileProperties;
 var
   FileTreeView: TBCFileTreeView;
 begin
@@ -586,7 +510,7 @@ begin
     Result := FileTreeView.RootDirectory;
 end;
 
-procedure TDirectoryFrame.ActionDirectoryRefreshExecute(Sender: TObject);
+procedure TDirectoryFrame.Refresh;
 var
   FileTreeView: TBCFileTreeView;
 begin
@@ -595,7 +519,7 @@ begin
     FileTreeView.OpenPath(RootDirectory, SelectedPath, ExcludeOtherBranches, True);
 end;
 
-procedure TDirectoryFrame.ActionDirectoryRenameExecute(Sender: TObject);
+procedure TDirectoryFrame.Rename;
 var
   FileTreeView: TBCFileTreeView;
 begin
@@ -614,28 +538,6 @@ begin
     FileTreeView.OpenPath(RootDirectory, LastPath, ExcludeOtherBranches);
 end;
 
-procedure TDirectoryFrame.PageControlCloseButtonClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
-  var Action: TacCloseAction);
-begin
-  if CloseDirectory(False, TabIndex) then
-    Action := acaFree
-  else
-    CanClose := False;
-end;
-
-procedure TDirectoryFrame.PageControlDblClick(Sender: TObject);
-begin
-  if OptionsContainer.DirCloseTabByDblClick then
-    ActionDirectoryClose.Execute;
-end;
-
-procedure TDirectoryFrame.PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X,
-  Y: Integer);
-begin
-  if (Button = mbMiddle) and OptionsContainer.DirCloseTabByMiddleClick then
-    ActionDirectoryClose.Execute;
-end;
-
 procedure TDirectoryFrame.PopupMenuPopup(Sender: TObject);
 begin
   ActionDirectoryProperties.Enabled := FileExists(SelectedFile);
@@ -649,9 +551,9 @@ begin
   if Assigned(DriveComboBox) then
   begin
     PageControl.ActivePage.ImageIndex := DriveComboBox.IconIndex;
-    if (Length(PageControl.ActivePageCaption) = 3) and
-      (Pos(':\', PageControl.ActivePageCaption) = 2) then
-      PageControl.ActivePageCaption := Format('%s:\', [DriveComboBox.Drive]);
+    if (Length(PageControl.ActivePage.Caption{ActivePageCaption}) = 3) and
+      (Pos(':\', PageControl.ActivePage.Caption{ActivePageCaption}) = 2) then
+      PageControl.ActivePage.Caption{ActivePageCaption} := Format('%s:\', [DriveComboBox.Drive]);
   end;
 end;
 
@@ -699,7 +601,7 @@ begin
     DestroyIcon(SHFileInfo.hIcon);
     FileTypeComboBox.Extensions := OptionsContainer.Extensions;
   end;
-  PageControl.ActivePageCaption := TabName;
+  PageControl.ActivePage.Caption{ActivePageCaption} := TabName;
   SetOptions;
   OpenPath(RootDirectory, LastPath, ExcludeOtherBranches);
   DirTabSheetFrame.Panel.Visible := True;
@@ -740,11 +642,6 @@ begin
     else
       FileTreeView.TreeOptions.PaintOptions := FileTreeView.TreeOptions.PaintOptions - [toShowTreeLines]
   end;
-end;
-
-procedure TDirectoryFrame.TabSheetOpenClickBtn(Sender: TObject);
-begin
-  OpenDirectory;
 end;
 
 end.

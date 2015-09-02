@@ -1856,6 +1856,43 @@ inherited MainForm: TMainForm
       TabOrder = 0
       Visible = False
       SkinData.SkinSection = 'CHECKBOX'
+      object PageControl: TBCPageControl
+        Left = 0
+        Top = 0
+        Width = 329
+        Height = 382
+        ActivePage = TabSheetOpen
+        Align = alClient
+        DoubleBuffered = True
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentDoubleBuffered = False
+        ParentFont = False
+        PopupMenu = PopupMenuDirectory
+        TabHeight = 22
+        TabOrder = 0
+        OnMouseDown = PageControlMouseDown
+        TabMargin = 4
+        TabPadding = 2
+        SkinData.SkinSection = 'PAGECONTROL'
+        OnDblClick = PageControlDblClick
+        OnCloseBtnClick = PageControlCloseBtnClick
+        HoldShiftToDragDrop = False
+        RightClickSelect = True
+        TabDragDrop = True
+        object TabSheetOpen: TsTabSheet
+          DoubleBuffered = False
+          ImageIndex = -1
+          ParentDoubleBuffered = False
+          TabType = ttButton
+          TabSkin = 'CHECKBOX'
+          SkinData.CustomColor = False
+          SkinData.CustomFont = False
+        end
+      end
     end
     object PanelDocument: TBCPanel
       Left = 334
@@ -1883,6 +1920,7 @@ inherited MainForm: TMainForm
         Margins.Top = 5
         Margins.Right = 0
         Margins.Bottom = 0
+        ActivePage = TabSheetNew
         Align = alClient
         DoubleBuffered = False
         Font.Charset = DEFAULT_CHARSET
@@ -1907,6 +1945,14 @@ inherited MainForm: TMainForm
         OnCloseBtnClick = PageControlDocumentCloseBtnClick
         HoldShiftToDragDrop = False
         TabDragDrop = True
+        object TabSheetNew: TsTabSheet
+          Caption = '      '
+          TabType = ttButton
+          TabSkin = 'CHECKBOX'
+          SkinData.CustomColor = False
+          SkinData.CustomFont = False
+          OnClickBtn = ActionFileNewExecute
+        end
       end
     end
   end
@@ -4195,7 +4241,6 @@ inherited MainForm: TMainForm
     object ActionDirectorySearchFindInFiles: TAction
       Category = 'Search'
       Caption = '<directory find in files action>'
-      OnExecute = ActionDirectorySearchFindInFilesExecute
     end
     object ActionToolsLanguageEditor: TAction
       Category = 'Tools'
@@ -4326,6 +4371,49 @@ inherited MainForm: TMainForm
       Caption = 'ActionSearchClose'
       Hint = 'Close'
       OnExecute = ActionSearchCloseExecute
+    end
+    object ActionDirectoryFindInFiles: TAction
+      Category = 'Directory'
+      Caption = '&Find in Files...'
+      Hint = 'Search for a string in multiple files'
+      ImageIndex = 36
+      OnExecute = ActionDirectoryFindInFilesExecute
+    end
+    object ActionDirectoryRefresh: TAction
+      Category = 'Directory'
+      Caption = '&Refresh'
+      Hint = 'Refresh files'
+      ImageIndex = 93
+      ShortCut = 116
+      OnExecute = ActionDirectoryRefreshExecute
+    end
+    object ActionDirectoryRename: TAction
+      Category = 'Directory'
+      Caption = 'Re&name'
+      Hint = 'Rename a file'
+      ImageIndex = 96
+      OnExecute = ActionDirectoryRenameExecute
+    end
+    object ActionDirectoryDelete: TAction
+      Category = 'Directory'
+      Caption = '&Delete'
+      Hint = 'Delete a file or directory'
+      ImageIndex = 97
+      OnExecute = ActionDirectoryDeleteExecute
+    end
+    object ActionDirectoryProperties: TAction
+      Category = 'Directory'
+      Caption = '&Properties'
+      Hint = 'File properties'
+      ImageIndex = 99
+      OnExecute = ActionDirectoryPropertiesExecute
+    end
+    object ActionDirectoryContextMenu: TAction
+      Category = 'Directory'
+      Caption = 'C&ontext Menu'
+      Hint = 'Context menu'
+      ImageIndex = 98
+      OnExecute = ActionDirectoryContextMenuExecute
     end
   end
   object PopupMenuDocument: TPopupMenu [22]
@@ -5054,6 +5142,54 @@ inherited MainForm: TMainForm
       object MenuItemMainMenuHelpAboutEditBone: TMenuItem
         Action = ActionHelpAboutEditBone
       end
+    end
+  end
+  object PopupMenuDirectory: TPopupMenu
+    Images = ImagesDataModule.ImageListSmall
+    OnPopup = PopupMenuDirectoryPopup
+    Left = 614
+    Top = 360
+    object MenuItemOpenDirectory: TMenuItem
+      Action = ActionViewOpenDirectory
+    end
+    object MenuItemCloseDirectory: TMenuItem
+      Action = ActionViewCloseDirectory
+    end
+    object MenuItemEditDirectory: TMenuItem
+      Action = ActionViewEditDirectory
+    end
+    object MenuItemDirectorySeparator1: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemFiles: TMenuItem
+      Action = ActionViewFiles
+    end
+    object MenuItemFindinFiles: TMenuItem
+      Action = ActionDirectoryFindInFiles
+    end
+    object MenuItemDirectorySeparator2: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemRefresh: TMenuItem
+      Action = ActionDirectoryRefresh
+    end
+    object MenuItemDirectorySeparator3: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemRename: TMenuItem
+      Action = ActionDirectoryRename
+    end
+    object MenuItemDirectoryDelete: TMenuItem
+      Action = ActionDirectoryDelete
+    end
+    object MenuItemDirectorySeparator4: TMenuItem
+      Caption = '-'
+    end
+    object MenuItemContextMenu: TMenuItem
+      Action = ActionDirectoryContextMenu
+    end
+    object MenuItemProperties: TMenuItem
+      Action = ActionDirectoryProperties
     end
   end
 end

@@ -7,11 +7,14 @@ uses
 
 type
   TEBDataModuleImages = class(TDataModule)
-    ImageList16: TBCImageList;
-    ImageList20: TBCImageList;
-    ImageList24: TBCImageList;
+    ImageListDocument16: TBCImageList;
+    ImageListDocument20: TBCImageList;
+    ImageListDocument24: TBCImageList;
     ImageListXMLTree: TBCImageList;
     ImageListStatusBar: TsAlphaImageList;
+    ImageListDirectory16: TBCImageList;
+    ImageListDirectory20: TBCImageList;
+    ImageListDirectory24: TBCImageList;
   private
     { Private declarations }
   public

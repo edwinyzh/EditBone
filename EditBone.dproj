@@ -6,7 +6,7 @@
         <MainSource>EditBone.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Release</Config>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
     </PropertyGroup>
@@ -189,13 +189,15 @@
             <Form>LanguageEditorForm</Form>
         </DCCReference>
         <DCCReference Include="Units\EditBone.FindInFiles.pas"/>
-        <DCCReference Include="Units\EditBone.DataModule.Images.pas">
+        <DCCReference Include="Units\EditBone.Document.pas"/>
+        <DCCReference Include="Units\EditBone.XMLTree.pas"/>
+        <DCCReference Include="DataModules\EditBone.DataModule.Images.pas">
             <Form>EBDataModuleImages</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="Units\EditBone.Document.pas"/>
-        <DCCReference Include="Units\EditBone.XMLTree.pas"/>
+        <DCCReference Include="Units\EditBone.Directory.pas"/>
+        <DCCReference Include="Units\EditBone.Output.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -222,6 +224,12 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="1">
+                <DeployFile LocalName="..\Release\EditBone.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win64">
+                        <RemoteName>EditBone.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="..\Release\EditBone.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>EditBone.exe</RemoteName>
@@ -616,13 +624,13 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
             </Deployment>
             <Platforms>
                 <Platform value="Win32">True</Platform>

@@ -24,9 +24,11 @@ uses
   EditBone.Dialog.About in 'Dialogs\EditBone.Dialog.About.pas' {AboutDialog},
   EditBone.Form.LanguageEditor in 'Forms\EditBone.Form.LanguageEditor.pas' {LanguageEditorForm},
   EditBone.FindInFiles in 'Units\EditBone.FindInFiles.pas',
-  EditBone.DataModule.Images in 'Units\EditBone.DataModule.Images.pas' {EBDataModuleImages: TDataModule},
   EditBone.Document in 'Units\EditBone.Document.pas',
-  EditBone.XMLTree in 'Units\EditBone.XMLTree.pas';
+  EditBone.XMLTree in 'Units\EditBone.XMLTree.pas',
+  EditBone.DataModule.Images in 'DataModules\EditBone.DataModule.Images.pas' {EBDataModuleImages: TDataModule},
+  EditBone.Directory in 'Units\EditBone.Directory.pas',
+  EditBone.Output in 'Units\EditBone.Output.pas';
 
 {$R *.res}
 
