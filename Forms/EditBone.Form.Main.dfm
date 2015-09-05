@@ -1884,7 +1884,6 @@ inherited MainForm: TMainForm
         TabDragDrop = True
         object TabSheetOpen: TsTabSheet
           DoubleBuffered = False
-          ImageIndex = -1
           ParentDoubleBuffered = False
           TabType = ttButton
           TabSkin = 'CHECKBOX'
@@ -1928,7 +1927,6 @@ inherited MainForm: TMainForm
         Font.Name = 'Segoe UI'
         Font.Style = []
         HotTrack = True
-        Images = ImagesDataModule.ImageListSmall
         MultiLine = True
         ParentDoubleBuffered = False
         ParentFont = False

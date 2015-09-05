@@ -24,7 +24,7 @@ type
     FPageControl: TBCPageControl;
     FPopupMenuFileTreeView: TPopupMenu;
     FSkinManager: TBCSkinManager;
-    FTabSheetOpen: TsTabSheet;
+    FTabSheetOpen: TTabSheet;
     function GetActiveDriveComboBox: TBCDriveComboBox;
     function GetDrivesPanelOrientation(ATabSheet: TTabSheet = nil): Byte;
     function GetFileTypePanelOrientation(ATabSheet: TTabSheet = nil): Byte;
@@ -36,7 +36,6 @@ type
     function GetIsAnyDirectory: Boolean;
     function GetRootDirectory: string;
     function GetSelectedPath: string;
-    function ReadIniFile: Boolean;
     procedure CreateImageList;
     procedure SetDrivesPanelOrientation(ShowDrives: Byte; ADriveComboBox: TBCDriveComboBox = nil);
     procedure SetFileTypePanelOrientation(ShowFileType: Byte; FileType: string = ''; AFileTypeComboBox: TBCFileTypeComboBox = nil);
@@ -44,6 +43,7 @@ type
     constructor Create(AOwner: TBCPageControl);
     destructor Destroy; override;
     function CloseDirectory(AFreePage: Boolean = True; ATabIndex: Integer = -1): Boolean;
+    function ReadIniFile: Boolean; // TODO: function?
     function SelectedFile: string;
     procedure DeleteSelected;
     procedure EditDirectory;
@@ -66,7 +66,7 @@ type
     property RootDirectory: string read GetRootDirectory;
     property SelectedPath: string read GetSelectedPath;
     property SkinManager: TBCSkinManager read FSkinManager write FSkinManager;
-    property TabSheetOpen: TsTabSheet read FTabSheetOpen write FTabSheetOpen;
+    //property TabSheetOpen: TsTabSheet read FTabSheetOpen write FTabSheetOpen;
   end;
 
 implementation
@@ -105,24 +105,24 @@ begin
     case FImages.Height of
       16:
         { smaller }
-        if Assigned(TabSheetOpen) then
+        if Assigned(FTabSheetOpen) then
         begin
           EBDataModuleImages.ImageListDirectory16.GetIcon(0, Icon);
-          TabSheetOpen.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          FTabSheetOpen.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
         end;
       20:
         { medium }
-        if Assigned(TabSheetOpen) then
+        if Assigned(FTabSheetOpen) then
         begin
           EBDataModuleImages.ImageListDirectory20.GetIcon(0, Icon);
-          TabSheetOpen.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          FTabSheetOpen.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
         end;
       24:
         { larger }
-        if Assigned(TabSheetOpen) then
+        if Assigned(FTabSheetOpen) then
         begin
           EBDataModuleImages.ImageListDirectory24.GetIcon(0, Icon);
-          TabSheetOpen.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
+          FTabSheetOpen.ImageIndex := ImageList_AddIcon(FImages.Handle, Icon.Handle);
         end;
     end;
   finally
@@ -134,7 +134,7 @@ constructor TEBDirectory.Create(AOwner: TBCPageControl);
 begin
   inherited Create;
   FPageControl := AOwner;
-  ReadIniFile;
+  FTabSheetOpen := AOwner.Pages[0];
   CreateImageList;
 end;
 
@@ -182,23 +182,46 @@ begin
   end;
 end;
 
-{function TEBDirectory.GetDirTabSheetFrame(ATabSheet: TTabSheet): TDirTabSheetFrame;
+function TEBDirectory.GetDriveComboBox(ATabSheet: TTabSheet): TBCDriveComboBox;
+var
+  i: Integer;
+  LPanel: TBCPanel;
 begin
   Result := nil;
-  if Assigned(TabSheet) then
-    if TabSheet.ComponentCount <> 0 then
-      if TabSheet.Components[0] is TDirTabSheetFrame then
-        Result := TDirTabSheetFrame(TabSheet.Components[0]);
-end;}
-
-function TEBDirectory.GetDriveComboBox(ATabSheet: TTabSheet): TBCDriveComboBox;
-begin
-  // TODO
+  if Assigned(ATabSheet) then
+    if ATabSheet.ControlCount <> 0 then
+      if ATabSheet.Controls[0] is TBCPanel then
+      begin
+        LPanel := TBCPanel(ATabSheet.Controls[0]);
+        if Assigned(LPanel) then
+        for i := 0 to LPanel.ControlCount - 1 do
+        if LPanel.Controls[i] is TBCDriveComboBox then
+        begin
+          Result := LPanel.Controls[i] as TBCDriveComboBox;
+          Break;
+        end;
+      end;
 end;
 
 function TEBDirectory.GetFileTypeComboBox(ATabSheet: TTabSheet): TBCFileTypeComboBox;
+var
+  i: Integer;
+  LPanel: TBCPanel;
 begin
-  // TODO
+  Result := nil;
+  if Assigned(ATabSheet) then
+    if ATabSheet.ControlCount <> 0 then
+      if ATabSheet.Controls[0] is TBCPanel then
+      begin
+        LPanel := TBCPanel(ATabSheet.Controls[0]);
+        if Assigned(LPanel) then
+        for i := 0 to LPanel.ControlCount - 1 do
+        if LPanel.Controls[i] is TBCFileTypeComboBox then
+        begin
+          Result := LPanel.Controls[i] as TBCFileTypeComboBox;
+          Break;
+        end;
+      end;
 end;
 
 function TEBDirectory.GetDrivesPanelOrientation(ATabSheet: TTabSheet): Byte;
@@ -321,6 +344,7 @@ procedure TEBDirectory.WriteIniFile;
 var
   i: Integer;
   FileTreeView: TBCFileTreeView;
+  LTabSheet: TTabSheet;
 begin
   with TBigIniFile.Create(GetIniFilename) do
   try
@@ -331,12 +355,13 @@ begin
     if OptionsContainer.DirSaveTabs then
     for i := 0 to FPageControl.PageCount - 2 do
     begin
-      // TODO: use variable for pages
-      FileTreeView := GetFileTreeView(FPageControl.Pages[i]);
-      WriteString('LastPaths', IntToStr(i), Format('%s;%s;%s;%d;%s;%d;%s', [Trim(FPageControl.Pages[i].Caption),
-        FileTreeView.RootDirectory, FileTreeView.SelectedPath, GetDrivesPanelOrientation(FPageControl.Pages[i]),
-        BoolToStr(FileTreeView.ExcludeOtherBranches), GetFileTypePanelOrientation(FPageControl.Pages[i]),
-        GetFileType(FPageControl.Pages[i])]));
+      LTabSheet := FPageControl.Pages[i];
+      FileTreeView := GetFileTreeView(LTabSheet);
+      if Assigned(FileTreeView) then
+        WriteString('LastPaths', IntToStr(i), Format('%s;%s;%s;%d;%s;%d;%s', [Trim(LTabSheet.Caption),
+          FileTreeView.RootDirectory, FileTreeView.SelectedPath, GetDrivesPanelOrientation(LTabSheet),
+          BoolToStr(FileTreeView.ExcludeOtherBranches), GetFileTypePanelOrientation(LTabSheet),
+          GetFileType(LTabSheet)]));
     end;
   finally
     Free;
@@ -344,10 +369,27 @@ begin
 end;
 
 function TEBDirectory.GetFileTreeView(ATabSheet: TTabSheet): TBCFileTreeView;
+var
+  i: Integer;
+  LPanel: TBCPanel;
 begin
   if not Assigned(ATabSheet) then
     ATabSheet := FPageControl.ActivePage;
-  Result := GetFileTreeView(ATabSheet);
+
+  Result := nil;
+  if Assigned(ATabSheet) then
+    if ATabSheet.ControlCount <> 0 then
+      if ATabSheet.Controls[0] is TBCPanel then
+      begin
+        LPanel := TBCPanel(ATabSheet.Controls[0]);
+        if Assigned(LPanel) then
+        for i := 0 to LPanel.ControlCount - 1 do
+        if LPanel.Controls[i] is TBCFileTreeView then
+        begin
+          Result := LPanel.Controls[i] as TBCFileTreeView;
+          Break;
+        end;
+      end;
 end;
 
 procedure TEBDirectory.FileTreeViewClick(Sender: TObject);
@@ -565,9 +607,10 @@ begin
 
   LTabSheet := TsTabSheet.Create(FPageControl);
   LTabSheet.PageControl := FPageControl;
+  LTabSheet.SkinData.SkinSection := 'TABSHEET';
 
-  if Assigned(TabSheetOpen) then
-    TabSheetOpen.PageIndex := FPageControl.PageCount - 1;
+  if Assigned(FTabSheetOpen) then
+    FTabSheetOpen.PageIndex := FPageControl.PageCount - 1;
 
   LTabSheet.Visible := False;
   LTabSheet.ImageIndex := -1;
@@ -588,42 +631,42 @@ begin
   LFileTreeView := TBCFileTreeView.Create(LPanel);
   with LFileTreeView do
   begin
+    Parent := LPanel;
     Align := alClient;
     Indent := 20;
     TreeOptions.AutoOptions := [toAutoDropExpand, toAutoScroll, toAutoScrollOnExpand, toAutoTristateTracking,
       toAutoDeleteMovedNodes, toAutoChangeScale];
     TreeOptions.MiscOptions := [toEditable, toFullRepaintOnResize, toToggleOnDblClick, toWheelPanning, toEditOnClick];
     TreeOptions.PaintOptions := [toHideFocusRect, toShowButtons, toShowDropmark, toShowRoot, toThemeAware];
-    Tag := EDITBONE_DIRECTORY_FILE_TREE_VIEW_TAG;
     PopupMenu := PopupMenuFileTreeView;
     OnClick := FileTreeViewClick;
     OnDblClick := FileTreeViewDblClick;
     DefaultNodeHeight := Images.Height + 2;
-    SkinManager := SkinManager;
+    SkinManager := FSkinManager;
   end;
 
   LDriveComboBox := TBCDriveComboBox.Create(LPanel);
   with LDriveComboBox do
   begin
+    Parent := LPanel;
     AlignWithMargins := True;
     Margins.Bottom := 4;
     Align := alTop;
     FileTreeView := LFileTreeView;
     Drive := 'C';
-    Tag := EDITBONE_DIRECTORY_DRIVE_COMBOBOX_TAG;
     OnChange := DriveComboChange;
   end;
 
   LFileTypeComboBox := TBCFileTypeComboBox.Create(LPanel);
   with LFileTypeComboBox do
   begin
+    Parent := LPanel;
     AlignWithMargins := True;
     Margins.Top := 4;
     Align := alBottom;
     FileTreeView := LFileTreeView;
     FileType := '*.*';
     Text := '*.*';
-    Tag := EDITBONE_DIRECTORY_FILE_TYPE_COMBOBOX_TAG;
     Extensions := OptionsContainer.Extensions;
   end;
 
@@ -655,8 +698,8 @@ begin
   PageControl.MultiLine := OptionsContainer.DirMultiLine;
   PageControl.ShowCloseBtns := OptionsContainer.DirShowCloseButton;
   PageControl.RightClickSelect := OptionsContainer.DirRightClickSelect;
-  if Assigned(TabSheetOpen) then
-    TabSheetOpen.TabVisible := OptionsContainer.DirShowOpenDirectoryButton;
+  if Assigned(FTabSheetOpen) then
+    FTabSheetOpen.TabVisible := OptionsContainer.DirShowOpenDirectoryButton;
   if OptionsContainer.DirShowImage then
     PageControl.Images := FImages
   else
@@ -664,15 +707,18 @@ begin
   for i := 0 to PageControl.PageCount - 2 do
   begin
     LFileTreeView := GetFileTreeView(PageControl.Pages[i]);
-    LFileTreeView.Indent := OptionsContainer.DirIndent;
-    LFileTreeView.ShowHiddenFiles := OptionsContainer.DirShowHiddenFiles;
-    LFileTreeView.ShowSystemFiles := OptionsContainer.DirShowSystemFiles;
-    LFileTreeView.ShowArchiveFiles := OptionsContainer.DirShowArchiveFiles;
-    LFileTreeView.ShowOverlayIcons := OptionsContainer.DirShowOverlayIcons;
-    if OptionsContainer.DirShowTreeLines then
-      LFileTreeView.TreeOptions.PaintOptions := LFileTreeView.TreeOptions.PaintOptions + [toShowTreeLines]
-    else
-      LFileTreeView.TreeOptions.PaintOptions := LFileTreeView.TreeOptions.PaintOptions - [toShowTreeLines]
+    if Assigned(LFileTreeView) then
+    begin
+      LFileTreeView.Indent := OptionsContainer.DirIndent;
+      LFileTreeView.ShowHiddenFiles := OptionsContainer.DirShowHiddenFiles;
+      LFileTreeView.ShowSystemFiles := OptionsContainer.DirShowSystemFiles;
+      LFileTreeView.ShowArchiveFiles := OptionsContainer.DirShowArchiveFiles;
+      LFileTreeView.ShowOverlayIcons := OptionsContainer.DirShowOverlayIcons;
+      if OptionsContainer.DirShowTreeLines then
+        LFileTreeView.TreeOptions.PaintOptions := LFileTreeView.TreeOptions.PaintOptions + [toShowTreeLines]
+      else
+        LFileTreeView.TreeOptions.PaintOptions := LFileTreeView.TreeOptions.PaintOptions - [toShowTreeLines]
+    end;
   end;
 end;
 

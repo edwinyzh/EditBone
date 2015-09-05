@@ -45,7 +45,7 @@ type
     FPopupMenuXMLTree: TPopupMenu;
     FSetBookmarks: TEBSetBookmarks;
     FSetTitleBarMenus: TEBSetTitleBarMenus;
-    FTabSheetNew: TsTabSheet;
+    FTabSheetNew: TTabSheet;
     FImages: TImageList;
     FActionSearchFindPrevious: TAction;
     FActionSearchFindNext: TAction;
@@ -200,7 +200,7 @@ type
     property SkinManager: TBCSkinManager read FSkinManager write FSkinManager;
     property SplitChecked: Boolean read GetSplitChecked;
     property StatusBar: TBCStatusBar write FStatusBar;
-    property TabSheetNew: TsTabSheet read FTabSheetNew write FTabSheetNew;
+    //property TabSheetNew: TsTabSheet read FTabSheetNew write FTabSheetNew;
     property XMLTreeVisible: Boolean read GetXMLTreeVisible;
     property ActionSearchFindPrevious: TAction read FActionSearchFindPrevious write FActionSearchFindPrevious;
     property ActionSearchFindNext: TAction read FActionSearchFindNext write FActionSearchFindNext;
@@ -231,6 +231,8 @@ begin
   FNumberOfNewDocument := 0;
   FProcessing := False;
   FModifiedDocuments := False;
+
+  FTabSheetNew := AOwner.Pages[0];
 
   CreateImageList;
   SetOptions;

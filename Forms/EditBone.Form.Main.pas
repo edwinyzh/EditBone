@@ -2521,15 +2521,14 @@ begin
   FDocument.ActionSearchOptions := ActionSearchOptions;
   FDocument.ActionSearchClose := ActionSearchClose;
   FDocument.ProgressBar := ProgressBar;
-  FDocument.TabSheetNew := TabSheetNew;
   { TEBDirectory }
   FDirectory := TEBDirectory.Create(PageControlDirectory);
   FDirectory.OnFileTreeViewClick := FileTreeViewClickActionExecute;
   FDirectory.OnFileTreeViewDblClick := FileTreeViewDblClickActionExecute;
   FDirectory.OnSearchForFilesOpenFile := DoSearchForFilesOpenFile;
   FDirectory.PopupMenuFileTreeView := PopupMenuFileTreeView;
-  FDirectory.TabSheetOpen := TabSheetOpen;
   FDirectory.SkinManager := SkinManager;
+  FDirectory.ReadIniFile;
 end;
 
 procedure TMainForm.ReadIniSizePositionAndState;
