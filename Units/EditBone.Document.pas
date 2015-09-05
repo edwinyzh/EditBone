@@ -41,7 +41,6 @@ type
     FOpenDialog: TOpenDialog;
     FSaveDialog: TSaveDialog;
     FStatusBar: TBCStatusBar;
-    FOnNewTabSheetClickBtn: TNotifyEvent;
     FPopupMenuEditor: TPopupMenu;
     FPopupMenuXMLTree: TPopupMenu;
     FSetBookmarks: TEBSetBookmarks;
@@ -76,7 +75,7 @@ type
     function GetSelectionModeChecked: Boolean;
     function GetSplitChecked: Boolean;
     function GetMinimapChecked: Boolean;
-    function GetEditor(const ATabSheet: TTabSheet; const ATag: Integer = EDITBONE_EDITOR_TAG): TBCEditor;
+    function GetEditor(const ATabSheet: TTabSheet; const ATag: Integer = EDITBONE_DOCUMENT_EDITOR_TAG): TBCEditor;
     function GetXMLTree(const ATabSheet: TTabSheet): TEBXMLTree;
     function GetXMLTreeVisible: Boolean;
     function GetSplitter(const ATabSheet: TTabSheet; const ATag: Integer): TBCSplitter;
@@ -289,7 +288,7 @@ begin
         LXMLTree.Parent := PageControl.ActivePage;
         LXMLTree.LoadFromXML(LEditor.Text);
         LXMLTree.TreeOptions.SelectionOptions := [];
-        LXMLTree.Tag := EDITBONE_XML_TREE_TAG;
+        LXMLTree.Tag := EDITBONE_DOCUMENT_XML_TREE_TAG;
         LXMLTree.TreeOptions.SelectionOptions := [toFullRowSelect];
         LXMLTree.TreeOptions.AutoOptions := [toAutoDropExpand, toAutoScroll, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale];
         LXMLTree.TreeOptions.MiscOptions := [toFullRepaintOnResize, toToggleOnDblClick, toWheelPanning];
@@ -298,7 +297,7 @@ begin
         LVerticalSplitter := TBCSplitter.Create(PageControl.ActivePage);
         LVerticalSplitter.Parent := PageControl.ActivePage;
         LVerticalSplitter.Align := alLeft;
-        LVerticalSplitter.Tag := EDITBONE_VERTICAL_SPLITTER_TAG;
+        LVerticalSplitter.Tag := EDITBONE_DOCUMENT_VERTICAL_SPLITTER_TAG;
         LVerticalSplitter.Left := LXMLTree.Left + 1; { splitter always right }
       end
       else
@@ -307,7 +306,7 @@ begin
         LXMLTree.Free;
         LXMLTree := nil;
         { horizontal splitter }
-        LVerticalSplitter := GetSplitter(PageControl.ActivePage, EDITBONE_VERTICAL_SPLITTER_TAG);
+        LVerticalSplitter := GetSplitter(PageControl.ActivePage, EDITBONE_DOCUMENT_VERTICAL_SPLITTER_TAG);
         LVerticalSplitter.Parent := nil;
         LVerticalSplitter.Free;
       end;
@@ -394,7 +393,7 @@ begin
     OnAfterClearBookmark := EditorAfterClearBookmark;
     OnDropFiles := DropFiles;
     PopupMenu := FPopupMenuEditor;
-    Tag := EDITBONE_EDITOR_TAG;
+    Tag := EDITBONE_DOCUMENT_EDITOR_TAG;
   end;
   OptionsContainer.AssignTo(LEditor);
   LEditor.Minimap.Visible := ShowMinimap;
@@ -415,7 +414,7 @@ begin
     Height := 21;
     Visible := False;
     Parent := LTabSheet;
-    Tag := EDITBONE_SEARCH_PANEL_TAG;
+    Tag := EDITBONE_DOCUMENT_SEARCH_PANEL_TAG;
   end;
   LComboBoxSearchText := TBCComboBox.Create(LTabSheet);
   with LComboBoxSearchText do
@@ -424,7 +423,7 @@ begin
     Parent := LPanelSearch;
     Width := 200;
     VerticalAlignment := taAlignTop;
-    Tag := EDITBONE_COMBOBOX_SEARCH_TEXT_TAG;
+    Tag := EDITBONE_DOCUMENT_COMBOBOX_SEARCH_TEXT_TAG;
     OnChange := ComboBoxSearchTextChange;
     OnKeyPress := ComboBoxSearchTextKeyPress;
   end;
@@ -512,7 +511,7 @@ begin
     AutoSize := True;
     Shadow.AlphaValue := 0;
     Font.Size := 10;
-    Tag := EDITBONE_LABEL_SEARCH_RESULT_COUNT_TAG;
+    Tag := EDITBONE_DOCUMENT_LABEL_SEARCH_RESULT_COUNT_TAG;
   end;
 
   if FileName <> '' then
@@ -1462,7 +1461,7 @@ begin
     Editor := GetEditor(PageControl.Pages[i]);
     if Assigned(Editor) then
       Editor.WordWrap.Enabled := Result;
-    Editor := GetEditor(PageControl.Pages[i], EDITBONE_SPLIT_EDITOR_TAG);
+    Editor := GetEditor(PageControl.Pages[i], EDITBONE_DOCUMENT_SPLIT_EDITOR_TAG);
     if Assigned(Editor) then
       Editor.WordWrap.Enabled := Result;
   end;
@@ -1483,7 +1482,7 @@ begin
       Editor.SpecialChars.Visible := Result;
       Editor.SpecialChars.EndOfLine.Visible := Result;
     end;
-    Editor := GetEditor(PageControl.Pages[i], EDITBONE_SPLIT_EDITOR_TAG);
+    Editor := GetEditor(PageControl.Pages[i], EDITBONE_DOCUMENT_SPLIT_EDITOR_TAG);
     if Assigned(Editor) then
     begin
       Editor.SpecialChars.Visible := Result;
@@ -1530,7 +1529,7 @@ begin
   for i := 0 to PageControl.PageCount - 2 do
   begin
     ToggleSelectionMode(GetEditor(PageControl.Pages[i]));
-    ToggleSelectionMode(GetEditor(PageControl.Pages[i], EDITBONE_SPLIT_EDITOR_TAG));
+    ToggleSelectionMode(GetEditor(PageControl.Pages[i], EDITBONE_DOCUMENT_SPLIT_EDITOR_TAG));
   end;
 end;
 
@@ -1546,7 +1545,7 @@ begin
     Editor := GetEditor(PageControl.Pages[i]);
     if Assigned(Editor) then
       Editor.LeftMargin.LineNumbers.Visible := Result;
-    Editor := GetEditor(PageControl.Pages[i], EDITBONE_SPLIT_EDITOR_TAG);
+    Editor := GetEditor(PageControl.Pages[i], EDITBONE_DOCUMENT_SPLIT_EDITOR_TAG);
     if Assigned(Editor) then
       Editor.LeftMargin.LineNumbers.Visible := Result;
     //if PageControl.Pages[i].Components[0] is TCompareFrame then
@@ -1812,7 +1811,7 @@ begin
     LEditor := GetEditor(PageControl.Pages[i]);
     if Assigned(LEditor) then
       OptionsContainer.AssignTo(LEditor);
-    LEditor := GetEditor(PageControl.Pages[i], EDITBONE_SPLIT_EDITOR_TAG);
+    LEditor := GetEditor(PageControl.Pages[i], EDITBONE_DOCUMENT_SPLIT_EDITOR_TAG);
     if Assigned(LEditor) then
       OptionsContainer.AssignTo(LEditor);
   end;
@@ -1849,7 +1848,7 @@ begin
   LSearchPanel := GetSearchPanel(ATabSheet);
   if Assigned(LSearchPanel) then
   for i := 0 to LSearchPanel.ControlCount - 1 do
-  if LSearchPanel.Controls[i].Tag = EDITBONE_COMBOBOX_SEARCH_TEXT_TAG then
+  if LSearchPanel.Controls[i].Tag = EDITBONE_DOCUMENT_COMBOBOX_SEARCH_TEXT_TAG then
   begin
     Result := LSearchPanel.Controls[i] as TBCComboBox;
     Break;
@@ -1865,7 +1864,7 @@ begin
   LSearchPanel := GetActiveSearchPanel;
   if Assigned(LSearchPanel) then
   for i := 0 to LSearchPanel.ControlCount - 1 do
-  if LSearchPanel.Controls[i].Tag = EDITBONE_LABEL_SEARCH_RESULT_COUNT_TAG then
+  if LSearchPanel.Controls[i].Tag = EDITBONE_DOCUMENT_LABEL_SEARCH_RESULT_COUNT_TAG then
   begin
     Result := LSearchPanel.Controls[i] as TBCLabelFX;
     Break;
@@ -1878,7 +1877,7 @@ var
 begin
   Result := nil;
   for i := 0 to ATabSheet.ControlCount - 1 do
-  if ATabSheet.Controls[i].Tag = EDITBONE_XML_TREE_TAG then
+  if ATabSheet.Controls[i].Tag = EDITBONE_DOCUMENT_XML_TREE_TAG then
   begin
     Result := ATabSheet.Controls[i] as TEBXMLTree;
     Break;
@@ -1891,7 +1890,7 @@ var
 begin
   Result := nil;
   for i := 0 to ATabSheet.ControlCount - 1 do
-  if ATabSheet.Controls[i].Tag = EDITBONE_SEARCH_PANEL_TAG then
+  if ATabSheet.Controls[i].Tag = EDITBONE_DOCUMENT_SEARCH_PANEL_TAG then
   begin
     Result := ATabSheet.Controls[i] as TBCPanel;
     Break;
@@ -1923,7 +1922,7 @@ begin
     Result := nil;
 end;
 
-function TEBDocument.GetEditor(const ATabSheet: TTabSheet; const ATag: Integer = EDITBONE_EDITOR_TAG): TBCEditor;
+function TEBDocument.GetEditor(const ATabSheet: TTabSheet; const ATag: Integer = EDITBONE_DOCUMENT_EDITOR_TAG): TBCEditor;
 var
   i: Integer;
 begin
@@ -1983,7 +1982,7 @@ end;
 function TEBDocument.GetActiveSplitEditor: TBCEditor;
 begin
   if Assigned(PageControl.ActivePage) then
-    Result := GetEditor(PageControl.ActivePage, EDITBONE_SPLIT_EDITOR_TAG)
+    Result := GetEditor(PageControl.ActivePage, EDITBONE_DOCUMENT_SPLIT_EDITOR_TAG)
   else
     Result := nil;
 end;
@@ -2676,7 +2675,7 @@ var
   LEditor: TBCEditor;
 begin
   Result := False;
-  LEditor := GetEditor(PageControl.ActivePage, EDITBONE_SPLIT_EDITOR_TAG);
+  LEditor := GetEditor(PageControl.ActivePage, EDITBONE_DOCUMENT_SPLIT_EDITOR_TAG);
   if Assigned(LEditor) then
     Result := LEditor.Visible;
 end;
@@ -2697,7 +2696,7 @@ var
   LSplitterHorizontal: TBCSplitter;
 begin
   LEditor := GetActiveEditor;
-  LSplitEditor := GetEditor(PageControl.ActivePage, EDITBONE_SPLIT_EDITOR_TAG);
+  LSplitEditor := GetEditor(PageControl.ActivePage, EDITBONE_DOCUMENT_SPLIT_EDITOR_TAG);
   if not Assigned(LSplitEditor) then
   begin
     LEditor.Margins.Bottom := 0;
@@ -2710,7 +2709,7 @@ begin
     LSplitEditor.Margins.Bottom := 2;
     LSplitEditor.Width := 0; { avoid flickering }
     LSplitEditor.Height := LEditor.Height div 2;
-    LSplitEditor.Tag := EDITBONE_SPLIT_EDITOR_TAG;
+    LSplitEditor.Tag := EDITBONE_DOCUMENT_SPLIT_EDITOR_TAG;
     LSplitEditor.Parent := PageControl.ActivePage;
     OptionsContainer.AssignTo(LSplitEditor);
     LSplitEditor.Highlighter.LoadFromFile(LEditor.Highlighter.FileName);
@@ -2721,7 +2720,7 @@ begin
     LSplitterHorizontal := TBCSplitter.Create(PageControl.ActivePage);
     LSplitterHorizontal.Align := alBottom;
     LSplitterHorizontal.Parent := PageControl.ActivePage;
-    LSplitterHorizontal.Tag := EDITBONE_HORIZONTAL_SPLITTER_TAG;
+    LSplitterHorizontal.Tag := EDITBONE_DOCUMENT_HORIZONTAL_SPLITTER_TAG;
     LSplitterHorizontal.Top := LSplitEditor.Top - 1; { splitter always above }
   end
   else
@@ -2732,7 +2731,7 @@ begin
     LSplitEditor.Parent := nil;
     LSplitEditor.Free;
     { horizontal splitter }
-    LSplitterHorizontal := GetSplitter(PageControl.ActivePage, EDITBONE_HORIZONTAL_SPLITTER_TAG);
+    LSplitterHorizontal := GetSplitter(PageControl.ActivePage, EDITBONE_DOCUMENT_HORIZONTAL_SPLITTER_TAG);
     LSplitterHorizontal.Parent := nil;
     LSplitterHorizontal.Free;
   end;

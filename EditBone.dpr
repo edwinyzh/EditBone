@@ -7,8 +7,6 @@ uses
   Vcl.Forms,
   EditBone.Form.Main in 'Forms\EditBone.Form.Main.pas' {MainForm},
   EditBone.Consts in 'Units\EditBone.Consts.pas',
-  EditBone.Frame.Directory in 'Frames\EditBone.Frame.Directory.pas',
-  EditBone.Frame.Directory.TabSheet in 'Frames\EditBone.Frame.Directory.TabSheet.pas' {DirTabSheetFrame: TFrame},
   EditBone.Dialog.DirectoryTab in 'Dialogs\EditBone.Dialog.DirectoryTab.pas' {DirectoryTabDialog},
   EditBone.Form.Options in 'Forms\EditBone.Form.Options.pas' {OptionsForm},
   EditBone.Frame.Options.Editor.TabSheet in 'Frames\EditBone.Frame.Options.Editor.TabSheet.pas' {OptionsEditorTabsFrame: TFrame},

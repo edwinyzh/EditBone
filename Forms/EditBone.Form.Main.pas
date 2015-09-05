@@ -1,3 +1,4 @@
+
 unit EditBone.Form.Main;
 
 interface
@@ -581,10 +582,10 @@ type
     ActionSearchOptions: TAction;
     ActionSearchClose: TAction;
     PanelOutput: TBCPanel;
-    PageControl: TBCPageControl;
+    PageControlDirectory: TBCPageControl;
     TabSheetOpen: TsTabSheet;
     TabSheetNew: TsTabSheet;
-    PopupMenuDirectory: TPopupMenu;
+    PopupMenuFileTreeView: TPopupMenu;
     MenuItemOpenDirectory: TMenuItem;
     MenuItemCloseDirectory: TMenuItem;
     MenuItemEditDirectory: TMenuItem;
@@ -751,11 +752,11 @@ type
     procedure ActionDirectoryDeleteExecute(Sender: TObject);
     procedure ActionDirectoryContextMenuExecute(Sender: TObject);
     procedure ActionDirectoryPropertiesExecute(Sender: TObject);
-    procedure PageControlCloseBtnClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
+    procedure PageControlDirectoryCloseBtnClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
       var Action: TacCloseAction);
-    procedure PageControlDblClick(Sender: TObject);
-    procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-    procedure PopupMenuDirectoryPopup(Sender: TObject);
+    procedure PageControlDirectoryDblClick(Sender: TObject);
+    procedure PageControlDirectoryMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure PopupMenuFileTreeViewPopup(Sender: TObject);
   private
     FNoIni: Boolean;
     FDirectory: TEBDirectory;
@@ -811,7 +812,7 @@ uses
   BCCommon.Forms.Print.Preview, EditBone.DataModule.Images;
 
 
-procedure TMainForm.PageControlCloseBtnClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
+procedure TMainForm.PageControlDirectoryCloseBtnClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
   var Action: TacCloseAction);
 begin
   inherited;
@@ -821,11 +822,11 @@ begin
     CanClose := False;
 end;
 
-procedure TMainForm.PageControlDblClick(Sender: TObject);
+procedure TMainForm.PageControlDirectoryDblClick(Sender: TObject);
 begin
   inherited;
   if OptionsContainer.DirCloseTabByDblClick then
-    ActionDirectoryClose.Execute;
+    ActionViewCloseDirectory.Execute;
 end;
 
 procedure TMainForm.PageControlDocumentChange(Sender: TObject);
@@ -868,14 +869,14 @@ begin
     FDocument.Close;
 end;
 
-procedure TMainForm.PageControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+procedure TMainForm.PageControlDirectoryMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   inherited;
   if (Button = mbMiddle) and OptionsContainer.DirCloseTabByMiddleClick then
-    ActionDirectoryClose.Execute;
+    ActionViewCloseDirectory.Execute;
 end;
 
-procedure TMainForm.PopupMenuDirectoryPopup(Sender: TObject);
+procedure TMainForm.PopupMenuFileTreeViewPopup(Sender: TObject);
 begin
   inherited;
   ActionDirectoryProperties.Enabled := FileExists(FDirectory.SelectedFile);
@@ -918,9 +919,9 @@ procedure TMainForm.ActionDirectoryContextMenuExecute(Sender: TObject);
 var
   s: string;
 begin
-  s := SelectedFile;
+  s := FDirectory.SelectedFile;
   if s = '' then
-    s := SelectedPath;
+    s :=  FDirectory.SelectedPath;
   DisplayContextMenu(Handle, s, ScreenToClient(Mouse.CursorPos));
 end;
 
@@ -1816,7 +1817,7 @@ begin
   SpeedButtonMacroStop.Images := ImagesDataModule.ImageListSmall;
   PopupMenuEditor.Images := ImagesDataModule.ImageListSmall;
   PopupMenuDocument.Images := ImagesDataModule.ImageListSmall;
-  PopupMenuDirectory.Images := ImagesDataModule.ImageListSmall;
+  PopupMenuFileTreeView.Images := ImagesDataModule.ImageListSmall;
 
   for i := 0 to PanelToolBar.ControlCount - 1 do
   if PanelToolBar.Controls[i] is TBCSpeedButton then
@@ -2291,7 +2292,7 @@ begin
   if Assigned(FDirectory) then
   begin
     FDirectory.SetOptions;
-    FDirectory.ActionDirectoryRefresh.Execute;
+    ActionDirectoryRefresh.Execute;
   end;
 end;
 
@@ -2522,13 +2523,13 @@ begin
   FDocument.ProgressBar := ProgressBar;
   FDocument.TabSheetNew := TabSheetNew;
   { TEBDirectory }
-  FDirectory := TEBDirectory.Create(PanelDirectory);
-  FDirectory.Parent := PanelDirectory;
+  FDirectory := TEBDirectory.Create(PageControlDirectory);
   FDirectory.OnFileTreeViewClick := FileTreeViewClickActionExecute;
   FDirectory.OnFileTreeViewDblClick := FileTreeViewDblClickActionExecute;
   FDirectory.OnSearchForFilesOpenFile := DoSearchForFilesOpenFile;
-  FDirectory.ActionSearchForFiles := ActionSearchFindInFiles;
+  FDirectory.PopupMenuFileTreeView := PopupMenuFileTreeView;
   FDirectory.TabSheetOpen := TabSheetOpen;
+  FDirectory.SkinManager := SkinManager;
 end;
 
 procedure TMainForm.ReadIniSizePositionAndState;

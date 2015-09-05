@@ -119,7 +119,6 @@ inherited MainForm: TMainForm
       TabPadding = 2
       TabSpacing = 12
       SkinData.SkinSection = 'RIBBONPAGE'
-      ActivePageCaption = 'File'
       HoldShiftToDragDrop = False
       TabDragDrop = False
       object TabSheetButton: TsTabSheet
@@ -1856,7 +1855,7 @@ inherited MainForm: TMainForm
       TabOrder = 0
       Visible = False
       SkinData.SkinSection = 'CHECKBOX'
-      object PageControl: TBCPageControl
+      object PageControlDirectory: TBCPageControl
         Left = 0
         Top = 0
         Width = 329
@@ -1871,15 +1870,15 @@ inherited MainForm: TMainForm
         Font.Style = []
         ParentDoubleBuffered = False
         ParentFont = False
-        PopupMenu = PopupMenuDirectory
+        PopupMenu = PopupMenuFileTreeView
         TabHeight = 22
         TabOrder = 0
-        OnMouseDown = PageControlMouseDown
+        OnMouseDown = PageControlDirectoryMouseDown
         TabMargin = 4
         TabPadding = 2
         SkinData.SkinSection = 'PAGECONTROL'
-        OnDblClick = PageControlDblClick
-        OnCloseBtnClick = PageControlCloseBtnClick
+        OnDblClick = PageControlDirectoryDblClick
+        OnCloseBtnClick = PageControlDirectoryCloseBtnClick
         HoldShiftToDragDrop = False
         RightClickSelect = True
         TabDragDrop = True
@@ -5144,9 +5143,9 @@ inherited MainForm: TMainForm
       end
     end
   end
-  object PopupMenuDirectory: TPopupMenu
+  object PopupMenuFileTreeView: TPopupMenu
     Images = ImagesDataModule.ImageListSmall
-    OnPopup = PopupMenuDirectoryPopup
+    OnPopup = PopupMenuFileTreeViewPopup
     Left = 614
     Top = 360
     object MenuItemOpenDirectory: TMenuItem
