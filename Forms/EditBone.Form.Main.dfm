@@ -1889,6 +1889,7 @@ inherited MainForm: TMainForm
           TabSkin = 'CHECKBOX'
           SkinData.CustomColor = False
           SkinData.CustomFont = False
+          OnClickBtn = TabSheetOpenClickBtn
         end
       end
     end

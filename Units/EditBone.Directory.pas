@@ -650,11 +650,15 @@ begin
   begin
     Parent := LPanel;
     AlignWithMargins := True;
+    Margins.Top := 0;
+    Margins.Left := 0;
+    Margins.Right := 0;
     Margins.Bottom := 4;
     Align := alTop;
     FileTreeView := LFileTreeView;
     Drive := 'C';
     OnChange := DriveComboChange;
+    SkinData.SkinSection := 'COMBOBOX';
   end;
 
   LFileTypeComboBox := TBCFileTypeComboBox.Create(LPanel);
@@ -663,11 +667,15 @@ begin
     Parent := LPanel;
     AlignWithMargins := True;
     Margins.Top := 4;
+    Margins.Left := 0;
+    Margins.Right := 0;
+    Margins.Bottom := 0;
     Align := alBottom;
     FileTreeView := LFileTreeView;
     FileType := '*.*';
     Text := '*.*';
     Extensions := OptionsContainer.Extensions;
+    SkinData.SkinSection := 'COMBOBOX';
   end;
 
   SetDrivesPanelOrientation(ShowDrives, LDriveComboBox);

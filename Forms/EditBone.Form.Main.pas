@@ -757,6 +757,7 @@ type
     procedure PageControlDirectoryDblClick(Sender: TObject);
     procedure PageControlDirectoryMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure PopupMenuFileTreeViewPopup(Sender: TObject);
+    procedure TabSheetOpenClickBtn(Sender: TObject);
   private
     FNoIni: Boolean;
     FDirectory: TEBDirectory;
@@ -2220,6 +2221,7 @@ begin
     WriteIniFile;
   end;
   FDocument.Free;
+  FDirectory.Free;
   OptionsContainer.Free;
   SQLFormatterOptionsContainer.Free;
 
@@ -2383,6 +2385,12 @@ begin
       StatusBar.Canvas.TextOut(LRect.Left, LRect.Top + 6, FDocument.CaretInfo);
     end;
   end;
+end;
+
+procedure TMainForm.TabSheetOpenClickBtn(Sender: TObject);
+begin
+  inherited;
+  ActionViewOpenDirectory.Execute;
 end;
 
 procedure TMainForm.TimerTimer(Sender: TObject);
