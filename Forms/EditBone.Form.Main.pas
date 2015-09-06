@@ -2086,9 +2086,7 @@ begin
   { mainform }
   UpdateLanguage(Self, ALanguage);
   { frames }
-  UpdateLanguage(TForm(FDirectory), ALanguage);
-  //FDocument.UpdateLanguage(ALanguage);
-  UpdateLanguage(TForm(FOutputFrame), ALanguage);
+  UpdateLanguage(TForm(FOutputFrame), ALanguage); // TODO: Remove when frames is removed
   { menubar }
   UpdateMenuBarLanguage;
   SendMessage(Application.MainForm.Handle, WM_SIZE, 0, 0);
