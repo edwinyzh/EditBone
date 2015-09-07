@@ -1944,7 +1944,7 @@ begin
 
     ActionViewEditDirectory.Enabled := PanelDirectory.Visible;
     ActionViewCloseDirectory.Enabled := PanelDirectory.Visible;
-    ActionViewFiles.Enabled := FDirectory.IsAnyDirectory and (FDirectory.SelectedPath <> '');
+    //ActionViewFiles.Enabled := FDirectory.IsAnyDirectory and (FDirectory.SelectedPath <> '');
 
     if ActiveDocumentFound and OptionsContainer.StatusBarShowModified then
     begin
@@ -2661,7 +2661,10 @@ end;
 procedure TMainForm.FileTreeViewClickActionExecute(Sender: TObject);
 begin
   if Assigned(FDirectory) then
+  begin
     StatusBar.Panels[4].Text := FDirectory.SelectedFile;
+    ActionViewFiles.Enabled := FDirectory.IsAnyDirectory and (FDirectory.SelectedPath <> '');
+  end;
 end;
 
 procedure TMainForm.FileTreeViewDblClickActionExecute(Sender: TObject);

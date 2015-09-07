@@ -607,7 +607,6 @@ begin
 
   LTabSheet := TsTabSheet.Create(FPageControl);
   LTabSheet.PageControl := FPageControl;
-  LTabSheet.SkinData.SkinSection := 'TABSHEET';
 
   if Assigned(FTabSheetOpen) then
     FTabSheetOpen.PageIndex := FPageControl.PageCount - 1;

@@ -355,7 +355,6 @@ begin
   { create new tab sheet }
   LTabSheet := TsTabSheet.Create(PageControl);
   LTabSheet.PageControl := PageControl;
-  LTabSheet.SkinData.SkinSection := 'TABSHEET';
 
   if FileName <> '' then
     LTabSheet.ImageIndex := GetIconIndex(FileName)
