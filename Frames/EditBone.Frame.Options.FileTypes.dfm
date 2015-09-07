@@ -1,11 +1,11 @@
 inherited OptionsFileTypesFrame: TOptionsFileTypesFrame
   Width = 451
-  Height = 304
+  Height = 305
   Align = alClient
   Visible = False
   object PanelFileTypesBottom: TBCPanel [0]
     Left = 0
-    Top = 262
+    Top = 263
     Width = 451
     Height = 42
     Align = alBottom
@@ -31,27 +31,21 @@ inherited OptionsFileTypesFrame: TOptionsFileTypesFrame
       BoundLabel.Active = True
       BoundLabel.Caption = 'Extensions'
       BoundLabel.Indent = 4
-      BoundLabel.Font.Charset = DEFAULT_CHARSET
-      BoundLabel.Font.Color = clWindowText
-      BoundLabel.Font.Height = -11
-      BoundLabel.Font.Name = 'Tahoma'
-      BoundLabel.Font.Style = []
       BoundLabel.Layout = sclTopLeft
-      BoundLabel.MaxWidth = 0
-      BoundLabel.UseSkinColor = True
       EnterToTab = False
       OnlyNumbers = False
       NumbersWithDots = False
       NumbersWithSpots = False
       ErrorColor = 14803198
-      NumbersAllowNegative = False
+      NumbersAllowMinus = False
+      NumbersAllowPlus = False
     end
   end
   object FileTypesTopPanel: TBCPanel [1]
     Left = 0
     Top = 0
     Width = 451
-    Height = 262
+    Height = 263
     Align = alClient
     BevelOuter = bvNone
     Color = clWindow
@@ -100,7 +94,7 @@ inherited OptionsFileTypesFrame: TOptionsFileTypesFrame
         item
           Options = [coEnabled, coParentBidiMode, coParentColor, coVisible, coAutoSpring]
           Position = 0
-          Width = 443
+          Width = 447
           WideText = 'File Type'
         end>
     end

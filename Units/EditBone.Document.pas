@@ -1970,13 +1970,13 @@ end;
 procedure TEBDocument.GotoLine;
 var
   LEditor: TBCEditor;
-  LRow: Integer;
+  LLine: Integer;
 begin
-  if TInputQueryDialog.ClassShowModal(Application.MainForm, LanguageDataModule.GetConstant('GoToLine'), LRow) = mrOK then
+  if TInputQueryDialog.ClassShowModal(Application.MainForm, LanguageDataModule.GetConstant('GoToLine'), LLine) = mrOK then
   begin
     LEditor := GetActiveEditor;
     if Assigned(LEditor) then
-      LEditor.GotoLineAndCenter(LRow);
+      LEditor.GotoLineAndCenter(LLine);
   end;
 end;
 

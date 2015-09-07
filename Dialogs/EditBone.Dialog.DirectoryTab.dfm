@@ -1,5 +1,4 @@
 inherited DirectoryTabDialog: TDirectoryTabDialog
-  BorderStyle = bsDialog
   Caption = 'DirectoryTabDialog'
   ClientHeight = 238
   ClientWidth = 488
@@ -7,8 +6,6 @@ inherited DirectoryTabDialog: TDirectoryTabDialog
   Padding.Top = 6
   Padding.Right = 6
   Position = poMainFormCenter
-  ExplicitWidth = 494
-  ExplicitHeight = 266
   PixelsPerInch = 96
   TextHeight = 13
   object ButtonPanel: TBCPanel
@@ -144,20 +141,14 @@ inherited DirectoryTabDialog: TDirectoryTabDialog
         BoundLabel.Active = True
         BoundLabel.Caption = 'Root directory'
         BoundLabel.Indent = 4
-        BoundLabel.Font.Charset = DEFAULT_CHARSET
-        BoundLabel.Font.Color = clWindowText
-        BoundLabel.Font.Height = -11
-        BoundLabel.Font.Name = 'Tahoma'
-        BoundLabel.Font.Style = []
         BoundLabel.Layout = sclTopLeft
-        BoundLabel.MaxWidth = 0
-        BoundLabel.UseSkinColor = True
         EnterToTab = False
         OnlyNumbers = False
         NumbersWithDots = False
         NumbersWithSpots = False
         ErrorColor = clBlack
-        NumbersAllowNegative = False
+        NumbersAllowMinus = False
+        NumbersAllowPlus = False
       end
     end
   end
@@ -193,14 +184,7 @@ inherited DirectoryTabDialog: TDirectoryTabDialog
       BoundLabel.Active = True
       BoundLabel.Caption = 'Drives'
       BoundLabel.Indent = 4
-      BoundLabel.Font.Charset = DEFAULT_CHARSET
-      BoundLabel.Font.Color = clWindowText
-      BoundLabel.Font.Height = -11
-      BoundLabel.Font.Name = 'Tahoma'
-      BoundLabel.Font.Style = []
       BoundLabel.Layout = sclTopLeft
-      BoundLabel.MaxWidth = 0
-      BoundLabel.UseSkinColor = True
       SkinData.SkinSection = 'COMBOBOX'
       VerticalAlignment = taAlignTop
       Style = csDropDownList
@@ -225,14 +209,7 @@ inherited DirectoryTabDialog: TDirectoryTabDialog
       BoundLabel.Active = True
       BoundLabel.Caption = 'File mask'
       BoundLabel.Indent = 4
-      BoundLabel.Font.Charset = DEFAULT_CHARSET
-      BoundLabel.Font.Color = clWindowText
-      BoundLabel.Font.Height = -11
-      BoundLabel.Font.Name = 'Tahoma'
-      BoundLabel.Font.Style = []
       BoundLabel.Layout = sclTopLeft
-      BoundLabel.MaxWidth = 0
-      BoundLabel.UseSkinColor = True
       SkinData.SkinSection = 'COMBOBOX'
       VerticalAlignment = taAlignTop
       Style = csDropDownList
@@ -250,15 +227,6 @@ inherited DirectoryTabDialog: TDirectoryTabDialog
       Width = 50
       AutoSize = True
       TabOrder = 2
-      BoundLabel.Indent = 0
-      BoundLabel.Font.Charset = DEFAULT_CHARSET
-      BoundLabel.Font.Color = clWindowText
-      BoundLabel.Font.Height = -11
-      BoundLabel.Font.Name = 'Tahoma'
-      BoundLabel.Font.Style = []
-      BoundLabel.Layout = sclLeft
-      BoundLabel.MaxWidth = 0
-      BoundLabel.UseSkinColor = True
       ImageIndexOff = 0
       ImageIndexOn = 0
       FontOn.Charset = DEFAULT_CHARSET
@@ -286,20 +254,14 @@ inherited DirectoryTabDialog: TDirectoryTabDialog
     BoundLabel.Active = True
     BoundLabel.Caption = 'Tab name'
     BoundLabel.Indent = 4
-    BoundLabel.Font.Charset = DEFAULT_CHARSET
-    BoundLabel.Font.Color = clWindowText
-    BoundLabel.Font.Height = -11
-    BoundLabel.Font.Name = 'Tahoma'
-    BoundLabel.Font.Style = []
     BoundLabel.Layout = sclTopLeft
-    BoundLabel.MaxWidth = 0
-    BoundLabel.UseSkinColor = True
     EnterToTab = False
     OnlyNumbers = False
     NumbersWithDots = False
     NumbersWithSpots = False
     ErrorColor = clBlack
-    NumbersAllowNegative = False
+    NumbersAllowMinus = False
+    NumbersAllowPlus = False
   end
   object ActionList: TActionList
     Left = 428
