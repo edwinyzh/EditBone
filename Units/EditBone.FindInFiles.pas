@@ -35,7 +35,7 @@ type
 implementation
 
 uses
-  Winapi.Windows, System.SysUtils, BCControls.Utils, BCCommon.Language.Strings,
+  Winapi.Windows, System.SysUtils, BCControls.Utils, BCCommon.Language.Strings, Vcl.Forms,
   BCEditor.Encoding, BCEditor.Editor.Utils;
 
 procedure TFindInFilesThread.Execute;
@@ -116,6 +116,7 @@ begin
                 if Trim(LStringList.Text) <> '' then
                 for i := 0 to LStringList.Count - 1 do
                 begin
+                  Application.ProcessMessages;
                   LTextLine := LStringList.Strings[i];
                   if not FSearchCaseSensitive then
                     LTextLine := UpperCase(LTextLine);
