@@ -43,6 +43,7 @@ type
     constructor Create(AOwner: TBCPageControl);
     destructor Destroy; override;
     function CloseDirectory(AFreePage: Boolean = True; ATabIndex: Integer = -1): Boolean;
+    function Focused: Boolean;
     function ReadIniFile: Boolean; // TODO: function?
     function SelectedFile: string;
     procedure DeleteSelected;
@@ -56,6 +57,9 @@ type
     procedure Rename;
     procedure SetOptions;
     procedure WriteIniFile;
+    procedure Copy;
+    procedure Paste;
+    procedure Cut;
     property ExcludeOtherBranches: Boolean read GetActiveExcludeOtherBranches;
     property IsAnyDirectory: Boolean read GetIsAnyDirectory;
     property OnFileTreeViewClick: TNotifyEvent read FFileTreeViewClick write FFileTreeViewClick;
@@ -66,7 +70,6 @@ type
     property RootDirectory: string read GetRootDirectory;
     property SelectedPath: string read GetSelectedPath;
     property SkinManager: TBCSkinManager read FSkinManager write FSkinManager;
-    //property TabSheetOpen: TsTabSheet read FTabSheetOpen write FTabSheetOpen;
   end;
 
 implementation
@@ -457,12 +460,22 @@ end;
 
 function TEBDirectory.GetSelectedPath: string;
 var
-  FileTreeView: TBCFileTreeView;
+  LFileTreeView: TBCFileTreeView;
 begin
   Result := '';
-  FileTreeView := GetFileTreeView;
-  if Assigned(FileTreeView) then
-    Result := FileTreeView.SelectedPath;
+  LFileTreeView := GetFileTreeView;
+  if Assigned(LFileTreeView) then
+    Result := LFileTreeView.SelectedPath;
+end;
+
+function TEBDirectory.Focused: Boolean;
+var
+  LFileTreeView: TBCFileTreeView;
+begin
+  Result := False;
+  LFileTreeView := GetFileTreeView;
+  if Assigned(LFileTreeView) then
+    Result := LFileTreeView.Focused or Assigned(LFileTreeView.EditLink);
 end;
 
 procedure TEBDirectory.DeleteSelected;
@@ -695,6 +708,36 @@ begin
   Result := False;
   if Assigned(PageControl) then
     Result := PageControl.PageCount <> 0;
+end;
+
+procedure TEBDirectory.Copy;
+var
+  LFileTreeView: TBCFileTreeView;
+begin
+  LFileTreeView := GetFileTreeView;
+  if Assigned(LFileTreeView) then
+    if Assigned(LFileTreeView.EditLink) then
+      TEditLink(LFileTreeView.EditLink).Copy;
+end;
+
+procedure TEBDirectory.Paste;
+var
+  LFileTreeView: TBCFileTreeView;
+begin
+  LFileTreeView := GetFileTreeView;
+  if Assigned(LFileTreeView) then
+    if Assigned(LFileTreeView.EditLink) then
+      TEditLink(LFileTreeView.EditLink).Paste;
+end;
+
+procedure TEBDirectory.Cut;
+var
+  LFileTreeView: TBCFileTreeView;
+begin
+  LFileTreeView := GetFileTreeView;
+  if Assigned(LFileTreeView) then
+    if Assigned(LFileTreeView.EditLink) then
+      TEditLink(LFileTreeView.EditLink).Cut;
 end;
 
 procedure TEBDirectory.SetOptions;

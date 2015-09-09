@@ -973,12 +973,18 @@ end;
 
 procedure TMainForm.ActionEditCopyExecute(Sender: TObject);
 begin
-  FDocument.Copy;
+  if FDirectory.Focused then
+    FDirectory.Copy
+  else
+    FDocument.Copy;
 end;
 
 procedure TMainForm.ActionEditCutExecute(Sender: TObject);
 begin
-  FDocument.Cut;
+  if FDirectory.Focused then
+    FDirectory.Cut
+  else
+    FDocument.Cut;
 end;
 
 procedure TMainForm.ActionEditDeleteEndOfLineExecute(Sender: TObject);
@@ -1028,7 +1034,10 @@ end;
 
 procedure TMainForm.ActionEditPasteExecute(Sender: TObject);
 begin
-  FDocument.Paste;
+  if FDirectory.Focused then
+    FDirectory.Paste
+  else
+    FDocument.Paste;
 end;
 
 procedure TMainForm.ActionEditRedoExecute(Sender: TObject);
