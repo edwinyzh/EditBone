@@ -1783,7 +1783,7 @@ var
 begin
   PageControlDocument.Visible := False;
   for i := 0 to CmdLine.Count - 1 do
-    FDocument.Open(CmdLine.Strings[i], False);
+    FDocument.Open(CmdLine.Strings[i], True);
   PageControlDocument.Visible := True;
 end;
 
