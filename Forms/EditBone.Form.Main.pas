@@ -1420,10 +1420,10 @@ end;
 procedure TMainForm.ActionSelectReopenFileExecute(Sender: TObject);
 var
   FileName: string;
-  Action: TAction;
+  LMenuItem: TMenuItem;
 begin
-  Action := Sender as TAction;
-  FileName := System.Copy(Action.Caption, Pos(' ', Action.Caption) + 1, Length(Action.Caption));
+  LMenuItem := Sender as TMenuItem;
+  FileName := System.Copy(LMenuItem.Caption, Pos(' ', LMenuItem.Caption) + 1, Length(LMenuItem.Caption));
   FDocument.Open(FileName);
 end;
 
@@ -2610,8 +2610,8 @@ begin
         begin
           LMenuItem := TMenuItem.Create(PopupMenuFileReopen);
           LMenuItem2 :=  TMenuItem.Create(MainMenu);
-          LMenuItem.Action := ActionSelectReopenFile;
-          LMenuItem2.Action := ActionSelectReopenFile;
+          LMenuItem.OnClick := ActionSelectReopenFileExecute;
+          LMenuItem2.OnClick := ActionSelectReopenFileExecute;
           LMenuItem.Caption := Format('%d %s', [j, s]);
           LMenuItem2.Caption := Format('%d %s', [j, s]);
           { Add image to imagelist }
