@@ -2568,7 +2568,15 @@ begin
     case State of
       0: WindowState := wsNormal;
       1: WindowState := wsMinimized;
-      2: WindowState := wsMaximized;
+      2:
+        begin
+          { This does not work WindowState := wsMaximized; }
+          Left := 0;
+          Top := 0;
+          Width := Screen.Width;
+          Height := Screen.Height;
+          ShowWindowAsync(Handle, SW_MAXIMIZE);
+        end;
     end;
   finally
     Free;
