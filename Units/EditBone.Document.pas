@@ -1425,7 +1425,6 @@ begin
             if Assigned(LEditor) then
             begin
               GetOptions(LEditor);
-              //PageControl.ActivePageIndex := i;
               LEditor.CaretZero;
               LEditor.ReplaceText(SearchFor, ReplaceWith);
               PageControl.Pages[i].Caption := FormatFileName(PageControl.Pages[i].Caption, LEditor.Modified);
@@ -1438,6 +1437,7 @@ begin
       end;
     end;
   end;
+  CheckModifiedDocuments;
   FProcessing := False;
 end;
 

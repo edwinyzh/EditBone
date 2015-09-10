@@ -3119,8 +3119,8 @@ inherited MainForm: TMainForm
   end
   object PopupMenuEditInsert: TPopupMenu [9]
     Images = ImagesDataModule.ImageList
-    Left = 276
-    Top = 145
+    Left = 58
+    Top = 523
     object MenuItemEditInsertLine: TMenuItem
       Action = ActionEditInsertLine
     end
@@ -3133,8 +3133,8 @@ inherited MainForm: TMainForm
   end
   object PopupMenuEditDelete: TPopupMenu [10]
     Images = ImagesDataModule.ImageList
-    Left = 276
-    Top = 203
+    Left = 56
+    Top = 573
     object MenuItemEditDeleteLine: TMenuItem
       Action = ActionEditDeleteLine
     end
@@ -3150,13 +3150,13 @@ inherited MainForm: TMainForm
   end
   object PopupMenuFileReopen: TPopupMenu [11]
     Images = ImagesDataModule.ImageListSmall
-    Left = 452
-    Top = 109
+    Left = 466
+    Top = 581
   end
   object PopupMenuEditIndent: TPopupMenu [12]
     Images = ImagesDataModule.ImageList
-    Left = 276
-    Top = 261
+    Left = 192
+    Top = 523
     object MenuItemEditIndentDecrease: TMenuItem
       Action = ActionEditIndentDecrease
     end
@@ -3166,8 +3166,8 @@ inherited MainForm: TMainForm
   end
   object PopupMenuEditSort: TPopupMenu [13]
     Images = ImagesDataModule.ImageList
-    Left = 276
-    Top = 313
+    Left = 190
+    Top = 577
     object MenuItemEditSortAscending: TMenuItem
       Action = ActionEditSortAsc
     end
@@ -3177,8 +3177,8 @@ inherited MainForm: TMainForm
   end
   object PopupMenuSearchGotoBookmarks: TPopupMenu [14]
     Images = ImagesDataModule.ImageList
-    Left = 445
-    Top = 153
+    Left = 631
+    Top = 521
     object MenuItemSearchGotoBookmark1: TMenuItem
       Action = ActionGotoBookmarks1
     end
@@ -3209,8 +3209,8 @@ inherited MainForm: TMainForm
   end
   object PopupMenuSearchToggleBookmarks: TPopupMenu [15]
     Images = ImagesDataModule.ImageList
-    Left = 445
-    Top = 209
+    Left = 631
+    Top = 579
     object MenuItemSearchToggleBookmark1: TMenuItem
       Action = ActionToggleBookmarks1
     end
@@ -3241,8 +3241,8 @@ inherited MainForm: TMainForm
   end
   object PopupMenuToolBar: TPopupMenu [16]
     Images = ImagesDataModule.ImageList
-    Left = 277
-    Top = 381
+    Left = 317
+    Top = 519
     object MenuItemToolBarMenuLanguage: TMenuItem
       Action = ActionToolBarMenuLanguage
       SubMenuImages = ImagesDataModule.ImageListSmall
@@ -3285,16 +3285,16 @@ inherited MainForm: TMainForm
     end
   end
   object PopupMenuColors: TPopupMenu [17]
-    Left = 446
-    Top = 366
+    Left = 938
+    Top = 518
   end
   object PopupMenuHighlighters: TPopupMenu [18]
-    Left = 446
-    Top = 310
+    Left = 800
+    Top = 584
   end
   object PopupMenuEncoding: TPopupMenu [19]
-    Left = 444
-    Top = 264
+    Left = 800
+    Top = 520
     object MenuItemEncodingANSI: TMenuItem
       Tag = 1
       Action = ActionEncodingANSI
@@ -3432,6 +3432,11 @@ inherited MainForm: TMainForm
     end
     inherited ActionFileExit: TAction
       Category = 'File'
+    end
+    object ActionEdit: TAction
+      Category = 'Edit'
+      Caption = 'Edit'
+      OnExecute = ActionDummyExecute
     end
     object ActionEditUndo: TAction
       Category = 'Edit'
@@ -4247,11 +4252,6 @@ inherited MainForm: TMainForm
       ImageIndex = 75
       OnExecute = ActionToolsLanguageEditorExecute
     end
-    object ActionEdit: TAction
-      Category = 'Edit'
-      Caption = 'Edit'
-      OnExecute = ActionDummyExecute
-    end
     object ActionViewMainMenu: TAction
       Category = 'View'
       Caption = 'Main menu'
@@ -4416,7 +4416,7 @@ inherited MainForm: TMainForm
   end
   object PopupMenuDocument: TPopupMenu [22]
     Images = ImagesDataModule.ImageListSmall
-    Left = 616
+    Left = 594
     Top = 158
     object MenuItemFileClose: TMenuItem
       Action = ActionFileClose
@@ -4472,8 +4472,8 @@ inherited MainForm: TMainForm
   end
   object PopupMenuDocumentFormat: TPopupMenu [24]
     Images = ImagesDataModule.ImageList
-    Left = 272
-    Top = 437
+    Left = 314
+    Top = 579
     object MenuItemDocumentFormatSQL: TMenuItem
       Action = ActionDocumentFormatSQL
     end
@@ -4483,8 +4483,8 @@ inherited MainForm: TMainForm
   end
   object PopupMenuEditor: TPopupMenu [25]
     Images = ImagesDataModule.ImageListSmall
-    Left = 616
-    Top = 254
+    Left = 448
+    Top = 164
     object MenuItemCut: TMenuItem
       Action = ActionEditCut
     end
@@ -4665,8 +4665,8 @@ inherited MainForm: TMainForm
   end
   object PopupMenuToggleCase: TPopupMenu [26]
     Images = ImagesDataModule.ImageList
-    Left = 745
-    Top = 156
+    Left = 937
+    Top = 586
     object Upper1: TMenuItem
       Action = ActionEditToggleCaseUpper
     end
@@ -4690,8 +4690,8 @@ inherited MainForm: TMainForm
   end
   object PopupMenuDocumentMacro: TPopupMenu [28]
     Images = ImagesDataModule.ImageList
-    Left = 270
-    Top = 491
+    Left = 466
+    Top = 521
     object MenuItemMacroPlayback: TMenuItem
       Action = ActionMacroPlayback
     end
@@ -4770,8 +4770,8 @@ inherited MainForm: TMainForm
   end
   object PopupMenuXMLTree: TPopupMenu [35]
     Images = ImagesDataModule.ImageListSmall
-    Left = 956
-    Top = 252
+    Left = 448
+    Top = 306
     object MenuItemXMLRefresh: TMenuItem
       Action = ActionXMLTreeRefresh
     end
@@ -5145,8 +5145,8 @@ inherited MainForm: TMainForm
   object PopupMenuFileTreeView: TPopupMenu
     Images = ImagesDataModule.ImageListSmall
     OnPopup = PopupMenuFileTreeViewPopup
-    Left = 614
-    Top = 360
+    Left = 446
+    Top = 234
     object MenuItemOpenDirectory: TMenuItem
       Action = ActionViewOpenDirectory
     end
