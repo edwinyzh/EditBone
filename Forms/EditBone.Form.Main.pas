@@ -2569,14 +2569,8 @@ begin
       0: WindowState := wsNormal;
       1: WindowState := wsMinimized;
       2:
-        begin
-          { This does not work WindowState := wsMaximized; }
-          Left := 0;
-          Top := 0;
-          Width := Screen.Width;
-          Height := Screen.Height;
-          ShowWindowAsync(Handle, SW_MAXIMIZE);
-        end;
+        { This does not work WindowState := wsMaximized; }
+        ShowWindowAsync(Handle, SW_MAXIMIZE);
     end;
   finally
     Free;
