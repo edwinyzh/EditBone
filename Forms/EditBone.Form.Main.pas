@@ -606,6 +606,10 @@ type
     ActionDirectoryProperties: TAction;
     ActionDirectoryContextMenu: TAction;
     ActionDirectoryFindInFiles: TAction;
+    J1: TMenuItem;
+    ActionDocumentFormatJSON: TAction;
+    JSON1: TMenuItem;
+    JSON2: TMenuItem;
     procedure ActionFileNewExecute(Sender: TObject);
     procedure ActionFileOpenExecute(Sender: TObject);
     procedure ActionFileSaveAllExecute(Sender: TObject);
@@ -758,6 +762,7 @@ type
     procedure PageControlDirectoryMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure PopupMenuFileTreeViewPopup(Sender: TObject);
     procedure TabSheetOpenClickBtn(Sender: TObject);
+    procedure ActionDocumentFormatJSONExecute(Sender: TObject);
   private
     FNoIni: Boolean;
     FDirectory: TEBDirectory;
@@ -954,6 +959,12 @@ procedure TMainForm.ActionDirectoryRenameExecute(Sender: TObject);
 begin
   inherited;
   FDirectory.Rename;
+end;
+
+procedure TMainForm.ActionDocumentFormatJSONExecute(Sender: TObject);
+begin
+  inherited;
+  FDocument.FormatJSON;
 end;
 
 procedure TMainForm.ActionDocumentFormatSQLExecute(Sender: TObject);
@@ -1846,6 +1857,7 @@ var
   SelectionFound: Boolean;
   IsSQLDocument: Boolean;
   IsXMLDocument: Boolean;
+  IsJSONDocument: Boolean;
 begin
   FProcessingEventHandler := True;
   try
@@ -1853,6 +1865,7 @@ begin
     SelectionFound := FDocument.SelectionFound;
     IsSQLDocument := FDocument.IsSQLDocument;
     IsXMLDocument := FDocument.IsXMLDocument;
+    IsJSONDocument := FDocument.IsJSONDocument;
 
     ActionViewMainMenu.Checked := Assigned(Menu);
     ActionViewToolbar.Checked := PanelToolBar.Visible;
@@ -1938,6 +1951,7 @@ begin
     ActionDocumentInfo.Enabled := ActiveDocumentFound;
     ActionToolsSelectForCompare.Enabled := False; // TODO: not implemented ActiveDocumentFound and not FDocument.ActiveDocumentModified;
     ActionToolsCompareFiles.Enabled := False; // TODO: not implemented
+    ActionDocumentFormatJSON.Enabled := ActiveDocumentFound and IsJSONDocument;
     ActionDocumentFormatSQL.Enabled := FSQLFormatterDLLFound and ActiveDocumentFound and IsSQLDocument;
     ActionDocumentFormatXML.Enabled := ActiveDocumentFound and IsXMLDocument;
 

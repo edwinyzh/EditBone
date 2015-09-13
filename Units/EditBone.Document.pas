@@ -101,6 +101,7 @@ type
     procedure InitializeEditorPrint(EditorPrint: TBCEditorPrint);
     function IsMacroStopped: Boolean;
     function IsRecordingMacro: Boolean;
+    function IsJSONDocument: Boolean;
     function IsSQLDocument: Boolean;
     function IsXMLDocument: Boolean;
     function Options(AActionList: TActionList): Boolean;
@@ -125,6 +126,7 @@ type
     procedure FileProperties;
     procedure FindNext;
     procedure FindPrevious;
+    procedure FormatJSON;
     procedure FormatXML;
     procedure FormatSQL;
     procedure GotoBookmarks(ItemIndex: Integer);
@@ -219,7 +221,7 @@ uses
   BCCommon.StringUtils, Winapi.CommCtrl, EditBone.Form.Options, BCCommon.Images,
   BCCommon.SQL.Formatter, BCEditor.Editor.KeyCommands, EditBone.DataModule.Images, BCControls.SpeedButton,
   BCControls.Utils, BCEditor.Editor.Utils, BCCommon.Consts, BCEditor.Encoding, Vcl.Clipbrd, BCEditor.Highlighter.Colors,
-  BCCommon.Dialogs.Options.Search, Vcl.ValEdit;
+  BCCommon.Dialogs.Options.Search, Vcl.ValEdit, System.IOUtils;
 
 { TEBDocument }
 
@@ -2806,6 +2808,26 @@ begin
       LEditor.Text := BCCommon.SQL.Formatter.FormatSQL(LEditor.Text, TSQLDatabase(SQLFormatterOptionsContainer.SQLDatabase));
 end;
 
+procedure TEBDocument.FormatJSON;
+var
+  LEditor: TBCEditor;
+begin
+  LEditor := GetActiveEditor;
+  if Assigned(LEditor) then
+    if Trim(LEditor.Text) <> '' then
+      LEditor.Text := BCCommon.StringUtils.FormatJSON(LEditor.Text);
+end;
+
+function TEBDocument.IsJSONDocument: Boolean;
+var
+  LEditor: TBCEditor;
+begin
+  Result := False;
+  LEditor := GetActiveEditor;
+  if Assigned(LEditor) then
+    Result := Assigned(LEditor.Highlighter) and (Pos('JSON', UpperCase(TPath.GetFileNameWithoutExtension(LEditor.Highlighter.FileName))) <> 0)
+end;
+
 function TEBDocument.IsXMLDocument: Boolean;
 var
   LEditor: TBCEditor;
@@ -2813,7 +2835,7 @@ begin
   Result := False;
   LEditor := GetActiveEditor;
   if Assigned(LEditor) then
-    Result := Assigned(LEditor.Highlighter) and (Pos('XML', LEditor.Highlighter.FileName) <> 0)
+    Result := Assigned(LEditor.Highlighter) and (Pos('XML', UpperCase(TPath.GetFileNameWithoutExtension(LEditor.Highlighter.FileName))) <> 0)
 end;
 
 function TEBDocument.IsSQLDocument: Boolean;
@@ -2823,7 +2845,7 @@ begin
   Result := False;
   LEditor := GetActiveEditor;
   if Assigned(LEditor) then
-    Result := Assigned(LEditor.Highlighter) and (Pos('SQL', LEditor.Highlighter.FileName) <> 0)
+    Result := Assigned(LEditor.Highlighter) and (Pos('SQL', UpperCase(TPath.GetFileNameWithoutExtension(LEditor.Highlighter.FileName))) <> 0)
 end;
 
 procedure TEBDocument.SelectHighlighter(AEditor: TBCEditor; FileName: string);

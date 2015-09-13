@@ -4178,14 +4178,14 @@ inherited MainForm: TMainForm
     end
     object ActionDocumentFormatSQL: TAction
       Category = 'Document'
-      Caption = 'SQL'
+      Caption = 'Format SQL'
       Hint = 'Format SQL'
       ImageIndex = 66
       OnExecute = ActionDocumentFormatSQLExecute
     end
     object ActionDocumentFormatXML: TAction
       Category = 'Document'
-      Caption = 'XML'
+      Caption = 'Format XML'
       Hint = 'Format XML'
       ImageIndex = 67
       OnExecute = ActionDocumentFormatXMLExecute
@@ -4413,6 +4413,13 @@ inherited MainForm: TMainForm
       ImageIndex = 98
       OnExecute = ActionDirectoryContextMenuExecute
     end
+    object ActionDocumentFormatJSON: TAction
+      Category = 'Document'
+      Caption = 'Format JSON'
+      Hint = 'Format JSON'
+      ImageIndex = 137
+      OnExecute = ActionDocumentFormatJSONExecute
+    end
   end
   object PopupMenuDocument: TPopupMenu [22]
     Images = ImagesDataModule.ImageListSmall
@@ -4474,6 +4481,9 @@ inherited MainForm: TMainForm
     Images = ImagesDataModule.ImageList
     Left = 314
     Top = 579
+    object J1: TMenuItem
+      Action = ActionDocumentFormatJSON
+    end
     object MenuItemDocumentFormatSQL: TMenuItem
       Action = ActionDocumentFormatSQL
     end
@@ -4649,6 +4659,9 @@ inherited MainForm: TMainForm
     end
     object MenuItemFormat: TMenuItem
       Action = ActionDocumentFormat
+      object JSON2: TMenuItem
+        Action = ActionDocumentFormatJSON
+      end
       object MenuItemFormatSQL: TMenuItem
         Action = ActionDocumentFormatSQL
       end
@@ -5064,6 +5077,9 @@ inherited MainForm: TMainForm
       end
       object MenuItemMainMenuDocumentFormat: TMenuItem
         Action = ActionDocumentFormat
+        object JSON1: TMenuItem
+          Action = ActionDocumentFormatJSON
+        end
         object MenuItemMainMenuDocumentFormatSQL: TMenuItem
           Action = ActionDocumentFormatSQL
         end
