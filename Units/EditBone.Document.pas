@@ -126,7 +126,7 @@ type
     procedure FileProperties;
     procedure FindNext;
     procedure FindPrevious;
-    procedure FormatJSON;
+    procedure FormatJSON(AIndentSize: Integer);
     procedure FormatXML;
     procedure FormatSQL;
     procedure GotoBookmarks(ItemIndex: Integer);
@@ -2808,14 +2808,14 @@ begin
       LEditor.Text := BCCommon.SQL.Formatter.FormatSQL(LEditor.Text, TSQLDatabase(SQLFormatterOptionsContainer.SQLDatabase));
 end;
 
-procedure TEBDocument.FormatJSON;
+procedure TEBDocument.FormatJSON(AIndentSize: Integer);
 var
   LEditor: TBCEditor;
 begin
   LEditor := GetActiveEditor;
   if Assigned(LEditor) then
     if Trim(LEditor.Text) <> '' then
-      LEditor.Text := BCCommon.StringUtils.FormatJSON(LEditor.Text);
+      LEditor.Text := BCCommon.StringUtils.FormatJSON(LEditor.Text, AIndentSize);
 end;
 
 function TEBDocument.IsJSONDocument: Boolean;

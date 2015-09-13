@@ -608,8 +608,24 @@ type
     ActionDirectoryFindInFiles: TAction;
     J1: TMenuItem;
     ActionDocumentFormatJSON: TAction;
-    JSON1: TMenuItem;
-    JSON2: TMenuItem;
+    MenuItemMainMenuDocumentFormatJSON: TMenuItem;
+    MenuItemFormatJSON: TMenuItem;
+    MenuItemFormatJSONMinify: TMenuItem;
+    MenuItemFormatJSONIndent2: TMenuItem;
+    MenuItemFormatJSONIndent3: TMenuItem;
+    MenuItemFormatJSONIndent4: TMenuItem;
+    ActionDocumentFormatJSONMinify: TAction;
+    ActionDocumentFormatJSONIndent2: TAction;
+    ActionDocumentFormatJSONIndent3: TAction;
+    ActionDocumentFormatJSONIndent4: TAction;
+    MenuItemDocumentFormatJSONMinify: TMenuItem;
+    MenuItemDocumentFormatJSONIndent2: TMenuItem;
+    MenuItemDocumentFormatJSONIndent3: TMenuItem;
+    MenuItemDocumentFormatJSONIndent4: TMenuItem;
+    MenuItemMainMenuDocumentFormatJSONMinify: TMenuItem;
+    MenuItemMainMenuDocumentFormatJSONIndent2: TMenuItem;
+    MenuItemMainMenuDocumentFormatJSONIndent3: TMenuItem;
+    MenuItemMainMenuDocumentFormatJSONIndent4: TMenuItem;
     procedure ActionFileNewExecute(Sender: TObject);
     procedure ActionFileOpenExecute(Sender: TObject);
     procedure ActionFileSaveAllExecute(Sender: TObject);
@@ -763,6 +779,10 @@ type
     procedure PopupMenuFileTreeViewPopup(Sender: TObject);
     procedure TabSheetOpenClickBtn(Sender: TObject);
     procedure ActionDocumentFormatJSONExecute(Sender: TObject);
+    procedure ActionDocumentFormatJSONMinifyExecute(Sender: TObject);
+    procedure ActionDocumentFormatJSONIndent2Execute(Sender: TObject);
+    procedure ActionDocumentFormatJSONIndent3Execute(Sender: TObject);
+    procedure ActionDocumentFormatJSONIndent4Execute(Sender: TObject);
   private
     FNoIni: Boolean;
     FDirectory: TEBDirectory;
@@ -964,7 +984,31 @@ end;
 procedure TMainForm.ActionDocumentFormatJSONExecute(Sender: TObject);
 begin
   inherited;
-  FDocument.FormatJSON;
+  { Dummy action }
+end;
+
+procedure TMainForm.ActionDocumentFormatJSONIndent2Execute(Sender: TObject);
+begin
+  inherited;
+  FDocument.FormatJSON(2);
+end;
+
+procedure TMainForm.ActionDocumentFormatJSONIndent3Execute(Sender: TObject);
+begin
+  inherited;
+  FDocument.FormatJSON(3);
+end;
+
+procedure TMainForm.ActionDocumentFormatJSONIndent4Execute(Sender: TObject);
+begin
+  inherited;
+  FDocument.FormatJSON(4);
+end;
+
+procedure TMainForm.ActionDocumentFormatJSONMinifyExecute(Sender: TObject);
+begin
+  inherited;
+  FDocument.FormatJSON(-1);
 end;
 
 procedure TMainForm.ActionDocumentFormatSQLExecute(Sender: TObject);

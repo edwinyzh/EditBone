@@ -1,6 +1,6 @@
 inherited MainForm: TMainForm
   Caption = 'EditBone'
-  ClientHeight = 662
+  ClientHeight = 682
   ClientWidth = 1111
   KeyPreview = True
   Position = poDefault
@@ -11,7 +11,7 @@ inherited MainForm: TMainForm
   TextHeight = 13
   object SplitterHorizontal: TBCSplitter [0]
     Left = 0
-    Top = 506
+    Top = 526
     Width = 1111
     Height = 5
     Cursor = crVSplit
@@ -21,7 +21,7 @@ inherited MainForm: TMainForm
   end
   inherited StatusBar: TBCStatusBar
     AlignWithMargins = True
-    Top = 637
+    Top = 657
     Width = 1111
     Height = 25
     Margins.Left = 0
@@ -1816,7 +1816,7 @@ inherited MainForm: TMainForm
     Left = 0
     Top = 124
     Width = 1111
-    Height = 382
+    Height = 402
     Margins.Left = 0
     Margins.Top = 5
     Margins.Right = 0
@@ -1833,7 +1833,7 @@ inherited MainForm: TMainForm
       Left = 329
       Top = 0
       Width = 5
-      Height = 382
+      Height = 402
       Visible = False
       SkinData.SkinSection = 'SPLITTER'
     end
@@ -1841,7 +1841,7 @@ inherited MainForm: TMainForm
       Left = 0
       Top = 0
       Width = 329
-      Height = 382
+      Height = 402
       Margins.Left = 0
       Margins.Top = 5
       Margins.Right = 0
@@ -1859,7 +1859,7 @@ inherited MainForm: TMainForm
         Left = 0
         Top = 0
         Width = 329
-        Height = 382
+        Height = 402
         ActivePage = TabSheetOpen
         Align = alClient
         DoubleBuffered = True
@@ -1897,7 +1897,7 @@ inherited MainForm: TMainForm
       Left = 334
       Top = 0
       Width = 777
-      Height = 382
+      Height = 402
       Margins.Left = 0
       Margins.Top = 5
       Margins.Right = 0
@@ -1914,7 +1914,7 @@ inherited MainForm: TMainForm
         Left = 0
         Top = 0
         Width = 777
-        Height = 382
+        Height = 402
         Margins.Left = 0
         Margins.Top = 5
         Margins.Right = 0
@@ -2963,7 +2963,7 @@ inherited MainForm: TMainForm
   object PanelOutput: TBCPanel [5]
     AlignWithMargins = True
     Left = 0
-    Top = 511
+    Top = 531
     Width = 1111
     Height = 121
     Margins.Left = 0
@@ -4420,6 +4420,30 @@ inherited MainForm: TMainForm
       ImageIndex = 137
       OnExecute = ActionDocumentFormatJSONExecute
     end
+    object ActionDocumentFormatJSONMinify: TAction
+      Category = 'Document'
+      Caption = 'Minify'
+      ImageIndex = 138
+      OnExecute = ActionDocumentFormatJSONMinifyExecute
+    end
+    object ActionDocumentFormatJSONIndent2: TAction
+      Category = 'Document'
+      Caption = 'Indent 2'
+      ImageIndex = 28
+      OnExecute = ActionDocumentFormatJSONIndent2Execute
+    end
+    object ActionDocumentFormatJSONIndent3: TAction
+      Category = 'Document'
+      Caption = 'Indent 3'
+      ImageIndex = 28
+      OnExecute = ActionDocumentFormatJSONIndent3Execute
+    end
+    object ActionDocumentFormatJSONIndent4: TAction
+      Category = 'Document'
+      Caption = 'Indent 4'
+      ImageIndex = 28
+      OnExecute = ActionDocumentFormatJSONIndent4Execute
+    end
   end
   object PopupMenuDocument: TPopupMenu [22]
     Images = ImagesDataModule.ImageListSmall
@@ -4483,6 +4507,18 @@ inherited MainForm: TMainForm
     Top = 579
     object J1: TMenuItem
       Action = ActionDocumentFormatJSON
+      object MenuItemDocumentFormatJSONMinify: TMenuItem
+        Action = ActionDocumentFormatJSONMinify
+      end
+      object MenuItemDocumentFormatJSONIndent2: TMenuItem
+        Action = ActionDocumentFormatJSONIndent2
+      end
+      object MenuItemDocumentFormatJSONIndent3: TMenuItem
+        Action = ActionDocumentFormatJSONIndent3
+      end
+      object MenuItemDocumentFormatJSONIndent4: TMenuItem
+        Action = ActionDocumentFormatJSONIndent4
+      end
     end
     object MenuItemDocumentFormatSQL: TMenuItem
       Action = ActionDocumentFormatSQL
@@ -4659,8 +4695,20 @@ inherited MainForm: TMainForm
     end
     object MenuItemFormat: TMenuItem
       Action = ActionDocumentFormat
-      object JSON2: TMenuItem
+      object MenuItemFormatJSON: TMenuItem
         Action = ActionDocumentFormatJSON
+        object MenuItemFormatJSONMinify: TMenuItem
+          Action = ActionDocumentFormatJSONMinify
+        end
+        object MenuItemFormatJSONIndent2: TMenuItem
+          Action = ActionDocumentFormatJSONIndent2
+        end
+        object MenuItemFormatJSONIndent3: TMenuItem
+          Action = ActionDocumentFormatJSONIndent3
+        end
+        object MenuItemFormatJSONIndent4: TMenuItem
+          Action = ActionDocumentFormatJSONIndent4
+        end
       end
       object MenuItemFormatSQL: TMenuItem
         Action = ActionDocumentFormatSQL
@@ -5077,8 +5125,20 @@ inherited MainForm: TMainForm
       end
       object MenuItemMainMenuDocumentFormat: TMenuItem
         Action = ActionDocumentFormat
-        object JSON1: TMenuItem
+        object MenuItemMainMenuDocumentFormatJSON: TMenuItem
           Action = ActionDocumentFormatJSON
+          object MenuItemMainMenuDocumentFormatJSONMinify: TMenuItem
+            Action = ActionDocumentFormatJSONMinify
+          end
+          object MenuItemMainMenuDocumentFormatJSONIndent2: TMenuItem
+            Action = ActionDocumentFormatJSONIndent2
+          end
+          object MenuItemMainMenuDocumentFormatJSONIndent3: TMenuItem
+            Action = ActionDocumentFormatJSONIndent3
+          end
+          object MenuItemMainMenuDocumentFormatJSONIndent4: TMenuItem
+            Action = ActionDocumentFormatJSONIndent4
+          end
         end
         object MenuItemMainMenuDocumentFormatSQL: TMenuItem
           Action = ActionDocumentFormatSQL
