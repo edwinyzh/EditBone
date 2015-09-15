@@ -1973,7 +1973,7 @@ inherited MainForm: TMainForm
     object SpeedButtonToolbarFileNew: TBCSpeedButton
       Left = 2
       Top = 2
-      Width = 26
+      Width = 36
       Height = 24
       Action = ActionFileNew
       Align = alLeft
@@ -1994,9 +1994,9 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarFileOpen: TBCSpeedButton
-      Left = 28
+      Left = 38
       Top = 2
-      Width = 26
+      Width = 36
       Height = 24
       Action = ActionFileOpen
       Align = alLeft
@@ -2018,7 +2018,7 @@ inherited MainForm: TMainForm
     end
     object SpeedButtonToolbarDivider1: TBCSpeedButton
       AlignWithMargins = True
-      Left = 54
+      Left = 74
       Top = 4
       Width = 10
       Height = 20
@@ -2041,7 +2041,7 @@ inherited MainForm: TMainForm
       ImageIndex = 1
     end
     object SpeedButtonToolbarFileSave: TBCSpeedButton
-      Left = 64
+      Left = 84
       Top = 2
       Width = 26
       Height = 24
@@ -2064,7 +2064,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarFileSaveAs: TBCSpeedButton
-      Left = 90
+      Left = 110
       Top = 2
       Width = 26
       Height = 24
@@ -2087,7 +2087,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarFileSaveAll: TBCSpeedButton
-      Left = 116
+      Left = 136
       Top = 2
       Width = 26
       Height = 24
@@ -2110,7 +2110,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarFileClose: TBCSpeedButton
-      Left = 142
+      Left = 162
       Top = 2
       Width = 26
       Height = 24
@@ -2133,7 +2133,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarFileCloseAll: TBCSpeedButton
-      Left = 168
+      Left = 188
       Top = 2
       Width = 26
       Height = 24
@@ -2157,7 +2157,7 @@ inherited MainForm: TMainForm
     end
     object SpeedButtonToolbarDivider6: TBCSpeedButton
       AlignWithMargins = True
-      Left = 468
+      Left = 488
       Top = 4
       Width = 10
       Height = 20
@@ -2180,7 +2180,7 @@ inherited MainForm: TMainForm
       ImageIndex = 1
     end
     object SpeedButtonToolbarFilePrint: TBCSpeedButton
-      Left = 204
+      Left = 224
       Top = 2
       Width = 26
       Height = 24
@@ -2203,7 +2203,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarFilePrintPreview: TBCSpeedButton
-      Left = 230
+      Left = 250
       Top = 2
       Width = 26
       Height = 24
@@ -2227,7 +2227,7 @@ inherited MainForm: TMainForm
     end
     object SpeedButtonToolbarDivider3: TBCSpeedButton
       AlignWithMargins = True
-      Left = 256
+      Left = 276
       Top = 4
       Width = 10
       Height = 20
@@ -2251,7 +2251,7 @@ inherited MainForm: TMainForm
     end
     object SpeedButtonToolbarDivider4: TBCSpeedButton
       AlignWithMargins = True
-      Left = 344
+      Left = 364
       Top = 4
       Width = 10
       Height = 20
@@ -2275,7 +2275,7 @@ inherited MainForm: TMainForm
     end
     object SpeedButtonToolbarDivider5: TBCSpeedButton
       AlignWithMargins = True
-      Left = 406
+      Left = 426
       Top = 4
       Width = 10
       Height = 20
@@ -2299,7 +2299,7 @@ inherited MainForm: TMainForm
     end
     object SpeedButtonToolbarDivider8: TBCSpeedButton
       AlignWithMargins = True
-      Left = 566
+      Left = 586
       Top = 4
       Width = 10
       Height = 20
@@ -2323,7 +2323,7 @@ inherited MainForm: TMainForm
     end
     object SpeedButtonToolbarDivider7: TBCSpeedButton
       AlignWithMargins = True
-      Left = 504
+      Left = 524
       Top = 4
       Width = 10
       Height = 20
@@ -2347,7 +2347,7 @@ inherited MainForm: TMainForm
     end
     object SpeedButtonToolbarDivider9: TBCSpeedButton
       AlignWithMargins = True
-      Left = 654
+      Left = 674
       Top = 4
       Width = 10
       Height = 20
@@ -2371,7 +2371,7 @@ inherited MainForm: TMainForm
     end
     object SpeedButtonToolbarDivider10: TBCSpeedButton
       AlignWithMargins = True
-      Left = 820
+      Left = 840
       Top = 4
       Width = 10
       Height = 20
@@ -2395,7 +2395,7 @@ inherited MainForm: TMainForm
     end
     object SpeedButtonToolbarDivider11: TBCSpeedButton
       AlignWithMargins = True
-      Left = 856
+      Left = 876
       Top = 4
       Width = 10
       Height = 20
@@ -2419,7 +2419,7 @@ inherited MainForm: TMainForm
     end
     object SpeedButtonToolbarDivider2: TBCSpeedButton
       AlignWithMargins = True
-      Left = 194
+      Left = 214
       Top = 4
       Width = 10
       Height = 20
@@ -2442,7 +2442,7 @@ inherited MainForm: TMainForm
       ImageIndex = 1
     end
     object SpeedButtonToolbarViewOpenDirectory: TBCSpeedButton
-      Left = 266
+      Left = 286
       Top = 2
       Width = 26
       Height = 24
@@ -2465,7 +2465,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarViewCloseDirectory: TBCSpeedButton
-      Left = 292
+      Left = 312
       Top = 2
       Width = 26
       Height = 24
@@ -2488,7 +2488,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarViewEditDirectory: TBCSpeedButton
-      Left = 318
+      Left = 338
       Top = 2
       Width = 26
       Height = 24
@@ -2511,7 +2511,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarEditIndentIncrease: TBCSpeedButton
-      Left = 354
+      Left = 374
       Top = 2
       Width = 26
       Height = 24
@@ -2534,7 +2534,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarEditIndentDecrease: TBCSpeedButton
-      Left = 380
+      Left = 400
       Top = 2
       Width = 26
       Height = 24
@@ -2557,7 +2557,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarEditSortAsc: TBCSpeedButton
-      Left = 416
+      Left = 436
       Top = 2
       Width = 26
       Height = 24
@@ -2580,7 +2580,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarEditSortDesc: TBCSpeedButton
-      Left = 442
+      Left = 462
       Top = 2
       Width = 26
       Height = 24
@@ -2603,7 +2603,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarEditToggleCase: TBCSpeedButton
-      Left = 478
+      Left = 498
       Top = 2
       Width = 26
       Height = 24
@@ -2626,7 +2626,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarEditUndo: TBCSpeedButton
-      Left = 514
+      Left = 534
       Top = 2
       Width = 26
       Height = 24
@@ -2649,7 +2649,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarEditRedo: TBCSpeedButton
-      Left = 540
+      Left = 560
       Top = 2
       Width = 26
       Height = 24
@@ -2672,7 +2672,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarSearchSearch: TBCSpeedButton
-      Left = 576
+      Left = 596
       Top = 2
       Width = 26
       Height = 24
@@ -2695,7 +2695,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarSearchReplace: TBCSpeedButton
-      Left = 602
+      Left = 622
       Top = 2
       Width = 26
       Height = 24
@@ -2718,7 +2718,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarSearchFindInFiles: TBCSpeedButton
-      Left = 628
+      Left = 648
       Top = 2
       Width = 26
       Height = 24
@@ -2741,7 +2741,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarViewWordWrap: TBCSpeedButton
-      Left = 664
+      Left = 684
       Top = 2
       Width = 26
       Height = 24
@@ -2766,7 +2766,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarViewLineNumbers: TBCSpeedButton
-      Left = 690
+      Left = 710
       Top = 2
       Width = 26
       Height = 24
@@ -2791,7 +2791,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarViewSpecialChars: TBCSpeedButton
-      Left = 716
+      Left = 736
       Top = 2
       Width = 26
       Height = 24
@@ -2816,7 +2816,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarViewSelectionMode: TBCSpeedButton
-      Left = 742
+      Left = 762
       Top = 2
       Width = 26
       Height = 24
@@ -2841,7 +2841,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarToolsCompareFiles: TBCSpeedButton
-      Left = 830
+      Left = 850
       Top = 2
       Width = 26
       Height = 24
@@ -2864,7 +2864,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarDocumentInfo: TBCSpeedButton
-      Left = 866
+      Left = 886
       Top = 2
       Width = 26
       Height = 24
@@ -2887,7 +2887,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarDocumentViewInBrowser: TBCSpeedButton
-      Left = 892
+      Left = 912
       Top = 2
       Width = 26
       Height = 24
@@ -2910,7 +2910,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarViewSplit: TBCSpeedButton
-      Left = 794
+      Left = 814
       Top = 2
       Width = 26
       Height = 24
@@ -2935,7 +2935,7 @@ inherited MainForm: TMainForm
       ShowCaption = False
     end
     object SpeedButtonToolbarViewMinimap: TBCSpeedButton
-      Left = 768
+      Left = 788
       Top = 2
       Width = 26
       Height = 24

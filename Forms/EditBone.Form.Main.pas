@@ -1536,6 +1536,11 @@ begin
       ReadSectionValues('ToolBarItems', LToolBarItems);
       if LToolBarItems.Count > 0 then
       begin
+        if OptionsContainer.ToolbarIconSizeSmall then
+          PanelToolBar.Height := 28
+        else
+          PanelToolBar.Height := 36;
+
         { add items to action bar }
         while PanelToolBar.ControlCount > 0 do
           PanelToolBar.Controls[0].Destroy;
@@ -1544,7 +1549,10 @@ begin
         begin
           LSpeedButton := TBCSpeedButton.Create(PanelToolBar);
           LSpeedButton.Flat := True;
-          LSpeedButton.Images := ImagesDataModule.ImageListSmall;
+          if OptionsContainer.ToolbarIconSizeSmall then
+            LSpeedButton.Images := ImagesDataModule.ImageListSmall
+          else
+            LSpeedButton.Images := ImagesDataModule.ImageList;
           LSpeedButton.SkinData.SkinSection := 'TOOLBUTTON';
           LSpeedButton.Layout := Vcl.Buttons.blGlyphTop;
 
@@ -1560,7 +1568,10 @@ begin
             end
             else
               LSpeedButton.ButtonStyle := tbsTextButton;
-            LSpeedButton.Width := 26;
+            if OptionsContainer.ToolbarIconSizeSmall then
+              LSpeedButton.Width := 26
+            else
+              LSpeedButton.Width := 36
           end
           else
           begin
@@ -1888,7 +1899,10 @@ begin
   if PanelToolBar.Controls[i] is TBCSpeedButton then
   begin
     LSpeedButton := TBCSpeedButton(PanelToolBar.Controls[i]);
-    LSpeedButton.Images := ImagesDataModule.ImageListSmall;
+    if OptionsContainer.ToolbarIconSizeSmall then
+      LSpeedButton.Images := ImagesDataModule.ImageListSmall
+    else
+      LSpeedButton.Images := ImagesDataModule.ImageList
   end;
 end;
 
