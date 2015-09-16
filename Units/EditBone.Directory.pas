@@ -38,7 +38,8 @@ type
     function GetSelectedPath: string;
     procedure CreateImageList;
     procedure SetDrivesPanelOrientation(ShowDrives: Byte; ADriveComboBox: TBCDriveComboBox = nil);
-    procedure SetFileTypePanelOrientation(ShowFileType: Byte; FileType: string = ''; AFileTypeComboBox: TBCFileTypeComboBox = nil);
+    procedure SetFileTypePanelOrientation(ShowFileType: Byte; FileType: string = '';
+      AFileTypeComboBox: TBCFileTypeComboBox = nil);
   public
     constructor Create(AOwner: TBCPageControl);
     destructor Destroy; override;
@@ -75,9 +76,12 @@ type
 implementation
 
 uses
-  EditBone.Dialog.DirectoryTab, BigIni, BCCommon.Language.Strings, BCCommon.Options.Container, BCControls.Utils,
-  System.Math, BCCommon.FileUtils, BCCommon.Messages, BCCommon.StringUtils, BCCommon.Dialogs.Base,
-  Winapi.ShellAPI, Winapi.CommCtrl, EditBone.DataModule.Images, BCControls.Panel, EditBone.Consts;
+  EditBone.Dialog.DirectoryTab, BigIni, BCCommon.Language.Strings,
+  BCCommon.Options.Container, BCControls.Utils,
+  System.Math, BCCommon.FileUtils, BCCommon.Messages, BCCommon.StringUtils,
+  BCCommon.Dialogs.Base,
+  Winapi.ShellAPI, Winapi.CommCtrl, EditBone.DataModule.Images,
+  BCControls.Panel, EditBone.Consts;
 
 destructor TEBDirectory.Destroy;
 begin
@@ -152,37 +156,37 @@ var
 begin
   LastPaths := TStringList.Create;
   with TBigIniFile.Create(GetIniFilename) do
-  try
-    { Options }
-    ReadSectionValues('LastPaths', LastPaths);
-    for i := 0 to LastPaths.Count - 1 do
-    begin
-      s := RemoveTokenFromStart('=', LastPaths.Strings[i]);
-      TabName := GetNextToken(';', s);
-      s := RemoveTokenFromStart(';', s);
-      Root := GetNextToken(';', s);
-      s := RemoveTokenFromStart(';', s);
-      LastPath := GetNextToken(';', s);
-      s := RemoveTokenFromStart(';', s);
-      ShowDrives := Abs(StrToInt(GetNextToken(';', s)));
-      s := RemoveTokenFromStart(';', s);
-      ExcludeOtherBranches := StrToBool(GetNextToken(';', s));
-      s := RemoveTokenFromStart(';', s);
-      if s = '' then { Version < 6.7.0 }
-        s := '0;*.*';
-      ShowFileType := StrToInt(GetNextToken(';', s));
-      FileType := RemoveTokenFromStart(';', s);
-      if DirectoryExists(LastPath) then
-        OpenDirectory(TabName, Root, LastPath, ShowDrives, ExcludeOtherBranches, ShowFileType, FileType);
+    try
+      { Options }
+      ReadSectionValues('LastPaths', LastPaths);
+      for i := 0 to LastPaths.Count - 1 do
+      begin
+        s := RemoveTokenFromStart('=', LastPaths.Strings[i]);
+        TabName := GetNextToken(';', s);
+        s := RemoveTokenFromStart(';', s);
+        Root := GetNextToken(';', s);
+        s := RemoveTokenFromStart(';', s);
+        LastPath := GetNextToken(';', s);
+        s := RemoveTokenFromStart(';', s);
+        ShowDrives := Abs(StrToInt(GetNextToken(';', s)));
+        s := RemoveTokenFromStart(';', s);
+        ExcludeOtherBranches := StrToBool(GetNextToken(';', s));
+        s := RemoveTokenFromStart(';', s);
+        if s = '' then { Version < 6.7.0 }
+          s := '0;*.*';
+        ShowFileType := StrToInt(GetNextToken(';', s));
+        FileType := RemoveTokenFromStart(';', s);
+        if DirectoryExists(LastPath) then
+          OpenDirectory(TabName, Root, LastPath, ShowDrives, ExcludeOtherBranches, ShowFileType, FileType);
+      end;
+      i := ReadInteger('Options', 'ActiveDirectoryIndex', 0);
+      if i < FPageControl.PageCount then
+        FPageControl.ActivePageIndex := i;
+      Result := LastPaths.Count > 0;
+    finally
+      LastPaths.Free;
+      Free;
     end;
-    i := ReadInteger('Options', 'ActiveDirectoryIndex', 0);
-    if i < FPageControl.PageCount then
-      FPageControl.ActivePageIndex := i;
-    Result := LastPaths.Count > 0;
-  finally
-    LastPaths.Free;
-    Free;
-  end;
 end;
 
 function TEBDirectory.GetDriveComboBox(ATabSheet: TTabSheet): TBCDriveComboBox;
@@ -197,12 +201,12 @@ begin
       begin
         LPanel := TBCPanel(ATabSheet.Controls[0]);
         if Assigned(LPanel) then
-        for i := 0 to LPanel.ControlCount - 1 do
-        if LPanel.Controls[i] is TBCDriveComboBox then
-        begin
-          Result := LPanel.Controls[i] as TBCDriveComboBox;
-          Break;
-        end;
+          for i := 0 to LPanel.ControlCount - 1 do
+            if LPanel.Controls[i] is TBCDriveComboBox then
+            begin
+              Result := LPanel.Controls[i] as TBCDriveComboBox;
+              Break;
+            end;
       end;
 end;
 
@@ -218,12 +222,12 @@ begin
       begin
         LPanel := TBCPanel(ATabSheet.Controls[0]);
         if Assigned(LPanel) then
-        for i := 0 to LPanel.ControlCount - 1 do
-        if LPanel.Controls[i] is TBCFileTypeComboBox then
-        begin
-          Result := LPanel.Controls[i] as TBCFileTypeComboBox;
-          Break;
-        end;
+          for i := 0 to LPanel.ControlCount - 1 do
+            if LPanel.Controls[i] is TBCFileTypeComboBox then
+            begin
+              Result := LPanel.Controls[i] as TBCFileTypeComboBox;
+              Break;
+            end;
       end;
 end;
 
@@ -267,24 +271,24 @@ begin
   begin
     LDriveComboBox.Visible := ShowDrives <> 0;
     if ShowDrives = 1 then
-    with LDriveComboBox do
-    begin
-      Margins.Top := 4;
-      Margins.Bottom := 0;
-      Align := alBottom
-    end
-    else
-    if ShowDrives = 2 then
-    with LDriveComboBox do
-    begin
-      Margins.Top := 0;
-      Margins.Bottom := 4;
-      Align := alTop
-    end;
+      with LDriveComboBox do
+      begin
+        Margins.Top := 4;
+        Margins.Bottom := 0;
+        Align := alBottom
+      end
+    else if ShowDrives = 2 then
+      with LDriveComboBox do
+      begin
+        Margins.Top := 0;
+        Margins.Bottom := 4;
+        Align := alTop
+      end;
   end;
 end;
 
-procedure TEBDirectory.SetFileTypePanelOrientation(ShowFileType: Byte; FileType: string; AFileTypeComboBox: TBCFileTypeComboBox);
+procedure TEBDirectory.SetFileTypePanelOrientation(ShowFileType: Byte; FileType: string;
+  AFileTypeComboBox: TBCFileTypeComboBox);
 var
   LFileTypeComboBox: TBCFileTypeComboBox;
 begin
@@ -298,20 +302,19 @@ begin
     if FileType <> '' then
       LFileTypeComboBox.Text := FileType;
     if ShowFileType = 1 then
-    with LFileTypeComboBox do
-    begin
-      Margins.Top := 4;
-      Margins.Bottom := 0;
-      Align := alBottom
-    end
-    else
-    if ShowFileType = 2 then
-    with LFileTypeComboBox do
-    begin
-      Margins.Top := 0;
-      Margins.Bottom := 4;
-      Align := alTop
-    end;
+      with LFileTypeComboBox do
+      begin
+        Margins.Top := 4;
+        Margins.Bottom := 0;
+        Align := alBottom
+      end
+    else if ShowFileType = 2 then
+      with LFileTypeComboBox do
+      begin
+        Margins.Top := 0;
+        Margins.Bottom := 4;
+        Align := alTop
+      end;
   end;
 end;
 
@@ -350,25 +353,25 @@ var
   LTabSheet: TTabSheet;
 begin
   with TBigIniFile.Create(GetIniFilename) do
-  try
-    WriteInteger('Options', 'ActiveDirectoryIndex', FPageControl.ActivePageIndex);
-    { Options }
-    EraseSection('LastPaths');
-    { Open directories }
-    if OptionsContainer.DirSaveTabs then
-    for i := 0 to FPageControl.PageCount - 2 do
-    begin
-      LTabSheet := FPageControl.Pages[i];
-      FileTreeView := GetFileTreeView(LTabSheet);
-      if Assigned(FileTreeView) then
-        WriteString('LastPaths', IntToStr(i), Format('%s;%s;%s;%d;%s;%d;%s', [Trim(LTabSheet.Caption),
-          FileTreeView.RootDirectory, FileTreeView.SelectedPath, GetDrivesPanelOrientation(LTabSheet),
-          BoolToStr(FileTreeView.ExcludeOtherBranches), GetFileTypePanelOrientation(LTabSheet),
-          GetFileType(LTabSheet)]));
+    try
+      WriteInteger('Options', 'ActiveDirectoryIndex', FPageControl.ActivePageIndex);
+      { Options }
+      EraseSection('LastPaths');
+      { Open directories }
+      if OptionsContainer.DirSaveTabs then
+        for i := 0 to FPageControl.PageCount - 2 do
+        begin
+          LTabSheet := FPageControl.Pages[i];
+          FileTreeView := GetFileTreeView(LTabSheet);
+          if Assigned(FileTreeView) then
+            WriteString('LastPaths', IntToStr(i), Format('%s;%s;%s;%d;%s;%d;%s', [Trim(LTabSheet.Caption),
+              FileTreeView.RootDirectory, FileTreeView.SelectedPath, GetDrivesPanelOrientation(LTabSheet),
+              BoolToStr(FileTreeView.ExcludeOtherBranches), GetFileTypePanelOrientation(LTabSheet),
+              GetFileType(LTabSheet)]));
+        end;
+    finally
+      Free;
     end;
-  finally
-    Free;
-  end;
 end;
 
 function TEBDirectory.GetFileTreeView(ATabSheet: TTabSheet): TBCFileTreeView;
@@ -386,12 +389,12 @@ begin
       begin
         LPanel := TBCPanel(ATabSheet.Controls[0]);
         if Assigned(LPanel) then
-        for i := 0 to LPanel.ControlCount - 1 do
-        if LPanel.Controls[i] is TBCFileTreeView then
-        begin
-          Result := LPanel.Controls[i] as TBCFileTreeView;
-          Break;
-        end;
+          for i := 0 to LPanel.ControlCount - 1 do
+            if LPanel.Controls[i] is TBCFileTreeView then
+            begin
+              Result := LPanel.Controls[i] as TBCFileTreeView;
+              Break;
+            end;
       end;
 end;
 
@@ -436,8 +439,7 @@ begin
       FPageControl.Pages[LActivePageIndex].Free;
       if LActivePageIndex > 0 then
         FPageControl.ActivePageIndex := LActivePageIndex - 1
-      else
-      if FPageControl.PageCount > 0 then
+      else if FPageControl.PageCount > 0 then
         FPageControl.ActivePageIndex := 0;
     end
     else
@@ -505,39 +507,39 @@ var
 begin
   FileTreeView := GetFileTreeView;
   if Assigned(FileTreeView) then
-  with TDirectoryTabDialog.Create(nil) do
-  try
-    TabName := FPageControl.ActivePage.Caption{ActivePageCaption};
-    RootDirectory := FileTreeView.RootDirectory;
-    ShowDrives := GetDrivesPanelOrientation;
-    ExcludeOtherBranches := FileTreeView.ExcludeOtherBranches;
-    ShowFileType := GetFileTypePanelOrientation;
-    if Open(dtEdit) then
-    begin
-      FPageControl.ActivePage.Caption{ActivePageCaption} := TabName;
-      SetDrivesPanelOrientation(ShowDrives);
-      SetFileTypePanelOrientation(ShowFileType);
-      FileTreeView.OpenPath(RootDirectory, SelectedPath, ExcludeOtherBranches);
-    end;
-  finally
-    Free;
-  end;
+    with TDirectoryTabDialog.Create(nil) do
+      try
+        TabName := FPageControl.ActivePage.Caption { ActivePageCaption };
+        RootDirectory := FileTreeView.RootDirectory;
+        ShowDrives := GetDrivesPanelOrientation;
+        ExcludeOtherBranches := FileTreeView.ExcludeOtherBranches;
+        ShowFileType := GetFileTypePanelOrientation;
+        if Open(dtEdit) then
+        begin
+          FPageControl.ActivePage.Caption { ActivePageCaption } := TabName;
+          SetDrivesPanelOrientation(ShowDrives);
+          SetFileTypePanelOrientation(ShowFileType);
+          FileTreeView.OpenPath(RootDirectory, SelectedPath, ExcludeOtherBranches);
+        end;
+      finally
+        Free;
+      end;
 end;
 
 procedure TEBDirectory.OpenDirectory;
 begin
   with TDirectoryTabDialog.Create(nil) do
-  try
-    TabName := 'C:\';
-    RootDirectory := TabName;
-    ShowDrives := 1;
-    ExcludeOtherBranches := False;
-    ShowFileType := 0;
-    if Open(dtOpen) then
-      OpenDirectory(TabName, RootDirectory, RootDirectory, ShowDrives, ExcludeOtherBranches, ShowFileType, '*.*');
-  finally
-    Free;
-  end;
+    try
+      TabName := 'C:\';
+      RootDirectory := TabName;
+      ShowDrives := 1;
+      ExcludeOtherBranches := False;
+      ShowFileType := 0;
+      if Open(dtOpen) then
+        OpenDirectory(TabName, RootDirectory, RootDirectory, ShowDrives, ExcludeOtherBranches, ShowFileType, '*.*');
+    finally
+      Free;
+    end;
 end;
 
 procedure TEBDirectory.FileProperties;
@@ -596,9 +598,9 @@ begin
   if Assigned(DriveComboBox) then
   begin
     FPageControl.ActivePage.ImageIndex := DriveComboBox.IconIndex;
-    if (Length(FPageControl.ActivePage.Caption{ActivePageCaption}) = 3) and
-      (Pos(':\', FPageControl.ActivePage.Caption{ActivePageCaption}) = 2) then
-      FPageControl.ActivePage.Caption{ActivePageCaption} := Format('%s:\', [DriveComboBox.Drive]);
+    if (Length(FPageControl.ActivePage.Caption { ActivePageCaption } ) = 3) and
+      (Pos(':\', FPageControl.ActivePage.Caption { ActivePageCaption } ) = 2) then
+      FPageControl.ActivePage.Caption { ActivePageCaption } := Format('%s:\', [DriveComboBox.Drive]);
   end;
 end;
 
@@ -692,11 +694,13 @@ begin
 
   SetDrivesPanelOrientation(ShowDrives, LDriveComboBox);
   SetFileTypePanelOrientation(ShowFileType, FileType, LFileTypeComboBox);
-  SHGetFileInfo(PChar(RootDirectory), 0, SHFileInfo, SizeOf(SHFileInfo), SHGFI_SYSICONINDEX or SHGFI_DISPLAYNAME or SHGFI_TYPENAME);
+  SHGetFileInfo(PChar(RootDirectory), 0, SHFileInfo, SizeOf(SHFileInfo), SHGFI_SYSICONINDEX or SHGFI_DISPLAYNAME or
+    SHGFI_TYPENAME);
   LTabSheet.ImageIndex := SHFileInfo.iIcon;
-  DestroyIcon(SHFileInfo.hIcon); { destroy the icon, we are only using the index }
+  DestroyIcon(SHFileInfo.hIcon);
+  { destroy the icon, we are only using the index }
 
-  PageControl.ActivePage.Caption{ActivePageCaption} := TabName;
+  PageControl.ActivePage.Caption := TabName;
   SetOptions;
   OpenPath(RootDirectory, LastPath, ExcludeOtherBranches);
   LPanel.Visible := True;
@@ -707,7 +711,7 @@ function TEBDirectory.GetIsAnyDirectory: Boolean;
 begin
   Result := False;
   if Assigned(PageControl) then
-    Result := PageControl.PageCount <> 0;
+    Result := PageControl.PageCount > 1;
 end;
 
 procedure TEBDirectory.Copy;

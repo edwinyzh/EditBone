@@ -1683,7 +1683,7 @@ end;
 
 procedure TMainForm.ActionViewDirectoryExecute(Sender: TObject);
 begin
-   with PanelDirectory do
+  with PanelDirectory do
   begin
     if not Visible then
       SplitterVertical.Show { vertical splitter must be shown at first or the order goes wrong! }
@@ -2017,11 +2017,12 @@ begin
     if not ActionViewOutput.Enabled then { if there's no output then hide panel }
       PanelOutput.Visible := False;
 
-    if not FDirectory.IsAnyDirectory then
-    begin
-      SplitterVertical.Visible := False;
-      PanelDirectory.Visible := False;
-    end;
+    if OptionsContainer.DirAutoHide then
+      if not FDirectory.IsAnyDirectory then
+      begin
+        SplitterVertical.Visible := False;
+        PanelDirectory.Visible := False;
+      end;
 
     ActionViewEditDirectory.Enabled := PanelDirectory.Visible;
     ActionViewCloseDirectory.Enabled := PanelDirectory.Visible;

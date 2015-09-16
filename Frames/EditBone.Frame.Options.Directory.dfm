@@ -1,12 +1,12 @@
 inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
   Width = 162
-  Height = 155
+  Height = 176
   object Panel: TBCPanel [0]
     AlignWithMargins = True
     Left = 4
     Top = 0
     Width = 158
-    Height = 155
+    Height = 176
     Margins.Left = 4
     Margins.Top = 0
     Margins.Right = 0
@@ -18,7 +18,7 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
     SkinData.SkinSection = 'CHECKBOX'
     object StickyLabelShowTreeLines: TsStickyLabel
       Left = 0
-      Top = 96
+      Top = 119
       Width = 100
       Height = 13
       Margins.Left = 4
@@ -32,7 +32,7 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
     end
     object StickyLabelShowHiddenFiles: TsStickyLabel
       Left = 0
-      Top = 27
+      Top = 50
       Width = 100
       Height = 13
       Margins.Left = 4
@@ -46,7 +46,7 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
     end
     object StickyLabelShowSystemFiles: TsStickyLabel
       Left = 0
-      Top = 73
+      Top = 96
       Width = 100
       Height = 13
       Margins.Left = 4
@@ -60,7 +60,7 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
     end
     object StickyLabelShowArchiveFiles: TsStickyLabel
       Left = 0
-      Top = 4
+      Top = 27
       Width = 100
       Height = 13
       Margins.Left = 4
@@ -75,7 +75,7 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
     end
     object StickyLabelShowOverlayIcons: TsStickyLabel
       Left = 0
-      Top = 50
+      Top = 73
       Width = 100
       Height = 13
       Margins.Left = 4
@@ -88,12 +88,27 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
       AttachTo = SliderShowOverlayIcons
       Gap = 8
     end
+    object StickyLabelAutoHide: TsStickyLabel
+      Left = 0
+      Top = 4
+      Width = 100
+      Height = 13
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      AutoSize = False
+      Caption = 'Auto hide'
+      ParentColor = False
+      AttachTo = SliderAutoHide
+      Gap = 8
+    end
     object SliderShowTreeLines: TsSlider
       Left = 108
-      Top = 92
+      Top = 115
       Width = 50
       AutoSize = True
-      TabOrder = 4
+      TabOrder = 5
       ImageIndexOff = 0
       ImageIndexOn = 0
       FontOn.Charset = DEFAULT_CHARSET
@@ -106,14 +121,14 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
     end
     object EditIndent: TBCEdit
       Left = 0
-      Top = 134
+      Top = 155
       Width = 64
       Height = 21
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      TabOrder = 5
+      TabOrder = 6
       Text = '20'
       SkinData.SkinSection = 'EDIT'
       BoundLabel.Active = True
@@ -130,6 +145,38 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
     end
     object SliderShowHiddenFiles: TsSlider
       Left = 108
+      Top = 46
+      Width = 50
+      AutoSize = True
+      TabOrder = 2
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
+    end
+    object SliderShowSystemFiles: TsSlider
+      Left = 108
+      Top = 92
+      Width = 50
+      AutoSize = True
+      TabOrder = 4
+      ImageIndexOff = 0
+      ImageIndexOn = 0
+      FontOn.Charset = DEFAULT_CHARSET
+      FontOn.Color = clWindowText
+      FontOn.Height = -11
+      FontOn.Name = 'Tahoma'
+      FontOn.Style = []
+      SliderCaptionOn = 'Yes'
+      SliderCaptionOff = 'No'
+    end
+    object SliderShowArchiveFiles: TsSlider
+      Left = 108
       Top = 23
       Width = 50
       AutoSize = True
@@ -144,7 +191,7 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
       SliderCaptionOn = 'Yes'
       SliderCaptionOff = 'No'
     end
-    object SliderShowSystemFiles: TsSlider
+    object SliderShowOverlayIcons: TsSlider
       Left = 108
       Top = 69
       Width = 50
@@ -160,28 +207,12 @@ inherited OptionsDirectoryFrame: TOptionsDirectoryFrame
       SliderCaptionOn = 'Yes'
       SliderCaptionOff = 'No'
     end
-    object SliderShowArchiveFiles: TsSlider
+    object SliderAutoHide: TsSlider
       Left = 108
       Top = 0
       Width = 50
       AutoSize = True
       TabOrder = 0
-      ImageIndexOff = 0
-      ImageIndexOn = 0
-      FontOn.Charset = DEFAULT_CHARSET
-      FontOn.Color = clWindowText
-      FontOn.Height = -11
-      FontOn.Name = 'Tahoma'
-      FontOn.Style = []
-      SliderCaptionOn = 'Yes'
-      SliderCaptionOff = 'No'
-    end
-    object SliderShowOverlayIcons: TsSlider
-      Left = 108
-      Top = 46
-      Width = 50
-      AutoSize = True
-      TabOrder = 2
       ImageIndexOff = 0
       ImageIndexOn = 0
       FontOn.Charset = DEFAULT_CHARSET

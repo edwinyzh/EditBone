@@ -21,6 +21,8 @@ type
     SliderShowOverlayIcons: TsSlider;
     EditIndent: TBCEdit;
     Panel: TBCPanel;
+    SliderAutoHide: TsSlider;
+    StickyLabelAutoHide: TsStickyLabel;
   protected
     procedure GetData; override;
     procedure PutData; override;
@@ -58,6 +60,7 @@ procedure TOptionsDirectoryFrame.GetData;
 begin
   with OptionsContainer do
   begin
+    SliderAutoHide.SliderOn := DirAutoHide;
     SliderShowTreeLines.SliderOn := DirShowTreeLines;
     EditIndent.Text := IntToStr(DirIndent);
     SliderShowHiddenFiles.SliderOn := DirShowHiddenFiles;
@@ -71,6 +74,7 @@ procedure TOptionsDirectoryFrame.PutData;
 begin
   with OptionsContainer do
   begin
+    DirAutoHide := SliderAutoHide.SliderOn;
     DirShowTreeLines := SliderShowTreeLines.SliderOn;
     DirShowHiddenFiles := SliderShowHiddenFiles.SliderOn;
     DirShowSystemFiles := SliderShowSystemFiles.SliderOn;
