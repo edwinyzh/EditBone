@@ -1856,6 +1856,8 @@ procedure TMainForm.AppInstancesCmdLineReceived(Sender: TObject; CmdLine: TStrin
 var
   i: Integer;
 begin
+  if WindowState = wsMinimized then
+    ShowWindow(Handle, SW_RESTORE);
   PageControlDocument.Visible := False;
   for i := 0 to CmdLine.Count - 1 do
     FDocument.Open(CmdLine.Strings[i], True);

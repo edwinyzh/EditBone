@@ -2,7 +2,7 @@ object OutputTabSheetFrame: TOutputTabSheetFrame
   Left = 0
   Top = 0
   Width = 451
-  Height = 304
+  Height = 305
   Align = alClient
   Color = clWindow
   ParentBackground = False
@@ -13,7 +13,7 @@ object OutputTabSheetFrame: TOutputTabSheetFrame
     Left = 2
     Top = 2
     Width = 447
-    Height = 300
+    Height = 301
     Margins.Left = 2
     Margins.Top = 2
     Margins.Right = 2
@@ -28,7 +28,7 @@ object OutputTabSheetFrame: TOutputTabSheetFrame
       Left = 0
       Top = 0
       Width = 447
-      Height = 300
+      Height = 301
       Align = alClient
       DragOperations = []
       Header.AutoSizeIndex = 0

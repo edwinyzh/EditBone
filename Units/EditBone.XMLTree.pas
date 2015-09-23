@@ -32,8 +32,12 @@ type
     procedure DoInitNode(Parent, Node: PVirtualNode; var InitStates: TVirtualNodeInitStates); override;
     //function DoGetImageIndex(Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
      // var Ghosted: Boolean; var Index: TImageIndex): TCustomImageList; override;
+    //function DoGetImageIndex(Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
+    //  var Ghosted: Boolean; var Index: System.UITypes.TImageIndex): TCustomImageList; override;
     function DoGetImageIndex(Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
       var Ghosted: Boolean; var Index: Integer): TCustomImageList; override;
+    //function DoGetImageIndex(Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
+    //  var Ghosted: Boolean; var Index: Integer): TCustomImageList; override;
     procedure CreateWnd; override;
   public
     constructor Create(AOwner: TComponent); override;
@@ -486,11 +490,13 @@ end;
 function TEBXMLTree.DoGetImageIndex(Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
   var Ghosted: Boolean; var Index: Integer): TCustomImageList;
 //function TEBXMLTree.DoGetImageIndex(Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
+//  var Ghosted: Boolean; var Index: Integer): TCustomImageList;
+//function TEBXMLTree.DoGetImageIndex(Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
 //  var Ghosted: Boolean; var Index: TImageIndex): TCustomImageList;
 var
   Data: PXMLTreeRec;
 begin
-  Result := nil;
+  Result := inherited;
   if Kind in [ikNormal, ikSelected] then
   begin
     Data := GetNodeData(Node);
