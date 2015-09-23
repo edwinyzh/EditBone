@@ -306,8 +306,8 @@ object OptionsForm: TOptionsForm
       Caption = 'Whitespace'
       ImageIndex = 126
     end
-    object ActionToolBar: TAction
-      Caption = 'Tool Bar'
+    object ActionToolbar: TAction
+      Caption = 'Toolbar'
       ImageIndex = 118
     end
   end

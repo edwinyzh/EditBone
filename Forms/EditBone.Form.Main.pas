@@ -111,9 +111,9 @@ type
     ActionToggleBookmarks7: TAction;
     ActionToggleBookmarks8: TAction;
     ActionToggleBookmarks9: TAction;
-    ActionToolBarMenuLanguage: TAction;
-    ActionToolBarMenuSkin: TAction;
-    ActionToolBarMenuView: TAction;
+    ActionToolbarMenuLanguage: TAction;
+    ActionToolbarMenuSkin: TAction;
+    ActionToolbarMenuView: TAction;
     ActionTools: TAction;
     ActionToolsCharacterMap: TAction;
     ActionToolsCompareFiles: TAction;
@@ -353,19 +353,19 @@ type
     MenuItemToggleBookmark7: TMenuItem;
     MenuItemToggleBookmark8: TMenuItem;
     MenuItemToggleBookmark9: TMenuItem;
-    MenuItemToolBarMenuLanguage: TMenuItem;
-    MenuItemToolBarMenuSkin: TMenuItem;
-    MenuItemToolBarMenuView: TMenuItem;
-    MenuItemToolBarMenuViewColor: TMenuItem;
-    MenuItemToolBarMenuViewDirectory: TMenuItem;
-    MenuItemToolBarMenuViewEncoding: TMenuItem;
-    MenuItemToolBarMenuViewHighlighter: TMenuItem;
-    MenuItemToolBarMenuViewMenuBar: TMenuItem;
-    MenuItemToolBarMenuViewOutput: TMenuItem;
-    MenuItemToolBarMenuViewStatusBar: TMenuItem;
-    MenuItemToolBarMenuViewToolbar: TMenuItem;
+    MenuItemToolbarMenuLanguage: TMenuItem;
+    MenuItemToolbarMenuSkin: TMenuItem;
+    MenuItemToolbarMenuView: TMenuItem;
+    MenuItemToolbarMenuViewColor: TMenuItem;
+    MenuItemToolbarMenuViewDirectory: TMenuItem;
+    MenuItemToolbarMenuViewEncoding: TMenuItem;
+    MenuItemToolbarMenuViewHighlighter: TMenuItem;
+    MenuItemToolbarMenuViewMenuBar: TMenuItem;
+    MenuItemToolbarMenuViewOutput: TMenuItem;
+    MenuItemToolbarMenuViewStatusBar: TMenuItem;
+    MenuItemToolbarMenuViewToolbar: TMenuItem;
     MenuItemUndo: TMenuItem;
-    PageControlToolBar: TBCPageControl;
+    PageControlToolbar: TBCPageControl;
     PanelDirectory: TBCPanel;
     PanelDocument: TBCPanel;
     PanelDocumentButtons: TBCPanel;
@@ -375,7 +375,7 @@ type
     PanelMenuBar: TBCPanel;
     PanelMiddle: TBCPanel;
     PanelSearchButtons: TBCPanel;
-    PanelToolBar: TBCPanel;
+    PanelToolbar: TBCPanel;
     PanelToolsButtons: TBCPanel;
     PanelViewButtons: TBCPanel;
     PopupMenuColors: TPopupMenu;
@@ -391,7 +391,7 @@ type
     PopupMenuHighlighters: TPopupMenu;
     PopupMenuSearchGotoBookmarks: TPopupMenu;
     PopupMenuSearchToggleBookmarks: TPopupMenu;
-    PopupMenuToolBar: TPopupMenu;
+    PopupMenuToolbar: TPopupMenu;
     SpeedButtonClose: TBCSpeedButton;
     SpeedButtonCloseAll: TBCSpeedButton;
     SpeedButtonCloseAllOther: TBCSpeedButton;
@@ -749,7 +749,7 @@ type
     procedure OnTerminateFindInFiles(Sender: TObject);
     procedure OnProgressBarStepFindInFiles(Sender: TObject);
     procedure OnAddTreeViewLine(Sender: TObject; Filename: WideString; Ln, Ch: LongInt; Text: WideString; SearchString: WideString = '');
-    procedure ActionToolBarMenuSkinExecute(Sender: TObject);
+    procedure ActionToolbarMenuSkinExecute(Sender: TObject);
     procedure ActionMacroPauseExecute(Sender: TObject);
     procedure PageControlDocumentChange(Sender: TObject);
     procedure PageControlDocumentCloseBtnClick(Sender: TComponent; TabIndex: Integer; var CanClose: Boolean;
@@ -801,7 +801,7 @@ type
     function Processing: Boolean;
     procedure CreateObjects;
     procedure CreateLanguageMenu(AMenuItem: TMenuItem);
-    procedure CreateToolBar(ACreate: Boolean = False);
+    procedure CreateToolbar(ACreate: Boolean = False);
     procedure ReadIniOptions;
     procedure ReadIniSizePositionAndState;
     procedure ReadLanguageFile(ALanguage: string);
@@ -1189,43 +1189,43 @@ end;
 procedure TMainForm.ActionMenuDocumentExecute(Sender: TObject);
 begin
   inherited;
-  PageControlToolBar.ActivePage := TabSheetDocument;
+  PageControlToolbar.ActivePage := TabSheetDocument;
 end;
 
 procedure TMainForm.ActionMenuEditExecute(Sender: TObject);
 begin
   inherited;
-  PageControlToolBar.ActivePage := TabSheetEdit;
+  PageControlToolbar.ActivePage := TabSheetEdit;
 end;
 
 procedure TMainForm.ActionMenuFileExecute(Sender: TObject);
 begin
   inherited;
-  PageControlToolBar.ActivePage := TabSheetFile;
+  PageControlToolbar.ActivePage := TabSheetFile;
 end;
 
 procedure TMainForm.ActionMenuHelpExecute(Sender: TObject);
 begin
   inherited;
-  PageControlToolBar.ActivePage := TabSheetHelp;
+  PageControlToolbar.ActivePage := TabSheetHelp;
 end;
 
 procedure TMainForm.ActionMenuSearchExecute(Sender: TObject);
 begin
   inherited;
-  PageControlToolBar.ActivePage := TabSheetSearch;
+  PageControlToolbar.ActivePage := TabSheetSearch;
 end;
 
 procedure TMainForm.ActionMenuToolsExecute(Sender: TObject);
 begin
   inherited;
-  PageControlToolBar.ActivePage := TabSheetTools;
+  PageControlToolbar.ActivePage := TabSheetTools;
 end;
 
 procedure TMainForm.ActionMenuViewExecute(Sender: TObject);
 begin
   inherited;
-  PageControlToolBar.ActivePage := TabSheetView;
+  PageControlToolbar.ActivePage := TabSheetView;
 end;
 
 procedure TMainForm.ActionFileNewExecute(Sender: TObject);
@@ -1503,11 +1503,11 @@ begin
   Self.ReadLanguageFile(GetSelectedLanguage('English'));
 end;
 
-procedure TMainForm.CreateToolBar(ACreate: Boolean = False);
+procedure TMainForm.CreateToolbar(ACreate: Boolean = False);
 var
   i, LLeft: Integer;
   s: string;
-  LToolBarItems: TStrings;
+  LToolbarItems: TStrings;
   LIsChanged: Boolean;
   LSpeedButton: TBCSpeedButton;
 
@@ -1523,31 +1523,31 @@ var
 
 begin
   LLeft := 0;
-  LToolBarItems := TStringList.Create;
+  LToolbarItems := TStringList.Create;
   with TBigIniFile.Create(GetIniFilename) do
   try
     { update if changed }
-    LIsChanged := ReadBool('ToolBarItemsChanged', 'Changed', False);
-    EraseSection('ToolBarItemsChanged');
+    LIsChanged := ReadBool('ToolbarItemsChanged', 'Changed', False);
+    EraseSection('ToolbarItemsChanged');
 
     if LIsChanged or ACreate then
     begin
       { read items from ini }
-      ReadSectionValues('ToolBarItems', LToolBarItems);
-      if LToolBarItems.Count > 0 then
+      ReadSectionValues('ToolbarItems', LToolbarItems);
+      if LToolbarItems.Count > 0 then
       begin
         if OptionsContainer.ToolbarIconSizeSmall then
-          PanelToolBar.Height := 28
+          PanelToolbar.Height := 28
         else
-          PanelToolBar.Height := 36;
+          PanelToolbar.Height := 36;
 
         { add items to action bar }
-        while PanelToolBar.ControlCount > 0 do
-          PanelToolBar.Controls[0].Destroy;
+        while PanelToolbar.ControlCount > 0 do
+          PanelToolbar.Controls[0].Destroy;
 
-        for i := 0 to LToolBarItems.Count - 1 do
+        for i := 0 to LToolbarItems.Count - 1 do
         begin
-          LSpeedButton := TBCSpeedButton.Create(PanelToolBar);
+          LSpeedButton := TBCSpeedButton.Create(PanelToolbar);
           LSpeedButton.Flat := True;
           if OptionsContainer.ToolbarIconSizeSmall then
             LSpeedButton.Images := ImagesDataModule.ImageListSmall
@@ -1556,7 +1556,7 @@ begin
           LSpeedButton.SkinData.SkinSection := 'TOOLBUTTON';
           LSpeedButton.Layout := Vcl.Buttons.blGlyphTop;
 
-          s := GetTokenAfter('=', LToolBarItems.Strings[i]);
+          s := GetTokenAfter('=', LToolbarItems.Strings[i]);
           if s <> '-' then
           begin
             LSpeedButton.Action := FindItemByName(s);
@@ -1584,7 +1584,7 @@ begin
             LSpeedButton.AlignWithMargins := True;
           end;
 
-          LSpeedButton.Parent := PanelToolBar;
+          LSpeedButton.Parent := PanelToolbar;
           LSpeedButton.Left := LLeft;
           LSpeedButton.Align := alLeft;
 
@@ -1594,7 +1594,7 @@ begin
     end
   finally
     Free;
-    LToolBarItems.Free;
+    LToolbarItems.Free;
   end;
 end;
 
@@ -1665,7 +1665,7 @@ begin
   FDocument.GotoBookMarks(Action.Tag);
 end;
 
-procedure TMainForm.ActionToolBarMenuSkinExecute(Sender: TObject);
+procedure TMainForm.ActionToolbarMenuSkinExecute(Sender: TObject);
 begin
   inherited;
   TSkinSelectDialog.ClassShowModal(SkinManager);
@@ -1758,10 +1758,10 @@ begin
     ActionList.Images := ImagesDataModule.ImageList
   else
     ActionList.Images := ImagesDataModule.ImageListSmall;
-  if PanelMenubar.Visible and PanelToolBar.Visible then
+  if PanelMenubar.Visible and PanelToolbar.Visible then
   begin
-    OptionsContainer.ToolBarVisible := False;
-    PanelToolBar.Visible := False;
+    OptionsContainer.ToolbarVisible := False;
+    PanelToolbar.Visible := False;
   end;
   if PanelMenubar.Visible and Assigned(Menu) then
   begin
@@ -1824,13 +1824,13 @@ end;
 
 procedure TMainForm.ActionViewToolbarExecute(Sender: TObject);
 begin
-  OptionsContainer.ToolBarVisible := not OptionsContainer.ToolBarVisible;
-  PanelToolBar.Visible := OptionsContainer.ToolBarVisible;
-  if PanelToolBar.Visible then
+  OptionsContainer.ToolbarVisible := not OptionsContainer.ToolbarVisible;
+  PanelToolbar.Visible := OptionsContainer.ToolbarVisible;
+  if PanelToolbar.Visible then
     ActionList.Images := ImagesDataModule.ImageListSmall
   else
     ActionList.Images := ImagesDataModule.ImageList;
-  if PanelMenubar.Visible and PanelToolBar.Visible then
+  if PanelMenubar.Visible and PanelToolbar.Visible then
   begin
     OptionsContainer.MenuBarVisible := False;
     PanelMenuBar.Visible := False;
@@ -1897,10 +1897,10 @@ begin
   PopupMenuDocument.Images := ImagesDataModule.ImageListSmall;
   PopupMenuFileTreeView.Images := ImagesDataModule.ImageListSmall;
 
-  for i := 0 to PanelToolBar.ControlCount - 1 do
-  if PanelToolBar.Controls[i] is TBCSpeedButton then
+  for i := 0 to PanelToolbar.ControlCount - 1 do
+  if PanelToolbar.Controls[i] is TBCSpeedButton then
   begin
-    LSpeedButton := TBCSpeedButton(PanelToolBar.Controls[i]);
+    LSpeedButton := TBCSpeedButton(PanelToolbar.Controls[i]);
     if OptionsContainer.ToolbarIconSizeSmall then
       LSpeedButton.Images := ImagesDataModule.ImageListSmall
     else
@@ -1928,7 +1928,7 @@ begin
     IsJSONDocument := FDocument.IsJSONDocument;
 
     ActionViewMainMenu.Checked := Assigned(Menu);
-    ActionViewToolbar.Checked := PanelToolBar.Visible;
+    ActionViewToolbar.Checked := PanelToolbar.Visible;
     ActionViewMenuBar.Checked := PanelMenuBar.Visible;
     ActionViewStatusbar.Checked := StatusBar.Visible;
     ActionViewOutput.Checked := PanelOutput.Visible;
@@ -2109,7 +2109,7 @@ var
   LanguagePath, FileName, ExtractedFileName, LanguageName: string;
   LMenuItem: TMenuItem;
 begin
-  ActionToolBarMenuLanguage.Enabled := False;
+  ActionToolbarMenuLanguage.Enabled := False;
   AMenuItem.Clear;
 
   LanguagePath := IncludeTrailingPathDelimiter(Format('%s%s', [ExtractFilePath(ParamStr(0)), 'Languages']));
@@ -2127,7 +2127,7 @@ begin
     LMenuItem.RadioItem := True;
     AMenuItem.Add(LMenuItem);
   end;
-  ActionToolBarMenuLanguage.Enabled := AMenuItem.Count > 0;
+  ActionToolbarMenuLanguage.Enabled := AMenuItem.Count > 0;
 end;
 
 procedure TMainForm.DragDropDrop(Sender: TObject; Pos: TPoint; Value: TStrings);
@@ -2269,18 +2269,18 @@ procedure TMainForm.FormCreate(Sender: TObject);
 begin
   inherited;
 
-  PageControlToolBar.ActivePage := TabSheetFile;
+  PageControlToolbar.ActivePage := TabSheetFile;
 
   FImageListCount := ImagesDataModule.ImageListSmall.Count; { System images are appended after menu icons for file reopen }
   ReadIniOptions;
-  CreateToolBar(True);
+  CreateToolbar(True);
   CreateObjects;
   ReadIniSizePositionAndState;
   SetOptions;
 
   FSQLFormatterDLLFound := FileExists(GetSQLFormatterDLLFilename);
 
-  CreateLanguageMenu(MenuItemToolBarMenuLanguage);
+  CreateLanguageMenu(MenuItemToolbarMenuLanguage);
   GetHighlighters;
   GetHighlighterColors;
 
@@ -2535,9 +2535,9 @@ begin
     ActionViewColorSelection.Checked := TitleBar.Items[6].Visible;
 
     { if items doesn't exist in ini, create them }
-    if not SectionExists('ToolBarItems') then
-      for i := 1 to Length(ToolBarItemsArray) do
-         WriteString('ToolBarItems', IntToStr(i - 1), ToolBarItemsArray[i]);
+    if not SectionExists('ToolbarItems') then
+      for i := 1 to Length(ToolbarItemsArray) do
+         WriteString('ToolbarItems', IntToStr(i - 1), ToolbarItemsArray[i]);
     SkinManager.SkinName := ReadString('Options', 'SelectedSkin', 'Windows 10');
   finally
     Free;
@@ -2868,7 +2868,7 @@ begin
     WriteInteger('Size', 'State', Ord(WindowState));
     { Options }
     WriteInteger('Options', 'DirectoryWidth', PanelDirectory.Width);
-    WriteBool('Options', 'ShowToolBar', PanelToolBar.Visible);
+    WriteBool('Options', 'ShowToolbar', PanelToolbar.Visible);
     WriteBool('Options', 'ShowStatusbar', StatusBar.Visible);
     WriteBool('Options', 'ShowDirectory', PanelDirectory.Visible);
     WriteBool('Options', 'ShowEncodingSelection', TitleBar.Items[2].Visible);

@@ -52,7 +52,7 @@ type
     ActionSQLUpdate: TAction;
     ActionSQLWhitespace: TAction;
     ActionStatusBar: TAction;
-    ActionToolBar: TAction;
+    ActionToolbar: TAction;
     ButtonCancel: TButton;
     ButtonOK: TButton;
     OptionsPanel: TBCPanel;
@@ -104,7 +104,7 @@ uses
   EditBone.Frame.Options.FileTypes, EditBone.Frame.Options.Directory, EditBone.Frame.Options.Directory.TabSheet,
   EditBone.Frame.Options.Output.TabSheet, BCCommon.Frames.Options.Compare,
   BCCommon.Frames.Options.MainMenu, BCCommon.Frames.Options.StatusBar, BCCommon.Frames.Options.Output,
-  BCCommon.Frames.Options.ToolBar, BCCommon.Frames.Options.Print, BCCommon.Frames.Options.SQL.Select,
+  BCCommon.Frames.Options.Toolbar, BCCommon.Frames.Options.Print, BCCommon.Frames.Options.SQL.Select,
   BCCommon.Frames.Options.SQL.Alignments, BCCommon.Frames.Options.SQL.Insert, BCCommon.Frames.Options.SQL.Update,
   BCCommon.Frames.Options.SQL.Whitespace, BCCommon.Frames.Options.SQL.Capitalization,
   BCCommon.Frames.Options.SQL.Indentation, BCCommon.Frames.Options.SQL.Formatter;
@@ -290,12 +290,12 @@ begin
     Data.Index := PostInc(i);
     Data.ImageIndex := ActionMainMenu.ImageIndex;
     Data.Caption := ActionMainMenu.Caption;
-    { Tool Bar }
+    { Toolbar }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
     Data.Index := PostInc(i);
-    Data.ImageIndex := ActionToolBar.ImageIndex;
-    Data.Caption := ActionToolBar.Caption;
+    Data.ImageIndex := ActionToolbar.ImageIndex;
+    Data.Caption := ActionToolbar.Caption;
     { Status Bar }
     Node := AddChild(nil);
     Data := GetNodeData(Node);
@@ -521,7 +521,7 @@ begin
     if (Level = 0) and (TreeNode.Index = 5) then
       OptionsMainMenuFrame(Self).ShowFrame;
     if (Level = 0) and (TreeNode.Index = 6) then
-      OptionsToolBarFrame(Self, FActionList).Show;
+      OptionsToolbarFrame(Self, FActionList).Show;
     if (Level = 0) and (TreeNode.Index = 7) then
       OptionsStatusBarFrame(Self).ShowFrame;
     if (Level = 0) and (TreeNode.Index = 8) then

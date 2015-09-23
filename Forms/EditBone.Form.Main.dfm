@@ -94,7 +94,7 @@ inherited MainForm: TMainForm
     BevelOuter = bvNone
     TabOrder = 3
     SkinData.SkinSection = 'CHECKBOX'
-    object PageControlToolBar: TBCPageControl
+    object PageControlToolbar: TBCPageControl
       AlignWithMargins = True
       Left = 0
       Top = 4
@@ -124,7 +124,7 @@ inherited MainForm: TMainForm
       object TabSheetButton: TsTabSheet
         ImageIndex = 86
         TabType = ttMenu
-        TabMenu = PopupMenuToolBar
+        TabMenu = PopupMenuToolbar
         TabSkin = 'CHECKBOX'
         SkinData.CustomColor = False
         SkinData.CustomFont = False
@@ -1954,7 +1954,7 @@ inherited MainForm: TMainForm
       end
     end
   end
-  object PanelToolBar: TBCPanel [4]
+  object PanelToolbar: TBCPanel [4]
     Left = 0
     Top = 0
     Width = 1111
@@ -2992,7 +2992,7 @@ inherited MainForm: TMainForm
     Images = ImagesDataModule.ImageListSmall
     Items = <
       item
-        DropdownMenu = PopupMenuToolBar
+        DropdownMenu = PopupMenuToolbar
         FontData.Font.Charset = DEFAULT_CHARSET
         FontData.Font.Color = clWindowText
         FontData.Font.Height = -11
@@ -3239,47 +3239,47 @@ inherited MainForm: TMainForm
       Action = ActionToggleBookmarks9
     end
   end
-  object PopupMenuToolBar: TPopupMenu [16]
+  object PopupMenuToolbar: TPopupMenu [16]
     Images = ImagesDataModule.ImageList
     Left = 317
     Top = 519
-    object MenuItemToolBarMenuLanguage: TMenuItem
-      Action = ActionToolBarMenuLanguage
+    object MenuItemToolbarMenuLanguage: TMenuItem
+      Action = ActionToolbarMenuLanguage
       SubMenuImages = ImagesDataModule.ImageListSmall
     end
-    object MenuItemToolBarMenuSkin: TMenuItem
-      Action = ActionToolBarMenuSkin
+    object MenuItemToolbarMenuSkin: TMenuItem
+      Action = ActionToolbarMenuSkin
       SubMenuImages = ImagesDataModule.ImageListSmall
     end
-    object MenuItemToolBarMenuView: TMenuItem
-      Action = ActionToolBarMenuView
+    object MenuItemToolbarMenuView: TMenuItem
+      Action = ActionToolbarMenuView
       SubMenuImages = ImagesDataModule.ImageListSmall
-      object MenuItemToolBarMenuViewColor: TMenuItem
+      object MenuItemToolbarMenuViewColor: TMenuItem
         Action = ActionViewColorSelection
         Hint = 'Show or hide the color selection'
       end
-      object MenuItemToolBarMenuViewDirectory: TMenuItem
+      object MenuItemToolbarMenuViewDirectory: TMenuItem
         Action = ActionViewDirectory
       end
-      object MenuItemToolBarMenuViewEncoding: TMenuItem
+      object MenuItemToolbarMenuViewEncoding: TMenuItem
         Action = ActionViewEncodingSelection
       end
-      object MenuItemToolBarMenuViewHighlighter: TMenuItem
+      object MenuItemToolbarMenuViewHighlighter: TMenuItem
         Action = ActionViewHighlighterSelection
       end
       object MenuItemMainMenu: TMenuItem
         Action = ActionViewMainMenu
       end
-      object MenuItemToolBarMenuViewMenuBar: TMenuItem
+      object MenuItemToolbarMenuViewMenuBar: TMenuItem
         Action = ActionViewMenuBar
       end
-      object MenuItemToolBarMenuViewOutput: TMenuItem
+      object MenuItemToolbarMenuViewOutput: TMenuItem
         Action = ActionViewOutput
       end
-      object MenuItemToolBarMenuViewStatusBar: TMenuItem
+      object MenuItemToolbarMenuViewStatusBar: TMenuItem
         Action = ActionViewStatusBar
       end
-      object MenuItemToolBarMenuViewToolbar: TMenuItem
+      object MenuItemToolbarMenuViewToolbar: TMenuItem
         Action = ActionViewToolbar
       end
     end
@@ -4073,20 +4073,20 @@ inherited MainForm: TMainForm
       ShortCut = 24633
       OnExecute = ActionToggleBookmarksExecute
     end
-    object ActionToolBarMenuLanguage: TAction
-      Category = 'ToolBarMenu'
+    object ActionToolbarMenuLanguage: TAction
+      Category = 'ToolbarMenu'
       Caption = 'Language'
       ImageIndex = 75
       OnExecute = ActionDummyExecute
     end
-    object ActionToolBarMenuSkin: TAction
-      Category = 'ToolBarMenu'
+    object ActionToolbarMenuSkin: TAction
+      Category = 'ToolbarMenu'
       Caption = 'Skin...'
       ImageIndex = 76
-      OnExecute = ActionToolBarMenuSkinExecute
+      OnExecute = ActionToolbarMenuSkinExecute
     end
-    object ActionToolBarMenuView: TAction
-      Category = 'ToolBarMenu'
+    object ActionToolbarMenuView: TAction
+      Category = 'ToolbarMenu'
       Caption = 'View'
       ImageIndex = 77
       OnExecute = ActionDummyExecute
@@ -4122,7 +4122,7 @@ inherited MainForm: TMainForm
     object ActionViewToolbar: TAction
       Category = 'View'
       Caption = 'Toolbar'
-      Hint = 'Show or hide the toolbar'
+      Hint = 'Show or hide the Toolbar'
       OnExecute = ActionViewToolbarExecute
     end
     object ActionViewMenuBar: TAction
