@@ -2719,6 +2719,7 @@ begin
     LSplitEditor.Highlighter.Colors.LoadFromFile(LEditor.Highlighter.Colors.FileName);
     LSplitEditor.ChainEditor(LEditor);
     LSplitEditor.SetFocus;
+    LSplitEditor.Minimap.Visible := LEditor.Minimap.Visible;
     { horizontal splitter }
     LSplitterHorizontal := TBCSplitter.Create(PageControl.ActivePage);
     LSplitterHorizontal.Align := alBottom;
@@ -2741,12 +2742,16 @@ begin
 end;
 
 procedure TEBDocument.ToggleMiniMap;
-var
-  LEditor: TBCEditor;
+
+  procedure ToggleMinimap(AEditor: TBCEditor);
+  begin
+    if Assigned(AEditor) then
+      AEditor.Minimap.Visible := not AEditor.Minimap.Visible;
+  end;
+
 begin
-  LEditor := GetActiveEditor;
-  if Assigned(LEditor) then
-    LEditor.Minimap.Visible := not LEditor.Minimap.Visible;
+  ToggleMinimap(GetActiveEditor);
+  ToggleMinimap(GetActiveSplitEditor);
 end;
 
 {function TEBDocument.IsCompareFilesActivePage: Boolean;

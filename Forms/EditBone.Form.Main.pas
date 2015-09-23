@@ -1358,12 +1358,12 @@ begin
   LEditor := FDocument.GetActiveEditor;
   if Assigned(LEditor) then
     LEditor.ToggleBookMark
- { else
+  else
   begin
     LEditor := FDocument.GetActiveSplitEditor;
     if Assigned(LEditor) then
       LEditor.ToggleBookMark
-  end;  }
+  end;
 end;
 
 procedure TMainForm.ActionSelectEncodingExecute(Sender: TObject);
