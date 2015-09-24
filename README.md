@@ -2,7 +2,7 @@ Version 10.0.0 beta released. Use the Issues page to report bugs or send them di
 
 <h3>Build requirements</h3>
 
-* <a href="https://alphaskins.com">AlphaSkins</a> (commercial) 
+* <a href="http://alphaskins.com">AlphaSkins</a> (commercial) 
 * <a href="https://github.com/bonecode/Common">Common</a>
 * <a href="https://github.com/bonecode/Components">Components</a>
 * <a href="https://github.com/bonecode/TBCEditor">TBCEditor</a> 
